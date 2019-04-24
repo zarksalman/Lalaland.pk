@@ -5,7 +5,9 @@
     <color name="colorAccent">#D81B60</color>
 
     <color name="colorScreenBg">#ECECEC</color>
-    <color name="colorLightGray">#B4B0B0</color>
+    <color name="colorLightGray">#9E9A9A</color>
     <color name="colorLightRed">#D81B60</color>
+    <color name="colorFacebook">#2E4E9E</color>
+    <color name="colorGoogle">#2E4E9E</color>
 
 </resources>

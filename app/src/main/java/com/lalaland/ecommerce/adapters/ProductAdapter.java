@@ -22,9 +22,8 @@ public class ProductAdapter extends RecyclerView.Adapter<ProductAdapter.ProductV
     private ProductLayoutBinding productLayoutBinding;
     private LayoutInflater inflater;
 
-    public ProductAdapter(Context context, List<Product> productList) {
+    public ProductAdapter(Context context) {
         mContext = context;
-        mProductList = productList;
         inflater = LayoutInflater.from(context);
     }
 
@@ -45,6 +44,12 @@ public class ProductAdapter extends RecyclerView.Adapter<ProductAdapter.ProductV
     @Override
     public int getItemCount() {
         return mProductList.size();
+    }
+
+    public void setData(List<Product> productList) {
+
+        mProductList = productList;
+        notifyDataSetChanged();
     }
 
     class ProductViewHolder extends RecyclerView.ViewHolder {

@@ -25,6 +25,7 @@ public class HomeFragment extends Fragment {
 
     private ProductViewModel productViewModel;
     private FragmentHomeBinding fragmentHomeBinding;
+    private ProductAdapter productAdapter;
 
     public HomeFragment() {
         // Required empty public constructor
@@ -58,6 +59,26 @@ public class HomeFragment extends Fragment {
         parameter.put("start", "0");
         parameter.put("length", "40");
 
+/*        Retrofit retrofit = new Retrofit.Builder()
+                .baseUrl(BASE_URL)
+                .addConverterFactory(GsonConverterFactory.create())
+                .build();
+
+        LalalandServiceApi lalalandServiceApi = retrofit.create(LalalandServiceApi.class);
+
+        lalalandServiceApi.getRangeProducts(parameter).enqueue(new Callback<ProductContainer>() {
+            @Override
+            public void onResponse(Call<ProductContainer> call, Response<ProductContainer> response) {
+                setProductRecyclerView(response.body().getProductData().getProducts());
+                fragmentHomeBinding.pbLoading.setVisibility(View.GONE);
+            }
+
+            @Override
+            public void onFailure(Call<ProductContainer> call, Throwable t) {
+
+            }
+        });*/
+
         productViewModel = ViewModelProviders.of(this).get(ProductViewModel.class);
         productViewModel.getRangeProducts(parameter).observe(this, productContainer -> {
 
@@ -71,7 +92,9 @@ public class HomeFragment extends Fragment {
 
     private void setProductRecyclerView(List<Product> productList) {
 
+        productAdapter = new ProductAdapter(getContext());
         fragmentHomeBinding.rvProducts.setLayoutManager(new GridLayoutManager(getContext(), 2));
-        fragmentHomeBinding.rvProducts.setAdapter(new ProductAdapter(getContext(), productList));
+        fragmentHomeBinding.rvProducts.setAdapter(productAdapter);
+        productAdapter.setData(productList);
     }
 }

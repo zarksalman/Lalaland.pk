@@ -2,6 +2,8 @@ package com.lalaland.ecommerce.views.activities;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.os.Handler;
+import android.os.Looper;
 import android.view.View;
 
 import androidx.appcompat.app.AppCompatActivity;
@@ -60,9 +62,10 @@ public class MainActivity extends AppCompatActivity {
 
 
         setListeners();
-        replaceFragment(HomeFragment.newInstance(), 1);
+        // replaceFragment(HomeFragment.newInstance(), 1);
 
-        // startActivity(new Intent(this, RegistrationActivity.class));
+        startActivity(new Intent(this, RegistrationActivity.class));
+        overridePendingTransition(R.anim.anim_slide_in_left, R.anim.anim_slide_out_left);
     }
 
     void setListeners() {
@@ -71,9 +74,11 @@ public class MainActivity extends AppCompatActivity {
 
     void replaceFragment(Fragment fragment, int index) {
 
-        if (isNetworkAvailable())
+        getSupportFragmentManager().beginTransaction().replace(R.id.fragment_host, fragment, "fragment_" + index).commit();
+
+/*        if (isNetworkAvailable())
             getSupportFragmentManager().beginTransaction().replace(R.id.fragment_host, fragment, "fragment_" + index).commit();
         else
-            activityMainBinding.tvNetwork.setVisibility(View.VISIBLE);
+            activityMainBinding.tvNetwork.setVisibility(View.VISIBLE);*/
     }
 }

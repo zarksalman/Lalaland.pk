@@ -44,6 +44,8 @@ dependencies {
     // network calls
     implementation 'com.squareup.retrofit2:retrofit:2.5.0'
 
+    // logging interceptor for retrofit
+    implementation 'com.squareup.okhttp3:logging-interceptor:3.14.1'
 
     // ********************* Third party **********************
     // json parsing

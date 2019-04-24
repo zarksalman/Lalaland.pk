@@ -1,5 +1,7 @@
 package com.lalaland.ecommerce.data.repository;
 
+import android.util.Log;
+
 import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MutableLiveData;
 
@@ -47,6 +49,7 @@ public class Repository {
             @Override
             public void onResponse(Call<ProductContainer> call, Response<ProductContainer> response) {
                 productContainerMutableLiveData.postValue(response.body());
+                checkResponseSource(response);
             }
 
             @Override
@@ -66,6 +69,7 @@ public class Repository {
                 registrationContainerMutableLiveData.postValue(response.body());
                 Headers headers = response.headers();
                 AppPreference.getInstance(AppConstants.mContext).setString(SIGNIN_TOKEN, headers.get(SIGNIN_TOKEN));
+                checkResponseSource(response);
             }
 
             @Override
@@ -85,6 +89,7 @@ public class Repository {
                 loginMutableLiveData.postValue(response.body());
                 Headers headers = response.headers();
                 AppPreference.getInstance(AppConstants.mContext).setString(SIGNIN_TOKEN, headers.get(SIGNIN_TOKEN));
+                checkResponseSource(response);
             }
 
             @Override
@@ -106,8 +111,8 @@ public class Repository {
             @Override
             public void onResponse(Call<BasicResponse> call, Response<BasicResponse> response) {
                 basicResponseMutableLiveData.postValue(response.body());
-
                 AppPreference.getInstance(AppConstants.mContext).setString(SIGNIN_TOKEN, SIGNIN_TOKEN);
+                checkResponseSource(response);
             }
 
             @Override
@@ -129,8 +134,8 @@ public class Repository {
             @Override
             public void onResponse(Call<BasicResponse> call, Response<BasicResponse> response) {
                 basicResponseMutableLiveData.postValue(response.body());
-
                 AppPreference.getInstance(AppConstants.mContext).setString(SIGNIN_TOKEN, SIGNIN_TOKEN);
+                checkResponseSource(response);
             }
 
             @Override
@@ -140,5 +145,14 @@ public class Repository {
         });
 
         return basicResponseMutableLiveData;
+    }
+
+    void checkResponseSource(Response response) {
+
+        if (response.raw().networkResponse() != null) {
+            Log.d("response_source", "Response is from network");
+        } else {
+            Log.d("response_source", "Response is from cache");
+        }
     }
 }

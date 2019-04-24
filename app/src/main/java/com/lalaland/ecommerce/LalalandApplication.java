@@ -11,7 +11,7 @@ import com.lalaland.ecommerce.helpers.AppPreference;
 import static com.lalaland.ecommerce.helpers.AppConstants.SIGNIN_TOKEN;
 import static com.lalaland.ecommerce.helpers.AppConstants.SIGNUP_COUNT;
 
-public class LalalandApplciation extends Application {
+public class LalalandApplication extends Application {
 
     @Override
     public void onCreate() {
