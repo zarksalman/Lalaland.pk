@@ -7,7 +7,9 @@
             type="com.lalaland.ecommerce.views.fragments.registrationFragments.SignupFragment" />
     </data>
 
-    <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    <androidx.constraintlayout.widget.ConstraintLayout
+
+        xmlns:android="http://schemas.android.com/apk/res/android"
         xmlns:tools="http://schemas.android.com/tools"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
@@ -18,7 +20,11 @@
         <ScrollView
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:scrollbars="none">
+            android:scrollbars="none"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent">
 
             <LinearLayout
                 android:layout_width="match_parent"
@@ -29,8 +35,10 @@
 
                 <com.google.android.material.textfield.TextInputLayout
 
+                    android:id="@+id/ti_first_name"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
+                    android:padding="4dp"
                     app:errorEnabled="true">
 
                     <com.google.android.material.textfield.TextInputEditText
@@ -45,8 +53,10 @@
 
                 <com.google.android.material.textfield.TextInputLayout
 
+                    android:id="@+id/ti_last_name"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
+                    android:padding="4dp"
                     app:errorEnabled="true">
 
                     <com.google.android.material.textfield.TextInputEditText
@@ -64,6 +74,9 @@
                     android:id="@+id/ti_contact_number"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
+                    android:padding="4dp"
+                    app:counterEnabled="true"
+                    app:counterMaxLength="11"
                     app:errorEnabled="true">
 
                     <com.google.android.material.textfield.TextInputEditText
@@ -72,7 +85,7 @@
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:hint="@string/mobile_number"
-                        android:inputType="phone" />
+                        android:inputType="numberDecimal" />
 
                 </com.google.android.material.textfield.TextInputLayout>
 
@@ -81,6 +94,7 @@
                     android:id="@+id/ti_email"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
+                    android:padding="4dp"
                     app:errorEnabled="true">
 
                     <com.google.android.material.textfield.TextInputEditText
@@ -98,6 +112,7 @@
                     android:id="@+id/ti_confirm_email"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
+                    android:padding="4dp"
                     app:errorEnabled="true">
 
                     <com.google.android.material.textfield.TextInputEditText
@@ -115,6 +130,7 @@
                     android:id="@+id/ti_password"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
+                    android:padding="4dp"
                     app:errorEnabled="true"
                     app:passwordToggleEnabled="true">
 
@@ -133,6 +149,7 @@
                     android:id="@+id/ti_confirm_password"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
+                    android:padding="4dp"
                     app:errorEnabled="true"
                     app:passwordToggleEnabled="true">
 
@@ -151,6 +168,7 @@
 
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
+                    android:padding="4dp"
                     app:errorEnabled="true">
 
                     <com.google.android.material.textfield.TextInputEditText
@@ -158,6 +176,9 @@
                         android:id="@+id/et_date_of_birth"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
+                        android:cursorVisible="false"
+                        android:focusable="false"
+                        android:focusableInTouchMode="false"
                         android:hint="@string/date_of_birth"
                         android:inputType="text" />
                 </com.google.android.material.textfield.TextInputLayout>
@@ -195,7 +216,6 @@
                     android:layout_width="match_parent"
                     android:layout_height="50dp"
                     android:background="@drawable/btn_bg_round_corner_accent"
-                    android:onClick="@{()->clickListener.registerUser()}"
                     android:text="@string/sign_up"
                     android:textColor="@android:color/white" />
 
@@ -277,6 +297,22 @@
 
         </ScrollView>
 
-    </LinearLayout>
+        <FrameLayout
+
+            android:id="@+id/pb_sign_up"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:visibility="gone"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent">
+
+            <ProgressBar
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center" />
+        </FrameLayout>
+    </androidx.constraintlayout.widget.ConstraintLayout>
 
 </layout>

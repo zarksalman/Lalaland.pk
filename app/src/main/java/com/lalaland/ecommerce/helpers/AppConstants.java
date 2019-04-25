@@ -25,11 +25,13 @@ public class AppConstants {
 
     public static final int TYPE = 1;
     public static final int CONFIRM_TYPE = 2;
+
     public static final Pattern PASSWORD_PATTERN = Pattern.compile("^"
             + "(?=.*[0-9])" // at least 1 digit
-            + "(?=.*[a-z A-Z])" // at least 1 letter
+            + "(?=.*[a-zA-Z])" // at least 1 letter
             + "(?=\\s+$)" // no white space
             + ".{6,}"   // at least 6 characters
             + "$");
-
 }
+
+

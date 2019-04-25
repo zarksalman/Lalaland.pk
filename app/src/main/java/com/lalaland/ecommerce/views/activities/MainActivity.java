@@ -62,14 +62,14 @@ public class MainActivity extends AppCompatActivity {
 
 
         setListeners();
-        // replaceFragment(HomeFragment.newInstance(), 1);
+        replaceFragment(HomeFragment.newInstance(), 1);
 
-        startActivity(new Intent(this, RegistrationActivity.class));
         overridePendingTransition(R.anim.anim_slide_in_left, R.anim.anim_slide_out_left);
     }
 
     void setListeners() {
         activityMainBinding.navView.setOnNavigationItemSelectedListener(mOnNavigationItemSelectedListener);
+        activityMainBinding.ivMail.setOnClickListener(v -> startActivity(new Intent(MainActivity.this, RegistrationActivity.class)));
     }
 
     void replaceFragment(Fragment fragment, int index) {
