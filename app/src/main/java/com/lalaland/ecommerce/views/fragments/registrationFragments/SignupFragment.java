@@ -19,6 +19,7 @@ import androidx.lifecycle.ViewModelProviders;
 import com.lalaland.ecommerce.R;
 import com.lalaland.ecommerce.databinding.FragmentSignupBinding;
 import com.lalaland.ecommerce.helpers.AppPreference;
+import com.lalaland.ecommerce.helpers.AppUtils;
 import com.lalaland.ecommerce.viewModels.RegistrationViewModel;
 import com.lalaland.ecommerce.views.activities.MainActivity;
 
@@ -29,10 +30,13 @@ import java.util.Map;
 
 import static com.lalaland.ecommerce.helpers.AppConstants.CONFIRM_TYPE;
 import static com.lalaland.ecommerce.helpers.AppConstants.FAIL_CODE;
+import static com.lalaland.ecommerce.helpers.AppConstants.NO_NETWORK;
+import static com.lalaland.ecommerce.helpers.AppConstants.PASSWORD;
 import static com.lalaland.ecommerce.helpers.AppConstants.PASSWORD_PATTERN;
 import static com.lalaland.ecommerce.helpers.AppConstants.SIGNIN_TOKEN;
 import static com.lalaland.ecommerce.helpers.AppConstants.SUCCESS_CODE;
 import static com.lalaland.ecommerce.helpers.AppConstants.TYPE;
+import static com.lalaland.ecommerce.helpers.AppUtils.isNetworkAvailable;
 
 
 public class SignupFragment extends Fragment {
@@ -157,13 +161,12 @@ public class SignupFragment extends Fragment {
             return false;
         }
 
-       /*
-        *************************** make it correct regular expression**************************************
-       if (!PASSWORD_PATTERN.matcher(password).matches()) {
+//        *************************** make it correct regular expression**************************************
+        if (!PASSWORD.matcher(password).matches()) {
             fragmentSignupBinding.tiPassword.setError("Please enter a valid Password (At least 1 digit,At least 1 Alphabet,At least 6 characters)");
             fragmentSignupBinding.tiConfirmPassword.setError("Please enter a valid Password (At least 1 digit, At least 1 Alphabet, At least 6 characters)");
             return false;
-        }*/
+        }
 
 
         fragmentSignupBinding.tiPassword.setError(null);
@@ -239,7 +242,15 @@ public class SignupFragment extends Fragment {
 
     public void registerUser() {
 
-        fragmentSignupBinding.pbSignUp.setVisibility(View.VISIBLE);
+        if (isNetworkAvailable()) {
+            Toast.makeText(getContext(), NO_NETWORK, Toast.LENGTH_SHORT).show();
+            return;
+        }
+
+        fragmentSignupBinding.pbLoading.setVisibility(View.VISIBLE);
+        fragmentSignupBinding.btnSignUp.setOnClickListener(null);
+        fragmentSignupBinding.btnFbSignUp.setOnClickListener(null);
+        fragmentSignupBinding.btnGoogleSignUp.setOnClickListener(null);
 
         Toast.makeText(getContext(), "correct password validation", Toast.LENGTH_LONG).show();
 
@@ -264,7 +275,7 @@ public class SignupFragment extends Fragment {
                     if (registrationContainer.getCode().equals(SUCCESS_CODE)) {
                         Log.d("registerUser", registrationContainer.getData().getName() + ":" + registrationContainer.getData().getEmail());
                         Log.d("registerUser", AppPreference.getInstance(getContext()).getString(SIGNIN_TOKEN));
-                        fragmentSignupBinding.pbSignUp.setVisibility(View.GONE);
+                        fragmentSignupBinding.pbLoading.setVisibility(View.GONE);
                         getContext().startActivity(new Intent(getContext(), MainActivity.class));
                     } else if (registrationContainer.getCode().equals(FAIL_CODE)) {
                         Toast.makeText(getContext(), registrationContainer.getMsg(), Toast.LENGTH_SHORT).show();

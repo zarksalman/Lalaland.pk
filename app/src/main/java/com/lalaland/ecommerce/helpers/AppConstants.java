@@ -20,6 +20,7 @@ public class AppConstants {
     public static final String SUCCESS_CODE = "200";
     public static final String FAIL_CODE = "400";
     public static final String SUCCESS_MESSAGE = "Success";
+    public static final String NO_NETWORK = "No network available";
     public static String SIGNIN_TOKEN = "token";
     public static String SIGNUP_COUNT = "count";
 
@@ -32,6 +33,15 @@ public class AppConstants {
             + "(?=\\s+$)" // no white space
             + ".{6,}"   // at least 6 characters
             + "$");
+
+    public static final Pattern PASSWORD
+            = Pattern.compile("^" +
+            "(?=.*[0-9])" +
+            "(?=.*[a-zA-Z])" +
+            "(?=\\S+$)" +
+            ".{6,}" +
+            "$");
+
 }
 
 

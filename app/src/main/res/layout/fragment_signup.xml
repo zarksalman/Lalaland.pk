@@ -18,6 +18,8 @@
         tools:context="com.lalaland.ecommerce.views.fragments.registrationFragments.SignupFragment">
 
         <ScrollView
+
+            android:id="@+id/sv_form"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:scrollbars="none"
@@ -297,11 +299,13 @@
 
         </ScrollView>
 
+
         <FrameLayout
 
-            android:id="@+id/pb_sign_up"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
+            android:id="@+id/pb_loading"
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            android:background="@color/colorDimWhite"
             android:visibility="gone"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
