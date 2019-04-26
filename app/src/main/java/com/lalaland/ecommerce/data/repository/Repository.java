@@ -21,6 +21,9 @@ import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 
+import static com.lalaland.ecommerce.helpers.AppConstants.FACEBOOK_SIGN_UP_IN;
+import static com.lalaland.ecommerce.helpers.AppConstants.FORM_SIGN_UP;
+import static com.lalaland.ecommerce.helpers.AppConstants.GOOGLE_SIGN_UP_IN;
 import static com.lalaland.ecommerce.helpers.AppConstants.SIGNIN_TOKEN;
 
 public class Repository {
@@ -61,24 +64,22 @@ public class Repository {
         return productContainerMutableLiveData;
     }
 
-    public LiveData<RegistrationContainer> registerUser(Map<String, String> parameters) {
+    public LiveData<RegistrationContainer> registerUser(Map<String, String> parameters, int signUpType) {
 
-        lalalandServiceApi.registerUser(parameters).enqueue(new Callback<RegistrationContainer>() {
-            @Override
-            public void onResponse(Call<RegistrationContainer> call, Response<RegistrationContainer> response) {
-                registrationContainerMutableLiveData.postValue(response.body());
-                Headers headers = response.headers();
-                AppPreference.getInstance(AppConstants.mContext).setString(SIGNIN_TOKEN, headers.get(SIGNIN_TOKEN));
-                checkResponseSource(response);
-            }
+        switch (signUpType) {
 
-            @Override
-            public void onFailure(Call<RegistrationContainer> call, Throwable t) {
-                registrationContainerMutableLiveData.postValue(null);
-            }
-        });
+            case FORM_SIGN_UP:
+                return signUpForm(parameters);
 
-        return registrationContainerMutableLiveData;
+            case FACEBOOK_SIGN_UP_IN:
+                return signUpFacebook(parameters);
+
+            case GOOGLE_SIGN_UP_IN:
+                return signUpFacebook(parameters);
+
+            default:
+                return null; // if type is no selected any of above
+        }
     }
 
     public LiveData<Login> loginUser(Map<String, String> parameters) {
@@ -147,7 +148,49 @@ public class Repository {
         return basicResponseMutableLiveData;
     }
 
-    void checkResponseSource(Response response) {
+    LiveData<RegistrationContainer> signUpForm(Map<String, String> parameters) {
+
+
+        lalalandServiceApi.registerUser(parameters).enqueue(new Callback<RegistrationContainer>() {
+            @Override
+            public void onResponse(Call<RegistrationContainer> call, Response<RegistrationContainer> response) {
+                registrationContainerMutableLiveData.postValue(response.body());
+                Headers headers = response.headers();
+                AppPreference.getInstance(AppConstants.mContext).setString(SIGNIN_TOKEN, headers.get(SIGNIN_TOKEN));
+                checkResponseSource(response);
+            }
+
+            @Override
+            public void onFailure(Call<RegistrationContainer> call, Throwable t) {
+                registrationContainerMutableLiveData.postValue(null);
+            }
+        });
+
+        return registrationContainerMutableLiveData;
+    }
+
+    LiveData<RegistrationContainer> signUpFacebook(Map<String, String> parameters) {
+
+
+        lalalandServiceApi.registerFromFacebook(parameters).enqueue(new Callback<RegistrationContainer>() {
+            @Override
+            public void onResponse(Call<RegistrationContainer> call, Response<RegistrationContainer> response) {
+                registrationContainerMutableLiveData.postValue(response.body());
+                Headers headers = response.headers();
+                AppPreference.getInstance(AppConstants.mContext).setString(SIGNIN_TOKEN, headers.get(SIGNIN_TOKEN));
+                checkResponseSource(response);
+            }
+
+            @Override
+            public void onFailure(Call<RegistrationContainer> call, Throwable t) {
+                registrationContainerMutableLiveData.postValue(null);
+            }
+        });
+
+        return registrationContainerMutableLiveData;
+    }
+
+    private void checkResponseSource(Response response) {
 
         if (response.raw().networkResponse() != null) {
             Log.d("response_source", "Response is from network");

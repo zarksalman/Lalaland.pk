@@ -5,6 +5,8 @@ import android.content.Context;
 
 import androidx.multidex.MultiDex;
 
+import com.facebook.FacebookSdk;
+import com.facebook.appevents.AppEventsLogger;
 import com.lalaland.ecommerce.helpers.AppConstants;
 import com.lalaland.ecommerce.helpers.AppPreference;
 
@@ -17,9 +19,9 @@ public class LalalandApplication extends Application {
     public void onCreate() {
         super.onCreate();
         AppConstants.mContext = getApplicationContext();
-        int count = AppPreference.getInstance(AppConstants.mContext).getInt(SIGNUP_COUNT);
-        AppPreference.getInstance(AppConstants.mContext).setInt(SIGNUP_COUNT, ++count);
-        AppPreference.getInstance(AppConstants.mContext).setString(SIGNIN_TOKEN, SIGNIN_TOKEN);
+
+        FacebookSdk.sdkInitialize(getApplicationContext());
+        AppEventsLogger.activateApp(this);
     }
 
     @Override

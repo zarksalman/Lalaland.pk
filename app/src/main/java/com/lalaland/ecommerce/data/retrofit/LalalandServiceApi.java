@@ -28,4 +28,7 @@ public interface LalalandServiceApi {
 
     @POST("changePassword")
     Call<BasicResponse> changePassword(@Header("token") String token, @QueryMap Map<String, String> parameters);
+
+    @POST("loginFromFaceBook")
+    Call<RegistrationContainer> registerFromFacebook(@QueryMap Map<String, String> parameter);
 }

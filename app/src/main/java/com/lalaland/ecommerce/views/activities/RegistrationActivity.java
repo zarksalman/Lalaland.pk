@@ -1,9 +1,11 @@
 package com.lalaland.ecommerce.views.activities;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.Window;
 import android.view.WindowManager;
 
+import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.databinding.DataBindingUtil;
 
@@ -39,9 +41,15 @@ public class RegistrationActivity extends AppCompatActivity {
         registrationTabsAdapter.notifyDataSetChanged();
         registrationBinding.tlScreenRegistration.setupWithViewPager(registrationBinding.vpRegistration, true);
     }
-
+    
     public void closeActivity() {
         finish();
     }
 
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
+
+        super.onActivityResult(requestCode, resultCode, data);
+
+    }
 }

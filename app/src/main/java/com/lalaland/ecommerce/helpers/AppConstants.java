@@ -21,11 +21,16 @@ public class AppConstants {
     public static final String FAIL_CODE = "400";
     public static final String SUCCESS_MESSAGE = "Success";
     public static final String NO_NETWORK = "No network available";
+    public static final String FB_LOGIN_CANCLED = "Login Cancel";
     public static String SIGNIN_TOKEN = "token";
     public static String SIGNUP_COUNT = "count";
 
     public static final int TYPE = 1;
     public static final int CONFIRM_TYPE = 2;
+
+    public static final int FORM_SIGN_UP = 1;
+    public static final int FACEBOOK_SIGN_UP_IN = 2;
+    public static final int GOOGLE_SIGN_UP_IN = 3;
 
     public static final Pattern PASSWORD_PATTERN = Pattern.compile("^"
             + "(?=.*[0-9])" // at least 1 digit

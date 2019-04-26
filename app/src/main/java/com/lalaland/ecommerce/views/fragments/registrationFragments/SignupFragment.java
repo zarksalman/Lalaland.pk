@@ -3,26 +3,32 @@ package com.lalaland.ecommerce.views.fragments.registrationFragments;
 
 import android.app.DatePickerDialog;
 import android.content.Intent;
+import android.content.pm.PackageInfo;
+import android.content.pm.PackageManager;
+import android.content.pm.Signature;
 import android.os.Bundle;
+import android.util.Base64;
 import android.util.Log;
 import android.util.Patterns;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.DatePicker;
+import android.widget.RadioButton;
+import android.widget.RadioGroup;
 import android.widget.Toast;
 
 import androidx.databinding.DataBindingUtil;
-import androidx.fragment.app.Fragment;
 import androidx.lifecycle.ViewModelProviders;
 
+import com.facebook.CallbackManager;
 import com.lalaland.ecommerce.R;
 import com.lalaland.ecommerce.databinding.FragmentSignupBinding;
 import com.lalaland.ecommerce.helpers.AppPreference;
-import com.lalaland.ecommerce.helpers.AppUtils;
 import com.lalaland.ecommerce.viewModels.RegistrationViewModel;
-import com.lalaland.ecommerce.views.activities.MainActivity;
 
+import java.security.MessageDigest;
+import java.security.NoSuchAlgorithmException;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.HashMap;
@@ -30,16 +36,16 @@ import java.util.Map;
 
 import static com.lalaland.ecommerce.helpers.AppConstants.CONFIRM_TYPE;
 import static com.lalaland.ecommerce.helpers.AppConstants.FAIL_CODE;
+import static com.lalaland.ecommerce.helpers.AppConstants.FORM_SIGN_UP;
 import static com.lalaland.ecommerce.helpers.AppConstants.NO_NETWORK;
 import static com.lalaland.ecommerce.helpers.AppConstants.PASSWORD;
-import static com.lalaland.ecommerce.helpers.AppConstants.PASSWORD_PATTERN;
 import static com.lalaland.ecommerce.helpers.AppConstants.SIGNIN_TOKEN;
 import static com.lalaland.ecommerce.helpers.AppConstants.SUCCESS_CODE;
 import static com.lalaland.ecommerce.helpers.AppConstants.TYPE;
 import static com.lalaland.ecommerce.helpers.AppUtils.isNetworkAvailable;
 
 
-public class SignupFragment extends Fragment {
+public class SignupFragment extends BaseRegistrationFragment {
 
     private FragmentSignupBinding fragmentSignupBinding;
     private RegistrationViewModel registrationViewModel;
@@ -53,6 +59,13 @@ public class SignupFragment extends Fragment {
     private String first_name = "";
     private String last_name = "";
     private String phoneNumber = "";
+    private String gender = "male";
+    private String dob = "dob";
+
+    private static final String EMAIL = "email";
+    private static final String PUBLIC_PROFILE = "public_profile";
+
+    private CallbackManager callbackManager;
 
     public SignupFragment() {
         // Required empty public constructor
@@ -78,13 +91,25 @@ public class SignupFragment extends Fragment {
         fragmentSignupBinding = DataBindingUtil.inflate(inflater, R.layout.fragment_signup, container, false);
         registrationViewModel = ViewModelProviders.of(this).get(RegistrationViewModel.class);
         setClickListeners();
+
         return fragmentSignupBinding.getRoot();
     }
 
     void setClickListeners() {
 
-        fragmentSignupBinding.btnSignUp.setOnClickListener(v -> registerUser());
+        callbackManager = CallbackManager.Factory.create();  //facebook registration callback
+
+        fragmentSignupBinding.btnSignUp.setOnClickListener(v -> registerUserWithForm());
+        fragmentSignupBinding.btnFbSignUp.setOnClickListener(v -> loginOrRegisterWithFb(fragmentSignupBinding.btFacebookSignup));
         fragmentSignupBinding.etDateOfBirth.setOnClickListener(v -> showDatePickerDialogue());
+
+        fragmentSignupBinding.rgGender.setOnCheckedChangeListener((group, checkedId) -> {
+                    RadioButton radioButton = group.findViewById(checkedId);
+
+                    gender = radioButton.getText().toString().toLowerCase();
+                    Toast.makeText(getContext(), radioButton.getText(), Toast.LENGTH_SHORT).show();
+                }
+        );
     }
 
     private boolean validateEmail(int type) {
@@ -227,6 +252,18 @@ public class SignupFragment extends Fragment {
         return false;  // default return false
     }
 
+    private boolean validateDob() {
+
+        dob = fragmentSignupBinding.etFirstName.getText().toString().trim();
+
+        if (dob.isEmpty()) {
+            fragmentSignupBinding.tiDateOfBirth.setError("Dob could not be empty");
+            return false;  // default return false
+        }
+
+        return true;
+    }
+
     private boolean validatePhoneNumber() {
 
         phoneNumber = fragmentSignupBinding.etContactNumber.getText().toString().trim();
@@ -240,82 +277,43 @@ public class SignupFragment extends Fragment {
         return false;
     }
 
-    public void registerUser() {
+    public void registerUser(int signUpType) {
 
         if (isNetworkAvailable()) {
             Toast.makeText(getContext(), NO_NETWORK, Toast.LENGTH_SHORT).show();
             return;
         }
+    }
 
-        fragmentSignupBinding.pbLoading.setVisibility(View.VISIBLE);
-        fragmentSignupBinding.btnSignUp.setOnClickListener(null);
-        fragmentSignupBinding.btnFbSignUp.setOnClickListener(null);
-        fragmentSignupBinding.btnGoogleSignUp.setOnClickListener(null);
-
-        Toast.makeText(getContext(), "correct password validation", Toast.LENGTH_LONG).show();
+    void registerUserWithForm() {
 
         if (validateNames(TYPE)
                 && validateNames(CONFIRM_TYPE)
                 && validatePhoneNumber()
                 && validateEmail(TYPE)
                 && validateEmail(CONFIRM_TYPE)
-                && validatePasswords()) {
+                && validatePasswords()
+                && validateDob()) {
+
+            fragmentSignupBinding.pbLoading.setVisibility(View.VISIBLE);
+            fragmentSignupBinding.btnSignUp.setOnClickListener(null);
+            fragmentSignupBinding.btnFbSignUp.setOnClickListener(null);
+            fragmentSignupBinding.btnGoogleSignUp.setOnClickListener(null);
 
             parameter.put("email", email);
             parameter.put("password", password);
             parameter.put("first_name", first_name);
             parameter.put("last_name", last_name);
             parameter.put("phone", phoneNumber);
-            Log.d("signup_form", email.concat(password).concat(first_name).concat(last_name).concat(phoneNumber));
+            parameter.put("gender", gender);
+            parameter.put("date_of_birth", dob);
 
-            registrationViewModel.registerUser(parameter).observe(this, registrationContainer -> {
+            loginWithForm(parameter);
 
-                if (registrationContainer != null) {
-
-                    if (registrationContainer.getCode().equals(SUCCESS_CODE)) {
-                        Log.d("registerUser", registrationContainer.getData().getName() + ":" + registrationContainer.getData().getEmail());
-                        Log.d("registerUser", AppPreference.getInstance(getContext()).getString(SIGNIN_TOKEN));
-                        fragmentSignupBinding.pbLoading.setVisibility(View.GONE);
-                        getContext().startActivity(new Intent(getContext(), MainActivity.class));
-                    } else if (registrationContainer.getCode().equals(FAIL_CODE)) {
-                        Toast.makeText(getContext(), registrationContainer.getMsg(), Toast.LENGTH_SHORT).show();
-                    }
-                } else
-                    Toast.makeText(getContext(), "Could Not Register at this time", Toast.LENGTH_SHORT).show();
-            });
+            fragmentSignupBinding.pbLoading.setVisibility(View.GONE);
         }
-
-        /*
-        StringBuilder email = new StringBuilder("salman_hameed_");
-        email.append(AppPreference.getInstance(AppConstants.mContext).getInt(SIGNUP_COUNT));
-        email.append("@gmail.com");
-
-
-        parameter.put("email", email.toString());
-        parameter.put("password", "salman123");
-        parameter.put("first_name", "salman");
-        parameter.put("last_name", "hameed");
-        parameter.put("phone", "11111111111");
-
-        registrationViewModel.registerUser(parameter).observe(this, registrationContainer -> {
-
-            if (registrationContainer != null) {
-
-                if (registrationContainer.getCode().equals(SUCCESS_CODE)) {
-                    Log.d("registerUser", registrationContainer.getData().getName() + ":" + registrationContainer.getData().getEmail());
-                    Log.d("registerUser", AppPreference.getInstance(getContext()).getString(SIGNIN_TOKEN));
-                } else if (registrationContainer.getCode().equals(FAIL_CODE)) {
-                    Toast.makeText(getContext(), registrationContainer.getMsg(), Toast.LENGTH_SHORT).show();
-                }
-            } else
-                Toast.makeText(getContext(), "Could Not Register at this time", Toast.LENGTH_SHORT).show();
-        });
-*/
     }
 
-    public void registerUserWithFacebook() {
-        Toast.makeText(getContext(), "Login With Facebook", Toast.LENGTH_SHORT).show();
-    }
 
     public void registerUserWithGoogle() {
         Toast.makeText(getContext(), "Login With Google", Toast.LENGTH_SHORT).show();
@@ -372,9 +370,16 @@ public class SignupFragment extends Fragment {
     }
 
     private void setDOB() {
-        String myFormat = "dd/MM/yy"; //In which you need put here
+        String myFormat = "yyyy-MM-dd"; //In which you need put here
         SimpleDateFormat sdf = new SimpleDateFormat(myFormat);
 
-        fragmentSignupBinding.etDateOfBirth.setText(sdf.format(dobCalender.getTime()));
+        dob = sdf.format(dobCalender.getTime());
+        fragmentSignupBinding.etDateOfBirth.setText(dob);
+    }
+
+    @Override
+    public void onActivityResult(int requestCode, int resultCode, Intent data) {
+        callbackManager.onActivityResult(requestCode, resultCode, data);
+        super.onActivityResult(requestCode, resultCode, data);
     }
 }

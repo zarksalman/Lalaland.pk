@@ -25,4 +25,8 @@
     <string name="sign_up">Sign Up</string>
     <string name="sign_up_terms_info"><![CDATA[By clicking Sign Up, You agree to \nthe terms & conditions]]></string>
     <string name="connect_via">Or connect Via</string>
+
+    <string name="facebook_app_id">222630931805793</string>
+    <string name="facebook_login_protocol_scheme">fb222630931805793</string>
+
 </resources>

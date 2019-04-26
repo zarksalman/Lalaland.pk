@@ -4,7 +4,6 @@ package com.lalaland.ecommerce.views.fragments.registrationFragments;
 import android.os.Bundle;
 
 import androidx.databinding.DataBindingUtil;
-import androidx.fragment.app.Fragment;
 import androidx.lifecycle.ViewModelProviders;
 
 import android.util.Log;
@@ -26,11 +25,15 @@ import static com.lalaland.ecommerce.helpers.AppConstants.SIGNIN_TOKEN;
 import static com.lalaland.ecommerce.helpers.AppConstants.SUCCESS_CODE;
 
 
-public class SigninFragment extends Fragment {
+public class SigninFragment extends BaseRegistrationFragment {
 
     private FragmentSigninBinding fragmentSigninBinding;
     private LoginViewModel loginViewModel;
     private boolean isFragmentVisible = false;
+    private static final String EMAIL = "email";
+    private static final String PUBLIC_PROFILE = "public_profile";
+
+    private Map<String, String> parameter = new HashMap<>();
 
     public SigninFragment() {
         // Required empty public constructor
@@ -54,12 +57,12 @@ public class SigninFragment extends Fragment {
         fragmentSigninBinding = DataBindingUtil.inflate(inflater, R.layout.fragment_signin, container, false);
         loginViewModel = ViewModelProviders.of(this).get(LoginViewModel.class);
 
-        fragmentSigninBinding.btnLogin.setOnClickListener(v -> loginUser());
+
+        fragmentSigninBinding.btnLogin.setOnClickListener(v -> loginOrRegisterWithFb(fragmentSigninBinding.btnFacebookSignin));
         fragmentSigninBinding.btnLogout.setOnClickListener(v -> logoutUser());
 
         return fragmentSigninBinding.getRoot();
     }
-
 
     void loginUser() {
         Map<String, String> parameter = new HashMap<>();
@@ -87,6 +90,7 @@ public class SigninFragment extends Fragment {
 
             if (logout != null) {
 
+                logoutFacebookUser();
                 Toast.makeText(getContext(), logout.getMsg(), Toast.LENGTH_SHORT).show();
 
             }
