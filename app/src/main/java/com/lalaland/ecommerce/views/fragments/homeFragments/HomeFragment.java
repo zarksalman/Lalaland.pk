@@ -46,11 +46,13 @@ public class HomeFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         fragmentHomeBinding = DataBindingUtil.inflate(inflater, R.layout.fragment_home, container, false);
+        productViewModel = ViewModelProviders.of(this).get(ProductViewModel.class);
+        requestInitialProducts();
         return fragmentHomeBinding.getRoot();
     }
 
-    @Override
-    public void onStart() {
+
+    void requestInitialProducts() {
         super.onStart();
 
 
@@ -59,27 +61,6 @@ public class HomeFragment extends Fragment {
         parameter.put("start", "0");
         parameter.put("length", "40");
 
-/*        Retrofit retrofit = new Retrofit.Builder()
-                .baseUrl(BASE_URL)
-                .addConverterFactory(GsonConverterFactory.create())
-                .build();
-
-        LalalandServiceApi lalalandServiceApi = retrofit.create(LalalandServiceApi.class);
-
-        lalalandServiceApi.getRangeProducts(parameter).enqueue(new Callback<ProductContainer>() {
-            @Override
-            public void onResponse(Call<ProductContainer> call, Response<ProductContainer> response) {
-                setProductRecyclerView(response.body().getProductData().getProducts());
-                fragmentHomeBinding.pbLoading.setVisibility(View.GONE);
-            }
-
-            @Override
-            public void onFailure(Call<ProductContainer> call, Throwable t) {
-
-            }
-        });*/
-
-        productViewModel = ViewModelProviders.of(this).get(ProductViewModel.class);
         productViewModel.getRangeProducts(parameter).observe(this, productContainer -> {
 
             if (productContainer != null) {

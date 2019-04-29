@@ -6,8 +6,8 @@ import androidx.annotation.NonNull;
 import androidx.lifecycle.AndroidViewModel;
 import androidx.lifecycle.LiveData;
 
-import com.lalaland.ecommerce.data.repository.Repository;
 import com.lalaland.ecommerce.data.models.products.ProductContainer;
+import com.lalaland.ecommerce.data.repository.Repository;
 
 import java.util.Map;
 

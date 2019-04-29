@@ -1,14 +1,11 @@
 package com.lalaland.ecommerce.views.activities;
 
-import android.content.Intent;
 import android.os.Bundle;
 import android.view.Window;
 import android.view.WindowManager;
 
-import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.databinding.DataBindingUtil;
-
 
 import com.lalaland.ecommerce.R;
 import com.lalaland.ecommerce.adapters.RegistrationTabsAdapter;
@@ -16,8 +13,8 @@ import com.lalaland.ecommerce.databinding.ActivityRegistrationBinding;
 import com.lalaland.ecommerce.views.fragments.registrationFragments.SigninFragment;
 import com.lalaland.ecommerce.views.fragments.registrationFragments.SignupFragment;
 
+import static com.lalaland.ecommerce.helpers.AppConstants.REGISTER;
 import static com.lalaland.ecommerce.helpers.AppConstants.SIGN_IN;
-import static com.lalaland.ecommerce.helpers.AppConstants.SIGN_UP;
 
 public class RegistrationActivity extends AppCompatActivity {
 
@@ -37,19 +34,12 @@ public class RegistrationActivity extends AppCompatActivity {
         registrationTabsAdapter = new RegistrationTabsAdapter(getSupportFragmentManager());
         registrationBinding.vpRegistration.setAdapter(registrationTabsAdapter);
         registrationTabsAdapter.addFragment(SigninFragment.newInstance(), SIGN_IN);
-        registrationTabsAdapter.addFragment(SignupFragment.newInstance(), SIGN_UP);
+        registrationTabsAdapter.addFragment(SignupFragment.newInstance(), REGISTER);
         registrationTabsAdapter.notifyDataSetChanged();
-        registrationBinding.tlScreenRegistration.setupWithViewPager(registrationBinding.vpRegistration, true);
+        registrationBinding.tlScreenRegistration.setupWithViewPager(registrationBinding.vpRegistration);
     }
-    
+
     public void closeActivity() {
         finish();
-    }
-
-    @Override
-    protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
-
-        super.onActivityResult(requestCode, resultCode, data);
-
     }
 }

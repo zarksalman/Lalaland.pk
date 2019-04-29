@@ -2,6 +2,8 @@ package com.lalaland.ecommerce.data.retrofit;
 
 import android.util.Log;
 
+import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
 import com.lalaland.ecommerce.helpers.AppConstants;
 import com.lalaland.ecommerce.helpers.AppUtils;
 
@@ -31,6 +33,7 @@ public class RetrofitClient {
     private static final long cacheSize = 5 * 1024 * 1024; // 5 MB
 
     private RetrofitClient() {
+
         retrofit = new Retrofit.Builder()
                 .baseUrl(BASE_URL)
                 .addConverterFactory(GsonConverterFactory.create())

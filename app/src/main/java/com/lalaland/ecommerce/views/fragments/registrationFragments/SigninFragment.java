@@ -2,15 +2,14 @@ package com.lalaland.ecommerce.views.fragments.registrationFragments;
 
 
 import android.os.Bundle;
-
-import androidx.databinding.DataBindingUtil;
-import androidx.lifecycle.ViewModelProviders;
-
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Toast;
+
+import androidx.databinding.DataBindingUtil;
+import androidx.lifecycle.ViewModelProviders;
 
 import com.lalaland.ecommerce.R;
 import com.lalaland.ecommerce.databinding.FragmentSigninBinding;
@@ -20,20 +19,22 @@ import com.lalaland.ecommerce.viewModels.LoginViewModel;
 import java.util.HashMap;
 import java.util.Map;
 
-import static com.lalaland.ecommerce.helpers.AppConstants.FAIL_CODE;
+import static com.lalaland.ecommerce.helpers.AppConstants.AUTHORIZATION_FAIL_CODE;
+import static com.lalaland.ecommerce.helpers.AppConstants.GENERAL_ERROR;
 import static com.lalaland.ecommerce.helpers.AppConstants.SIGNIN_TOKEN;
 import static com.lalaland.ecommerce.helpers.AppConstants.SUCCESS_CODE;
+import static com.lalaland.ecommerce.helpers.AppConstants.VALIDATION_FAIL_CODE;
+import static com.lalaland.ecommerce.helpers.AppConstants.WRONG_CREDENTIAL;
 
 
 public class SigninFragment extends BaseRegistrationFragment {
 
     private FragmentSigninBinding fragmentSigninBinding;
     private LoginViewModel loginViewModel;
-    private boolean isFragmentVisible = false;
-    private static final String EMAIL = "email";
-    private static final String PUBLIC_PROFILE = "public_profile";
 
-    private Map<String, String> parameter = new HashMap<>();
+    private String emailOrNumber = "";
+    private String password = "";
+    Map<String, String> parameter = new HashMap<>();
 
     public SigninFragment() {
         // Required empty public constructor
@@ -55,33 +56,88 @@ public class SigninFragment extends BaseRegistrationFragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         fragmentSigninBinding = DataBindingUtil.inflate(inflater, R.layout.fragment_signin, container, false);
+
         loginViewModel = ViewModelProviders.of(this).get(LoginViewModel.class);
 
-
-        fragmentSigninBinding.btnLogin.setOnClickListener(v -> loginOrRegisterWithFb(fragmentSigninBinding.btnFacebookSignin));
-        fragmentSigninBinding.btnLogout.setOnClickListener(v -> logoutUser());
-
+        fragmentSigninBinding.btnSignIn.setOnClickListener(v -> signInWithForm());
+        fragmentSigninBinding.btnFbSignIn.setOnClickListener(v -> signInOrSignUpWithFb(fragmentSigninBinding.btFacebookSignin));
         return fragmentSigninBinding.getRoot();
     }
 
-    void loginUser() {
-        Map<String, String> parameter = new HashMap<>();
+    void signInWithForm() {
 
-        parameter.put("email", "salman_hameed_23@gmail.com");
-        parameter.put("password", "salman123");
+        if (validateEmail() && validatePassword()) {
+
+            fragmentSigninBinding.pbLoadingSignin.setVisibility(View.VISIBLE);
+            parameter.put("email", emailOrNumber);
+            parameter.put("password", password);
+            signInCallToApi();
+        }
+    }
+
+    private boolean validateEmail() {
+
+        emailOrNumber = fragmentSigninBinding.etEmailSignin.getText().toString().trim();
+
+        if (emailOrNumber.isEmpty()) {
+            fragmentSigninBinding.tiEmailSignin.setError("Email or Number could not be empty");
+            return false;
+        }
+
+        fragmentSigninBinding.tiEmailSignin.setError(null);
+        return true;
+    }
+
+    private boolean validatePassword() {
+
+
+        password = fragmentSigninBinding.etPasswordSignin.getText().toString().trim();
+
+        if (password.isEmpty()) {
+            fragmentSigninBinding.tiPasswordSignin.setError("Password could not be empty");
+            return false;
+        }
+
+        fragmentSigninBinding.tiPasswordSignin.setError(null);
+        return true;
+    }
+
+
+    private void signInCallToApi() {
 
         loginViewModel.loginUser(parameter).observe(this, login -> {
 
             if (login != null) {
 
-                if (login.getCode().equals(SUCCESS_CODE)) {
-                    Log.d("registerUser", login.getData().getName() + ":" + login.getData().getEmail());
-                    Log.d("registerUser", AppPreference.getInstance(getContext()).getString(SIGNIN_TOKEN));
-                } else if (login.getCode().equals(FAIL_CODE)) {
-                    Toast.makeText(getContext(), login.getMsg(), Toast.LENGTH_SHORT).show();
+                switch (login.getCode()) {
+                    case SUCCESS_CODE:
+                        Log.d("registerUser", login.getData().getName() + ":" + login.getData().getEmail());
+                        Log.d("registerUser", AppPreference.getInstance(getContext()).getString(SIGNIN_TOKEN));
+                        startActivity();
+                        break;
+                    case VALIDATION_FAIL_CODE:
+                        hideProgressBar();
+                        showToast(login.getMsg());
+                        break;
+                    case AUTHORIZATION_FAIL_CODE:
+                        hideProgressBar();
+                        showToast(WRONG_CREDENTIAL);
+                        break;
                 }
+            } else {
+                showToast(GENERAL_ERROR);
+                hideProgressBar();
             }
+
         });
+    }
+
+    void hideProgressBar() {
+        fragmentSigninBinding.pbLoadingSignin.setVisibility(View.GONE);
+    }
+
+    void showToast(String message) {
+        Toast.makeText(getContext(), message, Toast.LENGTH_LONG).show();
     }
 
     void logoutUser() {

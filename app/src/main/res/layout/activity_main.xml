@@ -31,9 +31,20 @@
                 android:layout_weight=".9"
                 android:background="@drawable/search_bar_bg_round_cornors"
                 android:padding="4dp"
+                android:visibility="gone"
                 app:iconifiedByDefault="false"
                 app:queryBackground="@android:color/transparent"
                 app:searchIcon="@null" />
+
+            <TextView
+                android:id="@+id/tv_app_name"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_weight=".9"
+                android:text="@string/app_name"
+                android:textAlignment="center"
+                android:textColor="@android:color/holo_red_dark"
+                android:textSize="24sp" />
 
             <ImageView
 
@@ -50,22 +61,7 @@
 
         </LinearLayout>
 
-
-        <TextView
-
-            android:id="@+id/tv_reponse"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:textColor="@android:color/black"
-            android:textSize="18sp"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
-
         <FrameLayout
-
             android:id="@+id/fragment_host"
             android:layout_width="0dp"
             android:layout_height="0dp"

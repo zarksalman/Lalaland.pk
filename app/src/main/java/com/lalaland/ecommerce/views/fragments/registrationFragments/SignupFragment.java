@@ -2,12 +2,7 @@ package com.lalaland.ecommerce.views.fragments.registrationFragments;
 
 
 import android.app.DatePickerDialog;
-import android.content.Intent;
-import android.content.pm.PackageInfo;
-import android.content.pm.PackageManager;
-import android.content.pm.Signature;
 import android.os.Bundle;
-import android.util.Base64;
 import android.util.Log;
 import android.util.Patterns;
 import android.view.LayoutInflater;
@@ -15,7 +10,6 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.DatePicker;
 import android.widget.RadioButton;
-import android.widget.RadioGroup;
 import android.widget.Toast;
 
 import androidx.databinding.DataBindingUtil;
@@ -27,21 +21,22 @@ import com.lalaland.ecommerce.databinding.FragmentSignupBinding;
 import com.lalaland.ecommerce.helpers.AppPreference;
 import com.lalaland.ecommerce.viewModels.RegistrationViewModel;
 
-import java.security.MessageDigest;
-import java.security.NoSuchAlgorithmException;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.HashMap;
 import java.util.Map;
 
+import static com.lalaland.ecommerce.helpers.AppConstants.ACCOUNT_CREATION_ERROR;
+import static com.lalaland.ecommerce.helpers.AppConstants.AUTHORIZATION_FAIL_CODE;
 import static com.lalaland.ecommerce.helpers.AppConstants.CONFIRM_TYPE;
-import static com.lalaland.ecommerce.helpers.AppConstants.FAIL_CODE;
 import static com.lalaland.ecommerce.helpers.AppConstants.FORM_SIGN_UP;
+import static com.lalaland.ecommerce.helpers.AppConstants.VALIDATION_FAIL_CODE;
 import static com.lalaland.ecommerce.helpers.AppConstants.NO_NETWORK;
 import static com.lalaland.ecommerce.helpers.AppConstants.PASSWORD;
 import static com.lalaland.ecommerce.helpers.AppConstants.SIGNIN_TOKEN;
 import static com.lalaland.ecommerce.helpers.AppConstants.SUCCESS_CODE;
 import static com.lalaland.ecommerce.helpers.AppConstants.TYPE;
+import static com.lalaland.ecommerce.helpers.AppConstants.WRONG_CREDENTIAL;
 import static com.lalaland.ecommerce.helpers.AppUtils.isNetworkAvailable;
 
 
@@ -90,17 +85,16 @@ public class SignupFragment extends BaseRegistrationFragment {
 
         fragmentSignupBinding = DataBindingUtil.inflate(inflater, R.layout.fragment_signup, container, false);
         registrationViewModel = ViewModelProviders.of(this).get(RegistrationViewModel.class);
+
         setClickListeners();
 
         return fragmentSignupBinding.getRoot();
     }
 
-    void setClickListeners() {
+    private void setClickListeners() {
 
-        callbackManager = CallbackManager.Factory.create();  //facebook registration callback
-
-        fragmentSignupBinding.btnSignUp.setOnClickListener(v -> registerUserWithForm());
-        fragmentSignupBinding.btnFbSignUp.setOnClickListener(v -> loginOrRegisterWithFb(fragmentSignupBinding.btFacebookSignup));
+        fragmentSignupBinding.btnSignUp.setOnClickListener(v -> sinUpWithForm());
+        fragmentSignupBinding.btnFbSignUp.setOnClickListener(v -> signInOrSignUpWithFb(fragmentSignupBinding.btFacebookSignup));
         fragmentSignupBinding.etDateOfBirth.setOnClickListener(v -> showDatePickerDialogue());
 
         fragmentSignupBinding.rgGender.setOnCheckedChangeListener((group, checkedId) -> {
@@ -112,7 +106,7 @@ public class SignupFragment extends BaseRegistrationFragment {
         );
     }
 
-    private boolean validateEmail(int type) {
+    private boolean validateEmail() {
 
 
         email = fragmentSignupBinding.etEmail.getText().toString().trim();
@@ -139,31 +133,6 @@ public class SignupFragment extends BaseRegistrationFragment {
         fragmentSignupBinding.tiEmail.setError(null);
         fragmentSignupBinding.tiConfirmEmail.setError(null);
         return true;
-/*
-        if (type == TYPE) {
-
-            if (email.isEmpty()) {
-                fragmentSignupBinding.tiEmail.setError("Email Could Not Be Empty");
-            } else if (!Patterns.EMAIL_ADDRESS.matcher(email).matches()) {
-                fragmentSignupBinding.tiEmail.setError("Please enter a valid email address");
-            } else {
-                fragmentSignupBinding.tiEmail.setError(null);
-                return true;
-            }
-        } else if (type == CONFIRM_TYPE) {
-
-
-            if (confirmEmail.isEmpty()) {
-                fragmentSignupBinding.tiConfirmEmail.setError("Email Could Not Be Empty");
-            } else if (!Patterns.EMAIL_ADDRESS.matcher(confirmEmail).matches()) {
-                fragmentSignupBinding.tiConfirmEmail.setError("Please enter a valid email address");
-            } else {
-                fragmentSignupBinding.tiConfirmEmail.setError(null);
-                return true;
-            }
-        }
-
-        return false; // default return state*/
     }
 
     private boolean validatePasswords() {
@@ -199,31 +168,6 @@ public class SignupFragment extends BaseRegistrationFragment {
 
         return true;
 
-
-      /*  if (type == TYPE) {
-
-            if (password.isEmpty()) {
-                fragmentSignupBinding.tiPassword.setError("Password Could Not Be Empty");
-            } else if (!PASSWORD_PATTERN.matcher(password).matches()) {
-                fragmentSignupBinding.tiPassword.setError("Please enter a valid Password (At least 1 digit,At least 1 Alphabet,At least 6 characters)");
-            } else {
-                fragmentSignupBinding.tiPassword.setError(null);
-                return true;
-            }
-        } else if (type == CONFIRM_TYPE) {
-
-
-            if (confirmPassword.isEmpty()) {
-                fragmentSignupBinding.tiConfirmPassword.setError("Password Could Not Be Empty");
-            } else if (!PASSWORD_PATTERN.matcher(confirmPassword).matches()) {
-                fragmentSignupBinding.tiConfirmPassword.setError("Please enter a valid Password (At least 1 digit,At least 1 Alphabet,At least 6 characters)");
-            } else {
-                fragmentSignupBinding.tiConfirmPassword.setError(null);
-                return true;
-
-            }
-        }*/
-
     }
 
     private boolean validateNames(int type) {
@@ -254,7 +198,7 @@ public class SignupFragment extends BaseRegistrationFragment {
 
     private boolean validateDob() {
 
-        dob = fragmentSignupBinding.etFirstName.getText().toString().trim();
+        dob = fragmentSignupBinding.etDateOfBirth.getText().toString().trim();
 
         if (dob.isEmpty()) {
             fragmentSignupBinding.tiDateOfBirth.setError("Dob could not be empty");
@@ -285,13 +229,12 @@ public class SignupFragment extends BaseRegistrationFragment {
         }
     }
 
-    void registerUserWithForm() {
+    void sinUpWithForm() {
 
         if (validateNames(TYPE)
                 && validateNames(CONFIRM_TYPE)
                 && validatePhoneNumber()
-                && validateEmail(TYPE)
-                && validateEmail(CONFIRM_TYPE)
+                && validateEmail()
                 && validatePasswords()
                 && validateDob()) {
 
@@ -308,15 +251,42 @@ public class SignupFragment extends BaseRegistrationFragment {
             parameter.put("gender", gender);
             parameter.put("date_of_birth", dob);
 
-            loginWithForm(parameter);
-
-            fragmentSignupBinding.pbLoading.setVisibility(View.GONE);
+            signUpCallToApi(FORM_SIGN_UP);
         }
     }
 
 
     public void registerUserWithGoogle() {
         Toast.makeText(getContext(), "Login With Google", Toast.LENGTH_SHORT).show();
+    }
+
+    private void signUpCallToApi(int signUpType) {
+
+        registrationViewModel.registerUser(parameter, signUpType).observe(this, registrationContainer -> {
+
+            if (registrationContainer != null) {
+
+                switch (registrationContainer.getCode()) {
+                    case SUCCESS_CODE:
+                        Log.d("registerUser", registrationContainer.getData().getName() + ":" + registrationContainer.getData().getEmail());
+                        Log.d("registerUser", AppPreference.getInstance(getContext()).getString(SIGNIN_TOKEN));
+                        startActivity();
+
+                        break;
+                    case VALIDATION_FAIL_CODE:
+                        hideProgressBar();
+                        showToast(registrationContainer.getMsg());
+                        break;
+                    case AUTHORIZATION_FAIL_CODE:
+                        hideProgressBar();
+                        showToast(WRONG_CREDENTIAL);
+                        break;
+                }
+            } else {
+                hideProgressBar();
+                showToast(ACCOUNT_CREATION_ERROR);
+            }
+        });
     }
 
     private void changePassword() {
@@ -332,7 +302,7 @@ public class SignupFragment extends BaseRegistrationFragment {
                 if (basicResponse.getCode().equals(SUCCESS_CODE)) {
                     Log.d("registerUser", basicResponse.getMsg());
                     Log.d("registerUser", AppPreference.getInstance(getContext()).getString(SIGNIN_TOKEN));
-                } else if (basicResponse.getCode().equals(FAIL_CODE)) {
+                } else if (basicResponse.getCode().equals(VALIDATION_FAIL_CODE)) {
                     Toast.makeText(getContext(), basicResponse.getMsg(), Toast.LENGTH_SHORT).show();
                 }
             } else
@@ -377,9 +347,13 @@ public class SignupFragment extends BaseRegistrationFragment {
         fragmentSignupBinding.etDateOfBirth.setText(dob);
     }
 
-    @Override
-    public void onActivityResult(int requestCode, int resultCode, Intent data) {
-        callbackManager.onActivityResult(requestCode, resultCode, data);
-        super.onActivityResult(requestCode, resultCode, data);
+
+    void hideProgressBar() {
+        fragmentSignupBinding.pbLoading.setVisibility(View.GONE);
     }
+
+    void showToast(String message) {
+        Toast.makeText(getContext(), message, Toast.LENGTH_LONG).show();
+    }
+
 }

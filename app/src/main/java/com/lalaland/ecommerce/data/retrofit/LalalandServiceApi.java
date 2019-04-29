@@ -8,11 +8,17 @@ import com.lalaland.ecommerce.data.models.registration.RegistrationContainer;
 import java.util.Map;
 
 import retrofit2.Call;
+import retrofit2.http.GET;
 import retrofit2.http.Header;
 import retrofit2.http.POST;
 import retrofit2.http.QueryMap;
+import retrofit2.http.Url;
 
 public interface LalalandServiceApi {
+
+    @GET
+    Call<String> testResponse(@Url String url);
+
 
     @POST("products")
     Call<ProductContainer> getRangeProducts(@QueryMap Map<String, String> parameters);

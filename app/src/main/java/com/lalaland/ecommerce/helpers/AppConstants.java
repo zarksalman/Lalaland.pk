@@ -7,6 +7,7 @@ import java.util.regex.Pattern;
 public class AppConstants {
 
     public static final String BASE_URL = "https://api.uat.lalaland.pk/api/";
+    public static final String TEST_BASE_URL = "https://192.168.1.54/lalaland_api/api/";
     public static final String APP_NAME = "Lalaland";
     public static Context mContext;
 
@@ -17,11 +18,18 @@ public class AppConstants {
     public static final String PRODUCT_STORAGE_BASE_URL = "https://api.uat.lalaland.pk/storage/products/";
     public static final String SIGN_IN = "SIGN IN";
     public static final String SIGN_UP = "SIGN UP";
+    public static final String REGISTER = "REGISTER";
     public static final String SUCCESS_CODE = "200";
-    public static final String FAIL_CODE = "400";
+    public static final String VALIDATION_FAIL_CODE = "400";
+    public static final String AUTHORIZATION_FAIL_CODE = "401";
+
+    // Toast Strings
     public static final String SUCCESS_MESSAGE = "Success";
     public static final String NO_NETWORK = "No network available";
     public static final String FB_LOGIN_CANCLED = "Login Cancel";
+    public static final String WRONG_CREDENTIAL = "Account information or password is incorrect. Please try later";
+    public static final String ACCOUNT_CREATION_ERROR = "Could not register at this time, please try again";
+    public static final String GENERAL_ERROR = "Something went wrong please try again";
     public static String SIGNIN_TOKEN = "token";
     public static String SIGNUP_COUNT = "count";
 

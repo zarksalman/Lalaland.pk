@@ -21,6 +21,7 @@ import com.facebook.login.LoginManager;
 import com.facebook.login.LoginResult;
 import com.facebook.login.widget.LoginButton;
 import com.lalaland.ecommerce.helpers.AppPreference;
+import com.lalaland.ecommerce.viewModels.LoginViewModel;
 import com.lalaland.ecommerce.viewModels.RegistrationViewModel;
 import com.lalaland.ecommerce.views.activities.MainActivity;
 
@@ -30,22 +31,28 @@ import java.util.Arrays;
 import java.util.HashMap;
 import java.util.Map;
 
+import static com.lalaland.ecommerce.helpers.AppConstants.ACCOUNT_CREATION_ERROR;
+import static com.lalaland.ecommerce.helpers.AppConstants.AUTHORIZATION_FAIL_CODE;
 import static com.lalaland.ecommerce.helpers.AppConstants.FACEBOOK_SIGN_UP_IN;
-import static com.lalaland.ecommerce.helpers.AppConstants.FAIL_CODE;
+import static com.lalaland.ecommerce.helpers.AppConstants.GENERAL_ERROR;
+import static com.lalaland.ecommerce.helpers.AppConstants.VALIDATION_FAIL_CODE;
 import static com.lalaland.ecommerce.helpers.AppConstants.FB_LOGIN_CANCLED;
 import static com.lalaland.ecommerce.helpers.AppConstants.FORM_SIGN_UP;
 import static com.lalaland.ecommerce.helpers.AppConstants.SIGNIN_TOKEN;
 import static com.lalaland.ecommerce.helpers.AppConstants.SUCCESS_CODE;
+import static com.lalaland.ecommerce.helpers.AppConstants.WRONG_CREDENTIAL;
 
 public class BaseRegistrationFragment extends Fragment {
 
-
     private RegistrationViewModel registrationViewModel;
+    private LoginViewModel loginViewModel;
+
     private Map<String, String> parameter = new HashMap<>();
     private CallbackManager callbackManager;
 
     private static final String EMAIL = "email";
     private static final String PUBLIC_PROFILE = "public_profile";
+
 
     public BaseRegistrationFragment() {
         // Required empty public constructor
@@ -56,10 +63,9 @@ public class BaseRegistrationFragment extends Fragment {
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
     }
+    
 
-
-    public void loginOrRegisterWithFb(LoginButton loginButton) {
-
+    public void signInOrSignUpWithFb(LoginButton loginButton) {
 
         callbackManager = CallbackManager.Factory.create();  //facebook registration callback
 
@@ -72,12 +78,11 @@ public class BaseRegistrationFragment extends Fragment {
             @Override
             public void onSuccess(LoginResult loginResult) {
                 String token = loginResult.getAccessToken().getToken();
-                Toast.makeText(getContext(), token, Toast.LENGTH_SHORT).show();
                 Log.d("token", token);
                 Log.d(EMAIL, loginResult.getAccessToken().getPermissions().toString());
 
                 parameter.put("fb_token", token); // token got from facebook
-                callToApi(FACEBOOK_SIGN_UP_IN);
+                signUpCallToApi(FACEBOOK_SIGN_UP_IN);
             }
 
             @Override
@@ -105,6 +110,35 @@ public class BaseRegistrationFragment extends Fragment {
 
     }
 
+
+    private void signUpCallToApi(int signUpType) {
+
+
+        registrationViewModel = ViewModelProviders.of(this).get(RegistrationViewModel.class);
+
+        registrationViewModel.registerUser(parameter, signUpType).observe(this, registrationContainer -> {
+
+            if (registrationContainer != null) {
+
+                switch (registrationContainer.getCode()) {
+                    case SUCCESS_CODE:
+                        Log.d("registerUser", registrationContainer.getData().getName() + ":" + registrationContainer.getData().getEmail());
+                        Log.d("registerUser", AppPreference.getInstance(getContext()).getString(SIGNIN_TOKEN));
+                        startActivity();
+
+                        break;
+                    case VALIDATION_FAIL_CODE:
+                        Toast.makeText(getContext(), registrationContainer.getMsg(), Toast.LENGTH_SHORT).show();
+                        break;
+                    case AUTHORIZATION_FAIL_CODE:
+                        Toast.makeText(getContext(), WRONG_CREDENTIAL, Toast.LENGTH_SHORT).show();
+                        break;
+                }
+            } else
+                Toast.makeText(getContext(), ACCOUNT_CREATION_ERROR, Toast.LENGTH_LONG).show();
+        });
+    }
+
     void getHashKeyFb() {
 
         PackageInfo packageInfo = null;
@@ -128,33 +162,6 @@ public class BaseRegistrationFragment extends Fragment {
 
     }
 
-    public void loginWithForm(Map<String, String> mParameter) {
-        parameter = mParameter;
-        callToApi(FORM_SIGN_UP);
-    }
-
-    public void callToApi(int signUpType) {
-
-        callbackManager = CallbackManager.Factory.create();  //facebook registration callback
-
-        registrationViewModel = ViewModelProviders.of(this).get(RegistrationViewModel.class);
-
-        registrationViewModel.registerUser(parameter, signUpType).observe(this, registrationContainer -> {
-
-            if (registrationContainer != null && getContext() != null) {
-
-                if (registrationContainer.getCode().equals(SUCCESS_CODE)) {
-                    Log.d("registerUser", registrationContainer.getData().getName() + ":" + registrationContainer.getData().getEmail());
-                    Log.d("registerUser", AppPreference.getInstance(getContext()).getString(SIGNIN_TOKEN));
-                    startActivity();
-
-                } else if (registrationContainer.getCode().equals(FAIL_CODE)) {
-                    Toast.makeText(getContext(), registrationContainer.getMsg(), Toast.LENGTH_SHORT).show();
-                }
-            } else
-                Toast.makeText(getContext(), "Could not register at this time", Toast.LENGTH_SHORT).show();
-        });
-    }
 
     @Override
     public void onActivityResult(int requestCode, int resultCode, Intent data) {

@@ -2,9 +2,6 @@ package com.lalaland.ecommerce.views.activities;
 
 import android.content.Intent;
 import android.os.Bundle;
-import android.os.Handler;
-import android.os.Looper;
-import android.view.View;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.databinding.DataBindingUtil;
@@ -18,8 +15,6 @@ import com.lalaland.ecommerce.views.fragments.homeFragments.CartFragment;
 import com.lalaland.ecommerce.views.fragments.homeFragments.CategoryFragment;
 import com.lalaland.ecommerce.views.fragments.homeFragments.HomeFragment;
 import com.lalaland.ecommerce.views.fragments.homeFragments.WishFragment;
-
-import static com.lalaland.ecommerce.helpers.AppUtils.isNetworkAvailable;
 
 public class MainActivity extends AppCompatActivity {
     private ActivityMainBinding activityMainBinding;

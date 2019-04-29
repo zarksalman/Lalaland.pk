@@ -87,6 +87,12 @@ public class Repository {
         lalalandServiceApi.loginUser(parameters).enqueue(new Callback<Login>() {
             @Override
             public void onResponse(Call<Login> call, Response<Login> response) {
+
+                if (!response.isSuccessful()) {
+                    loginMutableLiveData.postValue(null);
+                    return;
+                }
+
                 loginMutableLiveData.postValue(response.body());
                 Headers headers = response.headers();
                 AppPreference.getInstance(AppConstants.mContext).setString(SIGNIN_TOKEN, headers.get(SIGNIN_TOKEN));

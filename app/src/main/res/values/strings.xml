@@ -16,6 +16,7 @@
     <string name="last_name">Last Name</string>
     <string name="mobile_number">Mobile Number</string>
     <string name="email">Email</string>
+    <string name="email_number">Email or Number</string>
     <string name="confirm_email">Confirm Email</string>
     <string name="password">Password</string>
     <string name="confirm_password">Confirm Password</string>
@@ -23,6 +24,7 @@
     <string name="gender_male">Male</string>
     <string name="gender_female">Female</string>
     <string name="sign_up">Sign Up</string>
+    <string name="sign_in">Sign In</string>
     <string name="sign_up_terms_info"><![CDATA[By clicking Sign Up, You agree to \nthe terms & conditions]]></string>
     <string name="connect_via">Or connect Via</string>
 
