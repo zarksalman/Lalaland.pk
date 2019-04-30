@@ -82,4 +82,13 @@ public class AppUtils {
         mToast.show();
     }
 
+    public static String insertNewLine(String name) {
+        return name.replace(" ", "\n");
+    }
+
+    public static String formatString(String price) {
+
+        return "PKR " + price;
+    }
+
 }

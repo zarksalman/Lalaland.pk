@@ -1,4 +1,4 @@
-package com.lalaland.ecommerce.viewModels;
+package com.lalaland.ecommerce.viewModels.productsViewModels;
 
 import android.app.Application;
 

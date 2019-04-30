@@ -1,5 +1,6 @@
 package com.lalaland.ecommerce.data.retrofit;
 
+import com.lalaland.ecommerce.data.models.home.HomeDataContainer;
 import com.lalaland.ecommerce.data.models.login.Login;
 import com.lalaland.ecommerce.data.models.logout.BasicResponse;
 import com.lalaland.ecommerce.data.models.products.ProductContainer;
@@ -19,6 +20,8 @@ public interface LalalandServiceApi {
     @GET
     Call<String> testResponse(@Url String url);
 
+    @POST("home")
+    Call<HomeDataContainer> getHomeData();
 
     @POST("products")
     Call<ProductContainer> getRangeProducts(@QueryMap Map<String, String> parameters);
