@@ -11,9 +11,7 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.lalaland.ecommerce.R;
 import com.lalaland.ecommerce.data.models.home.Actions;
-import com.lalaland.ecommerce.data.models.products.Product;
 import com.lalaland.ecommerce.databinding.ActionLayoutBinding;
-import com.lalaland.ecommerce.databinding.ProductLayoutBinding;
 
 import java.util.List;
 

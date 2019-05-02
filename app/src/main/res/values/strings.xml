@@ -32,5 +32,7 @@
     <string name="facebook_login_protocol_scheme">fb222630931805793</string>
     <string name="picks_of_the_week">PICKS OF THE WEEK</string>
     <string name="view_all">View All</string>
+    <string name="brands_in_focus">BRANDS IN FOCUS</string>
+    <string name="recommendations">RECOMMENDATIONS</string>
 
 </resources>

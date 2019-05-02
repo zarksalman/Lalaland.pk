@@ -10,5 +10,6 @@
     <color name="colorFacebook">#2E4E9E</color>
     <color name="colorGoogle">#2E4E9E</color>
     <color name="colorDimWhite">#4DBCC4C1</color>
+    <color name="colorBrandsFocus">#1E293F</color>
 
 </resources>

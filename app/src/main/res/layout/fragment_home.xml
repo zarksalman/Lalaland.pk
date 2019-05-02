@@ -1,115 +1,192 @@
-<layout xmlns:app="http://schemas.android.com/apk/res-auto">
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    tools:context="com.lalaland.ecommerce.MainActivity">
 
     <data>
 
         <variable
-            name="picksofWeek"
+            name="homeListener"
             type="com.lalaland.ecommerce.views.fragments.homeFragments.HomeFragment" />
     </data>
 
-    <androidx.constraintlayout.widget.ConstraintLayout
-
-        xmlns:android="http://schemas.android.com/apk/res/android"
-        xmlns:tools="http://schemas.android.com/tools"
+    <RelativeLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:background="@color/colorScreenBg"
-        tools:context="com.lalaland.ecommerce.MainActivity">
+        android:layout_height="match_parent">
 
-        <androidx.constraintlayout.widget.Guideline
-            android:id="@+id/gl_slider"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:orientation="horizontal"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintGuide_percent=".25"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
+        <androidx.core.widget.NestedScrollView
 
-        <ViewFlipper
-            android:id="@+id/vf_slider"
-            android:layout_width="0dp"
-            android:layout_height="0dp"
-            app:layout_constraintBottom_toBottomOf="@+id/gl_slider"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
-
-        <androidx.recyclerview.widget.RecyclerView
-
-            android:id="@+id/rv_actions"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:background="@android:color/white"
-            android:padding="@dimen/_8dp"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/vf_slider" />
-
-        <RelativeLayout
-
-            android:id="@+id/pick_of_week_container"
+            android:id="@+id/containers_parent"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="@dimen/_16dp"
-            android:background="@android:color/white"
-            android:padding="@dimen/_8dp"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/rv_actions">
+            android:scrollbars="none"
+            android:visibility="gone">
 
-            <androidx.recyclerview.widget.RecyclerView
+            <androidx.constraintlayout.widget.ConstraintLayout
 
-                android:id="@+id/rv_picks_of_week"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_below="@+id/iv_pick_of_week_show_all" />
+                android:background="@color/colorScreenBg">
 
-            <TextView
+                <ViewFlipper
+                    android:id="@+id/vf_slider"
+                    android:layout_width="0dp"
+                    android:layout_height="@dimen/_150dp"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent" />
 
-                android:id="@+id/pick_of_week_title"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_above="@+id/rv_picks_of_week"
-                android:layout_alignTop="@+id/iv_pick_of_week_show_all"
-                android:layout_alignParentStart="true"
-                android:gravity="center"
-                android:text="@string/picks_of_the_week"
-                android:textColor="@android:color/black"
-                android:textStyle="bold" />
+                <androidx.recyclerview.widget.RecyclerView
 
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_above="@+id/rv_picks_of_week"
-                android:layout_alignTop="@+id/iv_pick_of_week_show_all"
-                android:layout_toStartOf="@+id/iv_pick_of_week_show_all"
-                android:gravity="center"
-                android:onClick="@{(view)->picksofWeek.showAllProductsWeekProducts(view)}"
-                android:text="@string/view_all"
-                android:textColor="@android:color/black" />
+                    android:id="@+id/rv_actions"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:background="@android:color/white"
+                    android:padding="@dimen/_8dp"
+                    android:visibility="visible"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/vf_slider" />
 
-            <ImageView
+                <!--Picks of the week-->
+                <RelativeLayout
 
-                android:id="@+id/iv_pick_of_week_show_all"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_alignParentEnd="true"
-                android:onClick="@{(view)->picksofWeek.showAllProductsWeekProducts(view)}"
-                android:src="@drawable/right_icon_black" />
-        </RelativeLayout>
+                    android:id="@+id/pick_of_week_container"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/_16dp"
+                    android:background="@android:color/white"
+                    android:padding="@dimen/_8dp"
+                    android:visibility="visible"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/rv_actions">
 
+                    <androidx.recyclerview.widget.RecyclerView
+
+                        android:id="@+id/rv_picks_of_week"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_below="@+id/iv_pick_of_week_show_all" />
+
+                    <TextView
+
+                        android:id="@+id/pick_of_week_title"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_above="@+id/rv_picks_of_week"
+                        android:layout_alignTop="@+id/iv_pick_of_week_show_all"
+                        android:layout_alignParentStart="true"
+                        android:gravity="center"
+                        android:text="@string/picks_of_the_week"
+                        android:textColor="@android:color/black"
+                        android:textStyle="bold" />
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_above="@+id/rv_picks_of_week"
+                        android:layout_alignTop="@+id/iv_pick_of_week_show_all"
+                        android:layout_toStartOf="@+id/iv_pick_of_week_show_all"
+                        android:gravity="center"
+                        android:onClick="@{(view)->homeListener.showAllProductsWeekProducts(view)}"
+                        android:text="@string/view_all"
+                        android:textColor="@android:color/black" />
+
+                    <ImageView
+
+                        android:id="@+id/iv_pick_of_week_show_all"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_alignParentEnd="true"
+                        android:onClick="@{(view)->homeListener.showAllProductsWeekProducts(view)}"
+                        android:src="@drawable/right_icon_black" />
+                </RelativeLayout>
+
+                <!--Brands in focus-->
+                <RelativeLayout
+
+                    android:id="@+id/brands_in_focus_container"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/_16dp"
+                    android:background="@color/colorBrandsFocus"
+                    android:padding="@dimen/_8dp"
+                    android:visibility="visible"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/pick_of_week_container">
+
+                    <ImageView
+                        android:layout_width="200dp"
+                        android:layout_height="100dp"
+                        android:layout_alignParentTop="true"
+                        android:layout_alignParentEnd="true"
+                        android:scaleType="centerCrop"
+                        android:src="@drawable/brands_in_focus_bg" />
+
+                    <androidx.recyclerview.widget.RecyclerView
+
+                        android:id="@+id/rv_brands_in_focus"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_below="@+id/tv_brands_in_focus_title"
+                        android:layout_marginTop="@dimen/_8dp" />
+
+                    <TextView
+
+                        android:id="@+id/tv_brands_in_focus_title"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_alignParentStart="true"
+                        android:layout_alignParentTop="true"
+                        android:gravity="center"
+                        android:text="@string/brands_in_focus"
+                        android:textColor="@android:color/white" />
+
+                </RelativeLayout>
+
+                <!--Recommendation Products-->
+                <RelativeLayout
+
+                    android:id="@+id/recommendation_container"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:padding="@dimen/_8dp"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/brands_in_focus_container">
+
+                    <androidx.recyclerview.widget.RecyclerView
+                        android:id="@+id/rv_recommended_products"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_below="@+id/tv_recommendation_title" />
+
+
+                    <TextView
+
+                        android:id="@+id/tv_recommendation_title"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_alignParentTop="true"
+                        android:text="@string/recommendations"
+                        android:textAppearance="@style/TextAppearance.AppCompat.Medium"
+                        android:textColor="@android:color/black" />
+
+                </RelativeLayout>
+
+            </androidx.constraintlayout.widget.ConstraintLayout>
+
+        </androidx.core.widget.NestedScrollView>
 
         <ProgressBar
 
             android:id="@+id/pb_loading"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
+            android:layout_centerInParent="true" />
+    </RelativeLayout>
 
-    </androidx.constraintlayout.widget.ConstraintLayout>
 
 </layout>

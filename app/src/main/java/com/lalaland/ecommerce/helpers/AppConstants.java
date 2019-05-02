@@ -17,7 +17,7 @@ public class AppConstants {
     public static final String DATE_FORMAT_TEXT = "yyyy-MM-dd";
     public static final String PRODUCT_STORAGE_BASE_URL = "https://api.uat.lalaland.pk/storage/products/";
     public static final String BANNER_STORAGE_BASE_URL = "https://api.uat.lalaland.pk/storage/home_banners/";
-    public static final String PICK_OF_WEEK_STORAGE_BASE_URL = "https://api.uat.lalaland.pk/storage/brand_banners/";
+    public static final String BRAND_FOCUS_STORAGE_BASE_URL = "https://api.uat.lalaland.pk/storage/featured_brands/";
     public static final String ACTION_STORAGE_BASE_URL = "https://api.uat.lalaland.pk/storage/mobile_actions/";
     public static final String SIGN_IN = "SIGN IN";
     public static final String SIGN_UP = "SIGN UP";

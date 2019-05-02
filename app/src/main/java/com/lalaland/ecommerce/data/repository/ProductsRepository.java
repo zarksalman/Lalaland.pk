@@ -72,6 +72,8 @@ public class ProductsRepository {
 
     private void checkResponseSource(Response response) {
 
+        Log.d("response_source", String.valueOf(response.code()) + response.errorBody());
+
         if (response.raw().networkResponse() != null) {
             Log.d("response_source", "Response is from network");
         } else {

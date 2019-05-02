@@ -10,7 +10,7 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.lalaland.ecommerce.R;
 import com.lalaland.ecommerce.data.models.products.Product;
-import com.lalaland.ecommerce.databinding.ProductLayoutBinding;
+import com.lalaland.ecommerce.databinding.ProductItemBinding;
 
 import java.util.List;
 
@@ -19,7 +19,7 @@ public class ProductAdapter extends RecyclerView.Adapter<ProductAdapter.ProductV
 
     private Context mContext;
     private List<Product> mProductList;
-    private ProductLayoutBinding productLayoutBinding;
+    private ProductItemBinding productItemBinding;
     private LayoutInflater inflater;
 
     public ProductAdapter(Context context) {
@@ -31,8 +31,8 @@ public class ProductAdapter extends RecyclerView.Adapter<ProductAdapter.ProductV
     @Override
     public ProductViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
 
-        productLayoutBinding = DataBindingUtil.inflate(inflater, R.layout.product_layout, parent, false);
-        return new ProductViewHolder(productLayoutBinding);
+        productItemBinding = DataBindingUtil.inflate(inflater, R.layout.product_item, parent, false);
+        return new ProductViewHolder(productItemBinding);
     }
 
     @Override
@@ -54,14 +54,14 @@ public class ProductAdapter extends RecyclerView.Adapter<ProductAdapter.ProductV
 
     class ProductViewHolder extends RecyclerView.ViewHolder {
 
-        ProductViewHolder(@NonNull ProductLayoutBinding productLayoutBinding) {
-            super(productLayoutBinding.getRoot());
+        ProductViewHolder(@NonNull ProductItemBinding productItemBinding) {
+            super(productItemBinding.getRoot());
         }
 
         void bindHolder(Product product) {
-            productLayoutBinding.setProducts(product);
-            productLayoutBinding.setAdapter(ProductAdapter.this);
-            productLayoutBinding.executePendingBindings();
+            productItemBinding.setProducts(product);
+            productItemBinding.setAdapter(ProductAdapter.this);
+            productItemBinding.executePendingBindings();
         }
     }
 }

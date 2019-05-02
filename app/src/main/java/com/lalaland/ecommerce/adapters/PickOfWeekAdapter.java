@@ -10,9 +10,8 @@ import androidx.databinding.DataBindingUtil;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.lalaland.ecommerce.R;
-import com.lalaland.ecommerce.data.models.home.Actions;
 import com.lalaland.ecommerce.data.models.home.PicksOfTheWeek;
-import com.lalaland.ecommerce.databinding.PickOfWeekLayoutBinding;
+import com.lalaland.ecommerce.databinding.PickOfWeekItemBinding;
 
 import java.util.List;
 
@@ -21,7 +20,7 @@ public class PickOfWeekAdapter extends RecyclerView.Adapter<PickOfWeekAdapter.Pi
 
     private Context mContext;
     private List<PicksOfTheWeek> mPicks;
-    private PickOfWeekLayoutBinding pickOfWeekLayoutBinding;
+    private PickOfWeekItemBinding pickOfWeekItemBinding;
     private LayoutInflater inflater;
     private WeekProductClickListener mWeekProductClickListener;
 
@@ -36,8 +35,8 @@ public class PickOfWeekAdapter extends RecyclerView.Adapter<PickOfWeekAdapter.Pi
     @Override
     public PickPfWeekViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
 
-        pickOfWeekLayoutBinding = DataBindingUtil.inflate(inflater, R.layout.pick_of_week_layout, parent, false);
-        return new PickPfWeekViewHolder(pickOfWeekLayoutBinding);
+        pickOfWeekItemBinding = DataBindingUtil.inflate(inflater, R.layout.pick_of_week_item, parent, false);
+        return new PickPfWeekViewHolder(pickOfWeekItemBinding);
     }
 
     @Override
@@ -63,14 +62,14 @@ public class PickOfWeekAdapter extends RecyclerView.Adapter<PickOfWeekAdapter.Pi
 
     class PickPfWeekViewHolder extends RecyclerView.ViewHolder {
 
-        PickPfWeekViewHolder(@NonNull PickOfWeekLayoutBinding pickOfWeekLayoutBinding) {
-            super(pickOfWeekLayoutBinding.getRoot());
+        PickPfWeekViewHolder(@NonNull PickOfWeekItemBinding pickOfWeekItemBinding) {
+            super(pickOfWeekItemBinding.getRoot());
         }
 
         void bindHolder(PicksOfTheWeek picksOfTheWeek) {
-            pickOfWeekLayoutBinding.setPicks(picksOfTheWeek);
-            pickOfWeekLayoutBinding.setAdapter(PickOfWeekAdapter.this);
-            pickOfWeekLayoutBinding.executePendingBindings();
+            pickOfWeekItemBinding.setPicks(picksOfTheWeek);
+            pickOfWeekItemBinding.setAdapter(PickOfWeekAdapter.this);
+            pickOfWeekItemBinding.executePendingBindings();
         }
     }
 

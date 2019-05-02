@@ -18,8 +18,10 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import com.bumptech.glide.Glide;
 import com.lalaland.ecommerce.R;
 import com.lalaland.ecommerce.adapters.ActionAdapter;
+import com.lalaland.ecommerce.adapters.BrandsFocusAdapter;
 import com.lalaland.ecommerce.adapters.PickOfWeekAdapter;
 import com.lalaland.ecommerce.adapters.ProductAdapter;
+import com.lalaland.ecommerce.adapters.RecommendationAdapter;
 import com.lalaland.ecommerce.data.models.home.Actions;
 import com.lalaland.ecommerce.data.models.home.FeaturedBrand;
 import com.lalaland.ecommerce.data.models.home.HomeBanner;
@@ -38,7 +40,8 @@ import static com.lalaland.ecommerce.helpers.AppConstants.PRODUCT_STORAGE_BASE_U
 import static com.lalaland.ecommerce.helpers.AppConstants.PRODUCT_STORAGE_BASE_URL;
 import static com.lalaland.ecommerce.helpers.AppConstants.SUCCESS_CODE;
 
-public class HomeFragment extends Fragment implements ActionAdapter.ActionClickListener, PickOfWeekAdapter.WeekProductClickListener {
+public class HomeFragment extends Fragment implements ActionAdapter.ActionClickListener, PickOfWeekAdapter.WeekProductClickListener,
+        BrandsFocusAdapter.FeatureBrandClickListener, RecommendationAdapter.RecommendationProductListener {
 
     public static final String TAG = HomeFragment.class.getSimpleName();
     private ProductViewModel productViewModel;
@@ -76,7 +79,7 @@ public class HomeFragment extends Fragment implements ActionAdapter.ActionClickL
         productViewModel = ViewModelProviders.of(this).get(ProductViewModel.class);
         homeViewModel = ViewModelProviders.of(this).get(HomeViewModel.class);
 
-        fragmentHomeBinding.setPicksofWeek(this);
+        fragmentHomeBinding.setHomeListener(this);
         requestInitialProducts();
         return fragmentHomeBinding.getRoot();
     }
@@ -94,16 +97,13 @@ public class HomeFragment extends Fragment implements ActionAdapter.ActionClickL
                 featuredBrandList.addAll(homeDataContainer.getHomeData().getFeaturedBrands());
                 picksOfTheWeekList.addAll(homeDataContainer.getHomeData().getPicksOfTheWeek());
 
-                Log.d(TAG, "data" + bannerList.size());
-                Log.d(TAG, "data" + actionsList.size());
-                Log.d(TAG, "data" + recommendationList.size());
-                Log.d(TAG, "data" + featuredBrandList.size());
-                Log.d(TAG, "data" + picksOfTheWeekList.size());
-
                 setBannerSlider();
                 setActions();
                 setPickOfTheWeek();
+                setFeaturedBrands();
+                setRecommendationProducts();
 
+                fragmentHomeBinding.containersParent.setVisibility(View.VISIBLE);
                 fragmentHomeBinding.pbLoading.setVisibility(View.GONE);
             }
         });
@@ -146,7 +146,7 @@ public class HomeFragment extends Fragment implements ActionAdapter.ActionClickL
         Log.d(TAG, "onActionClicked: " + actions.getName() + actions.getActionId());
     }
 
-    void setPickOfTheWeek() {
+    private void setPickOfTheWeek() {
 
         PickOfWeekAdapter pickOfWeekAdapter = new PickOfWeekAdapter(getContext(), this);
         fragmentHomeBinding.rvPicksOfWeek.setAdapter(pickOfWeekAdapter);
@@ -161,5 +161,30 @@ public class HomeFragment extends Fragment implements ActionAdapter.ActionClickL
     @Override
     public void onWeekProductClicked(PicksOfTheWeek picksOfTheWeek) {
         Toast.makeText(getContext(), picksOfTheWeek.getName(), Toast.LENGTH_SHORT).show();
+    }
+
+    private void setFeaturedBrands() {
+
+        BrandsFocusAdapter brandsFocusAdapter = new BrandsFocusAdapter(getContext(), this);
+        fragmentHomeBinding.rvBrandsInFocus.setAdapter(brandsFocusAdapter);
+        fragmentHomeBinding.rvBrandsInFocus.setLayoutManager(new GridLayoutManager(getContext(), 2));
+        brandsFocusAdapter.setData(featuredBrandList);
+    }
+
+    @Override
+    public void onBrandClicked(FeaturedBrand featuredBrand) {
+        Toast.makeText(getContext(), featuredBrand.getName(), Toast.LENGTH_SHORT).show();
+    }
+
+    void setRecommendationProducts() {
+        RecommendationAdapter recommendationAdapter = new RecommendationAdapter(getContext(), this);
+        fragmentHomeBinding.rvRecommendedProducts.setAdapter(recommendationAdapter);
+        fragmentHomeBinding.rvRecommendedProducts.setLayoutManager(new GridLayoutManager(getContext(), 3));
+        recommendationAdapter.setData(recommendationList);
+    }
+
+    @Override
+    public void onRecommendationProductClicked(Recommendation recommendation) {
+        Toast.makeText(getContext(), recommendation.getBrandName(), Toast.LENGTH_SHORT).show();
     }
 }
