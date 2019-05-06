@@ -1,0 +1,109 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+
+        xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:tools="http://schemas.android.com/tools"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="@color/colorScreenBg"
+        tools:context=".views.activities.ProductListingActivity">
+
+        <LinearLayout
+
+            android:id="@+id/m_toolbar_product_listing"
+            android:layout_width="match_parent"
+            android:layout_height="50dp"
+            android:background="@android:color/white"
+            android:orientation="horizontal"
+            android:weightSum="1"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent">
+
+            <ImageView
+
+                android:id="@+id/iv_back_product_listing"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_vertical"
+                android:layout_weight=".2"
+                android:src="@drawable/back_arrow_icon" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_vertical"
+                android:layout_weight=".6"
+                android:text="Head Title"
+                android:textAlignment="center"
+                android:textColor="@android:color/black"
+                android:textSize="18sp"
+                android:textStyle="bold" />
+
+            <ImageView
+
+                android:id="@+id/iv_search_product_listing"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_vertical|end"
+                android:layout_weight=".2"
+                android:src="@drawable/search_icon" />
+
+        </LinearLayout>
+
+        <com.google.android.material.tabs.TabLayout
+
+            android:id="@+id/tl_sort_filter"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:background="@android:color/white"
+            android:elevation="4dp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/m_toolbar_product_listing"
+            app:tabIndicator="@color/colorLightRed"
+            app:tabIndicatorHeight="2dp"
+            app:tabInlineLabel="true"
+            app:tabSelectedTextColor="@android:color/black"
+            app:tabTextColor="@color/colorLightGray">
+
+            <com.google.android.material.tabs.TabItem
+                android:id="@+id/ti_sort"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:icon="@drawable/back_arrow_icon"
+                android:text="@string/sort_by" />
+
+            <com.google.android.material.tabs.TabItem
+                android:id="@+id/ti_filter"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:icon="@drawable/back_arrow_icon"
+                android:text="@string/filter_by" />
+        </com.google.android.material.tabs.TabLayout>
+
+        <androidx.recyclerview.widget.RecyclerView
+
+            android:id="@+id/rv_products"
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            android:layout_margin="@dimen/_16dp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/tl_sort_filter" />
+
+        <ProgressBar
+
+            android:id="@+id/pb_loading_action_products"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</layout>

@@ -54,7 +54,7 @@
         <com.google.android.material.tabs.TabLayout
 
             android:id="@+id/tl_screen_registration"
-            android:layout_width="match_parent"
+            android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:background="@android:color/white"
             android:elevation="4dp"

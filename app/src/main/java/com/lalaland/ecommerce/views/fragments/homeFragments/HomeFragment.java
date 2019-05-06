@@ -1,6 +1,7 @@
 package com.lalaland.ecommerce.views.fragments.homeFragments;
 
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -31,6 +32,7 @@ import com.lalaland.ecommerce.data.models.products.Product;
 import com.lalaland.ecommerce.databinding.FragmentHomeBinding;
 import com.lalaland.ecommerce.viewModels.productsViewModels.HomeViewModel;
 import com.lalaland.ecommerce.viewModels.productsViewModels.ProductViewModel;
+import com.lalaland.ecommerce.views.activities.ProductListingActivity;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -143,7 +145,8 @@ public class HomeFragment extends Fragment implements ActionAdapter.ActionClickL
 
     @Override
     public void onActionClicked(Actions actions) {
-        Log.d(TAG, "onActionClicked: " + actions.getName() + actions.getActionId());
+        startActivity(new Intent(getContext(), ProductListingActivity.class));
+        //  Log.d(TAG, "onActionClicked: " + actions.getName() + actions.getActionId());
     }
 
     private void setPickOfTheWeek() {

@@ -8,13 +8,18 @@
     <application
         android:name=".LalalandApplication"
         android:allowBackup="true"
-
         android:label="@string/app_name"
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme.NoActionBar">
-
-        <!--for facebook login-->
+        <activity
+            android:name=".views.activities.ProductListingActivity"
+            android:label="@string/title_activity_product_listing"
+            android:theme="@style/AppTheme.NoActionBar.NoActionBar"></activity>
+        <activity
+            android:name=".views.activities.ProductDetailActivity"
+            android:label="@string/title_activity_product_detail"
+            android:theme="@style/AppTheme.NoActionBar.NoActionBar" /> <!-- for facebook login -->
         <meta-data
             android:name="com.facebook.sdk.ApplicationId"
             android:value="@string/facebook_app_id" />

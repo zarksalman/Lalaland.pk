@@ -6,20 +6,21 @@ import androidx.annotation.NonNull;
 import androidx.lifecycle.AndroidViewModel;
 import androidx.lifecycle.LiveData;
 
+import com.lalaland.ecommerce.data.models.actionProducs.ActionProductsContainer;
 import com.lalaland.ecommerce.data.models.products.ProductContainer;
 import com.lalaland.ecommerce.data.repository.ProductsRepository;
 import com.lalaland.ecommerce.data.repository.Repository;
 
 import java.util.Map;
 
-public class ProductViewModel extends AndroidViewModel {
+public class ActionProductViewModel extends AndroidViewModel {
 
-    public ProductViewModel(@NonNull Application application) {
+    public ActionProductViewModel(@NonNull Application application) {
         super(application);
     }
 
-    public LiveData<ProductContainer> getRangeProducts(Map<String, String> parameters) {
+    public LiveData<ActionProductsContainer> getActionProducts(String action, Map<String, String> parameter) {
 
-        return ProductsRepository.getInstance().getRangeProducts(parameters);
+        return ProductsRepository.getInstance().getActionProducts(action, parameter);
     }
 }

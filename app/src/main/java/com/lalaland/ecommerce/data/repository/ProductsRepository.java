@@ -5,6 +5,7 @@ import android.util.Log;
 import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MutableLiveData;
 
+import com.lalaland.ecommerce.data.models.actionProducs.ActionProductsContainer;
 import com.lalaland.ecommerce.data.models.home.HomeDataContainer;
 import com.lalaland.ecommerce.data.models.login.Login;
 import com.lalaland.ecommerce.data.models.logout.BasicResponse;
@@ -34,7 +35,9 @@ public class ProductsRepository {
 
     private final MutableLiveData<BasicResponse> basicResponseMutableLiveData = new MutableLiveData<>();
     private final MutableLiveData<HomeDataContainer> homeDataContainerMutableLiveData = new MutableLiveData<>();
-
+    private final MutableLiveData<ProductContainer> productContainerMutableLiveData = new MutableLiveData<>();
+    private final MutableLiveData<ActionProductsContainer> actionProductsContainerMutableLiveData = new MutableLiveData<>();
+    
     private ProductsRepository() {
         lalalandServiceApi = RetrofitClient.getInstance().createClient();
     }
@@ -68,6 +71,46 @@ public class ProductsRepository {
         });
 
         return homeDataContainerMutableLiveData;
+    }
+
+    public LiveData<ProductContainer> getRangeProducts(Map<String, String> parameters) {
+
+        lalalandServiceApi.getRangeProducts(parameters).enqueue(new Callback<ProductContainer>() {
+            @Override
+            public void onResponse(Call<ProductContainer> call, Response<ProductContainer> response) {
+                productContainerMutableLiveData.postValue(response.body());
+                checkResponseSource(response);
+            }
+
+            @Override
+            public void onFailure(Call<ProductContainer> call, Throwable t) {
+                productContainerMutableLiveData.postValue(null);
+            }
+        });
+
+        return productContainerMutableLiveData;
+    }
+
+    public LiveData<ActionProductsContainer> getActionProducts(String action, Map<String, String> parameter) {
+
+        lalalandServiceApi.getActionProducts(action, parameter).enqueue(new Callback<ActionProductsContainer>() {
+            @Override
+            public void onResponse(Call<ActionProductsContainer> call, Response<ActionProductsContainer> response) {
+
+                if (response.isSuccessful()) {
+                    actionProductsContainerMutableLiveData.postValue(response.body());
+                } else {
+                    actionProductsContainerMutableLiveData.postValue(null);
+                }
+            }
+
+            @Override
+            public void onFailure(Call<ActionProductsContainer> call, Throwable t) {
+                actionProductsContainerMutableLiveData.postValue(null);
+            }
+        });
+
+        return actionProductsContainerMutableLiveData;
     }
 
     private void checkResponseSource(Response response) {

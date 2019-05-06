@@ -1,6 +1,7 @@
 package com.lalaland.ecommerce.adapters;
 
 import android.content.Context;
+import android.graphics.Paint;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -66,6 +67,8 @@ public class RecommendationAdapter extends RecyclerView.Adapter<RecommendationAd
         }
 
         void bindHolder(Recommendation recommendation) {
+
+            recommendationItemBinding.tvProductActualPrice.setPaintFlags(recommendationItemBinding.tvProductActualPrice.getPaintFlags() | Paint.STRIKE_THRU_TEXT_FLAG);  // making price for sales
             recommendationItemBinding.setRecommendation(recommendation);
             recommendationItemBinding.setAdapter(RecommendationAdapter.this);
             recommendationItemBinding.executePendingBindings();

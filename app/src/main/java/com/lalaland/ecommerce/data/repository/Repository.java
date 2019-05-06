@@ -5,6 +5,8 @@ import android.util.Log;
 import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MutableLiveData;
 
+import com.lalaland.ecommerce.data.models.actionProducs.ActionProducts;
+import com.lalaland.ecommerce.data.models.actionProducs.ActionProductsContainer;
 import com.lalaland.ecommerce.data.models.login.Login;
 import com.lalaland.ecommerce.data.models.logout.BasicResponse;
 import com.lalaland.ecommerce.data.models.products.ProductContainer;
@@ -25,15 +27,16 @@ import static com.lalaland.ecommerce.helpers.AppConstants.FACEBOOK_SIGN_UP_IN;
 import static com.lalaland.ecommerce.helpers.AppConstants.FORM_SIGN_UP;
 import static com.lalaland.ecommerce.helpers.AppConstants.GOOGLE_SIGN_UP_IN;
 import static com.lalaland.ecommerce.helpers.AppConstants.SIGNIN_TOKEN;
+import static com.lalaland.ecommerce.helpers.AppConstants.SUCCESS_CODE;
 
 public class Repository {
 
     private static Repository repository;
     private LalalandServiceApi lalalandServiceApi;
     private final MutableLiveData<RegistrationContainer> registrationContainerMutableLiveData = new MutableLiveData<>();
-    private final MutableLiveData<ProductContainer> productContainerMutableLiveData = new MutableLiveData<>();
     private final MutableLiveData<Login> loginMutableLiveData = new MutableLiveData<>();
     private final MutableLiveData<BasicResponse> basicResponseMutableLiveData = new MutableLiveData<>();
+
 
     private Repository() {
         lalalandServiceApi = RetrofitClient.getInstance().createClient();
@@ -46,23 +49,7 @@ public class Repository {
         return repository;
     }
 
-    public LiveData<ProductContainer> getRangeProducts(Map<String, String> parameters) {
 
-        lalalandServiceApi.getRangeProducts(parameters).enqueue(new Callback<ProductContainer>() {
-            @Override
-            public void onResponse(Call<ProductContainer> call, Response<ProductContainer> response) {
-                productContainerMutableLiveData.postValue(response.body());
-                checkResponseSource(response);
-            }
-
-            @Override
-            public void onFailure(Call<ProductContainer> call, Throwable t) {
-                productContainerMutableLiveData.postValue(null);
-            }
-        });
-
-        return productContainerMutableLiveData;
-    }
 
     public LiveData<RegistrationContainer> registerUser(Map<String, String> parameters, int signUpType) {
 
