@@ -62,14 +62,18 @@ public class PickOfWeekAdapter extends RecyclerView.Adapter<PickOfWeekAdapter.Pi
 
     class PickPfWeekViewHolder extends RecyclerView.ViewHolder {
 
+        PickOfWeekItemBinding mPickOfWeekItemBinding;
+
         PickPfWeekViewHolder(@NonNull PickOfWeekItemBinding pickOfWeekItemBinding) {
             super(pickOfWeekItemBinding.getRoot());
+
+            mPickOfWeekItemBinding = pickOfWeekItemBinding;
         }
 
         void bindHolder(PicksOfTheWeek picksOfTheWeek) {
-            pickOfWeekItemBinding.setPicks(picksOfTheWeek);
-            pickOfWeekItemBinding.setAdapter(PickOfWeekAdapter.this);
-            pickOfWeekItemBinding.executePendingBindings();
+            mPickOfWeekItemBinding.setPicks(picksOfTheWeek);
+            mPickOfWeekItemBinding.setAdapter(PickOfWeekAdapter.this);
+            mPickOfWeekItemBinding.executePendingBindings();
         }
     }
 

@@ -6,6 +6,7 @@ import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MutableLiveData;
 
 import com.lalaland.ecommerce.data.models.actionProducs.ActionProductsContainer;
+import com.lalaland.ecommerce.data.models.category.CategoryContainer;
 import com.lalaland.ecommerce.data.models.home.HomeDataContainer;
 import com.lalaland.ecommerce.data.models.login.Login;
 import com.lalaland.ecommerce.data.models.logout.BasicResponse;
@@ -37,7 +38,8 @@ public class ProductsRepository {
     private final MutableLiveData<HomeDataContainer> homeDataContainerMutableLiveData = new MutableLiveData<>();
     private final MutableLiveData<ProductContainer> productContainerMutableLiveData = new MutableLiveData<>();
     private final MutableLiveData<ActionProductsContainer> actionProductsContainerMutableLiveData = new MutableLiveData<>();
-    
+    private final MutableLiveData<CategoryContainer> categoryContainerMutableLiveData = new MutableLiveData<>();
+
     private ProductsRepository() {
         lalalandServiceApi = RetrofitClient.getInstance().createClient();
     }
@@ -111,6 +113,28 @@ public class ProductsRepository {
         });
 
         return actionProductsContainerMutableLiveData;
+    }
+
+    public LiveData<CategoryContainer> getCategoryGeneralData() {
+
+        lalalandServiceApi.getCategoryGeneralData().enqueue(new Callback<CategoryContainer>() {
+            @Override
+            public void onResponse(Call<CategoryContainer> call, Response<CategoryContainer> response) {
+
+                if (response.isSuccessful()) {
+                    categoryContainerMutableLiveData.postValue(response.body());
+                } else {
+                    categoryContainerMutableLiveData.postValue(null);
+                }
+            }
+
+            @Override
+            public void onFailure(Call<CategoryContainer> call, Throwable t) {
+                categoryContainerMutableLiveData.postValue(null);
+            }
+        });
+
+        return categoryContainerMutableLiveData;
     }
 
     private void checkResponseSource(Response response) {

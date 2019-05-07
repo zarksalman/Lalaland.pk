@@ -62,14 +62,17 @@ public class ActionAdapter extends RecyclerView.Adapter<ActionAdapter.ActionView
 
     class ActionViewHolder extends RecyclerView.ViewHolder {
 
+        ActionLayoutBinding mActionLayoutBinding;
+
         ActionViewHolder(@NonNull ActionLayoutBinding actionLayoutBinding) {
             super(actionLayoutBinding.getRoot());
+            mActionLayoutBinding = actionLayoutBinding;
         }
 
         void bindHolder(Actions actions) {
-            actionLayoutBinding.setAction(actions);
-            actionLayoutBinding.setAdapter(ActionAdapter.this);
-            actionLayoutBinding.executePendingBindings();
+            mActionLayoutBinding.setAction(actions);
+            mActionLayoutBinding.setAdapter(ActionAdapter.this);
+            mActionLayoutBinding.executePendingBindings();
         }
     }
 

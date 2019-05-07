@@ -19,8 +19,8 @@
 
         xmlns:android="http://schemas.android.com/apk/res/android"
         xmlns:app="http://schemas.android.com/apk/res-auto"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/_220dp"
         android:layout_margin="@dimen/_12dp"
         android:background="@drawable/brands_focus_bg"
         android:onClick="@{(view)->adapter.brandClicked(view, brand)}"
@@ -29,10 +29,10 @@
         <ImageView
 
             android:id="@+id/iv_brand"
-            android:layout_width="@dimen/_200dp"
-            android:layout_height="@dimen/_250dp"
-            android:scaleType="centerCrop"
-            android:src="@drawable/place_holder"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:scaleType="fitXY"
+            android:src="@drawable/placeholder_products"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"

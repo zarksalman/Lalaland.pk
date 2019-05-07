@@ -137,5 +137,6 @@
     <string name="oldest">OLDEST</string>
     <string name="high_to_low">HIGH TO LOW</string>
     <string name="low_to_high">LOW TO HIGH</string>
+    <string name="title_activity_splash">SplashActivity</string>
 
 </resources>

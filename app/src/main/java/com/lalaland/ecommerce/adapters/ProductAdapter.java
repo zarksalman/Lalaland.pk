@@ -54,14 +54,18 @@ public class ProductAdapter extends RecyclerView.Adapter<ProductAdapter.ProductV
 
     class ProductViewHolder extends RecyclerView.ViewHolder {
 
+        ProductItemBinding mProductItemBinding;
+
         ProductViewHolder(@NonNull ProductItemBinding productItemBinding) {
             super(productItemBinding.getRoot());
+
+            mProductItemBinding = productItemBinding;
         }
 
         void bindHolder(Product product) {
-            productItemBinding.setProducts(product);
-            productItemBinding.setAdapter(ProductAdapter.this);
-            productItemBinding.executePendingBindings();
+            mProductItemBinding.setProducts(product);
+            mProductItemBinding.setAdapter(ProductAdapter.this);
+            mProductItemBinding.executePendingBindings();
         }
     }
 }

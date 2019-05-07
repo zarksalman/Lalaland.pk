@@ -1,6 +1,7 @@
 package com.lalaland.ecommerce.data.retrofit;
 
 import com.lalaland.ecommerce.data.models.actionProducs.ActionProductsContainer;
+import com.lalaland.ecommerce.data.models.category.CategoryContainer;
 import com.lalaland.ecommerce.data.models.home.HomeDataContainer;
 import com.lalaland.ecommerce.data.models.login.Login;
 import com.lalaland.ecommerce.data.models.logout.BasicResponse;
@@ -31,6 +32,10 @@ public interface LalalandServiceApi {
 
     @POST("{action}")
     Call<ActionProductsContainer> getActionProducts(@Path("action") String action, @QueryMap Map<String, String> parameter);
+
+    @POST("getGeneralData")
+    Call<CategoryContainer> getCategoryGeneralData();
+
 
     @POST("register")
     Call<RegistrationContainer> registerUser(@QueryMap Map<String, String> parameters);

@@ -62,16 +62,20 @@ public class RecommendationAdapter extends RecyclerView.Adapter<RecommendationAd
 
     class RecommendationViewHolder extends RecyclerView.ViewHolder {
 
+        RecommendationItemBinding mRecommendationItemBinding;
+
         RecommendationViewHolder(@NonNull RecommendationItemBinding recommendationItemBinding) {
             super(recommendationItemBinding.getRoot());
+
+            mRecommendationItemBinding = recommendationItemBinding;
         }
 
         void bindHolder(Recommendation recommendation) {
 
-            recommendationItemBinding.tvProductActualPrice.setPaintFlags(recommendationItemBinding.tvProductActualPrice.getPaintFlags() | Paint.STRIKE_THRU_TEXT_FLAG);  // making price for sales
-            recommendationItemBinding.setRecommendation(recommendation);
-            recommendationItemBinding.setAdapter(RecommendationAdapter.this);
-            recommendationItemBinding.executePendingBindings();
+            mRecommendationItemBinding.tvProductActualPrice.setPaintFlags(recommendationItemBinding.tvProductActualPrice.getPaintFlags() | Paint.STRIKE_THRU_TEXT_FLAG);  // making price for sales
+            mRecommendationItemBinding.setRecommendation(recommendation);
+            mRecommendationItemBinding.setAdapter(RecommendationAdapter.this);
+            mRecommendationItemBinding.executePendingBindings();
         }
     }
 

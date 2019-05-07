@@ -74,6 +74,7 @@ public class ActionProductsAdapter extends RecyclerView.Adapter<ActionProductsAd
 
         void bindHolder(ActionProducts actionProducts) {
 
+            mActionProductsItemBinding.tvProductActualPrice.setPaintFlags(mActionProductsItemBinding.tvProductActualPrice.getPaintFlags() | Paint.STRIKE_THRU_TEXT_FLAG);  // making price for sales
             mActionProductsItemBinding.setActionProduct(actionProducts);
             mActionProductsItemBinding.setAdapter(ActionProductsAdapter.this);
             mActionProductsItemBinding.executePendingBindings();

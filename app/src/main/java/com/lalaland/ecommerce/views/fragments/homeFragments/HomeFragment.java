@@ -3,7 +3,6 @@ package com.lalaland.ecommerce.views.fragments.homeFragments;
 
 import android.content.Intent;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -28,18 +27,18 @@ import com.lalaland.ecommerce.data.models.home.FeaturedBrand;
 import com.lalaland.ecommerce.data.models.home.HomeBanner;
 import com.lalaland.ecommerce.data.models.home.PicksOfTheWeek;
 import com.lalaland.ecommerce.data.models.home.Recommendation;
-import com.lalaland.ecommerce.data.models.products.Product;
 import com.lalaland.ecommerce.databinding.FragmentHomeBinding;
-import com.lalaland.ecommerce.viewModels.productsViewModels.HomeViewModel;
-import com.lalaland.ecommerce.viewModels.productsViewModels.ProductViewModel;
+import com.lalaland.ecommerce.helpers.AppConstants;
+import com.lalaland.ecommerce.viewModels.products.HomeViewModel;
+import com.lalaland.ecommerce.viewModels.products.ProductViewModel;
 import com.lalaland.ecommerce.views.activities.ProductListingActivity;
 
 import java.util.ArrayList;
 import java.util.List;
 
+import static com.lalaland.ecommerce.helpers.AppConstants.ACTION_ID;
+import static com.lalaland.ecommerce.helpers.AppConstants.ACTION_NAME;
 import static com.lalaland.ecommerce.helpers.AppConstants.BANNER_STORAGE_BASE_URL;
-import static com.lalaland.ecommerce.helpers.AppConstants.PRODUCT_STORAGE_BASE_URL;
-import static com.lalaland.ecommerce.helpers.AppConstants.PRODUCT_STORAGE_BASE_URL;
 import static com.lalaland.ecommerce.helpers.AppConstants.SUCCESS_CODE;
 
 public class HomeFragment extends Fragment implements ActionAdapter.ActionClickListener, PickOfWeekAdapter.WeekProductClickListener,
@@ -93,6 +92,12 @@ public class HomeFragment extends Fragment implements ActionAdapter.ActionClickL
 
             if (homeDataContainer != null && homeDataContainer.getCode().equals(SUCCESS_CODE)) {
 
+                bannerList = new ArrayList<>();
+                actionsList = new ArrayList<>();
+                recommendationList = new ArrayList<>();
+                featuredBrandList = new ArrayList<>();
+                picksOfTheWeekList = new ArrayList<>();
+
                 bannerList.addAll(homeDataContainer.getHomeData().getHomeBanners());
                 actionsList.addAll(homeDataContainer.getHomeData().getactions());
                 recommendationList.addAll(homeDataContainer.getHomeData().getRecommendation());
@@ -116,6 +121,8 @@ public class HomeFragment extends Fragment implements ActionAdapter.ActionClickL
         for (int i = 0; i < bannerList.size(); i++) {
 
             String bannerImageUrl = BANNER_STORAGE_BASE_URL.concat(bannerList.get(i).getBannerImage());
+
+            AppConstants.testImagesUrl.add(bannerImageUrl); // for testing
 
             ImageView imageView = new ImageView(getContext());
 
@@ -145,7 +152,12 @@ public class HomeFragment extends Fragment implements ActionAdapter.ActionClickL
 
     @Override
     public void onActionClicked(Actions actions) {
-        startActivity(new Intent(getContext(), ProductListingActivity.class));
+
+        Intent intent = new Intent(getContext(), ProductListingActivity.class);
+
+        intent.putExtra(ACTION_NAME, actions.getActionName());
+        intent.putExtra(ACTION_ID, String.valueOf(actions.getActionId()));
+        startActivity(intent);
         //  Log.d(TAG, "onActionClicked: " + actions.getName() + actions.getActionId());
     }
 

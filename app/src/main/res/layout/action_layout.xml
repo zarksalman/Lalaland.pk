@@ -31,7 +31,7 @@
             android:id="@+id/iv_action"
             android:layout_width="50dp"
             android:layout_height="50dp"
-            android:src="@drawable/btn_bg_round_corner_accent"
+            android:src="@drawable/placeholder_products"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"

@@ -64,14 +64,17 @@ public class BrandsFocusAdapter extends RecyclerView.Adapter<BrandsFocusAdapter.
 
     class BrandsFocusViewHolder extends RecyclerView.ViewHolder {
 
+        BrandsFocusItemBinding mBrandsFocusItemBinding;
         BrandsFocusViewHolder(@NonNull BrandsFocusItemBinding brandsFocusItemBinding) {
             super(brandsFocusItemBinding.getRoot());
+
+            mBrandsFocusItemBinding = brandsFocusItemBinding;
         }
 
         void bindHolder(FeaturedBrand featuredBrand) {
-            brandsFocusItemBinding.setBrand(featuredBrand);
-            brandsFocusItemBinding.setAdapter(BrandsFocusAdapter.this);
-            brandsFocusItemBinding.executePendingBindings();
+            mBrandsFocusItemBinding.setBrand(featuredBrand);
+            mBrandsFocusItemBinding.setAdapter(BrandsFocusAdapter.this);
+            mBrandsFocusItemBinding.executePendingBindings();
         }
     }
 

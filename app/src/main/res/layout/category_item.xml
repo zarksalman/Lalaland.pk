@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout>
+
+    <data>
+
+        <import type="com.lalaland.ecommerce.helpers.AppUtils" />
+
+        <import type="android.view.View" />
+
+        <variable
+            name="category"
+            type="com.lalaland.ecommerce.data.models.category.Category" />
+
+        <variable
+            name="adapter"
+            type="com.lalaland.ecommerce.adapters.CategoryAdapter" />
+
+    </data>
+
+    <RelativeLayout
+
+        xmlns:android="http://schemas.android.com/apk/res/android"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/_70dp"
+        android:background="@drawable/category_bg_selector"
+        android:clickable="true"
+        android:focusable="true"
+        android:onClick="@{(view)->adapter.categoryClicked(view, category)}"
+        android:orientation="vertical">
+
+        <TextView
+
+            android:id="@+id/tv_category_name"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerInParent="true"
+            android:text="@{AppUtils.insertNewLine(category.name)}"
+            android:textAlignment="center"
+            android:textColor="@android:color/black"
+            android:textSize="16sp" />
+
+    </RelativeLayout>
+</layout>

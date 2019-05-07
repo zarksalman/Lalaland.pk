@@ -3,11 +3,8 @@ package com.lalaland.ecommerce.views.activities;
 import android.os.Bundle;
 
 import com.google.android.material.bottomsheet.BottomSheetDialog;
-import com.google.android.material.floatingactionbutton.FloatingActionButton;
-import com.google.android.material.snackbar.Snackbar;
 
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.appcompat.widget.Toolbar;
 import androidx.databinding.DataBindingUtil;
 import androidx.lifecycle.ViewModelProviders;
 import androidx.recyclerview.widget.GridLayoutManager;
@@ -17,23 +14,21 @@ import android.view.View;
 import android.view.Window;
 import android.view.WindowManager;
 
-import com.google.android.material.tabs.TabItem;
 import com.google.android.material.tabs.TabLayout;
 import com.lalaland.ecommerce.R;
-import com.lalaland.ecommerce.adapters.ActionAdapter;
 import com.lalaland.ecommerce.adapters.ActionProductsAdapter;
 import com.lalaland.ecommerce.data.models.actionProducs.ActionProducts;
 import com.lalaland.ecommerce.databinding.ActivityProductListingBinding;
 import com.lalaland.ecommerce.databinding.SortFilterBottomSheetLayoutBinding;
-import com.lalaland.ecommerce.viewModels.productsViewModels.ActionProductViewModel;
+import com.lalaland.ecommerce.viewModels.products.ActionProductViewModel;
 
 import java.util.ArrayList;
-import java.util.Collection;
-import java.util.Collections;
-import java.util.Comparator;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+
+import static com.lalaland.ecommerce.helpers.AppConstants.ACTION_ID;
+import static com.lalaland.ecommerce.helpers.AppConstants.ACTION_NAME;
 
 public class ProductListingActivity extends AppCompatActivity implements ActionProductsAdapter.ActionProductsListener {
 
@@ -44,6 +39,9 @@ public class ProductListingActivity extends AppCompatActivity implements ActionP
     BottomSheetDialog mBottomSheetDialog;
     SortFilterBottomSheetLayoutBinding sheetView;
     Map<String, String> parameter = new HashMap<>();
+    String action_name = "custom_list", action_id = "2";
+    private static final String ID = "id";
+    private static final String SORT_BY = "sort_by";
 
     @Override
 
@@ -54,7 +52,12 @@ public class ProductListingActivity extends AppCompatActivity implements ActionP
         getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN, WindowManager.LayoutParams.FLAG_FULLSCREEN);
         activityProductListingBinding = DataBindingUtil.setContentView(this, R.layout.activity_product_listing);
 
-        parameter.put("id", "0");
+        if (getIntent().getExtras() != null) {
+            action_name = getIntent().getStringExtra(ACTION_NAME);
+            action_id = getIntent().getStringExtra(ACTION_ID);
+        }
+        
+        parameter.put(ID, action_id);
 
         actionProductViewModel = ViewModelProviders.of(this).get(ActionProductViewModel.class);
         setListeners();
@@ -63,6 +66,7 @@ public class ProductListingActivity extends AppCompatActivity implements ActionP
 
     void setListeners() {
 
+        activityProductListingBinding.setProductListingListener(this);
 
         activityProductListingBinding.tlSortFilter.addOnTabSelectedListener(new TabLayout.OnTabSelectedListener() {
             @Override
@@ -86,11 +90,9 @@ public class ProductListingActivity extends AppCompatActivity implements ActionP
 
             }
         });
-
-
     }
 
-    void setBottomSheet(boolean isFilter) {
+    public void setBottomSheet(boolean isFilter) {
 
 
         mBottomSheetDialog = new BottomSheetDialog(ProductListingActivity.this);
@@ -112,47 +114,38 @@ public class ProductListingActivity extends AppCompatActivity implements ActionP
 
     public void bottomSheetClick(View view) {
 
+        activityProductListingBinding.rvProducts.setVisibility(View.GONE);
         activityProductListingBinding.pbLoadingActionProducts.setVisibility(View.VISIBLE);
+        parameter.clear();
 
         switch (view.getId()) {
             case R.id.tv_ascending_alphabetically:
 
-                parameter.clear();
-                parameter.put("sort_by", "az");
-                parameter.put("id", "0");
+                parameter.put(SORT_BY, "az");
                 break;
 
             case R.id.tv_descending_alphabetically:
-                parameter.clear();
-                parameter.put("sort_by", "za");
-                parameter.put("id", "0");
+                parameter.put(SORT_BY, "za");
                 break;
 
             case R.id.tv_newest:
-                parameter.clear();
                 parameter.put("sort_by", "newest");
-                parameter.put("id", "0");
                 break;
 
             case R.id.tv_oldest:
-                parameter.clear();
                 parameter.put("sort_by", "oldest");
-                parameter.put("id", "0");
                 break;
 
             case R.id.tv_low_to_high:
-                parameter.clear();
                 parameter.put("sort_by", "price_asc");
-                parameter.put("id", "0");
                 break;
 
             case R.id.tv_high_to_low:
-                parameter.clear();
                 parameter.put("sort_by", "price_desc");
-                parameter.put("id", "0");
                 break;
         }
 
+        parameter.put(ID, action_id);
         setActionProducts();
         mBottomSheetDialog.hide();
         showList();
@@ -164,16 +157,21 @@ public class ProductListingActivity extends AppCompatActivity implements ActionP
 
         actionProductViewModel.getActionProducts("sale", parameter).observe(this, actionProductsContainer -> {
 
-            actionProductsArrayList = new ArrayList<>();
-            actionProductsArrayList = actionProductsContainer.getData().getProducts();
+            if (actionProductsContainer != null && actionProductsContainer.getData().getProducts().size() > 0) {
+                actionProductsArrayList = new ArrayList<>();
+                actionProductsArrayList = actionProductsContainer.getData().getProducts();
 
-            activityProductListingBinding.rvProducts.setLayoutManager(new GridLayoutManager(this, 2));
+                activityProductListingBinding.rvProducts.setLayoutManager(new GridLayoutManager(this, 2));
 
-            actionProductsAdapter = new ActionProductsAdapter(this, this);
-            activityProductListingBinding.rvProducts.setAdapter(actionProductsAdapter);
-            actionProductsAdapter.setData(actionProductsArrayList);
+                actionProductsAdapter = new ActionProductsAdapter(this, this);
+                activityProductListingBinding.rvProducts.setAdapter(actionProductsAdapter);
+                actionProductsAdapter.setData(actionProductsArrayList);
 
-            activityProductListingBinding.pbLoadingActionProducts.setVisibility(View.GONE);
+                activityProductListingBinding.pbLoadingActionProducts.setVisibility(View.GONE);
+                activityProductListingBinding.rvProducts.setVisibility(View.VISIBLE);
+
+            }
+
         });
 
     }
@@ -181,6 +179,11 @@ public class ProductListingActivity extends AppCompatActivity implements ActionP
     @Override
     public void onActionProductClicked(ActionProducts actionProducts) {
 
+    }
+
+    @Override
+    public void onBackPressed() {
+        finish();
     }
 
     void showList() {
