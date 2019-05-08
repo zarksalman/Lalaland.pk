@@ -76,14 +76,6 @@ public class CategoryFragment extends Fragment implements CategoryAdapter.Catego
         setCategoryList();
     }
 
-    private void initUi() {
-
-        categoryAdapter = new CategoryAdapter(getContext(), this);
-        fragmentCategoryBinding.rvCategory.setLayoutManager(new LinearLayoutManager(getContext(), RecyclerView.VERTICAL, false));
-        fragmentCategoryBinding.rvCategory.setAdapter(categoryAdapter);
-        fragmentCategoryBinding.rvCategory.setHasFixedSize(true);
-    }
-
     private void setCategoryList() {
 
 

@@ -64,14 +64,15 @@
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent">
 
-                    <ImageView
+                <ImageView
 
-                        android:id="@+id/iv_category_header"
-                        android:layout_width="match_parent"
-                        android:layout_height="match_parent"
-                        android:src="@drawable/placeholder_products" />
+                    android:id="@+id/iv_category_header"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:src="@drawable/placeholder_products" />
 
             </androidx.cardview.widget.CardView>
+
 
         </androidx.constraintlayout.widget.ConstraintLayout>
 

@@ -138,5 +138,11 @@
     <string name="high_to_low">HIGH TO LOW</string>
     <string name="low_to_high">LOW TO HIGH</string>
     <string name="title_activity_splash">SplashActivity</string>
+    <string name="title_activity_checkout_screen">CheckoutScreen</string>
+    <string name="cart_items">Cart Items</string>
+    <string name="edit_change">Edit / Change</string>
+    <string name="cash_on_delivery">CASH ON DELIVERY</string>
+    <string name="bank_transfer">BANK TRANSFER</string>
+    <string name="cash_on_delivery_policy">Cash on delivery is not applicable on order exceeding RS 40,000</string>
 
 </resources>

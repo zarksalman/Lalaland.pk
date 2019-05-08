@@ -1,5 +1,6 @@
 package com.lalaland.ecommerce.views.activities;
 
+import android.content.Intent;
 import android.os.Bundle;
 
 import com.google.android.material.bottomsheet.BottomSheetDialog;
@@ -18,9 +19,11 @@ import com.google.android.material.tabs.TabLayout;
 import com.lalaland.ecommerce.R;
 import com.lalaland.ecommerce.adapters.ActionProductsAdapter;
 import com.lalaland.ecommerce.data.models.actionProducs.ActionProducts;
+import com.lalaland.ecommerce.data.models.cart.CartProduct;
 import com.lalaland.ecommerce.databinding.ActivityProductListingBinding;
 import com.lalaland.ecommerce.databinding.SortFilterBottomSheetLayoutBinding;
-import com.lalaland.ecommerce.viewModels.products.ActionProductViewModel;
+import com.lalaland.ecommerce.helpers.AppConstants;
+import com.lalaland.ecommerce.viewModels.products.ProductViewModel;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -29,11 +32,12 @@ import java.util.Map;
 
 import static com.lalaland.ecommerce.helpers.AppConstants.ACTION_ID;
 import static com.lalaland.ecommerce.helpers.AppConstants.ACTION_NAME;
+import static com.lalaland.ecommerce.helpers.AppConstants.PRODUCT_ID;
 
-public class ProductListingActivity extends AppCompatActivity implements ActionProductsAdapter.ActionProductsListener {
+public class ActionProductListingActivity extends AppCompatActivity implements ActionProductsAdapter.ActionProductsListener {
 
     private ActivityProductListingBinding activityProductListingBinding;
-    private ActionProductViewModel actionProductViewModel;
+    private ProductViewModel productViewModel;
     ActionProductsAdapter actionProductsAdapter;
     private List<ActionProducts> actionProductsArrayList = new ArrayList<>();
     BottomSheetDialog mBottomSheetDialog;
@@ -56,10 +60,10 @@ public class ProductListingActivity extends AppCompatActivity implements ActionP
             action_name = getIntent().getStringExtra(ACTION_NAME);
             action_id = getIntent().getStringExtra(ACTION_ID);
         }
-        
+
         parameter.put(ID, action_id);
 
-        actionProductViewModel = ViewModelProviders.of(this).get(ActionProductViewModel.class);
+        productViewModel = ViewModelProviders.of(this).get(ProductViewModel.class);
         setListeners();
         setActionProducts();
     }
@@ -95,7 +99,7 @@ public class ProductListingActivity extends AppCompatActivity implements ActionP
     public void setBottomSheet(boolean isFilter) {
 
 
-        mBottomSheetDialog = new BottomSheetDialog(ProductListingActivity.this);
+        mBottomSheetDialog = new BottomSheetDialog(ActionProductListingActivity.this);
 
 
         if (!isFilter) // if bottom sheet is filter
@@ -155,7 +159,7 @@ public class ProductListingActivity extends AppCompatActivity implements ActionP
     private void setActionProducts() {
 
 
-        actionProductViewModel.getActionProducts("sale", parameter).observe(this, actionProductsContainer -> {
+        productViewModel.getActionProducts("sale", parameter).observe(this, actionProductsContainer -> {
 
             if (actionProductsContainer != null && actionProductsContainer.getData().getProducts().size() > 0) {
                 actionProductsArrayList = new ArrayList<>();
@@ -178,7 +182,10 @@ public class ProductListingActivity extends AppCompatActivity implements ActionP
 
     @Override
     public void onActionProductClicked(ActionProducts actionProducts) {
-
+        
+        Intent intent = new Intent(this, ProductDetailActivity.class);
+        intent.putExtra(PRODUCT_ID, actionProducts.getId());
+        startActivity(intent);
     }
 
     @Override

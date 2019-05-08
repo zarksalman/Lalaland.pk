@@ -25,6 +25,10 @@ public class AppConstants {
     public static final String DATE_FORMAT_TEXT = "yyyy-MM-dd";
     public static final String ACTION_NAME = "action_name";
     public static final String ACTION_ID = "action_id";
+    public static final String PRODUCT_ID = "product_id";
+    public static final String IS_WISH_LIST = "is_wish_list";
+    public static final String PRODUCT_VARIATION_ID = "product_variation_group_id";
+    public static final String QUANTITY = "quantity";
 
     public static final String PRODUCT_STORAGE_BASE_URL = "https://api.uat.lalaland.pk/storage/products/";
     public static final String BANNER_STORAGE_BASE_URL = "https://api.uat.lalaland.pk/storage/home_banners/";
@@ -44,6 +48,10 @@ public class AppConstants {
     public static final String WRONG_CREDENTIAL = "Account information or password is incorrect. Please try later";
     public static final String ACCOUNT_CREATION_ERROR = "Could not register at this time, please try again";
     public static final String GENERAL_ERROR = "Something went wrong please try again";
+    public static final String ADD_TO_CART = "Successfully added to cart";
+    public static final String ADD_TO_WISH_LIST = "Successfully added to wish list";
+    public static final String REMOVE_FROM_WISH_LIST = "Successfully remove from wish list";
+
     public static String SIGNIN_TOKEN = "token";
 
     public static final int TYPE = 1;

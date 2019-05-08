@@ -10,7 +10,7 @@
 
         <variable
             name="productListingListener"
-            type="com.lalaland.ecommerce.views.activities.ProductListingActivity" />
+            type="com.lalaland.ecommerce.views.activities.ActionProductListingActivity" />
     </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout
@@ -18,7 +18,7 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:background="@color/colorScreenBg"
-        tools:context=".views.activities.ProductListingActivity">
+        tools:context=".views.activities.ActionProductListingActivity">
 
         <LinearLayout
 

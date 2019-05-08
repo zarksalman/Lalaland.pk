@@ -31,7 +31,7 @@ import com.lalaland.ecommerce.databinding.FragmentHomeBinding;
 import com.lalaland.ecommerce.helpers.AppConstants;
 import com.lalaland.ecommerce.viewModels.products.HomeViewModel;
 import com.lalaland.ecommerce.viewModels.products.ProductViewModel;
-import com.lalaland.ecommerce.views.activities.ProductListingActivity;
+import com.lalaland.ecommerce.views.activities.ActionProductListingActivity;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -153,7 +153,7 @@ public class HomeFragment extends Fragment implements ActionAdapter.ActionClickL
     @Override
     public void onActionClicked(Actions actions) {
 
-        Intent intent = new Intent(getContext(), ProductListingActivity.class);
+        Intent intent = new Intent(getContext(), ActionProductListingActivity.class);
 
         intent.putExtra(ACTION_NAME, actions.getActionName());
         intent.putExtra(ACTION_ID, String.valueOf(actions.getActionId()));

@@ -5,6 +5,8 @@ import com.lalaland.ecommerce.data.models.category.CategoryContainer;
 import com.lalaland.ecommerce.data.models.home.HomeDataContainer;
 import com.lalaland.ecommerce.data.models.login.Login;
 import com.lalaland.ecommerce.data.models.logout.BasicResponse;
+import com.lalaland.ecommerce.data.models.productDetails.ProductDetailData;
+import com.lalaland.ecommerce.data.models.productDetails.ProductDetailDataContainer;
 import com.lalaland.ecommerce.data.models.products.ProductContainer;
 import com.lalaland.ecommerce.data.models.registration.RegistrationContainer;
 
@@ -36,6 +38,15 @@ public interface LalalandServiceApi {
     @POST("getGeneralData")
     Call<CategoryContainer> getCategoryGeneralData();
 
+
+    @POST("addToCart")
+    Call<BasicResponse> addToCart(@QueryMap Map<String, String> parameter);
+
+    @POST("addToWishList")
+    Call<BasicResponse> addRemoveToWishList(@QueryMap Map<String, String> parameter);
+
+    @POST("productDetails")
+    Call<ProductDetailDataContainer> getProductDetail(@Query("product_id") int product_id);
 
     @POST("register")
     Call<RegistrationContainer> registerUser(@QueryMap Map<String, String> parameters);
