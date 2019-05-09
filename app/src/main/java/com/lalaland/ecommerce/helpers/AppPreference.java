@@ -23,7 +23,7 @@ public class AppPreference {
     }
 
     public String getString(String key) {
-        return mPref.getString(key, null);
+        return mPref.getString(key, "");
     }
 
     public void setString(String key, String value) {

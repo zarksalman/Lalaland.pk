@@ -25,6 +25,7 @@ import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 
+import static com.lalaland.ecommerce.helpers.AppConstants.CART_SESSION_TOKEN;
 import static com.lalaland.ecommerce.helpers.AppConstants.FACEBOOK_SIGN_UP_IN;
 import static com.lalaland.ecommerce.helpers.AppConstants.FORM_SIGN_UP;
 import static com.lalaland.ecommerce.helpers.AppConstants.GOOGLE_SIGN_UP_IN;
@@ -161,14 +162,19 @@ public class ProductsRepository {
         return productDetailDataContainerMutableLiveData;
     }
 
-    public LiveData<BasicResponse> addToCart(Map<String, String> parameter) {
+    public MutableLiveData<BasicResponse> addToCart(Map<String, String> headers, Map<String, String> parameter) {
 
-        lalalandServiceApi.addToCart(parameter).enqueue(new Callback<BasicResponse>() {
+        lalalandServiceApi.addToCart(headers, parameter).enqueue(new Callback<BasicResponse>() {
             @Override
             public void onResponse(Call<BasicResponse> call, Response<BasicResponse> response) {
 
                 if (response.isSuccessful()) {
                     basicResponseMutableLiveData.postValue(response.body());
+
+                    // saving header response for different purposes like add to wish list etc
+                    Headers headers = response.headers();
+                    AppPreference.getInstance(AppConstants.mContext).setString(CART_SESSION_TOKEN, headers.get(CART_SESSION_TOKEN));
+
                 } else
                     basicResponseMutableLiveData.postValue(null);
             }
@@ -182,9 +188,9 @@ public class ProductsRepository {
         return basicResponseMutableLiveData;
     }
 
-    public LiveData<BasicResponse> addRemoveToWishList(Map<String, String> parameter) {
+    public MutableLiveData<BasicResponse> addRemoveToWishList(Map<String, String> headers, Map<String, String> parameter) {
 
-        lalalandServiceApi.addRemoveToWishList(parameter).enqueue(new Callback<BasicResponse>() {
+        lalalandServiceApi.addRemoveToWishList(headers, parameter).enqueue(new Callback<BasicResponse>() {
             @Override
             public void onResponse(Call<BasicResponse> call, Response<BasicResponse> response) {
 

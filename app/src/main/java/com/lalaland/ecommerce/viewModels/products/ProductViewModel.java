@@ -5,6 +5,7 @@ import android.app.Application;
 import androidx.annotation.NonNull;
 import androidx.lifecycle.AndroidViewModel;
 import androidx.lifecycle.LiveData;
+import androidx.lifecycle.MutableLiveData;
 
 import com.lalaland.ecommerce.data.models.actionProducs.ActionProductsContainer;
 import com.lalaland.ecommerce.data.models.logout.BasicResponse;
@@ -16,29 +17,41 @@ import java.util.Map;
 
 public class ProductViewModel extends AndroidViewModel {
 
+    private static ProductsRepository productsRepository;
+    private MutableLiveData<BasicResponse> basicResponse;
+
     public ProductViewModel(@NonNull Application application) {
         super(application);
+
+        productsRepository = ProductsRepository.getInstance();
     }
 
     public LiveData<ProductContainer> getRangeProducts(Map<String, String> parameters) {
 
-        return ProductsRepository.getInstance().getRangeProducts(parameters);
+        return productsRepository.getRangeProducts(parameters);
     }
 
     public LiveData<ActionProductsContainer> getActionProducts(String action, Map<String, String> parameter) {
 
-        return ProductsRepository.getInstance().getActionProducts(action, parameter);
+        return productsRepository.getActionProducts(action, parameter);
     }
 
     public LiveData<ProductDetailDataContainer> getProductDetail(int product_id) {
-        return ProductsRepository.getInstance().getProductDetail(product_id);
+        return productsRepository.getProductDetail(product_id);
     }
 
-    public LiveData<BasicResponse> addToCart(Map<String, String> parameter) {
-        return ProductsRepository.getInstance().addToCart(parameter);
+    public LiveData<BasicResponse> addToCart(Map<String, String> headers, Map<String, String> parameter) {
+
+        //basicResponse = productsRepository.addToCart(headers, parameter);
+        return productsRepository.addToCart(headers, parameter);
     }
 
-    public LiveData<BasicResponse> addRemoveToWishList(Map<String, String> parameter) {
-        return ProductsRepository.getInstance().addRemoveToWishList(parameter);
+    public MutableLiveData<BasicResponse> getBasicResponse() {
+        return basicResponse;
+    }
+
+    public LiveData<BasicResponse> addRemoveToWishList(Map<String, String> headers, Map<String, String> parameter) {
+        //basicResponse = productsRepository.addRemoveToWishList(headers, parameter);
+        return productsRepository.addRemoveToWishList(headers, parameter);
     }
 }

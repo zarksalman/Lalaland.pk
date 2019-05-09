@@ -50,7 +50,6 @@ public class Repository {
     }
 
 
-
     public LiveData<RegistrationContainer> registerUser(Map<String, String> parameters, int signUpType) {
 
         switch (signUpType) {
@@ -169,8 +168,11 @@ public class Repository {
             @Override
             public void onResponse(Call<RegistrationContainer> call, Response<RegistrationContainer> response) {
                 registrationContainerMutableLiveData.postValue(response.body());
+
+                // saving header response for different purposes like add to wish list etc
                 Headers headers = response.headers();
                 AppPreference.getInstance(AppConstants.mContext).setString(SIGNIN_TOKEN, headers.get(SIGNIN_TOKEN));
+
                 checkResponseSource(response);
             }
 

@@ -48,11 +48,15 @@ public class AppConstants {
     public static final String WRONG_CREDENTIAL = "Account information or password is incorrect. Please try later";
     public static final String ACCOUNT_CREATION_ERROR = "Could not register at this time, please try again";
     public static final String GENERAL_ERROR = "Something went wrong please try again";
+    public static final String SERVER_ERROR = "PLEASE LOGIN FIRST ";
     public static final String ADD_TO_CART = "Successfully added to cart";
+    public static final String ITEM_SOLD = "This item is sold out";
     public static final String ADD_TO_WISH_LIST = "Successfully added to wish list";
+    public static final String NO_ITEM_IN_LIST = "No such item is in list.";
     public static final String REMOVE_FROM_WISH_LIST = "Successfully remove from wish list";
 
     public static String SIGNIN_TOKEN = "token";
+    public static String CART_SESSION_TOKEN = "cart-session";
 
     public static final int TYPE = 1;
     public static final int CONFIRM_TYPE = 2;

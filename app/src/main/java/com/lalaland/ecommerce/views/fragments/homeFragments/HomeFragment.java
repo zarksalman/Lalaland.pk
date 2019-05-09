@@ -32,6 +32,7 @@ import com.lalaland.ecommerce.helpers.AppConstants;
 import com.lalaland.ecommerce.viewModels.products.HomeViewModel;
 import com.lalaland.ecommerce.viewModels.products.ProductViewModel;
 import com.lalaland.ecommerce.views.activities.ActionProductListingActivity;
+import com.lalaland.ecommerce.views.activities.ProductDetailActivity;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -39,6 +40,7 @@ import java.util.List;
 import static com.lalaland.ecommerce.helpers.AppConstants.ACTION_ID;
 import static com.lalaland.ecommerce.helpers.AppConstants.ACTION_NAME;
 import static com.lalaland.ecommerce.helpers.AppConstants.BANNER_STORAGE_BASE_URL;
+import static com.lalaland.ecommerce.helpers.AppConstants.PRODUCT_ID;
 import static com.lalaland.ecommerce.helpers.AppConstants.SUCCESS_CODE;
 
 public class HomeFragment extends Fragment implements ActionAdapter.ActionClickListener, PickOfWeekAdapter.WeekProductClickListener,
@@ -175,7 +177,10 @@ public class HomeFragment extends Fragment implements ActionAdapter.ActionClickL
 
     @Override
     public void onWeekProductClicked(PicksOfTheWeek picksOfTheWeek) {
-        Toast.makeText(getContext(), picksOfTheWeek.getName(), Toast.LENGTH_SHORT).show();
+
+        Intent intent = new Intent(getContext(), ProductDetailActivity.class);
+        intent.putExtra(PRODUCT_ID, picksOfTheWeek.getId());
+        startActivity(intent);
     }
 
     private void setFeaturedBrands() {
@@ -200,6 +205,9 @@ public class HomeFragment extends Fragment implements ActionAdapter.ActionClickL
 
     @Override
     public void onRecommendationProductClicked(Recommendation recommendation) {
-        Toast.makeText(getContext(), recommendation.getBrandName(), Toast.LENGTH_SHORT).show();
+
+        Intent intent = new Intent(getContext(), ProductDetailActivity.class);
+        intent.putExtra(PRODUCT_ID, recommendation.getId());
+        startActivity(intent);
     }
 }

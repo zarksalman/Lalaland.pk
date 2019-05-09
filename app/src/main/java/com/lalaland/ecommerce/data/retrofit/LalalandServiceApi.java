@@ -2,6 +2,7 @@ package com.lalaland.ecommerce.data.retrofit;
 
 import com.lalaland.ecommerce.data.models.actionProducs.ActionProductsContainer;
 import com.lalaland.ecommerce.data.models.category.CategoryContainer;
+import com.lalaland.ecommerce.data.models.deliveryCharges.DeliveryChargesContainer;
 import com.lalaland.ecommerce.data.models.home.HomeDataContainer;
 import com.lalaland.ecommerce.data.models.login.Login;
 import com.lalaland.ecommerce.data.models.logout.BasicResponse;
@@ -15,6 +16,8 @@ import java.util.Map;
 import retrofit2.Call;
 import retrofit2.http.GET;
 import retrofit2.http.Header;
+import retrofit2.http.HeaderMap;
+import retrofit2.http.Headers;
 import retrofit2.http.POST;
 import retrofit2.http.Path;
 import retrofit2.http.Query;
@@ -38,15 +41,21 @@ public interface LalalandServiceApi {
     @POST("getGeneralData")
     Call<CategoryContainer> getCategoryGeneralData();
 
-
     @POST("addToCart")
-    Call<BasicResponse> addToCart(@QueryMap Map<String, String> parameter);
+    Call<BasicResponse> addToCart(@HeaderMap Map<String, String> headers, @QueryMap Map<String, String> parameter);
 
     @POST("addToWishList")
-    Call<BasicResponse> addRemoveToWishList(@QueryMap Map<String, String> parameter);
+    Call<BasicResponse> addRemoveToWishList(@HeaderMap Map<String, String> header, @QueryMap Map<String, String> parameter);
 
     @POST("productDetails")
     Call<ProductDetailDataContainer> getProductDetail(@Query("product_id") int product_id);
+
+
+    @POST("getDeliveryCharges")
+    Call<DeliveryChargesContainer> getDeliveryCharges(@Query("city_id") int city_id);
+
+    @POST("addressBook")
+    Call<DeliveryChargesContainer> getAddress(@Header("token") String token);
 
     @POST("register")
     Call<RegistrationContainer> registerUser(@QueryMap Map<String, String> parameters);

@@ -37,8 +37,10 @@ public class RetrofitClient {
         retrofit = new Retrofit.Builder()
                 .baseUrl(BASE_URL)
                 .addConverterFactory(GsonConverterFactory.create())
-                .client(okHttpClient())
                 .build();
+
+//          .client(okHttpClient())
+
     }
 
     public static RetrofitClient getInstance() {
@@ -77,7 +79,7 @@ public class RetrofitClient {
             Response response = chain.proceed(chain.request());
 
             CacheControl cacheControl = new CacheControl.Builder()
-                    .maxAge(5, TimeUnit.MINUTES)
+                    .maxAge(1, TimeUnit.SECONDS)
                     .build();
 
             return response.newBuilder()
