@@ -23,6 +23,7 @@ import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 
+import static com.lalaland.ecommerce.helpers.AppConstants.CART_SESSION_TOKEN;
 import static com.lalaland.ecommerce.helpers.AppConstants.FACEBOOK_SIGN_UP_IN;
 import static com.lalaland.ecommerce.helpers.AppConstants.FORM_SIGN_UP;
 import static com.lalaland.ecommerce.helpers.AppConstants.GOOGLE_SIGN_UP_IN;
@@ -37,7 +38,6 @@ public class Repository {
     private final MutableLiveData<Login> loginMutableLiveData = new MutableLiveData<>();
     private final MutableLiveData<BasicResponse> basicResponseMutableLiveData = new MutableLiveData<>();
 
-
     private Repository() {
         lalalandServiceApi = RetrofitClient.getInstance().createClient();
     }
@@ -50,7 +50,7 @@ public class Repository {
     }
 
 
-    public LiveData<RegistrationContainer> registerUser(Map<String, String> parameters, int signUpType) {
+    public LiveData<RegistrationContainer> registerUser(String cart_session, Map<String, String> parameters, int signUpType) {
 
         switch (signUpType) {
 
@@ -58,19 +58,19 @@ public class Repository {
                 return signUpForm(parameters);
 
             case FACEBOOK_SIGN_UP_IN:
-                return signUpFacebook(parameters);
+                return signUpFacebook(cart_session, parameters);
 
             case GOOGLE_SIGN_UP_IN:
-                return signUpFacebook(parameters);
+                return signUpFacebook(cart_session, parameters);
 
             default:
                 return null; // if type is no selected any of above
         }
     }
 
-    public LiveData<Login> loginUser(Map<String, String> parameters) {
+    public LiveData<Login> loginUser(String cart_session, Map<String, String> parameters) {
 
-        lalalandServiceApi.loginUser(parameters).enqueue(new Callback<Login>() {
+        lalalandServiceApi.loginUser(cart_session, parameters).enqueue(new Callback<Login>() {
             @Override
             public void onResponse(Call<Login> call, Response<Login> response) {
 
@@ -82,6 +82,8 @@ public class Repository {
                 loginMutableLiveData.postValue(response.body());
                 Headers headers = response.headers();
                 AppPreference.getInstance(AppConstants.mContext).setString(SIGNIN_TOKEN, headers.get(SIGNIN_TOKEN));
+                AppPreference.getInstance(AppConstants.mContext).setString(CART_SESSION_TOKEN, ""); // if login successfully then discard cart session token
+
                 checkResponseSource(response);
             }
 
@@ -161,10 +163,10 @@ public class Repository {
         return registrationContainerMutableLiveData;
     }
 
-    LiveData<RegistrationContainer> signUpFacebook(Map<String, String> parameters) {
+    LiveData<RegistrationContainer> signUpFacebook(String cart_session, Map<String, String> parameters) {
 
 
-        lalalandServiceApi.registerFromFacebook(parameters).enqueue(new Callback<RegistrationContainer>() {
+        lalalandServiceApi.registerFromFacebook(cart_session, parameters).enqueue(new Callback<RegistrationContainer>() {
             @Override
             public void onResponse(Call<RegistrationContainer> call, Response<RegistrationContainer> response) {
                 registrationContainerMutableLiveData.postValue(response.body());
@@ -172,6 +174,9 @@ public class Repository {
                 // saving header response for different purposes like add to wish list etc
                 Headers headers = response.headers();
                 AppPreference.getInstance(AppConstants.mContext).setString(SIGNIN_TOKEN, headers.get(SIGNIN_TOKEN));
+
+                // if login successfully then discard cart session token
+                AppPreference.getInstance(AppConstants.mContext).setString(CART_SESSION_TOKEN, "");
 
                 checkResponseSource(response);
             }

@@ -79,7 +79,6 @@ public class HomeFragment extends Fragment implements ActionAdapter.ActionClickL
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         fragmentHomeBinding = DataBindingUtil.inflate(inflater, R.layout.fragment_home, container, false);
-        productViewModel = ViewModelProviders.of(this).get(ProductViewModel.class);
         homeViewModel = ViewModelProviders.of(this).get(HomeViewModel.class);
 
         fragmentHomeBinding.setHomeListener(this);

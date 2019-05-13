@@ -6,13 +6,12 @@ import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MutableLiveData;
 
 import com.lalaland.ecommerce.data.models.actionProducs.ActionProductsContainer;
+import com.lalaland.ecommerce.data.models.cart.CartContainer;
 import com.lalaland.ecommerce.data.models.category.CategoryContainer;
 import com.lalaland.ecommerce.data.models.home.HomeDataContainer;
-import com.lalaland.ecommerce.data.models.login.Login;
 import com.lalaland.ecommerce.data.models.logout.BasicResponse;
 import com.lalaland.ecommerce.data.models.productDetails.ProductDetailDataContainer;
 import com.lalaland.ecommerce.data.models.products.ProductContainer;
-import com.lalaland.ecommerce.data.models.registration.RegistrationContainer;
 import com.lalaland.ecommerce.data.retrofit.LalalandServiceApi;
 import com.lalaland.ecommerce.data.retrofit.RetrofitClient;
 import com.lalaland.ecommerce.helpers.AppConstants;
@@ -26,10 +25,7 @@ import retrofit2.Callback;
 import retrofit2.Response;
 
 import static com.lalaland.ecommerce.helpers.AppConstants.CART_SESSION_TOKEN;
-import static com.lalaland.ecommerce.helpers.AppConstants.FACEBOOK_SIGN_UP_IN;
-import static com.lalaland.ecommerce.helpers.AppConstants.FORM_SIGN_UP;
-import static com.lalaland.ecommerce.helpers.AppConstants.GOOGLE_SIGN_UP_IN;
-import static com.lalaland.ecommerce.helpers.AppConstants.SIGNIN_TOKEN;
+import static com.lalaland.ecommerce.helpers.AppConstants.SUCCESS_CODE;
 
 public class ProductsRepository {
 
@@ -42,6 +38,7 @@ public class ProductsRepository {
     private final MutableLiveData<ActionProductsContainer> actionProductsContainerMutableLiveData = new MutableLiveData<>();
     private final MutableLiveData<CategoryContainer> categoryContainerMutableLiveData = new MutableLiveData<>();
     private final MutableLiveData<ProductDetailDataContainer> productDetailDataContainerMutableLiveData = new MutableLiveData<>();
+    private final MutableLiveData<CartContainer> cartContainerMutableLiveData = new MutableLiveData<>();
 
     private ProductsRepository() {
         lalalandServiceApi = RetrofitClient.getInstance().createClient();
@@ -162,7 +159,7 @@ public class ProductsRepository {
         return productDetailDataContainerMutableLiveData;
     }
 
-    public MutableLiveData<BasicResponse> addToCart(Map<String, String> headers, Map<String, String> parameter) {
+    public LiveData<BasicResponse> addToCart(Map<String, String> headers, Map<String, String> parameter) {
 
         lalalandServiceApi.addToCart(headers, parameter).enqueue(new Callback<BasicResponse>() {
             @Override
@@ -188,7 +185,7 @@ public class ProductsRepository {
         return basicResponseMutableLiveData;
     }
 
-    public MutableLiveData<BasicResponse> addRemoveToWishList(Map<String, String> headers, Map<String, String> parameter) {
+    public LiveData<BasicResponse> addRemoveToWishList(Map<String, String> headers, Map<String, String> parameter) {
 
         lalalandServiceApi.addRemoveToWishList(headers, parameter).enqueue(new Callback<BasicResponse>() {
             @Override
@@ -206,6 +203,99 @@ public class ProductsRepository {
             }
         });
 
+        return basicResponseMutableLiveData;
+    }
+
+    public LiveData<CartContainer> getCart(Map<String, String> headers) {
+
+        lalalandServiceApi.getCart(headers).enqueue(new Callback<CartContainer>() {
+            @Override
+            public void onResponse(Call<CartContainer> call, Response<CartContainer> response) {
+
+                if (response.isSuccessful()) {
+                    cartContainerMutableLiveData.postValue(response.body());
+                } else
+                    cartContainerMutableLiveData.postValue(null);
+            }
+
+            @Override
+            public void onFailure(Call<CartContainer> call, Throwable t) {
+                cartContainerMutableLiveData.postValue(null);
+            }
+        });
+
+        return cartContainerMutableLiveData;
+    }
+
+    public LiveData<BasicResponse> addToReadyCartList(Map<String, String> header, Map<String, String> parameter) {
+
+        lalalandServiceApi.addToReadyCartList(header, parameter).enqueue(new Callback<BasicResponse>() {
+            @Override
+            public void onResponse(Call<BasicResponse> call, Response<BasicResponse> response) {
+
+                if (response.isSuccessful()) {
+
+                    if (response.body().getCode().equals(SUCCESS_CODE)) {
+                        basicResponseMutableLiveData.postValue(response.body());
+                    } else {
+                        basicResponseMutableLiveData.postValue(null);
+                    }
+                }
+            }
+
+            @Override
+            public void onFailure(Call<BasicResponse> call, Throwable t) {
+                basicResponseMutableLiveData.postValue(null);
+            }
+        });
+        return basicResponseMutableLiveData;
+    }
+
+    public LiveData<BasicResponse> deleteCartItem(Map<String, String> header, Map<String, String> parameter) {
+
+        lalalandServiceApi.deleteCartItem(header, parameter).enqueue(new Callback<BasicResponse>() {
+            @Override
+            public void onResponse(Call<BasicResponse> call, Response<BasicResponse> response) {
+
+                if (response.isSuccessful()) {
+
+                    if (response.body().getCode().equals(SUCCESS_CODE)) {
+                        basicResponseMutableLiveData.postValue(response.body());
+                    } else {
+                        basicResponseMutableLiveData.postValue(null);
+                    }
+                }
+            }
+
+            @Override
+            public void onFailure(Call<BasicResponse> call, Throwable t) {
+                basicResponseMutableLiveData.postValue(null);
+            }
+        });
+        return basicResponseMutableLiveData;
+    }
+
+    public LiveData<BasicResponse> changeCartProductQuantity(Map<String, String> parameter) {
+
+        lalalandServiceApi.changeCartProductQuantity(parameter).enqueue(new Callback<BasicResponse>() {
+            @Override
+            public void onResponse(Call<BasicResponse> call, Response<BasicResponse> response) {
+
+                if (response.isSuccessful()) {
+
+                    if (response.body().getCode().equals(SUCCESS_CODE)) {
+                        basicResponseMutableLiveData.postValue(response.body());
+                    } else {
+                        basicResponseMutableLiveData.postValue(null);
+                    }
+                }
+            }
+
+            @Override
+            public void onFailure(Call<BasicResponse> call, Throwable t) {
+                basicResponseMutableLiveData.postValue(null);
+            }
+        });
         return basicResponseMutableLiveData;
     }
 

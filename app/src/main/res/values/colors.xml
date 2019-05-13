@@ -11,5 +11,6 @@
     <color name="colorGoogle">#2E4E9E</color>
     <color name="colorDimWhite">#4DBCC4C1</color>
     <color name="colorBrandsFocus">#1E293F</color>
+    <color name="colorPaymentCard">#C7EAE4</color>
 
 </resources>

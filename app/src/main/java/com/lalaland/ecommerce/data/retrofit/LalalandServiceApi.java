@@ -1,12 +1,12 @@
 package com.lalaland.ecommerce.data.retrofit;
 
 import com.lalaland.ecommerce.data.models.actionProducs.ActionProductsContainer;
+import com.lalaland.ecommerce.data.models.cart.CartContainer;
 import com.lalaland.ecommerce.data.models.category.CategoryContainer;
 import com.lalaland.ecommerce.data.models.deliveryCharges.DeliveryChargesContainer;
 import com.lalaland.ecommerce.data.models.home.HomeDataContainer;
 import com.lalaland.ecommerce.data.models.login.Login;
 import com.lalaland.ecommerce.data.models.logout.BasicResponse;
-import com.lalaland.ecommerce.data.models.productDetails.ProductDetailData;
 import com.lalaland.ecommerce.data.models.productDetails.ProductDetailDataContainer;
 import com.lalaland.ecommerce.data.models.products.ProductContainer;
 import com.lalaland.ecommerce.data.models.registration.RegistrationContainer;
@@ -17,7 +17,6 @@ import retrofit2.Call;
 import retrofit2.http.GET;
 import retrofit2.http.Header;
 import retrofit2.http.HeaderMap;
-import retrofit2.http.Headers;
 import retrofit2.http.POST;
 import retrofit2.http.Path;
 import retrofit2.http.Query;
@@ -57,18 +56,31 @@ public interface LalalandServiceApi {
     @POST("addressBook")
     Call<DeliveryChargesContainer> getAddress(@Header("token") String token);
 
+    @POST("cart")
+    Call<CartContainer> getCart(@HeaderMap Map<String, String> headers);
+
+    @POST("deleteCartItem")
+    Call<BasicResponse> deleteCartItem(@HeaderMap Map<String, String> header, @QueryMap Map<String, String> parameter);
+
+    @POST("changeCartStatusAsReady")
+    Call<BasicResponse> addToReadyCartList(@HeaderMap Map<String, String> header, @QueryMap Map<String, String> parameter);
+
+    @POST("changeCartProductQuantity")
+    Call<BasicResponse> changeCartProductQuantity(@QueryMap Map<String, String> parameter);
+
+
     @POST("register")
     Call<RegistrationContainer> registerUser(@QueryMap Map<String, String> parameters);
 
     @POST("login")
-    Call<Login> loginUser(@QueryMap Map<String, String> parameters);
+    Call<Login> loginUser(@Header("cart-session") String cart_session, @QueryMap Map<String, String> parameters);
+
+    @POST("loginFromFaceBook")
+    Call<RegistrationContainer> registerFromFacebook(@Header("cart-session") String cart_session, @QueryMap Map<String, String> parameter);
 
     @POST("logout")
     Call<BasicResponse> logoutUser(@Header("token") String token);
 
     @POST("changePassword")
     Call<BasicResponse> changePassword(@Header("token") String token, @QueryMap Map<String, String> parameters);
-
-    @POST("loginFromFaceBook")
-    Call<RegistrationContainer> registerFromFacebook(@QueryMap Map<String, String> parameter);
 }

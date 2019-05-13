@@ -12,10 +12,12 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme.NoActionBar">
+        <activity android:name=".views.activities.AddressCreationActivity"></activity>
+        <activity android:name=".views.activities.ShippingAddressActivity" />
         <activity
             android:name=".views.activities.CheckoutScreen"
             android:label="@string/title_activity_checkout_screen"
-            android:theme="@style/AppTheme.NoActionBar.NoActionBar"></activity>
+            android:theme="@style/AppTheme.NoActionBar.NoActionBar" />
         <activity
             android:name=".views.activities.SplashActivity"
             android:theme="@style/AppTheme.NoActionBar.NoActionBar">

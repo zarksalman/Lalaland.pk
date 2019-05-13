@@ -8,6 +8,7 @@ import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MutableLiveData;
 
 import com.lalaland.ecommerce.data.models.actionProducs.ActionProductsContainer;
+import com.lalaland.ecommerce.data.models.cart.CartContainer;
 import com.lalaland.ecommerce.data.models.logout.BasicResponse;
 import com.lalaland.ecommerce.data.models.productDetails.ProductDetailDataContainer;
 import com.lalaland.ecommerce.data.models.products.ProductContainer;
@@ -54,4 +55,21 @@ public class ProductViewModel extends AndroidViewModel {
         //basicResponse = productsRepository.addRemoveToWishList(headers, parameter);
         return productsRepository.addRemoveToWishList(headers, parameter);
     }
+
+    public LiveData<CartContainer> getCart(Map<String, String> headers) {
+        return productsRepository.getCart(headers);
+    }
+
+    public LiveData<BasicResponse> addToReadyCartList(Map<String, String> header, Map<String, String> parameter) {
+        return productsRepository.addToReadyCartList(header, parameter);
+    }
+
+    public LiveData<BasicResponse> deleteCartItem(Map<String, String> header, Map<String, String> parameter) {
+        return productsRepository.deleteCartItem(header, parameter);
+    }
+
+    public LiveData<BasicResponse> changeCartProductQuantity(Map<String, String> parameter) {
+        return productsRepository.changeCartProductQuantity(parameter);
+    }
+
 }

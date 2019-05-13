@@ -4,6 +4,7 @@ import android.content.Context;
 
 import com.lalaland.ecommerce.data.models.category.Category;
 import com.lalaland.ecommerce.data.models.category.City;
+import com.lalaland.ecommerce.data.models.userDetails.UserAddresses;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -18,6 +19,7 @@ public class AppConstants {
     public static List<Category> staticCategoryList = new ArrayList<>();
     public static List<City> staticCitiesList = new ArrayList<>();
     public static List<String> testImagesUrl = new ArrayList<>();
+    public static UserAddresses userAddresses;
 
     public static final String PREF_NAME = "com.lalaland.pk.PREF_NAME";
     public static final String SHARE_CONTENT = "Lalaland.pk";
@@ -26,6 +28,7 @@ public class AppConstants {
     public static final String ACTION_NAME = "action_name";
     public static final String ACTION_ID = "action_id";
     public static final String PRODUCT_ID = "product_id";
+    public static final String CART_ID = "cart_id";
     public static final String IS_WISH_LIST = "is_wish_list";
     public static final String PRODUCT_VARIATION_ID = "product_variation_group_id";
     public static final String QUANTITY = "quantity";
@@ -37,6 +40,9 @@ public class AppConstants {
 
     public static final String SIGN_IN = "SIGN IN";
     public static final String REGISTER = "REGISTER";
+    public static int CASH_TRANSFER_TYPE = 1;
+
+
     public static final String SUCCESS_CODE = "200";
     public static final String VALIDATION_FAIL_CODE = "400";
     public static final String AUTHORIZATION_FAIL_CODE = "401";
@@ -54,9 +60,14 @@ public class AppConstants {
     public static final String ADD_TO_WISH_LIST = "Successfully added to wish list";
     public static final String NO_ITEM_IN_LIST = "No such item is in list.";
     public static final String REMOVE_FROM_WISH_LIST = "Successfully remove from wish list";
+    public static final String ADD_TO_READY_PRODUCT = "Added to list";
+    public static final String REMOVED_FROM_CART = "Removed from cart";
+    public static final String ITEM_SOLD_OUT = "Items sold out";
 
     public static String SIGNIN_TOKEN = "token";
     public static String CART_SESSION_TOKEN = "cart-session";
+    public static final String TAG = "TAG";
+
 
     public static final int TYPE = 1;
     public static final int CONFIRM_TYPE = 2;

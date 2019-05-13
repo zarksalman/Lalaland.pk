@@ -18,8 +18,8 @@ public class LoginViewModel extends AndroidViewModel {
         super(application);
     }
 
-    public LiveData<Login> loginUser(Map<String, String> parameter) {
-        return Repository.getInstance().loginUser(parameter);
+    public LiveData<Login> loginUser(String cart_session, Map<String, String> parameter) {
+        return Repository.getInstance().loginUser(cart_session, parameter);
     }
 
     public LiveData<BasicResponse> logoutUser() {

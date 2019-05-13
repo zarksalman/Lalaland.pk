@@ -28,6 +28,7 @@ import java.util.Map;
 
 import static com.lalaland.ecommerce.helpers.AppConstants.ACCOUNT_CREATION_ERROR;
 import static com.lalaland.ecommerce.helpers.AppConstants.AUTHORIZATION_FAIL_CODE;
+import static com.lalaland.ecommerce.helpers.AppConstants.CART_SESSION_TOKEN;
 import static com.lalaland.ecommerce.helpers.AppConstants.CONFIRM_TYPE;
 import static com.lalaland.ecommerce.helpers.AppConstants.FORM_SIGN_UP;
 import static com.lalaland.ecommerce.helpers.AppConstants.VALIDATION_FAIL_CODE;
@@ -57,10 +58,8 @@ public class SignupFragment extends BaseRegistrationFragment {
     private String gender = "male";
     private String dob = "dob";
 
-    private static final String EMAIL = "email";
-    private static final String PUBLIC_PROFILE = "public_profile";
-
-    private CallbackManager callbackManager;
+    private String token, cart_session;
+    private AppPreference appPreference;
 
     public SignupFragment() {
         // Required empty public constructor
@@ -85,6 +84,10 @@ public class SignupFragment extends BaseRegistrationFragment {
 
         fragmentSignupBinding = DataBindingUtil.inflate(inflater, R.layout.fragment_signup, container, false);
         registrationViewModel = ViewModelProviders.of(this).get(RegistrationViewModel.class);
+
+        appPreference = AppPreference.getInstance(getContext());
+
+        cart_session = appPreference.getString(CART_SESSION_TOKEN);
 
         setClickListeners();
 
@@ -262,7 +265,7 @@ public class SignupFragment extends BaseRegistrationFragment {
 
     private void signUpCallToApi(int signUpType) {
 
-        registrationViewModel.registerUser(parameter, signUpType).observe(this, registrationContainer -> {
+        registrationViewModel.registerUser(cart_session, parameter, signUpType).observe(this, registrationContainer -> {
 
             if (registrationContainer != null) {
 

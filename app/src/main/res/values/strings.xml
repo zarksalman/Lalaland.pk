@@ -144,5 +144,15 @@
     <string name="cash_on_delivery">CASH ON DELIVERY</string>
     <string name="bank_transfer">BANK TRANSFER</string>
     <string name="cash_on_delivery_policy">Cash on delivery is not applicable on order exceeding RS 40,000</string>
+    <string name="checkout">CHECKOUT</string>
+    <string name="cart_empty_state">Please add some products to your cart</string>
+    <string name="add_new_address">Add New Address</string>
+    <string name="select_shipping_address">Select Shipping Address</string>
+    <string name="add_new_add_btn">+ Add new address</string>
+    <string name="default_address">Make this my default address</string>
+    <string name="save">Save</string>
+    <string name="cancel">cancel</string>
+    <string name="postal_code">Postal Code</string>
+    <string name="city">City</string>
 
 </resources>

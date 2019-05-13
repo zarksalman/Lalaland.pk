@@ -20,6 +20,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 import static com.lalaland.ecommerce.helpers.AppConstants.AUTHORIZATION_FAIL_CODE;
+import static com.lalaland.ecommerce.helpers.AppConstants.CART_SESSION_TOKEN;
 import static com.lalaland.ecommerce.helpers.AppConstants.GENERAL_ERROR;
 import static com.lalaland.ecommerce.helpers.AppConstants.SIGNIN_TOKEN;
 import static com.lalaland.ecommerce.helpers.AppConstants.SUCCESS_CODE;
@@ -34,7 +35,11 @@ public class SigninFragment extends BaseRegistrationFragment {
 
     private String emailOrNumber = "";
     private String password = "";
+    private String token = "";
+    private String cart_session = "";
+
     Map<String, String> parameter = new HashMap<>();
+    AppPreference appPreference;
 
     public SigninFragment() {
         // Required empty public constructor
@@ -58,6 +63,10 @@ public class SigninFragment extends BaseRegistrationFragment {
         fragmentSigninBinding = DataBindingUtil.inflate(inflater, R.layout.fragment_signin, container, false);
 
         loginViewModel = ViewModelProviders.of(this).get(LoginViewModel.class);
+
+        appPreference = AppPreference.getInstance(getContext());
+        token = appPreference.getString(SIGNIN_TOKEN);
+        cart_session = appPreference.getString(CART_SESSION_TOKEN);
 
         fragmentSigninBinding.btnSignIn.setOnClickListener(v -> signInWithForm());
         fragmentSigninBinding.btnFbSignIn.setOnClickListener(v -> signInOrSignUpWithFb(fragmentSigninBinding.btFacebookSignin));
@@ -105,7 +114,7 @@ public class SigninFragment extends BaseRegistrationFragment {
 
     private void signInCallToApi() {
 
-        loginViewModel.loginUser(parameter).observe(this, login -> {
+        loginViewModel.loginUser(cart_session, parameter).observe(this, login -> {
 
             if (login != null) {
 

@@ -18,8 +18,8 @@ public class RegistrationViewModel extends AndroidViewModel {
         super(application);
     }
 
-    public LiveData<RegistrationContainer> registerUser(Map<String, String> parameter, int signUpType) {
-        return Repository.getInstance().registerUser(parameter, signUpType);
+    public LiveData<RegistrationContainer> registerUser(String cart_session, Map<String, String> parameter, int signUpType) {
+        return Repository.getInstance().registerUser(cart_session, parameter, signUpType);
     }
 
     public LiveData<BasicResponse> changePassword(Map<String, String> parameter) {

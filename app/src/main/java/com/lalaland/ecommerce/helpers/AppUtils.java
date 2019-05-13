@@ -5,17 +5,12 @@ import android.content.Intent;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.net.Uri;
-import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
 
-import com.lalaland.ecommerce.data.models.actionProducs.ActionProducts;
-
 import java.text.SimpleDateFormat;
-import java.util.ArrayList;
 import java.util.Calendar;
-import java.util.Collections;
 
 import static com.lalaland.ecommerce.helpers.AppConstants.DATE_FORMAT_TEXT;
 
@@ -95,5 +90,11 @@ public class AppUtils {
 
         return "PKR " + price;
     }
+
+    public static String toString(Integer value) {
+
+        return String.valueOf(value);
+    }
+
 
 }

@@ -65,6 +65,7 @@ public class BrandsFocusAdapter extends RecyclerView.Adapter<BrandsFocusAdapter.
     class BrandsFocusViewHolder extends RecyclerView.ViewHolder {
 
         BrandsFocusItemBinding mBrandsFocusItemBinding;
+
         BrandsFocusViewHolder(@NonNull BrandsFocusItemBinding brandsFocusItemBinding) {
             super(brandsFocusItemBinding.getRoot());
 

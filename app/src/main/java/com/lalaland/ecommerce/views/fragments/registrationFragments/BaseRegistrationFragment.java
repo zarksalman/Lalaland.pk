@@ -8,8 +8,11 @@ import android.content.pm.Signature;
 import android.os.Bundle;
 import android.util.Base64;
 import android.util.Log;
+import android.view.View;
 import android.widget.Toast;
 
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.ViewModelProviders;
 
@@ -33,6 +36,7 @@ import java.util.Map;
 
 import static com.lalaland.ecommerce.helpers.AppConstants.ACCOUNT_CREATION_ERROR;
 import static com.lalaland.ecommerce.helpers.AppConstants.AUTHORIZATION_FAIL_CODE;
+import static com.lalaland.ecommerce.helpers.AppConstants.CART_SESSION_TOKEN;
 import static com.lalaland.ecommerce.helpers.AppConstants.FACEBOOK_SIGN_UP_IN;
 import static com.lalaland.ecommerce.helpers.AppConstants.GENERAL_ERROR;
 import static com.lalaland.ecommerce.helpers.AppConstants.VALIDATION_FAIL_CODE;
@@ -53,6 +57,8 @@ public class BaseRegistrationFragment extends Fragment {
     private static final String EMAIL = "email";
     private static final String PUBLIC_PROFILE = "public_profile";
 
+    private String token, cart_session;
+    private AppPreference appPreference;
 
     public BaseRegistrationFragment() {
         // Required empty public constructor
@@ -63,7 +69,15 @@ public class BaseRegistrationFragment extends Fragment {
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
     }
-    
+
+    @Override
+    public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
+        super.onViewCreated(view, savedInstanceState);
+
+        appPreference = AppPreference.getInstance(getContext());
+
+        cart_session = appPreference.getString(CART_SESSION_TOKEN);
+    }
 
     public void signInOrSignUpWithFb(LoginButton loginButton) {
 
@@ -116,7 +130,7 @@ public class BaseRegistrationFragment extends Fragment {
 
         registrationViewModel = ViewModelProviders.of(this).get(RegistrationViewModel.class);
 
-        registrationViewModel.registerUser(parameter, signUpType).observe(this, registrationContainer -> {
+        registrationViewModel.registerUser(cart_session, parameter, signUpType).observe(this, registrationContainer -> {
 
             if (registrationContainer != null) {
 

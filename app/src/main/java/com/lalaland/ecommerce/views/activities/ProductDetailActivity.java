@@ -1,29 +1,19 @@
 package com.lalaland.ecommerce.views.activities;
 
 import android.os.Bundle;
-
-import com.bumptech.glide.Glide;
-import com.google.android.material.floatingactionbutton.FloatingActionButton;
-import com.google.android.material.snackbar.Snackbar;
-
-import androidx.appcompat.app.AppCompatActivity;
-import androidx.appcompat.widget.Toolbar;
-import androidx.databinding.DataBindingUtil;
-import androidx.lifecycle.Observer;
-import androidx.lifecycle.ViewModelProviders;
-
 import android.util.Log;
 import android.view.View;
 import android.widget.Toast;
 
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.databinding.DataBindingUtil;
+import androidx.lifecycle.ViewModelProviders;
+
+import com.bumptech.glide.Glide;
 import com.lalaland.ecommerce.R;
-import com.lalaland.ecommerce.data.models.actionProducs.ActionProducts;
-import com.lalaland.ecommerce.data.models.cart.CartProduct;
-import com.lalaland.ecommerce.data.models.logout.BasicResponse;
 import com.lalaland.ecommerce.data.models.productDetails.ProductDetailDataContainer;
 import com.lalaland.ecommerce.data.models.productDetails.ProductVariation;
 import com.lalaland.ecommerce.databinding.ActivityProductDetailBinding;
-import com.lalaland.ecommerce.helpers.AppConstants;
 import com.lalaland.ecommerce.helpers.AppPreference;
 import com.lalaland.ecommerce.viewModels.products.ProductViewModel;
 
@@ -37,7 +27,6 @@ import static com.lalaland.ecommerce.helpers.AppConstants.CART_SESSION_TOKEN;
 import static com.lalaland.ecommerce.helpers.AppConstants.GENERAL_ERROR;
 import static com.lalaland.ecommerce.helpers.AppConstants.IS_WISH_LIST;
 import static com.lalaland.ecommerce.helpers.AppConstants.ITEM_SOLD;
-import static com.lalaland.ecommerce.helpers.AppConstants.NO_ITEM_IN_LIST;
 import static com.lalaland.ecommerce.helpers.AppConstants.PRODUCT_ID;
 import static com.lalaland.ecommerce.helpers.AppConstants.PRODUCT_STORAGE_BASE_URL;
 import static com.lalaland.ecommerce.helpers.AppConstants.PRODUCT_VARIATION_ID;
@@ -95,6 +84,7 @@ public class ProductDetailActivity extends AppCompatActivity {
         Glide
                 .with(this)
                 .load(productImage)
+                .placeholder(R.drawable.placeholder_products)
                 .into(activityProductDetailBinding.ivProduct);
     }
 
@@ -127,29 +117,6 @@ public class ProductDetailActivity extends AppCompatActivity {
         parameter.put(PRODUCT_ID, String.valueOf(product_id));
         parameter.put(QUANTITY, String.valueOf(quantity));
 
-
-  /*      productViewModel.addToCart(headers, parameter);
-
-        productViewModel.getBasicResponse().observe(this, new Observer<BasicResponse>() {
-            @Override
-            public void onChanged(BasicResponse basicResponse) {
-                if (basicResponse != null) {
-                    if (basicResponse.getCode().equals(SUCCESS_CODE)) {
-                        Toast.makeText(ProductDetailActivity.this, ADD_TO_CART, Toast.LENGTH_SHORT).show();
-                        Log.d("AddToCart", ADD_TO_CART);
-                    } else if (basicResponse.getCode().equals(VALIDATION_FAIL_CODE)) {
-                        Toast.makeText(ProductDetailActivity.this, ITEM_SOLD, Toast.LENGTH_SHORT).show();
-                        Log.d("AddToCart", ITEM_SOLD);
-                    } else {
-                        Toast.makeText(ProductDetailActivity.this, GENERAL_ERROR, Toast.LENGTH_SHORT).show();
-                        Log.d("AddToCart", GENERAL_ERROR);
-                    }
-                } else
-                    Toast.makeText(ProductDetailActivity.this, GENERAL_ERROR, Toast.LENGTH_SHORT).show();
-
-            }
-        });*/
-
         productViewModel.addToCart(headers, parameter).observe(this, basicResponse -> {
 
             if (basicResponse != null) {
@@ -179,33 +146,6 @@ public class ProductDetailActivity extends AppCompatActivity {
 
         parameter.put(PRODUCT_ID, String.valueOf(product_id));
         parameter.put(IS_WISH_LIST, String.valueOf(isAddOrRemove));
-
-     /*   productViewModel.addRemoveToWishList(headers, parameter);
-        // is_wish_list = true to add to list and is_wish_list = false to remove from list
-        productViewModel.getBasicResponse().observe(this, new Observer<BasicResponse>() {
-            @Override
-            public void onChanged(BasicResponse basicResponse) {
-
-                if (basicResponse != null) {
-                    if (basicResponse.getCode().equals(SUCCESS_CODE)) {
-                        if (isAddOrRemove == 1)
-                            Toast.makeText(ProductDetailActivity.this, ADD_TO_WISH_LIST, Toast.LENGTH_SHORT).show();
-                        else
-                            Toast.makeText(ProductDetailActivity.this, REMOVE_FROM_WISH_LIST, Toast.LENGTH_SHORT).show();
-                    } else if (basicResponse.getCode().equals(VALIDATION_FAIL_CODE)) {
-                        if (isAddOrRemove == 1)
-                            Toast.makeText(ProductDetailActivity.this, SERVER_ERROR, Toast.LENGTH_SHORT).show();
-                        else
-                            Toast.makeText(ProductDetailActivity.this, SERVER_ERROR, Toast.LENGTH_SHORT).show();
-                    } else {
-                        Toast.makeText(ProductDetailActivity.this, GENERAL_ERROR, Toast.LENGTH_SHORT).show();
-                    }
-
-                } else
-                    Toast.makeText(ProductDetailActivity.this, GENERAL_ERROR, Toast.LENGTH_SHORT).show();
-
-            }
-        });*/
 
         productViewModel.addRemoveToWishList(headers, parameter1).observe(this, basicResponse -> {
 

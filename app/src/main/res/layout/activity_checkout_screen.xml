@@ -1,178 +1,222 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.core.widget.NestedScrollView
+<layout>
 
-    xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:background="@color/colorScreenBg"
-    tools:context=".views.activities.CheckoutScreen">
-
-    <LinearLayout
+    <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:app="http://schemas.android.com/apk/res-auto"
+        xmlns:tools="http://schemas.android.com/tools"
+        tools:context=".views.activities.CheckoutScreen"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:orientation="vertical">
 
-        <androidx.constraintlayout.widget.ConstraintLayout
+        <LinearLayout
+
+            android:id="@+id/top_bar"
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@android:color/white"
+            android:orientation="horizontal"
+            android:padding="@dimen/_8dp">
+
+            <ImageView
+
+                android:id="@+id/iv_close_checkout_screen"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_vertical"
+                android:src="@drawable/close_icon" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_vertical"
+                android:layout_marginStart="@dimen/_8dp"
+                android:text="@string/cart_items"
+                android:textAlignment="center"
+                android:textColor="@android:color/black"
+                android:textSize="16sp"
+                android:textStyle="bold" />
+        </LinearLayout>
+
+        <androidx.core.widget.NestedScrollView
+
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
             android:background="@color/colorScreenBg">
 
             <LinearLayout
-
-                android:id="@+id/top_bar"
+                android:background="@color/colorScreenBg"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:background="@android:color/white"
-                android:orientation="horizontal"
-                android:padding="@dimen/_8dp"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="parent">
-
-                <ImageView
-
-                    android:id="@+id/iv_close_checkout_screen"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:src="@drawable/close_icon" />
-
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginStart="@dimen/_8dp"
-                    android:text="@string/cart_items"
-                    android:textAlignment="center"
-                    android:textColor="@android:color/black"
-                    android:textSize="16sp"
-                    android:textStyle="bold" />
-            </LinearLayout>
-
-            <LinearLayout
-
-                android:id="@+id/user_detail"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_margin="@dimen/_16dp"
-                android:background="@drawable/bg_round_corner_white"
                 android:orientation="vertical"
-                android:padding="@dimen/_16dp"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/top_bar">
+                android:padding="@dimen/_16dp">
 
-                <TextView
 
-                    android:id="@+id/tv_user_name"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="@dimen/_4dp"
-                    android:textSize="16sp"
-                    tools:text="@tools:sample/full_names" />
+                <LinearLayout
 
-                <TextView
-
-                    android:id="@+id/tv_user_address"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="@dimen/_4dp"
-                    android:textSize="14sp"
-                    tools:text="@tools:sample/full_names" />
-
-                <TextView
-
-                    android:id="@+id/tv_user_city_postal_code"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="@dimen/_4dp"
-                    android:textSize="14sp"
-                    tools:text="@tools:sample/full_names" />
-
-                <TextView
-
-                    android:id="@+id/tv_user_mobile"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="@dimen/_4dp"
-                    android:textSize="14sp"
-                    tools:text="@tools:sample/full_names" />
-
-                <ImageView
+                    android:id="@+id/user_detail"
                     android:layout_width="match_parent"
-                    android:layout_height="1dp"
-                    android:layout_marginTop="@dimen/_8dp"
-                    android:background="@color/colorScreenBg" />
-
-                <TextView
-
-                    android:id="@+id/btn_change_contact_profile"
-                    android:layout_width="@dimen/_160dp"
-                    android:layout_height="@dimen/_35dp"
-                    android:layout_marginTop="@dimen/_8dp"
-                    android:background="@drawable/bg_round_corner_transparent_accent"
-                    android:gravity="center"
-                    android:text="@string/edit_change"
-                    android:textColor="@color/colorAccent" />
-
-            </LinearLayout>
-
-            <LinearLayout
-                android:id="@+id/payment_detail"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_margin="@dimen/_16dp"
-                android:background="@drawable/bg_round_corner_white"
-                android:orientation="vertical"
-                android:padding="@dimen/_16dp"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/user_detail">
-
-                <RadioGroup
-
-                    android:id="@+id/rg_payment_type"
-                    android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:orientation="vertical">
+                    android:background="@drawable/bg_round_corner_light_green"
+                    android:orientation="vertical"
+                    android:padding="@dimen/_16dp"
+                    android:visibility="gone">
 
-                    <RadioButton
+                    <TextView
 
-                        android:id="@+id/rb_cash_on_delivery"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="@string/cash_on_delivery"
-                        android:textColor="@android:color/black" />
-
-                    <RadioButton
-
-                        android:id="@+id/rb_bank_transfer"
+                        android:id="@+id/tv_user_name"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_marginTop="@dimen/_4dp"
-                        android:text="@string/bank_transfer"
-                        android:textColor="@android:color/black" />
-                </RadioGroup>
+                        android:textSize="16sp"
+                        tools:text="@tools:sample/full_names" />
 
-                <TextView
-                    android:layout_width="wrap_content"
+                    <TextView
+
+                        android:id="@+id/tv_user_address"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="@dimen/_4dp"
+                        android:textSize="14sp"
+                        tools:text="@tools:sample/full_names" />
+
+                    <TextView
+
+                        android:id="@+id/tv_user_city_postal_code"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="@dimen/_4dp"
+                        android:textSize="14sp"
+                        tools:text="@tools:sample/full_names" />
+
+                    <TextView
+
+                        android:id="@+id/tv_user_mobile"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="@dimen/_4dp"
+                        android:textSize="14sp"
+                        tools:text="@tools:sample/full_names" />
+
+                    <ImageView
+                        android:layout_width="match_parent"
+                        android:layout_height="1dp"
+                        android:layout_marginTop="@dimen/_8dp"
+                        android:background="@color/colorScreenBg" />
+
+                    <TextView
+
+                        android:id="@+id/btn_change_contact_profile"
+                        android:layout_width="@dimen/_160dp"
+                        android:layout_height="@dimen/_35dp"
+                        android:layout_marginTop="@dimen/_8dp"
+                        android:background="@drawable/bg_round_corner_transparent_accent"
+                        android:gravity="center"
+                        android:text="@string/edit_change"
+                        android:textColor="@color/colorAccent" />
+
+                </LinearLayout>
+
+                <androidx.constraintlayout.widget.ConstraintLayout
+
+                    android:id="@+id/add_user_address"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:background="@drawable/bg_round_corner_white"
+                    android:orientation="vertical"
+                    android:padding="@dimen/_16dp"
+                    android:visibility="visible">
+
+                    <androidx.constraintlayout.widget.Guideline
+                        android:id="@+id/gl_address"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:orientation="vertical"
+                        app:layout_constraintBottom_toBottomOf="parent"
+                        app:layout_constraintGuide_percent=".4"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toTopOf="parent" />
+
+                    <ImageView
+
+                        android:id="@+id/iv_add_address"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginEnd="@dimen/_8dp"
+                        android:src="@drawable/add_circle_icon"
+                        app:layout_constraintBottom_toBottomOf="parent"
+                        app:layout_constraintEnd_toStartOf="@+id/gl_address"
+                        app:layout_constraintTop_toTopOf="parent" />
+
+                    <TextView
+                        android:id="@+id/textView"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="@dimen/_8dp"
+                        android:text="@string/add_new_address"
+                        android:textColor="@android:color/black"
+                        android:textSize="16sp"
+                        app:layout_constraintBottom_toBottomOf="parent"
+                        app:layout_constraintStart_toEndOf="@+id/gl_address"
+                        app:layout_constraintTop_toTopOf="parent" />
+
+                </androidx.constraintlayout.widget.ConstraintLayout>
+
+
+                <LinearLayout
+                    android:id="@+id/payment_detail"
+                    android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="@dimen/_8dp"
-                    android:text="@string/cash_on_delivery_policy"
-                    android:textColor="@android:color/black" />
+                    android:background="@drawable/bg_round_corner_white"
+                    android:orientation="vertical"
+                    android:padding="@dimen/_16dp"
+                    android:visibility="visible">
+
+                    <RadioGroup
+
+                        android:id="@+id/rg_payment_type"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:orientation="vertical">
+
+                        <RadioButton
+
+                            android:id="@+id/rb_cash_on_delivery"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="@string/cash_on_delivery"
+                            android:textColor="@android:color/black" />
+
+                        <RadioButton
+
+                            android:id="@+id/rb_bank_transfer"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="@dimen/_4dp"
+                            android:text="@string/bank_transfer"
+                            android:textColor="@android:color/black" />
+                    </RadioGroup>
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="@dimen/_8dp"
+                        android:text="@string/cash_on_delivery_policy"
+                        android:textColor="@android:color/black" />
+                </LinearLayout>
+
+                <androidx.recyclerview.widget.RecyclerView
+
+                    android:id="@+id/rv_cart_products"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/payment_detail"
+                    tools:listitem="@layout/cart_products" />
+
             </LinearLayout>
-
-            <androidx.recyclerview.widget.RecyclerView
-
-                android:id="@+id/rv_cart_products"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/payment_detail"
-                tools:listitem="@layout/cart_products" />
-
-        </androidx.constraintlayout.widget.ConstraintLayout>
+        </androidx.core.widget.NestedScrollView>
     </LinearLayout>
-</androidx.core.widget.NestedScrollView>
-
+</layout>
