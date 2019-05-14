@@ -4,7 +4,7 @@ import android.content.Context;
 
 import com.lalaland.ecommerce.data.models.category.Category;
 import com.lalaland.ecommerce.data.models.category.City;
-import com.lalaland.ecommerce.data.models.userDetails.UserAddresses;
+import com.lalaland.ecommerce.data.models.userAddressBook.UserAddresses;
 
 import java.util.ArrayList;
 import java.util.List;

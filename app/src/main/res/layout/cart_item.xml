@@ -83,6 +83,7 @@
                 tools:text="@tools:sample/lorem/random" />
 
             <LinearLayout
+                android:id="@+id/counter_container"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:orientation="horizontal">
@@ -122,7 +123,7 @@
             android:id="@+id/tv_product_current_price"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="@{cartItem.salePrice}"
+            android:text="@{AppUtils.formatPriceString(cartItem.salePrice)}"
             android:textColor="@android:color/holo_red_dark"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintTop_toTopOf="@+id/info_container"

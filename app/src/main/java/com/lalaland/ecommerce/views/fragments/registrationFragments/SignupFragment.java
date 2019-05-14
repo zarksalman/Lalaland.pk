@@ -15,7 +15,6 @@ import android.widget.Toast;
 import androidx.databinding.DataBindingUtil;
 import androidx.lifecycle.ViewModelProviders;
 
-import com.facebook.CallbackManager;
 import com.lalaland.ecommerce.R;
 import com.lalaland.ecommerce.databinding.FragmentSignupBinding;
 import com.lalaland.ecommerce.helpers.AppPreference;
@@ -31,21 +30,21 @@ import static com.lalaland.ecommerce.helpers.AppConstants.AUTHORIZATION_FAIL_COD
 import static com.lalaland.ecommerce.helpers.AppConstants.CART_SESSION_TOKEN;
 import static com.lalaland.ecommerce.helpers.AppConstants.CONFIRM_TYPE;
 import static com.lalaland.ecommerce.helpers.AppConstants.FORM_SIGN_UP;
-import static com.lalaland.ecommerce.helpers.AppConstants.VALIDATION_FAIL_CODE;
 import static com.lalaland.ecommerce.helpers.AppConstants.NO_NETWORK;
 import static com.lalaland.ecommerce.helpers.AppConstants.PASSWORD;
 import static com.lalaland.ecommerce.helpers.AppConstants.SIGNIN_TOKEN;
 import static com.lalaland.ecommerce.helpers.AppConstants.SUCCESS_CODE;
 import static com.lalaland.ecommerce.helpers.AppConstants.TYPE;
+import static com.lalaland.ecommerce.helpers.AppConstants.VALIDATION_FAIL_CODE;
 import static com.lalaland.ecommerce.helpers.AppConstants.WRONG_CREDENTIAL;
 import static com.lalaland.ecommerce.helpers.AppUtils.isNetworkAvailable;
 
 
 public class SignupFragment extends BaseRegistrationFragment {
 
+    final Calendar dobCalender = Calendar.getInstance();
     private FragmentSignupBinding fragmentSignupBinding;
     private RegistrationViewModel registrationViewModel;
-    final Calendar dobCalender = Calendar.getInstance();
     private Map<String, String> parameter = new HashMap<>();
 
     private String email = "";

@@ -5,6 +5,7 @@ import android.util.SparseBooleanArray;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.CompoundButton;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
@@ -42,6 +43,14 @@ public class CartItemsAdapter extends RecyclerView.Adapter<CartItemsAdapter.Cart
     public CartItemViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
 
         cartItemBinding = DataBindingUtil.inflate(inflater, R.layout.cart_item, parent, false);
+
+        // for testing now
+        if (mContext.getClass().getSimpleName().equals("CheckoutScreen")) {
+            cartItemBinding.ivDeleteItem.setVisibility(View.GONE);
+            cartItemBinding.cbAddToList.setVisibility(View.GONE);
+            cartItemBinding.counterContainer.setVisibility(View.GONE);
+        }
+
         return new CartItemViewHolder(cartItemBinding);
     }
 
@@ -52,9 +61,6 @@ public class CartItemsAdapter extends RecyclerView.Adapter<CartItemsAdapter.Cart
             CartItem cartItem = mCartItems.get(position);
             holder.bindHolder(cartItem);
 
-            cartItemBinding.ivDeleteItem.setOnClickListener(v -> {
-                mCartClickListener.deleteFromCart(cartItem.getCartId(), position);
-            });
         }
     }
 
@@ -105,14 +111,28 @@ public class CartItemsAdapter extends RecyclerView.Adapter<CartItemsAdapter.Cart
             mCartItemBinding.setCartItem(cartItem);
             mCartItemBinding.setAdapter(CartItemsAdapter.this);
             mCartItemBinding.executePendingBindings();
+
+            mCartItemBinding.cbAddToList.setChecked(itemStateArray.get(getAdapterPosition(), false));
+
+            mCartItemBinding.ivDeleteItem.setOnClickListener(v -> {
+                mCartClickListener.deleteFromCart(cartItem);
+            });
+
+            mCartItemBinding.cbAddToList.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+                @Override
+                public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+                    itemStateArray.put(getAdapterPosition(), isChecked);
+                    mCartClickListener.addItemToList(cartItem);
+                }
+            });
         }
     }
 
     public interface CartClickListener {
 
-        void addItemToList(int cart_id);
+        void addItemToList(CartItem cartItem);
 
-        void deleteFromCart(int cart_id, int itemPosition);
+        void deleteFromCart(CartItem cartItem);
 
         void changeNumberOfCount(CartItem cartItem, int quantity);
     }

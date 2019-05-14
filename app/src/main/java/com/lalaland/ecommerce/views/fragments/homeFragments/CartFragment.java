@@ -16,14 +16,13 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import com.lalaland.ecommerce.R;
 import com.lalaland.ecommerce.adapters.CartItemsAdapter;
 import com.lalaland.ecommerce.data.models.cart.CartItem;
-import com.lalaland.ecommerce.data.models.userDetails.UserAddresses;
 import com.lalaland.ecommerce.databinding.FragmentCartBinding;
 import com.lalaland.ecommerce.helpers.AppConstants;
 import com.lalaland.ecommerce.helpers.AppPreference;
 import com.lalaland.ecommerce.viewModels.products.ProductViewModel;
 import com.lalaland.ecommerce.views.activities.CheckoutScreen;
+import com.lalaland.ecommerce.views.activities.RegistrationActivity;
 
-import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -46,7 +45,6 @@ public class CartFragment extends Fragment implements View.OnClickListener, Cart
     private ProductViewModel productViewModel;
     private AppPreference appPreference;
     private List<CartItem> cartItemList = new ArrayList<>();
-    private UserAddresses userAddresses;
     private Map<String, String> parameter = new HashMap<>();
     private Map<String, String> headers = new HashMap<>();
     private String token, cart_session;
@@ -96,7 +94,8 @@ public class CartFragment extends Fragment implements View.OnClickListener, Cart
 
                     if (cartContainer.getCode().equals(SUCCESS_CODE)) {
                         cartItemList = cartContainer.getData().getCartItems();
-                        userAddresses = cartContainer.getData().getUserAddresses();
+                        AppConstants.userAddresses = cartContainer.getData().getUserAddresses();
+                        //userAddress = cartContainer.getData().getUserAddresses();
                         setCartAdapter();
                         Log.d(TAG, String.valueOf(cartContainer.getData().getCartItems().size()));
                     } else
@@ -115,7 +114,7 @@ public class CartFragment extends Fragment implements View.OnClickListener, Cart
 
                     if (cartContainer.getCode().equals(SUCCESS_CODE)) {
                         cartItemList = cartContainer.getData().getCartItems();
-                        userAddresses = cartContainer.getData().getUserAddresses();
+                        AppConstants.userAddresses = cartContainer.getData().getUserAddresses();
 
                         setCartAdapter();
                         Log.d(TAG, String.valueOf(cartContainer.getData().getCartItems().size()));
@@ -142,7 +141,6 @@ public class CartFragment extends Fragment implements View.OnClickListener, Cart
             fragmentCartBinding.btnCheckout.setOnClickListener(this);
         }
 
-        fragmentCartBinding.rvCartItems.setHasFixedSize(true);
         cartItemsAdapter = new CartItemsAdapter(getContext(), this);
         fragmentCartBinding.rvCartItems.setLayoutManager(new LinearLayoutManager(getContext()));
         fragmentCartBinding.rvCartItems.setAdapter(cartItemsAdapter);
@@ -151,16 +149,22 @@ public class CartFragment extends Fragment implements View.OnClickListener, Cart
     }
 
     @Override
-    public void addItemToList(int cart_id) {
+    public void addItemToList(CartItem cartItem) {
 
         parameter.clear();
-        parameter.put(CART_ID, String.valueOf(cart_id));
+        parameter.put(CART_ID, String.valueOf(cartItemList.indexOf(cartItem)));
+        boolean isSelected = cartItem.getSelected();
 
         productViewModel.addToReadyCartList(headers, parameter).observe(this, basicResponse ->
         {
             if (basicResponse != null) {
                 if (basicResponse.getCode().equals(SUCCESS_CODE)) {
                     Toast.makeText(getContext(), ADD_TO_READY_PRODUCT, Toast.LENGTH_SHORT).show();
+
+                    cartItemList.get(cartItemList.indexOf(cartItem)).setSelected(!isSelected);
+                    cartItemsAdapter.setData(cartItemList);
+
+
                 } else {
                     Toast.makeText(getContext(), GENERAL_ERROR, Toast.LENGTH_SHORT).show();
                 }
@@ -171,10 +175,10 @@ public class CartFragment extends Fragment implements View.OnClickListener, Cart
     }
 
     @Override
-    public void deleteFromCart(int cart_id, int cartItemPosition) {
+    public void deleteFromCart(CartItem cartItem) {
 
         parameter.clear();
-        parameter.put(CART_ID, String.valueOf(cart_id));
+        parameter.put(CART_ID, String.valueOf(cartItem.getCartId()));
         parameter.put("is_delete_all", String.valueOf(0));
 
         fragmentCartBinding.pbLoading.setVisibility(View.VISIBLE);
@@ -201,6 +205,7 @@ public class CartFragment extends Fragment implements View.OnClickListener, Cart
     @Override
     public void changeNumberOfCount(CartItem cartItem, int quantity) {
 
+        fragmentCartBinding.pbLoading.setVisibility(View.VISIBLE);
         parameter.clear();
         parameter.put(CART_ID, String.valueOf(cartItem.getCartId()));
         parameter.put(QUANTITY, String.valueOf(quantity));
@@ -210,7 +215,11 @@ public class CartFragment extends Fragment implements View.OnClickListener, Cart
             if (basicResponse != null) {
                 if (basicResponse.getCode().equals(SUCCESS_CODE)) {
 
-                    getCartItems();
+                    //    getCartItems();
+
+                    cartItemList.get(cartItemList.indexOf(cartItem)).setItemQuantity(quantity);
+                    cartItemsAdapter.setData(cartItemList);
+
                     Toast.makeText(getContext(), basicResponse.getMsg(), Toast.LENGTH_SHORT).show();
                 } else if (basicResponse.getCode().equals(VALIDATION_FAIL_CODE)) {
                     Toast.makeText(getContext(), basicResponse.getMsg(), Toast.LENGTH_SHORT).show();
@@ -220,6 +229,8 @@ public class CartFragment extends Fragment implements View.OnClickListener, Cart
             } else
                 Toast.makeText(getContext(), GENERAL_ERROR, Toast.LENGTH_SHORT).show();
         });
+
+        fragmentCartBinding.pbLoading.setVisibility(View.GONE);
     }
 
     @Override
@@ -232,10 +243,16 @@ public class CartFragment extends Fragment implements View.OnClickListener, Cart
                 Log.d(TAG, "Checkout");
 
                 if (getContext() != null) {
-                    Intent intent = new Intent(getContext(), CheckoutScreen.class);
-//                    intent.putExtra("address", (Serializable) userAddresses);
-                       AppConstants.userAddresses = userAddresses;
+
+                    Intent intent;
+
+                    if (token != null && !token.isEmpty())
+                        intent = new Intent(getContext(), CheckoutScreen.class);
+                    else
+                        intent = new Intent(getContext(), RegistrationActivity.class);
+
                     getContext().startActivity(intent);
+
                 }
                 break;
         }

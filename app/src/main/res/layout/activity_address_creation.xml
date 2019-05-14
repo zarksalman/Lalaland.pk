@@ -34,6 +34,7 @@
                 android:id="@+id/iv_close_checkout_screen"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:onClick="@{(view)->clickListener.cancel(view)}"
                 android:layout_gravity="center_vertical"
                 android:src="@drawable/close_icon" />
 
@@ -58,7 +59,7 @@
             android:scrollbars="none"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent">
+            app:layout_constraintTop_toBottomOf="@+id/top_bar">
 
             <LinearLayout
                 android:layout_width="match_parent"
@@ -108,7 +109,6 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:padding="4dp"
-                    app:counterEnabled="true"
                     app:errorEnabled="true">
 
                     <com.google.android.material.textfield.TextInputEditText
@@ -117,7 +117,7 @@
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:hint="@string/add_new_address"
-                        android:inputType="text" />
+                        android:inputType="textPostalAddress" />
 
                 </com.google.android.material.textfield.TextInputLayout>
 
@@ -135,7 +135,7 @@
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:hint="@string/postal_code"
-                        android:inputType="textEmailAddress" />
+                        android:inputType="number" />
 
                 </com.google.android.material.textfield.TextInputLayout>
 
@@ -153,7 +153,7 @@
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:hint="@string/city"
-                        android:inputType="textEmailAddress" />
+                        android:inputType="textPostalAddress" />
 
                 </com.google.android.material.textfield.TextInputLayout>
             </LinearLayout>
@@ -213,6 +213,7 @@
             android:layout_height="wrap_content"
             android:orientation="horizontal"
             android:padding="@dimen/_8dp"
+            android:background="@android:color/white"
             android:weightSum="1"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
@@ -226,6 +227,7 @@
                 android:layout_weight=".5"
                 android:background="@drawable/bg_round_corner_white"
                 android:text="@string/cancel"
+                android:onClick="@{(view)->clickListener.cancel(view)}"
                 android:textColor="@android:color/black" />
 
             <Button
@@ -235,6 +237,7 @@
                 android:layout_height="wrap_content"
                 android:layout_weight=".5"
                 android:background="@drawable/btn_bg_round_corner_accent"
+                android:onClick="@{(view)->clickListener.save(view)}"
                 android:text="@string/save"
                 android:textColor="@android:color/white" />
         </LinearLayout>

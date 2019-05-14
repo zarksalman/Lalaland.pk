@@ -1,7 +1,18 @@
 <?xml version="1.0" encoding="utf-8"?>
 <layout>
 
-    <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    <data>
+
+        <import type="android.view.View" />
+
+        <variable
+            name="clickListener"
+            type="com.lalaland.ecommerce.views.activities.CheckoutScreen" />
+    </data>
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+
+        xmlns:android="http://schemas.android.com/apk/res/android"
         xmlns:app="http://schemas.android.com/apk/res-auto"
         xmlns:tools="http://schemas.android.com/tools"
         tools:context=".views.activities.CheckoutScreen"
@@ -12,10 +23,14 @@
         <LinearLayout
 
             android:id="@+id/top_bar"
-            android:layout_width="match_parent"
+            android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:background="@android:color/white"
             android:orientation="horizontal"
+            android:visibility="visible"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
             android:padding="@dimen/_8dp">
 
             <ImageView
@@ -38,185 +53,230 @@
                 android:textStyle="bold" />
         </LinearLayout>
 
-        <androidx.core.widget.NestedScrollView
+        <LinearLayout
 
-            android:layout_width="match_parent"
+            android:id="@+id/address_container"
+            android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:background="@color/colorScreenBg">
+            android:layout_margin="@dimen/_8dp"
+            android:orientation="vertical"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/top_bar">
 
-            <LinearLayout
-                android:background="@color/colorScreenBg"
+            <androidx.constraintlayout.widget.ConstraintLayout
+
+                android:id="@+id/add_user_address"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:background="@drawable/bg_round_corner_white"
                 android:orientation="vertical"
-                android:padding="@dimen/_16dp">
+                android:padding="@dimen/_16dp"
+                android:visibility="visible"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent">
 
-
-                <LinearLayout
-
-                    android:id="@+id/user_detail"
-                    android:layout_width="match_parent"
+                <androidx.constraintlayout.widget.Guideline
+                    android:id="@+id/gl_address"
+                    android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:background="@drawable/bg_round_corner_light_green"
                     android:orientation="vertical"
-                    android:padding="@dimen/_16dp"
-                    android:visibility="gone">
-
-                    <TextView
-
-                        android:id="@+id/tv_user_name"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_marginTop="@dimen/_4dp"
-                        android:textSize="16sp"
-                        tools:text="@tools:sample/full_names" />
-
-                    <TextView
-
-                        android:id="@+id/tv_user_address"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_marginTop="@dimen/_4dp"
-                        android:textSize="14sp"
-                        tools:text="@tools:sample/full_names" />
-
-                    <TextView
-
-                        android:id="@+id/tv_user_city_postal_code"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_marginTop="@dimen/_4dp"
-                        android:textSize="14sp"
-                        tools:text="@tools:sample/full_names" />
-
-                    <TextView
-
-                        android:id="@+id/tv_user_mobile"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_marginTop="@dimen/_4dp"
-                        android:textSize="14sp"
-                        tools:text="@tools:sample/full_names" />
-
-                    <ImageView
-                        android:layout_width="match_parent"
-                        android:layout_height="1dp"
-                        android:layout_marginTop="@dimen/_8dp"
-                        android:background="@color/colorScreenBg" />
-
-                    <TextView
-
-                        android:id="@+id/btn_change_contact_profile"
-                        android:layout_width="@dimen/_160dp"
-                        android:layout_height="@dimen/_35dp"
-                        android:layout_marginTop="@dimen/_8dp"
-                        android:background="@drawable/bg_round_corner_transparent_accent"
-                        android:gravity="center"
-                        android:text="@string/edit_change"
-                        android:textColor="@color/colorAccent" />
-
-                </LinearLayout>
-
-                <androidx.constraintlayout.widget.ConstraintLayout
-
-                    android:id="@+id/add_user_address"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:background="@drawable/bg_round_corner_white"
-                    android:orientation="vertical"
-                    android:padding="@dimen/_16dp"
-                    android:visibility="visible">
-
-                    <androidx.constraintlayout.widget.Guideline
-                        android:id="@+id/gl_address"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:orientation="vertical"
-                        app:layout_constraintBottom_toBottomOf="parent"
-                        app:layout_constraintGuide_percent=".4"
-                        app:layout_constraintStart_toStartOf="parent"
-                        app:layout_constraintTop_toTopOf="parent" />
-
-                    <ImageView
-
-                        android:id="@+id/iv_add_address"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_marginEnd="@dimen/_8dp"
-                        android:src="@drawable/add_circle_icon"
-                        app:layout_constraintBottom_toBottomOf="parent"
-                        app:layout_constraintEnd_toStartOf="@+id/gl_address"
-                        app:layout_constraintTop_toTopOf="parent" />
-
-                    <TextView
-                        android:id="@+id/textView"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_marginStart="@dimen/_8dp"
-                        android:text="@string/add_new_address"
-                        android:textColor="@android:color/black"
-                        android:textSize="16sp"
-                        app:layout_constraintBottom_toBottomOf="parent"
-                        app:layout_constraintStart_toEndOf="@+id/gl_address"
-                        app:layout_constraintTop_toTopOf="parent" />
-
-                </androidx.constraintlayout.widget.ConstraintLayout>
-
-
-                <LinearLayout
-                    android:id="@+id/payment_detail"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="@dimen/_8dp"
-                    android:background="@drawable/bg_round_corner_white"
-                    android:orientation="vertical"
-                    android:padding="@dimen/_16dp"
-                    android:visibility="visible">
-
-                    <RadioGroup
-
-                        android:id="@+id/rg_payment_type"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:orientation="vertical">
-
-                        <RadioButton
-
-                            android:id="@+id/rb_cash_on_delivery"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:text="@string/cash_on_delivery"
-                            android:textColor="@android:color/black" />
-
-                        <RadioButton
-
-                            android:id="@+id/rb_bank_transfer"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:layout_marginTop="@dimen/_4dp"
-                            android:text="@string/bank_transfer"
-                            android:textColor="@android:color/black" />
-                    </RadioGroup>
-
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_marginTop="@dimen/_8dp"
-                        android:text="@string/cash_on_delivery_policy"
-                        android:textColor="@android:color/black" />
-                </LinearLayout>
-
-                <androidx.recyclerview.widget.RecyclerView
-
-                    android:id="@+id/rv_cart_products"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintGuide_percent=".4"
                     app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@+id/payment_detail"
-                    tools:listitem="@layout/cart_products" />
+                    app:layout_constraintTop_toTopOf="parent" />
+
+                <ImageView
+
+                    android:id="@+id/iv_add_address"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginEnd="@dimen/_8dp"
+                    android:clickable="true"
+                    android:focusable="true"
+                    android:onClick="@{(view)->clickListener.addNewAddress(view)}"
+                    android:src="@drawable/add_circle_icon"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintEnd_toStartOf="@+id/gl_address"
+                    app:layout_constraintTop_toTopOf="parent" />
+
+                <TextView
+                    android:id="@+id/textView"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="@dimen/_8dp"
+                    android:text="@string/add_new_address"
+                    android:textColor="@android:color/black"
+                    android:textSize="16sp"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintStart_toEndOf="@+id/gl_address"
+                    app:layout_constraintTop_toTopOf="parent" />
+
+            </androidx.constraintlayout.widget.ConstraintLayout>
+
+            <LinearLayout
+
+                android:id="@+id/user_detail"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@drawable/bg_round_corner_white"
+                android:orientation="vertical"
+                android:padding="@dimen/_16dp"
+                android:visibility="gone">
+
+                <TextView
+
+                    android:id="@+id/tv_user_name"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/_4dp"
+                    android:textSize="16sp"
+                    tools:text="@tools:sample/full_names" />
+
+                <TextView
+
+                    android:id="@+id/tv_user_address"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/_4dp"
+                    android:textSize="14sp"
+                    tools:text="@tools:sample/full_names" />
+
+                <TextView
+
+                    android:id="@+id/tv_user_city_postal_code"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/_4dp"
+                    android:textSize="14sp"
+                    tools:text="@tools:sample/full_names" />
+
+                <TextView
+
+                    android:id="@+id/tv_user_mobile"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/_4dp"
+                    android:textSize="14sp"
+                    tools:text="@tools:sample/full_names" />
+
+                <ImageView
+                    android:layout_width="match_parent"
+                    android:layout_height="1dp"
+                    android:layout_marginTop="@dimen/_8dp"
+                    android:background="@color/colorScreenBg" />
+
+                <TextView
+
+                    android:id="@+id/btn_change_contact_profile"
+                    android:layout_width="@dimen/_160dp"
+                    android:layout_height="@dimen/_35dp"
+                    android:layout_marginTop="@dimen/_8dp"
+                    android:background="@drawable/bg_round_corner_transparent_accent"
+                    android:gravity="center"
+                    android:text="@string/edit_change"
+                    android:textColor="@color/colorAccent" />
 
             </LinearLayout>
-        </androidx.core.widget.NestedScrollView>
-    </LinearLayout>
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/payment_detail"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/_8dp"
+            android:background="@drawable/bg_round_corner_light_green"
+            android:orientation="vertical"
+            android:padding="@dimen/_16dp"
+            android:visibility="visible"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/address_container">
+
+            <RadioGroup
+
+                android:id="@+id/rg_payment_type"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:orientation="vertical">
+
+                <RadioButton
+
+                    android:id="@+id/rb_cash_on_delivery"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:checked="true"
+                    android:text="@string/cash_on_delivery"
+                    android:textColor="@android:color/black" />
+
+                <RadioButton
+
+                    android:id="@+id/rb_bank_transfer"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/_4dp"
+                    android:text="@string/bank_transfer"
+                    android:textColor="@android:color/black" />
+            </RadioGroup>
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/_8dp"
+                android:text="@string/cash_on_delivery_policy"
+                android:textColor="@android:color/black" />
+        </LinearLayout>
+
+        <androidx.recyclerview.widget.RecyclerView
+
+            android:id="@+id/rv_cart_products"
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            app:layout_constraintBottom_toTopOf="@+id/bottom_bar"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/payment_detail"
+            app:layout_constraintVertical_bias="0"
+            tools:listitem="@layout/cart_products" />
+
+
+        <LinearLayout
+
+            android:id="@+id/bottom_bar"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@android:color/white"
+            android:orientation="horizontal"
+            android:weightSum="1"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent">
+
+            <TextView
+
+                android:id="@+id/tv_total_balance"
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight=".5"
+                android:gravity="center"
+                android:textAppearance="@style/TextAppearance.AppCompat.Medium"
+                android:textColor="@color/colorAccent"
+                android:textSize="16sp"
+                tools:text="@tools:sample/us_zipcodes" />
+
+            <Button
+
+                android:id="@+id/btn_checkout"
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight=".5"
+                android:background="@color/colorAccent"
+                android:text="@string/checkout"
+                android:textColor="@android:color/white"
+                android:textSize="14sp" />
+
+        </LinearLayout>
+    </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>

@@ -10,6 +10,7 @@ import com.lalaland.ecommerce.data.models.logout.BasicResponse;
 import com.lalaland.ecommerce.data.models.productDetails.ProductDetailDataContainer;
 import com.lalaland.ecommerce.data.models.products.ProductContainer;
 import com.lalaland.ecommerce.data.models.registration.RegistrationContainer;
+import com.lalaland.ecommerce.data.models.userAddressBook.AddressDataContainer;
 
 import java.util.Map;
 
@@ -71,6 +72,10 @@ public interface LalalandServiceApi {
 
     @POST("register")
     Call<RegistrationContainer> registerUser(@QueryMap Map<String, String> parameters);
+
+
+    @POST("addAddress")
+    Call<AddressDataContainer> addNewAddress(@Header("token") String cart_session, @QueryMap Map<String, String> parameter);
 
     @POST("login")
     Call<Login> loginUser(@Header("cart-session") String cart_session, @QueryMap Map<String, String> parameters);

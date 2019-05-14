@@ -1,9 +1,10 @@
 package com.lalaland.ecommerce.data.models.cart;
 
-import java.util.List;
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
-import com.lalaland.ecommerce.data.models.userDetails.UserAddresses;
+import com.lalaland.ecommerce.data.models.userAddressBook.UserAddresses;
+
+import java.util.List;
 
 public class CartData {
 
@@ -22,11 +23,11 @@ public void setCartItems(List<CartItem> cartItems) {
 this.cartItems = cartItems;
 }
 
-public UserAddresses getUserAddresses() {
-return userAddresses;
-}
+    public UserAddresses getUserAddresses() {
+        return userAddresses;
+    }
 
-public void setUserAddresses(UserAddresses userAddresses) {
+    public void setUserAddresses(UserAddresses userAddresses) {
 this.userAddresses = userAddresses;
 }
 

@@ -99,12 +99,13 @@ public class HomeFragment extends Fragment implements ActionAdapter.ActionClickL
                 featuredBrandList = new ArrayList<>();
                 picksOfTheWeekList = new ArrayList<>();
 
+
                 bannerList.addAll(homeDataContainer.getHomeData().getHomeBanners());
                 actionsList.addAll(homeDataContainer.getHomeData().getactions());
                 recommendationList.addAll(homeDataContainer.getHomeData().getRecommendation());
                 featuredBrandList.addAll(homeDataContainer.getHomeData().getFeaturedBrands());
                 picksOfTheWeekList.addAll(homeDataContainer.getHomeData().getPicksOfTheWeek());
-
+                
                 setBannerSlider();
                 setActions();
                 setPickOfTheWeek();

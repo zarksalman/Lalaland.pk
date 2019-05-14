@@ -86,7 +86,7 @@ public class AppUtils {
         return name.replace(" ", "\n");
     }
 
-    public static String formatString(String price) {
+    public static String formatPriceString(String price) {
 
         return "PKR " + price;
     }

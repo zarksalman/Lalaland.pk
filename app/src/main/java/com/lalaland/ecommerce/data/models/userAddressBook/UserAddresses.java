@@ -1,4 +1,4 @@
-package com.lalaland.ecommerce.data.models.userDetails;
+package com.lalaland.ecommerce.data.models.userAddressBook;
 
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;

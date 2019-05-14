@@ -78,7 +78,7 @@
             android:id="@+id/tv_product_sale_price"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="@{AppUtils.formatString(recommendation.salePrice)}"
+            android:text="@{AppUtils.formatPriceString(recommendation.salePrice)}"
             android:textColor="@{recommendation.salePrice == recommendation.actualPrice? @android:color/black : @android:color/holo_red_dark}"
             android:textSize="12sp"
             app:layout_constraintEnd_toEndOf="parent"
@@ -91,7 +91,7 @@
             android:id="@+id/tv_product_actual_price"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="@{AppUtils.formatString(recommendation.actualPrice)}"
+            android:text="@{AppUtils.formatPriceString(recommendation.actualPrice)}"
             android:textColor="@android:color/black"
             android:textSize="12sp"
             android:visibility="@{recommendation.salePrice == recommendation.actualPrice ? View.GONE : View.VISIBLE}"
@@ -99,65 +99,5 @@
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/tv_product_sale_price"
             tools:text="@tools:sample/us_zipcodes" />
-        <!-- <LinearLayout
-
-             android:id="@+id/info_container"
-             android:layout_width="0dp"
-             android:layout_height="wrap_content"
-             android:orientation="vertical"
-             app:layout_constraintBottom_toBottomOf="parent"
-             app:layout_constraintEnd_toEndOf="parent"
-             app:layout_constraintStart_toStartOf="parent"
-             app:layout_constraintTop_toBottomOf="@+id/iv_product">
-
-             <TextView
-
-                 android:id="@+id/tv_brand_name"
-                 android:layout_width="wrap_content"
-                 android:layout_height="wrap_content"
-                 android:ellipsize="end"
-                 android:maxLength="15"
-                 android:maxLines="1"
-                 android:text="@{recommendation.brandName}"
-                 android:textColor="@android:color/black"
-                 android:textSize="14sp"
-                 android:textStyle="bold"
-                 tools:text="@tools:sample/full_names" />
-
-             <TextView
-
-                 android:id="@+id/tv_product_name"
-                 android:layout_width="wrap_content"
-                 android:layout_height="wrap_content"
-                 android:ellipsize="end"
-                 android:maxLength="20"
-                 android:maxLines="1"
-                 android:text="@{recommendation.name}"
-                 android:textColor="@android:color/black"
-                 android:textSize="12sp"
-                 tools:text="@tools:sample/lorem/random" />
-
-             <TextView
-
-                 android:id="@+id/tv_product_sale_price"
-                 android:layout_width="wrap_content"
-                 android:layout_height="wrap_content"
-                 android:text="@{AppUtils.formatString(recommendation.salePrice)}"
-                 android:textColor="@{recommendation.salePrice == recommendation.actualPrice? @android:color/black : @android:color/holo_red_dark}"
-                 android:textSize="14sp"
-                 tools:text="@tools:sample/us_zipcodes" />
-
-             <TextView
-
-                 android:id="@+id/tv_product_actual_price"
-                 android:layout_width="wrap_content"
-                 android:layout_height="wrap_content"
-                 android:text="@{AppUtils.formatString(recommendation.actualPrice)}"
-                 android:textColor="@android:color/black"
-                 android:textSize="12sp"
-                 android:visibility="@{recommendation.salePrice == recommendation.actualPrice ? View.GONE : View.VISIBLE}"
-                 tools:text="@tools:sample/us_zipcodes" />
-
-         </LinearLayout>-->
     </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>
