@@ -5,11 +5,8 @@ import android.util.Log;
 import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MutableLiveData;
 
-import com.lalaland.ecommerce.data.models.actionProducs.ActionProducts;
-import com.lalaland.ecommerce.data.models.actionProducs.ActionProductsContainer;
 import com.lalaland.ecommerce.data.models.login.Login;
 import com.lalaland.ecommerce.data.models.logout.BasicResponse;
-import com.lalaland.ecommerce.data.models.products.ProductContainer;
 import com.lalaland.ecommerce.data.models.registration.RegistrationContainer;
 import com.lalaland.ecommerce.data.retrofit.LalalandServiceApi;
 import com.lalaland.ecommerce.data.retrofit.RetrofitClient;
@@ -28,7 +25,7 @@ import static com.lalaland.ecommerce.helpers.AppConstants.FACEBOOK_SIGN_UP_IN;
 import static com.lalaland.ecommerce.helpers.AppConstants.FORM_SIGN_UP;
 import static com.lalaland.ecommerce.helpers.AppConstants.GOOGLE_SIGN_UP_IN;
 import static com.lalaland.ecommerce.helpers.AppConstants.SIGNIN_TOKEN;
-import static com.lalaland.ecommerce.helpers.AppConstants.SUCCESS_CODE;
+import static com.lalaland.ecommerce.helpers.AppConstants.userData2;
 
 public class Repository {
 
@@ -74,17 +71,18 @@ public class Repository {
             @Override
             public void onResponse(Call<Login> call, Response<Login> response) {
 
-                if (!response.isSuccessful()) {
+                if (response.isSuccessful()) {
+
+                    loginMutableLiveData.postValue(response.body());
+                    Headers headers = response.headers();
+                    AppPreference.getInstance(AppConstants.mContext).setString(SIGNIN_TOKEN, headers.get(SIGNIN_TOKEN));
+                    AppPreference.getInstance(AppConstants.mContext).setString(CART_SESSION_TOKEN, ""); // if login successfully then discard cart session token
+
+                    checkResponseSource(response);
+                } else {
                     loginMutableLiveData.postValue(null);
-                    return;
                 }
 
-                loginMutableLiveData.postValue(response.body());
-                Headers headers = response.headers();
-                AppPreference.getInstance(AppConstants.mContext).setString(SIGNIN_TOKEN, headers.get(SIGNIN_TOKEN));
-                AppPreference.getInstance(AppConstants.mContext).setString(CART_SESSION_TOKEN, ""); // if login successfully then discard cart session token
-
-                checkResponseSource(response);
             }
 
             @Override
@@ -105,9 +103,15 @@ public class Repository {
 
             @Override
             public void onResponse(Call<BasicResponse> call, Response<BasicResponse> response) {
-                basicResponseMutableLiveData.postValue(response.body());
-                AppPreference.getInstance(AppConstants.mContext).setString(SIGNIN_TOKEN, SIGNIN_TOKEN);
-                checkResponseSource(response);
+
+                if (response.isSuccessful()) {
+                    basicResponseMutableLiveData.postValue(response.body());
+                    AppPreference.getInstance(AppConstants.mContext).setString(SIGNIN_TOKEN, "");
+                    checkResponseSource(response);
+                } else {
+                    basicResponseMutableLiveData.postValue(null);
+                }
+
             }
 
             @Override
@@ -149,6 +153,7 @@ public class Repository {
             @Override
             public void onResponse(Call<RegistrationContainer> call, Response<RegistrationContainer> response) {
                 registrationContainerMutableLiveData.postValue(response.body());
+                userData2 = response.body().getData();
                 Headers headers = response.headers();
                 AppPreference.getInstance(AppConstants.mContext).setString(SIGNIN_TOKEN, headers.get(SIGNIN_TOKEN));
                 checkResponseSource(response);
@@ -171,6 +176,7 @@ public class Repository {
             public void onResponse(Call<RegistrationContainer> call, Response<RegistrationContainer> response) {
                 registrationContainerMutableLiveData.postValue(response.body());
 
+                userData2 = response.body().getData();
                 // saving header response for different purposes like add to wish list etc
                 Headers headers = response.headers();
                 AppPreference.getInstance(AppConstants.mContext).setString(SIGNIN_TOKEN, headers.get(SIGNIN_TOKEN));

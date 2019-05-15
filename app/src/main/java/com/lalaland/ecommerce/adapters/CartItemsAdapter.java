@@ -5,7 +5,6 @@ import android.util.SparseBooleanArray;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.CompoundButton;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
@@ -118,12 +117,14 @@ public class CartItemsAdapter extends RecyclerView.Adapter<CartItemsAdapter.Cart
                 mCartClickListener.deleteFromCart(cartItem);
             });
 
-            mCartItemBinding.cbAddToList.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
-                @Override
-                public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-                    itemStateArray.put(getAdapterPosition(), isChecked);
-                    mCartClickListener.addItemToList(cartItem);
-                }
+            mCartItemBinding.cbAddToList.setOnClickListener(v -> {
+
+                if (mCartItemBinding.cbAddToList.isChecked())
+                    itemStateArray.put(getAdapterPosition(), true);
+                else
+                    itemStateArray.put(getAdapterPosition(), false);
+
+                mCartClickListener.addItemToList(cartItem);
             });
         }
     }

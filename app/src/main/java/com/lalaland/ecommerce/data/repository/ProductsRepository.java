@@ -10,6 +10,7 @@ import com.lalaland.ecommerce.data.models.cart.CartContainer;
 import com.lalaland.ecommerce.data.models.category.CategoryContainer;
 import com.lalaland.ecommerce.data.models.home.HomeDataContainer;
 import com.lalaland.ecommerce.data.models.logout.BasicResponse;
+import com.lalaland.ecommerce.data.models.order.OrderDataContainer;
 import com.lalaland.ecommerce.data.models.productDetails.ProductDetailDataContainer;
 import com.lalaland.ecommerce.data.models.products.ProductContainer;
 import com.lalaland.ecommerce.data.retrofit.LalalandServiceApi;
@@ -39,6 +40,7 @@ public class ProductsRepository {
     private final MutableLiveData<CategoryContainer> categoryContainerMutableLiveData = new MutableLiveData<>();
     private final MutableLiveData<ProductDetailDataContainer> productDetailDataContainerMutableLiveData = new MutableLiveData<>();
     private final MutableLiveData<CartContainer> cartContainerMutableLiveData = new MutableLiveData<>();
+    private final MutableLiveData<OrderDataContainer> orderDataContainerMutableLiveData = new MutableLiveData<>();
 
     private ProductsRepository() {
         lalalandServiceApi = RetrofitClient.getInstance().createClient();
@@ -299,6 +301,25 @@ public class ProductsRepository {
         return basicResponseMutableLiveData;
     }
 
+    public LiveData<OrderDataContainer> confirmOrder(String header, Map<String, String> parameter) {
+
+        lalalandServiceApi.confirmOrder(header, parameter).enqueue(new Callback<OrderDataContainer>() {
+            @Override
+            public void onResponse(Call<OrderDataContainer> call, Response<OrderDataContainer> response) {
+                if (response.isSuccessful()) {
+                    orderDataContainerMutableLiveData.postValue(response.body());
+                } else
+                    orderDataContainerMutableLiveData.postValue(null);
+            }
+
+            @Override
+            public void onFailure(Call<OrderDataContainer> call, Throwable t) {
+                orderDataContainerMutableLiveData.postValue(null);
+            }
+        });
+
+        return orderDataContainerMutableLiveData;
+    }
     private void checkResponseSource(Response response) {
 
         Log.d("response_source", String.valueOf(response.code()) + response.errorBody());

@@ -1,9 +1,12 @@
 package com.lalaland.ecommerce.data.models.cart;
 
+import android.os.Parcel;
+import android.os.Parcelable;
+
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
 
-public class CartItem {
+public class CartItem implements Parcelable {
 
     public Boolean getSelected() {
         return isSelected;
@@ -204,4 +207,66 @@ public class CartItem {
         this.remainingQuantity = remainingQuantity;
     }
 
+    @Override
+    public int describeContents() {
+        return 0;
+    }
+
+    @Override
+    public void writeToParcel(Parcel dest, int flags) {
+        dest.writeValue(this.isSelected);
+        dest.writeValue(this.id);
+        dest.writeValue(this.productId);
+        dest.writeString(this.productName);
+        dest.writeString(this.primaryImage);
+        dest.writeValue(this.cartId);
+        dest.writeValue(this.itemQuantity);
+        dest.writeString(this.merchantName);
+        dest.writeValue(this.merchantId);
+        dest.writeString(this.actualPrice);
+        dest.writeString(this.userName);
+        dest.writeString(this.phone);
+        dest.writeString(this.salePrice);
+        dest.writeString(this.attributeValue);
+        dest.writeValue(this.cartStatus);
+        dest.writeString(this.inputType);
+        dest.writeString(this.attributeName);
+        dest.writeString(this.remainingQuantity);
+    }
+
+    public CartItem() {
+    }
+
+    protected CartItem(Parcel in) {
+        this.isSelected = (Boolean) in.readValue(Boolean.class.getClassLoader());
+        this.id = (Integer) in.readValue(Integer.class.getClassLoader());
+        this.productId = (Integer) in.readValue(Integer.class.getClassLoader());
+        this.productName = in.readString();
+        this.primaryImage = in.readString();
+        this.cartId = (Integer) in.readValue(Integer.class.getClassLoader());
+        this.itemQuantity = (Integer) in.readValue(Integer.class.getClassLoader());
+        this.merchantName = in.readString();
+        this.merchantId = (Integer) in.readValue(Integer.class.getClassLoader());
+        this.actualPrice = in.readString();
+        this.userName = in.readString();
+        this.phone = in.readString();
+        this.salePrice = in.readString();
+        this.attributeValue = in.readString();
+        this.cartStatus = (Integer) in.readValue(Integer.class.getClassLoader());
+        this.inputType = in.readString();
+        this.attributeName = in.readString();
+        this.remainingQuantity = in.readString();
+    }
+
+    public static final Parcelable.Creator<CartItem> CREATOR = new Parcelable.Creator<CartItem>() {
+        @Override
+        public CartItem createFromParcel(Parcel source) {
+            return new CartItem(source);
+        }
+
+        @Override
+        public CartItem[] newArray(int size) {
+            return new CartItem[size];
+        }
+    };
 }

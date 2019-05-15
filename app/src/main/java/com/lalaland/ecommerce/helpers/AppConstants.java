@@ -4,6 +4,8 @@ import android.content.Context;
 
 import com.lalaland.ecommerce.data.models.category.Category;
 import com.lalaland.ecommerce.data.models.category.City;
+import com.lalaland.ecommerce.data.models.login.LoginData;
+import com.lalaland.ecommerce.data.models.registration.RegistrationData;
 import com.lalaland.ecommerce.data.models.userAddressBook.UserAddresses;
 
 import java.util.ArrayList;
@@ -20,6 +22,11 @@ public class AppConstants {
     public static List<City> staticCitiesList = new ArrayList<>();
     public static List<String> testImagesUrl = new ArrayList<>();
     public static UserAddresses userAddresses;
+    public static LoginData userData1;
+    public static RegistrationData userData2;
+    // -------------------------------------------------------------------------------------------
+    public static final Double PAYMENT_LOWEST_LIMIT = 40000.00;
+// -------------------------------------------------------------------------------------------
 
     public static final String PREF_NAME = "com.lalaland.pk.PREF_NAME";
     public static final String SHARE_CONTENT = "Lalaland.pk";
@@ -61,6 +68,7 @@ public class AppConstants {
     public static final String NO_ITEM_IN_LIST = "No such item is in list.";
     public static final String REMOVE_FROM_WISH_LIST = "Successfully remove from wish list";
     public static final String ADD_TO_READY_PRODUCT = "Added to list";
+    public static final String REMOVE_FROM_READY_PRODUCT = "Remove from list";
     public static final String REMOVED_FROM_CART = "Removed from cart";
     public static final String ITEM_SOLD_OUT = "Items sold out";
 

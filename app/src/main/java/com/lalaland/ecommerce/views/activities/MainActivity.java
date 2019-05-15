@@ -64,7 +64,6 @@ public class MainActivity extends AppCompatActivity {
 
     void setListeners() {
         activityMainBinding.navView.setOnNavigationItemSelectedListener(mOnNavigationItemSelectedListener);
-        activityMainBinding.ivMail.setOnClickListener(v -> startActivity(new Intent(MainActivity.this, RegistrationActivity.class)));
     }
 
     void replaceFragment(Fragment fragment, int index) {

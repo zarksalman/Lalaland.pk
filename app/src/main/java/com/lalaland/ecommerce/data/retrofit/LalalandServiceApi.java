@@ -7,6 +7,7 @@ import com.lalaland.ecommerce.data.models.deliveryCharges.DeliveryChargesContain
 import com.lalaland.ecommerce.data.models.home.HomeDataContainer;
 import com.lalaland.ecommerce.data.models.login.Login;
 import com.lalaland.ecommerce.data.models.logout.BasicResponse;
+import com.lalaland.ecommerce.data.models.order.OrderDataContainer;
 import com.lalaland.ecommerce.data.models.productDetails.ProductDetailDataContainer;
 import com.lalaland.ecommerce.data.models.products.ProductContainer;
 import com.lalaland.ecommerce.data.models.registration.RegistrationContainer;
@@ -68,6 +69,9 @@ public interface LalalandServiceApi {
 
     @POST("changeCartProductQuantity")
     Call<BasicResponse> changeCartProductQuantity(@QueryMap Map<String, String> parameter);
+
+    @POST("confirmOrder")
+    Call<OrderDataContainer> confirmOrder(@Header("token") String token, @QueryMap Map<String, String> parameter);
 
 
     @POST("register")

@@ -8,6 +8,9 @@ public class UserAddresses {
     @SerializedName("user_name_address")
     @Expose
     private String userNameAddress;
+    @SerializedName("email")
+    @Expose
+    private String email;
     @SerializedName("city_id")
     @Expose
     private Integer cityId;
@@ -39,6 +42,14 @@ public class UserAddresses {
 
     public void setUserNameAddress(String userNameAddress) {
         this.userNameAddress = userNameAddress;
+    }
+
+    public String getEmail() {
+        return email;
+    }
+
+    public void setEmail(String email) {
+        this.email = email;
     }
 
     public Integer getCityId() {
@@ -104,5 +115,4 @@ public class UserAddresses {
     public void setPhone(String phone) {
         this.phone = phone;
     }
-
 }

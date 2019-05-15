@@ -2,7 +2,6 @@ package com.lalaland.ecommerce.views.activities;
 
 import android.content.Intent;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.View;
 import android.widget.RadioGroup;
 import android.widget.Toast;
@@ -29,9 +28,10 @@ import java.util.Map;
 
 import static com.lalaland.ecommerce.helpers.AppConstants.CASH_TRANSFER_TYPE;
 import static com.lalaland.ecommerce.helpers.AppConstants.GENERAL_ERROR;
+import static com.lalaland.ecommerce.helpers.AppConstants.PAYMENT_LOWEST_LIMIT;
 import static com.lalaland.ecommerce.helpers.AppConstants.SIGNIN_TOKEN;
 import static com.lalaland.ecommerce.helpers.AppConstants.SUCCESS_CODE;
-import static com.lalaland.ecommerce.helpers.AppConstants.TAG;
+import static com.lalaland.ecommerce.helpers.AppConstants.VALIDATION_FAIL_CODE;
 
 public class CheckoutScreen extends AppCompatActivity {
 
@@ -44,6 +44,7 @@ public class CheckoutScreen extends AppCompatActivity {
     private Map<String, String> parameter = new HashMap<>();
     private Map<String, String> headers = new HashMap<>();
     private String token, cart_session;
+    String totalBill;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -56,6 +57,17 @@ public class CheckoutScreen extends AppCompatActivity {
 
         productViewModel = ViewModelProviders.of(this).get(ProductViewModel.class);
         token = appPreference.getString(SIGNIN_TOKEN);
+
+        cartItemList = getIntent().getParcelableArrayListExtra("ready_cart_items");
+        totalBill = getIntent().getStringExtra("total_bill");
+
+        activityCheckoutScreenBinding.tvTotalBalance.setText(AppUtils.formatPriceString(totalBill));
+
+        if (Double.parseDouble(totalBill) >= PAYMENT_LOWEST_LIMIT) {
+            activityCheckoutScreenBinding.rbBankTransfer.setChecked(true);
+            activityCheckoutScreenBinding.rgPaymentType.setOnCheckedChangeListener(null);
+        }
+
 
         if (userAddresses == null) {
             activityCheckoutScreenBinding.addUserAddress.setVisibility(View.VISIBLE);
@@ -72,13 +84,9 @@ public class CheckoutScreen extends AppCompatActivity {
         }
 
         setListeners();
-        setCartSelectedProducts();
-        getCartItems();
+        setCartAdapter();
     }
 
-    private void setCartSelectedProducts() {
-
-    }
 
     void setListeners() {
 
@@ -96,33 +104,6 @@ public class CheckoutScreen extends AppCompatActivity {
 
     public void addNewAddress(View view) {
         startActivity(new Intent(this, AddressCreationActivity.class));
-    }
-
-
-    private void getCartItems() {
-
-        headers.clear();
-
-        if (!token.isEmpty()) {
-
-            headers.put(SIGNIN_TOKEN, token);
-
-            productViewModel.getCart(headers).observe(this, cartContainer -> {
-
-                if (cartContainer != null) {
-
-                    if (cartContainer.getCode().equals(SUCCESS_CODE)) {
-                        cartItemList = cartContainer.getData().getCartItems();
-                        AppConstants.userAddresses = cartContainer.getData().getUserAddresses();
-                        setCartAdapter();
-                        activityCheckoutScreenBinding.tvTotalBalance.setText(AppUtils.formatPriceString(calculateTotalBill()));
-                        Log.d(TAG, String.valueOf(cartContainer.getData().getCartItems().size()));
-                    } else
-                        Toast.makeText(this, GENERAL_ERROR, Toast.LENGTH_SHORT).show();
-                }
-
-            });
-        }
     }
 
     void setCartAdapter() {
@@ -151,14 +132,39 @@ public class CheckoutScreen extends AppCompatActivity {
         cartItemsAdapter.setData(cartItemList);
     }
 
-    private String calculateTotalBill() {
+    public void placeOrder(View view) {
 
-        Double count = 0.0;
-
-        for (CartItem cartItem : cartItemList) {
-            count += Double.parseDouble(cartItem.getSalePrice());
+        if (Double.parseDouble(totalBill) >= PAYMENT_LOWEST_LIMIT) {
+            Toast.makeText(this, "You have to pay by bank", Toast.LENGTH_SHORT).show();
+            return;
         }
 
-        return String.valueOf(count);
+        activityCheckoutScreenBinding.pbLoading.setVisibility(View.VISIBLE);
+        parameter.clear();
+        parameter.put("name", userAddresses.getUserName());
+        parameter.put("phone_no", userAddresses.getPhone());
+        parameter.put("email", userAddresses.getEmail());
+        parameter.put("city_id", String.valueOf(userAddresses.getCityId()));
+        parameter.put("delivery_address", String.valueOf(userAddresses.getShippingAddress()));
+        parameter.put("postal_code", String.valueOf(userAddresses.getPostalCode()));
+        parameter.put("shipping_method", String.valueOf(0));
+        parameter.put("payment_gateway", String.valueOf(CASH_TRANSFER_TYPE));
+
+        productViewModel.confirmOrder(token, parameter).observe(this, orderDataContainer -> {
+
+            if (orderDataContainer != null) {
+
+                if (orderDataContainer.getCode().equals(SUCCESS_CODE))
+                    Toast.makeText(this, orderDataContainer.getMsg(), Toast.LENGTH_SHORT).show();
+                else if (orderDataContainer.getCode().equals(VALIDATION_FAIL_CODE))
+                    Toast.makeText(this, orderDataContainer.getMsg(), Toast.LENGTH_SHORT).show();
+                else
+                    Toast.makeText(this, GENERAL_ERROR, Toast.LENGTH_SHORT).show();
+            } else
+                Toast.makeText(this, GENERAL_ERROR, Toast.LENGTH_SHORT).show();
+
+
+            activityCheckoutScreenBinding.pbLoading.setVisibility(View.GONE);
+        });
     }
 }
