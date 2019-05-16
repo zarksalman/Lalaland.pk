@@ -102,8 +102,10 @@ public class CartFragment extends Fragment implements View.OnClickListener, Cart
                     if (cartContainer.getCode().equals(SUCCESS_CODE)) {
                         cartItemList = cartContainer.getData().getCartItems();
                         AppConstants.userAddresses = cartContainer.getData().getUserAddresses();
-                        //userAddress = cartContainer.getData().getUserAddresses();
+
                         setCartAdapter();
+                        setSelectedCartItemList();
+
                         Log.d(TAG, String.valueOf(cartContainer.getData().getCartItems().size()));
                     } else
                         Toast.makeText(getContext(), GENERAL_ERROR, Toast.LENGTH_SHORT).show();
@@ -143,6 +145,9 @@ public class CartFragment extends Fragment implements View.OnClickListener, Cart
         } else {
 
 
+            for (int i = 0; i < cartItemList.size(); i++) {
+                Log.d(TAG, "adapter_items" + cartItemList.get(i).getProductName());
+            }
             fragmentCartBinding.tvCartEmptyState.setVisibility(View.GONE);
             fragmentCartBinding.btnCheckout.setBackground(getResources().getDrawable(R.drawable.btn_bg_round_corner_accent));
             fragmentCartBinding.btnCheckout.setOnClickListener(this);
@@ -155,23 +160,39 @@ public class CartFragment extends Fragment implements View.OnClickListener, Cart
 
     }
 
+    void setSelectedCartItemList() {
+
+        for (CartItem cartItem : cartItemList) {
+            if (cartItem.getCartStatus() == 3)
+                selectedCartItemList.add(cartItem);
+            else
+                selectedCartItemList.remove(cartItem);
+        }
+
+        calCalculateBill();
+    }
+
     @Override
-    public void addItemToList(CartItem cartItem) {
+    public void addItemToList(int position) {
 
         fragmentCartBinding.pbLoading.setVisibility(View.VISIBLE);
+
+        CartItem cartItem = cartItemList.get(position);
+
         parameter.clear();
         parameter.put(CART_ID, String.valueOf(cartItem.getCartId()));
 
         //isSelected = cartItem.getSelected();
 
-        cartItem.setSelected(!cartItem.getSelected());
+        //cartItem.setSelected(!cartItem.getSelected());
 
-        cartItemList.get(cartItemList.indexOf(cartItem)).setSelected(cartItem.getSelected());
-
-        if (cartItem.getSelected()) {
+        if (cartItem.getCartStatus() == 1) {
+            cartItemList.get(position).setCartStatus(3);
             selectedCartItemList.add(cartItem);
-        } else
-            selectedCartItemList.remove(cartItem);
+        } else if (cartItem.getCartStatus() == 3) {
+            cartItemList.get(position).setCartStatus(1);
+            selectedCartItemList.remove(cartItem); //delete item if exists
+        }
 
         calCalculateBill();
 
@@ -180,13 +201,10 @@ public class CartFragment extends Fragment implements View.OnClickListener, Cart
             if (basicResponse != null) {
                 if (basicResponse.getCode().equals(SUCCESS_CODE)) {
 
-                    if (cartItem.getSelected())
-                        Toast.makeText(getContext(), ADD_TO_READY_PRODUCT, Toast.LENGTH_SHORT).show();
-                    else
+                    if (cartItemList.get(position).getCartStatus() == 1) // its status was 1
                         Toast.makeText(getContext(), REMOVE_FROM_READY_PRODUCT, Toast.LENGTH_SHORT).show();
-
-                    cartItemsAdapter.setData(cartItemList);
-
+                    else if (cartItemList.get(position).getCartStatus() == 3) // its status was 3
+                        Toast.makeText(getContext(), ADD_TO_READY_PRODUCT, Toast.LENGTH_SHORT).show();
                 } else {
                     Toast.makeText(getContext(), GENERAL_ERROR, Toast.LENGTH_SHORT).show();
                 }
@@ -199,12 +217,15 @@ public class CartFragment extends Fragment implements View.OnClickListener, Cart
     }
 
     @Override
-    public void deleteFromCart(CartItem cartItem) {
+    public void deleteFromCart(int position) {
 
         fragmentCartBinding.pbLoading.setVisibility(View.VISIBLE);
-        getActivity().getWindow().setFlags(WindowManager.LayoutParams.FLAG_NOT_TOUCHABLE,
-                WindowManager.LayoutParams.FLAG_NOT_TOUCHABLE);
 
+        for (int i = 0; i < cartItemList.size(); i++) {
+            Log.d(TAG, "adapter_items" + cartItemList.get(i).getProductName());
+        }
+
+        CartItem cartItem = cartItemList.get(position);
         parameter.clear();
         parameter.put(CART_ID, String.valueOf(cartItem.getCartId()));
         parameter.put("is_delete_all", String.valueOf(0));
@@ -216,17 +237,21 @@ public class CartFragment extends Fragment implements View.OnClickListener, Cart
             if (basicResponse != null) {
                 if (basicResponse.getCode().equals(SUCCESS_CODE)) {
 
-                    getCartItems();
-                    selectedCartItemList.clear();
-                    calCalculateBill();
-                    /*if (selectedCartItemList.contains(cartItem)) {
-                        selectedCartItemList.remove(cartItem);
+                    Log.d(TAG, "DELETE_ITEMS #" + cartItemList.indexOf(cartItem));
+
+                    if (selectedCartItemList.size() > position) {
+                        selectedCartItemList.remove(position);
                         calCalculateBill();
                     }
 
-                    cartItemList.remove(cartItem);
-                    cartItemsAdapter.setData(cartItemList);
-                    *///    cartItemsAdapter.notifyItemRemoved(cartItemList.indexOf(cartItem));
+                    cartItemList.remove(position);
+                    cartItemsAdapter.notifyItemRemoved(position);
+
+                    if (cartItemList.size() < 1) {
+                        fragmentCartBinding.tvCartEmptyState.setVisibility(View.VISIBLE);
+                        fragmentCartBinding.btnCheckout.setBackground(getResources().getDrawable(R.drawable.btn_bg_round_corner_dark_gray));
+                    } else
+                        fragmentCartBinding.tvCartEmptyState.setVisibility(View.GONE);
 
                     Toast.makeText(getContext(), REMOVED_FROM_CART, Toast.LENGTH_SHORT).show();
                 } else {
@@ -242,9 +267,12 @@ public class CartFragment extends Fragment implements View.OnClickListener, Cart
     }
 
     @Override
-    public void changeNumberOfCount(CartItem cartItem, int quantity) {
+    public void changeNumberOfCount(int position, int quantity) {
 
         fragmentCartBinding.pbLoading.setVisibility(View.VISIBLE);
+
+        CartItem cartItem = cartItemList.get(position);
+
         parameter.clear();
         parameter.put(CART_ID, String.valueOf(cartItem.getCartId()));
         parameter.put(QUANTITY, String.valueOf(quantity));
@@ -254,12 +282,10 @@ public class CartFragment extends Fragment implements View.OnClickListener, Cart
             if (basicResponse != null) {
                 if (basicResponse.getCode().equals(SUCCESS_CODE)) {
 
-                    cartItemList.get(cartItemList.indexOf(cartItem)).setItemQuantity(quantity);
-                    cartItemsAdapter.setData(cartItemList);
+                    cartItemList.get(position).setItemQuantity(quantity);
+                    cartItemsAdapter.notifyDataSetChanged();
 
-                    cartItem.setItemQuantity(quantity);
-
-                    if (selectedCartItemList.contains(cartItem))
+                    if (selectedCartItemList.contains(cartItemList.get(position)))
                         calCalculateBill();
 
                     Toast.makeText(getContext(), basicResponse.getMsg(), Toast.LENGTH_SHORT).show();
@@ -310,18 +336,6 @@ public class CartFragment extends Fragment implements View.OnClickListener, Cart
     }
 
     private void calCalculateBill() {
-
-
-      /*  Double perItemBill = cartItem.getItemQuantity() * Double.parseDouble(cartItem.getSalePrice());
-
-        if (!cartItem.getSelected()) {
-
-            totalBill = totalBill + perItemBill;
-            selectedCartItemList.add(cartItem);
-        } else {
-            totalBill = totalBill - perItemBill;
-            selectedCartItemList.remove(cartItem);
-        }*/
 
         perItemBill = 0.0;
         totalBill = 0.0;

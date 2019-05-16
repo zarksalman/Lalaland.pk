@@ -8,7 +8,7 @@ import androidx.lifecycle.LiveData;
 
 import com.lalaland.ecommerce.data.models.logout.BasicResponse;
 import com.lalaland.ecommerce.data.models.registration.RegistrationContainer;
-import com.lalaland.ecommerce.data.repository.Repository;
+import com.lalaland.ecommerce.data.repository.UsersRepository;
 
 import java.util.Map;
 
@@ -19,10 +19,10 @@ public class RegistrationViewModel extends AndroidViewModel {
     }
 
     public LiveData<RegistrationContainer> registerUser(String cart_session, Map<String, String> parameter, int signUpType) {
-        return Repository.getInstance().registerUser(cart_session, parameter, signUpType);
+        return UsersRepository.getInstance().registerUser(cart_session, parameter, signUpType);
     }
 
     public LiveData<BasicResponse> changePassword(Map<String, String> parameter) {
-        return Repository.getInstance().changePassword(parameter);
+        return UsersRepository.getInstance().changePassword(parameter);
     }
 }

@@ -4,7 +4,6 @@ import android.content.Context;
 
 import com.lalaland.ecommerce.data.models.category.Category;
 import com.lalaland.ecommerce.data.models.category.City;
-import com.lalaland.ecommerce.data.models.login.LoginData;
 import com.lalaland.ecommerce.data.models.registration.RegistrationData;
 import com.lalaland.ecommerce.data.models.userAddressBook.UserAddresses;
 
@@ -22,7 +21,6 @@ public class AppConstants {
     public static List<City> staticCitiesList = new ArrayList<>();
     public static List<String> testImagesUrl = new ArrayList<>();
     public static UserAddresses userAddresses;
-    public static LoginData userData1;
     public static RegistrationData userData2;
     // -------------------------------------------------------------------------------------------
     public static final Double PAYMENT_LOWEST_LIMIT = 40000.00;

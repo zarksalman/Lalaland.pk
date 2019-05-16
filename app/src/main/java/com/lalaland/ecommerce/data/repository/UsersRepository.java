@@ -8,6 +8,7 @@ import androidx.lifecycle.MutableLiveData;
 import com.lalaland.ecommerce.data.models.login.Login;
 import com.lalaland.ecommerce.data.models.logout.BasicResponse;
 import com.lalaland.ecommerce.data.models.registration.RegistrationContainer;
+import com.lalaland.ecommerce.data.models.userAddressBook.AddressDataContainer;
 import com.lalaland.ecommerce.data.retrofit.LalalandServiceApi;
 import com.lalaland.ecommerce.data.retrofit.RetrofitClient;
 import com.lalaland.ecommerce.helpers.AppConstants;
@@ -25,25 +26,25 @@ import static com.lalaland.ecommerce.helpers.AppConstants.FACEBOOK_SIGN_UP_IN;
 import static com.lalaland.ecommerce.helpers.AppConstants.FORM_SIGN_UP;
 import static com.lalaland.ecommerce.helpers.AppConstants.GOOGLE_SIGN_UP_IN;
 import static com.lalaland.ecommerce.helpers.AppConstants.SIGNIN_TOKEN;
-import static com.lalaland.ecommerce.helpers.AppConstants.userData2;
 
-public class Repository {
+public class UsersRepository {
 
-    private static Repository repository;
+    private static UsersRepository usersRepository;
     private LalalandServiceApi lalalandServiceApi;
-    private final MutableLiveData<RegistrationContainer> registrationContainerMutableLiveData = new MutableLiveData<>();
-    private final MutableLiveData<Login> loginMutableLiveData = new MutableLiveData<>();
-    private final MutableLiveData<BasicResponse> basicResponseMutableLiveData = new MutableLiveData<>();
+    private MutableLiveData<RegistrationContainer> registrationContainerMutableLiveData;
+    private MutableLiveData<Login> loginMutableLiveData;
+    private MutableLiveData<BasicResponse> basicResponseMutableLiveData;
+    private MutableLiveData<AddressDataContainer> addressDataContainerMutableLiveData;
 
-    private Repository() {
+    private UsersRepository() {
         lalalandServiceApi = RetrofitClient.getInstance().createClient();
     }
 
-    public static Repository getInstance() {
-        if (repository == null)
-            repository = new Repository();
+    public static UsersRepository getInstance() {
+        if (usersRepository == null)
+            usersRepository = new UsersRepository();
 
-        return repository;
+        return usersRepository;
     }
 
 
@@ -66,6 +67,8 @@ public class Repository {
     }
 
     public LiveData<Login> loginUser(String cart_session, Map<String, String> parameters) {
+
+        loginMutableLiveData = new MutableLiveData<>();
 
         lalalandServiceApi.loginUser(cart_session, parameters).enqueue(new Callback<Login>() {
             @Override
@@ -96,6 +99,7 @@ public class Repository {
 
     public LiveData<BasicResponse> logoutUser() {
 
+        basicResponseMutableLiveData = new MutableLiveData<>();
         // session token
         String token = AppPreference.getInstance(AppConstants.mContext).getString(SIGNIN_TOKEN);
 
@@ -125,6 +129,7 @@ public class Repository {
 
     public LiveData<BasicResponse> changePassword(Map<String, String> parameter) {
 
+        basicResponseMutableLiveData = new MutableLiveData<>();
         // session token
         String token = AppPreference.getInstance(AppConstants.mContext).getString(SIGNIN_TOKEN);
 
@@ -146,14 +151,13 @@ public class Repository {
         return basicResponseMutableLiveData;
     }
 
-    LiveData<RegistrationContainer> signUpForm(Map<String, String> parameters) {
+    public LiveData<RegistrationContainer> signUpForm(Map<String, String> parameters) {
 
-
+        registrationContainerMutableLiveData = new MutableLiveData<>();
         lalalandServiceApi.registerUser(parameters).enqueue(new Callback<RegistrationContainer>() {
             @Override
             public void onResponse(Call<RegistrationContainer> call, Response<RegistrationContainer> response) {
                 registrationContainerMutableLiveData.postValue(response.body());
-                userData2 = response.body().getData();
                 Headers headers = response.headers();
                 AppPreference.getInstance(AppConstants.mContext).setString(SIGNIN_TOKEN, headers.get(SIGNIN_TOKEN));
                 checkResponseSource(response);
@@ -168,15 +172,14 @@ public class Repository {
         return registrationContainerMutableLiveData;
     }
 
-    LiveData<RegistrationContainer> signUpFacebook(String cart_session, Map<String, String> parameters) {
+    public LiveData<RegistrationContainer> signUpFacebook(String cart_session, Map<String, String> parameters) {
 
-
+        registrationContainerMutableLiveData = new MutableLiveData<>();
         lalalandServiceApi.registerFromFacebook(cart_session, parameters).enqueue(new Callback<RegistrationContainer>() {
             @Override
             public void onResponse(Call<RegistrationContainer> call, Response<RegistrationContainer> response) {
                 registrationContainerMutableLiveData.postValue(response.body());
 
-                userData2 = response.body().getData();
                 // saving header response for different purposes like add to wish list etc
                 Headers headers = response.headers();
                 AppPreference.getInstance(AppConstants.mContext).setString(SIGNIN_TOKEN, headers.get(SIGNIN_TOKEN));
@@ -194,6 +197,28 @@ public class Repository {
         });
 
         return registrationContainerMutableLiveData;
+    }
+
+    public LiveData<AddressDataContainer> addNewAddress(String headers, Map<String, String> parameters) {
+
+        addressDataContainerMutableLiveData = new MutableLiveData<>();
+        lalalandServiceApi.addNewAddress(headers, parameters).enqueue(new Callback<AddressDataContainer>() {
+            @Override
+            public void onResponse(Call<AddressDataContainer> call, Response<AddressDataContainer> response) {
+
+                if (response.isSuccessful())
+                    addressDataContainerMutableLiveData.postValue(response.body());
+                else
+                    addressDataContainerMutableLiveData.postValue(null);
+            }
+
+            @Override
+            public void onFailure(Call<AddressDataContainer> call, Throwable t) {
+                addressDataContainerMutableLiveData.postValue(null);
+            }
+        });
+
+        return addressDataContainerMutableLiveData;
     }
 
     private void checkResponseSource(Response response) {

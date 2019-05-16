@@ -1,6 +1,5 @@
 package com.lalaland.ecommerce.views.activities;
 
-import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
@@ -99,7 +98,7 @@ public class AddressCreationActivity extends AppCompatActivity {
                         AppConstants.userAddresses = addressDataContainer.getData().getUserAddress().get(0);
                         Log.d(AppConstants.TAG, addressDataContainer.getMsg());
                         Toast.makeText(this, addressDataContainer.getMsg(), Toast.LENGTH_SHORT).show();
-                        startActivity(new Intent(this, CheckoutScreen.class));
+                        //startActivity(new Intent(this, CheckoutScreen.class));
                         finish();
                     } else if (addressDataContainer.getCode().equals(VALIDATION_FAIL_CODE)) {
 

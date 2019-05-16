@@ -3,7 +3,6 @@ package com.lalaland.ecommerce.views.activities;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
-import android.widget.RadioGroup;
 import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
@@ -90,14 +89,14 @@ public class CheckoutScreen extends AppCompatActivity {
 
     void setListeners() {
 
-        activityCheckoutScreenBinding.rgPaymentType.setOnCheckedChangeListener(new RadioGroup.OnCheckedChangeListener() {
-            @Override
-            public void onCheckedChanged(RadioGroup group, int checkedId) {
+        activityCheckoutScreenBinding.rgPaymentType.setOnCheckedChangeListener((group, checkedId) -> {
 
-                if (R.id.rb_cash_on_delivery == checkedId)
-                    CASH_TRANSFER_TYPE = 1;
-                else
-                    CASH_TRANSFER_TYPE = 2;
+            if (R.id.rb_cash_on_delivery == checkedId && Double.parseDouble(totalBill) <= PAYMENT_LOWEST_LIMIT)
+                CASH_TRANSFER_TYPE = 1;
+            else {
+                CASH_TRANSFER_TYPE = 2;
+                activityCheckoutScreenBinding.rbCashOnDelivery.setChecked(false);
+                activityCheckoutScreenBinding.rbBankTransfer.setChecked(true);
             }
         });
     }
@@ -112,17 +111,17 @@ public class CheckoutScreen extends AppCompatActivity {
         activityCheckoutScreenBinding.rvCartProducts.setHasFixedSize(true);
         CartItemsAdapter cartItemsAdapter = new CartItemsAdapter(this, new CartItemsAdapter.CartClickListener() {
             @Override
-            public void addItemToList(CartItem cartItem) {
+            public void addItemToList(int position) {
 
             }
 
             @Override
-            public void deleteFromCart(CartItem cartItem) {
+            public void deleteFromCart(int position) {
 
             }
 
             @Override
-            public void changeNumberOfCount(CartItem cartItem, int quantity) {
+            public void changeNumberOfCount(int position, int quantity) {
 
             }
         });
@@ -134,7 +133,7 @@ public class CheckoutScreen extends AppCompatActivity {
 
     public void placeOrder(View view) {
 
-        if (Double.parseDouble(totalBill) >= PAYMENT_LOWEST_LIMIT) {
+        if (Double.parseDouble(totalBill) >= PAYMENT_LOWEST_LIMIT || CASH_TRANSFER_TYPE == 2) {
             Toast.makeText(this, "You have to pay by bank", Toast.LENGTH_SHORT).show();
             return;
         }
@@ -149,6 +148,10 @@ public class CheckoutScreen extends AppCompatActivity {
         parameter.put("postal_code", String.valueOf(userAddresses.getPostalCode()));
         parameter.put("shipping_method", String.valueOf(0));
         parameter.put("payment_gateway", String.valueOf(CASH_TRANSFER_TYPE));
+
+        if (userAddresses.getPhone() == null || userAddresses.getPhone().isEmpty()) {
+            
+        }
 
         productViewModel.confirmOrder(token, parameter).observe(this, orderDataContainer -> {
 

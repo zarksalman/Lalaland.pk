@@ -1,17 +1,15 @@
 package com.lalaland.ecommerce.customBinding;
 
+import android.widget.CheckBox;
 import android.widget.ImageView;
 
 import androidx.databinding.BindingAdapter;
 
 import com.bumptech.glide.Glide;
-import com.bumptech.glide.load.engine.DiskCacheStrategy;
-import com.bumptech.glide.request.RequestOptions;
 import com.lalaland.ecommerce.R;
 import com.lalaland.ecommerce.helpers.AppConstants;
 
 import static com.lalaland.ecommerce.helpers.AppConstants.ACTION_STORAGE_BASE_URL;
-import static com.lalaland.ecommerce.helpers.AppConstants.BANNER_STORAGE_BASE_URL;
 import static com.lalaland.ecommerce.helpers.AppConstants.BRAND_FOCUS_STORAGE_BASE_URL;
 import static com.lalaland.ecommerce.helpers.AppConstants.PRODUCT_STORAGE_BASE_URL;
 
@@ -63,6 +61,22 @@ public class CustomBinding {
                 .placeholder(R.drawable.placeholder_products)
                 .fitCenter()
                 .into(imageView);
+    }
+
+    @BindingAdapter("setCartItemStatus")
+    public static void setCartItemsStatus(CheckBox checkBox, int status) {
+
+        /*
+         * 1 =  added to cart
+         * 2 =  ordered
+         * 3 =  ready for checkout
+         * */
+
+        if (status == 1)
+            checkBox.setChecked(false);
+        else if (status == 3)
+            checkBox.setChecked(true);
+
     }
 
 }

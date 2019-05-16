@@ -33,14 +33,14 @@ public class ProductsRepository {
     private static ProductsRepository repository;
     private LalalandServiceApi lalalandServiceApi;
 
-    private final MutableLiveData<BasicResponse> basicResponseMutableLiveData = new MutableLiveData<>();
-    private final MutableLiveData<HomeDataContainer> homeDataContainerMutableLiveData = new MutableLiveData<>();
-    private final MutableLiveData<ProductContainer> productContainerMutableLiveData = new MutableLiveData<>();
-    private final MutableLiveData<ActionProductsContainer> actionProductsContainerMutableLiveData = new MutableLiveData<>();
-    private final MutableLiveData<CategoryContainer> categoryContainerMutableLiveData = new MutableLiveData<>();
-    private final MutableLiveData<ProductDetailDataContainer> productDetailDataContainerMutableLiveData = new MutableLiveData<>();
-    private final MutableLiveData<CartContainer> cartContainerMutableLiveData = new MutableLiveData<>();
-    private final MutableLiveData<OrderDataContainer> orderDataContainerMutableLiveData = new MutableLiveData<>();
+    private MutableLiveData<BasicResponse> basicResponseMutableLiveData = new MutableLiveData<>();
+    private MutableLiveData<HomeDataContainer> homeDataContainerMutableLiveData = new MutableLiveData<>();
+    private MutableLiveData<ProductContainer> productContainerMutableLiveData = new MutableLiveData<>();
+    private MutableLiveData<ActionProductsContainer> actionProductsContainerMutableLiveData = new MutableLiveData<>();
+    private MutableLiveData<CategoryContainer> categoryContainerMutableLiveData = new MutableLiveData<>();
+    private MutableLiveData<ProductDetailDataContainer> productDetailDataContainerMutableLiveData = new MutableLiveData<>();
+    private MutableLiveData<CartContainer> cartContainerMutableLiveData = new MutableLiveData<>();
+    private MutableLiveData<OrderDataContainer> orderDataContainerMutableLiveData = new MutableLiveData<>();
 
     private ProductsRepository() {
         lalalandServiceApi = RetrofitClient.getInstance().createClient();
@@ -55,6 +55,7 @@ public class ProductsRepository {
 
     public LiveData<HomeDataContainer> getHomeData() {
 
+        homeDataContainerMutableLiveData = new MutableLiveData<>();
         lalalandServiceApi.getHomeData().enqueue(new Callback<HomeDataContainer>() {
             @Override
             public void onResponse(Call<HomeDataContainer> call, Response<HomeDataContainer> response) {
@@ -79,6 +80,7 @@ public class ProductsRepository {
 
     public LiveData<ProductContainer> getRangeProducts(Map<String, String> parameters) {
 
+        productContainerMutableLiveData = new MutableLiveData<>();
         lalalandServiceApi.getRangeProducts(parameters).enqueue(new Callback<ProductContainer>() {
             @Override
             public void onResponse(Call<ProductContainer> call, Response<ProductContainer> response) {
@@ -97,6 +99,7 @@ public class ProductsRepository {
 
     public LiveData<ActionProductsContainer> getActionProducts(String action, Map<String, String> parameter) {
 
+        actionProductsContainerMutableLiveData = new MutableLiveData<>();
         lalalandServiceApi.getActionProducts(action, parameter).enqueue(new Callback<ActionProductsContainer>() {
             @Override
             public void onResponse(Call<ActionProductsContainer> call, Response<ActionProductsContainer> response) {
@@ -119,6 +122,7 @@ public class ProductsRepository {
 
     public LiveData<CategoryContainer> getCategoryGeneralData() {
 
+        cartContainerMutableLiveData = new MutableLiveData<>();
         lalalandServiceApi.getCategoryGeneralData().enqueue(new Callback<CategoryContainer>() {
             @Override
             public void onResponse(Call<CategoryContainer> call, Response<CategoryContainer> response) {
@@ -141,6 +145,7 @@ public class ProductsRepository {
 
     public LiveData<ProductDetailDataContainer> getProductDetail(int product_id) {
 
+        productDetailDataContainerMutableLiveData = new MutableLiveData<>();
         lalalandServiceApi.getProductDetail(product_id).enqueue(new Callback<ProductDetailDataContainer>() {
             @Override
             public void onResponse(Call<ProductDetailDataContainer> call, Response<ProductDetailDataContainer> response) {
@@ -163,6 +168,7 @@ public class ProductsRepository {
 
     public LiveData<BasicResponse> addToCart(Map<String, String> headers, Map<String, String> parameter) {
 
+        basicResponseMutableLiveData = new MutableLiveData<>();
         lalalandServiceApi.addToCart(headers, parameter).enqueue(new Callback<BasicResponse>() {
             @Override
             public void onResponse(Call<BasicResponse> call, Response<BasicResponse> response) {
@@ -188,6 +194,8 @@ public class ProductsRepository {
     }
 
     public LiveData<BasicResponse> addRemoveToWishList(Map<String, String> headers, Map<String, String> parameter) {
+
+        basicResponseMutableLiveData = new MutableLiveData<>();
 
         lalalandServiceApi.addRemoveToWishList(headers, parameter).enqueue(new Callback<BasicResponse>() {
             @Override
@@ -231,6 +239,7 @@ public class ProductsRepository {
 
     public LiveData<BasicResponse> addToReadyCartList(Map<String, String> header, Map<String, String> parameter) {
 
+        basicResponseMutableLiveData = new MutableLiveData<>();
         lalalandServiceApi.addToReadyCartList(header, parameter).enqueue(new Callback<BasicResponse>() {
             @Override
             public void onResponse(Call<BasicResponse> call, Response<BasicResponse> response) {
@@ -255,6 +264,7 @@ public class ProductsRepository {
 
     public LiveData<BasicResponse> deleteCartItem(Map<String, String> header, Map<String, String> parameter) {
 
+        basicResponseMutableLiveData = new MutableLiveData<>();
         lalalandServiceApi.deleteCartItem(header, parameter).enqueue(new Callback<BasicResponse>() {
             @Override
             public void onResponse(Call<BasicResponse> call, Response<BasicResponse> response) {
@@ -279,6 +289,7 @@ public class ProductsRepository {
 
     public LiveData<BasicResponse> changeCartProductQuantity(Map<String, String> parameter) {
 
+        basicResponseMutableLiveData = new MutableLiveData<>();
         lalalandServiceApi.changeCartProductQuantity(parameter).enqueue(new Callback<BasicResponse>() {
             @Override
             public void onResponse(Call<BasicResponse> call, Response<BasicResponse> response) {
@@ -303,6 +314,7 @@ public class ProductsRepository {
 
     public LiveData<OrderDataContainer> confirmOrder(String header, Map<String, String> parameter) {
 
+        orderDataContainerMutableLiveData = new MutableLiveData<>();
         lalalandServiceApi.confirmOrder(header, parameter).enqueue(new Callback<OrderDataContainer>() {
             @Override
             public void onResponse(Call<OrderDataContainer> call, Response<OrderDataContainer> response) {
@@ -320,6 +332,7 @@ public class ProductsRepository {
 
         return orderDataContainerMutableLiveData;
     }
+
     private void checkResponseSource(Response response) {
 
         Log.d("response_source", String.valueOf(response.code()) + response.errorBody());

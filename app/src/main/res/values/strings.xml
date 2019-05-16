@@ -154,5 +154,7 @@
     <string name="cancel">cancel</string>
     <string name="postal_code">Postal Code</string>
     <string name="city">City</string>
+    <string name="account_information">Account Information</string>
+    <string name="change_name">Change Name</string>
 
 </resources>

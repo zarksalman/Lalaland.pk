@@ -7,21 +7,21 @@ import androidx.lifecycle.AndroidViewModel;
 import androidx.lifecycle.LiveData;
 
 import com.lalaland.ecommerce.data.models.userAddressBook.AddressDataContainer;
-import com.lalaland.ecommerce.data.repository.UserRepository;
+import com.lalaland.ecommerce.data.repository.UsersRepository;
 
 import java.util.Map;
 
 public class UserViewModel extends AndroidViewModel {
 
-    private UserRepository userRepository;
+    private UsersRepository usersRepository;
 
     public UserViewModel(@NonNull Application application) {
         super(application);
 
-        userRepository = UserRepository.getInstance();
+        usersRepository = UsersRepository.getInstance();
     }
 
     public LiveData<AddressDataContainer> addNewAddress(String token, Map<String, String> parameter) {
-        return userRepository.addNewAddress(token, parameter);
+        return usersRepository.addNewAddress(token, parameter);
     }
 }

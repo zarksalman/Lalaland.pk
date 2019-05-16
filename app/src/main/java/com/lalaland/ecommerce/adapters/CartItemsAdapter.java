@@ -1,6 +1,7 @@
 package com.lalaland.ecommerce.adapters;
 
 import android.content.Context;
+import android.util.Log;
 import android.util.SparseBooleanArray;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -15,10 +16,10 @@ import com.lalaland.ecommerce.R;
 import com.lalaland.ecommerce.data.models.cart.CartItem;
 import com.lalaland.ecommerce.databinding.CartItemBinding;
 
-import java.util.ArrayList;
 import java.util.List;
 
 import static com.lalaland.ecommerce.helpers.AppConstants.ITEM_SOLD_OUT;
+import static com.lalaland.ecommerce.helpers.AppConstants.TAG;
 
 
 public class CartItemsAdapter extends RecyclerView.Adapter<CartItemsAdapter.CartItemViewHolder> {
@@ -28,7 +29,6 @@ public class CartItemsAdapter extends RecyclerView.Adapter<CartItemsAdapter.Cart
     private CartItemBinding cartItemBinding;
     private LayoutInflater inflater;
     private CartClickListener mCartClickListener;
-    private List<Integer> countList = new ArrayList<>();
     private SparseBooleanArray itemStateArray = new SparseBooleanArray();
 
     public CartItemsAdapter(Context context, CartClickListener cartClickListener) {
@@ -48,6 +48,7 @@ public class CartItemsAdapter extends RecyclerView.Adapter<CartItemsAdapter.Cart
             cartItemBinding.ivDeleteItem.setVisibility(View.GONE);
             cartItemBinding.cbAddToList.setVisibility(View.GONE);
             cartItemBinding.counterContainer.setVisibility(View.GONE);
+            cartItemBinding.tvQuantityDetail.setVisibility(View.VISIBLE);
         }
 
         return new CartItemViewHolder(cartItemBinding);
@@ -56,10 +57,10 @@ public class CartItemsAdapter extends RecyclerView.Adapter<CartItemsAdapter.Cart
     @Override
     public void onBindViewHolder(@NonNull CartItemViewHolder holder, int position) {
 
-        if (position != RecyclerView.NO_POSITION) {
+        //if (position != RecyclerView.NO_POSITION)
+        {
             CartItem cartItem = mCartItems.get(position);
             holder.bindHolder(cartItem);
-
         }
     }
 
@@ -78,22 +79,32 @@ public class CartItemsAdapter extends RecyclerView.Adapter<CartItemsAdapter.Cart
         notifyDataSetChanged();
     }
 
-    public void changeNumberOfCount(View view, CartItem cartItem, int value) {
+    public void changeNumberOfCount(int position, int value) {
 
 
-        int quantity = cartItem.getItemQuantity();
+        int quantity = mCartItems.get(position).getItemQuantity();
+        int remainingQuantity = Integer.parseInt(mCartItems.get(position).getRemainingQuantity());
 
         if (value > 0) {
-            if (Integer.parseInt(cartItem.getRemainingQuantity()) > cartItem.getItemQuantity()) {
+            if (remainingQuantity > quantity) {
                 quantity += 1;
-                mCartClickListener.changeNumberOfCount(cartItem, quantity);
+                mCartClickListener.changeNumberOfCount(position, quantity);
             } else
                 Toast.makeText(mContext, ITEM_SOLD_OUT, Toast.LENGTH_SHORT).show();
         } else {
             quantity -= 1;
-            mCartClickListener.changeNumberOfCount(cartItem, quantity);
+            mCartClickListener.changeNumberOfCount(position, quantity);
         }
 
+    }
+
+    public interface CartClickListener {
+
+        void addItemToList(int position);
+
+        void deleteFromCart(int position);
+
+        void changeNumberOfCount(int position, int quantity);
     }
 
     class CartItemViewHolder extends RecyclerView.ViewHolder {
@@ -111,30 +122,35 @@ public class CartItemsAdapter extends RecyclerView.Adapter<CartItemsAdapter.Cart
             mCartItemBinding.setAdapter(CartItemsAdapter.this);
             mCartItemBinding.executePendingBindings();
 
-            mCartItemBinding.cbAddToList.setChecked(itemStateArray.get(getAdapterPosition(), false));
+            //mCartItemBinding.cbAddToList.setChecked(itemStateArray.get(getAdapterPosition(), false));
+
+            if (cartItem.getCartStatus() == 1)
+                mCartItemBinding.cbAddToList.setChecked(false);
+            else if (cartItem.getCartStatus() == 3)
+                mCartItemBinding.cbAddToList.setChecked(true);
+            else
+                mCartItemBinding.cbAddToList.setChecked(true);
 
             mCartItemBinding.ivDeleteItem.setOnClickListener(v -> {
-                mCartClickListener.deleteFromCart(cartItem);
+                if (getAdapterPosition() != RecyclerView.NO_POSITION)
+
+                    Log.d(TAG, "DELETE_ITEMS_ADAPTER #" + getAdapterPosition());
+
+                mCartClickListener.deleteFromCart(getAdapterPosition());
             });
 
             mCartItemBinding.cbAddToList.setOnClickListener(v -> {
 
-                if (mCartItemBinding.cbAddToList.isChecked())
+              /*  if (mCartItemBinding.cbAddToList.isChecked())
                     itemStateArray.put(getAdapterPosition(), true);
                 else
-                    itemStateArray.put(getAdapterPosition(), false);
+                    itemStateArray.put(getAdapterPosition(), false);*/
 
-                mCartClickListener.addItemToList(cartItem);
+                mCartClickListener.addItemToList(getAdapterPosition());
             });
+
+            mCartItemBinding.btnAdd.setOnClickListener(v -> changeNumberOfCount(getAdapterPosition(), 1));
+            mCartItemBinding.btnSun.setOnClickListener(v -> changeNumberOfCount(getAdapterPosition(), -1));
         }
-    }
-
-    public interface CartClickListener {
-
-        void addItemToList(CartItem cartItem);
-
-        void deleteFromCart(CartItem cartItem);
-
-        void changeNumberOfCount(CartItem cartItem, int quantity);
     }
 }
