@@ -7,6 +7,7 @@ import androidx.lifecycle.AndroidViewModel;
 import androidx.lifecycle.LiveData;
 
 import com.lalaland.ecommerce.data.models.login.Login;
+import com.lalaland.ecommerce.data.models.login.LoginDataContainer;
 import com.lalaland.ecommerce.data.models.logout.BasicResponse;
 import com.lalaland.ecommerce.data.repository.UsersRepository;
 
@@ -18,7 +19,7 @@ public class LoginViewModel extends AndroidViewModel {
         super(application);
     }
 
-    public LiveData<Login> loginUser(String cart_session, Map<String, String> parameter) {
+    public LiveData<LoginDataContainer> loginUser(String cart_session, Map<String, String> parameter) {
         return UsersRepository.getInstance().loginUser(cart_session, parameter);
     }
 

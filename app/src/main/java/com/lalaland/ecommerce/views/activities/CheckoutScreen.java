@@ -1,10 +1,12 @@
 package com.lalaland.ecommerce.views.activities;
 
+import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Toast;
 
+import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.databinding.DataBindingUtil;
 import androidx.lifecycle.ViewModelProviders;
@@ -44,6 +46,7 @@ public class CheckoutScreen extends AppCompatActivity {
     private Map<String, String> headers = new HashMap<>();
     private String token, cart_session;
     String totalBill;
+    private boolean isUserAddressNull = false;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -51,7 +54,6 @@ public class CheckoutScreen extends AppCompatActivity {
         activityCheckoutScreenBinding = DataBindingUtil.setContentView(this, R.layout.activity_checkout_screen);
 
         appPreference = AppPreference.getInstance(this);
-        userAddresses = AppConstants.userAddresses;
         activityCheckoutScreenBinding.setClickListener(this);
 
         productViewModel = ViewModelProviders.of(this).get(ProductViewModel.class);
@@ -67,20 +69,7 @@ public class CheckoutScreen extends AppCompatActivity {
             activityCheckoutScreenBinding.rgPaymentType.setOnCheckedChangeListener(null);
         }
 
-
-        if (userAddresses == null) {
-            activityCheckoutScreenBinding.addUserAddress.setVisibility(View.VISIBLE);
-            activityCheckoutScreenBinding.userDetail.setVisibility(View.GONE);
-        } else {
-
-            activityCheckoutScreenBinding.tvUserName.setText(userAddresses.getUserName());
-            activityCheckoutScreenBinding.tvUserAddress.setText(userAddresses.getShippingAddress());
-            activityCheckoutScreenBinding.tvUserCityPostalCode.setText(String.valueOf(userAddresses.getPostalCode()));
-            activityCheckoutScreenBinding.tvUserMobile.setText(userAddresses.getPhone());
-
-            activityCheckoutScreenBinding.addUserAddress.setVisibility(View.GONE);
-            activityCheckoutScreenBinding.userDetail.setVisibility(View.VISIBLE);
-        }
+        isUserAddressExist();
 
         setListeners();
         setCartAdapter();
@@ -101,8 +90,31 @@ public class CheckoutScreen extends AppCompatActivity {
         });
     }
 
+    void isUserAddressExist() {
+        userAddresses = AppConstants.userAddresses;
+
+        if (userAddresses == null) {
+            activityCheckoutScreenBinding.addUserAddress.setVisibility(View.VISIBLE);
+            activityCheckoutScreenBinding.userDetail.setVisibility(View.GONE);
+            activityCheckoutScreenBinding.btnCheckout.setBackgroundColor(getResources().getColor(R.color.colorLightGray));
+            isUserAddressNull = true;
+        } else {
+
+            activityCheckoutScreenBinding.tvUserName.setText(userAddresses.getUserName());
+            activityCheckoutScreenBinding.tvUserAddress.setText(userAddresses.getShippingAddress());
+            activityCheckoutScreenBinding.tvUserCityPostalCode.setText(String.valueOf(userAddresses.getPostalCode()));
+            activityCheckoutScreenBinding.tvUserMobile.setText(userAddresses.getPhone());
+
+            activityCheckoutScreenBinding.btnCheckout.setBackgroundColor(getResources().getColor(R.color.colorAccent));
+            activityCheckoutScreenBinding.addUserAddress.setVisibility(View.GONE);
+            activityCheckoutScreenBinding.userDetail.setVisibility(View.VISIBLE);
+
+
+            isUserAddressNull = false;
+        }
+    }
     public void addNewAddress(View view) {
-        startActivity(new Intent(this, AddressCreationActivity.class));
+        startActivityForResult(new Intent(this, AddressCreationActivity.class), 1);
     }
 
     void setCartAdapter() {
@@ -131,10 +143,22 @@ public class CheckoutScreen extends AppCompatActivity {
         cartItemsAdapter.setData(cartItemList);
     }
 
-    public void placeOrder(View view) {
+    public void placeOrder() {
 
         if (Double.parseDouble(totalBill) >= PAYMENT_LOWEST_LIMIT || CASH_TRANSFER_TYPE == 2) {
             Toast.makeText(this, "You have to pay by bank", Toast.LENGTH_SHORT).show();
+            return;
+        }
+
+        if (isUserAddressNull) {
+            Toast.makeText(this, "Please add address to place order", Toast.LENGTH_SHORT).show();
+            return;
+        }
+
+        if (userAddresses.getPhone() == null || userAddresses.getPhone().isEmpty()) {
+            Intent intent = new Intent(this, AccountInformationActivity.class);
+            startActivityForResult(intent, Integer.parseInt(SUCCESS_CODE));
+            activityCheckoutScreenBinding.pbLoading.setVisibility(View.GONE);
             return;
         }
 
@@ -146,19 +170,21 @@ public class CheckoutScreen extends AppCompatActivity {
         parameter.put("city_id", String.valueOf(userAddresses.getCityId()));
         parameter.put("delivery_address", String.valueOf(userAddresses.getShippingAddress()));
         parameter.put("postal_code", String.valueOf(userAddresses.getPostalCode()));
+
         parameter.put("shipping_method", String.valueOf(0));
         parameter.put("payment_gateway", String.valueOf(CASH_TRANSFER_TYPE));
 
-        if (userAddresses.getPhone() == null || userAddresses.getPhone().isEmpty()) {
-            
-        }
 
         productViewModel.confirmOrder(token, parameter).observe(this, orderDataContainer -> {
 
             if (orderDataContainer != null) {
 
-                if (orderDataContainer.getCode().equals(SUCCESS_CODE))
+                if (orderDataContainer.getCode().equals(SUCCESS_CODE)) {
                     Toast.makeText(this, orderDataContainer.getMsg(), Toast.LENGTH_SHORT).show();
+                    startActivity(new Intent(this, MainActivity.class));
+                    finish();
+                }
+
                 else if (orderDataContainer.getCode().equals(VALIDATION_FAIL_CODE))
                     Toast.makeText(this, orderDataContainer.getMsg(), Toast.LENGTH_SHORT).show();
                 else
@@ -169,5 +195,20 @@ public class CheckoutScreen extends AppCompatActivity {
 
             activityCheckoutScreenBinding.pbLoading.setVisibility(View.GONE);
         });
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+
+        if (resultCode == Activity.RESULT_OK) {
+            if (requestCode == Integer.parseInt(SUCCESS_CODE)) {
+                isUserAddressExist();
+            } else if (requestCode == 1) {
+                isUserAddressExist();
+            }
+        } else {
+            Toast.makeText(this, "You should fill required fields, to place order", Toast.LENGTH_SHORT).show();
+        }
     }
 }

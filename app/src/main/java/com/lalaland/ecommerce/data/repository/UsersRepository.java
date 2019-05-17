@@ -5,9 +5,10 @@ import android.util.Log;
 import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MutableLiveData;
 
-import com.lalaland.ecommerce.data.models.login.Login;
+import com.lalaland.ecommerce.data.models.login.LoginDataContainer;
 import com.lalaland.ecommerce.data.models.logout.BasicResponse;
 import com.lalaland.ecommerce.data.models.registration.RegistrationContainer;
+import com.lalaland.ecommerce.data.models.updateUserData.UpdateUserDataContainer;
 import com.lalaland.ecommerce.data.models.userAddressBook.AddressDataContainer;
 import com.lalaland.ecommerce.data.retrofit.LalalandServiceApi;
 import com.lalaland.ecommerce.data.retrofit.RetrofitClient;
@@ -32,9 +33,10 @@ public class UsersRepository {
     private static UsersRepository usersRepository;
     private LalalandServiceApi lalalandServiceApi;
     private MutableLiveData<RegistrationContainer> registrationContainerMutableLiveData;
-    private MutableLiveData<Login> loginMutableLiveData;
+    private MutableLiveData<LoginDataContainer> loginMutableLiveData;
     private MutableLiveData<BasicResponse> basicResponseMutableLiveData;
     private MutableLiveData<AddressDataContainer> addressDataContainerMutableLiveData;
+    private MutableLiveData<UpdateUserDataContainer> updateUserDataContainerMutableLiveData;
 
     private UsersRepository() {
         lalalandServiceApi = RetrofitClient.getInstance().createClient();
@@ -66,13 +68,13 @@ public class UsersRepository {
         }
     }
 
-    public LiveData<Login> loginUser(String cart_session, Map<String, String> parameters) {
+    public LiveData<LoginDataContainer> loginUser(String cart_session, Map<String, String> parameters) {
 
         loginMutableLiveData = new MutableLiveData<>();
 
-        lalalandServiceApi.loginUser(cart_session, parameters).enqueue(new Callback<Login>() {
+        lalalandServiceApi.loginUser(cart_session, parameters).enqueue(new Callback<LoginDataContainer>() {
             @Override
-            public void onResponse(Call<Login> call, Response<Login> response) {
+            public void onResponse(Call<LoginDataContainer> call, Response<LoginDataContainer> response) {
 
                 if (response.isSuccessful()) {
 
@@ -89,7 +91,7 @@ public class UsersRepository {
             }
 
             @Override
-            public void onFailure(Call<Login> call, Throwable t) {
+            public void onFailure(Call<LoginDataContainer> call, Throwable t) {
                 loginMutableLiveData.postValue(null);
             }
         });
@@ -127,11 +129,9 @@ public class UsersRepository {
         return basicResponseMutableLiveData;
     }
 
-    public LiveData<BasicResponse> changePassword(Map<String, String> parameter) {
+    public LiveData<BasicResponse> changePassword(String token, Map<String, String> parameter) {
 
         basicResponseMutableLiveData = new MutableLiveData<>();
-        // session token
-        String token = AppPreference.getInstance(AppConstants.mContext).getString(SIGNIN_TOKEN);
 
         lalalandServiceApi.changePassword(token, parameter).enqueue(new Callback<BasicResponse>() {
 
@@ -199,10 +199,10 @@ public class UsersRepository {
         return registrationContainerMutableLiveData;
     }
 
-    public LiveData<AddressDataContainer> addNewAddress(String headers, Map<String, String> parameters) {
+    public LiveData<AddressDataContainer> addNewAddress(String token, Map<String, String> parameters) {
 
         addressDataContainerMutableLiveData = new MutableLiveData<>();
-        lalalandServiceApi.addNewAddress(headers, parameters).enqueue(new Callback<AddressDataContainer>() {
+        lalalandServiceApi.addNewAddress(token, parameters).enqueue(new Callback<AddressDataContainer>() {
             @Override
             public void onResponse(Call<AddressDataContainer> call, Response<AddressDataContainer> response) {
 
@@ -219,6 +219,28 @@ public class UsersRepository {
         });
 
         return addressDataContainerMutableLiveData;
+    }
+
+    public LiveData<UpdateUserDataContainer> updateUserDetails(String token, Map<String, String> parameter) {
+
+        updateUserDataContainerMutableLiveData = new MutableLiveData<>();
+        lalalandServiceApi.updateUserDetails(token, parameter).enqueue(new Callback<UpdateUserDataContainer>() {
+            @Override
+            public void onResponse(Call<UpdateUserDataContainer> call, Response<UpdateUserDataContainer> response) {
+                if (response.isSuccessful()) {
+                    updateUserDataContainerMutableLiveData.postValue(response.body());
+                } else {
+                    updateUserDataContainerMutableLiveData.postValue(null);
+                }
+            }
+
+            @Override
+            public void onFailure(Call<UpdateUserDataContainer> call, Throwable t) {
+                updateUserDataContainerMutableLiveData.postValue(null);
+            }
+        });
+
+        return updateUserDataContainerMutableLiveData;
     }
 
     private void checkResponseSource(Response response) {

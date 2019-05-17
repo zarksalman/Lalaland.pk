@@ -32,6 +32,7 @@
     <dimen name="_250dp">250dp</dimen>
     <dimen name="_300dp">300dp</dimen>
     <dimen name="_18dp">18dp</dimen>
+    <dimen name="_32dp">32dp</dimen>
     <dimen name="_16dp">16dp</dimen>
     <dimen name="card_button_height">33dp</dimen>
     <dimen name="_50dp">50dp</dimen>

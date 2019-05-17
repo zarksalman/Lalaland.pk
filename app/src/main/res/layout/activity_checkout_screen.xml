@@ -275,7 +275,7 @@
                 android:layout_weight=".5"
                 android:background="@color/colorAccent"
                 android:text="@string/checkout"
-                android:onClick="@{(view)->clickListener.placeOrder(view)}"
+                android:onClick="@{()->clickListener.placeOrder()}"
                 android:textColor="@android:color/white"
                 android:textSize="14sp" />
 

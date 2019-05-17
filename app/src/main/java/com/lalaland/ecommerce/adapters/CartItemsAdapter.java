@@ -57,11 +57,8 @@ public class CartItemsAdapter extends RecyclerView.Adapter<CartItemsAdapter.Cart
     @Override
     public void onBindViewHolder(@NonNull CartItemViewHolder holder, int position) {
 
-        //if (position != RecyclerView.NO_POSITION)
-        {
             CartItem cartItem = mCartItems.get(position);
             holder.bindHolder(cartItem);
-        }
     }
 
     @Override
@@ -85,6 +82,7 @@ public class CartItemsAdapter extends RecyclerView.Adapter<CartItemsAdapter.Cart
         int quantity = mCartItems.get(position).getItemQuantity();
         int remainingQuantity = Integer.parseInt(mCartItems.get(position).getRemainingQuantity());
 
+
         if (value > 0) {
             if (remainingQuantity > quantity) {
                 quantity += 1;
@@ -92,10 +90,12 @@ public class CartItemsAdapter extends RecyclerView.Adapter<CartItemsAdapter.Cart
             } else
                 Toast.makeText(mContext, ITEM_SOLD_OUT, Toast.LENGTH_SHORT).show();
         } else {
-            quantity -= 1;
-            mCartClickListener.changeNumberOfCount(position, quantity);
-        }
 
+            if (quantity > 0) {
+                quantity -= 1;
+                mCartClickListener.changeNumberOfCount(position, quantity);
+            }
+        }
     }
 
     public interface CartClickListener {

@@ -99,6 +99,7 @@ public class AddressCreationActivity extends AppCompatActivity {
                         Log.d(AppConstants.TAG, addressDataContainer.getMsg());
                         Toast.makeText(this, addressDataContainer.getMsg(), Toast.LENGTH_SHORT).show();
                         //startActivity(new Intent(this, CheckoutScreen.class));
+                        setResult(RESULT_OK);
                         finish();
                     } else if (addressDataContainer.getCode().equals(VALIDATION_FAIL_CODE)) {
 

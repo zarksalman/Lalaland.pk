@@ -290,29 +290,7 @@ public class SignupFragment extends BaseRegistrationFragment {
             }
         });
     }
-
-    private void changePassword() {
-
-        Map<String, String> parameter = new HashMap<>();
-        parameter.put("old_password", "salman123");
-        parameter.put("new_password", "salman123456789");
-
-        registrationViewModel.changePassword(parameter).observe(this, basicResponse -> {
-
-            if (basicResponse != null) {
-
-                if (basicResponse.getCode().equals(SUCCESS_CODE)) {
-                    Log.d("registerUser", basicResponse.getMsg());
-                    Log.d("registerUser", AppPreference.getInstance(getContext()).getString(SIGNIN_TOKEN));
-                } else if (basicResponse.getCode().equals(VALIDATION_FAIL_CODE)) {
-                    Toast.makeText(getContext(), basicResponse.getMsg(), Toast.LENGTH_SHORT).show();
-                }
-            } else
-                Toast.makeText(getContext(), "Could Not Change Password at this time", Toast.LENGTH_SHORT).show();
-        });
-
-    }
-
+    
     private void showDatePickerDialogue() {
 
         DatePickerDialog.OnDateSetListener date = new DatePickerDialog.OnDateSetListener() {

@@ -12,7 +12,8 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme.NoActionBar">
-        <activity android:name=".views.activities.AccountInformationActivity"></activity>
+        <activity android:name=".views.activities.EditAccountInformationActivity"></activity>
+        <activity android:name=".views.activities.AccountInformationActivity" />
         <activity android:name=".views.activities.AddressCreationActivity" />
         <activity android:name=".views.activities.ShippingAddressActivity" />
         <activity

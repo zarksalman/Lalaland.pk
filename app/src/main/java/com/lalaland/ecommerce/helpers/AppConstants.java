@@ -43,8 +43,19 @@ public class AppConstants {
     public static final String BRAND_FOCUS_STORAGE_BASE_URL = "https://api.uat.lalaland.pk/storage/featured_brands/";
     public static final String ACTION_STORAGE_BASE_URL = "https://api.uat.lalaland.pk/storage/mobile_actions/";
 
+    public static final String FULL_NAME = "full_name";
+    public static final String FIRST_NAME = "first_name";
+    public static final String LAST_NAME = "last_name";
+    public static final String DATE_OF_BIRTH = "dob";
+    public static final String GENDER = "gender";
+    public static final String PHONE_NUMBER = "phone";
+    public static final String NEW_PASSWORD = "new_password";
+    public static final String OLD_PASSWORD = "old_password";
+    public static final String EMAIL = "email";
+
     public static final String SIGN_IN = "SIGN IN";
     public static final String REGISTER = "REGISTER";
+
     public static int CASH_TRANSFER_TYPE = 1;
 
 

@@ -21,6 +21,7 @@ import com.lalaland.ecommerce.data.models.cart.CartItem;
 import com.lalaland.ecommerce.databinding.FragmentCartBinding;
 import com.lalaland.ecommerce.helpers.AppConstants;
 import com.lalaland.ecommerce.helpers.AppPreference;
+import com.lalaland.ecommerce.helpers.AppUtils;
 import com.lalaland.ecommerce.viewModels.products.ProductViewModel;
 import com.lalaland.ecommerce.views.activities.CheckoutScreen;
 import com.lalaland.ecommerce.views.activities.RegistrationActivity;
@@ -346,6 +347,10 @@ public class CartFragment extends Fragment implements View.OnClickListener, Cart
             totalBill += perItemBill;
         }
 
-        fragmentCartBinding.tvTotalBalance.setText(String.valueOf(totalBill));
+        if (selectedCartItemList.size() < 1 || String.valueOf(totalBill).equals("0.0"))
+            fragmentCartBinding.tvTotalBalance.setText("");
+        else {
+            fragmentCartBinding.tvTotalBalance.setText(AppUtils.formatPriceString(String.valueOf(totalBill)));
+        }
     }
 }

@@ -120,7 +120,7 @@ public class SigninFragment extends BaseRegistrationFragment {
 
                 switch (login.getCode()) {
                     case SUCCESS_CODE:
-                        Log.d("registerUser", login.getData().getName() + ":" + login.getData().getEmail());
+                        Log.d("registerUser", login.getData().getUser().getName() + ":" + login.getData().getUser().getEmail());
                         Log.d("registerUser", AppPreference.getInstance(getContext()).getString(SIGNIN_TOKEN));
                         startActivity();
                         break;
