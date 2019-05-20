@@ -1,10 +1,12 @@
 package com.lalaland.ecommerce.views.activities;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
 import android.widget.Toast;
 
+import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.databinding.DataBindingUtil;
 import androidx.lifecycle.ViewModelProviders;
@@ -37,9 +39,10 @@ public class AddressCreationActivity extends AppCompatActivity {
     private String last_name;
     private String postal_address;
     private String postal_code;
-    private String city;
+    private String city, cityId;
     private boolean is_primary = false;
     private Map<String, String> parameter = new HashMap<>();
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -52,6 +55,11 @@ public class AddressCreationActivity extends AppCompatActivity {
 
         userAddresses = new UserAddresses();
         activityAddressCreationBinding.setClickListener(this);
+
+        activityAddressCreationBinding.etCity.setOnClickListener(v -> {
+            Intent intent = new Intent(this, SelectCityActivity.class);
+            startActivityForResult(intent, 100);
+        });
     }
 
     public void cancel(View view) {
@@ -69,7 +77,8 @@ public class AddressCreationActivity extends AppCompatActivity {
                         && validateNames(CONFIRM_TYPE)
                         && validateAddress(1)
                         && validateAddress(2)
-                        && validateAddress(3)) {
+                        && validateAddress(3)
+                        && validateCity()) {
 
             is_primary = activityAddressCreationBinding.cbDefault.isChecked();
 
@@ -77,7 +86,7 @@ public class AddressCreationActivity extends AppCompatActivity {
             parameter.put("last_name", last_name);
             parameter.put("physical_address", postal_address);
             parameter.put("shipping_address", postal_address);
-            parameter.put("city_id", city);
+            parameter.put("city_id", cityId);
             parameter.put("postal_code", postal_code);
 
 
@@ -176,6 +185,34 @@ public class AddressCreationActivity extends AppCompatActivity {
         }
 
         return true;
+    }
+
+    private boolean validateCity() {
+
+        city = activityAddressCreationBinding.etCity.getText().toString().trim();
+
+        if (city.isEmpty()) {
+            activityAddressCreationBinding.tiCity.setError("Please select city");
+            return false;
+        }
+
+        activityAddressCreationBinding.tiCity.setError(null);
+        return true;
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+
+        if (resultCode == RESULT_OK) {
+            if (requestCode == 100) {
+
+                city = data.getStringExtra("city_name");
+                cityId = data.getStringExtra("city_id");
+
+                activityAddressCreationBinding.etCity.setText(city);
+            }
+        }
     }
 
     @Override

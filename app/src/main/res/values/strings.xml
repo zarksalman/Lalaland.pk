@@ -163,5 +163,6 @@
     <string name="confirm_new_password">Confirm new password</string>
     <string name="name">Name</string>
     <string name="edit_information">Edit Information</string>
+    <string name="title_activity_select_city">SelectCityActivity</string>
 
 </resources>

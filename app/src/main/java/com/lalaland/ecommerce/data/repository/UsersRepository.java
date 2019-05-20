@@ -26,12 +26,17 @@ import static com.lalaland.ecommerce.helpers.AppConstants.CART_SESSION_TOKEN;
 import static com.lalaland.ecommerce.helpers.AppConstants.FACEBOOK_SIGN_UP_IN;
 import static com.lalaland.ecommerce.helpers.AppConstants.FORM_SIGN_UP;
 import static com.lalaland.ecommerce.helpers.AppConstants.GOOGLE_SIGN_UP_IN;
+import static com.lalaland.ecommerce.helpers.AppConstants.RECOMMENDED_CAT_TOKEN;
 import static com.lalaland.ecommerce.helpers.AppConstants.SIGNIN_TOKEN;
+import static com.lalaland.ecommerce.helpers.AppConstants.SUCCESS_CODE;
 
 public class UsersRepository {
 
     private static UsersRepository usersRepository;
     private LalalandServiceApi lalalandServiceApi;
+    private AppPreference appPreference;
+    private String recommendedCategry;
+
     private MutableLiveData<RegistrationContainer> registrationContainerMutableLiveData;
     private MutableLiveData<LoginDataContainer> loginMutableLiveData;
     private MutableLiveData<BasicResponse> basicResponseMutableLiveData;
@@ -40,6 +45,7 @@ public class UsersRepository {
 
     private UsersRepository() {
         lalalandServiceApi = RetrofitClient.getInstance().createClient();
+        appPreference = AppPreference.getInstance(AppConstants.mContext);
     }
 
     public static UsersRepository getInstance() {
@@ -70,6 +76,9 @@ public class UsersRepository {
 
     public LiveData<LoginDataContainer> loginUser(String cart_session, Map<String, String> parameters) {
 
+        recommendedCategry = appPreference.getString(RECOMMENDED_CAT_TOKEN);
+        parameters.put(RECOMMENDED_CAT_TOKEN, recommendedCategry);
+
         loginMutableLiveData = new MutableLiveData<>();
 
         lalalandServiceApi.loginUser(cart_session, parameters).enqueue(new Callback<LoginDataContainer>() {
@@ -79,9 +88,16 @@ public class UsersRepository {
                 if (response.isSuccessful()) {
 
                     loginMutableLiveData.postValue(response.body());
-                    Headers headers = response.headers();
-                    AppPreference.getInstance(AppConstants.mContext).setString(SIGNIN_TOKEN, headers.get(SIGNIN_TOKEN));
-                    AppPreference.getInstance(AppConstants.mContext).setString(CART_SESSION_TOKEN, ""); // if login successfully then discard cart session token
+
+                    if (response.body().getCode().equals(SUCCESS_CODE)) {
+                        Headers headers = response.headers();
+                        appPreference.setString(SIGNIN_TOKEN, headers.get(SIGNIN_TOKEN));
+                        appPreference.setString(CART_SESSION_TOKEN, ""); // if login successfully then discard cart session token
+
+                        recommendedCategry = response.body().getData().getRecommendedCat();
+                        appPreference.setString(RECOMMENDED_CAT_TOKEN, recommendedCategry);
+                    }
+
 
                     checkResponseSource(response);
                 } else {
@@ -153,7 +169,11 @@ public class UsersRepository {
 
     public LiveData<RegistrationContainer> signUpForm(Map<String, String> parameters) {
 
+        recommendedCategry = appPreference.getString(RECOMMENDED_CAT_TOKEN);
+        parameters.put(RECOMMENDED_CAT_TOKEN, recommendedCategry);
+
         registrationContainerMutableLiveData = new MutableLiveData<>();
+
         lalalandServiceApi.registerUser(parameters).enqueue(new Callback<RegistrationContainer>() {
             @Override
             public void onResponse(Call<RegistrationContainer> call, Response<RegistrationContainer> response) {
@@ -174,7 +194,11 @@ public class UsersRepository {
 
     public LiveData<RegistrationContainer> signUpFacebook(String cart_session, Map<String, String> parameters) {
 
+        recommendedCategry = appPreference.getString(RECOMMENDED_CAT_TOKEN);
+        parameters.put(RECOMMENDED_CAT_TOKEN, recommendedCategry);
+
         registrationContainerMutableLiveData = new MutableLiveData<>();
+
         lalalandServiceApi.registerFromFacebook(cart_session, parameters).enqueue(new Callback<RegistrationContainer>() {
             @Override
             public void onResponse(Call<RegistrationContainer> call, Response<RegistrationContainer> response) {

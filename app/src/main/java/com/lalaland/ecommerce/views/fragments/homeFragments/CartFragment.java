@@ -108,7 +108,9 @@ public class CartFragment extends Fragment implements View.OnClickListener, Cart
                         setSelectedCartItemList();
 
                         Log.d(TAG, String.valueOf(cartContainer.getData().getCartItems().size()));
-                    } else
+                    } else if (cartContainer.getCode().equals(VALIDATION_FAIL_CODE))
+                        Toast.makeText(getContext(), cartContainer.getMsg(), Toast.LENGTH_SHORT).show();
+                    else
                         Toast.makeText(getContext(), GENERAL_ERROR, Toast.LENGTH_SHORT).show();
                 }
 

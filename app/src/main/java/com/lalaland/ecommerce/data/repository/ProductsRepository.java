@@ -26,12 +26,15 @@ import retrofit2.Callback;
 import retrofit2.Response;
 
 import static com.lalaland.ecommerce.helpers.AppConstants.CART_SESSION_TOKEN;
+import static com.lalaland.ecommerce.helpers.AppConstants.RECOMMENDED_CAT_TOKEN;
 import static com.lalaland.ecommerce.helpers.AppConstants.SUCCESS_CODE;
 
 public class ProductsRepository {
 
     private static ProductsRepository repository;
     private LalalandServiceApi lalalandServiceApi;
+    private AppPreference appPreference;
+    String recommendedCat;
 
     private MutableLiveData<BasicResponse> basicResponseMutableLiveData = new MutableLiveData<>();
     private MutableLiveData<HomeDataContainer> homeDataContainerMutableLiveData = new MutableLiveData<>();
@@ -44,6 +47,7 @@ public class ProductsRepository {
 
     private ProductsRepository() {
         lalalandServiceApi = RetrofitClient.getInstance().createClient();
+        appPreference = AppPreference.getInstance(AppConstants.mContext);
     }
 
     public static ProductsRepository getInstance() {
@@ -55,8 +59,10 @@ public class ProductsRepository {
 
     public LiveData<HomeDataContainer> getHomeData() {
 
+        recommendedCat = appPreference.getString(RECOMMENDED_CAT_TOKEN);
         homeDataContainerMutableLiveData = new MutableLiveData<>();
-        lalalandServiceApi.getHomeData().enqueue(new Callback<HomeDataContainer>() {
+
+        lalalandServiceApi.getHomeData(recommendedCat).enqueue(new Callback<HomeDataContainer>() {
             @Override
             public void onResponse(Call<HomeDataContainer> call, Response<HomeDataContainer> response) {
 
@@ -82,6 +88,25 @@ public class ProductsRepository {
 
         productContainerMutableLiveData = new MutableLiveData<>();
         lalalandServiceApi.getRangeProducts(parameters).enqueue(new Callback<ProductContainer>() {
+            @Override
+            public void onResponse(Call<ProductContainer> call, Response<ProductContainer> response) {
+                productContainerMutableLiveData.postValue(response.body());
+                checkResponseSource(response);
+            }
+
+            @Override
+            public void onFailure(Call<ProductContainer> call, Throwable t) {
+                productContainerMutableLiveData.postValue(null);
+            }
+        });
+
+        return productContainerMutableLiveData;
+    }
+
+    public LiveData<ProductContainer> getRecommendations(Map<String, String> parameters) {
+
+        productContainerMutableLiveData = new MutableLiveData<>();
+        lalalandServiceApi.getRecommendations(parameters).enqueue(new Callback<ProductContainer>() {
             @Override
             public void onResponse(Call<ProductContainer> call, Response<ProductContainer> response) {
                 productContainerMutableLiveData.postValue(response.body());
@@ -143,15 +168,21 @@ public class ProductsRepository {
         return categoryContainerMutableLiveData;
     }
 
-    public LiveData<ProductDetailDataContainer> getProductDetail(int product_id) {
+    public LiveData<ProductDetailDataContainer> getProductDetail(int productId) {
 
+        recommendedCat = appPreference.getString(RECOMMENDED_CAT_TOKEN);
         productDetailDataContainerMutableLiveData = new MutableLiveData<>();
-        lalalandServiceApi.getProductDetail(product_id).enqueue(new Callback<ProductDetailDataContainer>() {
+
+        lalalandServiceApi.getProductDetail(productId, recommendedCat).enqueue(new Callback<ProductDetailDataContainer>() {
             @Override
             public void onResponse(Call<ProductDetailDataContainer> call, Response<ProductDetailDataContainer> response) {
 
-                if (response.isSuccessful())
+                if (response.isSuccessful()) {
                     productDetailDataContainerMutableLiveData.postValue(response.body());
+
+                    recommendedCat = response.body().getData().getRecommendedCat();
+                    appPreference.setString(RECOMMENDED_CAT_TOKEN, recommendedCat);
+                }
                 else
                     productDetailDataContainerMutableLiveData.postValue(null);
 

@@ -71,8 +71,8 @@ public class ProductDetailActivity extends AppCompatActivity {
 
     void loadProductDetail() {
         productImage = PRODUCT_STORAGE_BASE_URL + mProductDetailDataContainer.getData().getProductDetails().getPrimaryImage();
-        variation_id = mProductVariation.get(0).getId();
-        quantity = 2;
+        variation_id = mProductVariation.get(mProductVariation.size() - 1).getId();
+        quantity = 1;
 
         // setting cart related data
         loginToken = appPreference.getString(SIGNIN_TOKEN);

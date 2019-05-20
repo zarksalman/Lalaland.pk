@@ -4,7 +4,6 @@ import android.content.Context;
 
 import com.lalaland.ecommerce.data.models.category.Category;
 import com.lalaland.ecommerce.data.models.category.City;
-import com.lalaland.ecommerce.data.models.registration.RegistrationData;
 import com.lalaland.ecommerce.data.models.userAddressBook.UserAddresses;
 
 import java.util.ArrayList;
@@ -21,7 +20,6 @@ public class AppConstants {
     public static List<City> staticCitiesList = new ArrayList<>();
     public static List<String> testImagesUrl = new ArrayList<>();
     public static UserAddresses userAddresses;
-    public static RegistrationData userData2;
     // -------------------------------------------------------------------------------------------
     public static final Double PAYMENT_LOWEST_LIMIT = 40000.00;
 // -------------------------------------------------------------------------------------------
@@ -32,6 +30,7 @@ public class AppConstants {
     public static final String DATE_FORMAT_TEXT = "yyyy-MM-dd";
     public static final String ACTION_NAME = "action_name";
     public static final String ACTION_ID = "action_id";
+    public static final String PRODUCT_TYPE = "product_type";
     public static final String PRODUCT_ID = "product_id";
     public static final String CART_ID = "cart_id";
     public static final String IS_WISH_LIST = "is_wish_list";
@@ -55,6 +54,7 @@ public class AppConstants {
 
     public static final String SIGN_IN = "SIGN IN";
     public static final String REGISTER = "REGISTER";
+    public static final String RECOMMENDED_CAT_TOKEN = "recommended_cat";
 
     public static int CASH_TRANSFER_TYPE = 1;
 

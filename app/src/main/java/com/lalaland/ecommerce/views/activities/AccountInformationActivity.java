@@ -35,21 +35,10 @@ public class AccountInformationActivity extends AppCompatActivity {
 
     private ActivityAccountInformationBinding activityAccountInformationBinding;
     private UserViewModel userViewModel;
-    private Intent intent;
     private Map<String, String> parameter = new HashMap<>();
     private AppPreference appPreference;
 
-    private int requestCode;
     private String token;
-
-    private String oldPassword = "";
-    private String password = "";
-    private String confirmPassword = "";
-    private String first_name = "";
-    private String last_name = "";
-    private String phoneNumber = "";
-    private String gender = "male";
-    private String dob = "dob";
 
 
     @Override
@@ -77,8 +66,8 @@ public class AccountInformationActivity extends AppCompatActivity {
 
     public void changeAttributes(int type) {
 
-        intent = new Intent(this, EditAccountInformationActivity.class);
-        requestCode = type;
+        Intent intent = new Intent(this, EditAccountInformationActivity.class);
+        int requestCode = type;
         intent.putExtra("request_code", type);
         startActivityForResult(intent, type);
 
@@ -91,13 +80,18 @@ public class AccountInformationActivity extends AppCompatActivity {
         if (resultCode == RESULT_OK) {
             switch (requestCode) {
                 case 1:
+
+                    String first_name = getDataFromIntent(data, FIRST_NAME);
+                    String last_name = getDataFromIntent(data, LAST_NAME);
+
                     parameter.clear();
-                    first_name = data.getStringExtra(FIRST_NAME);
-                    last_name = data.getStringExtra(LAST_NAME);
+                    parameter.put(FIRST_NAME, first_name);
+                    parameter.put(LAST_NAME, last_name);
                     break;
 
                 case 2:
-                    phoneNumber = data.getStringExtra(PHONE_NUMBER);
+
+                    String phoneNumber = getDataFromIntent(data, PHONE_NUMBER);
 
                     parameter.clear();
                     parameter.put(PHONE_NUMBER, phoneNumber);
@@ -105,8 +99,8 @@ public class AccountInformationActivity extends AppCompatActivity {
                     break;
                 case 3:
 
-                    oldPassword = data.getStringExtra(OLD_PASSWORD);
-                    password = data.getStringExtra(NEW_PASSWORD);
+                    String oldPassword = getDataFromIntent(data, OLD_PASSWORD);
+                    String password = getDataFromIntent(data, NEW_PASSWORD);
 
                     parameter.clear();
                     parameter.put(OLD_PASSWORD, oldPassword);
@@ -117,7 +111,7 @@ public class AccountInformationActivity extends AppCompatActivity {
 
                 case 4:
 
-                    gender = data.getStringExtra(GENDER);
+                    String gender = getDataFromIntent(data, GENDER);
 
                     parameter.clear();
                     parameter.put(GENDER, gender);
@@ -127,7 +121,7 @@ public class AccountInformationActivity extends AppCompatActivity {
 
                 case 5:
 
-                    dob = data.getStringExtra(DATE_OF_BIRTH);
+                    String dob = getDataFromIntent(data, DATE_OF_BIRTH);
 
                     parameter.clear();
                     parameter.put(DATE_OF_BIRTH, dob);
@@ -135,6 +129,14 @@ public class AccountInformationActivity extends AppCompatActivity {
                     break;
             }
         }
+    }
+
+    String getDataFromIntent(Intent intent, String key) {
+
+        if (intent != null)
+            return intent.getStringExtra(key);
+        else
+            return "";
     }
 
     private void changePassword() {
@@ -145,7 +147,6 @@ public class AccountInformationActivity extends AppCompatActivity {
 
                 if (basicResponse.getCode().equals(SUCCESS_CODE)) {
                     Log.d("registerUser", basicResponse.getMsg());
-                    Log.d("registerUser", AppPreference.getInstance(this).getString(SIGNIN_TOKEN));
                     Toast.makeText(this, basicResponse.getMsg(), Toast.LENGTH_SHORT).show();
 
                 } else if (basicResponse.getCode().equals(VALIDATION_FAIL_CODE)) {

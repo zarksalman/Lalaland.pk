@@ -33,6 +33,7 @@ public class ProductViewModel extends AndroidViewModel {
         return productsRepository.getRangeProducts(parameters);
     }
 
+
     public LiveData<ActionProductsContainer> getActionProducts(String action, Map<String, String> parameter) {
 
         return productsRepository.getActionProducts(action, parameter);

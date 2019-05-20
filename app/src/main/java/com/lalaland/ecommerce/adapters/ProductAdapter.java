@@ -2,6 +2,7 @@ package com.lalaland.ecommerce.adapters;
 
 import android.content.Context;
 import android.view.LayoutInflater;
+import android.view.View;
 import android.view.ViewGroup;
 
 import androidx.annotation.NonNull;
@@ -21,10 +22,12 @@ public class ProductAdapter extends RecyclerView.Adapter<ProductAdapter.ProductV
     private List<Product> mProductList;
     private ProductItemBinding productItemBinding;
     private LayoutInflater inflater;
+    private ProductListener mProductListener;
 
-    public ProductAdapter(Context context) {
+    public ProductAdapter(Context context, ProductListener productListener) {
         mContext = context;
         inflater = LayoutInflater.from(context);
+        mProductListener = productListener;
     }
 
     @NonNull
@@ -52,6 +55,10 @@ public class ProductAdapter extends RecyclerView.Adapter<ProductAdapter.ProductV
         notifyDataSetChanged();
     }
 
+    public void onProductClicked(View view, Product product) {
+        mProductListener.onProductProductClicked(product);
+    }
+
     class ProductViewHolder extends RecyclerView.ViewHolder {
 
         ProductItemBinding mProductItemBinding;
@@ -63,9 +70,13 @@ public class ProductAdapter extends RecyclerView.Adapter<ProductAdapter.ProductV
         }
 
         void bindHolder(Product product) {
-            mProductItemBinding.setProducts(product);
+            mProductItemBinding.setProduct(product);
             mProductItemBinding.setAdapter(ProductAdapter.this);
             mProductItemBinding.executePendingBindings();
         }
+    }
+
+    public interface ProductListener {
+        void onProductProductClicked(Product product);
     }
 }

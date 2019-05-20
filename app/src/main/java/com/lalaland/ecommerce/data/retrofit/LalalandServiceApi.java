@@ -5,7 +5,6 @@ import com.lalaland.ecommerce.data.models.cart.CartContainer;
 import com.lalaland.ecommerce.data.models.category.CategoryContainer;
 import com.lalaland.ecommerce.data.models.deliveryCharges.DeliveryChargesContainer;
 import com.lalaland.ecommerce.data.models.home.HomeDataContainer;
-import com.lalaland.ecommerce.data.models.login.Login;
 import com.lalaland.ecommerce.data.models.login.LoginDataContainer;
 import com.lalaland.ecommerce.data.models.logout.BasicResponse;
 import com.lalaland.ecommerce.data.models.order.OrderDataContainer;
@@ -33,7 +32,10 @@ public interface LalalandServiceApi {
     Call<String> testResponse(@Url String url);
 
     @POST("home")
-    Call<HomeDataContainer> getHomeData();
+    Call<HomeDataContainer> getHomeData(@Query("recommended_cat") String recommendedCategory);
+
+    @POST("getRecommendations")
+    Call<ProductContainer> getRecommendations(@QueryMap Map<String, String> parameters);
 
     @POST("products")
     Call<ProductContainer> getRangeProducts(@QueryMap Map<String, String> parameters);
@@ -51,7 +53,7 @@ public interface LalalandServiceApi {
     Call<BasicResponse> addRemoveToWishList(@HeaderMap Map<String, String> header, @QueryMap Map<String, String> parameter);
 
     @POST("productDetails")
-    Call<ProductDetailDataContainer> getProductDetail(@Query("product_id") int product_id);
+    Call<ProductDetailDataContainer> getProductDetail(@Query("product_id") int product_id, @Query("recommended_cat") String recommendedCategory);
 
 
     @POST("getDeliveryCharges")

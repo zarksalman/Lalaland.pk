@@ -21,12 +21,12 @@ import com.lalaland.ecommerce.adapters.ActionAdapter;
 import com.lalaland.ecommerce.adapters.BrandsFocusAdapter;
 import com.lalaland.ecommerce.adapters.PickOfWeekAdapter;
 import com.lalaland.ecommerce.adapters.ProductAdapter;
-import com.lalaland.ecommerce.adapters.RecommendationAdapter;
 import com.lalaland.ecommerce.data.models.home.Actions;
 import com.lalaland.ecommerce.data.models.home.FeaturedBrand;
 import com.lalaland.ecommerce.data.models.home.HomeBanner;
 import com.lalaland.ecommerce.data.models.home.PicksOfTheWeek;
 import com.lalaland.ecommerce.data.models.home.Recommendation;
+import com.lalaland.ecommerce.data.models.products.Product;
 import com.lalaland.ecommerce.databinding.FragmentHomeBinding;
 import com.lalaland.ecommerce.helpers.AppConstants;
 import com.lalaland.ecommerce.viewModels.products.HomeViewModel;
@@ -35,16 +35,19 @@ import com.lalaland.ecommerce.views.activities.ActionProductListingActivity;
 import com.lalaland.ecommerce.views.activities.ProductDetailActivity;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import static com.lalaland.ecommerce.helpers.AppConstants.ACTION_ID;
 import static com.lalaland.ecommerce.helpers.AppConstants.ACTION_NAME;
 import static com.lalaland.ecommerce.helpers.AppConstants.BANNER_STORAGE_BASE_URL;
 import static com.lalaland.ecommerce.helpers.AppConstants.PRODUCT_ID;
+import static com.lalaland.ecommerce.helpers.AppConstants.PRODUCT_TYPE;
 import static com.lalaland.ecommerce.helpers.AppConstants.SUCCESS_CODE;
 
 public class HomeFragment extends Fragment implements ActionAdapter.ActionClickListener, PickOfWeekAdapter.WeekProductClickListener,
-        BrandsFocusAdapter.FeatureBrandClickListener, RecommendationAdapter.RecommendationProductListener {
+        BrandsFocusAdapter.FeatureBrandClickListener, ProductAdapter.ProductListener {
 
     public static final String TAG = HomeFragment.class.getSimpleName();
     private ProductViewModel productViewModel;
@@ -58,7 +61,9 @@ public class HomeFragment extends Fragment implements ActionAdapter.ActionClickL
     private List<HomeBanner> bannerList = new ArrayList<>();
     private List<PicksOfTheWeek> picksOfTheWeekList = new ArrayList<>();
     private List<FeaturedBrand> featuredBrandList = new ArrayList<>();
+    private List<Product> productList = new ArrayList<>();
 
+    private Map<String, String> parameters = new HashMap<>();
 
     public HomeFragment() {
         // Required empty public constructor
@@ -102,7 +107,8 @@ public class HomeFragment extends Fragment implements ActionAdapter.ActionClickL
 
                 bannerList.addAll(homeDataContainer.getHomeData().getHomeBanners());
                 actionsList.addAll(homeDataContainer.getHomeData().getactions());
-                recommendationList.addAll(homeDataContainer.getHomeData().getRecommendation());
+
+                //recommendationList.addAll(homeDataContainer.getHomeData().getRecommendation());
                 featuredBrandList.addAll(homeDataContainer.getHomeData().getFeaturedBrands());
                 picksOfTheWeekList.addAll(homeDataContainer.getHomeData().getPicksOfTheWeek());
                 
@@ -110,10 +116,23 @@ public class HomeFragment extends Fragment implements ActionAdapter.ActionClickL
                 setActions();
                 setPickOfTheWeek();
                 setFeaturedBrands();
-                setRecommendationProducts();
+
+                // setRecommendationProducts();
 
                 fragmentHomeBinding.containersParent.setVisibility(View.VISIBLE);
                 fragmentHomeBinding.pbLoading.setVisibility(View.GONE);
+            }
+        });
+
+        parameters.put("start", "0");
+        parameters.put("length", "51"); // multiple of 3 due to 3 products are listing in a row
+
+        homeViewModel.getRecommendations(parameters).observe(this, productContainer -> {
+
+            if (productContainer != null) {
+
+                productList.addAll(productContainer.getProductData().getProducts());
+                setRecommendationProducts();
             }
         });
     }
@@ -159,6 +178,8 @@ public class HomeFragment extends Fragment implements ActionAdapter.ActionClickL
 
         intent.putExtra(ACTION_NAME, actions.getActionName());
         intent.putExtra(ACTION_ID, String.valueOf(actions.getActionId()));
+        intent.putExtra(PRODUCT_TYPE, "action_products");
+
         startActivity(intent);
         //  Log.d(TAG, "onActionClicked: " + actions.getName() + actions.getActionId());
     }
@@ -193,21 +214,39 @@ public class HomeFragment extends Fragment implements ActionAdapter.ActionClickL
 
     @Override
     public void onBrandClicked(FeaturedBrand featuredBrand) {
-        Toast.makeText(getContext(), featuredBrand.getName(), Toast.LENGTH_SHORT).show();
+
+/*
+        Intent intent = new Intent(getContext(), ActionProductListingActivity.class);
+        intent.putExtra(PRODUCT_TYPE, "brands_products");
+*/
+
+        Toast.makeText(getContext(), featuredBrand.getName().concat(":").concat(String.valueOf(featuredBrand.getId())), Toast.LENGTH_SHORT).show();
     }
 
     void setRecommendationProducts() {
-        RecommendationAdapter recommendationAdapter = new RecommendationAdapter(getContext(), this);
-        fragmentHomeBinding.rvRecommendedProducts.setAdapter(recommendationAdapter);
+
+        //RecommendationAdapter recommendationAdapter = new RecommendationAdapter(getContext(), this);
+        ProductAdapter recommendationProductAdapter = new ProductAdapter(getContext(), this);
+
+        fragmentHomeBinding.rvRecommendedProducts.setAdapter(recommendationProductAdapter);
         fragmentHomeBinding.rvRecommendedProducts.setLayoutManager(new GridLayoutManager(getContext(), 3));
-        recommendationAdapter.setData(recommendationList);
+        recommendationProductAdapter.setData(productList);
     }
 
+    /*
     @Override
     public void onRecommendationProductClicked(Recommendation recommendation) {
 
         Intent intent = new Intent(getContext(), ProductDetailActivity.class);
         intent.putExtra(PRODUCT_ID, recommendation.getId());
+        startActivity(intent);
+    }*/
+
+    @Override
+    public void onProductProductClicked(Product product) {
+
+        Intent intent = new Intent(getContext(), ProductDetailActivity.class);
+        intent.putExtra(PRODUCT_ID, product.getId());
         startActivity(intent);
     }
 }

@@ -2,27 +2,23 @@ package com.lalaland.ecommerce.views.activities;
 
 import android.content.Intent;
 import android.os.Bundle;
-
-import com.google.android.material.bottomsheet.BottomSheetDialog;
+import android.util.Log;
+import android.view.View;
+import android.view.Window;
+import android.view.WindowManager;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.databinding.DataBindingUtil;
 import androidx.lifecycle.ViewModelProviders;
 import androidx.recyclerview.widget.GridLayoutManager;
 
-import android.util.Log;
-import android.view.View;
-import android.view.Window;
-import android.view.WindowManager;
-
+import com.google.android.material.bottomsheet.BottomSheetDialog;
 import com.google.android.material.tabs.TabLayout;
 import com.lalaland.ecommerce.R;
 import com.lalaland.ecommerce.adapters.ActionProductsAdapter;
 import com.lalaland.ecommerce.data.models.actionProducs.ActionProducts;
-import com.lalaland.ecommerce.data.models.cart.CartProduct;
 import com.lalaland.ecommerce.databinding.ActivityProductListingBinding;
 import com.lalaland.ecommerce.databinding.SortFilterBottomSheetLayoutBinding;
-import com.lalaland.ecommerce.helpers.AppConstants;
 import com.lalaland.ecommerce.viewModels.products.ProductViewModel;
 
 import java.util.ArrayList;
@@ -33,6 +29,7 @@ import java.util.Map;
 import static com.lalaland.ecommerce.helpers.AppConstants.ACTION_ID;
 import static com.lalaland.ecommerce.helpers.AppConstants.ACTION_NAME;
 import static com.lalaland.ecommerce.helpers.AppConstants.PRODUCT_ID;
+import static com.lalaland.ecommerce.helpers.AppConstants.PRODUCT_TYPE;
 
 public class ActionProductListingActivity extends AppCompatActivity implements ActionProductsAdapter.ActionProductsListener {
 
@@ -43,7 +40,7 @@ public class ActionProductListingActivity extends AppCompatActivity implements A
     BottomSheetDialog mBottomSheetDialog;
     SortFilterBottomSheetLayoutBinding sheetView;
     Map<String, String> parameter = new HashMap<>();
-    String action_name = "custom_list", action_id = "2";
+    String action_name = "custom_list", action_id = "2", products_type = "action_products";
     private static final String ID = "id";
     private static final String SORT_BY = "sort_by";
 
@@ -59,6 +56,7 @@ public class ActionProductListingActivity extends AppCompatActivity implements A
         if (getIntent().getExtras() != null) {
             action_name = getIntent().getStringExtra(ACTION_NAME);
             action_id = getIntent().getStringExtra(ACTION_ID);
+        //    products_type = getIntent().getStringExtra(PRODUCT_TYPE);
         }
 
         parameter.put(ID, action_id);
@@ -66,6 +64,33 @@ public class ActionProductListingActivity extends AppCompatActivity implements A
         productViewModel = ViewModelProviders.of(this).get(ProductViewModel.class);
         setListeners();
         setActionProducts();
+    }
+
+    void setProductParameter() {
+
+        parameter.clear();
+
+        switch (products_type) {
+
+            case "action_products":
+                break;
+
+            case "brand_products":
+                break;
+
+            case "sale_products":
+                break;
+
+            case "category_products":
+                break;
+
+            case "newArrival_products":
+                break;
+
+            case "pick_of_week_products":
+                break;
+        }
+
     }
 
     void setListeners() {

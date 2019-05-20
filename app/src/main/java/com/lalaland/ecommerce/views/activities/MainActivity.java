@@ -1,7 +1,7 @@
 package com.lalaland.ecommerce.views.activities;
 
-import android.content.Intent;
 import android.os.Bundle;
+import android.view.View;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.databinding.DataBindingUtil;
@@ -15,6 +15,8 @@ import com.lalaland.ecommerce.views.fragments.homeFragments.CartFragment;
 import com.lalaland.ecommerce.views.fragments.homeFragments.CategoryFragment;
 import com.lalaland.ecommerce.views.fragments.homeFragments.HomeFragment;
 import com.lalaland.ecommerce.views.fragments.homeFragments.WishFragment;
+
+import static com.lalaland.ecommerce.helpers.AppUtils.isNetworkAvailable;
 
 public class MainActivity extends AppCompatActivity {
     private ActivityMainBinding activityMainBinding;
@@ -57,9 +59,7 @@ public class MainActivity extends AppCompatActivity {
 
 
         setListeners();
-        replaceFragment(HomeFragment.newInstance(), 1);
-
-        overridePendingTransition(R.anim.anim_slide_in_left, R.anim.anim_slide_out_left);
+        replaceFragment(HomeFragment.newInstance(), 1); // load first fragment
     }
 
     void setListeners() {
@@ -68,11 +68,13 @@ public class MainActivity extends AppCompatActivity {
 
     void replaceFragment(Fragment fragment, int index) {
 
-        getSupportFragmentManager().beginTransaction().replace(R.id.fragment_host, fragment, "fragment_" + index).commit();
+        // getSupportFragmentManager().beginTransaction().replace(R.id.fragment_host, fragment, "fragment_" + index).commit();
 
-/*        if (isNetworkAvailable())
+        if (isNetworkAvailable()) {
+            activityMainBinding.tvNetwork.setVisibility(View.GONE);
             getSupportFragmentManager().beginTransaction().replace(R.id.fragment_host, fragment, "fragment_" + index).commit();
+        }
         else
-            activityMainBinding.tvNetwork.setVisibility(View.VISIBLE);*/
+            activityMainBinding.tvNetwork.setVisibility(View.VISIBLE);
     }
 }
