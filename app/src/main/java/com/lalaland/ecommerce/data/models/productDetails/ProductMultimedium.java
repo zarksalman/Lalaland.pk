@@ -27,5 +27,4 @@ public class ProductMultimedium {
     public void setSource(String source) {
         this.source = source;
     }
-
 }

@@ -164,5 +164,9 @@
     <string name="name">Name</string>
     <string name="edit_information">Edit Information</string>
     <string name="title_activity_select_city">SelectCityActivity</string>
+    <string name="buy_now">Buy Now</string>
+    <string name="addition_charge_policy">Additional charges may apply at checkout time.</string>
+    <string name="product_details">PRODUCT DETAILS</string>
+    <string name="material_and_care"><![CDATA[MATERIAL & CARE]]></string>
 
 </resources>

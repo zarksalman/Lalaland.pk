@@ -5,10 +5,13 @@ import android.content.Intent;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.net.Uri;
-import android.view.WindowManager;
+import android.os.Build;
+import android.text.Spanned;
+import android.text.TextUtils;
 import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.text.HtmlCompat;
 
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
@@ -97,8 +100,14 @@ public class AppUtils {
         return String.valueOf(value);
     }
 
-  /*  public static void makeUnTouchable(Context context) {
-       context.getResources().getWindow().setFlags(WindowManager.LayoutParams.FLAG_NOT_TOUCHABLE,
-                WindowManager.LayoutParams.FLAG_NOT_TOUCHABLE);
-    }*/
+    public static Spanned stripHtml(String html) {
+        if (!TextUtils.isEmpty(html)) {
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
+                return HtmlCompat.fromHtml(html, HtmlCompat.FROM_HTML_MODE_COMPACT);
+            } else {
+                return HtmlCompat.fromHtml(html, HtmlCompat.FROM_HTML_MODE_COMPACT);
+            }
+        }
+        return null;
+    }
 }

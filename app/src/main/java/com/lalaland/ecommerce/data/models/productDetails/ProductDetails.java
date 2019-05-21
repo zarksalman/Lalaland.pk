@@ -4,7 +4,6 @@ import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
 
 public class ProductDetails {
-
     @SerializedName("id")
     @Expose
     private Integer id;
@@ -38,6 +37,18 @@ public class ProductDetails {
     @SerializedName("is_wish_list_item")
     @Expose
     private Object isWishListItem;
+    @SerializedName("min_sale_price")
+    @Expose
+    private String minSalePrice;
+    @SerializedName("max_sale_price")
+    @Expose
+    private String maxSalePrice;
+    @SerializedName("min_actual_price")
+    @Expose
+    private String minActualPrice;
+    @SerializedName("max_actual_price")
+    @Expose
+    private String maxActualPrice;
 
     public Integer getId() {
         return id;
@@ -125,6 +136,38 @@ public class ProductDetails {
 
     public void setIsWishListItem(Object isWishListItem) {
         this.isWishListItem = isWishListItem;
+    }
+
+    public String getMinSalePrice() {
+        return minSalePrice;
+    }
+
+    public void setMinSalePrice(String minSalePrice) {
+        this.minSalePrice = minSalePrice;
+    }
+
+    public String getMaxSalePrice() {
+        return maxSalePrice;
+    }
+
+    public void setMaxSalePrice(String maxSalePrice) {
+        this.maxSalePrice = maxSalePrice;
+    }
+
+    public String getMinActualPrice() {
+        return minActualPrice;
+    }
+
+    public void setMinActualPrice(String minActualPrice) {
+        this.minActualPrice = minActualPrice;
+    }
+
+    public String getMaxActualPrice() {
+        return maxActualPrice;
+    }
+
+    public void setMaxActualPrice(String maxActualPrice) {
+        this.maxActualPrice = maxActualPrice;
     }
 
 }

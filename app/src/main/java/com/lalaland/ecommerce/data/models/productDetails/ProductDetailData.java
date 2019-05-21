@@ -1,9 +1,9 @@
 package com.lalaland.ecommerce.data.models.productDetails;
 
-import java.util.List;
-
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
+
+import java.util.List;
 
 public class ProductDetailData {
 
@@ -19,6 +19,9 @@ public class ProductDetailData {
     @SerializedName("product_multimedia")
     @Expose
     private List<ProductMultimedium> productMultimedia = null;
+    @SerializedName("fit_and_sizing")
+    @Expose
+    private List<FitAndSizing> fitAndSizing = null;
 
     public String getRecommendedCat() {
         return recommendedCat;
@@ -52,4 +55,11 @@ public class ProductDetailData {
         this.productMultimedia = productMultimedia;
     }
 
+    public List<FitAndSizing> getFitAndSizing() {
+        return fitAndSizing;
+    }
+
+    public void setFitAndSizing(List<FitAndSizing> fitAndSizing) {
+        this.fitAndSizing = fitAndSizing;
+    }
 }

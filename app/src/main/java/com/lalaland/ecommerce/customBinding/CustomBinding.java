@@ -2,6 +2,7 @@ package com.lalaland.ecommerce.customBinding;
 
 import android.widget.CheckBox;
 import android.widget.ImageView;
+import android.widget.TextView;
 
 import androidx.databinding.BindingAdapter;
 
@@ -76,6 +77,22 @@ public class CustomBinding {
             checkBox.setChecked(false);
         else if (status == 3)
             checkBox.setChecked(true);
+
+    }
+
+    @BindingAdapter("setFitAndSize")
+    public static void setFitAndSize(TextView tvFitAndSize, String html) {
+
+
+        /*tvFitAndSize.setMovementMethod(LinkMovementMethod.getInstance());
+        tvFitAndSize.setText(AppUtils.stripHtml(html));
+*/
+     /*   if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
+            tvFitAndSize.setText(AppUtils.stripHtml(html));
+        } else {
+            tvFitAndSize.setText(Html.fromHtml(html));
+        }*/
+
 
     }
 

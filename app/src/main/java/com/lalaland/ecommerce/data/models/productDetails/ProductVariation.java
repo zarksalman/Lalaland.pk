@@ -17,6 +17,12 @@ public class ProductVariation {
     @SerializedName("remaining_quantity")
     @Expose
     private String remainingQuantity;
+    @SerializedName("sale_price")
+    @Expose
+    private String salePrice;
+    @SerializedName("actual_price")
+    @Expose
+    private String actualPrice;
 
     public Integer getId() {
         return id;
@@ -48,6 +54,22 @@ public class ProductVariation {
 
     public void setRemainingQuantity(String remainingQuantity) {
         this.remainingQuantity = remainingQuantity;
+    }
+
+    public String getSalePrice() {
+        return salePrice;
+    }
+
+    public void setSalePrice(String salePrice) {
+        this.salePrice = salePrice;
+    }
+
+    public String getActualPrice() {
+        return actualPrice;
+    }
+
+    public void setActualPrice(String actualPrice) {
+        this.actualPrice = actualPrice;
     }
 
 }
