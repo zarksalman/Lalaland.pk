@@ -28,11 +28,9 @@ public class CartItemsAdapter extends RecyclerView.Adapter<CartItemsAdapter.Cart
     private Context mContext;
     private List<CartItem> mCartItems;
     private CartItemBinding cartItemBinding;
-    private CartHeaderItemBinding cartHeaderItemBinding;
 
     private LayoutInflater inflater;
     private CartClickListener mCartClickListener;
-    private SparseBooleanArray itemStateArray = new SparseBooleanArray();
 
     public CartItemsAdapter(Context context, CartClickListener cartClickListener) {
         mContext = context;
@@ -55,41 +53,8 @@ public class CartItemsAdapter extends RecyclerView.Adapter<CartItemsAdapter.Cart
         }
 
         return new CartItemViewHolder(cartItemBinding);
-
-
-/*        if (viewType == R.layout.cart_item) {
-            cartItemBinding = DataBindingUtil.inflate(inflater, R.layout.cart_item, parent, false);
-
-            // for testing now
-            if (mContext.getClass().getSimpleName().equals("CheckoutScreen")) {
-                cartItemBinding.ivDeleteItem.setVisibility(View.GONE);
-                cartItemBinding.cbAddToList.setVisibility(View.GONE);
-                cartItemBinding.counterContainer.setVisibility(View.GONE);
-                cartItemBinding.tvQuantityDetail.setVisibility(View.VISIBLE);
-            }
-
-            return new CartItemViewHolder(cartItemBinding);
-        } else if (viewType == R.layout.cart_header_item) {
-
-            cartHeaderItemBinding = DataBindingUtil.inflate(inflater, R.layout.cart_header_item, parent, false);
-            return new CartHeaderViewHolder(cartHeaderItemBinding);
-        } else {
-            cartHeaderItemBinding = DataBindingUtil.inflate(inflater, R.layout.cart_header_item, parent, false);
-            return new CartHeaderViewHolder(cartHeaderItemBinding);
-        }*/
     }
 
-/*    @Override
-    public void onBindViewHolder(@NonNull RecyclerView.ViewHolder holder, int position) {
-
-*//*        CartItem cartItem = mCartItems.get(position);
-
-        if (holder instanceof CartItemViewHolder) {
-            ((CartItemViewHolder) holder).bindHolder(cartItem);
-        } else if (holder instanceof CartHeaderViewHolder) {
-            ((CartHeaderViewHolder) holder).bindHolder(cartItem);
-        }*//*
-    }*/
 
     @Override
     public void onBindViewHolder(@NonNull CartItemViewHolder holder, int position) {
@@ -145,23 +110,6 @@ public class CartItemsAdapter extends RecyclerView.Adapter<CartItemsAdapter.Cart
         void changeNumberOfCount(int position, int quantity);
     }
 
-    class CartHeaderViewHolder extends RecyclerView.ViewHolder {
-
-        CartHeaderItemBinding mCartHeaderItemBinding;
-
-        public CartHeaderViewHolder(CartHeaderItemBinding cartHeaderItemBinding) {
-            super(cartHeaderItemBinding.getRoot());
-            mCartHeaderItemBinding = cartHeaderItemBinding;
-        }
-
-        void bindHolder(CartItem cartItem) {
-
-            mCartHeaderItemBinding.tvBrandName.setText(cartItem.getMerchantName());
-            mCartHeaderItemBinding.setAdapter(CartItemsAdapter.this);
-            mCartHeaderItemBinding.executePendingBindings();
-        }
-
-    }
 
     class CartItemViewHolder extends RecyclerView.ViewHolder {
 
@@ -205,14 +153,4 @@ public class CartItemsAdapter extends RecyclerView.Adapter<CartItemsAdapter.Cart
         }
     }
 
-    @Override
-    public int getItemViewType(int position) {
-
-        if (position != 0
-                && !mCartItems.get(position).getMerchantId().equals(mCartItems.get(position - 1).getMerchantId())) {
-
-            return R.layout.cart_item;
-        } else
-            return R.layout.cart_header_item;
-    }
 }

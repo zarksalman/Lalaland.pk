@@ -5,13 +5,9 @@ import android.content.Intent;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.net.Uri;
-import android.os.Build;
-import android.text.Spanned;
-import android.text.TextUtils;
 import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.core.text.HtmlCompat;
 
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
@@ -100,14 +96,8 @@ public class AppUtils {
         return String.valueOf(value);
     }
 
-    public static Spanned stripHtml(String html) {
-        if (!TextUtils.isEmpty(html)) {
-            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
-                return HtmlCompat.fromHtml(html, HtmlCompat.FROM_HTML_MODE_COMPACT);
-            } else {
-                return HtmlCompat.fromHtml(html, HtmlCompat.FROM_HTML_MODE_COMPACT);
-            }
-        }
-        return null;
+    public static String toLowerCase(String str) {
+
+        return str.substring(0, 1).toUpperCase().concat(str.substring(1).toLowerCase());
     }
 }

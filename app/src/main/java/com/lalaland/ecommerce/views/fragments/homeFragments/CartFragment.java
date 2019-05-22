@@ -16,12 +16,16 @@ import androidx.lifecycle.ViewModelProviders;
 import androidx.recyclerview.widget.LinearLayoutManager;
 
 import com.lalaland.ecommerce.R;
+import com.lalaland.ecommerce.adapters.CartIMerchantAdapter;
 import com.lalaland.ecommerce.adapters.CartItemsAdapter;
+import com.lalaland.ecommerce.data.models.DeliveryChargesData.DeliveryChargesOfMerchantItem;
 import com.lalaland.ecommerce.data.models.cart.CartItem;
+import com.lalaland.ecommerce.data.models.cartListingModel.CartListModel;
 import com.lalaland.ecommerce.databinding.FragmentCartBinding;
 import com.lalaland.ecommerce.helpers.AppConstants;
 import com.lalaland.ecommerce.helpers.AppPreference;
 import com.lalaland.ecommerce.helpers.AppUtils;
+import com.lalaland.ecommerce.viewModels.order.OrderViewModel;
 import com.lalaland.ecommerce.viewModels.products.ProductViewModel;
 import com.lalaland.ecommerce.views.activities.CheckoutScreen;
 import com.lalaland.ecommerce.views.activities.RegistrationActivity;
@@ -43,19 +47,26 @@ import static com.lalaland.ecommerce.helpers.AppConstants.SUCCESS_CODE;
 import static com.lalaland.ecommerce.helpers.AppConstants.TAG;
 import static com.lalaland.ecommerce.helpers.AppConstants.VALIDATION_FAIL_CODE;
 
-public class CartFragment extends Fragment implements View.OnClickListener, CartItemsAdapter.CartClickListener {
+public class CartFragment extends Fragment implements View.OnClickListener, CartIMerchantAdapter.MerchantItemClickListener {
 
     private FragmentCartBinding fragmentCartBinding;
+
     private ProductViewModel productViewModel;
+    private OrderViewModel orderViewModel;
+
     CartItemsAdapter cartItemsAdapter;
     private AppPreference appPreference;
+
     private List<CartItem> cartItemList = new ArrayList<>();
+    private List<CartListModel> cartListModelList = new ArrayList<>();
+    private List<CartItem> selectedCartItemList = new ArrayList<>();
+    private List<DeliveryChargesOfMerchantItem> merchantItems = new ArrayList<>();
+
     private Map<String, String> parameter = new HashMap<>();
     private Map<String, String> headers = new HashMap<>();
     private String token, cart_session;
+
     private Double totalBill = 0.0;
-    private List<CartItem> selectedCartItemList = new ArrayList<>();
-    boolean isSelected;
     Double perItemBill;
 
     public CartFragment() {
@@ -77,8 +88,12 @@ public class CartFragment extends Fragment implements View.OnClickListener, Cart
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
+
         fragmentCartBinding = DataBindingUtil.inflate(inflater, R.layout.fragment_cart, container, false);
+
         productViewModel = ViewModelProviders.of(this).get(ProductViewModel.class);
+        orderViewModel = ViewModelProviders.of(this).get(OrderViewModel.class);
+
         appPreference = AppPreference.getInstance(getContext());
 
         token = appPreference.getString(SIGNIN_TOKEN);
@@ -104,7 +119,11 @@ public class CartFragment extends Fragment implements View.OnClickListener, Cart
                         cartItemList = cartContainer.getData().getCartItems();
                         AppConstants.userAddresses = cartContainer.getData().getUserAddresses();
 
+                        getMerchantList();
+                        addMerchantProductList();
+
                         setCartAdapter();
+
                         setSelectedCartItemList();
 
                         Log.d(TAG, String.valueOf(cartContainer.getData().getCartItems().size()));
@@ -128,7 +147,12 @@ public class CartFragment extends Fragment implements View.OnClickListener, Cart
                         cartItemList = cartContainer.getData().getCartItems();
                         AppConstants.userAddresses = cartContainer.getData().getUserAddresses();
 
+                        getMerchantList();
+                        addMerchantProductList();
+
+                        //   initCartListModels(cartItemList);
                         setCartAdapter();
+
                         Log.d(TAG, String.valueOf(cartContainer.getData().getCartItems().size()));
                     } else
                         Toast.makeText(getContext(), GENERAL_ERROR, Toast.LENGTH_SHORT).show();
@@ -136,6 +160,59 @@ public class CartFragment extends Fragment implements View.OnClickListener, Cart
 
                 fragmentCartBinding.pbLoading.setVisibility(View.GONE);
             });
+        }
+    }
+
+    private void getMerchantList() {
+
+        DeliveryChargesOfMerchantItem merchantItem;
+        int mId = -1;
+
+        for (int i = 0; i < cartItemList.size(); i++) {
+
+            merchantItem = new DeliveryChargesOfMerchantItem();
+
+            merchantItem.setMerchantName(cartItemList.get(i).getMerchantName());
+            merchantItem.setMerchantId(cartItemList.get(i).getMerchantId());
+
+            merchantItems.add(merchantItem);
+        }
+
+
+        for (int i = 0; i < merchantItems.size(); i++) {
+
+            if (merchantItems.get(i).getMerchantId() == mId) {
+                merchantItems.remove(merchantItems.get(i));
+                i--;
+            }
+
+            mId = merchantItems.get(i).getMerchantId();
+        }
+
+    }
+
+    private void addMerchantProductList() {
+
+        CartListModel cartListModel;
+        List<CartItem> tempCartItem;
+
+        // creating model list for adapter to display products merchant wise {merchantId, merchantName, List of Cart Products}
+        for (int i = 0; i < merchantItems.size(); i++) {
+
+            tempCartItem = new ArrayList<>();
+            for (int j = 0; j < cartItemList.size(); j++) {
+
+                if (merchantItems.get(i).getMerchantId().equals(cartItemList.get(j).getMerchantId())) {
+                    tempCartItem.add(cartItemList.get(j));
+                }
+            }
+
+            cartListModel = new CartListModel();
+            cartListModel.setMerchantId(merchantItems.get(i).getMerchantId());
+            cartListModel.setMerchantName(merchantItems.get(i).getMerchantName());
+            cartListModel.setCartItemList(tempCartItem);
+            cartListModelList.add(cartListModel);
+
         }
     }
 
@@ -147,19 +224,16 @@ public class CartFragment extends Fragment implements View.OnClickListener, Cart
             fragmentCartBinding.btnCheckout.setBackground(getResources().getDrawable(R.drawable.btn_bg_round_corner_dark_gray));
         } else {
 
-
-            for (int i = 0; i < cartItemList.size(); i++) {
-                Log.d(TAG, "adapter_items" + cartItemList.get(i).getProductName());
-            }
             fragmentCartBinding.tvCartEmptyState.setVisibility(View.GONE);
             fragmentCartBinding.btnCheckout.setBackground(getResources().getDrawable(R.drawable.btn_bg_round_corner_accent));
             fragmentCartBinding.btnCheckout.setOnClickListener(this);
         }
 
-        cartItemsAdapter = new CartItemsAdapter(getContext(), this);
+
+        CartIMerchantAdapter cartIMerchantAdapter = new CartIMerchantAdapter(getContext(), this);
         fragmentCartBinding.rvCartItems.setLayoutManager(new LinearLayoutManager(getContext()));
-        fragmentCartBinding.rvCartItems.setAdapter(cartItemsAdapter);
-        cartItemsAdapter.setData(cartItemList);
+        fragmentCartBinding.rvCartItems.setAdapter(cartIMerchantAdapter);
+        cartIMerchantAdapter.setData(cartListModelList);
 
     }
 
@@ -184,10 +258,6 @@ public class CartFragment extends Fragment implements View.OnClickListener, Cart
 
         parameter.clear();
         parameter.put(CART_ID, String.valueOf(cartItem.getCartId()));
-
-        //isSelected = cartItem.getSelected();
-
-        //cartItem.setSelected(!cartItem.getSelected());
 
         if (cartItem.getCartStatus() == 1) {
             cartItemList.get(position).setCartStatus(3);

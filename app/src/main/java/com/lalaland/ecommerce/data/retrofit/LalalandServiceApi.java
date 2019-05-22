@@ -1,9 +1,9 @@
 package com.lalaland.ecommerce.data.retrofit;
 
+import com.lalaland.ecommerce.data.models.DeliveryChargesData.DeliveryChargesContainer;
 import com.lalaland.ecommerce.data.models.actionProducs.ActionProductsContainer;
 import com.lalaland.ecommerce.data.models.cart.CartContainer;
 import com.lalaland.ecommerce.data.models.category.CategoryContainer;
-import com.lalaland.ecommerce.data.models.deliveryCharges.DeliveryChargesContainer;
 import com.lalaland.ecommerce.data.models.home.HomeDataContainer;
 import com.lalaland.ecommerce.data.models.login.LoginDataContainer;
 import com.lalaland.ecommerce.data.models.logout.BasicResponse;
@@ -57,7 +57,7 @@ public interface LalalandServiceApi {
 
 
     @POST("getDeliveryCharges")
-    Call<DeliveryChargesContainer> getDeliveryCharges(@Query("city_id") int city_id);
+    Call<DeliveryChargesContainer> getDeliveryCharges(@Header("token") String token, @Query("city_id") String city_id);
 
     @POST("addressBook")
     Call<DeliveryChargesContainer> getAddress(@Header("token") String token);
@@ -76,7 +76,6 @@ public interface LalalandServiceApi {
 
     @POST("confirmOrder")
     Call<OrderDataContainer> confirmOrder(@Header("token") String token, @QueryMap Map<String, String> parameter);
-
 
     @POST("register")
     Call<RegistrationContainer> registerUser(@QueryMap Map<String, String> parameters);

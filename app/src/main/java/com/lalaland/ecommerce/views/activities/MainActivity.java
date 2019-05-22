@@ -10,16 +10,19 @@ import androidx.fragment.app.Fragment;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.lalaland.ecommerce.R;
 import com.lalaland.ecommerce.databinding.ActivityMainBinding;
+import com.lalaland.ecommerce.helpers.AppPreference;
 import com.lalaland.ecommerce.views.fragments.homeFragments.AccountFragment;
 import com.lalaland.ecommerce.views.fragments.homeFragments.CartFragment;
 import com.lalaland.ecommerce.views.fragments.homeFragments.CategoryFragment;
 import com.lalaland.ecommerce.views.fragments.homeFragments.HomeFragment;
 import com.lalaland.ecommerce.views.fragments.homeFragments.WishFragment;
 
+import static com.lalaland.ecommerce.helpers.AppConstants.LOAD_HOME_FRAGMENT_INDEX;
 import static com.lalaland.ecommerce.helpers.AppUtils.isNetworkAvailable;
 
 public class MainActivity extends AppCompatActivity {
     private ActivityMainBinding activityMainBinding;
+    private AppPreference appPreference;
 
     private BottomNavigationView.OnNavigationItemSelectedListener mOnNavigationItemSelectedListener
             = item -> {
@@ -57,9 +60,10 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         activityMainBinding = DataBindingUtil.setContentView(this, R.layout.activity_main);
 
+        appPreference = AppPreference.getInstance(this);
 
         setListeners();
-        replaceFragment(HomeFragment.newInstance(), 1); // load first fragment
+        loadInitialFragment();  // load first fragment
     }
 
     void setListeners() {
@@ -76,5 +80,30 @@ public class MainActivity extends AppCompatActivity {
         }
         else
             activityMainBinding.tvNetwork.setVisibility(View.VISIBLE);
+    }
+
+    void loadInitialFragment() {
+
+        switch (LOAD_HOME_FRAGMENT_INDEX) {
+            case 0:
+                replaceFragment(HomeFragment.newInstance(), LOAD_HOME_FRAGMENT_INDEX);
+                break;
+            case 1:
+                replaceFragment(CategoryFragment.newInstance(), LOAD_HOME_FRAGMENT_INDEX);
+                break;
+            case 2:
+                replaceFragment(CartFragment.newInstance(), LOAD_HOME_FRAGMENT_INDEX);
+                break;
+
+            case 3:
+                replaceFragment(WishFragment.newInstance(), LOAD_HOME_FRAGMENT_INDEX);
+                break;
+            case 4:
+                replaceFragment(AccountFragment.newInstance(), LOAD_HOME_FRAGMENT_INDEX);
+                break;
+
+            default:
+                replaceFragment(HomeFragment.newInstance(), 0);
+        }
     }
 }

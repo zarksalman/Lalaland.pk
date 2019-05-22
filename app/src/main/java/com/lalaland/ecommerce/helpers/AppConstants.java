@@ -57,6 +57,7 @@ public class AppConstants {
     public static final String RECOMMENDED_CAT_TOKEN = "recommended_cat";
 
     public static int CASH_TRANSFER_TYPE = 1;
+    public static int LOAD_HOME_FRAGMENT_INDEX = 0;
 
 
     public static final String SUCCESS_CODE = "200";

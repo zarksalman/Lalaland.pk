@@ -1,4 +1,4 @@
-package com.lalaland.ecommerce.data.models.deliveryCharges;
+package com.lalaland.ecommerce.data.models.DeliveryChargesData;
 
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
@@ -13,7 +13,7 @@ public class DeliveryChargesContainer {
     private String msg;
     @SerializedName("data")
     @Expose
-    private DeliveryChargesData data;
+    private DeliverChargesData data;
 
     public String getCode() {
         return code;
@@ -31,11 +31,11 @@ public class DeliveryChargesContainer {
         this.msg = msg;
     }
 
-    public DeliveryChargesData getData() {
+    public DeliverChargesData getData() {
         return data;
     }
 
-    public void setData(DeliveryChargesData data) {
+    public void setData(DeliverChargesData data) {
         this.data = data;
     }
 

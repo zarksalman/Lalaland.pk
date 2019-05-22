@@ -1,10 +1,10 @@
-package com.lalaland.ecommerce.data.models.deliveryCharges;
+package com.lalaland.ecommerce.data.models.DeliveryChargesData;
 
 import java.util.List;
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
 
-public class DeliveryChargesData {
+public class DeliverChargesData {
 
 @SerializedName("delivery_charges_of_merchant_items")
 @Expose

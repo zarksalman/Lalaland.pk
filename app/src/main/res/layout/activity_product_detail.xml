@@ -211,9 +211,9 @@
                         android:textStyle="bold"
                         tools:text="@tools:sample/first_names" />
 
-                    <TextView
+                    <WebView
 
-                        android:id="@+id/tv_product_general_detail"
+                        android:id="@+id/wv_product_general_detail"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_marginTop="@dimen/_4dp"
@@ -233,9 +233,10 @@
                         android:textStyle="bold"
                         tools:text="@tools:sample/first_names" />
 
-                    <TextView
 
-                        android:id="@+id/tv_product_material_detail"
+                    <WebView
+
+                        android:id="@+id/wv_product_material_detail"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_marginTop="@dimen/_4dp"
@@ -284,7 +285,7 @@
                 android:layout_height="50dp"
                 android:layout_margin="@dimen/_4dp"
                 android:background="@drawable/bg_round_corner_white"
-                android:onClick="@{(view)->listener.addRemoveToWishList(view, 1)}"
+                android:onClick="@{(view)->listener.addRemoveToWishList(view)}"
                 android:src="@drawable/tab_bar_wish" />
 
             <Button

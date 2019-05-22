@@ -3,9 +3,7 @@ package com.lalaland.ecommerce.views.activities;
 import android.content.Intent;
 import android.content.res.Resources;
 import android.graphics.drawable.Drawable;
-import android.os.Build;
 import android.os.Bundle;
-import android.text.Html;
 import android.util.Log;
 import android.view.View;
 import android.widget.ImageView;
@@ -28,6 +26,7 @@ import com.lalaland.ecommerce.data.models.productDetails.ProductDetails;
 import com.lalaland.ecommerce.data.models.productDetails.ProductMultimedium;
 import com.lalaland.ecommerce.data.models.productDetails.ProductVariation;
 import com.lalaland.ecommerce.databinding.ActivityProductDetailBinding;
+import com.lalaland.ecommerce.helpers.AppConstants;
 import com.lalaland.ecommerce.helpers.AppPreference;
 import com.lalaland.ecommerce.helpers.AppUtils;
 import com.lalaland.ecommerce.viewModels.products.ProductViewModel;
@@ -38,7 +37,6 @@ import java.util.List;
 import java.util.Map;
 
 import static com.lalaland.ecommerce.helpers.AppConstants.ADD_TO_CART;
-import static com.lalaland.ecommerce.helpers.AppConstants.ADD_TO_WISH_LIST;
 import static com.lalaland.ecommerce.helpers.AppConstants.CART_SESSION_TOKEN;
 import static com.lalaland.ecommerce.helpers.AppConstants.GENERAL_ERROR;
 import static com.lalaland.ecommerce.helpers.AppConstants.IS_WISH_LIST;
@@ -47,8 +45,6 @@ import static com.lalaland.ecommerce.helpers.AppConstants.PRODUCT_ID;
 import static com.lalaland.ecommerce.helpers.AppConstants.PRODUCT_STORAGE_BASE_URL;
 import static com.lalaland.ecommerce.helpers.AppConstants.PRODUCT_VARIATION_ID;
 import static com.lalaland.ecommerce.helpers.AppConstants.QUANTITY;
-import static com.lalaland.ecommerce.helpers.AppConstants.REMOVE_FROM_WISH_LIST;
-import static com.lalaland.ecommerce.helpers.AppConstants.SERVER_ERROR;
 import static com.lalaland.ecommerce.helpers.AppConstants.SIGNIN_TOKEN;
 import static com.lalaland.ecommerce.helpers.AppConstants.SUCCESS_CODE;
 import static com.lalaland.ecommerce.helpers.AppConstants.VALIDATION_FAIL_CODE;
@@ -74,8 +70,8 @@ public class ProductDetailActivity extends AppCompatActivity {
     private AppPreference appPreference;
     private ProductDetails productDetails;
 
-    private boolean addToCart = false, addToWishList = false;
     List<ImageView> dots = new ArrayList<>();
+    int isAddOrRemove;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -114,8 +110,13 @@ public class ProductDetailActivity extends AppCompatActivity {
         addDots();
 
         if (productDetails.getIsWishListItem() != null) {
-            activityProductDetailBinding.btnAddToWish.sets
+            activityProductDetailBinding.btnAddToWish.setImageResource(R.drawable.tab_bar_wish_selected);
+            activityProductDetailBinding.btnAddToWish.setBackground(getResources().getDrawable(R.drawable.bg_round_corner_white_accent));
+            isAddOrRemove = 1;  // setting initial showing that it is added to list
+        } else {
+            isAddOrRemove = 0; // setting initial showing that it is not added to list
         }
+
         activityProductDetailBinding.tvProductName.setText(productDetails.getName());
         activityProductDetailBinding.tvBrandName.setText(productDetails.getBrandName());
         setPrice();
@@ -178,7 +179,10 @@ public class ProductDetailActivity extends AppCompatActivity {
 
     void setProductGeneralDescription(String generalDescription, String materialDescription) {
 
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
+        activityProductDetailBinding.wvProductGeneralDetail.loadData(generalDescription, "text/html", "UTF-8");
+        activityProductDetailBinding.wvProductGeneralDetail.loadData(materialDescription, "text/html", "UTF-8");
+
+/*        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
             activityProductDetailBinding.tvProductGeneralDetail.setText(Html.fromHtml(generalDescription, Html.FROM_HTML_MODE_COMPACT));
             activityProductDetailBinding.tvProductMaterialDetail.setText(Html.fromHtml(materialDescription, Html.FROM_HTML_MODE_COMPACT));
 
@@ -186,24 +190,23 @@ public class ProductDetailActivity extends AppCompatActivity {
             activityProductDetailBinding.tvProductGeneralDetail.setText(Html.fromHtml(generalDescription));
             activityProductDetailBinding.tvProductMaterialDetail.setText(Html.fromHtml(materialDescription));
 
+        }*/
+
+        if (generalDescription != null && generalDescription.isEmpty()) {
+            activityProductDetailBinding.wvProductGeneralDetail.setVisibility(View.GONE);
+            activityProductDetailBinding.tvProductGeneralDetailTitle.setVisibility(View.GONE);
+        } else {
+            activityProductDetailBinding.wvProductGeneralDetail.setVisibility(View.VISIBLE);
+            activityProductDetailBinding.tvProductGeneralDetailTitle.setVisibility(View.VISIBLE);
         }
 
         if (materialDescription != null && materialDescription.isEmpty()) {
-            activityProductDetailBinding.tvProductMaterialDetail.setVisibility(View.GONE);
+            activityProductDetailBinding.wvProductMaterialDetail.setVisibility(View.GONE);
             activityProductDetailBinding.tvProductMaterialDetailTitle.setVisibility(View.GONE);
         } else {
-            activityProductDetailBinding.tvProductMaterialDetail.setVisibility(View.VISIBLE);
+            activityProductDetailBinding.wvProductMaterialDetail.setVisibility(View.VISIBLE);
             activityProductDetailBinding.tvProductMaterialDetailTitle.setVisibility(View.VISIBLE);
         }
-    }
-
-    private boolean IsBelowNoughat() {
-
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
-            return false;
-        }
-
-        return true;
     }
 
     void getProductDetail() {
@@ -230,7 +233,6 @@ public class ProductDetailActivity extends AppCompatActivity {
 
     public void AddToCart(View view, boolean isBuyNow) {
 
-        addToCart = true;
         parameter.clear();
 
         parameter.put(PRODUCT_VARIATION_ID, String.valueOf(variation_id));
@@ -245,6 +247,8 @@ public class ProductDetailActivity extends AppCompatActivity {
                 if (basicResponse.getCode().equals(SUCCESS_CODE)) {
 
                     if (isBuyNow) {
+
+                        AppConstants.LOAD_HOME_FRAGMENT_INDEX = 2; // setting cart fragment index to load
                         startActivity(new Intent(this, MainActivity.class));
                         finish();
                     } else {
@@ -260,34 +264,36 @@ public class ProductDetailActivity extends AppCompatActivity {
                 }
             } else
                 Toast.makeText(this, GENERAL_ERROR, Toast.LENGTH_SHORT).show();
-
-            addToCart = false;
-
         });
     }
 
-    public void addRemoveToWishList(View view, int isAddOrRemove) {
+    public void addRemoveToWishList(View view) {
 
-        addToWishList = true;
+        if (isAddOrRemove == 1)
+            isAddOrRemove = 0;
+        else
+            isAddOrRemove = 1;
 
-        parameter1.clear();
+        parameter.clear();
 
         parameter.put(PRODUCT_ID, String.valueOf(product_id));
         parameter.put(IS_WISH_LIST, String.valueOf(isAddOrRemove));
 
-        productViewModel.addRemoveToWishList(headers, parameter1).observe(this, basicResponse -> {
+        productViewModel.addRemoveToWishList(headers, parameter).observe(this, basicResponse -> {
 
             if (basicResponse != null) {
                 if (basicResponse.getCode().equals(SUCCESS_CODE)) {
-                    if (isAddOrRemove == 1)
-                        Toast.makeText(this, ADD_TO_WISH_LIST, Toast.LENGTH_SHORT).show();
-                    else
-                        Toast.makeText(this, REMOVE_FROM_WISH_LIST, Toast.LENGTH_SHORT).show();
+                    Toast.makeText(this, basicResponse.getMsg(), Toast.LENGTH_SHORT).show();
+
+                    if (isAddOrRemove == 1) {
+                        activityProductDetailBinding.btnAddToWish.setImageResource(R.drawable.tab_bar_wish_selected);
+                        activityProductDetailBinding.btnAddToWish.setBackground(getResources().getDrawable(R.drawable.bg_round_corner_white_accent));
+                    } else {
+                        activityProductDetailBinding.btnAddToWish.setImageResource(R.drawable.tab_bar_wish);
+                        activityProductDetailBinding.btnAddToWish.setBackground(getResources().getDrawable(R.drawable.bg_round_corner_white));
+                    }
                 } else if (basicResponse.getCode().equals(VALIDATION_FAIL_CODE)) {
-                    if (isAddOrRemove == 1)
-                        Toast.makeText(this, SERVER_ERROR, Toast.LENGTH_SHORT).show();
-                    else
-                        Toast.makeText(this, SERVER_ERROR, Toast.LENGTH_SHORT).show();
+                    Toast.makeText(this, basicResponse.getMsg(), Toast.LENGTH_SHORT).show();
                 } else {
                     Toast.makeText(this, GENERAL_ERROR, Toast.LENGTH_SHORT).show();
                 }

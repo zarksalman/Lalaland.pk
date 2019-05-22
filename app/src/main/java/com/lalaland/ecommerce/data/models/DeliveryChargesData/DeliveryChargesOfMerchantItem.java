@@ -1,4 +1,4 @@
-package com.lalaland.ecommerce.data.models.deliveryCharges;
+package com.lalaland.ecommerce.data.models.DeliveryChargesData;
 
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
@@ -20,9 +20,6 @@ public class DeliveryChargesOfMerchantItem {
     @SerializedName("merchant_city_id")
     @Expose
     private Integer merchantCityId;
-    @SerializedName("leopard_city_id")
-    @Expose
-    private Integer leopardCityId;
     @SerializedName("merchant_name")
     @Expose
     private String merchantName;
@@ -40,7 +37,7 @@ public class DeliveryChargesOfMerchantItem {
     private Integer shippingRate;
     @SerializedName("final_weight")
     @Expose
-    private Integer finalWeight;
+    private Double finalWeight;
 
     public String getVolumetricWeight() {
         return volumetricWeight;
@@ -80,14 +77,6 @@ public class DeliveryChargesOfMerchantItem {
 
     public void setMerchantCityId(Integer merchantCityId) {
         this.merchantCityId = merchantCityId;
-    }
-
-    public Integer getLeopardCityId() {
-        return leopardCityId;
-    }
-
-    public void setLeopardCityId(Integer leopardCityId) {
-        this.leopardCityId = leopardCityId;
     }
 
     public String getMerchantName() {
@@ -130,11 +119,11 @@ public class DeliveryChargesOfMerchantItem {
         this.shippingRate = shippingRate;
     }
 
-    public Integer getFinalWeight() {
+    public Double getFinalWeight() {
         return finalWeight;
     }
 
-    public void setFinalWeight(Integer finalWeight) {
+    public void setFinalWeight(Double finalWeight) {
         this.finalWeight = finalWeight;
     }
 
