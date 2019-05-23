@@ -6,13 +6,18 @@ import androidx.annotation.NonNull;
 import androidx.lifecycle.AndroidViewModel;
 import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MutableLiveData;
+import androidx.paging.PageKeyedDataSource;
+import androidx.paging.PagedList;
 
 import com.lalaland.ecommerce.data.models.actionProducs.ActionProductsContainer;
 import com.lalaland.ecommerce.data.models.cart.CartContainer;
 import com.lalaland.ecommerce.data.models.logout.BasicResponse;
 import com.lalaland.ecommerce.data.models.order.OrderDataContainer;
 import com.lalaland.ecommerce.data.models.productDetails.ProductDetailDataContainer;
+import com.lalaland.ecommerce.data.models.products.Product;
 import com.lalaland.ecommerce.data.models.products.ProductContainer;
+import com.lalaland.ecommerce.data.pagging.ProductItemDataSource;
+import com.lalaland.ecommerce.data.pagging.ProductSourceFactory;
 import com.lalaland.ecommerce.data.repository.ProductsRepository;
 
 import java.util.Map;
@@ -21,11 +26,21 @@ public class ProductViewModel extends AndroidViewModel {
 
     private static ProductsRepository productsRepository;
     private MutableLiveData<BasicResponse> basicResponse;
+    private LiveData<PagedList<Product>> productPageList;
+    private LiveData<PageKeyedDataSource<Integer, Product>> liveDataSource;
 
     public ProductViewModel(@NonNull Application application) {
         super(application);
 
         productsRepository = ProductsRepository.getInstance();
+
+        ProductSourceFactory productSourceFactory = new ProductSourceFactory();
+        liveDataSource = productSourceFactory.getItemsLiveDataSource();
+
+        PagedList.Config pagedListConfig =
+                (new PagedList.Config.Builder())
+                        .setEnablePlaceholders(false)
+                        .setPageSize(ProductItemDataSource.NUMBER_OF_PRODUCTS).build();
     }
 
     public LiveData<ProductContainer> getRangeProducts(Map<String, String> parameters) {
@@ -49,9 +64,6 @@ public class ProductViewModel extends AndroidViewModel {
         return productsRepository.addToCart(headers, parameter);
     }
 
-    public MutableLiveData<BasicResponse> getBasicResponse() {
-        return basicResponse;
-    }
 
     public LiveData<BasicResponse> addRemoveToWishList(Map<String, String> headers, Map<String, String> parameter) {
         //basicResponse = productsRepository.addRemoveToWishList(headers, parameter);

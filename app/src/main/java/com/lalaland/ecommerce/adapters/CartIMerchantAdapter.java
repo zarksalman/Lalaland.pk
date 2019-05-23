@@ -23,6 +23,7 @@ public class CartIMerchantAdapter extends RecyclerView.Adapter<CartIMerchantAdap
     private CartMerchantItemBinding cartMerchantItemBinding;
     private MerchantItemClickListener mMerchantItemClickListener;
     private LayoutInflater inflater;
+    CartItemsAdapter cartItemsAdapter;
 
     public CartIMerchantAdapter(Context context, MerchantItemClickListener merchantItemClickListener) {
         mContext = context;
@@ -46,8 +47,7 @@ public class CartIMerchantAdapter extends RecyclerView.Adapter<CartIMerchantAdap
         CartListModel cartListModel = mCartListModelList.get(position);
 
 
-        CartItemsAdapter cartItemsAdapter = new CartItemsAdapter(mContext, CartIMerchantAdapter.this);
-
+        cartItemsAdapter = new CartItemsAdapter(mContext, CartIMerchantAdapter.this);
         cartMerchantItemBinding.rvCartProducts.setLayoutManager(new LinearLayoutManager(mContext, RecyclerView.VERTICAL, false));
         cartMerchantItemBinding.rvCartProducts.setAdapter(cartItemsAdapter);
 
@@ -73,21 +73,25 @@ public class CartIMerchantAdapter extends RecyclerView.Adapter<CartIMerchantAdap
     }
 
     @Override
-    public void addItemToList(int position) {
-        mMerchantItemClickListener.addItemToList(position);
+    public void addItemToList(int merchantId, int position) {
+        mMerchantItemClickListener.addItemToList(merchantId, position);
     }
 
     @Override
-    public void deleteFromCart(int position) {
-        mMerchantItemClickListener.deleteFromCart(position);
+    public void deleteFromCart(int merchantId, int position) {
+        mMerchantItemClickListener.deleteFromCart(merchantId, position);
     }
 
     @Override
-    public void changeNumberOfCount(int position, int quantity) {
-        mMerchantItemClickListener.changeNumberOfCount(position, quantity);
+    public void changeNumberOfCount(int merchantId, int position, int quantity) {
+        mMerchantItemClickListener.changeNumberOfCount(merchantId, position, quantity);
     }
 
-    class MerchantItemViewHolder extends RecyclerView.ViewHolder implements CartItemsAdapter.CartClickListener {
+    public void notifyDataSetChange() {
+        cartItemsAdapter.notifyDataSetChanged();
+    }
+
+    class MerchantItemViewHolder extends RecyclerView.ViewHolder {
 
         CartMerchantItemBinding mCartMerchantItemBinding;
 
@@ -103,29 +107,14 @@ public class CartIMerchantAdapter extends RecyclerView.Adapter<CartIMerchantAdap
             mCartMerchantItemBinding.setAdapter(CartIMerchantAdapter.this);
             mCartMerchantItemBinding.executePendingBindings();
         }
-
-        @Override
-        public void addItemToList(int position) {
-            mMerchantItemClickListener.addItemToList(position);
-        }
-
-        @Override
-        public void deleteFromCart(int position) {
-            mMerchantItemClickListener.deleteFromCart(position);
-        }
-
-        @Override
-        public void changeNumberOfCount(int position, int quantity) {
-            mMerchantItemClickListener.changeNumberOfCount(position, quantity);
-        }
     }
 
     public interface MerchantItemClickListener {
 
-        void addItemToList(int position);
+        void addItemToList(int merchantId, int position);
 
-        void deleteFromCart(int position);
+        void deleteFromCart(int merchantId, int position);
 
-        void changeNumberOfCount(int position, int quantity);
+        void changeNumberOfCount(int merchantId, int position, int quantity);
     }
 }

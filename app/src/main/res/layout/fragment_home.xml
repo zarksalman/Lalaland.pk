@@ -163,7 +163,14 @@
                         android:layout_height="wrap_content"
                         android:layout_below="@+id/tv_recommendation_title" />
 
+                    <ProgressBar
 
+                        android:id="@+id/pb_product_load"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_alignParentBottom="true"
+                        android:layout_centerHorizontal="true"
+                        android:visibility="gone" />
                     <TextView
 
                         android:id="@+id/tv_recommendation_title"

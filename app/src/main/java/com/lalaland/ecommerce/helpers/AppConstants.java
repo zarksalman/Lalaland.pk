@@ -32,7 +32,7 @@ public class AppConstants {
     public static final String ACTION_ID = "action_id";
     public static final String PRODUCT_TYPE = "product_type";
     public static final String PRODUCT_ID = "product_id";
-    public static final String CART_ID = "cart_id";
+    public static final String CART_ID = "cart_id[0]"; // for only one id
     public static final String IS_WISH_LIST = "is_wish_list";
     public static final String PRODUCT_VARIATION_ID = "product_variation_group_id";
     public static final String QUANTITY = "quantity";
@@ -58,6 +58,8 @@ public class AppConstants {
 
     public static int CASH_TRANSFER_TYPE = 1;
     public static int LOAD_HOME_FRAGMENT_INDEX = 0;
+    public static final String START_INDEX = "start";
+    public static final String LENGTH = "length";
 
 
     public static final String SUCCESS_CODE = "200";

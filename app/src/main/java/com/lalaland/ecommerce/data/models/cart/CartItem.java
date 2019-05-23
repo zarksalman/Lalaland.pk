@@ -8,16 +8,6 @@ import com.google.gson.annotations.SerializedName;
 
 public class CartItem implements Parcelable {
 
-    public Boolean getSelected() {
-        return isSelected;
-    }
-
-    public void setSelected(Boolean selected) {
-        isSelected = selected;
-    }
-
-    private Boolean isSelected = false;
-
 
     @SerializedName("id")
     @Expose
@@ -214,7 +204,6 @@ public class CartItem implements Parcelable {
 
     @Override
     public void writeToParcel(Parcel dest, int flags) {
-        dest.writeValue(this.isSelected);
         dest.writeValue(this.id);
         dest.writeValue(this.productId);
         dest.writeString(this.productName);
@@ -238,7 +227,6 @@ public class CartItem implements Parcelable {
     }
 
     protected CartItem(Parcel in) {
-        this.isSelected = (Boolean) in.readValue(Boolean.class.getClassLoader());
         this.id = (Integer) in.readValue(Integer.class.getClassLoader());
         this.productId = (Integer) in.readValue(Integer.class.getClassLoader());
         this.productName = in.readString();

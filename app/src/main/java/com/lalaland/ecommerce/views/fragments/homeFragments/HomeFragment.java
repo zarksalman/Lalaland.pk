@@ -6,14 +6,17 @@ import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AbsListView;
 import android.widget.ImageView;
 import android.widget.Toast;
 
+import androidx.annotation.NonNull;
 import androidx.databinding.DataBindingUtil;
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.ViewModelProviders;
 import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 
 import com.bumptech.glide.Glide;
 import com.lalaland.ecommerce.R;
@@ -25,12 +28,11 @@ import com.lalaland.ecommerce.data.models.home.Actions;
 import com.lalaland.ecommerce.data.models.home.FeaturedBrand;
 import com.lalaland.ecommerce.data.models.home.HomeBanner;
 import com.lalaland.ecommerce.data.models.home.PicksOfTheWeek;
-import com.lalaland.ecommerce.data.models.home.Recommendation;
 import com.lalaland.ecommerce.data.models.products.Product;
 import com.lalaland.ecommerce.databinding.FragmentHomeBinding;
 import com.lalaland.ecommerce.helpers.AppConstants;
+import com.lalaland.ecommerce.helpers.AppPreference;
 import com.lalaland.ecommerce.viewModels.products.HomeViewModel;
-import com.lalaland.ecommerce.viewModels.products.ProductViewModel;
 import com.lalaland.ecommerce.views.activities.ActionProductListingActivity;
 import com.lalaland.ecommerce.views.activities.ProductDetailActivity;
 
@@ -42,28 +44,34 @@ import java.util.Map;
 import static com.lalaland.ecommerce.helpers.AppConstants.ACTION_ID;
 import static com.lalaland.ecommerce.helpers.AppConstants.ACTION_NAME;
 import static com.lalaland.ecommerce.helpers.AppConstants.BANNER_STORAGE_BASE_URL;
+import static com.lalaland.ecommerce.helpers.AppConstants.LENGTH;
 import static com.lalaland.ecommerce.helpers.AppConstants.PRODUCT_ID;
 import static com.lalaland.ecommerce.helpers.AppConstants.PRODUCT_TYPE;
+import static com.lalaland.ecommerce.helpers.AppConstants.RECOMMENDED_CAT_TOKEN;
+import static com.lalaland.ecommerce.helpers.AppConstants.START_INDEX;
 import static com.lalaland.ecommerce.helpers.AppConstants.SUCCESS_CODE;
 
 public class HomeFragment extends Fragment implements ActionAdapter.ActionClickListener, PickOfWeekAdapter.WeekProductClickListener,
         BrandsFocusAdapter.FeatureBrandClickListener, ProductAdapter.ProductListener {
 
     public static final String TAG = HomeFragment.class.getSimpleName();
-    private ProductViewModel productViewModel;
     private HomeViewModel homeViewModel;
 
     private FragmentHomeBinding fragmentHomeBinding;
-    private ProductAdapter productAdapter;
-
     private List<Actions> actionsList = new ArrayList<>();
-    private List<Recommendation> recommendationList = new ArrayList<>();
     private List<HomeBanner> bannerList = new ArrayList<>();
     private List<PicksOfTheWeek> picksOfTheWeekList = new ArrayList<>();
     private List<FeaturedBrand> featuredBrandList = new ArrayList<>();
     private List<Product> productList = new ArrayList<>();
 
     private Map<String, String> parameters = new HashMap<>();
+    private boolean isScrolling = false;
+    private int currentItem, totalItems, scrolledItems;
+    private ProductAdapter recommendationProductAdapter;
+
+    public static int initialIndex = 0;
+    public static int numberOfItems = 30;
+    private String recommended_cat;
 
     public HomeFragment() {
         // Required empty public constructor
@@ -87,6 +95,8 @@ public class HomeFragment extends Fragment implements ActionAdapter.ActionClickL
         homeViewModel = ViewModelProviders.of(this).get(HomeViewModel.class);
 
         fragmentHomeBinding.setHomeListener(this);
+
+        recommended_cat = AppPreference.getInstance(getContext()).getString(RECOMMENDED_CAT_TOKEN);
         requestInitialProducts();
         return fragmentHomeBinding.getRoot();
     }
@@ -100,7 +110,6 @@ public class HomeFragment extends Fragment implements ActionAdapter.ActionClickL
 
                 bannerList = new ArrayList<>();
                 actionsList = new ArrayList<>();
-                recommendationList = new ArrayList<>();
                 featuredBrandList = new ArrayList<>();
                 picksOfTheWeekList = new ArrayList<>();
 
@@ -124,8 +133,15 @@ public class HomeFragment extends Fragment implements ActionAdapter.ActionClickL
             }
         });
 
-        parameters.put("start", "0");
-        parameters.put("length", "51"); // multiple of 3 due to 3 products are listing in a row
+        parameters.put(START_INDEX, "0");
+        parameters.put(LENGTH, "30"); // multiple of 3 due to 3 products are listing in a row
+
+        getProductItems();
+    }
+
+    void getProductItems() {
+
+        parameters.put(RECOMMENDED_CAT_TOKEN, recommended_cat);
 
         homeViewModel.getRecommendations(parameters).observe(this, productContainer -> {
 
@@ -226,11 +242,46 @@ public class HomeFragment extends Fragment implements ActionAdapter.ActionClickL
     void setRecommendationProducts() {
 
         //RecommendationAdapter recommendationAdapter = new RecommendationAdapter(getContext(), this);
-        ProductAdapter recommendationProductAdapter = new ProductAdapter(getContext(), this);
+        recommendationProductAdapter = new ProductAdapter(getContext(), this);
 
         fragmentHomeBinding.rvRecommendedProducts.setAdapter(recommendationProductAdapter);
-        fragmentHomeBinding.rvRecommendedProducts.setLayoutManager(new GridLayoutManager(getContext(), 3));
+        GridLayoutManager gridLayoutManager;
+        gridLayoutManager = new GridLayoutManager(getContext(), 3);
+        fragmentHomeBinding.rvRecommendedProducts.setLayoutManager(gridLayoutManager);
         recommendationProductAdapter.setData(productList);
+
+        fragmentHomeBinding.rvRecommendedProducts.addOnScrollListener(new RecyclerView.OnScrollListener() {
+            @Override
+            public void onScrollStateChanged(@NonNull RecyclerView recyclerView, int newState) {
+                super.onScrollStateChanged(recyclerView, newState);
+
+                if (newState == AbsListView.OnScrollListener.SCROLL_STATE_TOUCH_SCROLL) {
+                    isScrolling = true;
+                }
+            }
+
+            @Override
+            public void onScrolled(@NonNull RecyclerView recyclerView, int dx, int dy) {
+                super.onScrolled(recyclerView, dx, dy);
+
+                isScrolling = false;
+                currentItem = gridLayoutManager.getChildCount();
+                totalItems = gridLayoutManager.getItemCount();
+                scrolledItems = gridLayoutManager.findFirstCompletelyVisibleItemPosition();
+
+                if (isScrolling && (currentItem + scrolledItems == totalItems)) {
+
+                    parameters.clear();
+                    initialIndex = numberOfItems;
+                    numberOfItems += initialIndex;
+
+                    parameters.put(START_INDEX, String.valueOf(initialIndex));
+                    parameters.put(LENGTH, String.valueOf(numberOfItems));
+
+                    getProductItems();
+                }
+            }
+        });
     }
 
     /*

@@ -123,17 +123,17 @@ public class CheckoutScreen extends AppCompatActivity {
         activityCheckoutScreenBinding.rvCartProducts.setHasFixedSize(true);
         CartItemsAdapter cartItemsAdapter = new CartItemsAdapter(this, new CartItemsAdapter.CartClickListener() {
             @Override
-            public void addItemToList(int position) {
+            public void addItemToList(int merchantId, int position) {
 
             }
 
             @Override
-            public void deleteFromCart(int position) {
+            public void deleteFromCart(int merchantId, int position) {
 
             }
 
             @Override
-            public void changeNumberOfCount(int position, int quantity) {
+            public void changeNumberOfCount(int merchantId, int position, int quantity) {
 
             }
         });
