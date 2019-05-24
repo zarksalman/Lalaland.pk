@@ -6,17 +6,16 @@ import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.AbsListView;
 import android.widget.ImageView;
 import android.widget.Toast;
 
-import androidx.annotation.NonNull;
 import androidx.databinding.DataBindingUtil;
 import androidx.fragment.app.Fragment;
+import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProviders;
+import androidx.paging.PagedList;
 import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.LinearLayoutManager;
-import androidx.recyclerview.widget.RecyclerView;
 
 import com.bumptech.glide.Glide;
 import com.lalaland.ecommerce.R;
@@ -24,6 +23,7 @@ import com.lalaland.ecommerce.adapters.ActionAdapter;
 import com.lalaland.ecommerce.adapters.BrandsFocusAdapter;
 import com.lalaland.ecommerce.adapters.PickOfWeekAdapter;
 import com.lalaland.ecommerce.adapters.ProductAdapter;
+import com.lalaland.ecommerce.adapters.ProductPagedListAdapter;
 import com.lalaland.ecommerce.data.models.home.Actions;
 import com.lalaland.ecommerce.data.models.home.FeaturedBrand;
 import com.lalaland.ecommerce.data.models.home.HomeBanner;
@@ -44,15 +44,13 @@ import java.util.Map;
 import static com.lalaland.ecommerce.helpers.AppConstants.ACTION_ID;
 import static com.lalaland.ecommerce.helpers.AppConstants.ACTION_NAME;
 import static com.lalaland.ecommerce.helpers.AppConstants.BANNER_STORAGE_BASE_URL;
-import static com.lalaland.ecommerce.helpers.AppConstants.LENGTH;
 import static com.lalaland.ecommerce.helpers.AppConstants.PRODUCT_ID;
 import static com.lalaland.ecommerce.helpers.AppConstants.PRODUCT_TYPE;
 import static com.lalaland.ecommerce.helpers.AppConstants.RECOMMENDED_CAT_TOKEN;
-import static com.lalaland.ecommerce.helpers.AppConstants.START_INDEX;
 import static com.lalaland.ecommerce.helpers.AppConstants.SUCCESS_CODE;
 
 public class HomeFragment extends Fragment implements ActionAdapter.ActionClickListener, PickOfWeekAdapter.WeekProductClickListener,
-        BrandsFocusAdapter.FeatureBrandClickListener, ProductAdapter.ProductListener {
+        BrandsFocusAdapter.FeatureBrandClickListener, ProductPagedListAdapter.ProductListener {
 
     public static final String TAG = HomeFragment.class.getSimpleName();
     private HomeViewModel homeViewModel;
@@ -68,6 +66,7 @@ public class HomeFragment extends Fragment implements ActionAdapter.ActionClickL
     private boolean isScrolling = false;
     private int currentItem, totalItems, scrolledItems;
     private ProductAdapter recommendationProductAdapter;
+    private GridLayoutManager gridLayoutManager;
 
     public static int initialIndex = 0;
     public static int numberOfItems = 30;
@@ -133,10 +132,8 @@ public class HomeFragment extends Fragment implements ActionAdapter.ActionClickL
             }
         });
 
-        parameters.put(START_INDEX, "0");
-        parameters.put(LENGTH, "30"); // multiple of 3 due to 3 products are listing in a row
+        setRecommendationProducts();
 
-        getProductItems();
     }
 
     void getProductItems() {
@@ -148,7 +145,7 @@ public class HomeFragment extends Fragment implements ActionAdapter.ActionClickL
             if (productContainer != null) {
 
                 productList.addAll(productContainer.getProductData().getProducts());
-                setRecommendationProducts();
+                recommendationProductAdapter.notifyDataSetChanged();
             }
         });
     }
@@ -241,35 +238,46 @@ public class HomeFragment extends Fragment implements ActionAdapter.ActionClickL
 
     void setRecommendationProducts() {
 
-        //RecommendationAdapter recommendationAdapter = new RecommendationAdapter(getContext(), this);
-        recommendationProductAdapter = new ProductAdapter(getContext(), this);
+        //recommendationProductAdapter = new ProductAdapter(getContext(), this);
 
-        fragmentHomeBinding.rvRecommendedProducts.setAdapter(recommendationProductAdapter);
-        GridLayoutManager gridLayoutManager;
+        ProductPagedListAdapter productPagedListAdapter = new ProductPagedListAdapter(getContext(), this);
+
         gridLayoutManager = new GridLayoutManager(getContext(), 3);
         fragmentHomeBinding.rvRecommendedProducts.setLayoutManager(gridLayoutManager);
-        recommendationProductAdapter.setData(productList);
 
-        fragmentHomeBinding.rvRecommendedProducts.addOnScrollListener(new RecyclerView.OnScrollListener() {
+
+        homeViewModel.getPagedList().observe(this, new Observer<PagedList<Product>>() {
             @Override
-            public void onScrollStateChanged(@NonNull RecyclerView recyclerView, int newState) {
-                super.onScrollStateChanged(recyclerView, newState);
+            public void onChanged(PagedList<Product> products) {
+                productPagedListAdapter.submitList(products);
+                productPagedListAdapter.notifyDataSetChanged();
+            }
+        });
 
+        fragmentHomeBinding.rvRecommendedProducts.setAdapter(recommendationProductAdapter);
+
+       /* fragmentHomeBinding.rvRecommendedProducts.addOnScrollListener(new RecyclerView.OnScrollListener() {
+            @Override
+            public void onScrollStateChanged(RecyclerView recyclerView, int newState) {
+                super.onScrollStateChanged(recyclerView, newState);
                 if (newState == AbsListView.OnScrollListener.SCROLL_STATE_TOUCH_SCROLL) {
                     isScrolling = true;
+                    Log.d("salman", "getData");
                 }
             }
 
             @Override
-            public void onScrolled(@NonNull RecyclerView recyclerView, int dx, int dy) {
+            public void onScrolled(RecyclerView recyclerView, int dx, int dy) {
                 super.onScrolled(recyclerView, dx, dy);
 
-                isScrolling = false;
+
                 currentItem = gridLayoutManager.getChildCount();
                 totalItems = gridLayoutManager.getItemCount();
-                scrolledItems = gridLayoutManager.findFirstCompletelyVisibleItemPosition();
+                scrolledItems = gridLayoutManager.findFirstVisibleItemPosition();
 
                 if (isScrolling && (currentItem + scrolledItems == totalItems)) {
+                    isScrolling = false;
+                    Log.d("salman", "getData2");
 
                     parameters.clear();
                     initialIndex = numberOfItems;
@@ -282,6 +290,11 @@ public class HomeFragment extends Fragment implements ActionAdapter.ActionClickL
                 }
             }
         });
+
+        parameters.put(START_INDEX, String.valueOf(initialIndex));
+        parameters.put(LENGTH, String.valueOf(numberOfItems)); // multiple of 3 due to 3 products are listing in a row
+        getProductItems();*/
+
     }
 
     /*

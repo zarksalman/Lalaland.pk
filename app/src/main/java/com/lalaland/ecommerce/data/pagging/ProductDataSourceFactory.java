@@ -7,7 +7,7 @@ import androidx.paging.PageKeyedDataSource;
 
 import com.lalaland.ecommerce.data.models.products.Product;
 
-public class ProductSourceFactory extends DataSource.Factory {
+public class ProductDataSourceFactory extends DataSource.Factory {
 
     MutableLiveData<PageKeyedDataSource<Integer, Product>> productMutableLiveData = new MutableLiveData<>();
 
@@ -16,10 +16,10 @@ public class ProductSourceFactory extends DataSource.Factory {
 
     public DataSource create() {
 
-        ProductItemDataSource productItemDataSource = new ProductItemDataSource();
-        productMutableLiveData.postValue(productItemDataSource);
+        ProductDataSource productDataSource = new ProductDataSource();
+        productMutableLiveData.postValue(productDataSource);
 
-        return productItemDataSource;
+        return productDataSource;
     }
 
     public MutableLiveData<PageKeyedDataSource<Integer, Product>> getItemsLiveDataSource() {

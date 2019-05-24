@@ -20,7 +20,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:scrollbars="none"
-            android:visibility="gone">
+            android:visibility="visible">
 
             <androidx.constraintlayout.widget.ConstraintLayout
 
@@ -100,7 +100,7 @@
                         android:layout_height="wrap_content"
                         android:layout_alignParentEnd="true"
                         android:onClick="@{(view)->homeListener.showAllProductsWeekProducts(view)}"
-                        android:src="@drawable/right_icon_black" />
+                        app:srcCompat="@drawable/right_icon_black" />
                 </RelativeLayout>
 
                 <!--Brands in focus-->
@@ -150,18 +150,21 @@
                 <RelativeLayout
 
                     android:id="@+id/recommendation_container"
-                    android:layout_width="match_parent"
+                    android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:padding="@dimen/_8dp"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toBottomOf="@+id/brands_in_focus_container">
 
+
                     <androidx.recyclerview.widget.RecyclerView
                         android:id="@+id/rv_recommended_products"
-                        android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:layout_below="@+id/tv_recommendation_title" />
+                        android:layout_width="match_parent"
+                        android:layout_below="@+id/tv_recommendation_title"
+                        tools:listitem="@layout/product_paged_item" />
+
 
                     <ProgressBar
 
