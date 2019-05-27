@@ -6,7 +6,6 @@ import androidx.annotation.NonNull;
 import androidx.lifecycle.AndroidViewModel;
 import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MutableLiveData;
-import androidx.paging.PageKeyedDataSource;
 import androidx.paging.PagedList;
 
 import com.lalaland.ecommerce.data.models.actionProducs.ActionProductsContainer;
@@ -16,8 +15,7 @@ import com.lalaland.ecommerce.data.models.order.OrderDataContainer;
 import com.lalaland.ecommerce.data.models.productDetails.ProductDetailDataContainer;
 import com.lalaland.ecommerce.data.models.products.Product;
 import com.lalaland.ecommerce.data.models.products.ProductContainer;
-import com.lalaland.ecommerce.data.pagging.ProductDataSource;
-import com.lalaland.ecommerce.data.pagging.ProductDataSourceFactory;
+import com.lalaland.ecommerce.data.pagging.ProductsDataSource;
 import com.lalaland.ecommerce.data.repository.ProductsRepository;
 
 import java.util.Map;
@@ -27,20 +25,20 @@ public class ProductViewModel extends AndroidViewModel {
     private static ProductsRepository productsRepository;
     private MutableLiveData<BasicResponse> basicResponse;
     private LiveData<PagedList<Product>> productPageList;
-    private LiveData<PageKeyedDataSource<Integer, Product>> liveDataSource;
+    private LiveData<ProductsDataSource> liveDataSource;
 
     public ProductViewModel(@NonNull Application application) {
         super(application);
 
         productsRepository = ProductsRepository.getInstance();
 
-        ProductDataSourceFactory productDataSourceFactory = new ProductDataSourceFactory();
+       /* ProductDataSourceFactory productDataSourceFactory = new ProductDataSourceFactory();
         liveDataSource = productDataSourceFactory.getItemsLiveDataSource();
 
         PagedList.Config pagedListConfig =
                 (new PagedList.Config.Builder())
                         .setEnablePlaceholders(false)
-                        .setPageSize(ProductDataSource.NUMBER_OF_PRODUCTS).build();
+                        .setPageSize(ProductDataSource.NUMBER_OF_PRODUCTS).build();*/
     }
 
     public LiveData<ProductContainer> getRangeProducts(Map<String, String> parameters) {

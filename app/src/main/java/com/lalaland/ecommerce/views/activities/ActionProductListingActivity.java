@@ -29,7 +29,6 @@ import java.util.Map;
 import static com.lalaland.ecommerce.helpers.AppConstants.ACTION_ID;
 import static com.lalaland.ecommerce.helpers.AppConstants.ACTION_NAME;
 import static com.lalaland.ecommerce.helpers.AppConstants.PRODUCT_ID;
-import static com.lalaland.ecommerce.helpers.AppConstants.PRODUCT_TYPE;
 
 public class ActionProductListingActivity extends AppCompatActivity implements ActionProductsAdapter.ActionProductsListener {
 
@@ -43,6 +42,8 @@ public class ActionProductListingActivity extends AppCompatActivity implements A
     String action_name = "custom_list", action_id = "2", products_type = "action_products";
     private static final String ID = "id";
     private static final String SORT_BY = "sort_by";
+    private boolean isScrolling = false;
+    GridLayoutManager gridLayoutManager;
 
     @Override
 
@@ -190,7 +191,8 @@ public class ActionProductListingActivity extends AppCompatActivity implements A
                 actionProductsArrayList = new ArrayList<>();
                 actionProductsArrayList = actionProductsContainer.getData().getProducts();
 
-                activityProductListingBinding.rvProducts.setLayoutManager(new GridLayoutManager(this, 2));
+                gridLayoutManager = new GridLayoutManager(this, 2);
+                activityProductListingBinding.rvProducts.setLayoutManager(gridLayoutManager);
 
                 actionProductsAdapter = new ActionProductsAdapter(this, this);
                 activityProductListingBinding.rvProducts.setAdapter(actionProductsAdapter);

@@ -3,19 +3,21 @@ package com.lalaland.ecommerce.views.fragments.homeFragments;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.Toast;
 
+import androidx.core.view.ViewCompat;
+import androidx.core.widget.NestedScrollView;
 import androidx.databinding.DataBindingUtil;
 import androidx.fragment.app.Fragment;
-import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProviders;
-import androidx.paging.PagedList;
 import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 
 import com.bumptech.glide.Glide;
 import com.lalaland.ecommerce.R;
@@ -33,6 +35,7 @@ import com.lalaland.ecommerce.databinding.FragmentHomeBinding;
 import com.lalaland.ecommerce.helpers.AppConstants;
 import com.lalaland.ecommerce.helpers.AppPreference;
 import com.lalaland.ecommerce.viewModels.products.HomeViewModel;
+import com.lalaland.ecommerce.viewModels.products.ProductViewModelFactory;
 import com.lalaland.ecommerce.views.activities.ActionProductListingActivity;
 import com.lalaland.ecommerce.views.activities.ProductDetailActivity;
 
@@ -44,13 +47,15 @@ import java.util.Map;
 import static com.lalaland.ecommerce.helpers.AppConstants.ACTION_ID;
 import static com.lalaland.ecommerce.helpers.AppConstants.ACTION_NAME;
 import static com.lalaland.ecommerce.helpers.AppConstants.BANNER_STORAGE_BASE_URL;
+import static com.lalaland.ecommerce.helpers.AppConstants.LENGTH;
 import static com.lalaland.ecommerce.helpers.AppConstants.PRODUCT_ID;
 import static com.lalaland.ecommerce.helpers.AppConstants.PRODUCT_TYPE;
 import static com.lalaland.ecommerce.helpers.AppConstants.RECOMMENDED_CAT_TOKEN;
+import static com.lalaland.ecommerce.helpers.AppConstants.START_INDEX;
 import static com.lalaland.ecommerce.helpers.AppConstants.SUCCESS_CODE;
 
 public class HomeFragment extends Fragment implements ActionAdapter.ActionClickListener, PickOfWeekAdapter.WeekProductClickListener,
-        BrandsFocusAdapter.FeatureBrandClickListener, ProductPagedListAdapter.ProductListener {
+        BrandsFocusAdapter.FeatureBrandClickListener, ProductPagedListAdapter.ProductListener, ProductAdapter.ProductListener {
 
     public static final String TAG = HomeFragment.class.getSimpleName();
     private HomeViewModel homeViewModel;
@@ -63,13 +68,13 @@ public class HomeFragment extends Fragment implements ActionAdapter.ActionClickL
     private List<Product> productList = new ArrayList<>();
 
     private Map<String, String> parameters = new HashMap<>();
-    private boolean isScrolling = false;
-    private int currentItem, totalItems, scrolledItems;
     private ProductAdapter recommendationProductAdapter;
     private GridLayoutManager gridLayoutManager;
 
-    public static int initialIndex = 0;
-    public static int numberOfItems = 30;
+    Boolean isLoading = false;
+    public static int INITIAL_INDEX = 0;
+    public static int END_INDEX = 30;
+    public static final int NUMBER_OF_ITEM = 30;
     private String recommended_cat;
 
     public HomeFragment() {
@@ -91,7 +96,7 @@ public class HomeFragment extends Fragment implements ActionAdapter.ActionClickL
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         fragmentHomeBinding = DataBindingUtil.inflate(inflater, R.layout.fragment_home, container, false);
-        homeViewModel = ViewModelProviders.of(this).get(HomeViewModel.class);
+        homeViewModel = ViewModelProviders.of(this, new ProductViewModelFactory()).get(HomeViewModel.class);
 
         fragmentHomeBinding.setHomeListener(this);
 
@@ -134,6 +139,7 @@ public class HomeFragment extends Fragment implements ActionAdapter.ActionClickL
 
         setRecommendationProducts();
 
+
     }
 
     void getProductItems() {
@@ -142,11 +148,28 @@ public class HomeFragment extends Fragment implements ActionAdapter.ActionClickL
 
         homeViewModel.getRecommendations(parameters).observe(this, productContainer -> {
 
-            if (productContainer != null) {
+            if (productContainer != null && productContainer.getProductData().getProducts().size() > 0) {
+
+                int startPosition;
+
+                startPosition = productList.size();
 
                 productList.addAll(productContainer.getProductData().getProducts());
-                recommendationProductAdapter.notifyDataSetChanged();
+
+                recommendationProductAdapter.setData(productList);
+                // recommendationProductAdapter.notifyDataSetChanged();
+
+//                productList.addAll(startPosition, productContainer.getProductData().getProducts());
+                //   recommendationProductAdapter.notifyItemRangeInserted(startPosition, productList.size());
+
+                // recommendationProductAdapter.notifyItemRangeInserted(startPosition, itemCount);
+                Log.d(TAG, "getProductItems" + productList.size());
+                isLoading = false;
+
             }
+
+            fragmentHomeBinding.pbProductLoad.setVisibility(View.GONE);
+
         });
     }
 
@@ -238,73 +261,75 @@ public class HomeFragment extends Fragment implements ActionAdapter.ActionClickL
 
     void setRecommendationProducts() {
 
-        //recommendationProductAdapter = new ProductAdapter(getContext(), this);
 
-        ProductPagedListAdapter productPagedListAdapter = new ProductPagedListAdapter(getContext(), this);
+/*        ProductPagedListAdapter productPagedListAdapter = new ProductPagedListAdapter(getContext(), this);
 
         gridLayoutManager = new GridLayoutManager(getContext(), 3);
         fragmentHomeBinding.rvRecommendedProducts.setLayoutManager(gridLayoutManager);
 
 
-        homeViewModel.getPagedList().observe(this, new Observer<PagedList<Product>>() {
-            @Override
-            public void onChanged(PagedList<Product> products) {
-                productPagedListAdapter.submitList(products);
-                productPagedListAdapter.notifyDataSetChanged();
-            }
+        homeViewModel.pagedListLiveData.observe(this, products -> {
+            productPagedListAdapter.submitList(products);
+            productPagedListAdapter.notifyDataSetChanged();
         });
 
+        fragmentHomeBinding.rvRecommendedProducts.setAdapter(recommendationProductAdapter);*/
+
+        recommendationProductAdapter = new ProductAdapter(getContext(), this);
+        recommendationProductAdapter.setData(productList);
         fragmentHomeBinding.rvRecommendedProducts.setAdapter(recommendationProductAdapter);
+        gridLayoutManager = new GridLayoutManager(getContext(), 3);
+        fragmentHomeBinding.rvRecommendedProducts.setLayoutManager(gridLayoutManager);
 
-       /* fragmentHomeBinding.rvRecommendedProducts.addOnScrollListener(new RecyclerView.OnScrollListener() {
-            @Override
-            public void onScrollStateChanged(RecyclerView recyclerView, int newState) {
-                super.onScrollStateChanged(recyclerView, newState);
-                if (newState == AbsListView.OnScrollListener.SCROLL_STATE_TOUCH_SCROLL) {
-                    isScrolling = true;
-                    Log.d("salman", "getData");
-                }
-            }
+//        fragmentHomeBinding.containersParent.setNestedScrollingEnabled(false);
+        ViewCompat.setNestedScrollingEnabled(fragmentHomeBinding.rvRecommendedProducts, false);
 
-            @Override
-            public void onScrolled(RecyclerView recyclerView, int dx, int dy) {
-                super.onScrolled(recyclerView, dx, dy);
+        // It takes almost 3 4 days jut because, recyclerview is under nestedScrollView (onScrolled does not call)
+        fragmentHomeBinding.containersParent.setOnScrollChangeListener((NestedScrollView.OnScrollChangeListener) (v, scrollX, scrollY, oldScrollX, oldScrollY) -> {
+            if (v.getChildAt(v.getChildCount() - 1) != null) {
+                if ((scrollY >= (v.getChildAt(v.getChildCount() - 1).getMeasuredHeight() - v.getMeasuredHeight())) &&
+                        scrollY > oldScrollY) {
+                    //code to fetch more data for endless scrolling
 
+                    if (!isLoading) {
 
-                currentItem = gridLayoutManager.getChildCount();
-                totalItems = gridLayoutManager.getItemCount();
-                scrolledItems = gridLayoutManager.findFirstVisibleItemPosition();
+                        fragmentHomeBinding.pbProductLoad.setVisibility(View.VISIBLE);
 
-                if (isScrolling && (currentItem + scrolledItems == totalItems)) {
-                    isScrolling = false;
-                    Log.d("salman", "getData2");
+                        isLoading = true;
+                        Log.d(TAG, "getData2");
 
-                    parameters.clear();
-                    initialIndex = numberOfItems;
-                    numberOfItems += initialIndex;
+                        parameters.clear();
 
-                    parameters.put(START_INDEX, String.valueOf(initialIndex));
-                    parameters.put(LENGTH, String.valueOf(numberOfItems));
+                        INITIAL_INDEX = END_INDEX;
+                        INITIAL_INDEX++; // starting from end+1
+                        END_INDEX += NUMBER_OF_ITEM;
 
-                    getProductItems();
+                        parameters.put(START_INDEX, String.valueOf(INITIAL_INDEX));
+                        parameters.put(LENGTH, String.valueOf(NUMBER_OF_ITEM));
+
+                        getProductItems();
+                    }
+
                 }
             }
         });
 
-        parameters.put(START_INDEX, String.valueOf(initialIndex));
-        parameters.put(LENGTH, String.valueOf(numberOfItems)); // multiple of 3 due to 3 products are listing in a row
-        getProductItems();*/
+
+        parameters.put(START_INDEX, String.valueOf(INITIAL_INDEX));
+        parameters.put(LENGTH, String.valueOf(END_INDEX)); // multiple of 3 due to 3 products are listing in a row
+        getProductItems();
 
     }
 
-    /*
-    @Override
-    public void onRecommendationProductClicked(Recommendation recommendation) {
-
-        Intent intent = new Intent(getContext(), ProductDetailActivity.class);
-        intent.putExtra(PRODUCT_ID, recommendation.getId());
-        startActivity(intent);
-    }*/
+    //This method would check that the recyclerview scroll has reached the bottom or not
+    private boolean isLastItemDisplaying(RecyclerView recyclerView) {
+        if (recyclerView.getAdapter().getItemCount() != 0) {
+            int lastVisibleItemPosition = ((LinearLayoutManager) recyclerView.getLayoutManager()).findLastCompletelyVisibleItemPosition();
+            if (lastVisibleItemPosition != RecyclerView.NO_POSITION && lastVisibleItemPosition == recyclerView.getAdapter().getItemCount() - 1)
+                return true;
+        }
+        return false;
+    }
 
     @Override
     public void onProductProductClicked(Product product) {

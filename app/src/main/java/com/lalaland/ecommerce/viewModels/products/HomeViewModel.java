@@ -1,35 +1,47 @@
 package com.lalaland.ecommerce.viewModels.products;
 
-import android.app.Application;
-
-import androidx.annotation.NonNull;
-import androidx.lifecycle.AndroidViewModel;
 import androidx.lifecycle.LiveData;
-import androidx.paging.LivePagedListBuilder;
-import androidx.paging.PageKeyedDataSource;
+import androidx.lifecycle.ViewModel;
 import androidx.paging.PagedList;
 
 import com.lalaland.ecommerce.data.models.home.HomeDataContainer;
 import com.lalaland.ecommerce.data.models.products.Product;
 import com.lalaland.ecommerce.data.models.products.ProductContainer;
-import com.lalaland.ecommerce.data.pagging.ProductDataSource;
 import com.lalaland.ecommerce.data.pagging.ProductDataSourceFactory;
+import com.lalaland.ecommerce.data.pagging.ProductsDataSource;
 import com.lalaland.ecommerce.data.repository.ProductsRepository;
 
 import java.util.Map;
 
-public class HomeViewModel extends AndroidViewModel {
+public class HomeViewModel extends ViewModel {
 
     private ProductsRepository productsRepository;
 
+    public ProductDataSourceFactory productDataSourceFactory;
     public LiveData<PagedList<Product>> pagedListLiveData;
-    public LiveData<PageKeyedDataSource<Integer, Product>> liveDataSource;
+    public LiveData<ProductsDataSource> liveDataSource;
 
-    public HomeViewModel(@NonNull Application application) {
-        super(application);
+    //    public HomeViewModel(@NonNull Application application)
+    public HomeViewModel() {
+        //   super(application);
         productsRepository = ProductsRepository.getInstance();
 
-        ProductDataSourceFactory productDataSourceFactory = new ProductDataSourceFactory();
+/*
+        productDataSourceFactory = new ProductDataSourceFactory();
+
+        PagedList.Config pagedListConfig =
+                (new PagedList.Config.Builder())
+                        .setEnablePlaceholders(false)
+                        .setPageSize(ProductsDataSource.SIZE)
+                        .setInitialLoadSizeHint(ProductsDataSource.totalCount)
+                        .build();
+
+        pagedListLiveData = (new LivePagedListBuilder(productDataSourceFactory, pagedListConfig)).build();
+
+        liveDataSource = productDataSourceFactory.getItemsLiveDataSource();
+*/
+
+/*        ProductDataSourceFactory productDataSourceFactory = new ProductDataSourceFactory();
         liveDataSource = productDataSourceFactory.getItemsLiveDataSource();
 
         PagedList.Config config =
@@ -38,7 +50,7 @@ public class HomeViewModel extends AndroidViewModel {
                         .setPageSize(ProductDataSource.NUMBER_OF_PRODUCTS)
                         .build();
 
-        pagedListLiveData = new LivePagedListBuilder(productDataSourceFactory, config).build();
+        pagedListLiveData = new LivePagedListBuilder(productDataSourceFactory, config).build();*/
     }
 
     public LiveData<PagedList<Product>> getPagedList() {

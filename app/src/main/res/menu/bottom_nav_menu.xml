@@ -13,17 +13,17 @@
 
     <item
         android:id="@+id/navigation_cart"
-        android:icon="@drawable/ic_notifications_black_24dp"
+        android:icon="@drawable/cart_icon"
         android:title="@string/cart" />
 
     <item
         android:id="@+id/navigation_wish"
-        android:icon="@drawable/ic_notifications_black_24dp"
+        android:icon="@drawable/wish_icon"
         android:title="@string/wish" />
 
     <item
         android:id="@+id/navigation_account"
-        android:icon="@drawable/ic_notifications_black_24dp"
+        android:icon="@drawable/account_icon"
         android:title="@string/account" />
 
 </menu>

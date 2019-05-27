@@ -18,9 +18,11 @@
 
             android:id="@+id/containers_parent"
             android:layout_width="match_parent"
+            android:isScrollContainer="true"
+            android:measureAllChildren="true"
             android:layout_height="wrap_content"
             android:scrollbars="none"
-            android:visibility="visible">
+            android:visibility="gone">
 
             <androidx.constraintlayout.widget.ConstraintLayout
 
@@ -147,44 +149,46 @@
                 </RelativeLayout>
 
                 <!--Recommendation Products-->
-                <RelativeLayout
+                <LinearLayout
 
                     android:id="@+id/recommendation_container"
                     android:layout_width="0dp"
-                    android:layout_height="wrap_content"
+                    android:layout_height="match_parent"
                     android:padding="@dimen/_8dp"
+                    android:orientation="vertical"
+                    app:layout_constraintBottom_toTopOf="@+id/pb_product_load"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toBottomOf="@+id/brands_in_focus_container">
 
-
-                    <androidx.recyclerview.widget.RecyclerView
-                        android:id="@+id/rv_recommended_products"
-                        android:layout_height="wrap_content"
-                        android:layout_width="match_parent"
-                        android:layout_below="@+id/tv_recommendation_title"
-                        tools:listitem="@layout/product_paged_item" />
-
-
-                    <ProgressBar
-
-                        android:id="@+id/pb_product_load"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_alignParentBottom="true"
-                        android:layout_centerHorizontal="true"
-                        android:visibility="gone" />
                     <TextView
 
                         android:id="@+id/tv_recommendation_title"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:layout_alignParentTop="true"
                         android:text="@string/recommendations"
                         android:textAppearance="@style/TextAppearance.AppCompat.Medium"
                         android:textColor="@android:color/black" />
 
-                </RelativeLayout>
+                    <androidx.recyclerview.widget.RecyclerView
+                        android:id="@+id/rv_recommended_products"
+                        android:layout_height="wrap_content"
+                        android:scrollbars="none"
+                        android:layout_width="match_parent"
+                        tools:listitem="@layout/product_paged_item" />
+                </LinearLayout>
+
+                <ProgressBar
+
+                    android:id="@+id/pb_product_load"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center_horizontal"
+                    android:layout_margin="@dimen/_50dp"
+                    android:visibility="visible"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent" />
 
             </androidx.constraintlayout.widget.ConstraintLayout>
 

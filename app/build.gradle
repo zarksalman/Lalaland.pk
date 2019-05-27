@@ -70,5 +70,4 @@ dependencies {
     // facebook login sdk, share, app link, analytics etc
     // Facebook Android SDK (everything)
     implementation 'com.facebook.android:facebook-android-sdk:4.33.0'
-
 }

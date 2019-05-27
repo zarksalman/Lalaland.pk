@@ -58,7 +58,12 @@ public class EditAccountInformationActivity extends AppCompatActivity {
     }
 
     private void setListeners() {
+
         activityEditAccountInformationBinding.setClickListener(this);
+
+    /*    activityEditAccountInformationBinding.etDateOfBirth.setOnClickListener(v -> {
+            showDatePickerDialogue();
+        });*/
 
         activityEditAccountInformationBinding.rgGender.setOnCheckedChangeListener((group, checkedId) -> {
             if (checkedId == R.id.rb_male)
