@@ -5,7 +5,6 @@ import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Toast;
 
 import androidx.databinding.DataBindingUtil;
 import androidx.fragment.app.Fragment;
@@ -18,7 +17,6 @@ import com.lalaland.ecommerce.R;
 import com.lalaland.ecommerce.adapters.CategoryAdapter;
 import com.lalaland.ecommerce.adapters.MajorCategoryAdapter;
 import com.lalaland.ecommerce.data.models.categories.CategoryHomeBanner;
-import com.lalaland.ecommerce.data.models.categories.InnerCategory;
 import com.lalaland.ecommerce.data.models.categories.SubCategory;
 import com.lalaland.ecommerce.data.models.category.Category;
 import com.lalaland.ecommerce.databinding.FragmentCategoryBinding;
@@ -32,7 +30,7 @@ import java.util.List;
 import static com.lalaland.ecommerce.helpers.AppConstants.SUCCESS_CODE;
 
 
-public class CategoryFragment extends Fragment implements MajorCategoryAdapter.MajorCategoryClickListener, CategoryAdapter.InnerCategoryListener {
+public class CategoryFragment extends Fragment implements MajorCategoryAdapter.MajorCategoryClickListener, CategoryAdapter.CategoryListener {
 
     private FragmentCategoryBinding fragmentCategoryBinding;
     private CategoryViewModel categoryViewModel;
@@ -41,7 +39,10 @@ public class CategoryFragment extends Fragment implements MajorCategoryAdapter.M
     private List<SubCategory> subCategories = new ArrayList<>();
 
     private MajorCategoryAdapter majorCategoryAdapter;
+    private CategoryAdapter categoryAdapter;
     private CategoriesViewModel categoriesViewModel;
+
+
     public CategoryFragment() {
         // Required empty public constructor
     }
@@ -83,7 +84,7 @@ public class CategoryFragment extends Fragment implements MajorCategoryAdapter.M
 
 
         setMajorCategoryList();
-        getCategories(categoryList.get(0).getId());
+        setCategoryAdapter();
     }
 
     private void getCategories(int majorCategoryId) {
@@ -94,9 +95,12 @@ public class CategoryFragment extends Fragment implements MajorCategoryAdapter.M
             if (categoriesContainer != null) {
 
                 if (categoriesContainer.getCode().equals(SUCCESS_CODE)) {
-                    categoryHomeBanners.addAll(categoriesContainer.getData().getHomeBanner());
-                    subCategories.addAll(categoriesContainer.getData().getSubCategories());
-                    setCategoryAdapter();
+
+                    if (categoriesContainer.getData().getSubCategories().size() > 0) {
+                        categoryHomeBanners.addAll(categoriesContainer.getData().getHomeBanner());
+                        subCategories.addAll(categoriesContainer.getData().getSubCategories());
+                        categoryAdapter.notifyItemRangeChanged(0, subCategories.size());
+                    }
                 }
             }
         });
@@ -117,20 +121,24 @@ public class CategoryFragment extends Fragment implements MajorCategoryAdapter.M
 
     private void setCategoryAdapter() {
 
-        CategoryAdapter categoryAdapter = new CategoryAdapter(getContext(), this);
+        categoryAdapter = new CategoryAdapter(getContext(), this);
         fragmentCategoryBinding.rvSubCategory.setAdapter(categoryAdapter);
         fragmentCategoryBinding.rvSubCategory.setLayoutManager(new LinearLayoutManager(getContext()));
         categoryAdapter.setData(subCategories);
 
+        getCategories(categoryList.get(0).getId());
+
     }
 
     @Override
-    public void onCategoryClicked(Category category) {
-        Toast.makeText(getContext(), category.getName(), Toast.LENGTH_SHORT).show();
+    public void onMajorCategoryClicked(Category category) {
+
+        subCategories.clear();
+        getCategories(category.getId());
     }
 
     @Override
-    public void onInnerCategoryClicked(InnerCategory innerCategory) {
+    public void onCategoryClicked(SubCategory subCategory) {
 
     }
 }

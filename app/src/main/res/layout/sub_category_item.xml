@@ -24,8 +24,8 @@
         xmlns:android="http://schemas.android.com/apk/res/android"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_margin="@dimen/_4dp"
-        android:background="@drawable/recommended_products_bg"
+
+        android:background="@color/colorScreenBg"
         android:padding="@dimen/_8dp">
 
         <TextView
@@ -33,8 +33,10 @@
             android:id="@+id/tv_sub_cat_name"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_margin="@dimen/_8dp"
             android:text="@{subCategory.name}"
+            android:textColor="@android:color/black"
+            android:textSize="16sp"
+            android:textStyle="bold"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
             tools:text="@tools:sample/last_names" />
@@ -44,8 +46,8 @@
             android:id="@+id/tv_show_all"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_margin="@dimen/_8dp"
             android:text="@string/all"
+            android:layout_marginEnd="@dimen/_4dp"
             app:layout_constraintEnd_toStartOf="@+id/iv_show_all"
             app:layout_constraintTop_toTopOf="parent" />
 
@@ -59,38 +61,16 @@
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintTop_toTopOf="@+id/tv_show_all" />
 
-        <LinearLayout
+        <androidx.recyclerview.widget.RecyclerView
+
+            android:id="@+id/rv_inner_category"
             android:layout_width="0dp"
+            android:layout_marginTop="@dimen/_4dp"
+            android:background="@drawable/recommended_products_bg"
             android:layout_height="wrap_content"
-            android:orientation="horizontal"
-            android:weightSum="3"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/tv_sub_cat_name">
+            app:layout_constraintTop_toBottomOf="@id/tv_sub_cat_name" />
 
-            <LinearLayout
-
-                android:id="@+id/sub_cat_product_0"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:onClick="@{()->adapter.onInnerCategoryClicked(subCategory.innerCategories.get(0))}"
-                android:orientation="vertical">
-
-                <ImageView
-
-                    android:id="@+id/iv_sub_cat_product_0"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    app:setProductImage="@{subCategory.innerCategories.get(0).getPrimaryImage()}" />
-
-                <TextView
-                    android:id="@+id/tv_sub_cat_product_0"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="@{subCategory.innerCategories.get(0).getName()}" />
-
-            </LinearLayout>
-        </LinearLayout>
     </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>

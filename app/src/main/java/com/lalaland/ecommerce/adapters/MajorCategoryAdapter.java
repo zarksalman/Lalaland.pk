@@ -51,7 +51,7 @@ public class MajorCategoryAdapter extends RecyclerView.Adapter<MajorCategoryAdap
     }
 
     public void categoryClicked(View view, Category category) {
-        mCategoryClickListener.onCategoryClicked(category);
+        mCategoryClickListener.onMajorCategoryClicked(category);
     }
 
     public void setData(List<Category> categoryList) {
@@ -77,6 +77,6 @@ public class MajorCategoryAdapter extends RecyclerView.Adapter<MajorCategoryAdap
     }
 
     public interface MajorCategoryClickListener {
-        void onCategoryClicked(Category category);
+        void onMajorCategoryClicked(Category category);
     }
 }

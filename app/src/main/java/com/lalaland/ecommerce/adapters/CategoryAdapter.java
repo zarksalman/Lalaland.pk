@@ -6,6 +6,7 @@ import android.view.ViewGroup;
 
 import androidx.annotation.NonNull;
 import androidx.databinding.DataBindingUtil;
+import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.lalaland.ecommerce.R;
@@ -23,12 +24,12 @@ public class CategoryAdapter extends RecyclerView.Adapter<CategoryAdapter.SubCat
     private List<SubCategory> mSubCategories = new ArrayList<>();
     private SubCategoryItemBinding mSubCategoryItemBinding;
     private LayoutInflater inflater;
-    private InnerCategoryListener mInnerCategoryListener;
+    private CategoryListener mCategoryListener;
 
-    public CategoryAdapter(Context context, InnerCategoryListener innerCategoryListener) {
+    public CategoryAdapter(Context context, CategoryListener categoryListener) {
         mContext = context;
         inflater = LayoutInflater.from(context);
-        mInnerCategoryListener = innerCategoryListener;
+        mCategoryListener = categoryListener;
     }
 
     @NonNull
@@ -56,10 +57,10 @@ public class CategoryAdapter extends RecyclerView.Adapter<CategoryAdapter.SubCat
         notifyDataSetChanged();
     }
 
-    public void onInnerCategoryClicked(InnerCategory innerCategory) {
-        mInnerCategoryListener.onInnerCategoryClicked(innerCategory);
+ /*   public void onInnerCategoryClicked(SubCategory subCategory) {
+        mCategoryListener.onCategoryClicked(subCategory);
     }
-
+*/
 /*
     public void filter(String text) {
         filteredCityList.clear();
@@ -78,24 +79,44 @@ public class CategoryAdapter extends RecyclerView.Adapter<CategoryAdapter.SubCat
     }
 */
 
-    class SubCategoryViewHolder extends RecyclerView.ViewHolder {
+    class SubCategoryViewHolder extends RecyclerView.ViewHolder implements InnerCategoryAdapter.InnerCategoryListener {
 
         SubCategoryItemBinding subCategoryItemBinding;
+        InnerCategoryAdapter innerCategoryAdapter;
 
         SubCategoryViewHolder(@NonNull SubCategoryItemBinding subCategoryItemBinding) {
             super(subCategoryItemBinding.getRoot());
-
             this.subCategoryItemBinding = subCategoryItemBinding;
+
+            innerCategoryAdapter = new InnerCategoryAdapter(mContext, this);
         }
 
         void bindHolder(SubCategory subCategory) {
-            this.subCategoryItemBinding.setSubCategory(subCategory);
-            this.subCategoryItemBinding.setAdapter(CategoryAdapter.this);
-            this.subCategoryItemBinding.executePendingBindings();
+
+            if (subCategory.getInnerCategories().size() > 3)
+                innerCategoryAdapter.setData(subCategory.getInnerCategories().subList(0, 3));
+            else if (subCategory.getInnerCategories().size() > 0)
+                innerCategoryAdapter.setData(subCategory.getInnerCategories());
+
+            if (subCategory.getInnerCategories().size() > 0) {
+
+                this.subCategoryItemBinding.rvInnerCategory.setAdapter(innerCategoryAdapter);
+                this.subCategoryItemBinding.rvInnerCategory.setLayoutManager(new GridLayoutManager(mContext, 3));
+
+
+                this.subCategoryItemBinding.setSubCategory(subCategory);
+                this.subCategoryItemBinding.setAdapter(CategoryAdapter.this);
+                this.subCategoryItemBinding.executePendingBindings();
+            }
+        }
+
+        @Override
+        public void onInnerCategoryClicked(InnerCategory innerCategory) {
+
         }
     }
 
-    public interface InnerCategoryListener {
-        void onInnerCategoryClicked(InnerCategory innerCategory);
+    public interface CategoryListener {
+        void onCategoryClicked(SubCategory subCategory);
     }
 }
