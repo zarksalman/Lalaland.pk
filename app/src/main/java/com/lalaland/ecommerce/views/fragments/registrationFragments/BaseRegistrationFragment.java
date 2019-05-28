@@ -24,8 +24,8 @@ import com.facebook.login.LoginManager;
 import com.facebook.login.LoginResult;
 import com.facebook.login.widget.LoginButton;
 import com.lalaland.ecommerce.helpers.AppPreference;
-import com.lalaland.ecommerce.viewModels.LoginViewModel;
-import com.lalaland.ecommerce.viewModels.RegistrationViewModel;
+import com.lalaland.ecommerce.viewModels.user.LoginViewModel;
+import com.lalaland.ecommerce.viewModels.user.RegistrationViewModel;
 import com.lalaland.ecommerce.views.activities.MainActivity;
 
 import java.security.MessageDigest;
@@ -38,10 +38,8 @@ import static com.lalaland.ecommerce.helpers.AppConstants.ACCOUNT_CREATION_ERROR
 import static com.lalaland.ecommerce.helpers.AppConstants.AUTHORIZATION_FAIL_CODE;
 import static com.lalaland.ecommerce.helpers.AppConstants.CART_SESSION_TOKEN;
 import static com.lalaland.ecommerce.helpers.AppConstants.FACEBOOK_SIGN_UP_IN;
-import static com.lalaland.ecommerce.helpers.AppConstants.GENERAL_ERROR;
 import static com.lalaland.ecommerce.helpers.AppConstants.VALIDATION_FAIL_CODE;
 import static com.lalaland.ecommerce.helpers.AppConstants.FB_LOGIN_CANCLED;
-import static com.lalaland.ecommerce.helpers.AppConstants.FORM_SIGN_UP;
 import static com.lalaland.ecommerce.helpers.AppConstants.SIGNIN_TOKEN;
 import static com.lalaland.ecommerce.helpers.AppConstants.SUCCESS_CODE;
 import static com.lalaland.ecommerce.helpers.AppConstants.WRONG_CREDENTIAL;

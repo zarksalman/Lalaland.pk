@@ -30,24 +30,29 @@ public class MainActivity extends AppCompatActivity {
         Fragment fragment;
         switch (item.getItemId()) {
             case R.id.navigation_home:
+                activityMainBinding.tvAppName.setText(getResources().getString(R.string.app_name));
                 fragment = HomeFragment.newInstance();
                 replaceFragment(fragment, 1);
                 return true;
             case R.id.navigation_category:
+                activityMainBinding.tvAppName.setText(getResources().getString(R.string.category));
                 fragment = CategoryFragment.newInstance();
                 replaceFragment(fragment, 2);
                 return true;
             case R.id.navigation_cart:
+                activityMainBinding.tvAppName.setText(getResources().getString(R.string.cart));
                 fragment = CartFragment.newInstance();
                 replaceFragment(fragment, 3);
                 return true;
 
             case R.id.navigation_wish:
+                activityMainBinding.tvAppName.setText(getResources().getString(R.string.wish_list));
                 fragment = WishFragment.newInstance();
                 replaceFragment(fragment, 4);
                 return true;
 
             case R.id.navigation_account:
+                activityMainBinding.tvAppName.setText(getResources().getString(R.string.account));
                 fragment = AccountFragment.newInstance();
                 replaceFragment(fragment, 5);
                 return true;
@@ -86,23 +91,29 @@ public class MainActivity extends AppCompatActivity {
 
         switch (LOAD_HOME_FRAGMENT_INDEX) {
             case 0:
+                activityMainBinding.tvAppName.setText(getResources().getString(R.string.app_name));
                 replaceFragment(HomeFragment.newInstance(), LOAD_HOME_FRAGMENT_INDEX);
                 break;
             case 1:
+                activityMainBinding.tvAppName.setText(getResources().getString(R.string.category));
                 replaceFragment(CategoryFragment.newInstance(), LOAD_HOME_FRAGMENT_INDEX);
                 break;
             case 2:
+                activityMainBinding.tvAppName.setText(getResources().getString(R.string.cart));
                 replaceFragment(CartFragment.newInstance(), LOAD_HOME_FRAGMENT_INDEX);
                 break;
 
             case 3:
+                activityMainBinding.tvAppName.setText(getResources().getString(R.string.wish_list));
                 replaceFragment(WishFragment.newInstance(), LOAD_HOME_FRAGMENT_INDEX);
                 break;
             case 4:
+                activityMainBinding.tvAppName.setText(getResources().getString(R.string.account));
                 replaceFragment(AccountFragment.newInstance(), LOAD_HOME_FRAGMENT_INDEX);
                 break;
 
             default:
+                activityMainBinding.tvAppName.setText(getResources().getString(R.string.app_name));
                 replaceFragment(HomeFragment.newInstance(), 0);
         }
     }

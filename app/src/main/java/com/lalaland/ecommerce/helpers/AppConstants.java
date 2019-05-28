@@ -30,7 +30,17 @@ public class AppConstants {
     public static final String DATE_FORMAT_TEXT = "yyyy-MM-dd";
     public static final String ACTION_NAME = "action_name";
     public static final String ACTION_ID = "action_id";
+
     public static final String PRODUCT_TYPE = "product_type";
+
+    public static final String SALE_PRODUCT = "sale";
+    public static final String PICK_OF_THE_WEEK_PRODUCTS = "picks_of_the_week";
+    public static final String NEW_ARRIVAL_PRODUCTS = "new_arrival";
+    public static final String BRANDS_IN_FOCUS_PRODUCTS = "brands_in_focus";
+    public static final String CATEGORY_PRODUCTS = "category";
+    public static final String CUSTOM_LIST_PRODUCTS = "custom_list";
+
+
     public static final String PRODUCT_ID = "product_id";
     public static final String CART_ID = "cart_id[0]"; // for only one id
     public static final String IS_WISH_LIST = "is_wish_list";

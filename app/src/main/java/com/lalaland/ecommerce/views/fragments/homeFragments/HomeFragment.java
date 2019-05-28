@@ -8,7 +8,6 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
-import android.widget.Toast;
 
 import androidx.core.view.ViewCompat;
 import androidx.core.widget.NestedScrollView;
@@ -45,9 +44,10 @@ import java.util.List;
 import java.util.Map;
 
 import static com.lalaland.ecommerce.helpers.AppConstants.ACTION_ID;
-import static com.lalaland.ecommerce.helpers.AppConstants.ACTION_NAME;
 import static com.lalaland.ecommerce.helpers.AppConstants.BANNER_STORAGE_BASE_URL;
+import static com.lalaland.ecommerce.helpers.AppConstants.BRANDS_IN_FOCUS_PRODUCTS;
 import static com.lalaland.ecommerce.helpers.AppConstants.LENGTH;
+import static com.lalaland.ecommerce.helpers.AppConstants.PICK_OF_THE_WEEK_PRODUCTS;
 import static com.lalaland.ecommerce.helpers.AppConstants.PRODUCT_ID;
 import static com.lalaland.ecommerce.helpers.AppConstants.PRODUCT_TYPE;
 import static com.lalaland.ecommerce.helpers.AppConstants.RECOMMENDED_CAT_TOKEN;
@@ -155,12 +155,12 @@ public class HomeFragment extends Fragment implements ActionAdapter.ActionClickL
                 startPosition = productList.size();
 
                 productList.addAll(productContainer.getProductData().getProducts());
+                recommendationProductAdapter.notifyItemRangeInserted(startPosition, productList.size());
 
-                recommendationProductAdapter.setData(productList);
+//                recommendationProductAdapter.setData(productList);
                 // recommendationProductAdapter.notifyDataSetChanged();
 
 //                productList.addAll(startPosition, productContainer.getProductData().getProducts());
-                //   recommendationProductAdapter.notifyItemRangeInserted(startPosition, productList.size());
 
                 // recommendationProductAdapter.notifyItemRangeInserted(startPosition, itemCount);
                 Log.d(TAG, "getProductItems" + productList.size());
@@ -212,12 +212,10 @@ public class HomeFragment extends Fragment implements ActionAdapter.ActionClickL
 
         Intent intent = new Intent(getContext(), ActionProductListingActivity.class);
 
-        intent.putExtra(ACTION_NAME, actions.getActionName());
         intent.putExtra(ACTION_ID, String.valueOf(actions.getActionId()));
-        intent.putExtra(PRODUCT_TYPE, "action_products");
+        intent.putExtra(PRODUCT_TYPE, actions.getActionName());
 
         startActivity(intent);
-        //  Log.d(TAG, "onActionClicked: " + actions.getName() + actions.getActionId());
     }
 
     private void setPickOfTheWeek() {
@@ -229,7 +227,10 @@ public class HomeFragment extends Fragment implements ActionAdapter.ActionClickL
     }
 
     public void showAllProductsWeekProducts(View view) {
-        Toast.makeText(getContext(), TAG, Toast.LENGTH_SHORT).show();
+
+        Intent intent = new Intent(getContext(), ActionProductListingActivity.class);
+        intent.putExtra(PRODUCT_TYPE, PICK_OF_THE_WEEK_PRODUCTS);
+        startActivity(intent);
     }
 
     @Override
@@ -251,29 +252,13 @@ public class HomeFragment extends Fragment implements ActionAdapter.ActionClickL
     @Override
     public void onBrandClicked(FeaturedBrand featuredBrand) {
 
-/*
         Intent intent = new Intent(getContext(), ActionProductListingActivity.class);
-        intent.putExtra(PRODUCT_TYPE, "brands_products");
-*/
-
-        Toast.makeText(getContext(), featuredBrand.getName().concat(":").concat(String.valueOf(featuredBrand.getId())), Toast.LENGTH_SHORT).show();
+        intent.putExtra(ACTION_ID, String.valueOf(featuredBrand.getId()));
+        intent.putExtra(PRODUCT_TYPE, BRANDS_IN_FOCUS_PRODUCTS);
+        startActivity(intent);
     }
 
     void setRecommendationProducts() {
-
-
-/*        ProductPagedListAdapter productPagedListAdapter = new ProductPagedListAdapter(getContext(), this);
-
-        gridLayoutManager = new GridLayoutManager(getContext(), 3);
-        fragmentHomeBinding.rvRecommendedProducts.setLayoutManager(gridLayoutManager);
-
-
-        homeViewModel.pagedListLiveData.observe(this, products -> {
-            productPagedListAdapter.submitList(products);
-            productPagedListAdapter.notifyDataSetChanged();
-        });
-
-        fragmentHomeBinding.rvRecommendedProducts.setAdapter(recommendationProductAdapter);*/
 
         recommendationProductAdapter = new ProductAdapter(getContext(), this);
         recommendationProductAdapter.setData(productList);
@@ -281,7 +266,6 @@ public class HomeFragment extends Fragment implements ActionAdapter.ActionClickL
         gridLayoutManager = new GridLayoutManager(getContext(), 3);
         fragmentHomeBinding.rvRecommendedProducts.setLayoutManager(gridLayoutManager);
 
-//        fragmentHomeBinding.containersParent.setNestedScrollingEnabled(false);
         ViewCompat.setNestedScrollingEnabled(fragmentHomeBinding.rvRecommendedProducts, false);
 
         // It takes almost 3 4 days jut because, recyclerview is under nestedScrollView (onScrolled does not call)

@@ -80,7 +80,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="@{AppUtils.formatPriceString(product.salePrice)}"
-            android:textColor="@{product.salePrice == product.actualPrice? @android:color/black : @android:color/holo_red_dark}"
+            android:textColor="@{AppUtils.isPriceEqual(product.salePrice ,product.actualPrice)? @android:color/black : @android:color/holo_red_dark}"
             android:textSize="12sp"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
@@ -95,10 +95,105 @@
             android:text="@{AppUtils.formatPriceString(product.actualPrice)}"
             android:textColor="@android:color/black"
             android:textSize="12sp"
-            android:visibility="@{product.salePrice == product.actualPrice ? View.GONE : View.VISIBLE}"
+            android:visibility="@{AppUtils.isPriceEqual(product.salePrice ,product.actualPrice) ? View.GONE : View.VISIBLE}"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/tv_product_sale_price"
             tools:text="@tools:sample/us_zipcodes" />
     </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>
+
+    <!--
+<layout>
+
+    <data>
+
+        &lt;!&ndash;<import type="com.workout.height.helper.AppUtils" />&ndash;&gt;
+
+        <variable
+            name="products"
+            type="com.lalaland.ecommerce.data.models.products.Product" />
+
+        <variable
+            name="adapter"
+            type="com.lalaland.ecommerce.adapters.ProductAdapter" />
+
+    </data>
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+
+        xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:app="http://schemas.android.com/apk/res-auto"
+        xmlns:tools="http://schemas.android.com/tools"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:padding="8dp">
+
+        <ImageView
+
+            android:id="@+id/iv_product"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:scaleType="fitXY"
+            app:layout_constraintDimensionRatio="3:4"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:setProductImage="@{products.primaryImage}" />
+
+        <LinearLayout
+
+            android:id="@+id/info_container"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/iv_product">
+
+            <TextView
+
+                android:id="@+id/tv_product_name"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@{products.brandName}"
+                android:textColor="@android:color/black"
+                android:textSize="16sp"
+                android:textStyle="bold"
+                tools:text="@tools:sample/full_names" />
+
+            <TextView
+
+                android:id="@+id/tv_product_detail"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:ellipsize="end"
+                android:maxLength="20"
+                android:maxLines="1"
+                android:text="@{products.quantity}"
+                android:textColor="@android:color/black"
+                tools:text="@tools:sample/lorem/random" />
+
+            <TextView
+
+                android:id="@+id/tv_product_current_price"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@{products.salePrice}"
+                android:textColor="@android:color/holo_red_dark"
+                android:textSize="18sp"
+                tools:text="@tools:sample/us_zipcodes" />
+
+            <TextView
+
+                android:id="@+id/tv_product_pre_price"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@{products.actualPrice}"
+                android:textColor="@android:color/black"
+                tools:text="@tools:sample/us_zipcodes" />
+
+        </LinearLayout>
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</layout>-->

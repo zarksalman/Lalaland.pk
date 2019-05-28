@@ -13,7 +13,7 @@
 
         <variable
             name="adapter"
-            type="com.lalaland.ecommerce.adapters.CategoryAdapter" />
+            type="com.lalaland.ecommerce.adapters.MajorCategoryAdapter" />
 
     </data>
 

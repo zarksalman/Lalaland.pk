@@ -168,5 +168,7 @@
     <string name="addition_charge_policy">Additional charges may apply at checkout time.</string>
     <string name="product_details">PRODUCT DETAILS</string>
     <string name="material_and_care"><![CDATA[MATERIAL & CARE]]></string>
+    <string name="wish_list">Wish List</string>
+    <string name="all">All</string>
 
 </resources>

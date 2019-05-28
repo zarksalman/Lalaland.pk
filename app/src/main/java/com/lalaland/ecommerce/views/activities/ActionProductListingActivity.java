@@ -6,11 +6,13 @@ import android.util.Log;
 import android.view.View;
 import android.view.Window;
 import android.view.WindowManager;
+import android.widget.AbsListView;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.databinding.DataBindingUtil;
 import androidx.lifecycle.ViewModelProviders;
 import androidx.recyclerview.widget.GridLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 
 import com.google.android.material.bottomsheet.BottomSheetDialog;
 import com.google.android.material.tabs.TabLayout;
@@ -19,6 +21,7 @@ import com.lalaland.ecommerce.adapters.ActionProductsAdapter;
 import com.lalaland.ecommerce.data.models.actionProducs.ActionProducts;
 import com.lalaland.ecommerce.databinding.ActivityProductListingBinding;
 import com.lalaland.ecommerce.databinding.SortFilterBottomSheetLayoutBinding;
+import com.lalaland.ecommerce.helpers.AppConstants;
 import com.lalaland.ecommerce.viewModels.products.ProductViewModel;
 
 import java.util.ArrayList;
@@ -27,8 +30,17 @@ import java.util.List;
 import java.util.Map;
 
 import static com.lalaland.ecommerce.helpers.AppConstants.ACTION_ID;
-import static com.lalaland.ecommerce.helpers.AppConstants.ACTION_NAME;
+import static com.lalaland.ecommerce.helpers.AppConstants.BRANDS_IN_FOCUS_PRODUCTS;
+import static com.lalaland.ecommerce.helpers.AppConstants.CATEGORY_PRODUCTS;
+import static com.lalaland.ecommerce.helpers.AppConstants.CUSTOM_LIST_PRODUCTS;
+import static com.lalaland.ecommerce.helpers.AppConstants.LENGTH;
+import static com.lalaland.ecommerce.helpers.AppConstants.NEW_ARRIVAL_PRODUCTS;
+import static com.lalaland.ecommerce.helpers.AppConstants.PICK_OF_THE_WEEK_PRODUCTS;
 import static com.lalaland.ecommerce.helpers.AppConstants.PRODUCT_ID;
+import static com.lalaland.ecommerce.helpers.AppConstants.PRODUCT_TYPE;
+import static com.lalaland.ecommerce.helpers.AppConstants.SALE_PRODUCT;
+import static com.lalaland.ecommerce.helpers.AppConstants.START_INDEX;
+import static com.lalaland.ecommerce.helpers.AppConstants.SUCCESS_CODE;
 
 public class ActionProductListingActivity extends AppCompatActivity implements ActionProductsAdapter.ActionProductsListener {
 
@@ -39,11 +51,12 @@ public class ActionProductListingActivity extends AppCompatActivity implements A
     BottomSheetDialog mBottomSheetDialog;
     SortFilterBottomSheetLayoutBinding sheetView;
     Map<String, String> parameter = new HashMap<>();
-    String action_name = "custom_list", action_id = "2", products_type = "action_products";
+    String action_name = "custom_list", action_id = "-1", products_type = "action_products";
     private static final String ID = "id";
     private static final String SORT_BY = "sort_by";
-    private boolean isScrolling = false;
     GridLayoutManager gridLayoutManager;
+    private boolean isScrolling;
+    int start = 0, length = 20, size = 20;
 
     @Override
 
@@ -55,44 +68,64 @@ public class ActionProductListingActivity extends AppCompatActivity implements A
         activityProductListingBinding = DataBindingUtil.setContentView(this, R.layout.activity_product_listing);
 
         if (getIntent().getExtras() != null) {
-            action_name = getIntent().getStringExtra(ACTION_NAME);
-            action_id = getIntent().getStringExtra(ACTION_ID);
-        //    products_type = getIntent().getStringExtra(PRODUCT_TYPE);
-        }
+            products_type = getIntent().getStringExtra(PRODUCT_TYPE);
 
-        parameter.put(ID, action_id);
+            switch (products_type) {
+
+                // actions types
+                case SALE_PRODUCT:
+
+                    parameter.clear();
+                    action_name = "sale";
+                    action_id = getIntent().getStringExtra(ACTION_ID);
+                    parameter.put(ID, action_id);
+
+                    break;
+
+                case NEW_ARRIVAL_PRODUCTS:
+                    action_name = "newArrivals";
+                    action_id = getIntent().getStringExtra(ACTION_ID);
+                    parameter.put(ID, action_id);
+
+                    break;
+
+                case CATEGORY_PRODUCTS:
+                    action_name = "categoryProducts";
+                    action_id = getIntent().getStringExtra(ACTION_ID);
+                    parameter.put(ID, action_id);
+
+                    break;
+
+                case CUSTOM_LIST_PRODUCTS:
+                    action_name = "customListProducts";
+                    action_id = getIntent().getStringExtra(ACTION_ID);
+                    parameter.put(ID, action_id);
+
+                    break;
+
+                // category types
+                case PICK_OF_THE_WEEK_PRODUCTS:
+
+                    action_name = "productsPicksOfTheWeek";
+                    parameter.put(ID, action_id);
+                    break;
+
+                case BRANDS_IN_FOCUS_PRODUCTS:
+                    action_name = "brand";
+                    action_id = getIntent().getStringExtra(ACTION_ID);
+                    parameter.put(ID, action_id);
+
+                    break;
+
+
+            }
+
+        }
 
         productViewModel = ViewModelProviders.of(this).get(ProductViewModel.class);
         setListeners();
-        setActionProducts();
     }
 
-    void setProductParameter() {
-
-        parameter.clear();
-
-        switch (products_type) {
-
-            case "action_products":
-                break;
-
-            case "brand_products":
-                break;
-
-            case "sale_products":
-                break;
-
-            case "category_products":
-                break;
-
-            case "newArrival_products":
-                break;
-
-            case "pick_of_week_products":
-                break;
-        }
-
-    }
 
     void setListeners() {
 
@@ -117,9 +150,62 @@ public class ActionProductListingActivity extends AppCompatActivity implements A
 
             @Override
             public void onTabReselected(TabLayout.Tab tab) {
+                if (tab.getPosition() == 0) {
 
+                    setBottomSheet(false);
+                } else if (tab.getPosition() == 1) {
+                    setBottomSheet(true);
+                }
             }
         });
+
+
+        activityProductListingBinding.rvProducts.addOnScrollListener(new RecyclerView.OnScrollListener() {
+            @Override
+            public void onScrollStateChanged(RecyclerView recyclerView, int newState) {
+                super.onScrollStateChanged(recyclerView, newState);
+                if (newState == AbsListView.OnScrollListener.SCROLL_STATE_TOUCH_SCROLL) {
+                    isScrolling = true;
+                    Log.d("salman", "getData");
+                }
+            }
+
+            @Override
+            public void onScrolled(RecyclerView recyclerView, int dx, int dy) {
+                super.onScrolled(recyclerView, dx, dy);
+
+                int currentItems = gridLayoutManager.getChildCount();
+                int totalItems = gridLayoutManager.getItemCount();
+                int scrollOutItems = gridLayoutManager.findFirstVisibleItemPosition();
+
+                if (isScrolling && (currentItems + scrollOutItems == totalItems)) {
+
+                    activityProductListingBinding.pbLoadingProducts.setVisibility(View.VISIBLE);
+
+                    isScrolling = false;
+                    Log.d("salman", "getData2");
+
+                    setActionProducts();
+                }
+            }
+        });
+
+        parameter.put(START_INDEX, String.valueOf(start));
+        parameter.put(LENGTH, String.valueOf(length));
+
+        setAdapter();
+        setActionProducts();
+    }
+
+    private void setAdapter() {
+
+
+        gridLayoutManager = new GridLayoutManager(this, 2);
+        activityProductListingBinding.rvProducts.setLayoutManager(gridLayoutManager);
+
+        actionProductsAdapter = new ActionProductsAdapter(this, this);
+        activityProductListingBinding.rvProducts.setAdapter(actionProductsAdapter);
+        actionProductsAdapter.setData(actionProductsArrayList);
     }
 
     public void setBottomSheet(boolean isFilter) {
@@ -138,8 +224,9 @@ public class ActionProductListingActivity extends AppCompatActivity implements A
 
         sheetView.setSortSheetListener(this);
         mBottomSheetDialog.setContentView(sheetView.getRoot());
-
         mBottomSheetDialog.show();
+
+        sheetView.ivSortIcon.setOnClickListener(v -> mBottomSheetDialog.hide());
     }
 
     public void bottomSheetClick(View view) {
@@ -184,23 +271,37 @@ public class ActionProductListingActivity extends AppCompatActivity implements A
 
     private void setActionProducts() {
 
+        productViewModel.getActionProducts(action_name, parameter).observe(this, actionProductsContainer -> {
 
-        productViewModel.getActionProducts("sale", parameter).observe(this, actionProductsContainer -> {
+            if (actionProductsContainer != null) {
 
-            if (actionProductsContainer != null && actionProductsContainer.getData().getProducts().size() > 0) {
-                actionProductsArrayList = new ArrayList<>();
-                actionProductsArrayList = actionProductsContainer.getData().getProducts();
+                if (actionProductsContainer.getCode().equals(SUCCESS_CODE)) {
 
-                gridLayoutManager = new GridLayoutManager(this, 2);
-                activityProductListingBinding.rvProducts.setLayoutManager(gridLayoutManager);
+                    if (actionProductsContainer.getData().getProducts().size() > 0) {
 
-                actionProductsAdapter = new ActionProductsAdapter(this, this);
-                activityProductListingBinding.rvProducts.setAdapter(actionProductsAdapter);
-                actionProductsAdapter.setData(actionProductsArrayList);
+                        int startPosition = actionProductsArrayList.size();
 
-                activityProductListingBinding.pbLoadingActionProducts.setVisibility(View.GONE);
-                activityProductListingBinding.rvProducts.setVisibility(View.VISIBLE);
+                        actionProductsArrayList.addAll(actionProductsContainer.getData().getProducts());
+                        //  actionProductsAdapter.notifyDataSetChanged();
 
+                        actionProductsAdapter.notifyItemRangeInserted(startPosition, actionProductsArrayList.size());
+
+                        activityProductListingBinding.pbLoadingActionProducts.setVisibility(View.GONE);
+                        activityProductListingBinding.rvProducts.setVisibility(View.VISIBLE);
+
+                        start += size;
+                        start++;
+
+                        parameter.clear();
+                        parameter.put(ID, action_id);
+                        parameter.put(START_INDEX, String.valueOf(start));
+                        parameter.put(LENGTH, String.valueOf(length));
+
+                    }
+                } else
+                    Log.d(AppConstants.TAG, actionProductsContainer.getMsg());
+
+                activityProductListingBinding.pbLoadingProducts.setVisibility(View.GONE);
             }
 
         });

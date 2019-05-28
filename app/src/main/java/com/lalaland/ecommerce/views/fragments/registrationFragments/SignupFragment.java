@@ -18,7 +18,7 @@ import androidx.lifecycle.ViewModelProviders;
 import com.lalaland.ecommerce.R;
 import com.lalaland.ecommerce.databinding.FragmentSignupBinding;
 import com.lalaland.ecommerce.helpers.AppPreference;
-import com.lalaland.ecommerce.viewModels.RegistrationViewModel;
+import com.lalaland.ecommerce.viewModels.user.RegistrationViewModel;
 
 import java.text.SimpleDateFormat;
 import java.util.Calendar;

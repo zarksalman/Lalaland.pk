@@ -2,7 +2,6 @@ package com.lalaland.ecommerce.adapters;
 
 import android.content.Context;
 import android.view.LayoutInflater;
-import android.view.View;
 import android.view.ViewGroup;
 
 import androidx.annotation.NonNull;
@@ -10,75 +9,93 @@ import androidx.databinding.DataBindingUtil;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.lalaland.ecommerce.R;
-import com.lalaland.ecommerce.data.models.category.Category;
-import com.lalaland.ecommerce.data.models.home.Actions;
-import com.lalaland.ecommerce.databinding.ActionLayoutBinding;
-import com.lalaland.ecommerce.databinding.CategoryItemBinding;
+import com.lalaland.ecommerce.data.models.categories.InnerCategory;
+import com.lalaland.ecommerce.data.models.categories.SubCategory;
+import com.lalaland.ecommerce.databinding.SubCategoryItemBinding;
 
+import java.util.ArrayList;
 import java.util.List;
 
 
-public class CategoryAdapter extends RecyclerView.Adapter<CategoryAdapter.CategoryViewHolder> {
+public class CategoryAdapter extends RecyclerView.Adapter<CategoryAdapter.SubCategoryViewHolder> {
 
     private Context mContext;
-    private List<Category> mCategory;
-    private CategoryItemBinding categoryItemBinding;
+    private List<SubCategory> mSubCategories = new ArrayList<>();
+    private SubCategoryItemBinding mSubCategoryItemBinding;
     private LayoutInflater inflater;
-    private CategoryClickListener mCategoryClickListener;
+    private InnerCategoryListener mInnerCategoryListener;
 
-    public CategoryAdapter(Context context, CategoryClickListener categoryClickListener) {
+    public CategoryAdapter(Context context, InnerCategoryListener innerCategoryListener) {
         mContext = context;
-        mCategoryClickListener = categoryClickListener;
         inflater = LayoutInflater.from(context);
-
+        mInnerCategoryListener = innerCategoryListener;
     }
 
     @NonNull
     @Override
-    public CategoryViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
+    public SubCategoryViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
 
-        categoryItemBinding = DataBindingUtil.inflate(inflater, R.layout.category_item, parent, false);
-        return new CategoryViewHolder(categoryItemBinding);
+        mSubCategoryItemBinding = DataBindingUtil.inflate(inflater, R.layout.sub_category_item, parent, false);
+        return new SubCategoryViewHolder(mSubCategoryItemBinding);
     }
 
     @Override
-    public void onBindViewHolder(@NonNull CategoryViewHolder holder, int position) {
-        Category category = mCategory.get(position);
-        holder.bindHolder(category);
+    public void onBindViewHolder(@NonNull SubCategoryViewHolder holder, int position) {
+        SubCategory subCategory = mSubCategories.get(position);
+        holder.bindHolder(subCategory);
     }
 
     @Override
     public int getItemCount() {
-        return mCategory.size();
+        return mSubCategories.size();
     }
 
-    public void categoryClicked(View view, Category category) {
-        mCategoryClickListener.onCategoryClicked(category);
-    }
+    public void setData(List<SubCategory> subCategories) {
 
-    public void setData(List<Category> categoryList) {
-
-        mCategory = categoryList;
+        mSubCategories = subCategories;
         notifyDataSetChanged();
     }
 
-    class CategoryViewHolder extends RecyclerView.ViewHolder {
+    public void onInnerCategoryClicked(InnerCategory innerCategory) {
+        mInnerCategoryListener.onInnerCategoryClicked(innerCategory);
+    }
 
-        CategoryItemBinding mCategoryItemBinding;
+/*
+    public void filter(String text) {
+        filteredCityList.clear();
 
-        CategoryViewHolder(@NonNull CategoryItemBinding categoryItemBinding) {
-            super(categoryItemBinding.getRoot());
-            mCategoryItemBinding = categoryItemBinding;
+        if (text.isEmpty()) {
+            filteredCityList.addAll(mCtyList);
+        } else {
+            text = text.toLowerCase();
+            for (City city : mCtyList) {
+                if (city.getCityName().toLowerCase().contains(text)) {
+                    filteredCityList.add(city);
+                }
+            }
+        }
+        notifyDataSetChanged();
+    }
+*/
+
+    class SubCategoryViewHolder extends RecyclerView.ViewHolder {
+
+        SubCategoryItemBinding subCategoryItemBinding;
+
+        SubCategoryViewHolder(@NonNull SubCategoryItemBinding subCategoryItemBinding) {
+            super(subCategoryItemBinding.getRoot());
+
+            this.subCategoryItemBinding = subCategoryItemBinding;
         }
 
-        void bindHolder(Category category) {
-            mCategoryItemBinding.setCategory(category);
-            mCategoryItemBinding.setAdapter(CategoryAdapter.this);
-            mCategoryItemBinding.executePendingBindings();
+        void bindHolder(SubCategory subCategory) {
+            this.subCategoryItemBinding.setSubCategory(subCategory);
+            this.subCategoryItemBinding.setAdapter(CategoryAdapter.this);
+            this.subCategoryItemBinding.executePendingBindings();
         }
     }
 
-    public interface CategoryClickListener {
-        void onCategoryClicked(Category category);
+    public interface InnerCategoryListener {
+        void onInnerCategoryClicked(InnerCategory innerCategory);
     }
 }

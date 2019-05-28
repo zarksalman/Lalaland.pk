@@ -15,6 +15,7 @@ import com.lalaland.ecommerce.data.models.order.OrderDataContainer;
 import com.lalaland.ecommerce.data.models.productDetails.ProductDetailDataContainer;
 import com.lalaland.ecommerce.data.models.products.Product;
 import com.lalaland.ecommerce.data.models.products.ProductContainer;
+import com.lalaland.ecommerce.data.models.wishList.WishListContainer;
 import com.lalaland.ecommerce.data.pagging.ProductsDataSource;
 import com.lalaland.ecommerce.data.repository.ProductsRepository;
 
@@ -86,5 +87,9 @@ public class ProductViewModel extends AndroidViewModel {
 
     public LiveData<OrderDataContainer> confirmOrder(String header, Map<String, String> parameter) {
         return productsRepository.confirmOrder(header, parameter);
+    }
+
+    public LiveData<WishListContainer> getWishListProducts(String token) {
+        return productsRepository.getWishListProducts(token);
     }
 }

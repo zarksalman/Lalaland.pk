@@ -1,4 +1,4 @@
-package com.lalaland.ecommerce.viewModels;
+package com.lalaland.ecommerce.viewModels.user;
 
 import android.app.Application;
 

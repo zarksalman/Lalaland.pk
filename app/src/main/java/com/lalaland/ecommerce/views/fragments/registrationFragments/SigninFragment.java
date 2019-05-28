@@ -14,7 +14,7 @@ import androidx.lifecycle.ViewModelProviders;
 import com.lalaland.ecommerce.R;
 import com.lalaland.ecommerce.databinding.FragmentSigninBinding;
 import com.lalaland.ecommerce.helpers.AppPreference;
-import com.lalaland.ecommerce.viewModels.LoginViewModel;
+import com.lalaland.ecommerce.viewModels.user.LoginViewModel;
 
 import java.util.HashMap;
 import java.util.Map;

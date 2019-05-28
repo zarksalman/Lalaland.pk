@@ -7,12 +7,14 @@ import androidx.lifecycle.MutableLiveData;
 
 import com.lalaland.ecommerce.data.models.actionProducs.ActionProductsContainer;
 import com.lalaland.ecommerce.data.models.cart.CartContainer;
+import com.lalaland.ecommerce.data.models.categories.CategoriesContainer;
 import com.lalaland.ecommerce.data.models.category.CategoryContainer;
 import com.lalaland.ecommerce.data.models.home.HomeDataContainer;
 import com.lalaland.ecommerce.data.models.logout.BasicResponse;
 import com.lalaland.ecommerce.data.models.order.OrderDataContainer;
 import com.lalaland.ecommerce.data.models.productDetails.ProductDetailDataContainer;
 import com.lalaland.ecommerce.data.models.products.ProductContainer;
+import com.lalaland.ecommerce.data.models.wishList.WishListContainer;
 import com.lalaland.ecommerce.data.retrofit.LalalandServiceApi;
 import com.lalaland.ecommerce.data.retrofit.RetrofitClient;
 import com.lalaland.ecommerce.helpers.AppConstants;
@@ -44,6 +46,8 @@ public class ProductsRepository {
     private MutableLiveData<ProductDetailDataContainer> productDetailDataContainerMutableLiveData = new MutableLiveData<>();
     private MutableLiveData<CartContainer> cartContainerMutableLiveData = new MutableLiveData<>();
     private MutableLiveData<OrderDataContainer> orderDataContainerMutableLiveData = new MutableLiveData<>();
+    private MutableLiveData<WishListContainer> wishListContainerMutableLiveData = new MutableLiveData<>();
+    private MutableLiveData<CategoriesContainer> categoriesContainerMutableLiveData = new MutableLiveData<>();
 
     private ProductsRepository() {
         lalalandServiceApi = RetrofitClient.getInstance().createClient();
@@ -364,6 +368,52 @@ public class ProductsRepository {
         return orderDataContainerMutableLiveData;
     }
 
+    public LiveData<WishListContainer> getWishListProducts(String token) {
+        wishListContainerMutableLiveData = new MutableLiveData<>();
+
+        lalalandServiceApi.getWishListProducts(token).enqueue(new Callback<WishListContainer>() {
+            @Override
+            public void onResponse(Call<WishListContainer> call, Response<WishListContainer> response) {
+
+                if (response.isSuccessful()) {
+                    wishListContainerMutableLiveData.postValue(response.body());
+                } else {
+                    wishListContainerMutableLiveData.postValue(null);
+                }
+            }
+
+            @Override
+            public void onFailure(Call<WishListContainer> call, Throwable t) {
+                wishListContainerMutableLiveData.postValue(null);
+            }
+        });
+
+        return wishListContainerMutableLiveData;
+    }
+
+    public LiveData<CategoriesContainer> getCategories(String id) {
+
+        categoriesContainerMutableLiveData = new MutableLiveData<>();
+
+        lalalandServiceApi.getCategories(id).enqueue(new Callback<CategoriesContainer>() {
+            @Override
+            public void onResponse(Call<CategoriesContainer> call, Response<CategoriesContainer> response) {
+
+                if (response.isSuccessful()) {
+                    categoriesContainerMutableLiveData.postValue(response.body());
+                } else {
+                    categoriesContainerMutableLiveData.postValue(null);
+                }
+            }
+
+            @Override
+            public void onFailure(Call<CategoriesContainer> call, Throwable t) {
+                categoriesContainerMutableLiveData.postValue(null);
+            }
+        });
+
+        return categoriesContainerMutableLiveData;
+    }
     private void checkResponseSource(Response response) {
 
         Log.d("response_source", String.valueOf(response.code()) + response.errorBody());
