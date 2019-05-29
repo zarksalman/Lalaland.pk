@@ -57,6 +57,10 @@ public class CategoryAdapter extends RecyclerView.Adapter<CategoryAdapter.SubCat
         notifyDataSetChanged();
     }
 
+    public void showAll(SubCategory subCategory) {
+        mCategoryListener.onCategoryClicked(subCategory);
+    }
+
  /*   public void onInnerCategoryClicked(SubCategory subCategory) {
         mCategoryListener.onCategoryClicked(subCategory);
     }
@@ -88,26 +92,23 @@ public class CategoryAdapter extends RecyclerView.Adapter<CategoryAdapter.SubCat
             super(subCategoryItemBinding.getRoot());
             this.subCategoryItemBinding = subCategoryItemBinding;
 
-            innerCategoryAdapter = new InnerCategoryAdapter(mContext, this);
+            this.innerCategoryAdapter = new InnerCategoryAdapter(mContext, this);
+            this.subCategoryItemBinding.rvInnerCategory.setAdapter(innerCategoryAdapter);
+            this.subCategoryItemBinding.rvInnerCategory.setLayoutManager(new GridLayoutManager(mContext, 3));
+
         }
 
         void bindHolder(SubCategory subCategory) {
 
-            if (subCategory.getInnerCategories().size() > 3)
-                innerCategoryAdapter.setData(subCategory.getInnerCategories().subList(0, 3));
+            if (subCategory.getInnerCategories().size() >= 3)
+                this.innerCategoryAdapter.setData(subCategory.getInnerCategories().subList(0, 3));
             else if (subCategory.getInnerCategories().size() > 0)
-                innerCategoryAdapter.setData(subCategory.getInnerCategories());
+                this.innerCategoryAdapter.setData(subCategory.getInnerCategories());
 
-            if (subCategory.getInnerCategories().size() > 0) {
+            this.subCategoryItemBinding.setSubCategory(subCategory);
+            this.subCategoryItemBinding.setAdapter(CategoryAdapter.this);
+            this.subCategoryItemBinding.executePendingBindings();
 
-                this.subCategoryItemBinding.rvInnerCategory.setAdapter(innerCategoryAdapter);
-                this.subCategoryItemBinding.rvInnerCategory.setLayoutManager(new GridLayoutManager(mContext, 3));
-
-
-                this.subCategoryItemBinding.setSubCategory(subCategory);
-                this.subCategoryItemBinding.setAdapter(CategoryAdapter.this);
-                this.subCategoryItemBinding.executePendingBindings();
-            }
         }
 
         @Override

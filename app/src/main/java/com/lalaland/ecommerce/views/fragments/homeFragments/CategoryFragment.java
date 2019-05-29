@@ -1,6 +1,7 @@
 package com.lalaland.ecommerce.views.fragments.homeFragments;
 
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -23,10 +24,15 @@ import com.lalaland.ecommerce.databinding.FragmentCategoryBinding;
 import com.lalaland.ecommerce.helpers.AppConstants;
 import com.lalaland.ecommerce.viewModels.categories.CategoriesViewModel;
 import com.lalaland.ecommerce.viewModels.products.CategoryViewModel;
+import com.lalaland.ecommerce.views.activities.ActionProductListingActivity;
 
 import java.util.ArrayList;
 import java.util.List;
 
+import static com.lalaland.ecommerce.helpers.AppConstants.ACTION_ID;
+import static com.lalaland.ecommerce.helpers.AppConstants.BANNER_STORAGE_BASE_URL;
+import static com.lalaland.ecommerce.helpers.AppConstants.CATEGORY_PRODUCTS;
+import static com.lalaland.ecommerce.helpers.AppConstants.PRODUCT_TYPE;
 import static com.lalaland.ecommerce.helpers.AppConstants.SUCCESS_CODE;
 
 
@@ -41,7 +47,7 @@ public class CategoryFragment extends Fragment implements MajorCategoryAdapter.M
     private MajorCategoryAdapter majorCategoryAdapter;
     private CategoryAdapter categoryAdapter;
     private CategoriesViewModel categoriesViewModel;
-
+    private int categoryId;
 
     public CategoryFragment() {
         // Required empty public constructor
@@ -64,10 +70,7 @@ public class CategoryFragment extends Fragment implements MajorCategoryAdapter.M
                              Bundle savedInstanceState) {
 
         fragmentCategoryBinding = DataBindingUtil.inflate(inflater, R.layout.fragment_category, container, false);
-
         categoriesViewModel = ViewModelProviders.of(this).get(CategoriesViewModel.class);
-
-//        initUi();
         return fragmentCategoryBinding.getRoot();
     }
 
@@ -77,14 +80,9 @@ public class CategoryFragment extends Fragment implements MajorCategoryAdapter.M
 
         categoryViewModel = ViewModelProviders.of(this).get(CategoryViewModel.class);
 
-        Glide
-                .with(getContext())
-                .load(AppConstants.testImagesUrl.get(0))
-                .into(fragmentCategoryBinding.ivCategoryHeader);
-
-
         setMajorCategoryList();
         setCategoryAdapter();
+
     }
 
     private void getCategories(int majorCategoryId) {
@@ -92,17 +90,33 @@ public class CategoryFragment extends Fragment implements MajorCategoryAdapter.M
         String firstMajorCategoryId = String.valueOf(majorCategoryId);
         categoriesViewModel.getCategories(firstMajorCategoryId).observe(this, categoriesContainer -> {
 
+
             if (categoriesContainer != null) {
 
                 if (categoriesContainer.getCode().equals(SUCCESS_CODE)) {
 
                     if (categoriesContainer.getData().getSubCategories().size() > 0) {
+
+                        subCategories.clear();
+                        categoryHomeBanners.clear();
+
                         categoryHomeBanners.addAll(categoriesContainer.getData().getHomeBanner());
                         subCategories.addAll(categoriesContainer.getData().getSubCategories());
-                        categoryAdapter.notifyItemRangeChanged(0, subCategories.size());
+                        trimZeroSizeInnerCategories();
+
+                        categoryAdapter.notifyDataSetChanged();
+
+                        String bannerImageUrl = BANNER_STORAGE_BASE_URL.concat(categoryHomeBanners.get(0).getBannerImage());
+                        Glide.with(getContext())
+                                .load(bannerImageUrl)
+                                .placeholder(R.drawable.placeholder_products)
+                                .into(fragmentCategoryBinding.ivCategoryHeader);
+
                     }
                 }
             }
+
+            fragmentCategoryBinding.pbLoading.setVisibility(View.GONE);
         });
 
     }
@@ -124,21 +138,50 @@ public class CategoryFragment extends Fragment implements MajorCategoryAdapter.M
         categoryAdapter = new CategoryAdapter(getContext(), this);
         fragmentCategoryBinding.rvSubCategory.setAdapter(categoryAdapter);
         fragmentCategoryBinding.rvSubCategory.setLayoutManager(new LinearLayoutManager(getContext()));
+
         categoryAdapter.setData(subCategories);
 
         getCategories(categoryList.get(0).getId());
 
     }
 
+    private void trimZeroSizeInnerCategories() {
+
+        List<SubCategory> subCategoryArrayList = new ArrayList<>();
+        subCategoryArrayList.addAll(subCategories);
+
+        for (int i = 0; i < subCategories.size(); i++) {
+
+            if (subCategories.get(i).getInnerCategories().size() <= 0) {
+                subCategoryArrayList.remove(subCategories.get(i));
+            }
+        }
+
+        subCategories.clear();
+        subCategories.addAll(subCategoryArrayList);
+    }
+
     @Override
     public void onMajorCategoryClicked(Category category) {
 
-        subCategories.clear();
-        getCategories(category.getId());
+
+        // if same category do not clicked again
+        if (categoryId != category.getId()) {
+
+            fragmentCategoryBinding.pbLoading.setVisibility(View.VISIBLE);
+            categoryId = category.getId();
+            getCategories(categoryId);
+        }
     }
 
     @Override
     public void onCategoryClicked(SubCategory subCategory) {
 
+        Intent intent = new Intent(getContext(), ActionProductListingActivity.class);
+
+        intent.putExtra(ACTION_ID, String.valueOf(subCategory.getId()));
+        intent.putExtra(PRODUCT_TYPE, CATEGORY_PRODUCTS);
+
+        startActivity(intent);
     }
 }

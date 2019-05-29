@@ -31,7 +31,6 @@ import com.lalaland.ecommerce.data.models.home.HomeBanner;
 import com.lalaland.ecommerce.data.models.home.PicksOfTheWeek;
 import com.lalaland.ecommerce.data.models.products.Product;
 import com.lalaland.ecommerce.databinding.FragmentHomeBinding;
-import com.lalaland.ecommerce.helpers.AppConstants;
 import com.lalaland.ecommerce.helpers.AppPreference;
 import com.lalaland.ecommerce.viewModels.products.HomeViewModel;
 import com.lalaland.ecommerce.viewModels.products.ProductViewModelFactory;
@@ -179,7 +178,7 @@ public class HomeFragment extends Fragment implements ActionAdapter.ActionClickL
 
             String bannerImageUrl = BANNER_STORAGE_BASE_URL.concat(bannerList.get(i).getBannerImage());
 
-            AppConstants.testImagesUrl.add(bannerImageUrl); // for testing
+//            AppConstants.testImagesUrl.add(bannerImageUrl); // for testing
 
             ImageView imageView = new ImageView(getContext());
 

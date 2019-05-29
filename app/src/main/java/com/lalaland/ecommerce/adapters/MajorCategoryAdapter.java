@@ -23,6 +23,7 @@ public class MajorCategoryAdapter extends RecyclerView.Adapter<MajorCategoryAdap
     private CategoryItemBinding categoryItemBinding;
     private LayoutInflater inflater;
     private MajorCategoryClickListener mCategoryClickListener;
+    private int selectedItem;
 
     public MajorCategoryAdapter(Context context, MajorCategoryClickListener categoryClickListener) {
         mContext = context;
@@ -51,7 +52,10 @@ public class MajorCategoryAdapter extends RecyclerView.Adapter<MajorCategoryAdap
     }
 
     public void categoryClicked(View view, Category category) {
+
+        selectedItem = mCategory.indexOf(category);
         mCategoryClickListener.onMajorCategoryClicked(category);
+        notifyDataSetChanged();
     }
 
     public void setData(List<Category> categoryList) {
@@ -70,6 +74,13 @@ public class MajorCategoryAdapter extends RecyclerView.Adapter<MajorCategoryAdap
         }
 
         void bindHolder(Category category) {
+
+            if (selectedItem == getAdapterPosition())
+                mCategoryItemBinding.categoryItemRoot.setBackgroundColor(mContext.getResources().getColor(R.color.colorScreenBg));
+            else
+                mCategoryItemBinding.categoryItemRoot.setBackgroundColor(mContext.getResources().getColor(android.R.color.white));
+
+
             mCategoryItemBinding.setCategory(category);
             mCategoryItemBinding.setAdapter(MajorCategoryAdapter.this);
             mCategoryItemBinding.executePendingBindings();
