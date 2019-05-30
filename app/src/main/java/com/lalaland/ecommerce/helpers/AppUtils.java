@@ -2,9 +2,12 @@ package com.lalaland.ecommerce.helpers;
 
 import android.content.Context;
 import android.content.Intent;
+import android.graphics.Paint;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.net.Uri;
+import android.view.View;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
@@ -89,6 +92,20 @@ public class AppUtils {
     public static String formatPriceString(String price) {
 
         return "PKR " + price;
+    }
+
+    public static String showRangePrice(String minPrice, String maxPrice) {
+
+        StringBuilder price = new StringBuilder();
+
+        price.append("PKR ");
+        price.append(minPrice);
+
+        if (!minPrice.equals(maxPrice)) {
+            price.append("-");
+            price.append(maxPrice);
+        }
+        return price.toString();
     }
 
     public static String toString(Integer value) {

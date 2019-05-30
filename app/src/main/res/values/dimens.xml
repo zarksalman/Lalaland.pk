@@ -37,6 +37,7 @@
     <dimen name="card_button_height">33dp</dimen>
     <dimen name="_50dp">50dp</dimen>
     <dimen name="_100dp">100dp</dimen>
+    <dimen name="_105dp">105dp</dimen>
     <dimen name="_260dp">260dp</dimen>
     <dimen name="app_bar_height">180dp</dimen>
     <dimen name="text_margin">16dp</dimen>

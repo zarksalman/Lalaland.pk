@@ -23,6 +23,7 @@ import static com.lalaland.ecommerce.helpers.AppUtils.isNetworkAvailable;
 public class MainActivity extends AppCompatActivity {
     private ActivityMainBinding activityMainBinding;
     private AppPreference appPreference;
+    private int selectedFragment = 1;
 
     private BottomNavigationView.OnNavigationItemSelectedListener mOnNavigationItemSelectedListener
             = item -> {
@@ -30,28 +31,48 @@ public class MainActivity extends AppCompatActivity {
         Fragment fragment;
         switch (item.getItemId()) {
             case R.id.navigation_home:
+
+                if (selectedFragment == 1)
+                    return false;
+
                 activityMainBinding.tvAppName.setText(getResources().getString(R.string.app_name));
                 fragment = HomeFragment.newInstance();
                 replaceFragment(fragment, 1);
                 return true;
             case R.id.navigation_category:
+
+                if (selectedFragment == 2)
+                    return false;
+
                 activityMainBinding.tvAppName.setText(getResources().getString(R.string.category));
                 fragment = CategoryFragment.newInstance();
                 replaceFragment(fragment, 2);
                 return true;
             case R.id.navigation_cart:
+
+                if (selectedFragment == 3)
+                    return false;
+
                 activityMainBinding.tvAppName.setText(getResources().getString(R.string.cart));
                 fragment = CartFragment.newInstance();
                 replaceFragment(fragment, 3);
                 return true;
 
             case R.id.navigation_wish:
+
+                if (selectedFragment == 4)
+                    return false;
+
                 activityMainBinding.tvAppName.setText(getResources().getString(R.string.wish_list));
                 fragment = WishFragment.newInstance();
                 replaceFragment(fragment, 4);
                 return true;
 
             case R.id.navigation_account:
+
+                if (selectedFragment == 5)
+                    return false;
+
                 activityMainBinding.tvAppName.setText(getResources().getString(R.string.account));
                 fragment = AccountFragment.newInstance();
                 replaceFragment(fragment, 5);
@@ -80,6 +101,7 @@ public class MainActivity extends AppCompatActivity {
         // getSupportFragmentManager().beginTransaction().replace(R.id.fragment_host, fragment, "fragment_" + index).commit();
 
         if (isNetworkAvailable()) {
+            selectedFragment = index;
             activityMainBinding.tvNetwork.setVisibility(View.GONE);
             getSupportFragmentManager().beginTransaction().replace(R.id.fragment_host, fragment, "fragment_" + index).commit();
         }

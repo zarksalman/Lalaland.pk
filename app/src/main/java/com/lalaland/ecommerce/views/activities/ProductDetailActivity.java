@@ -2,6 +2,7 @@ package com.lalaland.ecommerce.views.activities;
 
 import android.content.Intent;
 import android.content.res.Resources;
+import android.graphics.Paint;
 import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.util.Log;
@@ -17,15 +18,18 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 import androidx.viewpager.widget.ViewPager;
 
+import com.google.android.material.bottomsheet.BottomSheetDialog;
 import com.lalaland.ecommerce.R;
 import com.lalaland.ecommerce.adapters.FitAndSizingAdapter;
 import com.lalaland.ecommerce.adapters.ProductImageAdapter;
+import com.lalaland.ecommerce.adapters.ProductVariationAdapter;
 import com.lalaland.ecommerce.data.models.productDetails.FitAndSizing;
 import com.lalaland.ecommerce.data.models.productDetails.ProductDetailDataContainer;
 import com.lalaland.ecommerce.data.models.productDetails.ProductDetails;
 import com.lalaland.ecommerce.data.models.productDetails.ProductMultimedium;
 import com.lalaland.ecommerce.data.models.productDetails.ProductVariation;
 import com.lalaland.ecommerce.databinding.ActivityProductDetailBinding;
+import com.lalaland.ecommerce.databinding.ProuctDetailBottomSheetLayoutBinding;
 import com.lalaland.ecommerce.helpers.AppConstants;
 import com.lalaland.ecommerce.helpers.AppPreference;
 import com.lalaland.ecommerce.helpers.AppUtils;
@@ -49,7 +53,7 @@ import static com.lalaland.ecommerce.helpers.AppConstants.SIGNIN_TOKEN;
 import static com.lalaland.ecommerce.helpers.AppConstants.SUCCESS_CODE;
 import static com.lalaland.ecommerce.helpers.AppConstants.VALIDATION_FAIL_CODE;
 
-public class ProductDetailActivity extends AppCompatActivity {
+public class ProductDetailActivity extends AppCompatActivity implements ProductVariationAdapter.ProductVariationListener {
 
     private ActivityProductDetailBinding activityProductDetailBinding;
     private ProductDetailDataContainer mProductDetailDataContainer;
@@ -58,20 +62,21 @@ public class ProductDetailActivity extends AppCompatActivity {
     private List<FitAndSizing> mFitAndSizings = new ArrayList<>();
     private ProductViewModel productViewModel;
     private Map<String, String> parameter = new HashMap<>();
-    private Map<String, String> parameter1 = new HashMap<>();
     private Map<String, String> headers = new HashMap<>();
-    private int product_id, variation_id, quantity;
+    private int product_id, variation_id, quantity = 1;
     private String productImage;
     private String loginToken;
     private String cartSessionToken;
     private String generalDescription;
     private String materialDescription;
-    private String fitAndSize, look;
     private AppPreference appPreference;
     private ProductDetails productDetails;
-
-    List<ImageView> dots = new ArrayList<>();
-    int isAddOrRemove;
+    private ProuctDetailBottomSheetLayoutBinding prouctDetailBottomSheetLayoutBinding;
+    private boolean isBuyNow = false;
+    private List<ImageView> dots = new ArrayList<>();
+    private int isAddOrRemove;
+    private BottomSheetDialog mBottomSheetDialog;
+    private ProductVariationAdapter productVariationAdapter;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -83,7 +88,7 @@ public class ProductDetailActivity extends AppCompatActivity {
         productViewModel = ViewModelProviders.of(this).get(ProductViewModel.class);
 
         product_id = getIntent().getIntExtra(PRODUCT_ID, 0);
-
+        Log.d(AppConstants.TAG, "product_id" + product_id);
         activityProductDetailBinding.svProductDetail.setVisibility(View.GONE);
         activityProductDetailBinding.pbLoading.setVisibility(View.VISIBLE);
         getProductDetail();
@@ -96,10 +101,7 @@ public class ProductDetailActivity extends AppCompatActivity {
         ProductImageAdapter productImageAdapter = new ProductImageAdapter(this, mProductMultimedia);
         activityProductDetailBinding.vpImages.setAdapter(productImageAdapter);
 
-
         productImage = PRODUCT_STORAGE_BASE_URL + productDetails.getPrimaryImage();
-        variation_id = mProductVariation.get(mProductVariation.size() - 1).getId(); // testing
-        quantity = 1;
 
         // setting cart related data
         loginToken = appPreference.getString(SIGNIN_TOKEN);
@@ -110,7 +112,7 @@ public class ProductDetailActivity extends AppCompatActivity {
         addDots();
 
         if (productDetails.getIsWishListItem() != null) {
-            activityProductDetailBinding.btnAddToWish.setImageResource(R.drawable.tab_bar_wish_selected);
+            activityProductDetailBinding.btnAddToWish.setImageResource(R.drawable.selected_wish_list_icon);
             activityProductDetailBinding.btnAddToWish.setBackground(getResources().getDrawable(R.drawable.bg_round_corner_white_accent));
             isAddOrRemove = 1;  // setting initial showing that it is added to list
         } else {
@@ -223,15 +225,17 @@ public class ProductDetailActivity extends AppCompatActivity {
                     mFitAndSizings.addAll(mProductDetailDataContainer.getData().getFitAndSizing());
 
                     productDetails = mProductDetailDataContainer.getData().getProductDetails();
-//                    activityProductDetailBinding.setProductDetail(productDetails);
 
+                    initBottomSheet();
                     loadProductDetail();
                 }
             }
         });
     }
 
-    public void AddToCart(View view, boolean isBuyNow) {
+    public void AddToCart(View view) {
+
+        quantity = Integer.parseInt(prouctDetailBottomSheetLayoutBinding.tvCount.getText().toString());
 
         parameter.clear();
 
@@ -286,10 +290,10 @@ public class ProductDetailActivity extends AppCompatActivity {
                     Toast.makeText(this, basicResponse.getMsg(), Toast.LENGTH_SHORT).show();
 
                     if (isAddOrRemove == 1) {
-                        activityProductDetailBinding.btnAddToWish.setImageResource(R.drawable.tab_bar_wish_selected);
+                        activityProductDetailBinding.btnAddToWish.setImageResource(R.drawable.selected_wish_list_icon);
                         activityProductDetailBinding.btnAddToWish.setBackground(getResources().getDrawable(R.drawable.bg_round_corner_white_accent));
                     } else {
-                        activityProductDetailBinding.btnAddToWish.setImageResource(R.drawable.tab_bar_wish);
+                        activityProductDetailBinding.btnAddToWish.setImageResource(R.drawable.wish_list_icon);
                         activityProductDetailBinding.btnAddToWish.setBackground(getResources().getDrawable(R.drawable.bg_round_corner_white));
                     }
                 } else if (basicResponse.getCode().equals(VALIDATION_FAIL_CODE)) {
@@ -304,8 +308,55 @@ public class ProductDetailActivity extends AppCompatActivity {
         });
     }
 
-    public void buyNow() {
+    public void setBottomSheet(View view, boolean isBuyNow) {
 
+        // is buy now or just add to cart
+        this.isBuyNow = isBuyNow;
+
+        mBottomSheetDialog.show();
+
+    }
+
+    public void hideBottomSheet() {
+        mBottomSheetDialog.hide();
+    }
+
+    void initBottomSheet() {
+
+        mBottomSheetDialog = new BottomSheetDialog(ProductDetailActivity.this);
+        prouctDetailBottomSheetLayoutBinding = DataBindingUtil.inflate(getLayoutInflater(), R.layout.prouct_detail_bottom_sheet_layout, null, false);
+        prouctDetailBottomSheetLayoutBinding.setVariationListener(this);
+        mBottomSheetDialog.setContentView(prouctDetailBottomSheetLayoutBinding.getRoot());
+
+        productVariationAdapter = new ProductVariationAdapter(this, this);
+        productVariationAdapter.setData(mProductVariation);
+        prouctDetailBottomSheetLayoutBinding.rvVariation.setAdapter(productVariationAdapter);
+
+        prouctDetailBottomSheetLayoutBinding.rvVariation.setLayoutManager(new LinearLayoutManager(this, RecyclerView.HORIZONTAL, false));
+        prouctDetailBottomSheetLayoutBinding.rvVariation.setHasFixedSize(true);
+
+
+        prouctDetailBottomSheetLayoutBinding.setProductDetails(productDetails);
+
+        if (prouctDetailBottomSheetLayoutBinding.tvProductActualPrice.getVisibility() == View.VISIBLE) {
+            prouctDetailBottomSheetLayoutBinding.tvProductActualPrice.setPaintFlags(prouctDetailBottomSheetLayoutBinding.tvProductActualPrice.getPaintFlags() | Paint.STRIKE_THRU_TEXT_FLAG);
+        }
+
+        prouctDetailBottomSheetLayoutBinding.btnSub.setOnClickListener(v -> {
+
+            if (quantity > 1) {
+                quantity--;
+                prouctDetailBottomSheetLayoutBinding.tvCount.setText(String.valueOf(quantity));
+            } else
+                Toast.makeText(this, "Quantity could not be less than 1", Toast.LENGTH_SHORT).show();
+        });
+
+        prouctDetailBottomSheetLayoutBinding.btnAdd.setOnClickListener(v -> {
+
+            quantity++;
+            prouctDetailBottomSheetLayoutBinding.tvCount.setText(String.valueOf(quantity));
+
+        });
     }
 
     public void addDots() {
@@ -355,8 +406,17 @@ public class ProductDetailActivity extends AppCompatActivity {
             dots.get(i).setImageDrawable(drawable);
         }
     }
+
+
     @Override
     public void onBackPressed() {
         finish();
+    }
+
+    @Override
+    public void onProductVariationClicked(ProductVariation productVariation) {
+
+        variation_id = productVariation.getId();
+        Log.d(AppConstants.TAG, "onProductVariationClicked:" + variation_id);
     }
 }

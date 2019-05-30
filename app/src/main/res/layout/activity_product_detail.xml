@@ -286,7 +286,7 @@
                 android:layout_margin="@dimen/_4dp"
                 android:background="@drawable/bg_round_corner_white"
                 android:onClick="@{(view)->listener.addRemoveToWishList(view)}"
-                android:src="@drawable/tab_bar_wish" />
+                android:src="@drawable/wish_list_icon" />
 
             <Button
                 android:layout_width="wrap_content"
@@ -294,7 +294,7 @@
                 android:layout_margin="@dimen/_4dp"
                 android:layout_weight=".4"
                 android:background="@drawable/bg_round_corner_white"
-                android:onClick="@{(view)->listener.AddToCart(view, false)}"
+                android:onClick="@{(view)->listener.setBottomSheet(view, false)}"
                 android:text="@string/add_to_cart"
                 android:textColor="@color/colorLightGray" />
 
@@ -304,7 +304,7 @@
                 android:layout_margin="@dimen/_4dp"
                 android:layout_weight=".4"
                 android:background="@drawable/btn_bg_round_corner_accent"
-                android:onClick="@{(view)->listener.AddToCart(view, true)}"
+                android:onClick="@{(view)->listener.setBottomSheet(view, true)}"
                 android:text="@string/buy_now"
                 android:textColor="@android:color/white" />
         </LinearLayout>

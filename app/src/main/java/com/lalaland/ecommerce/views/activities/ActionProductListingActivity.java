@@ -30,6 +30,7 @@ import java.util.List;
 import java.util.Map;
 
 import static com.lalaland.ecommerce.helpers.AppConstants.ACTION_ID;
+import static com.lalaland.ecommerce.helpers.AppConstants.ACTION_NAME;
 import static com.lalaland.ecommerce.helpers.AppConstants.BRANDS_IN_FOCUS_PRODUCTS;
 import static com.lalaland.ecommerce.helpers.AppConstants.CATEGORY_PRODUCTS;
 import static com.lalaland.ecommerce.helpers.AppConstants.CUSTOM_LIST_PRODUCTS;
@@ -51,7 +52,7 @@ public class ActionProductListingActivity extends AppCompatActivity implements A
     BottomSheetDialog mBottomSheetDialog;
     SortFilterBottomSheetLayoutBinding sheetView;
     Map<String, String> parameter = new HashMap<>();
-    String action_name = "custom_list", action_id = "-1", products_type = "action_products";
+    String action_name = "custom_list", action_id = "-1", products_type = "action_products", category_name;
     private static final String ID = "id";
     private static final String SORT_BY = "sort_by";
     GridLayoutManager gridLayoutManager;
@@ -69,7 +70,9 @@ public class ActionProductListingActivity extends AppCompatActivity implements A
 
         if (getIntent().getExtras() != null) {
             products_type = getIntent().getStringExtra(PRODUCT_TYPE);
+            category_name = getIntent().getStringExtra(ACTION_NAME);
 
+            activityProductListingBinding.tvCategoryTitle.setText(category_name);
             switch (products_type) {
 
                 // actions types
@@ -114,10 +117,7 @@ public class ActionProductListingActivity extends AppCompatActivity implements A
                     action_name = "brand";
                     action_id = getIntent().getStringExtra(ACTION_ID);
                     parameter.put(ID, action_id);
-
                     break;
-
-
             }
 
         }
@@ -166,7 +166,6 @@ public class ActionProductListingActivity extends AppCompatActivity implements A
                 super.onScrollStateChanged(recyclerView, newState);
                 if (newState == AbsListView.OnScrollListener.SCROLL_STATE_TOUCH_SCROLL) {
                     isScrolling = true;
-                    Log.d("salman", "getData");
                 }
             }
 
@@ -183,7 +182,6 @@ public class ActionProductListingActivity extends AppCompatActivity implements A
                     activityProductListingBinding.pbLoadingProducts.setVisibility(View.VISIBLE);
 
                     isScrolling = false;
-                    Log.d("salman", "getData2");
 
                     setActionProducts();
                 }

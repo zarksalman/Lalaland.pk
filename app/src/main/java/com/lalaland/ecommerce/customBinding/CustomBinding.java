@@ -92,8 +92,5 @@ public class CustomBinding {
         } else {
             tvFitAndSize.setText(Html.fromHtml(html));
         }*/
-
-
     }
-
 }

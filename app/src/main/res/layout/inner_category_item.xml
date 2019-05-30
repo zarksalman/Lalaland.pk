@@ -25,6 +25,7 @@
         android:layout_width="match_parent"
         android:layout_height="@dimen/_150dp"
         android:orientation="vertical"
+        android:onClick="@{()->adapter.onInnerCategoryClicked(innerCategory)}"
         android:background="@drawable/recommended_products_bg"
         android:padding="@dimen/_8dp">
 

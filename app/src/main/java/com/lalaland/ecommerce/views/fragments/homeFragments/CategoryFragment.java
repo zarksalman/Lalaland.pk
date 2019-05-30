@@ -18,6 +18,7 @@ import com.lalaland.ecommerce.R;
 import com.lalaland.ecommerce.adapters.CategoryAdapter;
 import com.lalaland.ecommerce.adapters.MajorCategoryAdapter;
 import com.lalaland.ecommerce.data.models.categories.CategoryHomeBanner;
+import com.lalaland.ecommerce.data.models.categories.InnerCategory;
 import com.lalaland.ecommerce.data.models.categories.SubCategory;
 import com.lalaland.ecommerce.data.models.category.Category;
 import com.lalaland.ecommerce.databinding.FragmentCategoryBinding;
@@ -30,6 +31,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import static com.lalaland.ecommerce.helpers.AppConstants.ACTION_ID;
+import static com.lalaland.ecommerce.helpers.AppConstants.ACTION_NAME;
 import static com.lalaland.ecommerce.helpers.AppConstants.BANNER_STORAGE_BASE_URL;
 import static com.lalaland.ecommerce.helpers.AppConstants.CATEGORY_PRODUCTS;
 import static com.lalaland.ecommerce.helpers.AppConstants.PRODUCT_TYPE;
@@ -177,11 +179,21 @@ public class CategoryFragment extends Fragment implements MajorCategoryAdapter.M
     @Override
     public void onCategoryClicked(SubCategory subCategory) {
 
+        loadCategoryProducts(subCategory.getId(), subCategory.getName());
+    }
+
+    @Override
+    public void onInnerCategoryClicked(InnerCategory innerCategory) {
+        loadCategoryProducts(innerCategory.getId(), innerCategory.getName());
+    }
+
+    void loadCategoryProducts(int categoryId, String categoryName) {
+
         Intent intent = new Intent(getContext(), ActionProductListingActivity.class);
 
-        intent.putExtra(ACTION_ID, String.valueOf(subCategory.getId()));
+        intent.putExtra(ACTION_NAME, categoryName);
+        intent.putExtra(ACTION_ID, String.valueOf(categoryId));
         intent.putExtra(PRODUCT_TYPE, CATEGORY_PRODUCTS);
-
         startActivity(intent);
     }
 }

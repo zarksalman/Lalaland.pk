@@ -61,28 +61,6 @@ public class CategoryAdapter extends RecyclerView.Adapter<CategoryAdapter.SubCat
         mCategoryListener.onCategoryClicked(subCategory);
     }
 
- /*   public void onInnerCategoryClicked(SubCategory subCategory) {
-        mCategoryListener.onCategoryClicked(subCategory);
-    }
-*/
-/*
-    public void filter(String text) {
-        filteredCityList.clear();
-
-        if (text.isEmpty()) {
-            filteredCityList.addAll(mCtyList);
-        } else {
-            text = text.toLowerCase();
-            for (City city : mCtyList) {
-                if (city.getCityName().toLowerCase().contains(text)) {
-                    filteredCityList.add(city);
-                }
-            }
-        }
-        notifyDataSetChanged();
-    }
-*/
-
     class SubCategoryViewHolder extends RecyclerView.ViewHolder implements InnerCategoryAdapter.InnerCategoryListener {
 
         SubCategoryItemBinding subCategoryItemBinding;
@@ -113,11 +91,13 @@ public class CategoryAdapter extends RecyclerView.Adapter<CategoryAdapter.SubCat
 
         @Override
         public void onInnerCategoryClicked(InnerCategory innerCategory) {
-
+            mCategoryListener.onInnerCategoryClicked(innerCategory);
         }
     }
 
     public interface CategoryListener {
         void onCategoryClicked(SubCategory subCategory);
+
+        void onInnerCategoryClicked(InnerCategory innerCategory);
     }
 }

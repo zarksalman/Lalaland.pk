@@ -1,6 +1,7 @@
 package com.lalaland.ecommerce.adapters;
 
 import android.content.Context;
+import android.graphics.Paint;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -74,6 +75,9 @@ public class ProductAdapter extends RecyclerView.Adapter<ProductAdapter.ProductV
         }
 
         void bindHolder(Product product) {
+
+            mProductItemBinding.tvProductActualPrice.setPaintFlags(mProductItemBinding.tvProductActualPrice.getPaintFlags() | Paint.STRIKE_THRU_TEXT_FLAG);  // making price for sales
+
             mProductItemBinding.setProduct(product);
             mProductItemBinding.setAdapter(ProductAdapter.this);
             mProductItemBinding.executePendingBindings();

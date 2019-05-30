@@ -97,7 +97,7 @@
             android:layout_height="wrap_content"
             android:background="@android:color/transparent"
             android:onClick="@{(view)->adapter.onProductClicked(view,product)}"
-            android:src="@drawable/wishlist_icon"
+            android:src="@drawable/wish_list_filled_icon"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent" />
 

@@ -9,7 +9,6 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 
-import androidx.core.view.ViewCompat;
 import androidx.core.widget.NestedScrollView;
 import androidx.databinding.DataBindingUtil;
 import androidx.fragment.app.Fragment;
@@ -43,6 +42,7 @@ import java.util.List;
 import java.util.Map;
 
 import static com.lalaland.ecommerce.helpers.AppConstants.ACTION_ID;
+import static com.lalaland.ecommerce.helpers.AppConstants.ACTION_NAME;
 import static com.lalaland.ecommerce.helpers.AppConstants.BANNER_STORAGE_BASE_URL;
 import static com.lalaland.ecommerce.helpers.AppConstants.BRANDS_IN_FOCUS_PRODUCTS;
 import static com.lalaland.ecommerce.helpers.AppConstants.LENGTH;
@@ -211,6 +211,7 @@ public class HomeFragment extends Fragment implements ActionAdapter.ActionClickL
 
         Intent intent = new Intent(getContext(), ActionProductListingActivity.class);
 
+        intent.putExtra(ACTION_NAME, actions.getName());
         intent.putExtra(ACTION_ID, String.valueOf(actions.getActionId()));
         intent.putExtra(PRODUCT_TYPE, actions.getActionName());
 
@@ -228,6 +229,7 @@ public class HomeFragment extends Fragment implements ActionAdapter.ActionClickL
     public void showAllProductsWeekProducts(View view) {
 
         Intent intent = new Intent(getContext(), ActionProductListingActivity.class);
+        intent.putExtra(ACTION_NAME, getResources().getString(R.string.picks_of_the_week));
         intent.putExtra(PRODUCT_TYPE, PICK_OF_THE_WEEK_PRODUCTS);
         startActivity(intent);
     }
@@ -252,6 +254,8 @@ public class HomeFragment extends Fragment implements ActionAdapter.ActionClickL
     public void onBrandClicked(FeaturedBrand featuredBrand) {
 
         Intent intent = new Intent(getContext(), ActionProductListingActivity.class);
+
+        intent.putExtra(ACTION_NAME, featuredBrand.getName());
         intent.putExtra(ACTION_ID, String.valueOf(featuredBrand.getId()));
         intent.putExtra(PRODUCT_TYPE, BRANDS_IN_FOCUS_PRODUCTS);
         startActivity(intent);
@@ -265,7 +269,7 @@ public class HomeFragment extends Fragment implements ActionAdapter.ActionClickL
         gridLayoutManager = new GridLayoutManager(getContext(), 3);
         fragmentHomeBinding.rvRecommendedProducts.setLayoutManager(gridLayoutManager);
 
-        ViewCompat.setNestedScrollingEnabled(fragmentHomeBinding.rvRecommendedProducts, false);
+        //  ViewCompat.setNestedScrollingEnabled(fragmentHomeBinding.rvRecommendedProducts, false);
 
         // It takes almost 3 4 days jut because, recyclerview is under nestedScrollView (onScrolled does not call)
         fragmentHomeBinding.containersParent.setOnScrollChangeListener((NestedScrollView.OnScrollChangeListener) (v, scrollX, scrollY, oldScrollX, oldScrollY) -> {
@@ -279,10 +283,8 @@ public class HomeFragment extends Fragment implements ActionAdapter.ActionClickL
                         fragmentHomeBinding.pbProductLoad.setVisibility(View.VISIBLE);
 
                         isLoading = true;
-                        Log.d(TAG, "getData2");
 
                         parameters.clear();
-
                         INITIAL_INDEX = END_INDEX;
                         INITIAL_INDEX++; // starting from end+1
                         END_INDEX += NUMBER_OF_ITEM;

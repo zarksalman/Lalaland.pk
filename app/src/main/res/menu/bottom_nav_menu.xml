@@ -3,12 +3,12 @@
 
     <item
         android:id="@+id/navigation_home"
-        android:icon="@drawable/ic_home_black_24dp"
+        android:icon="@drawable/home_icon"
         android:title="@string/title_home" />
 
     <item
         android:id="@+id/navigation_category"
-        android:icon="@drawable/ic_dashboard_black_24dp"
+        android:icon="@drawable/category_icon"
         android:title="@string/category" />
 
     <item
@@ -18,7 +18,7 @@
 
     <item
         android:id="@+id/navigation_wish"
-        android:icon="@drawable/wish_icon"
+        android:icon="@drawable/selected_wish_list_icon"
         android:title="@string/wish" />
 
     <item
