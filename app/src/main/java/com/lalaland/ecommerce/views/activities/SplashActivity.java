@@ -40,10 +40,17 @@ public class SplashActivity extends AppCompatActivity {
         {
             if (categoryContainer != null) {
 
+                AppConstants.LOAD_HOME_FRAGMENT_INDEX = 0;
                 AppConstants.staticCategoryList = new ArrayList<>();
                 AppConstants.staticCitiesList = new ArrayList<>();
                 AppConstants.staticCategoryList = categoryContainer.getData().getCategories();
                 AppConstants.staticCitiesList = categoryContainer.getData().getCities();
+
+                AppConstants.ABOUT_US_URL = categoryContainer.getData().getAboutUs();
+                AppConstants.PRIVACY_POLICY_URL = categoryContainer.getData().getPrivacy();
+                AppConstants.RETURN_POLICY_URL = categoryContainer.getData().getReturns();
+                AppConstants.TERMS_AND_CONDITIONS_URL = categoryContainer.getData().getTerms();
+                AppConstants.FAQ_URL = categoryContainer.getData().getFaq();
 
                 new Handler().postDelayed(() -> {
 

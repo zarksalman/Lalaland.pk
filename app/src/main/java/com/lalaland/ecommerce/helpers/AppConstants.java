@@ -4,6 +4,7 @@ import android.content.Context;
 
 import com.lalaland.ecommerce.data.models.category.Category;
 import com.lalaland.ecommerce.data.models.category.City;
+import com.lalaland.ecommerce.data.models.login.User;
 import com.lalaland.ecommerce.data.models.userAddressBook.UserAddresses;
 
 import java.util.ArrayList;
@@ -13,13 +14,20 @@ import java.util.regex.Pattern;
 public class AppConstants {
 
     public static final String BASE_URL = "https://api.uat.lalaland.pk/api/";
-    public static final String TEST_BASE_URL = "https://192.168.1.54/lalaland_api/api/";
+    public static String ABOUT_US_URL = "";
+    public static String PRIVACY_POLICY_URL = "";
+    public static String RETURN_POLICY_URL = "";
+    public static String TERMS_AND_CONDITIONS_URL = "";
+    public static String FAQ_URL = "";
+
+
     public static final String APP_NAME = "Lalaland";
     public static Context mContext;
     public static List<Category> staticCategoryList = new ArrayList<>();
     public static List<City> staticCitiesList = new ArrayList<>();
     public static List<String> testImagesUrl = new ArrayList<>();
     public static UserAddresses userAddresses;
+    public static User user;
     // -------------------------------------------------------------------------------------------
     public static final Double PAYMENT_LOWEST_LIMIT = 40000.00;
 // -------------------------------------------------------------------------------------------
@@ -51,6 +59,7 @@ public class AppConstants {
     public static final String BANNER_STORAGE_BASE_URL = "https://api.uat.lalaland.pk/storage/home_banners/";
     public static final String BRAND_FOCUS_STORAGE_BASE_URL = "https://api.uat.lalaland.pk/storage/featured_brands/";
     public static final String ACTION_STORAGE_BASE_URL = "https://api.uat.lalaland.pk/storage/mobile_actions/";
+    public static final String USER_STORAGE_BASE_URL = "https://api.uat.lalaland.pk/storage/user/";
 
     public static final String FULL_NAME = "full_name";
     public static final String FIRST_NAME = "first_name";
@@ -93,6 +102,10 @@ public class AppConstants {
     public static final String REMOVE_FROM_READY_PRODUCT = "Remove from list";
     public static final String REMOVED_FROM_CART = "Removed from cart";
     public static final String ITEM_SOLD_OUT = "Items sold out";
+
+    // now for testing purpose, in future save in db
+    public static String USER_NAME = "user_name";
+    public static String USER_AVATAR = "user_avatar";
 
     public static String SIGNIN_TOKEN = "token";
     public static String CART_SESSION_TOKEN = "cart-session";

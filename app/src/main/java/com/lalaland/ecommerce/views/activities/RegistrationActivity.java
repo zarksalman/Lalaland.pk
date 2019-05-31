@@ -1,5 +1,6 @@
 package com.lalaland.ecommerce.views.activities;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.Window;
 import android.view.WindowManager;
@@ -10,6 +11,7 @@ import androidx.databinding.DataBindingUtil;
 import com.lalaland.ecommerce.R;
 import com.lalaland.ecommerce.adapters.RegistrationTabsAdapter;
 import com.lalaland.ecommerce.databinding.ActivityRegistrationBinding;
+import com.lalaland.ecommerce.helpers.AppConstants;
 import com.lalaland.ecommerce.views.fragments.registrationFragments.SigninFragment;
 import com.lalaland.ecommerce.views.fragments.registrationFragments.SignupFragment;
 
@@ -40,6 +42,7 @@ public class RegistrationActivity extends AppCompatActivity {
     }
 
     public void closeActivity() {
-        finish();
+        startActivity(new Intent(this, MainActivity.class));
+        AppConstants.LOAD_HOME_FRAGMENT_INDEX = 5;
     }
 }

@@ -29,53 +29,59 @@ public class MainActivity extends AppCompatActivity {
             = item -> {
 
         Fragment fragment;
+
         switch (item.getItemId()) {
             case R.id.navigation_home:
+
+                if (selectedFragment == 0)
+                    return false;
+
+                activityMainBinding.topBar.setVisibility(View.VISIBLE);
+                activityMainBinding.tvAppName.setText(getResources().getString(R.string.app_name));
+                fragment = HomeFragment.newInstance();
+                replaceFragment(fragment, 0);
+                return true;
+            case R.id.navigation_category:
 
                 if (selectedFragment == 1)
                     return false;
 
-                activityMainBinding.tvAppName.setText(getResources().getString(R.string.app_name));
-                fragment = HomeFragment.newInstance();
+                activityMainBinding.topBar.setVisibility(View.VISIBLE);
+                activityMainBinding.tvAppName.setText(getResources().getString(R.string.category));
+                fragment = CategoryFragment.newInstance();
                 replaceFragment(fragment, 1);
                 return true;
-            case R.id.navigation_category:
+            case R.id.navigation_cart:
 
                 if (selectedFragment == 2)
                     return false;
 
-                activityMainBinding.tvAppName.setText(getResources().getString(R.string.category));
-                fragment = CategoryFragment.newInstance();
-                replaceFragment(fragment, 2);
-                return true;
-            case R.id.navigation_cart:
-
-                if (selectedFragment == 3)
-                    return false;
-
+                activityMainBinding.topBar.setVisibility(View.VISIBLE);
                 activityMainBinding.tvAppName.setText(getResources().getString(R.string.cart));
                 fragment = CartFragment.newInstance();
-                replaceFragment(fragment, 3);
+                replaceFragment(fragment, 2);
                 return true;
 
             case R.id.navigation_wish:
 
-                if (selectedFragment == 4)
+                if (selectedFragment == 3)
                     return false;
 
+                activityMainBinding.topBar.setVisibility(View.VISIBLE);
                 activityMainBinding.tvAppName.setText(getResources().getString(R.string.wish_list));
                 fragment = WishFragment.newInstance();
-                replaceFragment(fragment, 4);
+                replaceFragment(fragment, 3);
                 return true;
 
             case R.id.navigation_account:
 
-                if (selectedFragment == 5)
+                if (selectedFragment == 4)
                     return false;
 
+                activityMainBinding.topBar.setVisibility(View.GONE);
                 activityMainBinding.tvAppName.setText(getResources().getString(R.string.account));
                 fragment = AccountFragment.newInstance();
-                replaceFragment(fragment, 5);
+                replaceFragment(fragment, 4);
                 return true;
         }
         return false;
@@ -112,6 +118,7 @@ public class MainActivity extends AppCompatActivity {
     void loadInitialFragment() {
 
         switch (LOAD_HOME_FRAGMENT_INDEX) {
+
             case 0:
                 activityMainBinding.tvAppName.setText(getResources().getString(R.string.app_name));
                 replaceFragment(HomeFragment.newInstance(), LOAD_HOME_FRAGMENT_INDEX);

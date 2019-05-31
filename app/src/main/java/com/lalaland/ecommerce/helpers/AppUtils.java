@@ -2,12 +2,9 @@ package com.lalaland.ecommerce.helpers;
 
 import android.content.Context;
 import android.content.Intent;
-import android.graphics.Paint;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.net.Uri;
-import android.view.View;
-import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
@@ -65,6 +62,10 @@ public class AppUtils {
 
     public static Intent getLikeUsIntent() {
         return new Intent(Intent.ACTION_VIEW, Uri.parse(AppConstants.GOOGLE_PLAY_URL + AppConstants.mContext.getPackageName()));
+    }
+
+    public static Intent getOpenUrlIntent(String url) {
+        return new Intent(Intent.ACTION_VIEW, Uri.parse(url));
     }
 
 

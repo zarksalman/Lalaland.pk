@@ -13,6 +13,7 @@ import androidx.lifecycle.ViewModelProviders;
 
 import com.lalaland.ecommerce.R;
 import com.lalaland.ecommerce.databinding.FragmentSigninBinding;
+import com.lalaland.ecommerce.helpers.AppConstants;
 import com.lalaland.ecommerce.helpers.AppPreference;
 import com.lalaland.ecommerce.viewModels.user.LoginViewModel;
 
@@ -24,8 +25,11 @@ import static com.lalaland.ecommerce.helpers.AppConstants.CART_SESSION_TOKEN;
 import static com.lalaland.ecommerce.helpers.AppConstants.GENERAL_ERROR;
 import static com.lalaland.ecommerce.helpers.AppConstants.SIGNIN_TOKEN;
 import static com.lalaland.ecommerce.helpers.AppConstants.SUCCESS_CODE;
+import static com.lalaland.ecommerce.helpers.AppConstants.USER_AVATAR;
+import static com.lalaland.ecommerce.helpers.AppConstants.USER_NAME;
 import static com.lalaland.ecommerce.helpers.AppConstants.VALIDATION_FAIL_CODE;
 import static com.lalaland.ecommerce.helpers.AppConstants.WRONG_CREDENTIAL;
+import static com.lalaland.ecommerce.helpers.AppConstants.user;
 
 
 public class SigninFragment extends BaseRegistrationFragment {
@@ -122,6 +126,15 @@ public class SigninFragment extends BaseRegistrationFragment {
                     case SUCCESS_CODE:
                         Log.d("registerUser", login.getData().getUser().getName() + ":" + login.getData().getUser().getEmail());
                         Log.d("registerUser", AppPreference.getInstance(getContext()).getString(SIGNIN_TOKEN));
+
+                        AppConstants.user = login.getData().getUser();
+                        appPreference.setString(USER_NAME, user.getName());
+
+                        if (user.getAvatar() != null)
+                            appPreference.setString(USER_AVATAR, user.getAvatar().toString());
+                        else
+                            appPreference.setString(USER_AVATAR, "");
+
                         startActivity();
                         break;
                     case VALIDATION_FAIL_CODE:
@@ -147,18 +160,5 @@ public class SigninFragment extends BaseRegistrationFragment {
 
     void showToast(String message) {
         Toast.makeText(getContext(), message, Toast.LENGTH_LONG).show();
-    }
-
-    void logoutUser() {
-
-        loginViewModel.logoutUser().observe(this, logout -> {
-
-            if (logout != null) {
-
-                logoutFacebookUser();
-                Toast.makeText(getContext(), logout.getMsg(), Toast.LENGTH_SHORT).show();
-
-            }
-        });
     }
 }

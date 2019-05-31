@@ -129,6 +129,9 @@ public class UsersRepository {
                 if (response.isSuccessful()) {
                     basicResponseMutableLiveData.postValue(response.body());
                     AppPreference.getInstance(AppConstants.mContext).setString(SIGNIN_TOKEN, "");
+                    AppConstants.user = null;
+                    AppConstants.userAddresses = null;
+
                     checkResponseSource(response);
                 } else {
                     basicResponseMutableLiveData.postValue(null);

@@ -1,21 +1,39 @@
 package com.lalaland.ecommerce.views.fragments.homeFragments;
 
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Toast;
 
+import androidx.databinding.DataBindingUtil;
 import androidx.fragment.app.Fragment;
+import androidx.lifecycle.ViewModelProviders;
 
+import com.bumptech.glide.Glide;
+import com.facebook.AccessToken;
+import com.facebook.login.LoginManager;
 import com.lalaland.ecommerce.R;
+import com.lalaland.ecommerce.databinding.FragmentAccountBinding;
+import com.lalaland.ecommerce.helpers.AppConstants;
+import com.lalaland.ecommerce.helpers.AppPreference;
+import com.lalaland.ecommerce.helpers.AppUtils;
+import com.lalaland.ecommerce.viewModels.user.LoginViewModel;
+import com.lalaland.ecommerce.views.activities.RegistrationActivity;
+
+import static com.lalaland.ecommerce.helpers.AppConstants.SIGNIN_TOKEN;
+import static com.lalaland.ecommerce.helpers.AppConstants.USER_AVATAR;
+import static com.lalaland.ecommerce.helpers.AppConstants.USER_NAME;
+import static com.lalaland.ecommerce.helpers.AppConstants.USER_STORAGE_BASE_URL;
 
 
-public class AccountFragment extends Fragment {
+public class AccountFragment extends Fragment implements View.OnClickListener {
 
-    private static final String ARG_PARAM1 = "param1";
-    private static final String ARG_PARAM2 = "param2";
-
+    private FragmentAccountBinding fragmentAccountBinding;
+    private String signInToken, userName, userAvatar;
+    private AppPreference appPreference;
 
     public AccountFragment() {
         // Required empty public constructor
@@ -35,11 +53,134 @@ public class AccountFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_account, container, false);
+
+        fragmentAccountBinding = DataBindingUtil.inflate(inflater, R.layout.fragment_account, container, false);
+
+        appPreference = AppPreference.getInstance(getContext());
+
+        signInToken = appPreference.getString(SIGNIN_TOKEN);
+
+        if (signInToken.isEmpty()) {
+            fragmentAccountBinding.tvLoginLogout.setText("Login");
+            fragmentAccountBinding.tvUserName.setText("Login / Create account");
+
+            Glide.with(getContext())
+                    .load(R.drawable.placeholder_products)
+                    .into(fragmentAccountBinding.ivDp);
+
+        } else {
+
+            userName = appPreference.getString(USER_NAME);
+            userAvatar = appPreference.getString(USER_AVATAR);
+
+            fragmentAccountBinding.tvUserName.setText(userName);
+            String avatarImagePath = USER_STORAGE_BASE_URL.concat(userAvatar);
+
+            Glide.with(getContext())
+                    .load(avatarImagePath)
+                    .placeholder(R.drawable.placeholder_products)
+                    .into(fragmentAccountBinding.ivDp);
+        }
+
+        initListeners();
+
+        return fragmentAccountBinding.getRoot();
     }
+
+    private void initListeners() {
+
+        fragmentAccountBinding.tvSetting.setOnClickListener(this);
+        fragmentAccountBinding.tvAboutUs.setOnClickListener(this);
+        fragmentAccountBinding.tvPrivacyPolicy.setOnClickListener(this);
+        fragmentAccountBinding.tvReturnPolicy.setOnClickListener(this);
+        fragmentAccountBinding.tvTermsAndConditions.setOnClickListener(this);
+        fragmentAccountBinding.tvFaq.setOnClickListener(this);
+        fragmentAccountBinding.tvLoginLogout.setOnClickListener(this);
+    }
+
 
     @Override
     public void onStart() {
         super.onStart();
+    }
+
+    @Override
+    public void onClick(View v) {
+
+        int id = v.getId();
+
+        switch (id) {
+
+            case R.id.iv_view_all:
+                break;
+
+            case R.id.tv_view_all:
+                break;
+
+            case R.id.iv_setting:
+                break;
+
+            case R.id.tv_setting:
+                break;
+
+            case R.id.tv_about_us:
+                startActivity(AppUtils.getOpenUrlIntent(AppConstants.ABOUT_US_URL));
+                break;
+
+            case R.id.tv_privacy_policy:
+                startActivity(AppUtils.getOpenUrlIntent(AppConstants.PRIVACY_POLICY_URL));
+                break;
+
+            case R.id.tv_return_policy:
+                startActivity(AppUtils.getOpenUrlIntent(AppConstants.RETURN_POLICY_URL));
+                break;
+
+            case R.id.tv_terms_and_conditions:
+                startActivity(AppUtils.getOpenUrlIntent(AppConstants.TERMS_AND_CONDITIONS_URL));
+                break;
+
+            case R.id.tv_faq:
+                startActivity(AppUtils.getOpenUrlIntent(AppConstants.FAQ_URL));
+                break;
+
+            case R.id.tv_login_logout:
+
+                if (signInToken.isEmpty()) {
+                    startActivity(new Intent(getContext(), RegistrationActivity.class));
+                } else {
+                    logoutUser();
+                }
+                break;
+        }
+    }
+
+    void logoutUser() {
+
+        LoginViewModel loginViewModel = ViewModelProviders.of(this).get(LoginViewModel.class);
+        loginViewModel.logoutUser().observe(this, logout -> {
+
+            if (logout != null) {
+
+                logoutFacebookUser();
+
+                fragmentAccountBinding.tvLoginLogout.setText("Login");
+                fragmentAccountBinding.tvUserName.setText("Login / Create Account");
+
+                Glide.with(getContext())
+                        .load(R.drawable.placeholder_products)
+                        .into(fragmentAccountBinding.ivDp);
+
+                Toast.makeText(getContext(), logout.getMsg(), Toast.LENGTH_SHORT).show();
+
+            }
+        });
+    }
+
+    public void logoutFacebookUser() {
+
+        if (AccessToken.getCurrentAccessToken() != null) {
+            LoginManager.getInstance().logOut();
+            AccessToken.setCurrentAccessToken(null);
+        }
     }
 }

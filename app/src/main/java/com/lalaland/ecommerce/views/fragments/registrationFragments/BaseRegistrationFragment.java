@@ -16,13 +16,13 @@ import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.ViewModelProviders;
 
-import com.facebook.AccessToken;
 import com.facebook.CallbackManager;
 import com.facebook.FacebookCallback;
 import com.facebook.FacebookException;
 import com.facebook.login.LoginManager;
 import com.facebook.login.LoginResult;
 import com.facebook.login.widget.LoginButton;
+import com.lalaland.ecommerce.helpers.AppConstants;
 import com.lalaland.ecommerce.helpers.AppPreference;
 import com.lalaland.ecommerce.viewModels.user.LoginViewModel;
 import com.lalaland.ecommerce.viewModels.user.RegistrationViewModel;
@@ -38,10 +38,10 @@ import static com.lalaland.ecommerce.helpers.AppConstants.ACCOUNT_CREATION_ERROR
 import static com.lalaland.ecommerce.helpers.AppConstants.AUTHORIZATION_FAIL_CODE;
 import static com.lalaland.ecommerce.helpers.AppConstants.CART_SESSION_TOKEN;
 import static com.lalaland.ecommerce.helpers.AppConstants.FACEBOOK_SIGN_UP_IN;
-import static com.lalaland.ecommerce.helpers.AppConstants.VALIDATION_FAIL_CODE;
 import static com.lalaland.ecommerce.helpers.AppConstants.FB_LOGIN_CANCLED;
 import static com.lalaland.ecommerce.helpers.AppConstants.SIGNIN_TOKEN;
 import static com.lalaland.ecommerce.helpers.AppConstants.SUCCESS_CODE;
+import static com.lalaland.ecommerce.helpers.AppConstants.VALIDATION_FAIL_CODE;
 import static com.lalaland.ecommerce.helpers.AppConstants.WRONG_CREDENTIAL;
 
 public class BaseRegistrationFragment extends Fragment {
@@ -182,17 +182,13 @@ public class BaseRegistrationFragment extends Fragment {
         super.onActivityResult(requestCode, resultCode, data);
     }
 
-    public void logoutFacebookUser() {
 
-        if (AccessToken.getCurrentAccessToken() != null) {
-            LoginManager.getInstance().logOut();
-            AccessToken.setCurrentAccessToken(null);
-        }
-    }
 
     public void startActivity() {
 
-        if (getContext() != null)
+        if (getContext() != null) {
             getContext().startActivity(new Intent(getContext(), MainActivity.class));
+            AppConstants.LOAD_HOME_FRAGMENT_INDEX = 4;
+        }
     }
 }
