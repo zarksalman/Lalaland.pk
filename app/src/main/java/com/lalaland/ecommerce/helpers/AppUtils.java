@@ -95,6 +95,11 @@ public class AppUtils {
         return "PKR " + price;
     }
 
+    public static String formatName(String str) {
+
+        return "Name: " + str;
+    }
+
     public static String showRangePrice(String minPrice, String maxPrice) {
 
         StringBuilder price = new StringBuilder();
@@ -123,4 +128,5 @@ public class AppUtils {
 
         return salePrice.equals(actualPrice);
     }
+    
 }

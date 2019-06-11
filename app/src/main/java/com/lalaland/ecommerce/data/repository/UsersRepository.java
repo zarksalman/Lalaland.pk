@@ -92,7 +92,9 @@ public class UsersRepository {
                     if (response.body().getCode().equals(SUCCESS_CODE)) {
                         Headers headers = response.headers();
                         appPreference.setString(SIGNIN_TOKEN, headers.get(SIGNIN_TOKEN));
-                        appPreference.setString(CART_SESSION_TOKEN, ""); // if login successfully then discard cart session token
+
+                        // if login successfully then discard cart session token
+                        appPreference.setString(CART_SESSION_TOKEN, "");
 
                         recommendedCategry = response.body().getData().getRecommendedCat();
                         appPreference.setString(RECOMMENDED_CAT_TOKEN, recommendedCategry);

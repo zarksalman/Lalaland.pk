@@ -11,7 +11,7 @@ import androidx.paging.PagedList;
 import com.lalaland.ecommerce.data.models.actionProducs.ActionProductsContainer;
 import com.lalaland.ecommerce.data.models.cart.CartContainer;
 import com.lalaland.ecommerce.data.models.logout.BasicResponse;
-import com.lalaland.ecommerce.data.models.order.PlacingOrderDataContainer;
+import com.lalaland.ecommerce.data.models.order.newOrderPlacing.PlacingOrderDataContainer;
 import com.lalaland.ecommerce.data.models.productDetails.ProductDetailDataContainer;
 import com.lalaland.ecommerce.data.models.products.Product;
 import com.lalaland.ecommerce.data.models.products.ProductContainer;

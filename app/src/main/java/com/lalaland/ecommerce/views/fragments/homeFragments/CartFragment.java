@@ -141,13 +141,11 @@ public class CartFragment extends Fragment implements View.OnClickListener, Cart
                 if (cartContainer != null) {
 
                     if (cartContainer.getCode().equals(SUCCESS_CODE)) {
-                        cartItemList = cartContainer.getData().getCartItems();
+                        cartItemList.addAll(cartContainer.getData().getCartItems());
                         AppConstants.userAddresses = cartContainer.getData().getUserAddresses();
 
                         getMerchantList();
                         addMerchantProductList();
-
-                        //   initCartListModels(cartItemList);
                         setCartAdapter();
 
                         Log.d(TAG, String.valueOf(cartContainer.getData().getCartItems().size()));

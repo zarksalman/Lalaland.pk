@@ -1,9 +1,9 @@
-package com.lalaland.ecommerce.data.models.order;
+package com.lalaland.ecommerce.data.models.order.details;
 
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
 
-public class OrderDataContainer {
+public class OrderDetailContainer {
 
 @SerializedName("code")
 @Expose
@@ -13,7 +13,7 @@ private String code;
 private String msg;
 @SerializedName("data")
 @Expose
-private OrdersData data;
+private OrderDetailData data;
 
 public String getCode() {
 return code;
@@ -31,11 +31,11 @@ public void setMsg(String msg) {
 this.msg = msg;
 }
 
-public OrdersData getData() {
+public OrderDetailData getData() {
 return data;
 }
 
-public void setData(OrdersData data) {
+public void setData(OrderDetailData data) {
 this.data = data;
 }
 

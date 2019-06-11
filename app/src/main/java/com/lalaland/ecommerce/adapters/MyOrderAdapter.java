@@ -10,7 +10,7 @@ import androidx.databinding.DataBindingUtil;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.lalaland.ecommerce.R;
-import com.lalaland.ecommerce.data.models.order.Order;
+import com.lalaland.ecommerce.data.models.order.myOrders.Order;
 import com.lalaland.ecommerce.databinding.OrderItemBinding;
 
 import java.util.ArrayList;
@@ -73,12 +73,12 @@ public class MyOrderAdapter extends RecyclerView.Adapter<MyOrderAdapter.MyOrderV
 
         void bindHolder(Order order) {
 
-            mOrderItemBinding.tvOrderId.setText(order.getOrderId());
+  /*          mOrderItemBinding.tvOrderId.setText(order.getOrderId());
             mOrderItemBinding.tvOrderDate.setText(order.getCreatedAt());
             mOrderItemBinding.tvOrderMerchant.setText(order.getMerchantName());
-            mOrderItemBinding.tvOrderTotal.setText(order.getGrandTotal());
+            mOrderItemBinding.tvOrderTotal.setText(order.getGrandTotal());*/
 
-            //   mOrderItemBinding.setOrder(order);
+               mOrderItemBinding.setOrder(order);
             mOrderItemBinding.setAdapter(MyOrderAdapter.this);
             mOrderItemBinding.executePendingBindings();
         }

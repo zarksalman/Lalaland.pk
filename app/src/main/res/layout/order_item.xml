@@ -11,9 +11,11 @@
 
         <import type="android.view.View" />
 
+        <import type="com.lalaland.ecommerce.helpers.AppUtils" />
+
         <variable
             name="order"
-            type="com.lalaland.ecommerce.data.models.order.Order" />
+            type="com.lalaland.ecommerce.data.models.order.myOrders.Order" />
 
         <variable
             name="adapter"
@@ -23,6 +25,7 @@
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:background="@android:color/white"
         android:onClick="@{(view)->adapter.onMyOrderClicked(view, order)}"
         android:padding="@dimen/_16dp">
 
@@ -42,6 +45,7 @@
             android:id="@+id/tv_order_id"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:text="@{AppUtils.toString(order.orderId)}"
             android:textSize="14sp"
             app:layout_constraintBottom_toBottomOf="@+id/tv_order_id_title"
             app:layout_constraintStart_toEndOf="@+id/tv_order_id_title"
@@ -64,6 +68,7 @@
             android:id="@+id/tv_order_date"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:text="@{order.createdAt}"
             android:textSize="14sp"
             app:layout_constraintBottom_toBottomOf="@+id/tv_order_date_title"
             app:layout_constraintStart_toEndOf="@+id/tv_order_date_title"
@@ -75,6 +80,7 @@
             android:id="@+id/tv_order_type"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:text="@{order.orderStatus}"
             app:layout_constraintBottom_toBottomOf="@+id/iv_show_all"
             app:layout_constraintEnd_toStartOf="@+id/iv_show_all"
             app:layout_constraintTop_toTopOf="@+id/tv_order_date_title"
@@ -106,6 +112,7 @@
             android:id="@+id/tv_order_merchant"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:text="@{order.merchantName}"
             android:textSize="14sp"
             app:layout_constraintBottom_toBottomOf="@+id/tv_order_merchant_title"
             app:layout_constraintStart_toEndOf="@+id/tv_order_merchant_title"
@@ -130,12 +137,22 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginEnd="8dp"
+            android:text="@{order.grandTotal}"
             android:textSize="14sp"
             app:layout_constraintBottom_toBottomOf="@+id/tv_order_total_title"
             app:layout_constraintEnd_toEndOf="@+id/iv_show_all"
             app:layout_constraintTop_toTopOf="@+id/tv_order_total_title"
             tools:text="@tools:sample/us_zipcodes" />
 
+        <ImageView
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:layout_marginTop="@dimen/_4dp"
+            android:background="@color/colorScreenBg"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/tv_order_total" />
     </androidx.constraintlayout.widget.ConstraintLayout>
 
 </layout>

@@ -7,8 +7,9 @@ import androidx.lifecycle.MutableLiveData;
 
 import com.lalaland.ecommerce.data.models.DeliveryChargesData.DeliveryChargesContainer;
 import com.lalaland.ecommerce.data.models.logout.BasicResponse;
-import com.lalaland.ecommerce.data.models.order.OrderDataContainer;
-import com.lalaland.ecommerce.data.models.order.PlacingOrderDataContainer;
+import com.lalaland.ecommerce.data.models.order.details.OrderDetailContainer;
+import com.lalaland.ecommerce.data.models.order.myOrders.OrderDataContainer;
+import com.lalaland.ecommerce.data.models.order.newOrderPlacing.PlacingOrderDataContainer;
 import com.lalaland.ecommerce.data.retrofit.LalalandServiceApi;
 import com.lalaland.ecommerce.data.retrofit.RetrofitClient;
 import com.lalaland.ecommerce.helpers.AppConstants;
@@ -31,6 +32,7 @@ public class OrdersRepository {
     private MutableLiveData<DeliveryChargesContainer> deliveryChargesContainerMutableLiveData;
     private MutableLiveData<PlacingOrderDataContainer> orderDataContainerMutableLiveData = new MutableLiveData<>();
     private MutableLiveData<OrderDataContainer> myOrderDataContainerMutableLiveData = new MutableLiveData<>();
+    private MutableLiveData<OrderDetailContainer> orderDetailContainerMutableLiveData = new MutableLiveData<>();
 
     private OrdersRepository() {
         lalalandServiceApi = RetrofitClient.getInstance().createClient();
@@ -110,6 +112,29 @@ public class OrdersRepository {
         });
 
         return myOrderDataContainerMutableLiveData;
+    }
+
+    public LiveData<OrderDetailContainer> getMyOrdersProducts(String header, String orderId) {
+
+        orderDetailContainerMutableLiveData = new MutableLiveData<>();
+
+        lalalandServiceApi.getMyOrdersProducts(header, orderId).enqueue(new Callback<OrderDetailContainer>() {
+            @Override
+            public void onResponse(Call<OrderDetailContainer> call, Response<OrderDetailContainer> response) {
+
+                if (response.isSuccessful())
+                    orderDetailContainerMutableLiveData.postValue(response.body());
+                else
+                    orderDetailContainerMutableLiveData.postValue(null);
+            }
+
+            @Override
+            public void onFailure(Call<OrderDetailContainer> call, Throwable t) {
+                orderDetailContainerMutableLiveData.postValue(null);
+            }
+        });
+
+        return orderDetailContainerMutableLiveData;
     }
 
     private void checkResponseSource(Response response) {

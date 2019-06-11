@@ -1,4 +1,4 @@
-package com.lalaland.ecommerce.data.models.order;
+package com.lalaland.ecommerce.data.models.order.myOrders;
 
 import java.util.List;
 import com.google.gson.annotations.Expose;

@@ -1,4 +1,4 @@
-package com.lalaland.ecommerce.data.models.order;
+package com.lalaland.ecommerce.data.models.order.newOrderPlacing;
 
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;

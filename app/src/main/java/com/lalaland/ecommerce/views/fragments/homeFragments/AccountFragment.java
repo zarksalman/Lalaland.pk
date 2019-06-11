@@ -134,7 +134,7 @@ public class AccountFragment extends Fragment implements View.OnClickListener {
                 break;
 
             case R.id.tv_view_all:
-                intent.putExtra(ORDER_STATUS, "all orders");
+                intent.putExtra(ORDER_STATUS, "all");
                 startActivity();
                 break;
 

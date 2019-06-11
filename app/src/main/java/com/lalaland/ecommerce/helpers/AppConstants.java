@@ -81,8 +81,11 @@ public class AppConstants {
     public static final String LENGTH = "length";
 
     public static final String ORDER_STATUS = "order_status";
-
-
+    public static final String ORDER_ID = "order_id";
+    public static final String ORDER_DATE = "order_date";
+    public static final String ORDER_MERCHANT = "order_merchant";
+    public static final String ORDER_ADDRESS = "order_address";
+    public static final String ORDER_TOTAL = "order_total";
 
     public static final String SUCCESS_CODE = "200";
     public static final String VALIDATION_FAIL_CODE = "400";
