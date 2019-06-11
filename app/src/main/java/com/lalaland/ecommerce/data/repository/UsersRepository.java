@@ -96,6 +96,8 @@ public class UsersRepository {
 
                         recommendedCategry = response.body().getData().getRecommendedCat();
                         appPreference.setString(RECOMMENDED_CAT_TOKEN, recommendedCategry);
+
+
                     }
 
 
@@ -210,7 +212,6 @@ public class UsersRepository {
                 // saving header response for different purposes like add to wish list etc
                 Headers headers = response.headers();
                 AppPreference.getInstance(AppConstants.mContext).setString(SIGNIN_TOKEN, headers.get(SIGNIN_TOKEN));
-
                 // if login successfully then discard cart session token
                 AppPreference.getInstance(AppConstants.mContext).setString(CART_SESSION_TOKEN, "");
 

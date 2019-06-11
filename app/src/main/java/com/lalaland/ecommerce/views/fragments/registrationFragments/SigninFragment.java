@@ -22,7 +22,10 @@ import java.util.Map;
 
 import static com.lalaland.ecommerce.helpers.AppConstants.AUTHORIZATION_FAIL_CODE;
 import static com.lalaland.ecommerce.helpers.AppConstants.CART_SESSION_TOKEN;
+import static com.lalaland.ecommerce.helpers.AppConstants.DATE_OF_BIRTH;
+import static com.lalaland.ecommerce.helpers.AppConstants.GENDER;
 import static com.lalaland.ecommerce.helpers.AppConstants.GENERAL_ERROR;
+import static com.lalaland.ecommerce.helpers.AppConstants.PHONE_NUMBER;
 import static com.lalaland.ecommerce.helpers.AppConstants.SIGNIN_TOKEN;
 import static com.lalaland.ecommerce.helpers.AppConstants.SUCCESS_CODE;
 import static com.lalaland.ecommerce.helpers.AppConstants.USER_AVATAR;
@@ -72,8 +75,13 @@ public class SigninFragment extends BaseRegistrationFragment {
         token = appPreference.getString(SIGNIN_TOKEN);
         cart_session = appPreference.getString(CART_SESSION_TOKEN);
 
+        fragmentSigninBinding.btnFbSignIn.setOnClickListener(v -> {
+
+            fragmentSigninBinding.pbLoadingSignin.setVisibility(View.VISIBLE);
+            signInOrSignUpWithFb(fragmentSigninBinding.btFacebookSignin);
+        });
+
         fragmentSigninBinding.btnSignIn.setOnClickListener(v -> signInWithForm());
-        fragmentSigninBinding.btnFbSignIn.setOnClickListener(v -> signInOrSignUpWithFb(fragmentSigninBinding.btFacebookSignin));
         return fragmentSigninBinding.getRoot();
     }
 
@@ -128,7 +136,11 @@ public class SigninFragment extends BaseRegistrationFragment {
                         Log.d("registerUser", AppPreference.getInstance(getContext()).getString(SIGNIN_TOKEN));
 
                         AppConstants.user = login.getData().getUser();
-                        appPreference.setString(USER_NAME, user.getName());
+
+                        appPreference.setString(USER_NAME, login.getData().getUser().getName());
+                        appPreference.setString(DATE_OF_BIRTH, login.getData().getUser().getDateOfBirth());
+                        appPreference.setString(PHONE_NUMBER, login.getData().getUser().getPhone());
+                        appPreference.setString(GENDER, login.getData().getUser().getGender());
 
                         if (user.getAvatar() != null)
                             appPreference.setString(USER_AVATAR, user.getAvatar().toString());

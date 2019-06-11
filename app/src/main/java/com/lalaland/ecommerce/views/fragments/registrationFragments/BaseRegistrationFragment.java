@@ -22,11 +22,9 @@ import com.facebook.FacebookException;
 import com.facebook.login.LoginManager;
 import com.facebook.login.LoginResult;
 import com.facebook.login.widget.LoginButton;
-import com.lalaland.ecommerce.helpers.AppConstants;
 import com.lalaland.ecommerce.helpers.AppPreference;
 import com.lalaland.ecommerce.viewModels.user.LoginViewModel;
 import com.lalaland.ecommerce.viewModels.user.RegistrationViewModel;
-import com.lalaland.ecommerce.views.activities.MainActivity;
 
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
@@ -37,12 +35,17 @@ import java.util.Map;
 import static com.lalaland.ecommerce.helpers.AppConstants.ACCOUNT_CREATION_ERROR;
 import static com.lalaland.ecommerce.helpers.AppConstants.AUTHORIZATION_FAIL_CODE;
 import static com.lalaland.ecommerce.helpers.AppConstants.CART_SESSION_TOKEN;
+import static com.lalaland.ecommerce.helpers.AppConstants.DATE_OF_BIRTH;
 import static com.lalaland.ecommerce.helpers.AppConstants.FACEBOOK_SIGN_UP_IN;
 import static com.lalaland.ecommerce.helpers.AppConstants.FB_LOGIN_CANCLED;
+import static com.lalaland.ecommerce.helpers.AppConstants.GENDER;
+import static com.lalaland.ecommerce.helpers.AppConstants.PHONE_NUMBER;
 import static com.lalaland.ecommerce.helpers.AppConstants.SIGNIN_TOKEN;
 import static com.lalaland.ecommerce.helpers.AppConstants.SUCCESS_CODE;
+import static com.lalaland.ecommerce.helpers.AppConstants.USER_NAME;
 import static com.lalaland.ecommerce.helpers.AppConstants.VALIDATION_FAIL_CODE;
 import static com.lalaland.ecommerce.helpers.AppConstants.WRONG_CREDENTIAL;
+import static com.lalaland.ecommerce.helpers.AppConstants.mContext;
 
 public class BaseRegistrationFragment extends Fragment {
 
@@ -101,7 +104,6 @@ public class BaseRegistrationFragment extends Fragment {
             public void onCancel() {
                 if (getContext() != null) {
                     Toast.makeText(getContext(), FB_LOGIN_CANCLED, Toast.LENGTH_SHORT).show();
-
                 }
             }
 
@@ -134,8 +136,15 @@ public class BaseRegistrationFragment extends Fragment {
 
                 switch (registrationContainer.getCode()) {
                     case SUCCESS_CODE:
-                        Log.d("registerUser", registrationContainer.getData().getName() + ":" + registrationContainer.getData().getEmail());
+                        Log.d("registerUser", registrationContainer.getData().getUser().getName() + ":" + registrationContainer.getData().getUser().getEmail());
                         Log.d("registerUser", AppPreference.getInstance(getContext()).getString(SIGNIN_TOKEN));
+
+                        AppPreference.getInstance(mContext).setString(USER_NAME, registrationContainer.getData().getUser().getName());
+                        AppPreference.getInstance(mContext).setString(DATE_OF_BIRTH, registrationContainer.getData().getUser().getDateOfBirth());
+                        AppPreference.getInstance(mContext).setString(PHONE_NUMBER, registrationContainer.getData().getUser().getPhone());
+                        AppPreference.getInstance(mContext).setString(GENDER, registrationContainer.getData().getUser().getGender());
+                        AppPreference.getInstance(mContext).setString(EMAIL, registrationContainer.getData().getUser().getEmail());
+
                         startActivity();
 
                         break;
@@ -187,8 +196,9 @@ public class BaseRegistrationFragment extends Fragment {
     public void startActivity() {
 
         if (getContext() != null) {
-            getContext().startActivity(new Intent(getContext(), MainActivity.class));
-            AppConstants.LOAD_HOME_FRAGMENT_INDEX = 4;
+            getActivity().finish();
+            //   getContext().startActivity(new Intent(getContext(), MainActivity.class));
+            //    AppConstants.LOAD_HOME_FRAGMENT_INDEX = 4;
         }
     }
 }

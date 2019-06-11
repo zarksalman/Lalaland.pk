@@ -80,6 +80,9 @@ public class AppConstants {
     public static final String START_INDEX = "start";
     public static final String LENGTH = "length";
 
+    public static final String ORDER_STATUS = "order_status";
+
+
 
     public static final String SUCCESS_CODE = "200";
     public static final String VALIDATION_FAIL_CODE = "400";

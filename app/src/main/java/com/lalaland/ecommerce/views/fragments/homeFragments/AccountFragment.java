@@ -21,8 +21,11 @@ import com.lalaland.ecommerce.helpers.AppConstants;
 import com.lalaland.ecommerce.helpers.AppPreference;
 import com.lalaland.ecommerce.helpers.AppUtils;
 import com.lalaland.ecommerce.viewModels.user.LoginViewModel;
+import com.lalaland.ecommerce.views.activities.AccountInformationActivity;
+import com.lalaland.ecommerce.views.activities.OrderListingActivity;
 import com.lalaland.ecommerce.views.activities.RegistrationActivity;
 
+import static com.lalaland.ecommerce.helpers.AppConstants.ORDER_STATUS;
 import static com.lalaland.ecommerce.helpers.AppConstants.SIGNIN_TOKEN;
 import static com.lalaland.ecommerce.helpers.AppConstants.USER_AVATAR;
 import static com.lalaland.ecommerce.helpers.AppConstants.USER_NAME;
@@ -34,6 +37,7 @@ public class AccountFragment extends Fragment implements View.OnClickListener {
     private FragmentAccountBinding fragmentAccountBinding;
     private String signInToken, userName, userAvatar;
     private AppPreference appPreference;
+    private Intent intent;
 
     public AccountFragment() {
         // Required empty public constructor
@@ -57,12 +61,15 @@ public class AccountFragment extends Fragment implements View.OnClickListener {
         fragmentAccountBinding = DataBindingUtil.inflate(inflater, R.layout.fragment_account, container, false);
 
         appPreference = AppPreference.getInstance(getContext());
-
         signInToken = appPreference.getString(SIGNIN_TOKEN);
 
+        // if user is login
         if (signInToken.isEmpty()) {
+
             fragmentAccountBinding.tvLoginLogout.setText("Login");
             fragmentAccountBinding.tvUserName.setText("Login / Create account");
+
+            intent = new Intent(getContext(), RegistrationActivity.class);
 
             Glide.with(getContext())
                     .load(R.drawable.placeholder_products)
@@ -72,6 +79,8 @@ public class AccountFragment extends Fragment implements View.OnClickListener {
 
             userName = appPreference.getString(USER_NAME);
             userAvatar = appPreference.getString(USER_AVATAR);
+
+            intent = new Intent(getContext(), OrderListingActivity.class);
 
             fragmentAccountBinding.tvUserName.setText(userName);
             String avatarImagePath = USER_STORAGE_BASE_URL.concat(userAvatar);
@@ -96,6 +105,14 @@ public class AccountFragment extends Fragment implements View.OnClickListener {
         fragmentAccountBinding.tvTermsAndConditions.setOnClickListener(this);
         fragmentAccountBinding.tvFaq.setOnClickListener(this);
         fragmentAccountBinding.tvLoginLogout.setOnClickListener(this);
+
+        fragmentAccountBinding.ivViewAll.setOnClickListener(this);
+        fragmentAccountBinding.tvViewAll.setOnClickListener(this);
+        fragmentAccountBinding.newOrderContainer.setOnClickListener(this);
+        fragmentAccountBinding.confirmedOrderContainer.setOnClickListener(this);
+        fragmentAccountBinding.recievedOrderContainer.setOnClickListener(this);
+        fragmentAccountBinding.inTransitOrderContainer.setOnClickListener(this);
+        fragmentAccountBinding.cancelledOrderContainer.setOnClickListener(this);
     }
 
 
@@ -112,15 +129,55 @@ public class AccountFragment extends Fragment implements View.OnClickListener {
         switch (id) {
 
             case R.id.iv_view_all:
+                intent.putExtra(ORDER_STATUS, "all orders");
+                startActivity();
                 break;
 
             case R.id.tv_view_all:
+                intent.putExtra(ORDER_STATUS, "all orders");
+                startActivity();
+                break;
+
+            case R.id.new_order_container:
+                intent.putExtra(ORDER_STATUS, "new");
+                startActivity();
+                break;
+
+            case R.id.confirmed_order_container:
+                intent.putExtra(ORDER_STATUS, "confirm");
+                startActivity();
+                break;
+
+            case R.id.cancelled_order_container:
+                intent.putExtra(ORDER_STATUS, "cancel");
+                startActivity();
+                break;
+
+            case R.id.in_transit_order_container:
+                intent.putExtra(ORDER_STATUS, "intransit");
+                startActivity();
+                break;
+
+            case R.id.recieved_order_container:
+                intent.putExtra(ORDER_STATUS, "receive");
+                startActivity();
                 break;
 
             case R.id.iv_setting:
+
+                if (!signInToken.isEmpty())
+                    startActivity(new Intent(getContext(), AccountInformationActivity.class));
+                else
+                    startActivity(new Intent(getContext(), RegistrationActivity.class));
+
                 break;
 
             case R.id.tv_setting:
+
+                if (!signInToken.isEmpty())
+                    startActivity(new Intent(getContext(), AccountInformationActivity.class));
+                else
+                    startActivity(new Intent(getContext(), RegistrationActivity.class));
                 break;
 
             case R.id.tv_about_us:
@@ -154,6 +211,13 @@ public class AccountFragment extends Fragment implements View.OnClickListener {
         }
     }
 
+    void startActivity() {
+
+        // start login activity if not login (token is empty)
+        // start listing activity is login (token is not empty)
+
+        startActivity(intent);
+    }
     void logoutUser() {
 
         LoginViewModel loginViewModel = ViewModelProviders.of(this).get(LoginViewModel.class);
@@ -181,6 +245,7 @@ public class AccountFragment extends Fragment implements View.OnClickListener {
         if (AccessToken.getCurrentAccessToken() != null) {
             LoginManager.getInstance().logOut();
             AccessToken.setCurrentAccessToken(null);
+            signInToken = "";
         }
     }
 }

@@ -3,7 +3,7 @@ package com.lalaland.ecommerce.data.models.order;
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
 
-public class OrderData {
+public class PlacingOrderData {
     @SerializedName("order_id")
     @Expose
     private Integer orderId;

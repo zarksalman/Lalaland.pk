@@ -19,6 +19,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 import static com.lalaland.ecommerce.helpers.AppConstants.DATE_OF_BIRTH;
+import static com.lalaland.ecommerce.helpers.AppConstants.EMAIL;
 import static com.lalaland.ecommerce.helpers.AppConstants.FIRST_NAME;
 import static com.lalaland.ecommerce.helpers.AppConstants.GENDER;
 import static com.lalaland.ecommerce.helpers.AppConstants.GENERAL_ERROR;
@@ -28,8 +29,8 @@ import static com.lalaland.ecommerce.helpers.AppConstants.OLD_PASSWORD;
 import static com.lalaland.ecommerce.helpers.AppConstants.PHONE_NUMBER;
 import static com.lalaland.ecommerce.helpers.AppConstants.SIGNIN_TOKEN;
 import static com.lalaland.ecommerce.helpers.AppConstants.SUCCESS_CODE;
+import static com.lalaland.ecommerce.helpers.AppConstants.USER_NAME;
 import static com.lalaland.ecommerce.helpers.AppConstants.VALIDATION_FAIL_CODE;
-import static com.lalaland.ecommerce.helpers.AppConstants.userAddresses;
 
 public class AccountInformationActivity extends AppCompatActivity {
 
@@ -57,17 +58,22 @@ public class AccountInformationActivity extends AppCompatActivity {
 
     private void initUI() {
 
-        activityAccountInformationBinding.tvUserName.setText(userAddresses.getUserName());
-        activityAccountInformationBinding.tvUserPhone.setText(userAddresses.getPhone());
-        activityAccountInformationBinding.tvUserEmail.setText(userAddresses.getEmail());
-        activityAccountInformationBinding.tvUserDob.setText(appPreference.getString(DATE_OF_BIRTH));
-        activityAccountInformationBinding.tvUserGender.setText(appPreference.getString(GENDER));
+        String userName = appPreference.getString(USER_NAME);
+        String phoneNumber = appPreference.getString(PHONE_NUMBER);
+        String email = appPreference.getString(EMAIL);
+        String dateOfBirth = appPreference.getString(DATE_OF_BIRTH);
+        String gender = appPreference.getString(GENDER);
+
+        activityAccountInformationBinding.tvUserName.setText(userName);
+        activityAccountInformationBinding.tvUserPhone.setText(phoneNumber);
+        activityAccountInformationBinding.tvUserEmail.setText(email);
+        activityAccountInformationBinding.tvUserDob.setText(dateOfBirth);
+        activityAccountInformationBinding.tvUserGender.setText(gender);
     }
 
     public void changeAttributes(int type) {
 
         Intent intent = new Intent(this, EditAccountInformationActivity.class);
-        int requestCode = type;
         intent.putExtra("request_code", type);
         startActivityForResult(intent, type);
 
@@ -148,6 +154,7 @@ public class AccountInformationActivity extends AppCompatActivity {
                 if (basicResponse.getCode().equals(SUCCESS_CODE)) {
                     Log.d("registerUser", basicResponse.getMsg());
                     Toast.makeText(this, basicResponse.getMsg(), Toast.LENGTH_SHORT).show();
+                    setResultForActivity(1);
 
                 } else if (basicResponse.getCode().equals(VALIDATION_FAIL_CODE)) {
                     Toast.makeText(this, basicResponse.getMsg(), Toast.LENGTH_SHORT).show();
@@ -164,14 +171,16 @@ public class AccountInformationActivity extends AppCompatActivity {
 
                 if (updateUserDataContainer.getCode().equals(SUCCESS_CODE)) {
 
-                    userAddresses.setUserName(updateUserDataContainer.getData().getUser().getName());
-                    userAddresses.setPhone(updateUserDataContainer.getData().getUser().getPhone());
+                    appPreference.setString(USER_NAME, updateUserDataContainer.getData().getUser().getName());
+                    appPreference.setString(PHONE_NUMBER, updateUserDataContainer.getData().getUser().getPhone());
                     appPreference.setString(DATE_OF_BIRTH, updateUserDataContainer.getData().getUser().getDateOfBirth());
                     appPreference.setString(GENDER, updateUserDataContainer.getData().getUser().getGender());
 
                     initUI();
-
                     Toast.makeText(this, updateUserDataContainer.getMsg(), Toast.LENGTH_SHORT).show();
+
+                    setResultForActivity(1);
+
                 } else if (updateUserDataContainer.getCode().equals(VALIDATION_FAIL_CODE)) {
                     Toast.makeText(this, updateUserDataContainer.getMsg(), Toast.LENGTH_SHORT).show();
                 } else
@@ -179,5 +188,15 @@ public class AccountInformationActivity extends AppCompatActivity {
             } else
                 Toast.makeText(this, GENERAL_ERROR, Toast.LENGTH_SHORT).show();
         });
+    }
+
+    void setResultForActivity(int resultType) {
+
+        if (resultType == 1)
+            setResult(RESULT_OK);
+        else
+            setResult(RESULT_CANCELED);
+
+        finish();
     }
 }

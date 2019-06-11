@@ -235,6 +235,9 @@ public class ProductDetailActivity extends AppCompatActivity implements ProductV
 
     public void AddToCart(View view) {
 
+        if (activityProductDetailBinding.pbLoading.getVisibility() == View.VISIBLE)
+            return;
+
         quantity = Integer.parseInt(prouctDetailBottomSheetLayoutBinding.tvCount.getText().toString());
 
         parameter.clear();
@@ -272,6 +275,15 @@ public class ProductDetailActivity extends AppCompatActivity implements ProductV
     }
 
     public void addRemoveToWishList(View view) {
+
+        if (activityProductDetailBinding.pbLoading.getVisibility() == View.VISIBLE)
+            return;
+
+        if (loginToken.isEmpty()) {
+            Toast.makeText(this, "Please login to add to wishlist", Toast.LENGTH_SHORT).show();
+            startActivity(new Intent(this, RegistrationActivity.class));
+            return;
+        }
 
         if (isAddOrRemove == 1)
             isAddOrRemove = 0;

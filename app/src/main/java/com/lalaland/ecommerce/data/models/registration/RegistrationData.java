@@ -2,56 +2,31 @@ package com.lalaland.ecommerce.data.models.registration;
 
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
+import com.lalaland.ecommerce.data.models.login.User;
 
 public class RegistrationData {
-
-    @SerializedName("name")
+    @SerializedName("user_id")
     @Expose
-    private String name;
-    @SerializedName("email")
-    @Expose
-    private String email;
-    @SerializedName("phone")
-    @Expose
-    private String phone;
+    private Integer userId;
     @SerializedName("last_login")
     @Expose
     private String lastLogin;
-    @SerializedName("status")
+    @SerializedName("cart_count")
     @Expose
-    private Integer status;
-    @SerializedName("updated_at")
+    private Integer cartCount;
+    @SerializedName("recommended_cat")
     @Expose
-    private String updatedAt;
-    @SerializedName("created_at")
+    private String recommendedCat;
+    @SerializedName("user")
     @Expose
-    private String createdAt;
-    @SerializedName("id")
-    @Expose
-    private Integer id;
+    private User user;
 
-    public String getName() {
-        return name;
+    public Integer getUserId() {
+        return userId;
     }
 
-    public void setName(String name) {
-        this.name = name;
-    }
-
-    public String getEmail() {
-        return email;
-    }
-
-    public void setEmail(String email) {
-        this.email = email;
-    }
-
-    public String getPhone() {
-        return phone;
-    }
-
-    public void setPhone(String phone) {
-        this.phone = phone;
+    public void setUserId(Integer userId) {
+        this.userId = userId;
     }
 
     public String getLastLogin() {
@@ -62,36 +37,27 @@ public class RegistrationData {
         this.lastLogin = lastLogin;
     }
 
-    public Integer getStatus() {
-        return status;
+    public Integer getCartCount() {
+        return cartCount;
     }
 
-    public void setStatus(Integer status) {
-        this.status = status;
+    public void setCartCount(Integer cartCount) {
+        this.cartCount = cartCount;
     }
 
-    public String getUpdatedAt() {
-        return updatedAt;
+    public String getRecommendedCat() {
+        return recommendedCat;
     }
 
-    public void setUpdatedAt(String updatedAt) {
-        this.updatedAt = updatedAt;
+    public void setRecommendedCat(String recommendedCat) {
+        this.recommendedCat = recommendedCat;
     }
 
-    public String getCreatedAt() {
-        return createdAt;
+    public User getUser() {
+        return user;
     }
 
-    public void setCreatedAt(String createdAt) {
-        this.createdAt = createdAt;
+    public void setUser(User user) {
+        this.user = user;
     }
-
-    public Integer getId() {
-        return id;
-    }
-
-    public void setId(Integer id) {
-        this.id = id;
-    }
-
 }

@@ -1,0 +1,141 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout
+
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:animateLayoutChanges="true"
+    tools:context=".views.activities.ProductDetailActivity">
+
+    <data>
+
+        <import type="android.view.View" />
+
+        <variable
+            name="order"
+            type="com.lalaland.ecommerce.data.models.order.Order" />
+
+        <variable
+            name="adapter"
+            type="com.lalaland.ecommerce.adapters.MyOrderAdapter" />
+    </data>
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:onClick="@{(view)->adapter.onMyOrderClicked(view, order)}"
+        android:padding="@dimen/_16dp">
+
+        <TextView
+
+            android:id="@+id/tv_order_id_title"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/order_id"
+            android:textColor="@android:color/black"
+            android:textSize="16sp"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <TextView
+
+            android:id="@+id/tv_order_id"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textSize="14sp"
+            app:layout_constraintBottom_toBottomOf="@+id/tv_order_id_title"
+            app:layout_constraintStart_toEndOf="@+id/tv_order_id_title"
+            app:layout_constraintTop_toTopOf="parent"
+            tools:text="@tools:sample/us_zipcodes" />
+
+        <TextView
+
+            android:id="@+id/tv_order_date_title"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/date_time"
+            android:textColor="@android:color/black"
+            android:textSize="16sp"
+            app:layout_constraintStart_toStartOf="@+id/tv_order_id_title"
+            app:layout_constraintTop_toBottomOf="@+id/tv_order_id_title" />
+
+        <TextView
+
+            android:id="@+id/tv_order_date"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textSize="14sp"
+            app:layout_constraintBottom_toBottomOf="@+id/tv_order_date_title"
+            app:layout_constraintStart_toEndOf="@+id/tv_order_date_title"
+            app:layout_constraintTop_toTopOf="@+id/tv_order_date_title"
+            tools:text="@tools:sample/date/ddmmyy" />
+
+        <TextView
+
+            android:id="@+id/tv_order_type"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            app:layout_constraintBottom_toBottomOf="@+id/iv_show_all"
+            app:layout_constraintEnd_toStartOf="@+id/iv_show_all"
+            app:layout_constraintTop_toTopOf="@+id/tv_order_date_title"
+            tools:text="@tools:sample/last_names" />
+
+        <ImageView
+
+            android:id="@+id/iv_show_all"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:padding="@dimen/_8dp"
+            android:src="@drawable/right_arrow"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="@+id/tv_order_date_title" />
+
+        <TextView
+
+            android:id="@+id/tv_order_merchant_title"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/merchant"
+            android:textColor="@android:color/black"
+            android:textSize="16sp"
+            app:layout_constraintStart_toStartOf="@+id/tv_order_date_title"
+            app:layout_constraintTop_toBottomOf="@+id/tv_order_date_title" />
+
+        <TextView
+
+            android:id="@+id/tv_order_merchant"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textSize="14sp"
+            app:layout_constraintBottom_toBottomOf="@+id/tv_order_merchant_title"
+            app:layout_constraintStart_toEndOf="@+id/tv_order_merchant_title"
+            app:layout_constraintTop_toTopOf="@+id/tv_order_merchant_title"
+            tools:text="@tools:sample/last_names" />
+
+
+        <TextView
+
+            android:id="@+id/tv_order_total_title"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/total"
+            android:textColor="@android:color/black"
+            android:textSize="16sp"
+            app:layout_constraintStart_toStartOf="@+id/tv_order_merchant_title"
+            app:layout_constraintTop_toBottomOf="@+id/tv_order_merchant_title" />
+
+        <TextView
+
+            android:id="@+id/tv_order_total"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginEnd="8dp"
+            android:textSize="14sp"
+            app:layout_constraintBottom_toBottomOf="@+id/tv_order_total_title"
+            app:layout_constraintEnd_toEndOf="@+id/iv_show_all"
+            app:layout_constraintTop_toTopOf="@+id/tv_order_total_title"
+            tools:text="@tools:sample/us_zipcodes" />
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+</layout>

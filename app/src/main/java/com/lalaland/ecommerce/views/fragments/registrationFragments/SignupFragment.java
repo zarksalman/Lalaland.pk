@@ -270,7 +270,7 @@ public class SignupFragment extends BaseRegistrationFragment {
 
                 switch (registrationContainer.getCode()) {
                     case SUCCESS_CODE:
-                        Log.d("registerUser", registrationContainer.getData().getName() + ":" + registrationContainer.getData().getEmail());
+                        Log.d("registerUser", registrationContainer.getData().getUser().getName() + ":" + registrationContainer.getData().getUser().getEmail());
                         Log.d("registerUser", AppPreference.getInstance(getContext()).getString(SIGNIN_TOKEN));
                         startActivity();
 

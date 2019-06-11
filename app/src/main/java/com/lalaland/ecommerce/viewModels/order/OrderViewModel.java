@@ -7,6 +7,7 @@ import androidx.lifecycle.AndroidViewModel;
 import androidx.lifecycle.LiveData;
 
 import com.lalaland.ecommerce.data.models.DeliveryChargesData.DeliveryChargesContainer;
+import com.lalaland.ecommerce.data.models.order.OrderDataContainer;
 import com.lalaland.ecommerce.data.repository.OrdersRepository;
 
 public class OrderViewModel extends AndroidViewModel {
@@ -19,7 +20,10 @@ public class OrderViewModel extends AndroidViewModel {
     }
 
     public LiveData<DeliveryChargesContainer> getDeliveryCharges(String token, String cityId) {
-
         return ordersRepository.getDeliveryCharges(token, cityId);
+    }
+
+    public LiveData<OrderDataContainer> getMyOrders(String token, String status) {
+        return ordersRepository.getMyOrders(token, status);
     }
 }

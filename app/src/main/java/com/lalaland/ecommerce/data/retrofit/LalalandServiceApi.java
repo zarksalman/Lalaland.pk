@@ -9,6 +9,7 @@ import com.lalaland.ecommerce.data.models.home.HomeDataContainer;
 import com.lalaland.ecommerce.data.models.login.LoginDataContainer;
 import com.lalaland.ecommerce.data.models.logout.BasicResponse;
 import com.lalaland.ecommerce.data.models.order.OrderDataContainer;
+import com.lalaland.ecommerce.data.models.order.PlacingOrderDataContainer;
 import com.lalaland.ecommerce.data.models.productDetails.ProductDetailDataContainer;
 import com.lalaland.ecommerce.data.models.products.ProductContainer;
 import com.lalaland.ecommerce.data.models.registration.RegistrationContainer;
@@ -44,7 +45,6 @@ public interface LalalandServiceApi {
 
     @POST("wishList")
     Call<WishListContainer> getWishListProducts(@Header("token") String token);
-
 
     @POST("{action}")
     Call<ActionProductsContainer> getActionProducts(@Path("action") String action, @QueryMap Map<String, String> parameter);
@@ -83,7 +83,10 @@ public interface LalalandServiceApi {
     Call<BasicResponse> changeCartProductQuantity(@QueryMap Map<String, String> parameter);
 
     @POST("confirmOrder")
-    Call<OrderDataContainer> confirmOrder(@Header("token") String token, @QueryMap Map<String, String> parameter);
+    Call<PlacingOrderDataContainer> confirmOrder(@Header("token") String token, @QueryMap Map<String, String> parameter);
+
+    @POST("myOrders")
+    Call<OrderDataContainer> getMyOrders(@Header("token") String token, @Query("status") String status);
 
     @POST("register")
     Call<RegistrationContainer> registerUser(@QueryMap Map<String, String> parameters);

@@ -50,7 +50,7 @@
                 android:clickable="true"
                 android:focusable="true"
                 android:onClick="@{() -> listener.closeActivity()}"
-                android:src="@drawable/close_icon" />
+                app:srcCompat="@drawable/close_icon" />
 
         </RelativeLayout>
 
@@ -74,10 +74,23 @@
             android:id="@+id/vp_registration"
             android:layout_width="0dp"
             android:layout_height="0dp"
-            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintBottom_toTopOf="@+id/btn_back"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@id/tl_screen_registration" />
 
+        <Button
+
+            android:id="@+id/btn_back"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:background="@color/colorAccent"
+            android:onClick="@{() -> listener.closeActivity()}"
+            android:text="@string/back"
+            android:textColor="@android:color/white"
+            android:textSize="16sp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent" />
     </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>

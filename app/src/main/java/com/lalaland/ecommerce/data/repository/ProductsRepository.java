@@ -11,7 +11,7 @@ import com.lalaland.ecommerce.data.models.categories.CategoriesContainer;
 import com.lalaland.ecommerce.data.models.category.CategoryContainer;
 import com.lalaland.ecommerce.data.models.home.HomeDataContainer;
 import com.lalaland.ecommerce.data.models.logout.BasicResponse;
-import com.lalaland.ecommerce.data.models.order.OrderDataContainer;
+import com.lalaland.ecommerce.data.models.order.PlacingOrderDataContainer;
 import com.lalaland.ecommerce.data.models.productDetails.ProductDetailDataContainer;
 import com.lalaland.ecommerce.data.models.products.ProductContainer;
 import com.lalaland.ecommerce.data.models.wishList.WishListContainer;
@@ -45,7 +45,7 @@ public class ProductsRepository {
     private MutableLiveData<CategoryContainer> categoryContainerMutableLiveData = new MutableLiveData<>();
     private MutableLiveData<ProductDetailDataContainer> productDetailDataContainerMutableLiveData = new MutableLiveData<>();
     private MutableLiveData<CartContainer> cartContainerMutableLiveData = new MutableLiveData<>();
-    private MutableLiveData<OrderDataContainer> orderDataContainerMutableLiveData = new MutableLiveData<>();
+    private MutableLiveData<PlacingOrderDataContainer> orderDataContainerMutableLiveData = new MutableLiveData<>();
     private MutableLiveData<WishListContainer> wishListContainerMutableLiveData = new MutableLiveData<>();
     private MutableLiveData<CategoriesContainer> categoriesContainerMutableLiveData = new MutableLiveData<>();
 
@@ -347,12 +347,12 @@ public class ProductsRepository {
         return basicResponseMutableLiveData;
     }
 
-    public LiveData<OrderDataContainer> confirmOrder(String header, Map<String, String> parameter) {
+    public LiveData<PlacingOrderDataContainer> confirmOrder(String header, Map<String, String> parameter) {
 
         orderDataContainerMutableLiveData = new MutableLiveData<>();
-        lalalandServiceApi.confirmOrder(header, parameter).enqueue(new Callback<OrderDataContainer>() {
+        lalalandServiceApi.confirmOrder(header, parameter).enqueue(new Callback<PlacingOrderDataContainer>() {
             @Override
-            public void onResponse(Call<OrderDataContainer> call, Response<OrderDataContainer> response) {
+            public void onResponse(Call<PlacingOrderDataContainer> call, Response<PlacingOrderDataContainer> response) {
                 if (response.isSuccessful()) {
                     orderDataContainerMutableLiveData.postValue(response.body());
                 } else
@@ -360,7 +360,7 @@ public class ProductsRepository {
             }
 
             @Override
-            public void onFailure(Call<OrderDataContainer> call, Throwable t) {
+            public void onFailure(Call<PlacingOrderDataContainer> call, Throwable t) {
                 orderDataContainerMutableLiveData.postValue(null);
             }
         });

@@ -7,10 +7,14 @@ import androidx.lifecycle.MutableLiveData;
 
 import com.lalaland.ecommerce.data.models.DeliveryChargesData.DeliveryChargesContainer;
 import com.lalaland.ecommerce.data.models.logout.BasicResponse;
+import com.lalaland.ecommerce.data.models.order.OrderDataContainer;
+import com.lalaland.ecommerce.data.models.order.PlacingOrderDataContainer;
 import com.lalaland.ecommerce.data.retrofit.LalalandServiceApi;
 import com.lalaland.ecommerce.data.retrofit.RetrofitClient;
 import com.lalaland.ecommerce.helpers.AppConstants;
 import com.lalaland.ecommerce.helpers.AppPreference;
+
+import java.util.Map;
 
 import retrofit2.Call;
 import retrofit2.Callback;
@@ -25,6 +29,8 @@ public class OrdersRepository {
 
     private MutableLiveData<BasicResponse> basicResponseMutableLiveData;
     private MutableLiveData<DeliveryChargesContainer> deliveryChargesContainerMutableLiveData;
+    private MutableLiveData<PlacingOrderDataContainer> orderDataContainerMutableLiveData = new MutableLiveData<>();
+    private MutableLiveData<OrderDataContainer> myOrderDataContainerMutableLiveData = new MutableLiveData<>();
 
     private OrdersRepository() {
         lalalandServiceApi = RetrofitClient.getInstance().createClient();
@@ -60,6 +66,50 @@ public class OrdersRepository {
         });
 
         return deliveryChargesContainerMutableLiveData;
+    }
+
+    public LiveData<PlacingOrderDataContainer> confirmOrder(String header, Map<String, String> parameter) {
+
+        orderDataContainerMutableLiveData = new MutableLiveData<>();
+        lalalandServiceApi.confirmOrder(header, parameter).enqueue(new Callback<PlacingOrderDataContainer>() {
+            @Override
+            public void onResponse(Call<PlacingOrderDataContainer> call, Response<PlacingOrderDataContainer> response) {
+                if (response.isSuccessful()) {
+                    orderDataContainerMutableLiveData.postValue(response.body());
+                } else
+                    orderDataContainerMutableLiveData.postValue(null);
+            }
+
+            @Override
+            public void onFailure(Call<PlacingOrderDataContainer> call, Throwable t) {
+                orderDataContainerMutableLiveData.postValue(null);
+            }
+        });
+
+        return orderDataContainerMutableLiveData;
+    }
+
+    public LiveData<OrderDataContainer> getMyOrders(String header, String status) {
+
+        myOrderDataContainerMutableLiveData = new MutableLiveData<>();
+        lalalandServiceApi.getMyOrders(header, status).enqueue(new Callback<OrderDataContainer>() {
+            @Override
+            public void onResponse(Call<OrderDataContainer> call, Response<OrderDataContainer> response) {
+
+                if (response.isSuccessful()) {
+                    myOrderDataContainerMutableLiveData.postValue(response.body());
+                } else {
+                    myOrderDataContainerMutableLiveData.postValue(null);
+                }
+            }
+
+            @Override
+            public void onFailure(Call<OrderDataContainer> call, Throwable t) {
+                myOrderDataContainerMutableLiveData.postValue(null);
+            }
+        });
+
+        return myOrderDataContainerMutableLiveData;
     }
 
     private void checkResponseSource(Response response) {

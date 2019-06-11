@@ -100,7 +100,7 @@ public class CheckoutScreen extends AppCompatActivity {
             isUserAddressNull = true;
         } else {
 
-            activityCheckoutScreenBinding.tvUserName.setText(userAddresses.getUserName());
+            activityCheckoutScreenBinding.tvUserName.setText(userAddresses.getUserNameAddress());
             activityCheckoutScreenBinding.tvUserAddress.setText(userAddresses.getShippingAddress());
             activityCheckoutScreenBinding.tvUserCityPostalCode.setText(String.valueOf(userAddresses.getPostalCode()));
             activityCheckoutScreenBinding.tvUserMobile.setText(userAddresses.getPhone());

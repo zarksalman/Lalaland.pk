@@ -58,6 +58,7 @@ public class ActionProductListingActivity extends AppCompatActivity implements A
     GridLayoutManager gridLayoutManager;
     private boolean isScrolling;
     int start = 0, length = 20, size = 20;
+    String sortBy = "az";
 
     @Override
 
@@ -120,6 +121,7 @@ public class ActionProductListingActivity extends AppCompatActivity implements A
                     break;
             }
 
+            parameter.put(SORT_BY, sortBy);
         }
 
         productViewModel = ViewModelProviders.of(this).get(ProductViewModel.class);
@@ -244,23 +246,25 @@ public class ActionProductListingActivity extends AppCompatActivity implements A
                 break;
 
             case R.id.tv_newest:
-                parameter.put("sort_by", "newest");
+                parameter.put(SORT_BY, "newest");
                 break;
 
             case R.id.tv_oldest:
-                parameter.put("sort_by", "oldest");
+                parameter.put(SORT_BY, "oldest");
                 break;
 
             case R.id.tv_low_to_high:
-                parameter.put("sort_by", "price_asc");
+                parameter.put(SORT_BY, "price_asc");
                 break;
 
             case R.id.tv_high_to_low:
-                parameter.put("sort_by", "price_desc");
+                parameter.put(SORT_BY, "price_desc");
                 break;
         }
 
         parameter.put(ID, action_id);
+        actionProductsArrayList.clear();
+        actionProductsAdapter.notifyDataSetChanged();
         setActionProducts();
         mBottomSheetDialog.hide();
         showList();
@@ -290,11 +294,16 @@ public class ActionProductListingActivity extends AppCompatActivity implements A
                         start += size;
                         start++;
 
+                        if (parameter.containsKey(SORT_BY)) {
+                            sortBy = parameter.get(SORT_BY);
+                        }
+
                         parameter.clear();
+
                         parameter.put(ID, action_id);
                         parameter.put(START_INDEX, String.valueOf(start));
                         parameter.put(LENGTH, String.valueOf(length));
-
+                        parameter.put(SORT_BY, sortBy);
                     }
                 } else
                     Log.d(AppConstants.TAG, actionProductsContainer.getMsg());

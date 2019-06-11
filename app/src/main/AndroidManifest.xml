@@ -9,14 +9,18 @@
         android:name=".LalalandApplication"
         android:allowBackup="true"
         android:label="@string/app_name"
-        android:roundIcon="@mipmap/ic_launcher_round"
         android:largeHeap="true"
+        android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme.NoActionBar">
         <activity
+            android:name=".views.activities.OrderListingActivity"
+            android:label="@string/title_activity_order_listing"
+            android:theme="@style/AppTheme.NoActionBar.NoActionBar"></activity>
+        <activity
             android:name=".views.activities.SelectCityActivity"
             android:label="@string/title_activity_select_city"
-            android:theme="@style/AppTheme.NoActionBar.NoActionBar"></activity>
+            android:theme="@style/AppTheme.NoActionBar.NoActionBar" />
         <activity android:name=".views.activities.EditAccountInformationActivity" />
         <activity android:name=".views.activities.AccountInformationActivity" />
         <activity android:name=".views.activities.AddressCreationActivity" />

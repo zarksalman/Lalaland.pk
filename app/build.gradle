@@ -46,7 +46,7 @@ dependencies {
 
     def paging_version = "2.1.0"
     implementation "androidx.paging:paging-runtime:$paging_version"
-    
+
 
     // network calls
     implementation 'com.squareup.retrofit2:retrofit:2.5.0'
