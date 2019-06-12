@@ -14,25 +14,36 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme.NoActionBar">
         <activity
+            android:name=".views.activities.GlobalSearchActivity"
+            android:windowSoftInputMode="adjustPan" />
+
+        <activity android:name=".views.activities.OrderReceivedActivity" />
+
+        <activity
             android:name=".views.activities.OrderDetailActivity"
             android:label="@string/title_activity_order_detail"
-            android:theme="@style/AppTheme.NoActionBar.NoActionBar"></activity>
+            android:theme="@style/AppTheme.NoActionBar.NoActionBar" />
+
         <activity
             android:name=".views.activities.OrderListingActivity"
             android:label="@string/title_activity_order_listing"
             android:theme="@style/AppTheme.NoActionBar.NoActionBar" />
+
         <activity
             android:name=".views.activities.SelectCityActivity"
             android:label="@string/title_activity_select_city"
             android:theme="@style/AppTheme.NoActionBar.NoActionBar" />
+
         <activity android:name=".views.activities.EditAccountInformationActivity" />
         <activity android:name=".views.activities.AccountInformationActivity" />
         <activity android:name=".views.activities.AddressCreationActivity" />
         <activity android:name=".views.activities.ShippingAddressActivity" />
+
         <activity
             android:name=".views.activities.CheckoutScreen"
             android:label="@string/title_activity_checkout_screen"
             android:theme="@style/AppTheme.NoActionBar.NoActionBar" />
+
         <activity
             android:name=".views.activities.SplashActivity"
             android:theme="@style/AppTheme.NoActionBar.NoActionBar">
@@ -42,10 +53,12 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+
         <activity
             android:name=".views.activities.ActionProductListingActivity"
             android:label="@string/title_activity_product_listing"
             android:theme="@style/AppTheme.NoActionBar.NoActionBar" />
+
         <activity
             android:name=".views.activities.ProductDetailActivity"
             android:label="@string/title_activity_product_detail"
@@ -58,6 +71,7 @@
             android:name=".views.activities.RegistrationActivity"
             android:label="@string/title_activity_registration"
             android:theme="@style/AppTheme.NoActionBar" />
+
         <activity
             android:name=".views.activities.MainActivity"
             android:label="@string/app_name" />

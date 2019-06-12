@@ -75,6 +75,8 @@ public class AppConstants {
     public static final String REGISTER = "REGISTER";
     public static final String RECOMMENDED_CAT_TOKEN = "recommended_cat";
 
+    public static final String SEARCHES = "searches";
+
     public static int CASH_TRANSFER_TYPE = 1;
     public static int LOAD_HOME_FRAGMENT_INDEX = 0;
     public static final String START_INDEX = "start";

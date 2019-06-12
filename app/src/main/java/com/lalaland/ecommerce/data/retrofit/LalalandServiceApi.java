@@ -5,6 +5,7 @@ import com.lalaland.ecommerce.data.models.actionProducs.ActionProductsContainer;
 import com.lalaland.ecommerce.data.models.cart.CartContainer;
 import com.lalaland.ecommerce.data.models.categories.CategoriesContainer;
 import com.lalaland.ecommerce.data.models.category.CategoryContainer;
+import com.lalaland.ecommerce.data.models.globalSearch.SearchDataContainer;
 import com.lalaland.ecommerce.data.models.home.HomeDataContainer;
 import com.lalaland.ecommerce.data.models.login.LoginDataContainer;
 import com.lalaland.ecommerce.data.models.logout.BasicResponse;
@@ -92,10 +93,8 @@ public interface LalalandServiceApi {
     @POST("myOrderProducts")
     Call<OrderDetailContainer> getMyOrdersProducts(@Header("token") String token, @Query("order_id") String orderId);
 
-
     @POST("register")
     Call<RegistrationContainer> registerUser(@QueryMap Map<String, String> parameters);
-
 
     @POST("addAddress")
     Call<AddressDataContainer> addNewAddress(@Header("token") String cart_session, @QueryMap Map<String, String> parameter);
@@ -114,4 +113,7 @@ public interface LalalandServiceApi {
 
     @POST("changePassword")
     Call<BasicResponse> changePassword(@Header("token") String token, @QueryMap Map<String, String> parameters);
+
+    @POST("globalSearch")
+    Call<SearchDataContainer> globalSearch(@Query("qstr") String queryString);
 }

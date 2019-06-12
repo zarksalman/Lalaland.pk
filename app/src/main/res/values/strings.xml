@@ -199,5 +199,16 @@
     <string name="order_date_format">Order Date: %1$s </string>
     <string name="order_merchant_format">Merchant: %1$s </string>
     <string name="order_detail">Order Detail</string>
+    <string name="order_received">Order Received</string>
+    <string name="order_placed_successful"> You order has been placed successfully</string>
+    <string name="wait_for_payment"> Wait For Your Payment</string>
+    <string name="total_amount">Total Amount</string>
+    <string name="track_order">Track Order</string>
+    <string name="continue_shopping">Continue Shopping</string>
+    <string name="your_order_will_be_deliver_within_5_to_7_working_days">your order will be deliver within 5 to 7 working days</string>
+    <string name="search_lalaland">Search lalaland</string>
+    <string name="find_your_next_favourite_thing">Find your next favourite thing</string>
+    <string name="search_history">Search History</string>
+    <string name="clear_all">Clear All</string>
 
 </resources>

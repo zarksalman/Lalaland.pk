@@ -3,6 +3,7 @@ package com.lalaland.ecommerce.views.activities;
 import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
+import android.os.Parcelable;
 import android.view.View;
 import android.widget.Toast;
 
@@ -29,6 +30,7 @@ import java.util.Map;
 
 import static com.lalaland.ecommerce.helpers.AppConstants.CASH_TRANSFER_TYPE;
 import static com.lalaland.ecommerce.helpers.AppConstants.GENERAL_ERROR;
+import static com.lalaland.ecommerce.helpers.AppConstants.ORDER_TOTAL;
 import static com.lalaland.ecommerce.helpers.AppConstants.PAYMENT_LOWEST_LIMIT;
 import static com.lalaland.ecommerce.helpers.AppConstants.SIGNIN_TOKEN;
 import static com.lalaland.ecommerce.helpers.AppConstants.SUCCESS_CODE;
@@ -181,7 +183,12 @@ public class CheckoutScreen extends AppCompatActivity {
 
                 if (orderDataContainer.getCode().equals(SUCCESS_CODE)) {
                     Toast.makeText(this, orderDataContainer.getMsg(), Toast.LENGTH_SHORT).show();
-                    startActivity(new Intent(this, MainActivity.class));
+
+                    Intent intent = new Intent(this, OrderReceivedActivity.class);
+                    intent.putExtra(ORDER_TOTAL, String.valueOf(totalBill));
+                    intent.putParcelableArrayListExtra("recommended_products", (ArrayList<? extends Parcelable>) orderDataContainer.getData().getProducts());
+                    startActivity(intent);
+
                     finish();
                 }
 

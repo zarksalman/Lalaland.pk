@@ -1,7 +1,10 @@
 package com.lalaland.ecommerce.views.activities;
 
+import android.content.Context;
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
+import android.view.inputmethod.InputMethodManager;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.databinding.DataBindingUtil;
@@ -100,6 +103,19 @@ public class MainActivity extends AppCompatActivity {
 
     void setListeners() {
         activityMainBinding.navView.setOnNavigationItemSelectedListener(mOnNavigationItemSelectedListener);
+
+        activityMainBinding.ivSvItemFg.setOnClickListener(v -> {
+            
+            //closeKeyboard();
+            startActivity(new Intent(MainActivity.this, GlobalSearchActivity.class));
+
+        });
+
+    }
+
+    @Override
+    protected void onStart() {
+        super.onStart();
     }
 
     void replaceFragment(Fragment fragment, int index) {
@@ -145,5 +161,16 @@ public class MainActivity extends AppCompatActivity {
                 activityMainBinding.tvAppName.setText(getResources().getString(R.string.app_name));
                 replaceFragment(HomeFragment.newInstance(), 0);
         }
+    }
+
+    void closeKeyboard() {
+        View view = this.getCurrentFocus();
+
+        if (view != null) {
+
+            InputMethodManager inputMethodManager = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
+            inputMethodManager.hideSoftInputFromWindow(view.getWindowToken(), 0);
+        }
+
     }
 }

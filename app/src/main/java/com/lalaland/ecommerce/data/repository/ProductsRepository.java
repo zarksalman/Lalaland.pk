@@ -9,6 +9,7 @@ import com.lalaland.ecommerce.data.models.actionProducs.ActionProductsContainer;
 import com.lalaland.ecommerce.data.models.cart.CartContainer;
 import com.lalaland.ecommerce.data.models.categories.CategoriesContainer;
 import com.lalaland.ecommerce.data.models.category.CategoryContainer;
+import com.lalaland.ecommerce.data.models.globalSearch.SearchDataContainer;
 import com.lalaland.ecommerce.data.models.home.HomeDataContainer;
 import com.lalaland.ecommerce.data.models.logout.BasicResponse;
 import com.lalaland.ecommerce.data.models.order.newOrderPlacing.PlacingOrderDataContainer;
@@ -48,6 +49,7 @@ public class ProductsRepository {
     private MutableLiveData<PlacingOrderDataContainer> orderDataContainerMutableLiveData = new MutableLiveData<>();
     private MutableLiveData<WishListContainer> wishListContainerMutableLiveData = new MutableLiveData<>();
     private MutableLiveData<CategoriesContainer> categoriesContainerMutableLiveData = new MutableLiveData<>();
+    private MutableLiveData<SearchDataContainer> searchDataContainerMutableLiveData = new MutableLiveData<>();
 
     private ProductsRepository() {
         lalalandServiceApi = RetrofitClient.getInstance().createClient();
@@ -414,6 +416,31 @@ public class ProductsRepository {
 
         return categoriesContainerMutableLiveData;
     }
+
+    public LiveData<SearchDataContainer> searchItems(String queryString) {
+
+        searchDataContainerMutableLiveData = new MutableLiveData<>();
+
+        lalalandServiceApi.globalSearch(queryString).enqueue(new Callback<SearchDataContainer>() {
+            @Override
+            public void onResponse(Call<SearchDataContainer> call, Response<SearchDataContainer> response) {
+
+                if (response.isSuccessful()) {
+                    searchDataContainerMutableLiveData.postValue(response.body());
+                } else {
+                    searchDataContainerMutableLiveData.postValue(null);
+                }
+            }
+
+            @Override
+            public void onFailure(Call<SearchDataContainer> call, Throwable t) {
+                searchDataContainerMutableLiveData.postValue(null);
+            }
+        });
+
+        return searchDataContainerMutableLiveData;
+    }
+
     private void checkResponseSource(Response response) {
 
         Log.d("response_source", String.valueOf(response.code()) + response.errorBody());

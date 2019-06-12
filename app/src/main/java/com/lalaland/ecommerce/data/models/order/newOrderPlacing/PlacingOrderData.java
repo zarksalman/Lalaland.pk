@@ -2,17 +2,23 @@ package com.lalaland.ecommerce.data.models.order.newOrderPlacing;
 
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
+import com.lalaland.ecommerce.data.models.products.Product;
+
+import java.util.List;
 
 public class PlacingOrderData {
-    @SerializedName("order_id")
+
+
+    @SerializedName("products")
     @Expose
-    private Integer orderId;
+    private List<Product> products = null;
 
-    public Integer getOrderId() {
-        return orderId;
+    public List<Product> getProducts() {
+        return products;
     }
 
-    public void setOrderId(Integer orderId) {
-        this.orderId = orderId;
+    public void setProducts(List<Product> products) {
+        this.products = products;
     }
+
 }

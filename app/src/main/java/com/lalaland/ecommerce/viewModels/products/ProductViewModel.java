@@ -10,6 +10,7 @@ import androidx.paging.PagedList;
 
 import com.lalaland.ecommerce.data.models.actionProducs.ActionProductsContainer;
 import com.lalaland.ecommerce.data.models.cart.CartContainer;
+import com.lalaland.ecommerce.data.models.globalSearch.SearchDataContainer;
 import com.lalaland.ecommerce.data.models.logout.BasicResponse;
 import com.lalaland.ecommerce.data.models.order.newOrderPlacing.PlacingOrderDataContainer;
 import com.lalaland.ecommerce.data.models.productDetails.ProductDetailDataContainer;
@@ -91,5 +92,10 @@ public class ProductViewModel extends AndroidViewModel {
 
     public LiveData<WishListContainer> getWishListProducts(String token) {
         return productsRepository.getWishListProducts(token);
+    }
+
+    public LiveData<SearchDataContainer> searchItems(String queryString) {
+
+        return productsRepository.searchItems(queryString);
     }
 }
