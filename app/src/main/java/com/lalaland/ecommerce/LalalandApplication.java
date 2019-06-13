@@ -8,6 +8,7 @@ import androidx.multidex.MultiDex;
 import com.facebook.FacebookSdk;
 import com.facebook.appevents.AppEventsLogger;
 import com.facebook.stetho.Stetho;
+import com.lalaland.ecommerce.data.database.LalalandDatabases;
 import com.lalaland.ecommerce.helpers.AppConstants;
 
 public class LalalandApplication extends Application {
@@ -16,6 +17,7 @@ public class LalalandApplication extends Application {
     public void onCreate() {
         super.onCreate();
         AppConstants.mContext = getApplicationContext();
+        LalalandDatabases.getInstance(AppConstants.mContext);
 
         FacebookSdk.sdkInitialize(getApplicationContext());
         AppEventsLogger.activateApp(this);

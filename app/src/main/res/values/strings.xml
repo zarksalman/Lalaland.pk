@@ -210,5 +210,7 @@
     <string name="find_your_next_favourite_thing">Find your next favourite thing</string>
     <string name="search_history">Search History</string>
     <string name="clear_all">Clear All</string>
+    <!--<string name="server_client_id">122765248262-6n4knohpbldpkuc3bu11i5oovu2lhvg5.apps.googleusercontent.com</string>-->
+    <string name="server_client_id">122765248262-03m7dmonpdot2a59ertdtovcgkja4sq5.apps.googleusercontent.com</string>
 
 </resources>

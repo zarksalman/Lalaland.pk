@@ -10,6 +10,7 @@ import androidx.paging.PagedList;
 
 import com.lalaland.ecommerce.data.models.actionProducs.ActionProductsContainer;
 import com.lalaland.ecommerce.data.models.cart.CartContainer;
+import com.lalaland.ecommerce.data.models.globalSearch.SearchCategory;
 import com.lalaland.ecommerce.data.models.globalSearch.SearchDataContainer;
 import com.lalaland.ecommerce.data.models.logout.BasicResponse;
 import com.lalaland.ecommerce.data.models.order.newOrderPlacing.PlacingOrderDataContainer;
@@ -20,6 +21,7 @@ import com.lalaland.ecommerce.data.models.wishList.WishListContainer;
 import com.lalaland.ecommerce.data.pagging.ProductsDataSource;
 import com.lalaland.ecommerce.data.repository.ProductsRepository;
 
+import java.util.List;
 import java.util.Map;
 
 public class ProductViewModel extends AndroidViewModel {
@@ -95,7 +97,22 @@ public class ProductViewModel extends AndroidViewModel {
     }
 
     public LiveData<SearchDataContainer> searchItems(String queryString) {
-
         return productsRepository.searchItems(queryString);
+    }
+
+    public LiveData<List<SearchCategory>> getAllSearchCategories() {
+        return productsRepository.getAllSearchCategory();
+    }
+
+    public void deleteSearch(SearchCategory searchCategory) {
+        productsRepository.deleteSearch(searchCategory);
+    }
+
+    public void deleteAllSearches() {
+        productsRepository.deleteAllSearch();
+    }
+
+    public void insertSearch(SearchCategory searchCategory) {
+        productsRepository.insertSearch(searchCategory);
     }
 }

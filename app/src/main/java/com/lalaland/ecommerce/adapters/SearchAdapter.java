@@ -49,19 +49,19 @@ public class SearchAdapter extends RecyclerView.Adapter<SearchAdapter.SearchView
         return filteredSearchList.size();
     }
 
-    public void setData(List<String> cityList) {
+    public void setData(List<String> searchList) {
 
-        mSearches = cityList;
-        filteredSearchList.addAll(cityList);
+        mSearches = searchList;
+        filteredSearchList.addAll(searchList);
         notifyDataSetChanged();
     }
 
-    public void onSearchClicked(String search) {
-        mSearchListener.onSearchClicked(search);
+    public void onSearchClicked(int position) {
+        mSearchListener.onSearchClicked(position);
     }
 
-    public void onSearchDelete(String search) {
-        mSearchListener.onSearchDelete(search);
+    public void onSearchDelete(int position) {
+        mSearchListener.onSearchDelete(position);
     }
 
     public void filter(String text) {
@@ -96,11 +96,14 @@ public class SearchAdapter extends RecyclerView.Adapter<SearchAdapter.SearchView
             mSearchItemBinding.tvSearch.setText(search);
 
             mSearchItemBinding.searchParent.setOnClickListener(v -> {
-                onSearchClicked(mSearches.get(getAdapterPosition()));
+                onSearchClicked(getAdapterPosition());
             });
 
             mSearchItemBinding.ivSearchDelete.setOnClickListener(v -> {
-                onSearchDelete(mSearches.get(getAdapterPosition()));
+
+                if (getAdapterPosition() != RecyclerView.NO_POSITION)
+                    onSearchDelete(getAdapterPosition());
+
             });
 
             mSearchItemBinding.executePendingBindings();
@@ -108,8 +111,8 @@ public class SearchAdapter extends RecyclerView.Adapter<SearchAdapter.SearchView
     }
 
     public interface SearchListener {
-        void onSearchClicked(String search);
+        void onSearchClicked(int position);
 
-        void onSearchDelete(String search);
+        void onSearchDelete(int position);
     }
 }

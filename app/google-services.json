@@ -1,0 +1,47 @@
+{
+  "project_info": {
+    "project_number": "122765248262",
+    "firebase_url": "https://lalaland-live.firebaseio.com",
+    "project_id": "lalaland-live",
+    "storage_bucket": "lalaland-live.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:122765248262:android:6a6ce87e789031b0",
+        "android_client_info": {
+          "package_name": "com.lalaland.ecommerce"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "122765248262-6butbqiml9qp0nf49cjvv44889g4vp7l.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyA3Ev3wVIOagUvq-fDNWz5lxNyO2DnchTI"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "122765248262-03m7dmonpdot2a59ertdtovcgkja4sq5.apps.googleusercontent.com",
+              "client_type": 3
+            },
+            {
+              "client_id": "122765248262-beil3upd402lpr8uuth29edbbta6737v.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "com.sazman.lalaland"
+              }
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

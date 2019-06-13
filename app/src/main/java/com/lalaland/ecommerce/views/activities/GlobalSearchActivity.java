@@ -1,5 +1,6 @@
 package com.lalaland.ecommerce.views.activities;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Toast;
@@ -23,10 +24,13 @@ import com.lalaland.ecommerce.viewModels.products.ProductViewModel;
 import java.util.ArrayList;
 import java.util.List;
 
-import static com.lalaland.ecommerce.helpers.AppConstants.SEARCHES;
+import static com.lalaland.ecommerce.helpers.AppConstants.ACTION_ID;
+import static com.lalaland.ecommerce.helpers.AppConstants.ACTION_NAME;
+import static com.lalaland.ecommerce.helpers.AppConstants.PRODUCT_ID;
+import static com.lalaland.ecommerce.helpers.AppConstants.PRODUCT_TYPE;
 import static com.lalaland.ecommerce.helpers.AppConstants.SUCCESS_CODE;
 
-public class GlobalSearchActivity extends AppCompatActivity implements SearchAdapter.SearchListener, SearchProductAdapter.SearchListener {
+public class GlobalSearchActivity extends AppCompatActivity implements SearchProductAdapter.SearchListener {
 
     private ActivityGlobalSearchBinding activityGlobalSearchBinding;
     private AppPreference appPreference;
@@ -34,11 +38,14 @@ public class GlobalSearchActivity extends AppCompatActivity implements SearchAda
     private String[] globalSearches;
     List<String> mGlobalSearches = new ArrayList<>();
     private SearchAdapter searchAdapter;
-    private SearchProductAdapter searchProductAdapter;
+    private SearchProductAdapter searchProductAdapter, saveSearchAdapter;
 
     private ProductViewModel productViewModel;
     private List<SearchProduct> searchProducts = new ArrayList<>();
     private List<SearchCategory> searchCategories = new ArrayList<>();
+    private List<SearchCategory> savedSearchCategories = new ArrayList<>();
+    private boolean isHistory = true;
+    private Intent intent;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -46,24 +53,46 @@ public class GlobalSearchActivity extends AppCompatActivity implements SearchAda
         activityGlobalSearchBinding = DataBindingUtil.setContentView(this, R.layout.activity_global_search);
 
         appPreference = AppPreference.getInstance(this);
-        searches.append(appPreference.getString(SEARCHES));
+        //searches.append(appPreference.getString(SEARCHES));
 
         productViewModel = ViewModelProviders.of(this).get(ProductViewModel.class);
 
         setHistoryAdapter();
         setAdapter();
 
+        productViewModel.getAllSearchCategories().observe(this, searchCategories1 -> {
+
+            if (searchCategories1.size() > 0) {
+                savedSearchCategories.clear();
+                savedSearchCategories.addAll(searchCategories1);
+                saveSearchAdapter.notifyDataSetChanged();
+
+                if (isHistory) {
+                    activityGlobalSearchBinding.recentSearches.setVisibility(View.VISIBLE);
+                    activityGlobalSearchBinding.emptyState.setVisibility(View.GONE);
+                }
+            } else {
+                activityGlobalSearchBinding.recentSearches.setVisibility(View.GONE);
+                activityGlobalSearchBinding.emptyState.setVisibility(View.VISIBLE);
+            }
+        });
         activityGlobalSearchBinding.svGlobalSearch.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
             @Override
             public boolean onQueryTextSubmit(String query) {
-                searchAdapter.filter(query);
+                //searchAdapter.filter(query);
 
                 if (query.isEmpty()) {
-                    activityGlobalSearchBinding.recentSearches.setVisibility(View.VISIBLE);
+
+                    if (searchCategories.size() > 0)
+                        activityGlobalSearchBinding.recentSearches.setVisibility(View.VISIBLE);
+                    else
+                        activityGlobalSearchBinding.emptyState.setVisibility(View.VISIBLE);
+
                     searchProducts.clear();
+                    searchCategories.clear();
+
                 } else {
                     callToApi(query);
-                    activityGlobalSearchBinding.rvSearchProducts.setVisibility(View.GONE);
                 }
 
                 return true;
@@ -71,52 +100,58 @@ public class GlobalSearchActivity extends AppCompatActivity implements SearchAda
 
             @Override
             public boolean onQueryTextChange(String newText) {
-                searchAdapter.filter(newText);
+                //  searchAdapter.filter(newText);
 
-                if (newText.isEmpty() && !searches.toString().isEmpty()) {
+                if (newText.isEmpty() && savedSearchCategories.size() > 0) {
                     activityGlobalSearchBinding.recentSearches.setVisibility(View.VISIBLE);
-                    searchProducts.clear();
-                    searchAdapter.notifyDataSetChanged();
+                    activityGlobalSearchBinding.rvSearchProducts.setVisibility(View.GONE);
+                    searchCategories.clear();
+                    saveSearchAdapter.notifyDataSetChanged();
+                } else if (savedSearchCategories.size() < 1) {
+                    activityGlobalSearchBinding.emptyState.setVisibility(View.VISIBLE);
                 }
                 return true;
             }
         });
 
+        activityGlobalSearchBinding.tvClearAll.setOnClickListener(v -> {
+
+            if (savedSearchCategories.size() > 0)
+                productViewModel.deleteAllSearches();
+        });
     }
 
     private void setHistoryAdapter() {
 
-        if (!searches.toString().isEmpty()) {
+        if (savedSearchCategories.size() > 0) {
+
             activityGlobalSearchBinding.emptyState.setVisibility(View.GONE);
-            globalSearches = searches.toString().split(",");
-            //   mGlobalSearches = Arrays.asList(globalSearches);
-
-            for (int i = 0; i < globalSearches.length; i++) {
-                mGlobalSearches.add(globalSearches[i]);
-            }
-
             activityGlobalSearchBinding.recentSearches.setVisibility(View.VISIBLE);
+
+        } else {
+            activityGlobalSearchBinding.emptyState.setVisibility(View.VISIBLE);
         }
 
-        searchAdapter = new SearchAdapter(this, this);
+        saveSearchAdapter = new SearchProductAdapter(this, this, true);
         activityGlobalSearchBinding.rvSearches.setLayoutManager(new LinearLayoutManager(this));
-        activityGlobalSearchBinding.rvSearches.setAdapter(searchAdapter);
-        searchAdapter.setData(mGlobalSearches);
-
+        activityGlobalSearchBinding.rvSearches.setAdapter(saveSearchAdapter);
+        saveSearchAdapter.setData(savedSearchCategories);
+        saveSearchAdapter.notifyDataSetChanged();
     }
 
     private void setAdapter() {
 
-        searchProductAdapter = new SearchProductAdapter(this, this);
-        searchProductAdapter.setData(searchCategories);
+        searchProductAdapter = new SearchProductAdapter(this, this, false);
         activityGlobalSearchBinding.rvSearchProducts.setHasFixedSize(true);
         activityGlobalSearchBinding.rvSearchProducts.setAdapter(searchProductAdapter);
-        activityGlobalSearchBinding.rvSearchProducts.setLayoutManager(new LinearLayoutManager(this, RecyclerView.VERTICAL, true));
+        activityGlobalSearchBinding.rvSearchProducts.setLayoutManager(new LinearLayoutManager(this, RecyclerView.VERTICAL, false));
+        searchProductAdapter.setData(searchCategories);
     }
 
     private void callToApi(String queryString) {
 
         activityGlobalSearchBinding.recentSearches.setVisibility(View.GONE);
+        activityGlobalSearchBinding.emptyState.setVisibility(View.GONE);
 
         productViewModel.searchItems(queryString).observe(this, searchDataContainer -> {
 
@@ -129,22 +164,12 @@ public class GlobalSearchActivity extends AppCompatActivity implements SearchAda
 
                 createModelsForAdapter();
 
-                if (searchProducts.size() > 0) {
+                if (searchCategories.size() > 0) {
 
                     activityGlobalSearchBinding.emptyState.setVisibility(View.GONE);
                     activityGlobalSearchBinding.rvSearchProducts.setVisibility(View.VISIBLE);
 
-                    if (!searches.toString().isEmpty()) {
-                        searches.append(",");
-                        mGlobalSearches.add(queryString);
-                        searchAdapter.notifyItemInserted(mGlobalSearches.size());
-                    }
-
-                    searches.append(queryString);
-
-                    appPreference.setString(SEARCHES, searches.toString());
                 } else {
-
                     Toast.makeText(this, "Items Not Found", Toast.LENGTH_SHORT).show();
                     searchCategories.clear();
                 }
@@ -176,26 +201,48 @@ public class GlobalSearchActivity extends AppCompatActivity implements SearchAda
     }
 
     @Override
-    public void onSearchClicked(String search) {
+    public void onSearchProductClicked(int position, boolean isHistory) {
 
-        Toast.makeText(this, "Clicked", Toast.LENGTH_SHORT).show();
+        this.isHistory = isHistory;
+        SearchCategory searchCategory;
+
+        if (isHistory) {
+            searchCategory = savedSearchCategories.get(position);
+        } else {
+            searchCategory = searchCategories.get(position);
+            productViewModel.insertSearch(searchCategory);
+        }
+
+        // if it is a category instead of product
+        if (searchCategory.getParentId() != -1) {
+            intent = new Intent(this, ActionProductListingActivity.class);
+            intent.putExtra(ACTION_NAME, "Search Products");
+            intent.putExtra(PRODUCT_TYPE, "category");
+            intent.putExtra(ACTION_ID, String.valueOf(searchCategory.getId()));
+        } else {
+
+            intent = new Intent(this, ProductDetailActivity.class);
+            intent.putExtra(PRODUCT_ID, searchCategory.getId());
+        }
+
+        startActivity(intent);
+        //   Toast.makeText(this, "insert and show details", Toast.LENGTH_SHORT).show();
+
     }
 
     @Override
-    public void onSearchDelete(String search) {
+    public void onSearchProductDelete(int position, boolean isHistory) {
 
-        int index = mGlobalSearches.indexOf(search);
-        mGlobalSearches.remove(search);
-        searchAdapter.notifyItemRemoved(index);
+        this.isHistory = isHistory;
+
+        if (isHistory) {
+            SearchCategory searchCategory = savedSearchCategories.get(position);
+            productViewModel.deleteSearch(searchCategory);
+        }
     }
 
     @Override
-    public void onSearchClicked(SearchCategory search) {
-
-    }
-
-    @Override
-    public void onSearchDelete(SearchCategory search) {
-
+    public void onBackPressed() {
+        finish();
     }
 }

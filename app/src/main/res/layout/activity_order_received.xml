@@ -107,9 +107,10 @@
 
                 android:id="@+id/btn_track_order"
                 android:layout_width="0dp"
-                android:layout_height="@dimen/_50dp"
+                android:layout_height="@dimen/_40dp"
                 android:layout_margin="@dimen/_4dp"
                 android:layout_weight=".5"
+                android:textSize="12sp"
                 android:background="@drawable/bg_round_corner_transparent_accent"
                 android:onClick="@{(view)->listener.trackOrder(view)}"
                 android:text="@string/track_order"
@@ -119,9 +120,10 @@
 
                 android:id="@+id/btn_continue_shopping"
                 android:layout_width="0dp"
-                android:layout_height="wrap_content"
+                android:layout_height="40dp"
                 android:layout_margin="@dimen/_4dp"
                 android:layout_weight=".5"
+                android:textSize="12sp"
                 android:background="@drawable/btn_bg_round_corner_accent"
                 android:onClick="@{(view)->listener.continueShopping(view)}"
                 android:text="@string/continue_shopping"
@@ -138,6 +140,7 @@
             android:text="@string/your_order_will_be_deliver_within_5_to_7_working_days"
             android:textColor="@android:color/black"
             app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintBottom_toTopOf="@id/tv_recommendation_title"
             app:layout_constraintTop_toBottomOf="@+id/btns_container" />
 
         <TextView
@@ -145,21 +148,21 @@
             android:id="@+id/tv_recommendation_title"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_margin="@dimen/_16dp"
+            android:layout_marginStart="@dimen/_16dp"
+            android:layout_marginBottom="@dimen/_8dp"
             android:text="@string/recommendations"
             android:textColor="@android:color/black"
             android:textSize="18sp"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/tv_delivery_days" />
+            app:layout_constraintBottom_toTopOf="@+id/rv_recommended_products" />
 
         <androidx.recyclerview.widget.RecyclerView
 
             android:id="@+id/rv_recommended_products"
-            android:layout_width="match_parent"
-            android:layout_height="0dp"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/tv_recommendation_title" />
+            app:layout_constraintStart_toStartOf="parent" />
     </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>

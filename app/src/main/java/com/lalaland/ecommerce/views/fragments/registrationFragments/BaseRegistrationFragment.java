@@ -22,15 +22,39 @@ import com.facebook.FacebookException;
 import com.facebook.login.LoginManager;
 import com.facebook.login.LoginResult;
 import com.facebook.login.widget.LoginButton;
+import com.google.android.gms.auth.api.Auth;
+import com.google.android.gms.auth.api.signin.GoogleSignIn;
+import com.google.android.gms.auth.api.signin.GoogleSignInAccount;
+import com.google.android.gms.auth.api.signin.GoogleSignInClient;
+import com.google.android.gms.auth.api.signin.GoogleSignInOptions;
+import com.google.android.gms.common.Scopes;
+import com.google.android.gms.common.SignInButton;
+import com.google.android.gms.common.api.ApiException;
+import com.google.android.gms.common.api.GoogleApiClient;
+import com.google.android.gms.common.api.Scope;
+import com.google.android.gms.tasks.Task;
+import com.lalaland.ecommerce.R;
 import com.lalaland.ecommerce.helpers.AppPreference;
 import com.lalaland.ecommerce.viewModels.user.LoginViewModel;
 import com.lalaland.ecommerce.viewModels.user.RegistrationViewModel;
 
+import org.json.JSONException;
+import org.json.JSONObject;
+
+import java.io.IOException;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
 import java.util.Arrays;
 import java.util.HashMap;
 import java.util.Map;
+
+import okhttp3.Call;
+import okhttp3.Callback;
+import okhttp3.FormBody;
+import okhttp3.OkHttpClient;
+import okhttp3.Request;
+import okhttp3.RequestBody;
+import okhttp3.Response;
 
 import static com.lalaland.ecommerce.helpers.AppConstants.ACCOUNT_CREATION_ERROR;
 import static com.lalaland.ecommerce.helpers.AppConstants.AUTHORIZATION_FAIL_CODE;
@@ -42,6 +66,7 @@ import static com.lalaland.ecommerce.helpers.AppConstants.GENDER;
 import static com.lalaland.ecommerce.helpers.AppConstants.PHONE_NUMBER;
 import static com.lalaland.ecommerce.helpers.AppConstants.SIGNIN_TOKEN;
 import static com.lalaland.ecommerce.helpers.AppConstants.SUCCESS_CODE;
+import static com.lalaland.ecommerce.helpers.AppConstants.TAG;
 import static com.lalaland.ecommerce.helpers.AppConstants.USER_NAME;
 import static com.lalaland.ecommerce.helpers.AppConstants.VALIDATION_FAIL_CODE;
 import static com.lalaland.ecommerce.helpers.AppConstants.WRONG_CREDENTIAL;
@@ -60,6 +85,8 @@ public class BaseRegistrationFragment extends Fragment {
 
     private String token, cart_session;
     private AppPreference appPreference;
+    GoogleSignInOptions gso;
+    GoogleApiClient mGoogleApiClient;
 
     public BaseRegistrationFragment() {
         // Required empty public constructor
@@ -76,10 +103,98 @@ public class BaseRegistrationFragment extends Fragment {
         super.onViewCreated(view, savedInstanceState);
 
         appPreference = AppPreference.getInstance(getContext());
-
         cart_session = appPreference.getString(CART_SESSION_TOKEN);
     }
 
+    public void signInOrSignUpWithGoogle(SignInButton signInButton) {
+
+
+        gso = new GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)
+                .requestScopes(new Scope(Scopes.DRIVE_APPFOLDER))
+                .requestIdToken(getString(R.string.server_client_id))
+                .requestServerAuthCode(getString(R.string.server_client_id))
+                .requestEmail()
+                .build();
+
+        // Build GoogleAPIClient with the Google Sign-In API and the above options.
+        mGoogleApiClient = new GoogleApiClient.Builder(getContext())
+                .addApi(Auth.GOOGLE_SIGN_IN_API, gso)
+                .build();
+
+        GoogleSignInClient mGoogleSignInClient = GoogleSignIn.getClient(getContext(), gso);
+
+
+        mGoogleSignInClient.signOut();
+        GoogleSignInAccount account = GoogleSignIn.getLastSignedInAccount(getContext());
+
+        // means user is login otherwise not login
+        if (account == null) {
+            Intent signInIntent = Auth.GoogleSignInApi.getSignInIntent(mGoogleApiClient);
+            startActivityForResult(signInIntent, 101);
+
+            //   getAccessToken();
+        }
+        //updateUI(account);
+
+
+    }
+
+    void getAccessToken() {
+        OkHttpClient client = new OkHttpClient();
+        RequestBody requestBody = new FormBody.Builder()
+                .add("grant_type", "authorization_code")
+                .add("client_id", "122765248262-03m7dmonpdot2a59ertdtovcgkja4sq5.apps.googleusercontent.com")
+                .add("client_secret", "hZdYEq9KJxDRp_MzbW1JvXWT")
+                .add("redirect_uri", "")
+                .add("code", "4/4-GMMhmHCXhWEzkobqIHGG_EnNYYsAkukHspeYUk9E8")
+                .build();
+
+        final Request request = new Request.Builder()
+                .url("https://www.googleapis.com/oauth2/v4/token")
+                .post(requestBody)
+                .build();
+
+
+        client.newCall(request).enqueue(new Callback() {
+            @Override
+            public void onFailure(Call call, IOException e) {
+
+            }
+
+            @Override
+            public void onResponse(Call call, Response response) throws IOException {
+
+                try {
+
+                    JSONObject jsonObject = new JSONObject(response.body().string());
+                    final String message = jsonObject.toString(5);
+                    Log.d(TAG, "onResponse:" + message);
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
+
+            }
+        });
+
+    }
+
+    private void handleSignInResult(Task<GoogleSignInAccount> completedTask) {
+        try {
+
+            GoogleSignInAccount account = completedTask.getResult(ApiException.class);
+
+            Toast.makeText(getContext(), account.getServerAuthCode(), Toast.LENGTH_SHORT).show();
+
+
+            // Signed in successfully, show authenticated UI.
+            //updateUI(account);
+        } catch (ApiException e) {
+            // The ApiException status code indicates the detailed failure reason.
+            // Please refer to the GoogleSignInStatusCodes class reference for more information.
+            Log.w(TAG, "signInResult:failed code=" + e.getStatusCode());
+            //     updateUI(null);
+        }
+    }
     public void signInOrSignUpWithFb(LoginButton loginButton) {
 
         callbackManager = CallbackManager.Factory.create();  //facebook registration callback
@@ -187,7 +302,15 @@ public class BaseRegistrationFragment extends Fragment {
     @Override
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
 
-        callbackManager.onActivityResult(requestCode, resultCode, data);
+        if (requestCode == 101) {
+            // The Task returned from this call is always completed, no need to attach
+            // a listener.
+
+
+            Task<GoogleSignInAccount> task = GoogleSignIn.getSignedInAccountFromIntent(data);
+            handleSignInResult(task);
+        } else
+            callbackManager.onActivityResult(requestCode, resultCode, data);
         super.onActivityResult(requestCode, resultCode, data);
     }
 

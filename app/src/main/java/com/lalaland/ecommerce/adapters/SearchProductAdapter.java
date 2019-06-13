@@ -24,11 +24,13 @@ public class SearchProductAdapter extends RecyclerView.Adapter<SearchProductAdap
     private SearchItemBinding searchItemBinding;
     private LayoutInflater inflater;
     private SearchListener mSearchListener;
+    private boolean mIsHistory;
 
-    public SearchProductAdapter(Context context, SearchListener searchListener) {
+    public SearchProductAdapter(Context context, SearchListener searchListener, boolean isHistory) {
         mContext = context;
         inflater = LayoutInflater.from(context);
         mSearchListener = searchListener;
+        mIsHistory = isHistory;
     }
 
     @NonNull
@@ -56,12 +58,12 @@ public class SearchProductAdapter extends RecyclerView.Adapter<SearchProductAdap
         notifyDataSetChanged();
     }
 
-    public void onSearchClicked(SearchCategory search) {
-        mSearchListener.onSearchClicked(search);
+    public void onSearchClicked(int position) {
+        mSearchListener.onSearchProductClicked(position, mIsHistory);
     }
 
-    public void onSearchDelete(SearchCategory search) {
-        mSearchListener.onSearchDelete(search);
+    public void onSearchDelete(int position) {
+        mSearchListener.onSearchProductDelete(position, mIsHistory);
     }
 
     class SearchProductViewHolder extends RecyclerView.ViewHolder {
@@ -76,15 +78,26 @@ public class SearchProductAdapter extends RecyclerView.Adapter<SearchProductAdap
 
         void bindHolder(SearchCategory search) {
 
-            mSearchItemBinding.ivSearchDelete.setVisibility(View.GONE);
+            if (mIsHistory)
+                mSearchItemBinding.ivSearchDelete.setVisibility(View.VISIBLE);
+            else
+                mSearchItemBinding.ivSearchArrow.setVisibility(View.VISIBLE);
+
             mSearchItemBinding.tvSearch.setText(search.getName());
 
             mSearchItemBinding.searchParent.setOnClickListener(v -> {
-                onSearchClicked(mSearches.get(getAdapterPosition()));
+                onSearchClicked(getAdapterPosition());
+            });
+
+            // if search product are listing
+            mSearchItemBinding.ivSearchArrow.setOnClickListener(v -> {
+                onSearchClicked(getAdapterPosition());
             });
 
             mSearchItemBinding.ivSearchDelete.setOnClickListener(v -> {
-                onSearchDelete(mSearches.get(getAdapterPosition()));
+
+                if (getAdapterPosition() != RecyclerView.NO_POSITION)
+                    onSearchDelete(getAdapterPosition());
             });
 
             mSearchItemBinding.executePendingBindings();
@@ -92,8 +105,8 @@ public class SearchProductAdapter extends RecyclerView.Adapter<SearchProductAdap
     }
 
     public interface SearchListener {
-        void onSearchClicked(SearchCategory search);
+        void onSearchProductClicked(int position, boolean isHistory);
 
-        void onSearchDelete(SearchCategory search);
+        void onSearchProductDelete(int position, boolean isHistory);
     }
 }

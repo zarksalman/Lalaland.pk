@@ -32,14 +32,17 @@ public class MainActivity extends AppCompatActivity {
             = item -> {
 
         Fragment fragment;
+        activityMainBinding.topBar.setVisibility(View.VISIBLE);
+        activityMainBinding.svItems.setVisibility(View.VISIBLE);
 
         switch (item.getItemId()) {
+
+
             case R.id.navigation_home:
 
                 if (selectedFragment == 0)
                     return false;
 
-                activityMainBinding.topBar.setVisibility(View.VISIBLE);
                 activityMainBinding.tvAppName.setText(getResources().getString(R.string.app_name));
                 fragment = HomeFragment.newInstance();
                 replaceFragment(fragment, 0);
@@ -49,7 +52,6 @@ public class MainActivity extends AppCompatActivity {
                 if (selectedFragment == 1)
                     return false;
 
-                activityMainBinding.topBar.setVisibility(View.VISIBLE);
                 activityMainBinding.tvAppName.setText(getResources().getString(R.string.category));
                 fragment = CategoryFragment.newInstance();
                 replaceFragment(fragment, 1);
@@ -59,7 +61,7 @@ public class MainActivity extends AppCompatActivity {
                 if (selectedFragment == 2)
                     return false;
 
-                activityMainBinding.topBar.setVisibility(View.VISIBLE);
+                activityMainBinding.svItems.setVisibility(View.GONE);
                 activityMainBinding.tvAppName.setText(getResources().getString(R.string.cart));
                 fragment = CartFragment.newInstance();
                 replaceFragment(fragment, 2);
@@ -70,7 +72,7 @@ public class MainActivity extends AppCompatActivity {
                 if (selectedFragment == 3)
                     return false;
 
-                activityMainBinding.topBar.setVisibility(View.VISIBLE);
+                activityMainBinding.svItems.setVisibility(View.GONE);
                 activityMainBinding.tvAppName.setText(getResources().getString(R.string.wish_list));
                 fragment = WishFragment.newInstance();
                 replaceFragment(fragment, 3);
@@ -81,6 +83,7 @@ public class MainActivity extends AppCompatActivity {
                 if (selectedFragment == 4)
                     return false;
 
+                activityMainBinding.svItems.setVisibility(View.GONE);
                 activityMainBinding.topBar.setVisibility(View.GONE);
                 activityMainBinding.tvAppName.setText(getResources().getString(R.string.account));
                 fragment = AccountFragment.newInstance();

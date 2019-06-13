@@ -9,16 +9,26 @@ import java.util.List;
 public class PlacingOrderData {
 
 
-    @SerializedName("products")
+    @SerializedName("recommendation")
     @Expose
-    private List<Product> products = null;
+    private List<Product> recommendation = null;
+    @SerializedName("order_id")
+    @Expose
+    private Integer orderId;
 
-    public List<Product> getProducts() {
-        return products;
+    public List<Product> getRecommendation() {
+        return recommendation;
     }
 
-    public void setProducts(List<Product> products) {
-        this.products = products;
+    public void setRecommendation(List<Product> recommendation) {
+        this.recommendation = recommendation;
     }
 
+    public Integer getOrderId() {
+        return orderId;
+    }
+
+    public void setOrderId(Integer orderId) {
+        this.orderId = orderId;
+    }
 }

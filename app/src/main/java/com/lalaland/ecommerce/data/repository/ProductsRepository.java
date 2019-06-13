@@ -1,14 +1,18 @@
 package com.lalaland.ecommerce.data.repository;
 
+import android.os.AsyncTask;
 import android.util.Log;
 
 import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MutableLiveData;
 
+import com.lalaland.ecommerce.data.dao.SearchCategoryDao;
+import com.lalaland.ecommerce.data.database.LalalandDatabases;
 import com.lalaland.ecommerce.data.models.actionProducs.ActionProductsContainer;
 import com.lalaland.ecommerce.data.models.cart.CartContainer;
 import com.lalaland.ecommerce.data.models.categories.CategoriesContainer;
 import com.lalaland.ecommerce.data.models.category.CategoryContainer;
+import com.lalaland.ecommerce.data.models.globalSearch.SearchCategory;
 import com.lalaland.ecommerce.data.models.globalSearch.SearchDataContainer;
 import com.lalaland.ecommerce.data.models.home.HomeDataContainer;
 import com.lalaland.ecommerce.data.models.logout.BasicResponse;
@@ -21,6 +25,7 @@ import com.lalaland.ecommerce.data.retrofit.RetrofitClient;
 import com.lalaland.ecommerce.helpers.AppConstants;
 import com.lalaland.ecommerce.helpers.AppPreference;
 
+import java.util.List;
 import java.util.Map;
 
 import okhttp3.Headers;
@@ -50,10 +55,12 @@ public class ProductsRepository {
     private MutableLiveData<WishListContainer> wishListContainerMutableLiveData = new MutableLiveData<>();
     private MutableLiveData<CategoriesContainer> categoriesContainerMutableLiveData = new MutableLiveData<>();
     private MutableLiveData<SearchDataContainer> searchDataContainerMutableLiveData = new MutableLiveData<>();
+    private SearchCategoryDao searchCategoryDao;
 
     private ProductsRepository() {
         lalalandServiceApi = RetrofitClient.getInstance().createClient();
         appPreference = AppPreference.getInstance(AppConstants.mContext);
+        searchCategoryDao = LalalandDatabases.getInstance(AppConstants.mContext).searchCategoryDao();
     }
 
     public static ProductsRepository getInstance() {
@@ -255,6 +262,7 @@ public class ProductsRepository {
 
     public LiveData<CartContainer> getCart(Map<String, String> headers) {
 
+        cartContainerMutableLiveData = new MutableLiveData<>();
         lalalandServiceApi.getCart(headers).enqueue(new Callback<CartContainer>() {
             @Override
             public void onResponse(Call<CartContainer> call, Response<CartContainer> response) {
@@ -441,6 +449,25 @@ public class ProductsRepository {
         return searchDataContainerMutableLiveData;
     }
 
+    public LiveData<List<SearchCategory>> getAllSearchCategory() {
+
+        return searchCategoryDao.getAllCategory();
+    }
+
+    public void insertSearch(SearchCategory searchCategory) {
+        new InsertSaveSearchAsyTask(searchCategoryDao).execute(searchCategory);
+    }
+
+    public void deleteSearch(SearchCategory searchCategory) {
+        new DeleteSaveSearchAsyTask(searchCategoryDao).execute(searchCategory);
+    }
+
+    public void deleteAllSearch() {
+        new DeleteAllSaveSearchAsyTask(searchCategoryDao).execute();
+    }
+
+
+
     private void checkResponseSource(Response response) {
 
         Log.d("response_source", String.valueOf(response.code()) + response.errorBody());
@@ -449,6 +476,51 @@ public class ProductsRepository {
             Log.d("response_source", "Response is from network");
         } else {
             Log.d("response_source", "Response is from cache");
+        }
+    }
+
+    private static class DeleteSaveSearchAsyTask extends AsyncTask<SearchCategory, Void, Void> {
+
+        SearchCategoryDao searchCategoryDao;
+
+        private DeleteSaveSearchAsyTask(SearchCategoryDao searchCategoryDao) {
+            this.searchCategoryDao = searchCategoryDao;
+        }
+
+        @Override
+        protected Void doInBackground(SearchCategory... searchCategories) {
+            searchCategoryDao.deleteCategory(searchCategories[0]);
+            return null;
+        }
+    }
+
+    private static class DeleteAllSaveSearchAsyTask extends AsyncTask<Void, Void, Void> {
+
+        SearchCategoryDao searchCategoryDao;
+
+        private DeleteAllSaveSearchAsyTask(SearchCategoryDao searchCategoryDao) {
+            this.searchCategoryDao = searchCategoryDao;
+        }
+
+        @Override
+        protected Void doInBackground(Void... voids) {
+            searchCategoryDao.deleteAllSearches();
+            return null;
+        }
+    }
+
+    private static class InsertSaveSearchAsyTask extends AsyncTask<SearchCategory, Void, Void> {
+
+        SearchCategoryDao searchCategoryDao;
+
+        private InsertSaveSearchAsyTask(SearchCategoryDao searchCategoryDao) {
+            this.searchCategoryDao = searchCategoryDao;
+        }
+
+        @Override
+        protected Void doInBackground(SearchCategory... searchCategories) {
+            searchCategoryDao.insertCategory(searchCategories[0]);
+            return null;
         }
     }
 }

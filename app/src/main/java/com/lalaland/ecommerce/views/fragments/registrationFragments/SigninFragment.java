@@ -81,6 +81,11 @@ public class SigninFragment extends BaseRegistrationFragment {
             signInOrSignUpWithFb(fragmentSigninBinding.btFacebookSignin);
         });
 
+        fragmentSigninBinding.btnGoogleSignIn.setOnClickListener(v -> {
+         /*   fragmentSigninBinding.pbLoadingSignin.setVisibility(View.VISIBLE);
+            signInOrSignUpWithGoogle(fragmentSigninBinding.btGoogleSignin);*/
+        });
+
         fragmentSigninBinding.btnSignIn.setOnClickListener(v -> signInWithForm());
         return fragmentSigninBinding.getRoot();
     }

@@ -7,6 +7,7 @@ import android.view.View;
 import android.view.Window;
 import android.view.WindowManager;
 import android.widget.AbsListView;
+import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.databinding.DataBindingUtil;
@@ -70,6 +71,7 @@ public class ActionProductListingActivity extends AppCompatActivity implements A
         activityProductListingBinding = DataBindingUtil.setContentView(this, R.layout.activity_product_listing);
 
         if (getIntent().getExtras() != null) {
+
             products_type = getIntent().getStringExtra(PRODUCT_TYPE);
             category_name = getIntent().getStringExtra(ACTION_NAME);
 
@@ -287,8 +289,6 @@ public class ActionProductListingActivity extends AppCompatActivity implements A
                         //  actionProductsAdapter.notifyDataSetChanged();
 
                         actionProductsAdapter.notifyItemRangeInserted(startPosition, actionProductsArrayList.size());
-
-                        activityProductListingBinding.pbLoadingActionProducts.setVisibility(View.GONE);
                         activityProductListingBinding.rvProducts.setVisibility(View.VISIBLE);
 
                         start += size;
@@ -304,7 +304,11 @@ public class ActionProductListingActivity extends AppCompatActivity implements A
                         parameter.put(START_INDEX, String.valueOf(start));
                         parameter.put(LENGTH, String.valueOf(length));
                         parameter.put(SORT_BY, sortBy);
+                    } else {
+                        Toast.makeText(this, "Items not found", Toast.LENGTH_SHORT).show();
                     }
+                    activityProductListingBinding.pbLoadingActionProducts.setVisibility(View.GONE);
+
                 } else
                     Log.d(AppConstants.TAG, actionProductsContainer.getMsg());
 

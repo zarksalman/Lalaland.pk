@@ -186,7 +186,7 @@ public class CheckoutScreen extends AppCompatActivity {
 
                     Intent intent = new Intent(this, OrderReceivedActivity.class);
                     intent.putExtra(ORDER_TOTAL, String.valueOf(totalBill));
-                    intent.putParcelableArrayListExtra("recommended_products", (ArrayList<? extends Parcelable>) orderDataContainer.getData().getProducts());
+                    intent.putParcelableArrayListExtra("recommended_products", (ArrayList<? extends Parcelable>) orderDataContainer.getData().getRecommendation());
                     startActivity(intent);
 
                     finish();

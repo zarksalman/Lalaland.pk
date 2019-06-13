@@ -156,12 +156,6 @@ public class HomeFragment extends Fragment implements ActionAdapter.ActionClickL
                 productList.addAll(productContainer.getProductData().getProducts());
                 recommendationProductAdapter.notifyItemRangeInserted(startPosition, productList.size());
 
-//                recommendationProductAdapter.setData(productList);
-                // recommendationProductAdapter.notifyDataSetChanged();
-
-//                productList.addAll(startPosition, productContainer.getProductData().getProducts());
-
-                // recommendationProductAdapter.notifyItemRangeInserted(startPosition, itemCount);
                 Log.d(TAG, "getProductItems" + productList.size());
                 isLoading = false;
 

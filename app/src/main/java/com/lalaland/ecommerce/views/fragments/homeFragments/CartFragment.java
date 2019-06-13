@@ -381,8 +381,6 @@ public class CartFragment extends Fragment implements View.OnClickListener, Cart
 
             case R.id.btn_checkout:
 
-                Log.d(TAG, "Checkout");
-
                 if (getContext() != null) {
 
                     Intent intent;

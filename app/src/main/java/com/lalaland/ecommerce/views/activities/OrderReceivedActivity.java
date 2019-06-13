@@ -20,6 +20,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import static com.lalaland.ecommerce.helpers.AppConstants.ORDER_TOTAL;
+import static com.lalaland.ecommerce.helpers.AppConstants.PRODUCT_ID;
 
 public class OrderReceivedActivity extends AppCompatActivity implements ProductAdapter.ProductListener {
 
@@ -41,6 +42,8 @@ public class OrderReceivedActivity extends AppCompatActivity implements ProductA
     private void setInitValues() {
 
         activityOrderReceivedBinding.tvTotalAmount.setText(AppUtils.formatPriceString(totalBill));
+        activityOrderReceivedBinding.setListener(this);
+
         setAdapter();
     }
 
@@ -71,6 +74,8 @@ public class OrderReceivedActivity extends AppCompatActivity implements ProductA
 
     @Override
     public void onProductProductClicked(Product product) {
-
+        Intent intent = new Intent(this, ProductDetailActivity.class);
+        intent.putExtra(PRODUCT_ID, product.getId());
+        startActivity(intent);
     }
 }

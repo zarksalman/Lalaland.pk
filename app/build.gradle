@@ -47,13 +47,17 @@ dependencies {
     def paging_version = "2.1.0"
     implementation "androidx.paging:paging-runtime:$paging_version"
 
+    def room_version = "2.1.0-rc01"
+
+    implementation "androidx.room:room-runtime:$room_version"
+    annotationProcessor "androidx.room:room-compiler:$room_version"
 
     // network calls
     implementation 'com.squareup.retrofit2:retrofit:2.5.0'
 
-    /* // google login
+    // google login
      implementation 'com.google.android.gms:play-services-auth:16.0.1'
- */
+
     // ********************* Third party **********************
     // logging interceptor for retrofit
     implementation 'com.squareup.okhttp3:logging-interceptor:3.14.1'
@@ -70,7 +74,6 @@ dependencies {
     // facebook login sdk, share, app link, analytics etc
     // Facebook Android SDK (everything)
     implementation 'com.facebook.android:facebook-android-sdk:4.33.0'
-
 
     // for debugging
     implementation 'com.facebook.stetho:stetho:1.5.1'

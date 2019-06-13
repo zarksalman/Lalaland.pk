@@ -4,6 +4,8 @@ import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
 
 public class PlacingOrderDataContainer {
+
+
     @SerializedName("code")
     @Expose
     private String code;
@@ -37,4 +39,5 @@ public class PlacingOrderDataContainer {
     public void setData(PlacingOrderData data) {
         this.data = data;
     }
+
 }
