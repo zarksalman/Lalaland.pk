@@ -1,7 +1,6 @@
 package com.lalaland.ecommerce.adapters;
 
 import android.content.Context;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -18,7 +17,6 @@ import com.lalaland.ecommerce.databinding.CartItemBinding;
 import java.util.List;
 
 import static com.lalaland.ecommerce.helpers.AppConstants.ITEM_SOLD_OUT;
-import static com.lalaland.ecommerce.helpers.AppConstants.TAG;
 
 
 public class CartItemsAdapter extends RecyclerView.Adapter<CartItemsAdapter.CartItemViewHolder> {
@@ -34,6 +32,9 @@ public class CartItemsAdapter extends RecyclerView.Adapter<CartItemsAdapter.Cart
         mContext = context;
         inflater = LayoutInflater.from(context);
         mCartClickListener = cartClickListener;
+
+        //   EventBus.getDefault().register(this);
+
     }
 
     @NonNull
@@ -77,8 +78,18 @@ public class CartItemsAdapter extends RecyclerView.Adapter<CartItemsAdapter.Cart
         notifyDataSetChanged();
     }
 
-    public void changeNumberOfCount(int merchantId, int position, int value) {
+   /* // UI updates must run on MainThread
+    @Subscribe(threadMode = ThreadMode.MAIN)
+    public void onEvent(MessageEvent messageEvent) {
+        CartItem cartItem = mCartItems.get(messageEvent.getPosition());
+        cartItem.setItemQuantity(messageEvent.getQuantity());
 
+        mCartItems.set(messageEvent.getPosition(), cartItem);
+        notifyDataSetChanged();
+        // textField.setText(event.message);
+    }*/
+
+    public void changeNumberOfCount(int merchantId, int position, int value) {
 
         int quantity = mCartItems.get(position).getItemQuantity();
         int remainingQuantity = Integer.parseInt(mCartItems.get(position).getRemainingQuantity());
@@ -97,6 +108,8 @@ public class CartItemsAdapter extends RecyclerView.Adapter<CartItemsAdapter.Cart
                 mCartClickListener.changeNumberOfCount(merchantId, position, quantity);
             }
         }
+
+
     }
 
     class CartItemViewHolder extends RecyclerView.ViewHolder {
@@ -105,9 +118,9 @@ public class CartItemsAdapter extends RecyclerView.Adapter<CartItemsAdapter.Cart
 
         CartItemViewHolder(@NonNull CartItemBinding cartItemBinding) {
             super(cartItemBinding.getRoot());
-
             mCartItemBinding = cartItemBinding;
         }
+
 
         void bindHolder(CartItem cartItem) {
             mCartItemBinding.setCartItem(cartItem);
@@ -123,14 +136,10 @@ public class CartItemsAdapter extends RecyclerView.Adapter<CartItemsAdapter.Cart
 
             mCartItemBinding.ivDeleteItem.setOnClickListener(v -> {
                 if (getAdapterPosition() != RecyclerView.NO_POSITION)
-
-                    Log.d(TAG, "DELETE_ITEMS_ADAPTER #" + getAdapterPosition());
-
-                mCartClickListener.deleteFromCart(cartItem.getMerchantId(), getAdapterPosition());
+                    mCartClickListener.deleteFromCart(cartItem.getMerchantId(), getAdapterPosition());
             });
 
             mCartItemBinding.cbAddToList.setOnClickListener(v -> {
-
                 mCartClickListener.addItemToList(cartItem.getMerchantId(), getAdapterPosition());
             });
 

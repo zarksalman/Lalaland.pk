@@ -1,6 +1,7 @@
 package com.lalaland.ecommerce.views.fragments.registrationFragments;
 
 
+import android.app.Activity;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -152,7 +153,9 @@ public class SigninFragment extends BaseRegistrationFragment {
                         else
                             appPreference.setString(USER_AVATAR, "");
 
-                        startActivity();
+                        getActivity().setResult(Activity.RESULT_OK);
+                        getActivity().finish();
+
                         break;
                     case VALIDATION_FAIL_CODE:
                         hideProgressBar();

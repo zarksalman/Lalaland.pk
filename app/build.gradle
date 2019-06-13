@@ -78,4 +78,7 @@ dependencies {
     // for debugging
     implementation 'com.facebook.stetho:stetho:1.5.1'
 
+
+    // any specific event listener
+    implementation 'org.greenrobot:eventbus:3.1.1'
 }

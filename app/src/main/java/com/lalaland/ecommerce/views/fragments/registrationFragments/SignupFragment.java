@@ -1,6 +1,7 @@
 package com.lalaland.ecommerce.views.fragments.registrationFragments;
 
 
+import android.app.Activity;
 import android.app.DatePickerDialog;
 import android.os.Bundle;
 import android.util.Log;
@@ -272,7 +273,8 @@ public class SignupFragment extends BaseRegistrationFragment {
                     case SUCCESS_CODE:
                         Log.d("registerUser", registrationContainer.getData().getUser().getName() + ":" + registrationContainer.getData().getUser().getEmail());
                         Log.d("registerUser", AppPreference.getInstance(getContext()).getString(SIGNIN_TOKEN));
-                        startActivity();
+                        getActivity().setResult(Activity.RESULT_OK);
+                        getActivity().finish();
 
                         break;
                     case VALIDATION_FAIL_CODE:

@@ -28,7 +28,6 @@ public class CartIMerchantAdapter extends RecyclerView.Adapter<CartIMerchantAdap
     public CartIMerchantAdapter(Context context, MerchantItemClickListener merchantItemClickListener) {
         mContext = context;
         inflater = LayoutInflater.from(context);
-
         mMerchantItemClickListener = merchantItemClickListener;
     }
 
@@ -72,6 +71,20 @@ public class CartIMerchantAdapter extends RecyclerView.Adapter<CartIMerchantAdap
         notifyDataSetChanged();
     }
 
+    public void updateData(List<CartListModel> newCartListModels) {
+
+        mCartListModelList.clear();
+        mCartListModelList.addAll(newCartListModels);
+        cartItemsAdapter.notifyDataSetChanged();
+
+    }
+
+
+    public void emptyRecyclerView() {
+        this.mCartListModelList.clear();
+        //    notifyDataSetChanged();
+    }
+
     @Override
     public void addItemToList(int merchantId, int position) {
         mMerchantItemClickListener.addItemToList(merchantId, position);
@@ -88,6 +101,7 @@ public class CartIMerchantAdapter extends RecyclerView.Adapter<CartIMerchantAdap
     }
 
     public void notifyDataSetChange() {
+        notifyDataSetChanged();
         cartItemsAdapter.notifyDataSetChanged();
     }
 

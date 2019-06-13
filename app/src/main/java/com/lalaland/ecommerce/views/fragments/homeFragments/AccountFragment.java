@@ -1,6 +1,7 @@
 package com.lalaland.ecommerce.views.fragments.homeFragments;
 
 
+import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.LayoutInflater;
@@ -166,18 +167,18 @@ public class AccountFragment extends Fragment implements View.OnClickListener {
             case R.id.iv_setting:
 
                 if (!signInToken.isEmpty())
-                    startActivity(new Intent(getContext(), AccountInformationActivity.class));
+                    startActivityForResult(new Intent(getContext(), AccountInformationActivity.class), 100);
                 else
-                    startActivity(new Intent(getContext(), RegistrationActivity.class));
+                    startActivityForResult(new Intent(getContext(), RegistrationActivity.class), 101);
 
                 break;
 
             case R.id.tv_setting:
 
                 if (!signInToken.isEmpty())
-                    startActivity(new Intent(getContext(), AccountInformationActivity.class));
+                    startActivityForResult(new Intent(getContext(), AccountInformationActivity.class), 100);
                 else
-                    startActivity(new Intent(getContext(), RegistrationActivity.class));
+                    startActivityForResult(new Intent(getContext(), RegistrationActivity.class), 101);
                 break;
 
             case R.id.tv_about_us:
@@ -247,5 +248,29 @@ public class AccountFragment extends Fragment implements View.OnClickListener {
             AccessToken.setCurrentAccessToken(null);
             signInToken = "";
         }
+    }
+
+    @Override
+    public void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+
+        Toast.makeText(getContext(), "OK", Toast.LENGTH_SHORT).show();
+        if (requestCode == Activity.RESULT_OK) {
+
+            if (resultCode == 100 || resultCode == 101) {
+
+                userName = appPreference.getString(USER_NAME);
+                userAvatar = appPreference.getString(USER_AVATAR);
+
+                fragmentAccountBinding.tvUserName.setText(userName);
+                String avatarImagePath = USER_STORAGE_BASE_URL.concat(userAvatar);
+
+                Glide.with(getContext())
+                        .load(avatarImagePath)
+                        .placeholder(R.drawable.placeholder_products)
+                        .into(fragmentAccountBinding.ivDp);
+            }
+        }
+
     }
 }

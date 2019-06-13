@@ -33,8 +33,10 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import static android.app.Activity.RESULT_OK;
 import static com.lalaland.ecommerce.helpers.AppConstants.ADD_TO_READY_PRODUCT;
 import static com.lalaland.ecommerce.helpers.AppConstants.CART_ID;
+import static com.lalaland.ecommerce.helpers.AppConstants.CART_ITEM_ID;
 import static com.lalaland.ecommerce.helpers.AppConstants.CART_SESSION_TOKEN;
 import static com.lalaland.ecommerce.helpers.AppConstants.GENERAL_ERROR;
 import static com.lalaland.ecommerce.helpers.AppConstants.QUANTITY;
@@ -57,6 +59,7 @@ public class CartFragment extends Fragment implements View.OnClickListener, Cart
 
     private List<CartItem> cartItemList = new ArrayList<>();
     private List<CartListModel> cartListModelList = new ArrayList<>();
+    private List<CartListModel> mCartListModelList = new ArrayList<>();
     private List<CartItem> selectedCartItemList = new ArrayList<>();
     private List<DeliveryChargesOfMerchantItem> merchantItems = new ArrayList<>();
 
@@ -161,6 +164,8 @@ public class CartFragment extends Fragment implements View.OnClickListener, Cart
     private void getMerchantList() {
 
         DeliveryChargesOfMerchantItem merchantItem;
+        merchantItems.clear();
+
         int mId = -1;
 
         for (int i = 0; i < cartItemList.size(); i++) {
@@ -203,11 +208,15 @@ public class CartFragment extends Fragment implements View.OnClickListener, Cart
                 }
             }
 
-            cartListModel = new CartListModel();
-            cartListModel.setMerchantId(merchantItems.get(i).getMerchantId());
-            cartListModel.setMerchantName(merchantItems.get(i).getMerchantName());
-            cartListModel.setCartItemList(tempCartItem);
-            cartListModelList.add(cartListModel);
+
+            //if (cartListModelList.get(i).getCartItemList().size() > 0)
+            {
+                cartListModel = new CartListModel();
+                cartListModel.setMerchantId(merchantItems.get(i).getMerchantId());
+                cartListModel.setMerchantName(merchantItems.get(i).getMerchantName());
+                cartListModel.setCartItemList(tempCartItem);
+                cartListModelList.add(cartListModel);
+            }
 
         }
     }
@@ -256,7 +265,7 @@ public class CartFragment extends Fragment implements View.OnClickListener, Cart
         CartItem cartItem = cartListModelList.get(merchantIndex).getCartItemList().get(position);
 
         parameter.clear();
-        parameter.put(CART_ID, String.valueOf(cartItem.getCartId()));
+        parameter.put(CART_ITEM_ID, String.valueOf(cartItem.getCartId()));
 
         if (cartItem.getCartStatus() == 1) {
             cartListModelList.get(merchantIndex).getCartItemList().get(position).setCartStatus(3);
@@ -306,7 +315,15 @@ public class CartFragment extends Fragment implements View.OnClickListener, Cart
             if (basicResponse != null) {
                 if (basicResponse.getCode().equals(SUCCESS_CODE)) {
 
-                    if (selectedCartItemList.size() > position) {
+                    cartItemList.remove(cartItem);
+                    getMerchantList();
+                    addMerchantProductList();
+                    setCartAdapter();
+                    //         cartIMerchantAdapter.updateData(cartListModelList);
+
+                    //cartIMerchantAdapter.notifyDataSetChanged();
+
+                /*    if (selectedCartItemList.size() > position) {
                         selectedCartItemList.remove(position);
                         calCalculateBill();
                     }
@@ -318,7 +335,7 @@ public class CartFragment extends Fragment implements View.OnClickListener, Cart
                         cartListModelList.remove(merchantIndex);
                         cartIMerchantAdapter.notifyItemRemoved(merchantIndex);
                     }
-
+*/
 
                     if (cartListModelList.size() < 1) {
                         fragmentCartBinding.tvCartEmptyState.setVisibility(View.VISIBLE);
@@ -346,7 +363,7 @@ public class CartFragment extends Fragment implements View.OnClickListener, Cart
         CartItem cartItem = cartListModelList.get(merchantIndex).getCartItemList().get(position);
 
         parameter.clear();
-        parameter.put(CART_ID, String.valueOf(cartItem.getCartId()));
+        parameter.put(CART_ITEM_ID, String.valueOf(cartItem.getCartId()));
         parameter.put(QUANTITY, String.valueOf(quantity));
 
         productViewModel.changeCartProductQuantity(parameter).observe(this, basicResponse ->
@@ -354,14 +371,25 @@ public class CartFragment extends Fragment implements View.OnClickListener, Cart
             if (basicResponse != null) {
                 if (basicResponse.getCode().equals(SUCCESS_CODE)) {
 
+
                     cartListModelList.get(merchantIndex).getCartItemList().get(position).setItemQuantity(quantity);
-                    cartIMerchantAdapter.notifyDataSetChanged();
-                    cartIMerchantAdapter.notifyDataSetChange();
+
+                    mCartListModelList.clear();
+                    mCartListModelList.addAll(cartListModelList);
+
+                    cartIMerchantAdapter.emptyRecyclerView();
+
+                    cartListModelList.addAll(mCartListModelList);
+                    cartIMerchantAdapter.setData(cartListModelList);
+                    cartIMerchantAdapter.notifyItemRangeInserted(0, cartListModelList.size());
+
 
                     if (selectedCartItemList.contains(cartItemList.get(position)))
                         calCalculateBill();
 
                     Toast.makeText(getContext(), basicResponse.getMsg(), Toast.LENGTH_SHORT).show();
+
+                    //  EventBus.getDefault().post(new MessageEvent(position, quantity));
                 } else if (basicResponse.getCode().equals(VALIDATION_FAIL_CODE)) {
                     Toast.makeText(getContext(), basicResponse.getMsg(), Toast.LENGTH_SHORT).show();
                 } else {
@@ -399,7 +427,7 @@ public class CartFragment extends Fragment implements View.OnClickListener, Cart
                     else
                         intent = new Intent(getContext(), RegistrationActivity.class);
 
-                    getContext().startActivity(intent);
+                    getActivity().startActivityForResult(intent, 100);
 
                 }
                 break;
@@ -434,4 +462,15 @@ public class CartFragment extends Fragment implements View.OnClickListener, Cart
             fragmentCartBinding.tvTotalBalance.setText(AppUtils.formatPriceString(String.valueOf(totalBill)));
         }
     }
+
+    @Override
+    public void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+
+        if (resultCode == RESULT_OK) {
+            fragmentCartBinding.btnCheckout.performClick();
+        }
+    }
+
+
 }

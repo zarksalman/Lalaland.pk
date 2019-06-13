@@ -1,6 +1,7 @@
 package com.lalaland.ecommerce.views.fragments.registrationFragments;
 
 
+import android.app.Activity;
 import android.content.Intent;
 import android.content.pm.PackageInfo;
 import android.content.pm.PackageManager;
@@ -130,7 +131,7 @@ public class BaseRegistrationFragment extends Fragment {
         // means user is login otherwise not login
         if (account == null) {
             Intent signInIntent = Auth.GoogleSignInApi.getSignInIntent(mGoogleApiClient);
-            startActivityForResult(signInIntent, 101);
+            startActivityForResult(signInIntent, 201);
 
             //   getAccessToken();
         }
@@ -195,6 +196,7 @@ public class BaseRegistrationFragment extends Fragment {
             //     updateUI(null);
         }
     }
+
     public void signInOrSignUpWithFb(LoginButton loginButton) {
 
         callbackManager = CallbackManager.Factory.create();  //facebook registration callback
@@ -260,8 +262,8 @@ public class BaseRegistrationFragment extends Fragment {
                         AppPreference.getInstance(mContext).setString(GENDER, registrationContainer.getData().getUser().getGender());
                         AppPreference.getInstance(mContext).setString(EMAIL, registrationContainer.getData().getUser().getEmail());
 
-                        startActivity();
-
+                        getActivity().setResult(Activity.RESULT_OK);
+                        getActivity().finish();
                         break;
                     case VALIDATION_FAIL_CODE:
                         Toast.makeText(getContext(), registrationContainer.getMsg(), Toast.LENGTH_SHORT).show();
@@ -302,7 +304,7 @@ public class BaseRegistrationFragment extends Fragment {
     @Override
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
 
-        if (requestCode == 101) {
+        if (requestCode == 201) {
             // The Task returned from this call is always completed, no need to attach
             // a listener.
 
@@ -312,16 +314,5 @@ public class BaseRegistrationFragment extends Fragment {
         } else
             callbackManager.onActivityResult(requestCode, resultCode, data);
         super.onActivityResult(requestCode, resultCode, data);
-    }
-
-
-
-    public void startActivity() {
-
-        if (getContext() != null) {
-            getActivity().finish();
-            //   getContext().startActivity(new Intent(getContext(), MainActivity.class));
-            //    AppConstants.LOAD_HOME_FRAGMENT_INDEX = 4;
-        }
     }
 }
