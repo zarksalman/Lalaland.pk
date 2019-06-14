@@ -12,6 +12,7 @@ import com.lalaland.ecommerce.data.models.actionProducs.ActionProductsContainer;
 import com.lalaland.ecommerce.data.models.cart.CartContainer;
 import com.lalaland.ecommerce.data.models.categories.CategoriesContainer;
 import com.lalaland.ecommerce.data.models.category.CategoryContainer;
+import com.lalaland.ecommerce.data.models.filters.FilterDataContainer;
 import com.lalaland.ecommerce.data.models.globalSearch.SearchCategory;
 import com.lalaland.ecommerce.data.models.globalSearch.SearchDataContainer;
 import com.lalaland.ecommerce.data.models.home.HomeDataContainer;
@@ -55,6 +56,7 @@ public class ProductsRepository {
     private MutableLiveData<WishListContainer> wishListContainerMutableLiveData = new MutableLiveData<>();
     private MutableLiveData<CategoriesContainer> categoriesContainerMutableLiveData = new MutableLiveData<>();
     private MutableLiveData<SearchDataContainer> searchDataContainerMutableLiveData = new MutableLiveData<>();
+    private MutableLiveData<FilterDataContainer> filterDataContainerMutableLiveData = new MutableLiveData<>();
     private SearchCategoryDao searchCategoryDao;
 
     private ProductsRepository() {
@@ -454,6 +456,51 @@ public class ProductsRepository {
         return searchCategoryDao.getAllCategory();
     }
 
+    public LiveData<FilterDataContainer> getFilters(Map<String, String> parameter) {
+
+        filterDataContainerMutableLiveData = new MutableLiveData<>();
+
+        lalalandServiceApi.getFilters(parameter).enqueue(new Callback<FilterDataContainer>() {
+            @Override
+            public void onResponse(Call<FilterDataContainer> call, Response<FilterDataContainer> response) {
+
+                if (response.isSuccessful())
+                    filterDataContainerMutableLiveData.postValue(response.body());
+                else
+                    filterDataContainerMutableLiveData.postValue(null);
+            }
+
+            @Override
+            public void onFailure(Call<FilterDataContainer> call, Throwable t) {
+                filterDataContainerMutableLiveData.postValue(null);
+            }
+        });
+
+        return filterDataContainerMutableLiveData;
+    }
+
+    public LiveData<ActionProductsContainer> applyFilters(Map<String, String> parameter) {
+
+        actionProductsContainerMutableLiveData = new MutableLiveData<>();
+
+        lalalandServiceApi.applyFilter(parameter).enqueue(new Callback<ActionProductsContainer>() {
+            @Override
+            public void onResponse(Call<ActionProductsContainer> call, Response<ActionProductsContainer> response) {
+
+                if (response.isSuccessful())
+                    actionProductsContainerMutableLiveData.postValue(response.body());
+                else
+                    actionProductsContainerMutableLiveData.postValue(null);
+            }
+
+            @Override
+            public void onFailure(Call<ActionProductsContainer> call, Throwable t) {
+                actionProductsContainerMutableLiveData.postValue(null);
+            }
+        });
+        return actionProductsContainerMutableLiveData;
+    }
+
     public void insertSearch(SearchCategory searchCategory) {
         new InsertSaveSearchAsyTask(searchCategoryDao).execute(searchCategory);
     }
@@ -523,4 +570,5 @@ public class ProductsRepository {
             return null;
         }
     }
+
 }

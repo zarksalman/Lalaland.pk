@@ -1,0 +1,266 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:tools="http://schemas.android.com/tools"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="@android:color/white"
+
+        tools:context=".views.activities.FilterActivity">
+
+        <RelativeLayout
+
+            android:id="@+id/top_bar"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@color/colorScreenBg"
+            android:padding="@dimen/_8dp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent">
+
+            <TextView
+                android:id="@+id/tv_filter_title"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerHorizontal="true"
+                android:layout_margin="@dimen/_4dp"
+                android:text="@string/filter"
+                android:textColor="@android:color/black"
+                android:textSize="18sp" />
+
+            <TextView
+
+                android:id="@+id/tv_apply"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentEnd="true"
+                android:layout_margin="@dimen/_4dp"
+                android:text="@string/apply"
+                android:textColor="@android:color/holo_blue_light"
+                android:textSize="18sp" />
+        </RelativeLayout>
+
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/rv_filters"
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            app:layout_constraintBottom_toTopOf="@+id/tv_reset_filter"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/top_bar"
+            tools:listitem="@layout/filter_item" />
+
+        <TextView
+
+            android:id="@+id/tv_reset_filter"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:padding="@dimen/_16dp"
+            android:text="@string/reset"
+            android:textAlignment="center"
+            android:textColor="@android:color/holo_blue_light"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent" />
+        <!--
+                <ScrollView
+
+                    android:id="@+id/sv_filters"
+                    android:layout_width="0dp"
+                    android:layout_height="0dp"
+                    android:background="@android:color/white"
+                    android:padding="@dimen/_8dp"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/top_bar">
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="0dp"
+                        android:background="@android:color/white"
+                        android:orientation="vertical">
+
+                        <RelativeLayout
+
+                            android:id="@+id/price_filter"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content">
+
+                            <TextView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_alignParentStart="true"
+                                android:layout_centerVertical="true"
+                                android:text="@string/price"
+                                android:textColor="@android:color/black"
+                                android:textSize="16sp" />
+
+                            <TextView
+
+                                android:id="@+id/tv_applied_filters"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_centerVertical="true"
+                                android:layout_marginEnd="@dimen/_4dp"
+                                android:layout_toStartOf="@+id/iv_price_filter"
+                                android:text="@string/any"
+                                android:textSize="16sp" />
+
+                            <ImageView
+
+                                android:id="@+id/iv_price_filter"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_alignParentEnd="true"
+                                android:layout_centerVertical="true"
+                                android:src="@drawable/right_arrow" />
+
+                            <ImageView
+                                android:layout_width="match_parent"
+                                android:layout_height="1dp"
+                                android:layout_below="@id/tv_applied_filters"
+                                android:layout_marginTop="@dimen/_16dp"
+                                android:background="@color/colorLightGray" />
+                        </RelativeLayout>
+
+                        <RelativeLayout
+
+                            android:id="@+id/brand_filter"
+                            android:layout_width="match_parent"
+                            android:layout_marginTop="@dimen/_4dp"
+                            android:layout_height="wrap_content">
+
+                            <TextView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_alignParentStart="true"
+                                android:layout_centerVertical="true"
+                                android:text="@string/price"
+                                android:textColor="@android:color/black"
+                                android:textSize="16sp" />
+
+                            <TextView
+
+                                android:id="@+id/tv_applied_filters_brand"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_centerVertical="true"
+                                android:layout_marginEnd="@dimen/_4dp"
+                                android:layout_toStartOf="@+id/iv_brand_filter"
+                                android:text="@string/any"
+                                android:textSize="16sp" />
+
+                            <ImageView
+
+                                android:id="@+id/iv_brand_filter"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_alignParentEnd="true"
+                                android:layout_centerVertical="true"
+                                android:src="@drawable/right_arrow" />
+
+                            <ImageView
+                                android:layout_width="match_parent"
+                                android:layout_height="1dp"
+                                android:layout_below="@id/tv_applied_filters_brand"
+                                android:layout_marginTop="@dimen/_16dp"
+                                android:background="@color/colorLightGray" />
+                        </RelativeLayout>
+
+                        <RelativeLayout
+
+                            android:id="@+id/category_filter"
+                            android:layout_width="match_parent"
+                            android:layout_marginTop="@dimen/_4dp"
+                            android:layout_height="wrap_content">
+
+                            <TextView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_alignParentStart="true"
+                                android:layout_centerVertical="true"
+                                android:text="@string/price"
+                                android:textColor="@android:color/black"
+                                android:textSize="16sp" />
+
+                            <TextView
+
+                                android:id="@+id/tv_applied_filters_category"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_centerVertical="true"
+                                android:layout_marginEnd="@dimen/_4dp"
+                                android:layout_toStartOf="@+id/iv_category_filter"
+                                android:text="@string/any"
+                                android:textSize="16sp" />
+
+                            <ImageView
+
+                                android:id="@+id/iv_category_filter"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_alignParentEnd="true"
+                                android:layout_centerVertical="true"
+                                android:src="@drawable/right_arrow" />
+
+                            <ImageView
+                                android:layout_width="match_parent"
+                                android:layout_height="1dp"
+                                android:layout_below="@id/tv_applied_filters_category"
+                                android:layout_marginTop="@dimen/_16dp"
+                                android:background="@color/colorLightGray" />
+                        </RelativeLayout>
+
+                        <RelativeLayout
+
+                            android:id="@+id/color_filter"
+                            android:layout_width="match_parent"
+                            android:layout_marginTop="@dimen/_4dp"
+                            android:layout_height="wrap_content">
+
+                            <TextView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_alignParentStart="true"
+                                android:layout_centerVertical="true"
+                                android:text="@string/price"
+                                android:textColor="@android:color/black"
+                                android:textSize="16sp" />
+
+                            <TextView
+
+                                android:id="@+id/tv_applied_filters_color"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_centerVertical="true"
+                                android:layout_marginEnd="@dimen/_4dp"
+                                android:layout_toStartOf="@+id/iv_color_filter"
+                                android:text="@string/any"
+                                android:textSize="16sp" />
+
+                            <ImageView
+
+                                android:id="@+id/iv_color_filter"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_alignParentEnd="true"
+                                android:layout_centerVertical="true"
+                                android:src="@drawable/right_arrow" />
+
+                            <ImageView
+                                android:layout_width="match_parent"
+                                android:layout_height="1dp"
+                                android:layout_below="@id/tv_applied_filters_color"
+                                android:layout_marginTop="@dimen/_16dp"
+                                android:background="@color/colorLightGray" />
+                        </RelativeLayout>
+
+
+                    </LinearLayout>
+                </ScrollView>
+        -->
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</layout>

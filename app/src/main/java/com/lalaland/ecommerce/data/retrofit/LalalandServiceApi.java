@@ -5,6 +5,7 @@ import com.lalaland.ecommerce.data.models.actionProducs.ActionProductsContainer;
 import com.lalaland.ecommerce.data.models.cart.CartContainer;
 import com.lalaland.ecommerce.data.models.categories.CategoriesContainer;
 import com.lalaland.ecommerce.data.models.category.CategoryContainer;
+import com.lalaland.ecommerce.data.models.filters.FilterDataContainer;
 import com.lalaland.ecommerce.data.models.globalSearch.SearchDataContainer;
 import com.lalaland.ecommerce.data.models.home.HomeDataContainer;
 import com.lalaland.ecommerce.data.models.login.LoginDataContainer;
@@ -116,4 +117,10 @@ public interface LalalandServiceApi {
 
     @POST("globalSearch")
     Call<SearchDataContainer> globalSearch(@Query("qstr") String queryString);
+
+    @POST("productsFilters")
+    Call<FilterDataContainer> getFilters(@QueryMap Map<String, String> parameters);
+
+    @POST("categoryProducts")
+    Call<ActionProductsContainer> applyFilter(@QueryMap Map<String, String> parameters);
 }

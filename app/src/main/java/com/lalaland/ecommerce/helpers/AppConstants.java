@@ -38,6 +38,13 @@ public class AppConstants {
     public static final String DATE_FORMAT_TEXT = "yyyy-MM-dd";
     public static final String ACTION_NAME = "action_name";
     public static final String ACTION_ID = "action_id";
+    public static final String FILTER_ID = "id";
+    public static final String FILTER_KEY = "key";
+    public static final String FILTER_NAME = "filter_name";
+
+    public static final String PRICE_FILTER = "price_filter";
+    public static final String PRICE_RANGE = "price_range";
+
 
     public static final String PRODUCT_TYPE = "product_type";
 

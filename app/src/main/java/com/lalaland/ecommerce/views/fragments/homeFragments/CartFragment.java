@@ -226,11 +226,11 @@ public class CartFragment extends Fragment implements View.OnClickListener, Cart
         if (cartItemList.size() == 0) {
             fragmentCartBinding.tvCartEmptyState.setVisibility(View.VISIBLE);
             fragmentCartBinding.btnCheckout.setOnClickListener(null);
-            fragmentCartBinding.btnCheckout.setBackground(getResources().getDrawable(R.drawable.btn_bg_round_corner_dark_gray));
+            //fragmentCartBinding.btnCheckout.setBackground(getResources().getDrawable(R.drawable.btn_bg_round_corner_dark_gray));
         } else {
 
             fragmentCartBinding.tvCartEmptyState.setVisibility(View.GONE);
-            fragmentCartBinding.btnCheckout.setBackground(getResources().getDrawable(R.drawable.btn_bg_round_corner_accent));
+            //fragmentCartBinding.btnCheckout.setBackground(getResources().getDrawable(R.drawable.btn_bg_round_corner_accent));
             fragmentCartBinding.btnCheckout.setOnClickListener(this);
         }
 

@@ -212,5 +212,13 @@
     <string name="clear_all">Clear All</string>
     <!--<string name="server_client_id">122765248262-6n4knohpbldpkuc3bu11i5oovu2lhvg5.apps.googleusercontent.com</string>-->
     <string name="server_client_id">122765248262-03m7dmonpdot2a59ertdtovcgkja4sq5.apps.googleusercontent.com</string>
+    <string name="filter">Filter</string>
+    <string name="apply">Apply</string>
+    <string name="price">Price</string>
+    <string name="any">Any</string>
+    <string name="reset">Reset</string>
+    <string name="pkr">PKR</string>
+    <string name="low">Low</string>
+    <string name="high">High</string>
 
 </resources>

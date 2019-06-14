@@ -2,6 +2,7 @@ package com.lalaland.ecommerce.views.activities;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Base64;
 import android.util.Log;
 import android.view.View;
 import android.view.Window;
@@ -9,6 +10,7 @@ import android.view.WindowManager;
 import android.widget.AbsListView;
 import android.widget.Toast;
 
+import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.databinding.DataBindingUtil;
 import androidx.lifecycle.ViewModelProviders;
@@ -23,8 +25,10 @@ import com.lalaland.ecommerce.data.models.actionProducs.ActionProducts;
 import com.lalaland.ecommerce.databinding.ActivityProductListingBinding;
 import com.lalaland.ecommerce.databinding.SortFilterBottomSheetLayoutBinding;
 import com.lalaland.ecommerce.helpers.AppConstants;
+import com.lalaland.ecommerce.viewModels.filter.FilterViewModel;
 import com.lalaland.ecommerce.viewModels.products.ProductViewModel;
 
+import java.io.UnsupportedEncodingException;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -35,9 +39,11 @@ import static com.lalaland.ecommerce.helpers.AppConstants.ACTION_NAME;
 import static com.lalaland.ecommerce.helpers.AppConstants.BRANDS_IN_FOCUS_PRODUCTS;
 import static com.lalaland.ecommerce.helpers.AppConstants.CATEGORY_PRODUCTS;
 import static com.lalaland.ecommerce.helpers.AppConstants.CUSTOM_LIST_PRODUCTS;
+import static com.lalaland.ecommerce.helpers.AppConstants.FILTER_KEY;
 import static com.lalaland.ecommerce.helpers.AppConstants.LENGTH;
 import static com.lalaland.ecommerce.helpers.AppConstants.NEW_ARRIVAL_PRODUCTS;
 import static com.lalaland.ecommerce.helpers.AppConstants.PICK_OF_THE_WEEK_PRODUCTS;
+import static com.lalaland.ecommerce.helpers.AppConstants.PRICE_FILTER;
 import static com.lalaland.ecommerce.helpers.AppConstants.PRODUCT_ID;
 import static com.lalaland.ecommerce.helpers.AppConstants.PRODUCT_TYPE;
 import static com.lalaland.ecommerce.helpers.AppConstants.SALE_PRODUCT;
@@ -48,11 +54,13 @@ public class ActionProductListingActivity extends AppCompatActivity implements A
 
     private ActivityProductListingBinding activityProductListingBinding;
     private ProductViewModel productViewModel;
+    private FilterViewModel filterViewModel;
     ActionProductsAdapter actionProductsAdapter;
     private List<ActionProducts> actionProductsArrayList = new ArrayList<>();
     BottomSheetDialog mBottomSheetDialog;
     SortFilterBottomSheetLayoutBinding sheetView;
     Map<String, String> parameter = new HashMap<>();
+    Map<String, String> filterParameter = new HashMap<>();
     String action_name = "custom_list", action_id = "-1", products_type = "action_products", category_name;
     private static final String ID = "id";
     private static final String SORT_BY = "sort_by";
@@ -60,6 +68,9 @@ public class ActionProductListingActivity extends AppCompatActivity implements A
     private boolean isScrolling;
     int start = 0, length = 20, size = 20;
     String sortBy = "az";
+    Intent intent;
+
+    String priceRange;
 
     @Override
 
@@ -127,6 +138,8 @@ public class ActionProductListingActivity extends AppCompatActivity implements A
         }
 
         productViewModel = ViewModelProviders.of(this).get(ProductViewModel.class);
+        filterViewModel = ViewModelProviders.of(this).get(FilterViewModel.class);
+
         setListeners();
     }
 
@@ -213,22 +226,57 @@ public class ActionProductListingActivity extends AppCompatActivity implements A
     public void setBottomSheet(boolean isFilter) {
 
 
-        mBottomSheetDialog = new BottomSheetDialog(ActionProductListingActivity.this);
-
-
         if (!isFilter) // if bottom sheet is filter
         {
+            mBottomSheetDialog = new BottomSheetDialog(ActionProductListingActivity.this);
             sheetView = DataBindingUtil.inflate(getLayoutInflater(), R.layout.sort_filter_bottom_sheet_layout, null, false);
+            sheetView.setSortSheetListener(this);
+            mBottomSheetDialog.setContentView(sheetView.getRoot());
+            mBottomSheetDialog.show();
+            sheetView.ivSortIcon.setOnClickListener(v -> mBottomSheetDialog.hide());
+            //   sheetView = DataBindingUtil.inflate(getLayoutInflater(), R.layout.sort_filter_bottom_sheet_layout, null, false);
         } else // if bottom sheet is sort
         {
-            sheetView = DataBindingUtil.inflate(getLayoutInflater(), R.layout.sort_filter_bottom_sheet_layout, null, false);
+
+            intent = new Intent(this, FilterActivity.class);
+            intent.putExtra(ACTION_ID, action_id);
+
+            switch (products_type) {
+
+                // actions types
+                case SALE_PRODUCT:
+
+                    parameter.clear();
+                    intent.putExtra(FILTER_KEY, "sale");
+
+                    break;
+
+                case NEW_ARRIVAL_PRODUCTS:
+                    intent.putExtra(FILTER_KEY, "category");
+                    break;
+
+                case CATEGORY_PRODUCTS:
+                    intent.putExtra(FILTER_KEY, "category");
+                    break;
+
+                case CUSTOM_LIST_PRODUCTS:
+                    intent.putExtra(FILTER_KEY, "category");
+                    break;
+
+                // category types
+                case PICK_OF_THE_WEEK_PRODUCTS:
+                    intent.putExtra(FILTER_KEY, "category");
+                    break;
+
+                case BRANDS_IN_FOCUS_PRODUCTS:
+                    intent.putExtra(FILTER_KEY, "brand");
+                    break;
+            }
+
+            startActivityForResult(intent, 200);
         }
 
-        sheetView.setSortSheetListener(this);
-        mBottomSheetDialog.setContentView(sheetView.getRoot());
-        mBottomSheetDialog.show();
 
-        sheetView.ivSortIcon.setOnClickListener(v -> mBottomSheetDialog.hide());
     }
 
     public void bottomSheetClick(View view) {
@@ -319,6 +367,20 @@ public class ActionProductListingActivity extends AppCompatActivity implements A
 
     }
 
+    private void setFilteredActionProducts() {
+
+        filterViewModel.applyFilters(filterParameter).observe(this, actionProductsContainer -> {
+
+            if (actionProductsContainer != null) {
+
+                if (actionProductsContainer.getData().equals(SUCCESS_CODE)) {
+
+                    Toast.makeText(this, "OK", Toast.LENGTH_SHORT).show();
+                }
+            }
+        });
+    }
+
     @Override
     public void onActionProductClicked(ActionProducts actionProducts) {
         
@@ -339,6 +401,37 @@ public class ActionProductListingActivity extends AppCompatActivity implements A
             Log.d("after_sort", "Name:" + actionProducts.getName() + "Price:" + actionProducts.getSalePrice());
             Log.d("after_sort", "Sales Price:" + actionProducts.getSalePrice());
             Log.d("after_sort", "Actual Price:" + actionProducts.getActualPrice());
+        }
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+
+        if (resultCode == RESULT_OK) {
+
+            if (requestCode == 200) {
+
+                priceRange = data.getStringExtra(PRICE_FILTER);
+                String priceRangeBase64;
+
+                try {
+
+                    byte[] priceRangeBytes = priceRange.getBytes("UTF-8");
+                    priceRangeBase64 = Base64.encodeToString(priceRangeBytes, Base64.DEFAULT);
+
+                    filterParameter.put(ID, action_id);
+                    filterParameter.put("price_range", priceRangeBase64);
+
+                    setFilteredActionProducts();
+
+                } catch (UnsupportedEncodingException e) {
+                    e.printStackTrace();
+                }
+
+
+                // Toast.makeText(this, "make changes", Toast.LENGTH_SHORT).show();
+            }
         }
     }
 }
