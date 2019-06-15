@@ -78,16 +78,6 @@ public class CartItemsAdapter extends RecyclerView.Adapter<CartItemsAdapter.Cart
         notifyDataSetChanged();
     }
 
-   /* // UI updates must run on MainThread
-    @Subscribe(threadMode = ThreadMode.MAIN)
-    public void onEvent(MessageEvent messageEvent) {
-        CartItem cartItem = mCartItems.get(messageEvent.getPosition());
-        cartItem.setItemQuantity(messageEvent.getQuantity());
-
-        mCartItems.set(messageEvent.getPosition(), cartItem);
-        notifyDataSetChanged();
-        // textField.setText(event.message);
-    }*/
 
     public void changeNumberOfCount(int merchantId, int position, int value) {
 

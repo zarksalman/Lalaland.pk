@@ -12,9 +12,7 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.lalaland.ecommerce.R;
 import com.lalaland.ecommerce.data.models.actionProducs.ActionProducts;
-import com.lalaland.ecommerce.data.models.home.Recommendation;
 import com.lalaland.ecommerce.databinding.ActionProductsItemBinding;
-import com.lalaland.ecommerce.databinding.RecommendationItemBinding;
 
 import java.util.List;
 
@@ -55,6 +53,12 @@ public class ActionProductsAdapter extends RecyclerView.Adapter<ActionProductsAd
     public void setData(List<ActionProducts> actionProducts) {
 
         mActionProducts = actionProducts;
+        notifyDataSetChanged();
+    }
+
+    public void updateData(List<ActionProducts> updateActionProducts) {
+
+        mActionProducts = updateActionProducts;
         notifyDataSetChanged();
     }
 

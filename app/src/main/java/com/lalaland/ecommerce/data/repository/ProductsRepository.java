@@ -49,6 +49,7 @@ public class ProductsRepository {
     private MutableLiveData<HomeDataContainer> homeDataContainerMutableLiveData = new MutableLiveData<>();
     private MutableLiveData<ProductContainer> productContainerMutableLiveData = new MutableLiveData<>();
     private MutableLiveData<ActionProductsContainer> actionProductsContainerMutableLiveData = new MutableLiveData<>();
+    private MutableLiveData<ActionProductsContainer> filterActionProductsContainerMutableLiveData = new MutableLiveData<>();
     private MutableLiveData<CategoryContainer> categoryContainerMutableLiveData = new MutableLiveData<>();
     private MutableLiveData<ProductDetailDataContainer> productDetailDataContainerMutableLiveData = new MutableLiveData<>();
     private MutableLiveData<CartContainer> cartContainerMutableLiveData = new MutableLiveData<>();
@@ -481,24 +482,24 @@ public class ProductsRepository {
 
     public LiveData<ActionProductsContainer> applyFilters(Map<String, String> parameter) {
 
-        actionProductsContainerMutableLiveData = new MutableLiveData<>();
+        filterActionProductsContainerMutableLiveData = new MutableLiveData<>();
 
         lalalandServiceApi.applyFilter(parameter).enqueue(new Callback<ActionProductsContainer>() {
             @Override
             public void onResponse(Call<ActionProductsContainer> call, Response<ActionProductsContainer> response) {
 
                 if (response.isSuccessful())
-                    actionProductsContainerMutableLiveData.postValue(response.body());
+                    filterActionProductsContainerMutableLiveData.postValue(response.body());
                 else
-                    actionProductsContainerMutableLiveData.postValue(null);
+                    filterActionProductsContainerMutableLiveData.postValue(null);
             }
 
             @Override
             public void onFailure(Call<ActionProductsContainer> call, Throwable t) {
-                actionProductsContainerMutableLiveData.postValue(null);
+                filterActionProductsContainerMutableLiveData.postValue(null);
             }
         });
-        return actionProductsContainerMutableLiveData;
+        return filterActionProductsContainerMutableLiveData;
     }
 
     public void insertSearch(SearchCategory searchCategory) {

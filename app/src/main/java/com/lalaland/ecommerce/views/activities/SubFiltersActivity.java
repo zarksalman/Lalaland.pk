@@ -2,12 +2,16 @@ package com.lalaland.ecommerce.views.activities;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.os.Parcelable;
 import android.view.View;
+import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.databinding.DataBindingUtil;
+import androidx.recyclerview.widget.LinearLayoutManager;
 
 import com.lalaland.ecommerce.R;
+import com.lalaland.ecommerce.adapters.FiltersAdapter;
 import com.lalaland.ecommerce.data.models.filters.Filter;
 import com.lalaland.ecommerce.databinding.ActivitySubFiltersBinding;
 
@@ -23,12 +27,16 @@ public class SubFiltersActivity extends AppCompatActivity {
     private ActivitySubFiltersBinding activitySubFiltersBinding;
     private String parentFilterName;
     private List<Filter> subFilterList = new ArrayList<>();
+    private List<Filter> selectedSubFilterList = new ArrayList<>();
     private String subFilterName;
     private String priceParamsStart = "{\"price_range\":[";
     private String priceParamsMid;
     private String priceParamsEnd = "]}";
     private StringBuilder priceParams = new StringBuilder();
     private Intent intent;
+    String filterName;
+    FiltersAdapter filtersAdapter;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -39,13 +47,9 @@ public class SubFiltersActivity extends AppCompatActivity {
 
         if (subFilterName.equals("Price")) {
             activitySubFiltersBinding.priceContainer.setVisibility(View.VISIBLE);
-
-        } else if (subFilterName.equals("Brands")) {
-
-        } else if (subFilterName.equals("Category")) {
-
         } else {
             subFilterList = getIntent().getParcelableArrayListExtra("sub_filters");
+            filterName = getIntent().getStringExtra(FILTER_NAME);
             setSubFilterAdapter();
         }
 
@@ -53,8 +57,9 @@ public class SubFiltersActivity extends AppCompatActivity {
 
             if (subFilterName.equals("Price")) {
                 setPriceParams();
+            } else if (subFilterName.equals("Category")) {
+                setCategoryFilterIntent();
             }
-
         });
 
     }
@@ -66,6 +71,14 @@ public class SubFiltersActivity extends AppCompatActivity {
 
         lowPrice.append(activitySubFiltersBinding.etLow.getText().toString().trim());
         highPrice.append(activitySubFiltersBinding.etHigh.getText().toString().trim());
+
+        if (Integer.parseInt(lowPrice.toString()) > Integer.parseInt(highPrice.toString())) {
+
+            Toast.makeText(this, "Low price should be less than high price !!!", Toast.LENGTH_SHORT).show();
+            lowPrice = new StringBuilder();
+            highPrice = new StringBuilder();
+            return;
+        }
 
         if (!lowPrice.toString().isEmpty() && !highPrice.toString().isEmpty()) {
             // do nothing just send low value [10,100]
@@ -94,17 +107,54 @@ public class SubFiltersActivity extends AppCompatActivity {
         priceParams.append(priceParamsMid);
         priceParams.append(priceParamsEnd);
 
-        setResults();
+        setPriceFilterIntent();
     }
 
     private void setSubFilterAdapter() {
 
+
+        filtersAdapter = new FiltersAdapter(this, filterName);
+
+        activitySubFiltersBinding.rvColor.setHasFixedSize(true);
+        activitySubFiltersBinding.rvColor.setAdapter(filtersAdapter);
+        activitySubFiltersBinding.rvColor.setLayoutManager(new LinearLayoutManager(this));
+        filtersAdapter.setData(subFilterList);
+
+        activitySubFiltersBinding.rvColor.setVisibility(View.VISIBLE);
     }
 
-    private void setResults() {
+    private void setPriceFilterIntent() {
         intent = new Intent();
         intent.putExtra(PRICE_FILTER, priceParams.toString().trim());
         intent.putExtra(PRICE_RANGE, priceParamsMid.trim());
+        setResults();
+    }
+
+    private void setCategoryFilterIntent() {
+
+        intent = new Intent();
+        String catFilter;
+
+        if (filtersAdapter.getSelectedCategory() != null) {
+            catFilter = filtersAdapter.getSelectedCategory().getDisplayName();
+            intent.putExtra(FILTER_NAME, catFilter);
+        }
+
+        setResults();
+    }
+
+    private void setFiltersIntent() {
+
+        intent = new Intent();
+        List<Filter> selectedFilters = new ArrayList<>();
+
+        if (filtersAdapter.getSelectedFilters() != null) {
+            filtersAdapter.getSelectedFilters();
+            intent.putParcelableArrayListExtra("selected_filters", (ArrayList<? extends Parcelable>) selectedFilters);
+        }
+    }
+
+    private void setResults() {
         setResult(RESULT_OK, intent);
         finish();
     }
@@ -112,5 +162,6 @@ public class SubFiltersActivity extends AppCompatActivity {
     @Override
     public void onBackPressed() {
         setResult(RESULT_CANCELED);
+        finish();
     }
 }

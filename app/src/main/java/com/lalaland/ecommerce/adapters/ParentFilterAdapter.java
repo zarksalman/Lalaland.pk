@@ -10,7 +10,7 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.lalaland.ecommerce.R;
 import com.lalaland.ecommerce.data.models.filters.ParentFilter;
-import com.lalaland.ecommerce.databinding.FilterItemBinding;
+import com.lalaland.ecommerce.databinding.ParentFilterItemBinding;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -20,7 +20,7 @@ public class ParentFilterAdapter extends RecyclerView.Adapter<ParentFilterAdapte
 
     private Context mContext;
     private List<ParentFilter> mParentFilterList, filteredCityList = new ArrayList<>();
-    private FilterItemBinding filterItemBinding;
+    private ParentFilterItemBinding filterItemBinding;
     private LayoutInflater inflater;
     private ParentFilterListener mparentFilterListener;
 
@@ -35,7 +35,7 @@ public class ParentFilterAdapter extends RecyclerView.Adapter<ParentFilterAdapte
     @Override
     public ParentFilterViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
 
-        filterItemBinding = DataBindingUtil.inflate(inflater, R.layout.filter_item, parent, false);
+        filterItemBinding = DataBindingUtil.inflate(inflater, R.layout.parent_filter_item, parent, false);
         return new ParentFilterViewHolder(filterItemBinding);
     }
 
@@ -61,9 +61,9 @@ public class ParentFilterAdapter extends RecyclerView.Adapter<ParentFilterAdapte
 
     class ParentFilterViewHolder extends RecyclerView.ViewHolder {
 
-        FilterItemBinding mFilterItemBinding;
+        ParentFilterItemBinding mFilterItemBinding;
 
-        ParentFilterViewHolder(@NonNull FilterItemBinding filterItemBinding) {
+        ParentFilterViewHolder(@NonNull ParentFilterItemBinding filterItemBinding) {
             super(filterItemBinding.getRoot());
 
             mFilterItemBinding = filterItemBinding;

@@ -1,8 +1,8 @@
 package com.lalaland.ecommerce.customBinding;
 
+import android.graphics.Color;
 import android.widget.CheckBox;
 import android.widget.ImageView;
-import android.widget.TextView;
 
 import androidx.databinding.BindingAdapter;
 
@@ -80,17 +80,37 @@ public class CustomBinding {
 
     }
 
-    @BindingAdapter("setFitAndSize")
-    public static void setFitAndSize(TextView tvFitAndSize, String html) {
+    @BindingAdapter("setFilterColor")
+    public static void setFilterColor(ImageView imageView, String filterValue) {
+
+        Float percentFactor = 2.55f;
+
+        if (filterValue.toLowerCase().contains("multi")) {
+            imageView.setImageDrawable(AppConstants.mContext.getResources().getDrawable(R.drawable.muli_color_icon));
+        } else if (filterValue.toLowerCase().contains("#")) {
+            imageView.setBackgroundColor(Color.parseColor(filterValue));
+        } else if (filterValue.toLowerCase().contains("rgb")) {
 
 
-        /*tvFitAndSize.setMovementMethod(LinkMovementMethod.getInstance());
-        tvFitAndSize.setText(AppUtils.stripHtml(html));
-*/
-     /*   if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
-            tvFitAndSize.setText(AppUtils.stripHtml(html));
+            filterValue = filterValue.replace("rgb(", "");
+            filterValue = filterValue.replace(")", "");
+
+            if (filterValue.contains("%")) {
+
+                filterValue = filterValue.replace("%", "");
+                percentFactor = 2.55f;
+            }
+
+            String[] colorRgb = filterValue.split(",");
+            Integer[] rgbColor = new Integer[3];
+
+            rgbColor[0] = Math.round(Float.parseFloat(colorRgb[0]) * percentFactor);
+            rgbColor[1] = Math.round(Float.parseFloat(colorRgb[1]) * percentFactor);
+            rgbColor[2] = Math.round(Float.parseFloat(colorRgb[2]) * percentFactor);
+
+            imageView.setBackgroundColor(Color.rgb(rgbColor[0], rgbColor[1], rgbColor[2]));
         } else {
-            tvFitAndSize.setText(Html.fromHtml(html));
-        }*/
+            imageView.setBackgroundColor(Color.rgb(255, 255, 255));
+        }
     }
 }

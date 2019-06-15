@@ -28,7 +28,7 @@ import com.lalaland.ecommerce.helpers.AppConstants;
 import com.lalaland.ecommerce.viewModels.filter.FilterViewModel;
 import com.lalaland.ecommerce.viewModels.products.ProductViewModel;
 
-import java.io.UnsupportedEncodingException;
+import java.nio.charset.StandardCharsets;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -47,6 +47,8 @@ import static com.lalaland.ecommerce.helpers.AppConstants.PRICE_FILTER;
 import static com.lalaland.ecommerce.helpers.AppConstants.PRODUCT_ID;
 import static com.lalaland.ecommerce.helpers.AppConstants.PRODUCT_TYPE;
 import static com.lalaland.ecommerce.helpers.AppConstants.SALE_PRODUCT;
+import static com.lalaland.ecommerce.helpers.AppConstants.SELECTED_FILTER_ID;
+import static com.lalaland.ecommerce.helpers.AppConstants.SELECTED_FILTER_NAME;
 import static com.lalaland.ecommerce.helpers.AppConstants.START_INDEX;
 import static com.lalaland.ecommerce.helpers.AppConstants.SUCCESS_CODE;
 
@@ -66,12 +68,13 @@ public class ActionProductListingActivity extends AppCompatActivity implements A
     private static final String SORT_BY = "sort_by";
     GridLayoutManager gridLayoutManager;
     private boolean isScrolling;
-    int start = 0, length = 20, size = 20;
+    int start = 0, length = 30, size = 20;
     String sortBy = "az";
     Intent intent;
 
     String priceRange;
 
+    Boolean isFilterApplied = false;
     @Override
 
     protected void onCreate(Bundle savedInstanceState) {
@@ -200,7 +203,11 @@ public class ActionProductListingActivity extends AppCompatActivity implements A
 
                     isScrolling = false;
 
-                    setActionProducts();
+                    if (isFilterApplied)
+                        setFilteredActionProducts();
+                    else
+                        setActionProducts();
+
                 }
             }
         });
@@ -248,7 +255,6 @@ public class ActionProductListingActivity extends AppCompatActivity implements A
 
                     parameter.clear();
                     intent.putExtra(FILTER_KEY, "sale");
-
                     break;
 
                 case NEW_ARRIVAL_PRODUCTS:
@@ -373,9 +379,16 @@ public class ActionProductListingActivity extends AppCompatActivity implements A
 
             if (actionProductsContainer != null) {
 
-                if (actionProductsContainer.getData().equals(SUCCESS_CODE)) {
+                if (actionProductsContainer.getCode().equals(SUCCESS_CODE)) {
 
-                    Toast.makeText(this, "OK", Toast.LENGTH_SHORT).show();
+                    start += length;
+                    start++;
+
+                    filterParameter.put(START_INDEX, String.valueOf(size));
+                    filterParameter.put(LENGTH, String.valueOf(length));
+                    actionProductsArrayList = actionProductsContainer.getData().getProducts();
+                    actionProductsAdapter.updateData(actionProductsArrayList);
+
                 }
             }
         });
@@ -412,26 +425,53 @@ public class ActionProductListingActivity extends AppCompatActivity implements A
 
             if (requestCode == 200) {
 
-                priceRange = data.getStringExtra(PRICE_FILTER);
-                String priceRangeBase64;
+                switch (data.getStringExtra(SELECTED_FILTER_NAME)) {
+                    case "Price":
+                        setPriceParams(data);
+                        break;
 
-                try {
+                    case "Category":
+                        setCategoryParams(data);
+                        break;
 
-                    byte[] priceRangeBytes = priceRange.getBytes("UTF-8");
-                    priceRangeBase64 = Base64.encodeToString(priceRangeBytes, Base64.DEFAULT);
+                    case "Brands":
+                        break;
 
-                    filterParameter.put(ID, action_id);
-                    filterParameter.put("price_range", priceRangeBase64);
+                    default:
+                        break;
 
-                    setFilteredActionProducts();
 
-                } catch (UnsupportedEncodingException e) {
-                    e.printStackTrace();
                 }
-
 
                 // Toast.makeText(this, "make changes", Toast.LENGTH_SHORT).show();
             }
         }
+    }
+
+    void setPriceParams(Intent data) {
+
+        priceRange = data.getStringExtra(PRICE_FILTER);
+        String priceRangeBase64;
+
+        byte[] priceRangeBytes = priceRange.getBytes(StandardCharsets.UTF_8);
+        priceRangeBase64 = Base64.encodeToString(priceRangeBytes, Base64.DEFAULT);
+
+        start = 0;
+        filterParameter.put(ID, action_id);
+        filterParameter.put(START_INDEX, String.valueOf(size));
+        filterParameter.put(LENGTH, String.valueOf(length));
+
+        filterParameter.put("price_filter", priceRangeBase64);
+        setFilteredActionProducts();
+    }
+
+    void setCategoryParams(Intent data) {
+
+        String categoryId = data.getStringExtra(SELECTED_FILTER_ID);
+        filterParameter.put(ID, action_id);
+        filterParameter.put(START_INDEX, String.valueOf(size));
+        filterParameter.put(LENGTH, String.valueOf(length));
+        filterParameter.put("category_filter", categoryId);
+        setFilteredActionProducts();
     }
 }
