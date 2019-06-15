@@ -8,7 +8,6 @@ import android.view.View;
 import android.view.Window;
 import android.view.WindowManager;
 import android.widget.AbsListView;
-import android.widget.Toast;
 
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
@@ -24,7 +23,6 @@ import com.lalaland.ecommerce.adapters.ActionProductsAdapter;
 import com.lalaland.ecommerce.data.models.actionProducs.ActionProducts;
 import com.lalaland.ecommerce.databinding.ActivityProductListingBinding;
 import com.lalaland.ecommerce.databinding.SortFilterBottomSheetLayoutBinding;
-import com.lalaland.ecommerce.helpers.AppConstants;
 import com.lalaland.ecommerce.viewModels.filter.FilterViewModel;
 import com.lalaland.ecommerce.viewModels.products.ProductViewModel;
 
@@ -68,11 +66,12 @@ public class ActionProductListingActivity extends AppCompatActivity implements A
     private static final String SORT_BY = "sort_by";
     GridLayoutManager gridLayoutManager;
     private boolean isScrolling;
-    int start = 0, length = 30, size = 20;
+    int start = 0, length = 30, size = 30;
     String sortBy = "az";
     Intent intent;
 
     String priceRange;
+    String brandIds;
 
     Boolean isFilterApplied = false;
     @Override
@@ -338,39 +337,25 @@ public class ActionProductListingActivity extends AppCompatActivity implements A
                     if (actionProductsContainer.getData().getProducts().size() > 0) {
 
                         int startPosition = actionProductsArrayList.size();
-
                         actionProductsArrayList.addAll(actionProductsContainer.getData().getProducts());
-                        //  actionProductsAdapter.notifyDataSetChanged();
-
                         actionProductsAdapter.notifyItemRangeInserted(startPosition, actionProductsArrayList.size());
-                        activityProductListingBinding.rvProducts.setVisibility(View.VISIBLE);
 
                         start += size;
-                        start++;
 
                         if (parameter.containsKey(SORT_BY)) {
                             sortBy = parameter.get(SORT_BY);
                         }
 
-                        parameter.clear();
-
                         parameter.put(ID, action_id);
                         parameter.put(START_INDEX, String.valueOf(start));
                         parameter.put(LENGTH, String.valueOf(length));
                         parameter.put(SORT_BY, sortBy);
-                    } else {
-                        Toast.makeText(this, "Items not found", Toast.LENGTH_SHORT).show();
                     }
-                    activityProductListingBinding.pbLoadingActionProducts.setVisibility(View.GONE);
-
-                } else
-                    Log.d(AppConstants.TAG, actionProductsContainer.getMsg());
-
-                activityProductListingBinding.pbLoadingProducts.setVisibility(View.GONE);
+                }
             }
-
+            activityProductListingBinding.pbLoadingActionProducts.setVisibility(View.GONE);
+            activityProductListingBinding.pbLoadingProducts.setVisibility(View.GONE);
         });
-
     }
 
     private void setFilteredActionProducts() {
@@ -381,16 +366,22 @@ public class ActionProductListingActivity extends AppCompatActivity implements A
 
                 if (actionProductsContainer.getCode().equals(SUCCESS_CODE)) {
 
-                    start += length;
-                    start++;
+                    if (actionProductsContainer.getData().getProducts().size() > 0) {
 
-                    filterParameter.put(START_INDEX, String.valueOf(size));
-                    filterParameter.put(LENGTH, String.valueOf(length));
-                    actionProductsArrayList = actionProductsContainer.getData().getProducts();
-                    actionProductsAdapter.updateData(actionProductsArrayList);
+                        int startPosition = actionProductsArrayList.size();
+                        actionProductsArrayList.addAll(actionProductsContainer.getData().getProducts());
+                        actionProductsAdapter.notifyItemRangeInserted(startPosition, actionProductsArrayList.size());
+                        //actionProductsAdapter.updateData(actionProductsArrayList);
 
+                        start += size;
+                        filterParameter.put(START_INDEX, String.valueOf(start));
+                        filterParameter.put(LENGTH, String.valueOf(length));
+
+
+                    }
                 }
             }
+            activityProductListingBinding.pbLoadingProducts.setVisibility(View.GONE);
         });
     }
 
@@ -423,8 +414,11 @@ public class ActionProductListingActivity extends AppCompatActivity implements A
 
         if (resultCode == RESULT_OK) {
 
+            activityProductListingBinding.pbLoadingProducts.setVisibility(View.VISIBLE);
+            actionProductsArrayList.clear();
             if (requestCode == 200) {
 
+                isFilterApplied = true;
                 switch (data.getStringExtra(SELECTED_FILTER_NAME)) {
                     case "Price":
                         setPriceParams(data);
@@ -435,6 +429,7 @@ public class ActionProductListingActivity extends AppCompatActivity implements A
                         break;
 
                     case "Brands":
+                        setBrandParams(data);
                         break;
 
                     default:
@@ -448,7 +443,7 @@ public class ActionProductListingActivity extends AppCompatActivity implements A
         }
     }
 
-    void setPriceParams(Intent data) {
+    private void setPriceParams(Intent data) {
 
         priceRange = data.getStringExtra(PRICE_FILTER);
         String priceRangeBase64;
@@ -465,13 +460,30 @@ public class ActionProductListingActivity extends AppCompatActivity implements A
         setFilteredActionProducts();
     }
 
-    void setCategoryParams(Intent data) {
+    private void setCategoryParams(Intent data) {
 
+        start = 0;
         String categoryId = data.getStringExtra(SELECTED_FILTER_ID);
         filterParameter.put(ID, action_id);
-        filterParameter.put(START_INDEX, String.valueOf(size));
+        filterParameter.put(START_INDEX, String.valueOf(start));
         filterParameter.put(LENGTH, String.valueOf(length));
         filterParameter.put("category_filter", categoryId);
         setFilteredActionProducts();
     }
+
+    private void setBrandParams(Intent data) {
+
+        String brandParamsBase64;
+        brandIds = data.getStringExtra(SELECTED_FILTER_ID);
+        byte[] brandIdsBytes = brandIds.getBytes(StandardCharsets.UTF_8);
+        brandParamsBase64 = Base64.encodeToString(brandIdsBytes, Base64.DEFAULT);
+
+        start = 0;
+        filterParameter.put(ID, action_id);
+        filterParameter.put(START_INDEX, String.valueOf(start));
+        filterParameter.put(LENGTH, String.valueOf(length));
+        filterParameter.put("brand_filter", brandParamsBase64);
+        setFilteredActionProducts();
+    }
+
 }

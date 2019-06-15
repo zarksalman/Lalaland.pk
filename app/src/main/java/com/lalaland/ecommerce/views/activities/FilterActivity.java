@@ -53,6 +53,7 @@ public class FilterActivity extends AppCompatActivity {
 
     String filterName;
     String categoryFilterName;
+    String brandFilterName;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -254,6 +255,12 @@ public class FilterActivity extends AppCompatActivity {
 
                 case 202: // brands
 
+                    brandFilterName = data.getStringExtra(SELECTED_FILTER_NAME);
+                    parentFilterList.get(2).setFilterSelected(brandFilterName);
+                    parentFilterAdapter.notifyDataSetChanged();
+                    data.putExtra(SELECTED_FILTER_NAME, "Brands");
+                    setResult(RESULT_OK, data);
+                    finish();
                     break;
 
                 case 203:
