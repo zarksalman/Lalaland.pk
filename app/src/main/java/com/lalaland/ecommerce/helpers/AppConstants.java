@@ -47,6 +47,8 @@ public class AppConstants {
     public static final String PRICE_FILTER = "price_filter";
     public static final String PRICE_RANGE = "price_range";
 
+    public static final String PV_FILTER_ = "pv_filter";
+
 
     public static final String PRODUCT_TYPE = "product_type";
 

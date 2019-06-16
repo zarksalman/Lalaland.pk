@@ -12,6 +12,7 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import com.lalaland.ecommerce.R;
 import com.lalaland.ecommerce.adapters.FiltersAdapter;
 import com.lalaland.ecommerce.data.models.filters.Filter;
+import com.lalaland.ecommerce.data.models.filters.PvFilterCustomModel;
 import com.lalaland.ecommerce.databinding.ActivitySubFiltersBinding;
 
 import java.util.ArrayList;
@@ -20,6 +21,7 @@ import java.util.List;
 import static com.lalaland.ecommerce.helpers.AppConstants.FILTER_NAME;
 import static com.lalaland.ecommerce.helpers.AppConstants.PRICE_FILTER;
 import static com.lalaland.ecommerce.helpers.AppConstants.PRICE_RANGE;
+import static com.lalaland.ecommerce.helpers.AppConstants.PV_FILTER_;
 import static com.lalaland.ecommerce.helpers.AppConstants.SELECTED_FILTER_ID;
 import static com.lalaland.ecommerce.helpers.AppConstants.SELECTED_FILTER_NAME;
 
@@ -44,9 +46,22 @@ public class SubFiltersActivity extends AppCompatActivity {
     private String brandParamsEnd = "]";
     private StringBuilder brandParams = new StringBuilder();
 
+    // pvfilter parameter ==> Base64(" "{"2":[90,100,110], "5":[40,400,310]}" ")
+    private String pvFilterParamsStart = "\"{\"";
+    private String pvParentFilterId = "";
+    private String pvFilterParamsIdsStart = "\":[";
+    private StringBuilder pvFilterParamsIdsMid = new StringBuilder();
+    private String pvFilterParamsIdsEnd = "],";
+    private String pvFilterParamsEnd = "}\"";
+    private StringBuilder pvFilterParams = new StringBuilder();
+
     private Intent intent;
     String filterName;
     FiltersAdapter filtersAdapter;
+
+    StringBuffer sFilterNames = new StringBuffer();
+    StringBuffer sFilterIds = new StringBuffer();
+
 
 
     @Override
@@ -70,11 +85,17 @@ public class SubFiltersActivity extends AppCompatActivity {
                 setPriceParams();
             } else if (subFilterName.equals("Category")) {
                 setCategoryFilterIntent();
+            } else if (subFilterName.equals("Brands")) {
+                setBrandsFiltersIntent();
             } else {
-
-                setOtherFiltersIntent();
+                setOthersFilterIntent();
             }
+
+            setResult(RESULT_OK, intent);
+            finish();
         });
+
+        activitySubFiltersBinding.ivBtnBack.setOnClickListener(v -> onBackPressed());
 
     }
 
@@ -90,26 +111,10 @@ public class SubFiltersActivity extends AppCompatActivity {
             sFilterNames = sFilterNames.concat(selectedFilters.get(i).getDisplayName()).concat(",");
         }
 
-/*
-        int lastComa = brandParamsMid.lastIndexOf(",");
-        brandParamsMid = brandParamsMid.replace(",$", "");
-
-        brandParams.append(brandParamsMid);
-        brandParams.append(brandParamsEnd);
-*/
-
-
-        sb = new StringBuffer(brandParamsMid);
-        sb.replace(brandParamsMid.lastIndexOf(","), brandParamsMid.lastIndexOf(",") + 1, "");
-
-        brandParams.append(sb);
+        brandParams.append(trimLastComa(brandParamsMid));
         brandParams.append(brandParamsEnd);
 
-        sb = new StringBuffer(sFilterNames);
-        sb.replace(sFilterNames.lastIndexOf(","), sFilterNames.lastIndexOf(",") + 1, "");
-
-        return sb.toString();
-
+        return trimLastComa(sFilterNames);
     }
 
     private void setPriceParams() {
@@ -120,7 +125,7 @@ public class SubFiltersActivity extends AppCompatActivity {
         lowPrice.append(activitySubFiltersBinding.etLow.getText().toString().trim());
         highPrice.append(activitySubFiltersBinding.etHigh.getText().toString().trim());
 
-        if (Integer.parseInt(lowPrice.toString()) > Integer.parseInt(highPrice.toString())) {
+        if (Integer.parseInt(lowPrice.toString()) >= Integer.parseInt(highPrice.toString())) {
 
             Toast.makeText(this, "Low price should be less than high price !!!", Toast.LENGTH_SHORT).show();
             lowPrice = new StringBuilder();
@@ -175,7 +180,27 @@ public class SubFiltersActivity extends AppCompatActivity {
         intent = new Intent();
         intent.putExtra(PRICE_FILTER, priceParams.toString().trim());
         intent.putExtra(PRICE_RANGE, priceParamsMid.trim());
-        setResults();
+    }
+
+    void setPbFiltersParams() {
+
+        pvFilterParams.append(pvFilterParamsStart);
+        pvParentFilterId = String.valueOf(selectedFilters.get(0).getId());
+        pvFilterParams.append(pvParentFilterId);
+        pvFilterParams.append(pvFilterParamsIdsStart);
+
+        for (int i = 0; i < selectedFilters.size(); i++) {
+
+            pvFilterParamsIdsMid.append(selectedFilters.get(i).getProductVariationValueId());
+            pvFilterParamsIdsMid.append(",");
+        }
+
+        pvFilterParamsIdsMid = new StringBuilder(trimLastComa(pvFilterParamsIdsMid.toString()));
+        pvFilterParams.append(pvFilterParamsIdsMid);
+        pvFilterParams.append(pvFilterParamsIdsEnd);
+        pvFilterParams = new StringBuilder(trimLastComa(pvFilterParams.toString()));
+        pvFilterParams.append(pvFilterParamsEnd);
+
     }
 
     private void setCategoryFilterIntent() {
@@ -186,12 +211,11 @@ public class SubFiltersActivity extends AppCompatActivity {
         if (filtersAdapter.getSelectedCategory() != null) {
             catFilter = filtersAdapter.getSelectedCategory().getDisplayName();
             intent.putExtra(FILTER_NAME, catFilter);
-        }
-
-        setResults();
+        } else
+            Toast.makeText(this, "Select atleast one filter", Toast.LENGTH_SHORT).show();
     }
 
-    private void setOtherFiltersIntent() {
+    private void setBrandsFiltersIntent() {
 
         intent = new Intent();
         String sFilterNames = "";
@@ -202,18 +226,88 @@ public class SubFiltersActivity extends AppCompatActivity {
 
             intent.putExtra(SELECTED_FILTER_NAME, sFilterNames);
             intent.putExtra(SELECTED_FILTER_ID, brandParams.toString());
-        }
-        setResults();
+        } else
+            Toast.makeText(this, "Select atleast one filter", Toast.LENGTH_SHORT).show();
     }
 
-    private void setResults() {
-        setResult(RESULT_OK, intent);
-        finish();
+    private void setOthersFilterIntent() {
+        intent = new Intent();
+
+
+        if (filtersAdapter.getSelectedFilters() != null) {
+            selectedFilters = filtersAdapter.getSelectedFilters();
+
+            setPbFiltersParams();
+
+            intent.putExtra(PV_FILTER_, pvFilterParams.toString());
+            intent.putExtra(SELECTED_FILTER_NAME, selectedFilters.get(0).getFilterName());
+            intent.putExtra(FILTER_NAME, selectedFilters.get(0).getFilterName());
+
+            //intent.putParcelableArrayListExtra("selected_filters", (ArrayList<? extends Parcelable>) selectedFilters);
+
+            // for multiple filters
+            /*  setOthersParams();
+
+            intent.putExtra(FILTER_NAME, selectedFilters.get(0).getFilterName());
+            intent.putExtra(SELECTED_FILTER_NAME, sFilterNames.toString());
+            intent.putExtra(SELECTED_FILTER_ID, sFilterIds.toString());
+            */
+
+        } else
+            Toast.makeText(this, "Select atleast one filter", Toast.LENGTH_SHORT).show();
+    }
+
+    private void setOthersParams() {
+
+        List<PvFilterCustomModel> pvFilterCustomModelList = new ArrayList<>();
+        List<Filter> subPvFilter = new ArrayList<>();
+        PvFilterCustomModel pvFilterCustomModel = new PvFilterCustomModel();
+
+        for (int i = 0; i < selectedFilters.size(); i++) {
+            sFilterNames.append(selectedFilters.get(i).getDisplayName());
+            sFilterNames.append(",");
+
+            sFilterIds.append(selectedFilters.get(i).getProductVariationValueId());
+            sFilterIds.append(",");
+
+            //     filterName = selectedFilters.get(i).getFilterName();
+        }
+
+        sFilterNames = new StringBuffer(trimLastComa(sFilterNames.toString()));
+        sFilterIds = new StringBuffer(trimLastComa(sFilterIds.toString()));
+
+    }
+
+    private String trimLastComa(String trimString) {
+
+        StringBuffer sb = new StringBuffer(trimString);
+        sb.replace(trimString.lastIndexOf(","), trimString.lastIndexOf(",") + 1, "");
+
+        return sb.toString();
     }
 
     @Override
     public void onBackPressed() {
-        setResult(RESULT_CANCELED);
-        finish();
+
+        // for multiple filters
+
+      /*  switch (subFilterName) {
+            case "Price":
+                intent = new Intent();
+                intent.putExtra(FILTER_NAME, "not null");
+                intent.putExtra(PRICE_RANGE, "Any");
+                break;
+            case "Category":
+                setCategoryFilterIntent();
+                break;
+            case "Brands":
+                setBrandsFiltersIntent();
+                break;
+            default:
+                setOthersFilterIntent();
+                break;
+        }
+        setResult(RESULT_CANCELED, intent);
+        finish();*/
     }
 }

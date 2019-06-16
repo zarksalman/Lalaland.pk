@@ -44,6 +44,7 @@ import static com.lalaland.ecommerce.helpers.AppConstants.PICK_OF_THE_WEEK_PRODU
 import static com.lalaland.ecommerce.helpers.AppConstants.PRICE_FILTER;
 import static com.lalaland.ecommerce.helpers.AppConstants.PRODUCT_ID;
 import static com.lalaland.ecommerce.helpers.AppConstants.PRODUCT_TYPE;
+import static com.lalaland.ecommerce.helpers.AppConstants.PV_FILTER_;
 import static com.lalaland.ecommerce.helpers.AppConstants.SALE_PRODUCT;
 import static com.lalaland.ecommerce.helpers.AppConstants.SELECTED_FILTER_ID;
 import static com.lalaland.ecommerce.helpers.AppConstants.SELECTED_FILTER_NAME;
@@ -72,6 +73,7 @@ public class ActionProductListingActivity extends AppCompatActivity implements A
 
     String priceRange;
     String brandIds;
+    String pvFilter;
 
     Boolean isFilterApplied = false;
     @Override
@@ -433,14 +435,31 @@ public class ActionProductListingActivity extends AppCompatActivity implements A
                         break;
 
                     default:
+                        setOtherFiltersParams(data);
                         break;
-
-
                 }
 
                 // Toast.makeText(this, "make changes", Toast.LENGTH_SHORT).show();
             }
         }
+    }
+
+    private void setOtherFiltersParams(Intent data) {
+
+      /*  List<Filter> selectedFilters = new ArrayList<>();
+        selectedFilters = intent.getParcelableArrayListExtra("selected_filters");*/
+
+        String pvFilterParamsBase64;
+        pvFilter = data.getStringExtra(PV_FILTER_);
+        byte[] pvFilterBytes = pvFilter.getBytes(StandardCharsets.UTF_8);
+        pvFilterParamsBase64 = Base64.encodeToString(pvFilterBytes, Base64.DEFAULT);
+
+        start = 0;
+        filterParameter.put(ID, action_id);
+        filterParameter.put(START_INDEX, String.valueOf(start));
+        filterParameter.put(LENGTH, String.valueOf(length));
+        filterParameter.put("pv_filter", pvFilterParamsBase64);
+        setFilteredActionProducts();
     }
 
     private void setPriceParams(Intent data) {

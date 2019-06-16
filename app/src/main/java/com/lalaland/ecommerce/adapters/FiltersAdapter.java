@@ -81,7 +81,7 @@ public class FiltersAdapter extends RecyclerView.Adapter<FiltersAdapter.FilterVi
 
         if (itemStateArray.size() > 0) {
 
-            for (int i = 0; i < itemStateArray.size(); i++) {
+            for (int i = 0; i < mFilterList.size(); i++) {
 
                 if (itemStateArray.get(i)) {
                     selectedFilters.add(mFilterList.get(i));

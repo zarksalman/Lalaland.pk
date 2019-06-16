@@ -51,9 +51,12 @@ public class FilterActivity extends AppCompatActivity {
     String priceFilter;
     String priceRange;
 
+    Integer filterId;
     String filterName;
     String categoryFilterName;
     String brandFilterName;
+    String pvFilters;
+    String pvFilterIds;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -225,48 +228,149 @@ public class FilterActivity extends AppCompatActivity {
         super.onActivityResult(requestCode, resultCode, data);
 
         if (resultCode == RESULT_OK) {
-
             switch (requestCode) {
                 case 200: // pricing
 
-                    priceFilter = data.getStringExtra(PRICE_FILTER);
-                    priceRange = data.getStringExtra(PRICE_RANGE);
-                    parentFilterList.get(0).setFilterSelected(priceRange);
-                    parentFilterAdapter.notifyDataSetChanged();
+
+                    if (data.getStringExtra(FILTER_NAME) != null) {
+
+                        priceFilter = data.getStringExtra(PRICE_FILTER);
+                        priceRange = data.getStringExtra(PRICE_RANGE);
+                        parentFilterList.get(0).setFilterSelected(priceRange);
+                        parentFilterAdapter.notifyDataSetChanged();
+                    }
 
                     data.putExtra(SELECTED_FILTER_NAME, filterName);
                     setResult(RESULT_OK, data);
-                    finish();
 
                     break;
 
                 case 201: // category
 
-                    categoryFilterName = data.getStringExtra(FILTER_NAME);
-                    parentFilterList.get(1).setFilterSelected(categoryFilterName);
-                    parentFilterAdapter.notifyDataSetChanged();
+
+                    if (data.getStringExtra(FILTER_NAME) != null) {
+                        categoryFilterName = data.getStringExtra(FILTER_NAME);
+                        parentFilterList.get(1).setFilterSelected(categoryFilterName);
+                        parentFilterAdapter.notifyDataSetChanged();
+                    }
 
                     data.putExtra(SELECTED_FILTER_ID, String.valueOf(getCategoryFilterId(categoryFilterName)));
                     data.putExtra(SELECTED_FILTER_NAME, filterName);
                     setResult(RESULT_OK, data);
-                    finish();
 
                     break;
 
                 case 202: // brands
 
-                    brandFilterName = data.getStringExtra(SELECTED_FILTER_NAME);
-                    parentFilterList.get(2).setFilterSelected(brandFilterName);
-                    parentFilterAdapter.notifyDataSetChanged();
+                    if (data.getStringExtra(SELECTED_FILTER_NAME) != null) {
+                        brandFilterName = data.getStringExtra(SELECTED_FILTER_NAME);
+                        parentFilterList.get(2).setFilterSelected(brandFilterName);
+                        parentFilterAdapter.notifyDataSetChanged();
+                    }
                     data.putExtra(SELECTED_FILTER_NAME, "Brands");
                     setResult(RESULT_OK, data);
-                    finish();
+
                     break;
 
                 case 203:
+
+                    if (data.getStringExtra(SELECTED_FILTER_NAME) != null) {
+
+                        filterName = data.getStringExtra(FILTER_NAME);
+                        pvFilters = data.getStringExtra(SELECTED_FILTER_NAME);
+                        pvFilterIds = data.getStringExtra(SELECTED_FILTER_ID);
+
+                        Integer index = getParentFilterId(filterName);
+
+                        if (index != null) {
+                            parentFilterList.get(index).setFilterSelected(pvFilters);
+                            parentFilterAdapter.notifyDataSetChanged();
+                        }
+                    }
+                    setResult(RESULT_OK, data);
                     break;
             }
+            finish();
         }
+
+        // for multiple filters
+   /*     switch (requestCode) {
+            case 200: // pricing
+
+
+                if (data.getStringExtra(FILTER_NAME) != null) {
+
+                    priceFilter = data.getStringExtra(PRICE_FILTER);
+                    priceRange = data.getStringExtra(PRICE_RANGE);
+                    parentFilterList.get(0).setFilterSelected(priceRange);
+                    parentFilterAdapter.notifyDataSetChanged();
+                }
+
+                data.putExtra(SELECTED_FILTER_NAME, filterName);
+                setResult(RESULT_OK, data);
+
+                break;
+
+            case 201: // category
+
+
+                if (data.getStringExtra(FILTER_NAME) != null) {
+                    categoryFilterName = data.getStringExtra(FILTER_NAME);
+                    parentFilterList.get(1).setFilterSelected(categoryFilterName);
+                    parentFilterAdapter.notifyDataSetChanged();
+                }
+
+                data.putExtra(SELECTED_FILTER_ID, String.valueOf(getCategoryFilterId(categoryFilterName)));
+                data.putExtra(SELECTED_FILTER_NAME, filterName);
+                setResult(RESULT_OK, data);
+
+                break;
+
+            case 202: // brands
+
+                if (data.getStringExtra(SELECTED_FILTER_NAME) != null) {
+                    brandFilterName = data.getStringExtra(SELECTED_FILTER_NAME);
+                    parentFilterList.get(2).setFilterSelected(brandFilterName);
+                    parentFilterAdapter.notifyDataSetChanged();
+                }
+                data.putExtra(SELECTED_FILTER_NAME, "Brands");
+                setResult(RESULT_OK, data);
+
+                break;
+
+            case 203:
+
+                if (data.getStringExtra(SELECTED_FILTER_NAME) != null) {
+
+                    filterName = data.getStringExtra(FILTER_NAME);
+                    pvFilters = data.getStringExtra(SELECTED_FILTER_NAME);
+                    pvFilterIds = data.getStringExtra(SELECTED_FILTER_ID);
+
+                    Integer index = getParentFilterId(filterName);
+
+                    if (index != null) {
+                        parentFilterList.get(index).setFilterSelected(pvFilters);
+                        parentFilterAdapter.notifyDataSetChanged();
+                    }
+                }
+
+                setResult(RESULT_OK, data);
+                break;
+        }
+
+        if (resultCode == RESULT_OK) {
+            finish();
+        }*/
+    }
+
+    private Integer getParentFilterId(String parentFilterName) {
+
+        for (int i = 0; i < parentFilterList.size(); i++) {
+            if (parentFilterName.equals(parentFilterList.get(i).getParentFilterName()))
+                return i;
+        }
+
+        return null;
     }
 
     private Integer getCategoryFilterId(String catName) {
@@ -277,5 +381,11 @@ public class FilterActivity extends AppCompatActivity {
         }
 
         return null;
+    }
+
+    @Override
+    public void onBackPressed() {
+        setResult(RESULT_CANCELED);
+        finish();
     }
 }
