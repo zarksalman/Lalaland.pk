@@ -93,7 +93,6 @@ public class ProductDetailActivity extends AppCompatActivity implements ProductV
         activityProductDetailBinding.pbLoading.setVisibility(View.VISIBLE);
         getProductDetail();
 
-        activityProductDetailBinding.setListener(this);
     }
 
     void loadProductDetail() {
@@ -184,15 +183,6 @@ public class ProductDetailActivity extends AppCompatActivity implements ProductV
         activityProductDetailBinding.wvProductGeneralDetail.loadData(generalDescription, "text/html", "UTF-8");
         activityProductDetailBinding.wvProductGeneralDetail.loadData(materialDescription, "text/html", "UTF-8");
 
-/*        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
-            activityProductDetailBinding.tvProductGeneralDetail.setText(Html.fromHtml(generalDescription, Html.FROM_HTML_MODE_COMPACT));
-            activityProductDetailBinding.tvProductMaterialDetail.setText(Html.fromHtml(materialDescription, Html.FROM_HTML_MODE_COMPACT));
-
-        } else {
-            activityProductDetailBinding.tvProductGeneralDetail.setText(Html.fromHtml(generalDescription));
-            activityProductDetailBinding.tvProductMaterialDetail.setText(Html.fromHtml(materialDescription));
-
-        }*/
 
         if (generalDescription != null && generalDescription.isEmpty()) {
             activityProductDetailBinding.wvProductGeneralDetail.setVisibility(View.GONE);
@@ -228,6 +218,8 @@ public class ProductDetailActivity extends AppCompatActivity implements ProductV
 
                     initBottomSheet();
                     loadProductDetail();
+
+                    activityProductDetailBinding.setListener(this);
                 }
             }
         });
@@ -235,9 +227,7 @@ public class ProductDetailActivity extends AppCompatActivity implements ProductV
 
     public void AddToCart(View view) {
 
-        if (activityProductDetailBinding.pbLoading.getVisibility() == View.VISIBLE)
-            return;
-
+        activityProductDetailBinding.pbLoading.setVisibility(View.VISIBLE);
         quantity = Integer.parseInt(prouctDetailBottomSheetLayoutBinding.tvCount.getText().toString());
 
         parameter.clear();
@@ -246,10 +236,10 @@ public class ProductDetailActivity extends AppCompatActivity implements ProductV
         parameter.put(PRODUCT_ID, String.valueOf(product_id));
         parameter.put(QUANTITY, String.valueOf(quantity));
 
+        hideBottomSheet();
         productViewModel.addToCart(headers, parameter).observe(this, basicResponse -> {
 
             if (basicResponse != null) {
-
 
                 if (basicResponse.getCode().equals(SUCCESS_CODE)) {
 
@@ -271,17 +261,20 @@ public class ProductDetailActivity extends AppCompatActivity implements ProductV
                 }
             } else
                 Toast.makeText(this, GENERAL_ERROR, Toast.LENGTH_SHORT).show();
+
+            activityProductDetailBinding.pbLoading.setVisibility(View.GONE);
         });
     }
 
     public void addRemoveToWishList(View view) {
 
-        if (activityProductDetailBinding.pbLoading.getVisibility() == View.VISIBLE)
-            return;
+        activityProductDetailBinding.pbLoading.setVisibility(View.VISIBLE);
+
 
         if (loginToken.isEmpty()) {
             Toast.makeText(this, "Please login to add to wishlist", Toast.LENGTH_SHORT).show();
             startActivity(new Intent(this, RegistrationActivity.class));
+            activityProductDetailBinding.pbLoading.setVisibility(View.GONE);
             return;
         }
 
@@ -317,14 +310,17 @@ public class ProductDetailActivity extends AppCompatActivity implements ProductV
             } else
                 Toast.makeText(this, GENERAL_ERROR, Toast.LENGTH_SHORT).show();
 
+            activityProductDetailBinding.pbLoading.setVisibility(View.GONE);
         });
     }
 
     public void setBottomSheet(View view, boolean isBuyNow) {
 
+        if (activityProductDetailBinding.pbLoading.getVisibility() == View.VISIBLE)
+            return;
+
         // is buy now or just add to cart
         this.isBuyNow = isBuyNow;
-
         mBottomSheetDialog.show();
 
     }
