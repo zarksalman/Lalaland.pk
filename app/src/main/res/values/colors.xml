@@ -1,11 +1,17 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <color name="colorPrimary">#E7405C</color>
-    <color name="colorPrimaryDark">#BE2B3F</color>
+    <color name="colorPrimary">#F63655</color>
+    <color name="colorPrimaryDark">#e83e8c</color>
     <color name="colorAccent">#D81B60</color>
 
-    <color name="colorScreenBg">#ECECEC</color>
-    <color name="colorLightGray">#9E9A9A</color>
+    <color name="colorScreenBg">#F2F2F2</color>
+    <color name="colorLightGray">#E1E1E1</color>
+    <color name="colorDarkGray">#6E6E6E</color>
+    <color name="colorGreen">#21CFAF</color>
+
+    <color name="colorLightBlue">#7FB1C1</color>
+    <color name="colorDarkBlue">#1E293F</color>
+
     <color name="colorLightRed">#D81B60</color>
     <color name="colorFacebook">#2E4E9E</color>
     <color name="colorGoogle">#2E4E9E</color>

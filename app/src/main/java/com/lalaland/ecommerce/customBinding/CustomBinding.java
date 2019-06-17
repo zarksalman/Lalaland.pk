@@ -12,6 +12,7 @@ import com.lalaland.ecommerce.helpers.AppConstants;
 
 import static com.lalaland.ecommerce.helpers.AppConstants.ACTION_STORAGE_BASE_URL;
 import static com.lalaland.ecommerce.helpers.AppConstants.BRAND_FOCUS_STORAGE_BASE_URL;
+import static com.lalaland.ecommerce.helpers.AppConstants.CATEGORY_BRAND_STORAGE_BASE_URL;
 import static com.lalaland.ecommerce.helpers.AppConstants.PRODUCT_STORAGE_BASE_URL;
 
 public class CustomBinding {
@@ -56,6 +57,18 @@ public class CustomBinding {
     public static void setBrandFocusImageFromServer(ImageView imageView, String imageName) {
 
         String imageSrc = BRAND_FOCUS_STORAGE_BASE_URL.concat(imageName);
+        Glide
+                .with(imageView.getContext())
+                .load(imageSrc)
+                .placeholder(R.drawable.placeholder_products)
+                .fitCenter()
+                .into(imageView);
+    }
+
+    @BindingAdapter("setCategoryBrandImage")
+    public static void setCategoryBrandImage(ImageView imageView, String logoUrl) {
+
+        String imageSrc = CATEGORY_BRAND_STORAGE_BASE_URL.concat(logoUrl);
         Glide
                 .with(imageView.getContext())
                 .load(imageSrc)

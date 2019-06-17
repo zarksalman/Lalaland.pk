@@ -150,6 +150,7 @@ public class CartFragment extends Fragment implements View.OnClickListener, Cart
                         getMerchantList();
                         addMerchantProductList();
                         setCartAdapter();
+                        setSelectedCartItemList();
 
                         Log.d(TAG, String.valueOf(cartContainer.getData().getCartItems().size()));
                     } else
@@ -316,26 +317,11 @@ public class CartFragment extends Fragment implements View.OnClickListener, Cart
                 if (basicResponse.getCode().equals(SUCCESS_CODE)) {
 
                     cartItemList.remove(cartItem);
+                    selectedCartItemList.remove(cartItem);
                     getMerchantList();
                     addMerchantProductList();
                     setCartAdapter();
-                    //         cartIMerchantAdapter.updateData(cartListModelList);
-
-                    //cartIMerchantAdapter.notifyDataSetChanged();
-
-                /*    if (selectedCartItemList.size() > position) {
-                        selectedCartItemList.remove(position);
-                        calCalculateBill();
-                    }
-
-                    cartListModelList.get(merchantIndex).getCartItemList().remove(position);
-                    cartIMerchantAdapter.setData(cartListModelList);
-
-                    if (cartListModelList.get(merchantIndex).getCartItemList().size() < 1) {
-                        cartListModelList.remove(merchantIndex);
-                        cartIMerchantAdapter.notifyItemRemoved(merchantIndex);
-                    }
-*/
+                    calCalculateBill();
 
                     if (cartListModelList.size() < 1) {
                         fragmentCartBinding.tvCartEmptyState.setVisibility(View.VISIBLE);
@@ -389,7 +375,6 @@ public class CartFragment extends Fragment implements View.OnClickListener, Cart
 
                     Toast.makeText(getContext(), basicResponse.getMsg(), Toast.LENGTH_SHORT).show();
 
-                    //  EventBus.getDefault().post(new MessageEvent(position, quantity));
                 } else if (basicResponse.getCode().equals(VALIDATION_FAIL_CODE)) {
                     Toast.makeText(getContext(), basicResponse.getMsg(), Toast.LENGTH_SHORT).show();
                 } else {
@@ -413,6 +398,7 @@ public class CartFragment extends Fragment implements View.OnClickListener, Cart
 
                     Intent intent;
 
+                    token = appPreference.getString(SIGNIN_TOKEN);
                     if (token != null && !token.isEmpty()) {
 
                         if (!selectedCartItemList.isEmpty()) {
@@ -466,6 +452,8 @@ public class CartFragment extends Fragment implements View.OnClickListener, Cart
     @Override
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
+
+        token = appPreference.getString(SIGNIN_TOKEN);
 
         if (resultCode == RESULT_OK) {
             fragmentCartBinding.btnCheckout.performClick();

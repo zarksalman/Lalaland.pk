@@ -100,6 +100,8 @@ public class AccountFragment extends Fragment implements View.OnClickListener {
     private void initListeners() {
 
         fragmentAccountBinding.tvSetting.setOnClickListener(this);
+        fragmentAccountBinding.ivSetting.setOnClickListener(this);
+
         fragmentAccountBinding.tvAboutUs.setOnClickListener(this);
         fragmentAccountBinding.tvPrivacyPolicy.setOnClickListener(this);
         fragmentAccountBinding.tvReturnPolicy.setOnClickListener(this);
@@ -204,7 +206,7 @@ public class AccountFragment extends Fragment implements View.OnClickListener {
             case R.id.tv_login_logout:
 
                 if (signInToken.isEmpty()) {
-                    startActivity(new Intent(getContext(), RegistrationActivity.class));
+                    startActivityForResult(new Intent(getContext(), RegistrationActivity.class), 100);
                 } else {
                     logoutUser();
                 }
@@ -231,6 +233,8 @@ public class AccountFragment extends Fragment implements View.OnClickListener {
                 fragmentAccountBinding.tvLoginLogout.setText("Login");
                 fragmentAccountBinding.tvUserName.setText("Login / Create Account");
 
+                signInToken = "";
+
                 Glide.with(getContext())
                         .load(R.drawable.placeholder_products)
                         .into(fragmentAccountBinding.ivDp);
@@ -254,16 +258,22 @@ public class AccountFragment extends Fragment implements View.OnClickListener {
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
 
-        Toast.makeText(getContext(), "OK", Toast.LENGTH_SHORT).show();
-        if (requestCode == Activity.RESULT_OK) {
+        if (resultCode == Activity.RESULT_OK) {
 
-            if (resultCode == 100 || resultCode == 101) {
+            if (requestCode == 100 || requestCode == 101) {
 
+                signInToken = appPreference.getString(SIGNIN_TOKEN);
                 userName = appPreference.getString(USER_NAME);
                 userAvatar = appPreference.getString(USER_AVATAR);
 
                 fragmentAccountBinding.tvUserName.setText(userName);
                 String avatarImagePath = USER_STORAGE_BASE_URL.concat(userAvatar);
+
+                userName = appPreference.getString(USER_NAME);
+                userAvatar = appPreference.getString(USER_AVATAR);
+
+                fragmentAccountBinding.tvUserName.setText(userName);
+                fragmentAccountBinding.tvLoginLogout.setText("Logout");
 
                 Glide.with(getContext())
                         .load(avatarImagePath)

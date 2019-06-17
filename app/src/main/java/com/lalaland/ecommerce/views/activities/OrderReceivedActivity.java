@@ -37,6 +37,10 @@ public class OrderReceivedActivity extends AppCompatActivity implements ProductA
         recommendedProductList = getIntent().getParcelableArrayListExtra("recommended_products");
 
         setInitValues();
+
+        activityOrderReceivedBinding.btnBack.setOnClickListener(v -> {
+            onBackPressed();
+        });
     }
 
     private void setInitValues() {
@@ -77,5 +81,12 @@ public class OrderReceivedActivity extends AppCompatActivity implements ProductA
         Intent intent = new Intent(this, ProductDetailActivity.class);
         intent.putExtra(PRODUCT_ID, product.getId());
         startActivity(intent);
+        finish();
+    }
+
+    @Override
+    public void onBackPressed() {
+        startActivity(new Intent(this, MainActivity.class));
+        finish();
     }
 }

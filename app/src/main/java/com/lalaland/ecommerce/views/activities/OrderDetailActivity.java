@@ -54,6 +54,10 @@ public class OrderDetailActivity extends AppCompatActivity {
         token = AppPreference.getInstance(this).getString(SIGNIN_TOKEN);
         orderViewModel = ViewModelProviders.of(this).get(OrderViewModel.class);
 
+        activityOrderDetailBinding.btnBack.setOnClickListener(v -> {
+            onBackPressed();
+        });
+
         setInitValues();
         setAdapter();
         getOrderProducts();
@@ -93,5 +97,10 @@ public class OrderDetailActivity extends AppCompatActivity {
                 }
             }
         });
+    }
+
+    @Override
+    public void onBackPressed() {
+        finish();
     }
 }

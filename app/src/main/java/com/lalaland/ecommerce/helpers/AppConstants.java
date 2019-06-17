@@ -3,6 +3,7 @@ package com.lalaland.ecommerce.helpers;
 import android.content.Context;
 
 import com.lalaland.ecommerce.data.models.category.Category;
+import com.lalaland.ecommerce.data.models.category.CategoryBrand;
 import com.lalaland.ecommerce.data.models.category.City;
 import com.lalaland.ecommerce.data.models.login.User;
 import com.lalaland.ecommerce.data.models.userAddressBook.UserAddresses;
@@ -25,6 +26,7 @@ public class AppConstants {
     public static Context mContext;
     public static List<Category> staticCategoryList = new ArrayList<>();
     public static List<City> staticCitiesList = new ArrayList<>();
+    public static List<CategoryBrand> staticCategoryBrandsList = new ArrayList<>();
     public static List<String> testImagesUrl = new ArrayList<>();
     public static UserAddresses userAddresses;
     public static User user;
@@ -68,6 +70,7 @@ public class AppConstants {
     public static final String QUANTITY = "quantity";
 
     public static final String PRODUCT_STORAGE_BASE_URL = "https://api.uat.lalaland.pk/storage/products/";
+    public static final String CATEGORY_BRAND_STORAGE_BASE_URL = "https://api.uat.lalaland.pk/storage/brands/";
     public static final String BANNER_STORAGE_BASE_URL = "https://api.uat.lalaland.pk/storage/home_banners/";
     public static final String BRAND_FOCUS_STORAGE_BASE_URL = "https://api.uat.lalaland.pk/storage/featured_brands/";
     public static final String ACTION_STORAGE_BASE_URL = "https://api.uat.lalaland.pk/storage/mobile_actions/";

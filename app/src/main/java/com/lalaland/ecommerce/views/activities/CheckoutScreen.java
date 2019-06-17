@@ -90,6 +90,10 @@ public class CheckoutScreen extends AppCompatActivity {
                 activityCheckoutScreenBinding.rbBankTransfer.setChecked(true);
             }
         });
+
+        activityCheckoutScreenBinding.ivCloseCheckoutScreen.setOnClickListener(v -> {
+            finish();
+        });
     }
 
     void isUserAddressExist() {
@@ -147,10 +151,10 @@ public class CheckoutScreen extends AppCompatActivity {
 
     public void placeOrder() {
 
-        if (Double.parseDouble(totalBill) >= PAYMENT_LOWEST_LIMIT || CASH_TRANSFER_TYPE == 2) {
+       /* if (Double.parseDouble(totalBill) >= PAYMENT_LOWEST_LIMIT || CASH_TRANSFER_TYPE == 2) {
             Toast.makeText(this, "You have to pay by bank", Toast.LENGTH_SHORT).show();
             return;
-        }
+        }*/
 
         if (isUserAddressNull) {
             Toast.makeText(this, "Please add address to place order", Toast.LENGTH_SHORT).show();
@@ -186,13 +190,11 @@ public class CheckoutScreen extends AppCompatActivity {
 
                     Intent intent = new Intent(this, OrderReceivedActivity.class);
                     intent.putExtra(ORDER_TOTAL, String.valueOf(totalBill));
+                    CASH_TRANSFER_TYPE = 1;
                     intent.putParcelableArrayListExtra("recommended_products", (ArrayList<? extends Parcelable>) orderDataContainer.getData().getRecommendation());
                     startActivity(intent);
-
                     finish();
-                }
-
-                else if (orderDataContainer.getCode().equals(VALIDATION_FAIL_CODE))
+                } else if (orderDataContainer.getCode().equals(VALIDATION_FAIL_CODE) || orderDataContainer.getCode().equals("403"))
                     Toast.makeText(this, orderDataContainer.getMsg(), Toast.LENGTH_SHORT).show();
                 else
                     Toast.makeText(this, GENERAL_ERROR, Toast.LENGTH_SHORT).show();

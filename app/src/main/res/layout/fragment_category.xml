@@ -33,6 +33,7 @@
             android:id="@+id/rv_category"
             android:layout_width="0dp"
             android:layout_height="0dp"
+            android:visibility="visible"
             android:background="@android:color/white"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="@+id/gl_rv_categories"
@@ -59,6 +60,7 @@
                 app:layout_constraintGuide_percent=".20" />
 
             <androidx.cardview.widget.CardView
+                android:id="@+id/cv_header_image"
                 android:layout_width="0dp"
                 android:layout_height="0dp"
                 app:cardCornerRadius="@dimen/_16dp"
@@ -82,11 +84,24 @@
                 android:layout_width="0dp"
                 android:layout_height="0dp"
                 android:layout_marginTop="@dimen/_4dp"
+                android:visibility="gone"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/gl_category" />
 
+            <androidx.recyclerview.widget.RecyclerView
+
+                android:id="@+id/rv_sub_category_brand"
+                android:layout_width="0dp"
+                android:layout_height="0dp"
+                android:layout_marginTop="@dimen/_4dp"
+                android:visibility="gone"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                tools:listitem="@layout/category_brand_item" />
             <ProgressBar
 
                 android:id="@+id/pb_loading"

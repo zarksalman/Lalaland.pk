@@ -23,8 +23,9 @@
         xmlns:app="http://schemas.android.com/apk/res-auto"
         xmlns:tools="http://schemas.android.com/tools"
         android:layout_width="match_parent"
-        android:layout_height="@dimen/_220dp"
+        android:layout_height="240dp"
         android:layout_margin="@dimen/_4dp"
+        android:padding="@dimen/_4dp"
         android:background="@drawable/recommended_products_bg"
         android:onClick="@{(view)->adapter.onActionProductClicked(view,actionProduct)}">
 
@@ -32,17 +33,19 @@
 
             android:id="@+id/iv_product"
             android:layout_width="0dp"
-            android:layout_height="@dimen/_130dp"
+            android:layout_height="@dimen/_150dp"
             android:src="@drawable/placeholder_products"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
+            android:adjustViewBounds="true"
+            android:scaleType="fitCenter"
             app:layout_constraintTop_toTopOf="parent"
             app:setProductImage="@{actionProduct.primaryImage}" />
 
         <TextView
 
             android:id="@+id/tv_brand_name"
-            android:layout_width="wrap_content"
+            android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:ellipsize="end"
             android:maxLength="15"
@@ -50,6 +53,7 @@
             android:text="@{actionProduct.brandName}"
             android:textColor="@android:color/black"
             android:textSize="13sp"
+            android:layout_marginTop="@dimen/_2dp"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/iv_product"
@@ -58,7 +62,7 @@
         <TextView
 
             android:id="@+id/tv_product_name"
-            android:layout_width="wrap_content"
+            android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:ellipsize="end"
             android:maxLength="20"
@@ -75,7 +79,7 @@
         <TextView
 
             android:id="@+id/tv_product_sale_price"
-            android:layout_width="wrap_content"
+            android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:text="@{AppUtils.formatPriceString(actionProduct.salePrice)}"
             android:textColor="@{AppUtils.isPriceEqual(actionProduct.salePrice,actionProduct.actualPrice) ? @android:color/black : @android:color/holo_red_dark}"
@@ -88,7 +92,7 @@
         <TextView
 
             android:id="@+id/tv_product_actual_price"
-            android:layout_width="wrap_content"
+            android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:text="@{AppUtils.formatPriceString(actionProduct.actualPrice)}"
             android:textColor="@android:color/black"

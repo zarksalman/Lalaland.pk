@@ -15,12 +15,14 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.bumptech.glide.Glide;
 import com.lalaland.ecommerce.R;
+import com.lalaland.ecommerce.adapters.CategorBrandAdapter;
 import com.lalaland.ecommerce.adapters.CategoryAdapter;
 import com.lalaland.ecommerce.adapters.MajorCategoryAdapter;
 import com.lalaland.ecommerce.data.models.categories.CategoryHomeBanner;
 import com.lalaland.ecommerce.data.models.categories.InnerCategory;
 import com.lalaland.ecommerce.data.models.categories.SubCategory;
 import com.lalaland.ecommerce.data.models.category.Category;
+import com.lalaland.ecommerce.data.models.category.CategoryBrand;
 import com.lalaland.ecommerce.databinding.FragmentCategoryBinding;
 import com.lalaland.ecommerce.helpers.AppConstants;
 import com.lalaland.ecommerce.viewModels.categories.CategoriesViewModel;
@@ -33,21 +35,25 @@ import java.util.List;
 import static com.lalaland.ecommerce.helpers.AppConstants.ACTION_ID;
 import static com.lalaland.ecommerce.helpers.AppConstants.ACTION_NAME;
 import static com.lalaland.ecommerce.helpers.AppConstants.BANNER_STORAGE_BASE_URL;
+import static com.lalaland.ecommerce.helpers.AppConstants.BRANDS_IN_FOCUS_PRODUCTS;
 import static com.lalaland.ecommerce.helpers.AppConstants.CATEGORY_PRODUCTS;
 import static com.lalaland.ecommerce.helpers.AppConstants.PRODUCT_TYPE;
 import static com.lalaland.ecommerce.helpers.AppConstants.SUCCESS_CODE;
 
 
-public class CategoryFragment extends Fragment implements MajorCategoryAdapter.MajorCategoryClickListener, CategoryAdapter.CategoryListener {
+public class CategoryFragment extends Fragment implements MajorCategoryAdapter.MajorCategoryClickListener,
+        CategoryAdapter.CategoryListener, CategorBrandAdapter.CategoryBrandListener {
 
     private FragmentCategoryBinding fragmentCategoryBinding;
     private CategoryViewModel categoryViewModel;
     private List<Category> categoryList = new ArrayList<>();
     private List<CategoryHomeBanner> categoryHomeBanners = new ArrayList<>();
     private List<SubCategory> subCategories = new ArrayList<>();
+    private List<Category> subCategoriesBrand = new ArrayList<>();
 
     private MajorCategoryAdapter majorCategoryAdapter;
     private CategoryAdapter categoryAdapter;
+    private CategorBrandAdapter categorBrandAdapter;
     private CategoriesViewModel categoriesViewModel;
     private int categoryId;
 
@@ -125,7 +131,6 @@ public class CategoryFragment extends Fragment implements MajorCategoryAdapter.M
 
     private void setMajorCategoryList() {
 
-
         categoryList = new ArrayList<>();
         categoryList = AppConstants.staticCategoryList;
         majorCategoryAdapter = new MajorCategoryAdapter(getContext(), this);
@@ -140,11 +145,17 @@ public class CategoryFragment extends Fragment implements MajorCategoryAdapter.M
         categoryAdapter = new CategoryAdapter(getContext(), this);
         fragmentCategoryBinding.rvSubCategory.setAdapter(categoryAdapter);
         fragmentCategoryBinding.rvSubCategory.setLayoutManager(new LinearLayoutManager(getContext()));
-
         categoryAdapter.setData(subCategories);
+
+        categorBrandAdapter = new CategorBrandAdapter(getContext(), this);
+        fragmentCategoryBinding.rvSubCategoryBrand.setHasFixedSize(true);
+        fragmentCategoryBinding.rvSubCategoryBrand.setAdapter(categorBrandAdapter);
+        fragmentCategoryBinding.rvSubCategoryBrand.setLayoutManager(new LinearLayoutManager(getContext()));
+        categorBrandAdapter.setData(AppConstants.staticCategoryBrandsList);
 
         getCategories(categoryList.get(0).getId());
 
+        fragmentCategoryBinding.rvSubCategory.setVisibility(View.VISIBLE);
     }
 
     private void trimZeroSizeInnerCategories() {
@@ -166,13 +177,32 @@ public class CategoryFragment extends Fragment implements MajorCategoryAdapter.M
     @Override
     public void onMajorCategoryClicked(Category category) {
 
-
         // if same category do not clicked again
         if (categoryId != category.getId()) {
 
-            fragmentCategoryBinding.pbLoading.setVisibility(View.VISIBLE);
-            categoryId = category.getId();
-            getCategories(categoryId);
+            if (category.getName().equals("Brands")) {
+
+                fragmentCategoryBinding.rvSubCategory.setVisibility(View.GONE);
+                fragmentCategoryBinding.rvSubCategoryBrand.setVisibility(View.VISIBLE);
+                fragmentCategoryBinding.cvHeaderImage.setVisibility(View.GONE);
+                fragmentCategoryBinding.pbLoading.setVisibility(View.GONE);
+
+            } else if (category.getName().equals("Sale")) {
+                Intent intent;
+                intent = new Intent(getContext(), ActionProductListingActivity.class);
+                intent.putExtra(ACTION_NAME, category.getName());
+                intent.putExtra(ACTION_ID, String.valueOf(category.getId()));
+                intent.putExtra(PRODUCT_TYPE, category.getName());
+                startActivity(intent);
+
+            } else {
+                fragmentCategoryBinding.rvSubCategory.setVisibility(View.VISIBLE);
+                fragmentCategoryBinding.rvSubCategoryBrand.setVisibility(View.GONE);
+                fragmentCategoryBinding.cvHeaderImage.setVisibility(View.VISIBLE);
+                fragmentCategoryBinding.pbLoading.setVisibility(View.VISIBLE);
+                categoryId = category.getId();
+                getCategories(categoryId);
+            }
         }
     }
 
@@ -194,6 +224,16 @@ public class CategoryFragment extends Fragment implements MajorCategoryAdapter.M
         intent.putExtra(ACTION_NAME, categoryName);
         intent.putExtra(ACTION_ID, String.valueOf(categoryId));
         intent.putExtra(PRODUCT_TYPE, CATEGORY_PRODUCTS);
+        startActivity(intent);
+    }
+
+    @Override
+    public void onCategoryBrandClicked(CategoryBrand categoryBrand) {
+
+        Intent intent = new Intent(getContext(), ActionProductListingActivity.class);
+        intent.putExtra(ACTION_NAME, categoryBrand.getName());
+        intent.putExtra(ACTION_ID, String.valueOf(categoryBrand.getId()));
+        intent.putExtra(PRODUCT_TYPE, BRANDS_IN_FOCUS_PRODUCTS);
         startActivity(intent);
     }
 }

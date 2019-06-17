@@ -8,6 +8,7 @@ import android.view.View;
 import android.view.Window;
 import android.view.WindowManager;
 import android.widget.AbsListView;
+import android.widget.Toast;
 
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
@@ -75,9 +76,9 @@ public class ActionProductListingActivity extends AppCompatActivity implements A
     String brandIds;
     String pvFilter;
 
-    Boolean isFilterApplied = false;
-    @Override
+    Boolean isFromCategories = false;
 
+    @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
@@ -90,9 +91,14 @@ public class ActionProductListingActivity extends AppCompatActivity implements A
             products_type = getIntent().getStringExtra(PRODUCT_TYPE);
             category_name = getIntent().getStringExtra(ACTION_NAME);
 
+            // coming from category list
+            if (products_type.equals("Sale")) {
+                isFromCategories = true;
+                products_type = products_type.toLowerCase();
+            }
+
             activityProductListingBinding.tvCategoryTitle.setText(category_name);
             switch (products_type) {
-
                 // actions types
                 case SALE_PRODUCT:
 
@@ -152,6 +158,10 @@ public class ActionProductListingActivity extends AppCompatActivity implements A
 
         activityProductListingBinding.setProductListingListener(this);
 
+        activityProductListingBinding.ivSearchProductListing.setOnClickListener(v -> {
+            startActivity(new Intent(this, GlobalSearchActivity.class));
+        });
+
         activityProductListingBinding.tlSortFilter.addOnTabSelectedListener(new TabLayout.OnTabSelectedListener() {
             @Override
             public void onTabSelected(TabLayout.Tab tab) {
@@ -204,10 +214,7 @@ public class ActionProductListingActivity extends AppCompatActivity implements A
 
                     isScrolling = false;
 
-                    if (isFilterApplied)
-                        setFilteredActionProducts();
-                    else
-                        setActionProducts();
+                    setActionProducts();
 
                 }
             }
@@ -254,7 +261,7 @@ public class ActionProductListingActivity extends AppCompatActivity implements A
                 // actions types
                 case SALE_PRODUCT:
 
-                    parameter.clear();
+                    //              parameter.clear();
                     intent.putExtra(FILTER_KEY, "sale");
                     break;
 
@@ -290,7 +297,7 @@ public class ActionProductListingActivity extends AppCompatActivity implements A
 
         activityProductListingBinding.rvProducts.setVisibility(View.GONE);
         activityProductListingBinding.pbLoadingActionProducts.setVisibility(View.VISIBLE);
-        parameter.clear();
+//        parameter.clear();
 
         switch (view.getId()) {
             case R.id.tv_ascending_alphabetically:
@@ -319,6 +326,9 @@ public class ActionProductListingActivity extends AppCompatActivity implements A
                 break;
         }
 
+
+        start = 0;
+        parameter.put(START_INDEX, String.valueOf(start));
         parameter.put(ID, action_id);
         actionProductsArrayList.clear();
         actionProductsAdapter.notifyDataSetChanged();
@@ -352,37 +362,11 @@ public class ActionProductListingActivity extends AppCompatActivity implements A
                         parameter.put(START_INDEX, String.valueOf(start));
                         parameter.put(LENGTH, String.valueOf(length));
                         parameter.put(SORT_BY, sortBy);
-                    }
+                    } else
+                        Toast.makeText(this, "Items not found", Toast.LENGTH_SHORT).show();
                 }
             }
             activityProductListingBinding.pbLoadingActionProducts.setVisibility(View.GONE);
-            activityProductListingBinding.pbLoadingProducts.setVisibility(View.GONE);
-        });
-    }
-
-    private void setFilteredActionProducts() {
-
-        filterViewModel.applyFilters(filterParameter).observe(this, actionProductsContainer -> {
-
-            if (actionProductsContainer != null) {
-
-                if (actionProductsContainer.getCode().equals(SUCCESS_CODE)) {
-
-                    if (actionProductsContainer.getData().getProducts().size() > 0) {
-
-                        int startPosition = actionProductsArrayList.size();
-                        actionProductsArrayList.addAll(actionProductsContainer.getData().getProducts());
-                        actionProductsAdapter.notifyItemRangeInserted(startPosition, actionProductsArrayList.size());
-                        //actionProductsAdapter.updateData(actionProductsArrayList);
-
-                        start += size;
-                        filterParameter.put(START_INDEX, String.valueOf(start));
-                        filterParameter.put(LENGTH, String.valueOf(length));
-
-
-                    }
-                }
-            }
             activityProductListingBinding.pbLoadingProducts.setVisibility(View.GONE);
         });
     }
@@ -397,6 +381,10 @@ public class ActionProductListingActivity extends AppCompatActivity implements A
 
     @Override
     public void onBackPressed() {
+
+        if (isFromCategories) {
+            startActivity(new Intent(this, MainActivity.class));
+        }
         finish();
     }
 
@@ -420,7 +408,7 @@ public class ActionProductListingActivity extends AppCompatActivity implements A
             actionProductsArrayList.clear();
             if (requestCode == 200) {
 
-                isFilterApplied = true;
+                //    isFilterApplied = true;
                 switch (data.getStringExtra(SELECTED_FILTER_NAME)) {
                     case "Price":
                         setPriceParams(data);
@@ -438,8 +426,6 @@ public class ActionProductListingActivity extends AppCompatActivity implements A
                         setOtherFiltersParams(data);
                         break;
                 }
-
-                // Toast.makeText(this, "make changes", Toast.LENGTH_SHORT).show();
             }
         }
     }
@@ -455,11 +441,10 @@ public class ActionProductListingActivity extends AppCompatActivity implements A
         pvFilterParamsBase64 = Base64.encodeToString(pvFilterBytes, Base64.DEFAULT);
 
         start = 0;
-        filterParameter.put(ID, action_id);
-        filterParameter.put(START_INDEX, String.valueOf(start));
-        filterParameter.put(LENGTH, String.valueOf(length));
-        filterParameter.put("pv_filter", pvFilterParamsBase64);
-        setFilteredActionProducts();
+        parameter.put(START_INDEX, String.valueOf(start));
+        parameter.put(LENGTH, String.valueOf(length));
+        parameter.put("pv_filter", pvFilterParamsBase64);
+        setActionProducts();
     }
 
     private void setPriceParams(Intent data) {
@@ -471,23 +456,21 @@ public class ActionProductListingActivity extends AppCompatActivity implements A
         priceRangeBase64 = Base64.encodeToString(priceRangeBytes, Base64.DEFAULT);
 
         start = 0;
-        filterParameter.put(ID, action_id);
-        filterParameter.put(START_INDEX, String.valueOf(size));
-        filterParameter.put(LENGTH, String.valueOf(length));
+        parameter.put(START_INDEX, String.valueOf(start));
+        parameter.put(LENGTH, String.valueOf(length));
 
-        filterParameter.put("price_filter", priceRangeBase64);
-        setFilteredActionProducts();
+        parameter.put("price_filter", priceRangeBase64);
+        setActionProducts();
     }
 
     private void setCategoryParams(Intent data) {
 
         start = 0;
         String categoryId = data.getStringExtra(SELECTED_FILTER_ID);
-        filterParameter.put(ID, action_id);
-        filterParameter.put(START_INDEX, String.valueOf(start));
-        filterParameter.put(LENGTH, String.valueOf(length));
-        filterParameter.put("category_filter", categoryId);
-        setFilteredActionProducts();
+        parameter.put(START_INDEX, String.valueOf(start));
+        parameter.put(LENGTH, String.valueOf(length));
+        parameter.put("category_filter", categoryId);
+        setActionProducts();
     }
 
     private void setBrandParams(Intent data) {
@@ -498,11 +481,9 @@ public class ActionProductListingActivity extends AppCompatActivity implements A
         brandParamsBase64 = Base64.encodeToString(brandIdsBytes, Base64.DEFAULT);
 
         start = 0;
-        filterParameter.put(ID, action_id);
-        filterParameter.put(START_INDEX, String.valueOf(start));
-        filterParameter.put(LENGTH, String.valueOf(length));
-        filterParameter.put("brand_filter", brandParamsBase64);
-        setFilteredActionProducts();
+        parameter.put(START_INDEX, String.valueOf(start));
+        parameter.put(LENGTH, String.valueOf(length));
+        parameter.put("brand_filter", brandParamsBase64);
+        setActionProducts();
     }
-
 }

@@ -2,6 +2,7 @@ package com.lalaland.ecommerce.views.activities;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.view.View;
 import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
@@ -55,6 +56,10 @@ public class OrderListingActivity extends AppCompatActivity implements MyOrderAd
             setAdapter();
             getOrdersList();
         }
+
+        activityOrderListingBinding.btnBack.setOnClickListener(v -> {
+            onBackPressed();
+        });
     }
 
     private void setInitialValues() {
@@ -82,6 +87,8 @@ public class OrderListingActivity extends AppCompatActivity implements MyOrderAd
                     Toast.makeText(this, GENERAL_ERROR, Toast.LENGTH_SHORT).show();
                 }
             }
+
+            activityOrderListingBinding.progressBar.setVisibility(View.GONE);
         });
     }
 
@@ -97,5 +104,10 @@ public class OrderListingActivity extends AppCompatActivity implements MyOrderAd
         intent.putExtra(ORDER_TOTAL, order.getGrandTotal());
 
         startActivity(intent);
+    }
+
+    @Override
+    public void onBackPressed() {
+        finish();
     }
 }

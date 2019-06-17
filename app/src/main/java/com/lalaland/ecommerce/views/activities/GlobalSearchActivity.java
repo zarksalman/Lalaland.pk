@@ -1,8 +1,10 @@
 package com.lalaland.ecommerce.views.activities;
 
+import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
+import android.view.inputmethod.InputMethodManager;
 import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
@@ -92,6 +94,8 @@ public class GlobalSearchActivity extends AppCompatActivity implements SearchPro
                     searchCategories.clear();
 
                 } else {
+
+                    activityGlobalSearchBinding.pbLoading.setVisibility(View.VISIBLE);
                     callToApi(query);
                 }
 
@@ -118,6 +122,10 @@ public class GlobalSearchActivity extends AppCompatActivity implements SearchPro
 
             if (savedSearchCategories.size() > 0)
                 productViewModel.deleteAllSearches();
+        });
+
+        activityGlobalSearchBinding.ivBackArrow.setOnClickListener(v -> {
+            onBackPressed();
         });
     }
 
@@ -150,6 +158,8 @@ public class GlobalSearchActivity extends AppCompatActivity implements SearchPro
 
     private void callToApi(String queryString) {
 
+        closeKeyboard();
+
         activityGlobalSearchBinding.recentSearches.setVisibility(View.GONE);
         activityGlobalSearchBinding.emptyState.setVisibility(View.GONE);
 
@@ -177,6 +187,8 @@ public class GlobalSearchActivity extends AppCompatActivity implements SearchPro
                 searchProductAdapter.setData(searchCategories);
                 searchProductAdapter.notifyDataSetChanged();
             }
+
+            activityGlobalSearchBinding.pbLoading.setVisibility(View.GONE);
         });
     }
 
@@ -244,5 +256,15 @@ public class GlobalSearchActivity extends AppCompatActivity implements SearchPro
     @Override
     public void onBackPressed() {
         finish();
+    }
+
+    void closeKeyboard() {
+        View view = this.getCurrentFocus();
+
+        if (view != null) {
+
+            InputMethodManager inputMethodManager = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
+            inputMethodManager.hideSoftInputFromWindow(view.getWindowToken(), 0);
+        }
     }
 }

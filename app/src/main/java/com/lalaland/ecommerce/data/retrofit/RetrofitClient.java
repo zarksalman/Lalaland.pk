@@ -2,8 +2,6 @@ package com.lalaland.ecommerce.data.retrofit;
 
 import android.util.Log;
 
-import com.google.gson.Gson;
-import com.google.gson.GsonBuilder;
 import com.lalaland.ecommerce.helpers.AppConstants;
 import com.lalaland.ecommerce.helpers.AppUtils;
 
@@ -36,6 +34,7 @@ public class RetrofitClient {
 
         retrofit = new Retrofit.Builder()
                 .baseUrl(BASE_URL)
+                .client(okHttpClient())
                 .addConverterFactory(GsonConverterFactory.create())
                 .build();
 
@@ -54,6 +53,8 @@ public class RetrofitClient {
     private OkHttpClient okHttpClient() {
         return new OkHttpClient.Builder()
                 .cache(cache())
+                .readTimeout(60, TimeUnit.SECONDS)
+                .connectTimeout(60, TimeUnit.SECONDS)
                 .addInterceptor(httpLoggingInterceptor()) // used if network off OR on
                 .addNetworkInterceptor(networkInterceptor()) // only used when network is on
                 .addInterceptor(offlineInterceptor())

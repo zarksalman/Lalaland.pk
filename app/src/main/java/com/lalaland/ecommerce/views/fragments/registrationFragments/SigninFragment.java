@@ -152,7 +152,7 @@ public class SigninFragment extends BaseRegistrationFragment {
                             appPreference.setString(USER_AVATAR, user.getAvatar().toString());
                         else
                             appPreference.setString(USER_AVATAR, "");
-
+                        
                         getActivity().setResult(Activity.RESULT_OK);
                         getActivity().finish();
 

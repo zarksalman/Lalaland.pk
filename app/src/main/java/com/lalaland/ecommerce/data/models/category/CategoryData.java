@@ -16,6 +16,11 @@ public class CategoryData {
     @SerializedName("cities")
     @Expose
     private List<City> cities = null;
+
+    @SerializedName("brands")
+    @Expose
+    private List<CategoryBrand> brands = null;
+
     @SerializedName("about_us")
     @Expose
     private String aboutUs;
@@ -56,6 +61,13 @@ public class CategoryData {
         this.cities = cities;
     }
 
+    public List<CategoryBrand> getBrands() {
+        return brands;
+    }
+
+    public void setBrands(List<CategoryBrand> brands) {
+        this.brands = brands;
+    }
     public String getAboutUs() {
         return aboutUs;
     }

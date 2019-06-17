@@ -22,23 +22,32 @@
         xmlns:android="http://schemas.android.com/apk/res/android"
         xmlns:app="http://schemas.android.com/apk/res-auto"
         xmlns:tools="http://schemas.android.com/tools"
-        android:layout_width="match_parent"
+        android:layout_width="wrap_content"
         android:layout_height="@dimen/_200dp"
         android:layout_margin="@dimen/_4dp"
         android:background="@drawable/recommended_products_bg"
-        android:onClick="@{(view)->adapter.onRProductClicked(view,recommendation)}"
-        android:padding="@dimen/_16dp">
+        android:onClick="@{(view)->adapter.onRProductClicked(view,recommendation)}">
 
-        <ImageView
 
-            android:id="@+id/iv_product"
+        <androidx.cardview.widget.CardView
+
+            android:id="@+id/cv_product"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:src="@drawable/placeholder_products"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent"
-            app:setProductImage="@{recommendation.primaryImage}" />
+            app:cardCornerRadius="@dimen/_8dp"
+            app:layout_constraintTop_toTopOf="parent">
+
+            <ImageView
+                android:id="@+id/iv_product"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:scaleType="centerCrop"
+                android:src="@drawable/placeholder_products"
+                app:setProductImage="@{recommendation.primaryImage}"
+                tools:src="@drawable/place_holder" />
+        </androidx.cardview.widget.CardView>
 
         <TextView
 
@@ -53,7 +62,7 @@
             android:textSize="13sp"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/iv_product"
+            app:layout_constraintTop_toBottomOf="@+id/cv_product"
             tools:text="@tools:sample/full_names" />
 
         <TextView

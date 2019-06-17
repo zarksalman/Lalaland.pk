@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">Lalaland.pk</string>
+    <string name="app_name">lalaland</string>
     <string name="title_home">Home</string>
     <string name="title_dashboard">Dashboard</string>
     <string name="title_notifications">Notifications</string>
@@ -220,5 +220,6 @@
     <string name="pkr">PKR</string>
     <string name="low">Low</string>
     <string name="high">High</string>
+    <string name="reload">Reload</string>
 
 </resources>

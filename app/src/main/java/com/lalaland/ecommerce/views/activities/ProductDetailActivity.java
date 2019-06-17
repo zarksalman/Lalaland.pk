@@ -93,6 +93,9 @@ public class ProductDetailActivity extends AppCompatActivity implements ProductV
         activityProductDetailBinding.pbLoading.setVisibility(View.VISIBLE);
         getProductDetail();
 
+        activityProductDetailBinding.btnBack.setOnClickListener(v -> {
+            onBackPressed();
+        });
     }
 
     void loadProductDetail() {
