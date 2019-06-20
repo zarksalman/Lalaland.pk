@@ -60,12 +60,7 @@ public class ProductImageAdapter extends PagerAdapter {
                 .load(imgUrl)
                 .placeholder(R.drawable.placeholder_products)
                 .into(productImageItemBinding.ivProduct);
-
-        Glide.with(context)
-                .load(imgUrl)
-                .placeholder(R.drawable.placeholder_products)
-                .into(productImageItemBinding.ivProductBg);
-
+        
         container.addView(productImageItemBinding.getRoot());
         return productImageItemBinding.getRoot();
 

@@ -2,11 +2,11 @@ package com.lalaland.ecommerce.views.activities;
 
 import android.content.Intent;
 import android.os.Bundle;
-import android.widget.SearchView;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.databinding.DataBindingUtil;
 import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 
 import com.lalaland.ecommerce.R;
 import com.lalaland.ecommerce.adapters.CityAdapter;
@@ -31,7 +31,7 @@ public class SelectCityActivity extends AppCompatActivity implements CityAdapter
 
         setAdapter();
 
-        activitySelectCityBinding.svCity.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
+        activitySelectCityBinding.svCity.setOnQueryTextListener(new androidx.appcompat.widget.SearchView.OnQueryTextListener() {
             @Override
             public boolean onQueryTextSubmit(String query) {
 
@@ -54,7 +54,7 @@ public class SelectCityActivity extends AppCompatActivity implements CityAdapter
 
         cityAdapter = new CityAdapter(this, this);
         activitySelectCityBinding.rvCity.setHasFixedSize(true);
-        activitySelectCityBinding.rvCity.setLayoutManager(new LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false));
+        activitySelectCityBinding.rvCity.setLayoutManager(new LinearLayoutManager(this, RecyclerView.VERTICAL, false));
         activitySelectCityBinding.rvCity.setAdapter(cityAdapter);
         cityAdapter.setData(cityList);
     }

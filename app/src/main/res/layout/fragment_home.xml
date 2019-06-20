@@ -21,7 +21,7 @@
             android:layout_width="match_parent"
             android:isScrollContainer="true"
             android:measureAllChildren="true"
-            android:layout_height="wrap_content"
+            android:layout_height="800dp"
             android:scrollbars="none"
             android:visibility="gone">
 
@@ -39,19 +39,25 @@
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toTopOf="parent" />
 
-                <androidx.recyclerview.widget.RecyclerView
-
-                    android:id="@+id/rv_actions"
-                    android:layout_width="0dp"
+                <LinearLayout
+                    android:id="@+id/rv_action_container"
+                    android:layout_width="match_parent"
                     android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/_4dp"
                     android:background="@android:color/white"
+                    android:gravity="center_horizontal"
+                    android:orientation="horizontal"
                     android:padding="@dimen/_8dp"
-                    android:visibility="visible"
+                    android:weightSum="100"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@+id/vf_slider" />
+                    app:layout_constraintTop_toBottomOf="@+id/vf_slider">
+
+                </LinearLayout>
 
                 <!--Picks of the week-->
+
+
                 <RelativeLayout
 
                     android:id="@+id/pick_of_week_container"
@@ -61,37 +67,33 @@
                     android:background="@android:color/white"
                     android:padding="@dimen/_8dp"
                     android:visibility="visible"
-                    app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@+id/rv_actions">
-
-                    <androidx.recyclerview.widget.RecyclerView
-
-                        android:id="@+id/rv_picks_of_week"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:layout_below="@+id/iv_pick_of_week_show_all" />
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/rv_action_container">
 
                     <TextView
 
                         android:id="@+id/pick_of_week_title"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:layout_above="@+id/rv_picks_of_week"
                         android:layout_alignTop="@+id/iv_pick_of_week_show_all"
+                        android:layout_alignBottom="@+id/iv_pick_of_week_show_all"
                         android:layout_alignParentStart="true"
-                        android:gravity="center"
-                        android:text="@string/picks_of_the_week"
+                        android:layout_marginStart="@dimen/_8dp"
+                        android:fontFamily="@font/encodesansregular"
                         android:textColor="@android:color/black"
-                        android:textStyle="bold" />
+                        android:onClick="@{(view)->homeListener.showAllProductsWeekProducts(view)}"
+                        android:text="@string/picks_of_the_week"
+                        android:textSize="16sp" />
 
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:layout_above="@+id/rv_picks_of_week"
                         android:layout_alignTop="@+id/iv_pick_of_week_show_all"
+                        android:layout_alignBottom="@+id/iv_pick_of_week_show_all"
                         android:layout_toStartOf="@+id/iv_pick_of_week_show_all"
-                        android:gravity="center"
+                        android:fontFamily="@font/encodesansregular"
+                        android:textSize="16sp"
                         android:onClick="@{(view)->homeListener.showAllProductsWeekProducts(view)}"
                         android:text="@string/view_all"
                         android:textColor="@android:color/black" />
@@ -101,9 +103,21 @@
                         android:id="@+id/iv_pick_of_week_show_all"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
+                        android:layout_alignParentTop="true"
                         android:layout_alignParentEnd="true"
                         android:onClick="@{(view)->homeListener.showAllProductsWeekProducts(view)}"
                         app:srcCompat="@drawable/right_icon_black" />
+
+                    <LinearLayout
+                        android:id="@+id/rv_picks_of_week_container"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_below="@+id/iv_pick_of_week_show_all"
+                        android:layout_centerHorizontal="true"
+                        android:gravity="center_horizontal"
+                        android:orientation="horizontal"
+                        android:weightSum="100" />
+
                 </RelativeLayout>
 
                 <!--Brands in focus-->
@@ -128,14 +142,6 @@
                         android:scaleType="centerCrop"
                         android:src="@drawable/brands_in_focus_bg" />
 
-                    <androidx.recyclerview.widget.RecyclerView
-
-                        android:id="@+id/rv_brands_in_focus"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:layout_below="@+id/tv_brands_in_focus_title"
-                        android:layout_marginTop="@dimen/_8dp" />
-
                     <TextView
 
                         android:id="@+id/tv_brands_in_focus_title"
@@ -143,9 +149,22 @@
                         android:layout_height="wrap_content"
                         android:layout_alignParentStart="true"
                         android:layout_alignParentTop="true"
+                        android:layout_marginStart="@dimen/_8dp"
+                        android:fontFamily="@font/encodesansregular"
                         android:gravity="center"
                         android:text="@string/brands_in_focus"
-                        android:textColor="@android:color/white" />
+                        android:textColor="@android:color/white"
+                        android:textSize="16sp" />
+
+                    <androidx.recyclerview.widget.RecyclerView
+
+                        android:id="@+id/rv_brands_in_focus"
+                        android:layout_width="wrap_content"
+                        android:layout_below="@+id/tv_brands_in_focus_title"
+                        android:layout_height="wrap_content"
+                        android:layout_centerHorizontal="true" />
+
+
 
                 </RelativeLayout>
 
@@ -167,6 +186,9 @@
                         android:id="@+id/tv_recommendation_title"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
+                        android:layout_marginStart="@dimen/_8dp"
+                        android:fontFamily="@font/encodesansregular"
+                        android:textSize="16sp"
                         android:text="@string/recommendations"
                         android:textAppearance="@style/TextAppearance.AppCompat.Medium"
                         android:textColor="@android:color/black" />
@@ -177,6 +199,7 @@
                         android:scrollbars="none"
                         android:layout_width="match_parent"
                         tools:listitem="@layout/product_paged_item" />
+
                 </LinearLayout>
 
                 <ProgressBar

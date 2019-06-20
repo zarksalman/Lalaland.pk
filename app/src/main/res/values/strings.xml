@@ -222,4 +222,9 @@
     <string name="high">High</string>
     <string name="reload">Reload</string>
 
+
+    <string name="action_tag">1</string>
+    <string name="pick_of_week_tag">2</string>
+    <string name="login_to_view_wishlist_items">Login to view wishlist items</string>
+
 </resources>

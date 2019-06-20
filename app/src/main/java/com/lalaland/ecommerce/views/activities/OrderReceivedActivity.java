@@ -78,7 +78,9 @@ public class OrderReceivedActivity extends AppCompatActivity implements ProductA
 
     @Override
     public void onProductProductClicked(Product product) {
+        AppConstants.LOAD_HOME_FRAGMENT_INDEX = 0;
         Intent intent = new Intent(this, ProductDetailActivity.class);
+        intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
         intent.putExtra(PRODUCT_ID, product.getId());
         startActivity(intent);
         finish();
@@ -86,7 +88,9 @@ public class OrderReceivedActivity extends AppCompatActivity implements ProductA
 
     @Override
     public void onBackPressed() {
-        startActivity(new Intent(this, MainActivity.class));
+
+        AppConstants.LOAD_HOME_FRAGMENT_INDEX = 0;
+        startActivity(new Intent(this, MainActivity.class).addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP));
         finish();
     }
 }

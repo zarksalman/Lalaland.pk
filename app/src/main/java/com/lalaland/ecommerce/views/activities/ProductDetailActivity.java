@@ -11,6 +11,7 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.Toast;
 
+import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.databinding.DataBindingUtil;
 import androidx.lifecycle.ViewModelProviders;
@@ -276,7 +277,7 @@ public class ProductDetailActivity extends AppCompatActivity implements ProductV
 
         if (loginToken.isEmpty()) {
             Toast.makeText(this, "Please login to add to wishlist", Toast.LENGTH_SHORT).show();
-            startActivity(new Intent(this, RegistrationActivity.class));
+            startActivityForResult(new Intent(this, RegistrationActivity.class), 100);
             activityProductDetailBinding.pbLoading.setVisibility(View.GONE);
             return;
         }
@@ -429,5 +430,18 @@ public class ProductDetailActivity extends AppCompatActivity implements ProductV
 
         variation_id = productVariation.getId();
         Log.d(AppConstants.TAG, "onProductVariationClicked:" + variation_id);
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+
+        if (resultCode == RESULT_OK) {
+            if (requestCode == 100) {
+                loginToken = appPreference.getString(SIGNIN_TOKEN);
+                headers.put(SIGNIN_TOKEN, loginToken);
+                addRemoveToWishList(activityProductDetailBinding.getRoot());
+            }
+        }
     }
 }

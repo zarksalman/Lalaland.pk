@@ -20,7 +20,7 @@
         tools:context=".views.activities.SelectCityActivity">
 
 
-        <SearchView
+        <androidx.appcompat.widget.SearchView
 
             android:id="@+id/sv_city"
             android:layout_width="0dp"

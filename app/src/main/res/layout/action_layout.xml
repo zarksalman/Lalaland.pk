@@ -1,5 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
-<layout xmlns:tools="http://schemas.android.com/tools">
+<layout
+
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
 
     <data>
 
@@ -15,40 +19,52 @@
 
     </data>
 
-    <LinearLayout
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
 
-        xmlns:android="http://schemas.android.com/apk/res/android"
-        xmlns:app="http://schemas.android.com/apk/res-auto"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:gravity="center"
-        android:onClick="@{(view)->adapter.actionClicked(view, action)}"
-        android:orientation="vertical"
-        android:padding="@dimen/_8dp">
+        <LinearLayout
 
-        <ImageView
-
-            android:id="@+id/iv_action"
-            android:layout_width="50dp"
-            android:layout_height="50dp"
-            android:src="@drawable/placeholder_products"
+            android:id="@+id/action_parent"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_centerInParent="true"
+            android:layout_gravity="center"
+            android:gravity="center"
+            android:onClick="@{(view)->adapter.actionClicked(view, action)}"
+            android:orientation="vertical"
+            app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent"
-            app:setActionImage="@{action.image}" />
+            app:layout_constraintTop_toTopOf="parent">
 
-        <TextView
+            <ImageView
 
-            android:id="@+id/tv_action_name"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="@dimen/_4dp"
-            android:text="@{AppUtils.insertNewLine(action.name)}"
-            android:textAlignment="center"
-            android:textAppearance="@style/TextAppearance.AppCompat.Small"
-            android:textColor="@android:color/black"
-            android:textSize="12sp"
-            android:textStyle="bold"
-            tools:text="@tools:sample/full_names" />
-    </LinearLayout>
+                android:id="@+id/iv_action"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_margin="@dimen/_8dp"
+                android:src="@drawable/placeholder_products"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                app:setActionImage="@{action.image}" />
+
+            <TextView
+
+                android:id="@+id/tv_action_name"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/_4dp"
+                android:fontFamily="@font/encodesansregular"
+                android:maxLines="2"
+                android:text="@{AppUtils.insertNewLine(action.name)}"
+                android:textAlignment="center"
+                android:textAppearance="@style/TextAppearance.AppCompat.Small"
+                android:textColor="@android:color/black"
+                android:textSize="12sp"
+                tools:text="@tools:sample/full_names" />
+        </LinearLayout>
+    </RelativeLayout>
+
 </layout>

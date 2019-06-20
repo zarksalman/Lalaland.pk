@@ -1,6 +1,7 @@
 package com.lalaland.ecommerce.views.fragments.homeFragments;
 
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -19,12 +20,14 @@ import com.lalaland.ecommerce.data.models.wishList.WishListProduct;
 import com.lalaland.ecommerce.databinding.FragmentWishBinding;
 import com.lalaland.ecommerce.helpers.AppPreference;
 import com.lalaland.ecommerce.viewModels.products.ProductViewModel;
+import com.lalaland.ecommerce.views.activities.RegistrationActivity;
 
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import static android.app.Activity.RESULT_OK;
 import static com.lalaland.ecommerce.helpers.AppConstants.GENERAL_ERROR;
 import static com.lalaland.ecommerce.helpers.AppConstants.IS_WISH_LIST;
 import static com.lalaland.ecommerce.helpers.AppConstants.PRODUCT_ID;
@@ -67,6 +70,9 @@ public class WishFragment extends Fragment implements WishlistProductAdapter.Pro
         appPreference = AppPreference.getInstance(getContext());
         token = appPreference.getString(SIGNIN_TOKEN);
 
+        fragmentWishBinding.btnLogin.setOnClickListener(v -> {
+            startActivityForResult(new Intent(getContext(), RegistrationActivity.class), 100);
+        });
         productViewModel = ViewModelProviders.of(this).get(ProductViewModel.class);
         return fragmentWishBinding.getRoot();
     }
@@ -75,7 +81,13 @@ public class WishFragment extends Fragment implements WishlistProductAdapter.Pro
     public void onStart() {
         super.onStart();
 
-        getWishListProducts();
+        if (token.isEmpty()) {
+            fragmentWishBinding.ivEmptyState.setVisibility(View.VISIBLE);
+            fragmentWishBinding.loginContainer.setVisibility(View.VISIBLE);
+        } else {
+            fragmentWishBinding.pbLoading.setVisibility(View.VISIBLE);
+            getWishListProducts();
+        }
     }
 
     void getWishListProducts() {
@@ -144,5 +156,24 @@ public class WishFragment extends Fragment implements WishlistProductAdapter.Pro
                 }
             }
         });
+    }
+
+    @Override
+    public void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+
+        if (resultCode == RESULT_OK) {
+
+            if (requestCode == 100) {
+
+                token = appPreference.getString(SIGNIN_TOKEN);
+
+                fragmentWishBinding.pbLoading.setVisibility(View.VISIBLE);
+                fragmentWishBinding.loginContainer.setVisibility(View.GONE);
+                fragmentWishBinding.ivEmptyState.setVisibility(View.GONE);
+
+                getWishListProducts();
+            }
+        }
     }
 }

@@ -37,16 +37,16 @@ public class MainActivity extends AppCompatActivity {
 
         Fragment fragment;
 
-        activityMainBinding.topBar.setVisibility(View.VISIBLE);
-        activityMainBinding.topBarSearch.setVisibility(View.VISIBLE);
-        activityMainBinding.topBarWithoutSearch.setVisibility(View.GONE);
-
         switch (item.getItemId()) {
 
             case R.id.navigation_home:
 
                 if (selectedFragment == 0)
                     return false;
+
+                activityMainBinding.topBar.setVisibility(View.VISIBLE);
+                activityMainBinding.topBarSearch.setVisibility(View.VISIBLE);
+                activityMainBinding.topBarWithoutSearch.setVisibility(View.GONE);
 
                 activityMainBinding.topBar.setBackgroundColor(getResources().getColor(R.color.colorAccent));
                 activityMainBinding.tvAppName.setText(getResources().getString(R.string.app_name));
@@ -58,6 +58,10 @@ public class MainActivity extends AppCompatActivity {
                 if (selectedFragment == 1)
                     return false;
 
+                activityMainBinding.topBar.setVisibility(View.VISIBLE);
+                activityMainBinding.topBarSearch.setVisibility(View.VISIBLE);
+                activityMainBinding.topBarWithoutSearch.setVisibility(View.GONE);
+
                 activityMainBinding.topBar.setBackgroundColor(getResources().getColor(R.color.colorAccent));
                 fragment = CategoryFragment.newInstance();
                 replaceFragment(fragment, 1);
@@ -67,10 +71,12 @@ public class MainActivity extends AppCompatActivity {
                 if (selectedFragment == 2)
                     return false;
 
-                activityMainBinding.topBar.setBackgroundColor(getResources().getColor(android.R.color.white));
                 activityMainBinding.topBarSearch.setVisibility(View.GONE);
-                activityMainBinding.tvFragmentName.setText(getResources().getString(R.string.cart));
                 activityMainBinding.topBarWithoutSearch.setVisibility(View.VISIBLE);
+
+                activityMainBinding.topBar.setBackgroundColor(getResources().getColor(android.R.color.white));
+                activityMainBinding.tvFragmentName.setText(getResources().getString(R.string.cart));
+
                 fragment = CartFragment.newInstance();
                 replaceFragment(fragment, 2);
                 return true;
@@ -80,15 +86,11 @@ public class MainActivity extends AppCompatActivity {
                 if (selectedFragment == 3)
                     return false;
 
-                if (token.isEmpty()) {
-                    startActivity(new Intent(this, RegistrationActivity.class));
-                    return false;
-                }
+                activityMainBinding.topBarSearch.setVisibility(View.GONE);
+                activityMainBinding.topBarWithoutSearch.setVisibility(View.VISIBLE);
 
                 activityMainBinding.topBar.setBackgroundColor(getResources().getColor(android.R.color.white));
-                activityMainBinding.topBarSearch.setVisibility(View.GONE);
                 activityMainBinding.tvFragmentName.setText(getResources().getString(R.string.wish_list));
-                activityMainBinding.topBarWithoutSearch.setVisibility(View.VISIBLE);
 
                 fragment = WishFragment.newInstance();
 
@@ -101,7 +103,6 @@ public class MainActivity extends AppCompatActivity {
                     return false;
 
                 activityMainBinding.topBar.setVisibility(View.GONE);
-                activityMainBinding.tvAppName.setText(getResources().getString(R.string.account));
                 fragment = AccountFragment.newInstance();
                 replaceFragment(fragment, 4);
                 return true;
@@ -115,7 +116,8 @@ public class MainActivity extends AppCompatActivity {
         activityMainBinding = DataBindingUtil.setContentView(this, R.layout.activity_main);
 
         appPreference = AppPreference.getInstance(this);
-
+        
+        activityMainBinding.navView.setItemIconTintList(null);
         token = appPreference.getString(SIGNIN_TOKEN);
         setListeners();
         loadInitialFragment();  // load first fragment
@@ -143,13 +145,6 @@ public class MainActivity extends AppCompatActivity {
         selectedFragment = index;
         activityMainBinding.tvNetwork.setVisibility(View.GONE);
         getSupportFragmentManager().beginTransaction().replace(R.id.fragment_host, fragment, "fragment_" + index).commit();
-
-        // getSupportFragmentManager().beginTransaction().replace(R.id.fragment_host, fragment, "fragment_" + index).commit();
-
-/*        if (isNetworkAvailable()) {
-
-        } else
-            activityMainBinding.tvNetwork.setVisibility(View.VISIBLE);*/
     }
 
     void loadInitialFragment() {

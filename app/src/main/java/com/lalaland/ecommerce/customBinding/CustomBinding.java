@@ -1,8 +1,10 @@
 package com.lalaland.ecommerce.customBinding;
 
 import android.graphics.Color;
+import android.graphics.Paint;
 import android.widget.CheckBox;
 import android.widget.ImageView;
+import android.widget.TextView;
 
 import androidx.databinding.BindingAdapter;
 
@@ -61,7 +63,6 @@ public class CustomBinding {
                 .with(imageView.getContext())
                 .load(imageSrc)
                 .placeholder(R.drawable.placeholder_products)
-                .fitCenter()
                 .into(imageView);
     }
 
@@ -125,5 +126,10 @@ public class CustomBinding {
         } else {
             imageView.setBackgroundColor(Color.rgb(255, 255, 255));
         }
+    }
+
+    @BindingAdapter("setStrike")
+    public static void setStrike(TextView text, String actualPrice) {
+        text.setPaintFlags(text.getPaintFlags() | Paint.STRIKE_THRU_TEXT_FLAG);
     }
 }

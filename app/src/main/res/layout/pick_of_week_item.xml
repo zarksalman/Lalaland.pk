@@ -1,9 +1,13 @@
 <?xml version="1.0" encoding="utf-8"?>
-<layout xmlns:tools="http://schemas.android.com/tools">
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
 
     <data>
 
         <import type="com.lalaland.ecommerce.helpers.AppUtils" />
+
+        <import type="android.view.View" />
 
         <variable
             name="picks"
@@ -17,37 +21,67 @@
 
     <LinearLayout
 
-        xmlns:android="http://schemas.android.com/apk/res/android"
-        xmlns:app="http://schemas.android.com/apk/res-auto"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:gravity="center"
+        android:id="@+id/action_parent"
         android:onClick="@{(view)->adapter.pickOfWeekClicked(view, picks)}"
         android:orientation="vertical"
-        android:padding="@dimen/_8dp">
+        android:padding="@dimen/_8dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent">
 
-        <ImageView
-
-            android:id="@+id/iv_action"
-            android:layout_width="@dimen/_75dp"
-            android:layout_height="@dimen/_75dp"
-            android:src="@drawable/btn_bg_round_corner_accent"
+        <FrameLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
-            app:setWeekProductImage="@{picks.primaryImage}" />
+            android:background="@drawable/pick_of_the_week_bg">
+
+            <ImageView
+
+                android:id="@+id/iv_action"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_margin="@dimen/_8dp"
+                android:background="@drawable/pick_of_the_week_bg"
+                app:setWeekProductImage="@{picks.primaryImage}" />
+        </FrameLayout>
+
 
         <TextView
 
-            android:id="@+id/tv_action_name"
+            android:id="@+id/tv_action_sale_price"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="@dimen/_4dp"
+            android:fontFamily="@font/encodesansregular"
             android:text="@{AppUtils.formatPriceString(picks.salePrice)}"
             android:textAlignment="center"
             android:textAppearance="@style/TextAppearance.AppCompat.Small"
             android:textColor="@android:color/holo_red_dark"
             android:textSize="12sp"
             tools:text="@tools:sample/full_names" />
+
+
+        <TextView
+
+            android:id="@+id/tv_action_actual_price"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/_4dp"
+            android:fontFamily="@font/encodesansregular"
+            android:text="@{AppUtils.formatPriceString(picks.actualPrice)}"
+            android:textAlignment="center"
+            android:textAppearance="@style/TextAppearance.AppCompat.Small"
+            android:textColor="@android:color/black"
+            android:textSize="10sp"
+            android:visibility="@{AppUtils.isPriceEqual(picks.salePrice ,picks.actualPrice)? View.GONE : View.VISIBLE}"
+            app:setStrike="@{picks.actualPrice}"
+            tools:text="@tools:sample/full_names" />
     </LinearLayout>
+
 </layout>

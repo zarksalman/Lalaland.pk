@@ -8,14 +8,14 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
+import android.widget.Toast;
 
 import androidx.core.widget.NestedScrollView;
 import androidx.databinding.DataBindingUtil;
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.ViewModelProviders;
 import androidx.recyclerview.widget.GridLayoutManager;
-import androidx.recyclerview.widget.LinearLayoutManager;
-import androidx.recyclerview.widget.RecyclerView;
 
 import com.bumptech.glide.Glide;
 import com.lalaland.ecommerce.R;
@@ -29,7 +29,9 @@ import com.lalaland.ecommerce.data.models.home.FeaturedBrand;
 import com.lalaland.ecommerce.data.models.home.HomeBanner;
 import com.lalaland.ecommerce.data.models.home.PicksOfTheWeek;
 import com.lalaland.ecommerce.data.models.products.Product;
+import com.lalaland.ecommerce.databinding.ActionLayoutBinding;
 import com.lalaland.ecommerce.databinding.FragmentHomeBinding;
+import com.lalaland.ecommerce.databinding.PickOfWeekItemBinding;
 import com.lalaland.ecommerce.helpers.AppPreference;
 import com.lalaland.ecommerce.viewModels.products.HomeViewModel;
 import com.lalaland.ecommerce.viewModels.products.ProductViewModelFactory;
@@ -57,6 +59,8 @@ public class HomeFragment extends Fragment implements ActionAdapter.ActionClickL
         BrandsFocusAdapter.FeatureBrandClickListener, ProductPagedListAdapter.ProductListener, ProductAdapter.ProductListener {
 
     public static final String TAG = HomeFragment.class.getSimpleName();
+    private static final int TAG_IV = 1;
+
     private HomeViewModel homeViewModel;
 
     private FragmentHomeBinding fragmentHomeBinding;
@@ -75,6 +79,11 @@ public class HomeFragment extends Fragment implements ActionAdapter.ActionClickL
     public static int END_INDEX = 30;
     public static final int NUMBER_OF_ITEM = 30;
     private String recommended_cat;
+
+    View.OnClickListener btnClickListener = v -> {
+
+        Toast.makeText(getContext(), "TextView Clicked : " + v.getTag(), Toast.LENGTH_SHORT).show();
+    };
 
     public HomeFragment() {
         // Required empty public constructor
@@ -194,10 +203,48 @@ public class HomeFragment extends Fragment implements ActionAdapter.ActionClickL
     }
 
     private void setActions() {
-        ActionAdapter actionAdapter = new ActionAdapter(getContext(), this);
+
+
+        //   fragmentHomeBinding.rvActionContainer.removeAllViews();
+
+        Integer weight = (100 / actionsList.size());
+
+        for (Integer i = 0; i < actionsList.size(); i++) {
+
+            ActionLayoutBinding layout = DataBindingUtil.inflate(getLayoutInflater(), R.layout.action_layout, null, false);
+            layout.ivAction.setTag(R.string.action_tag, i);
+
+            if (layout.actionParent.getParent() != null)
+                layout.actionParent.removeView(layout.actionParent);
+
+            LinearLayout.LayoutParams param = new LinearLayout.LayoutParams(
+                    LinearLayout.LayoutParams.MATCH_PARENT,
+                    LinearLayout.LayoutParams.WRAP_CONTENT,
+                    weight
+            );
+
+            //  layout.actionParent.setLayoutParams(param);
+
+            layout.setAction(actionsList.get(i));
+
+            layout.actionParent.setClickable(true);
+            layout.ivAction.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+//                    Toast.makeText(getContext(), v.getTag(R.string.tag).toString(), Toast.LENGTH_SHORT).show();
+                    onActionClicked(Integer.parseInt(v.getTag(R.string.action_tag).toString()));
+                }
+            });
+
+            fragmentHomeBinding.rvActionContainer.addView(layout.getRoot(), param);
+
+
+        }
+        /*
+         ActionAdapter actionAdapter = new ActionAdapter(getContext(), this);
         fragmentHomeBinding.rvActions.setAdapter(actionAdapter);
         fragmentHomeBinding.rvActions.setLayoutManager(new LinearLayoutManager(getContext(), LinearLayoutManager.HORIZONTAL, false));
-        actionAdapter.setData(actionsList);
+        actionAdapter.setData(actionsList);*/
     }
 
     @Override
@@ -212,12 +259,56 @@ public class HomeFragment extends Fragment implements ActionAdapter.ActionClickL
         startActivity(intent);
     }
 
+    private void onActionClicked(Integer index) {
+
+        Actions actions = actionsList.get(index);
+        Intent intent = new Intent(getContext(), ActionProductListingActivity.class);
+
+        intent.putExtra(ACTION_NAME, actions.getName());
+        intent.putExtra(ACTION_ID, String.valueOf(actions.getActionId()));
+        intent.putExtra(PRODUCT_TYPE, actions.getActionName());
+
+        startActivity(intent);
+    }
+
     private void setPickOfTheWeek() {
 
-        PickOfWeekAdapter pickOfWeekAdapter = new PickOfWeekAdapter(getContext(), this);
+        Integer weight = (100 / picksOfTheWeekList.size());
+
+        for (int i = 0; i < picksOfTheWeekList.size(); i++) {
+
+            PickOfWeekItemBinding layout = DataBindingUtil.inflate(getLayoutInflater(), R.layout.pick_of_week_item, null, false);
+            layout.ivAction.setTag(R.string.pick_of_week_tag, i);
+
+            if (layout.actionParent.getParent() != null)
+                layout.actionParent.removeView(layout.actionParent);
+
+            LinearLayout.LayoutParams param = new LinearLayout.LayoutParams(
+                    LinearLayout.LayoutParams.MATCH_PARENT,
+                    LinearLayout.LayoutParams.WRAP_CONTENT,
+                    weight
+            );
+
+            //  layout.actionParent.setLayoutParams(param);
+
+            layout.setPicks(picksOfTheWeekList.get(i));
+
+            layout.ivAction.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    onWeekProductClicked(Integer.parseInt(v.getTag(R.string.pick_of_week_tag).toString()));
+                }
+            });
+
+            fragmentHomeBinding.rvPicksOfWeekContainer.addView(layout.getRoot(), param);
+
+
+        }
+
+/*        PickOfWeekAdapter pickOfWeekAdapter = new PickOfWeekAdapter(getContext(), this);
         fragmentHomeBinding.rvPicksOfWeek.setAdapter(pickOfWeekAdapter);
         fragmentHomeBinding.rvPicksOfWeek.setLayoutManager(new LinearLayoutManager(getContext(), LinearLayoutManager.HORIZONTAL, false));
-        pickOfWeekAdapter.setData(picksOfTheWeekList);
+        pickOfWeekAdapter.setData(picksOfTheWeekList);*/
     }
 
     public void showAllProductsWeekProducts(View view) {
@@ -231,6 +322,14 @@ public class HomeFragment extends Fragment implements ActionAdapter.ActionClickL
     @Override
     public void onWeekProductClicked(PicksOfTheWeek picksOfTheWeek) {
 
+        Intent intent = new Intent(getContext(), ProductDetailActivity.class);
+        intent.putExtra(PRODUCT_ID, picksOfTheWeek.getId());
+        startActivity(intent);
+    }
+
+    public void onWeekProductClicked(Integer index) {
+
+        PicksOfTheWeek picksOfTheWeek = picksOfTheWeekList.get(index);
         Intent intent = new Intent(getContext(), ProductDetailActivity.class);
         intent.putExtra(PRODUCT_ID, picksOfTheWeek.getId());
         startActivity(intent);
@@ -260,7 +359,7 @@ public class HomeFragment extends Fragment implements ActionAdapter.ActionClickL
         recommendationProductAdapter = new ProductAdapter(getContext(), this);
         recommendationProductAdapter.setData(productList);
         fragmentHomeBinding.rvRecommendedProducts.setAdapter(recommendationProductAdapter);
-        gridLayoutManager = new GridLayoutManager(getContext(), 3);
+        gridLayoutManager = new GridLayoutManager(getContext(), 2);
         fragmentHomeBinding.rvRecommendedProducts.setLayoutManager(gridLayoutManager);
 
         //  ViewCompat.setNestedScrollingEnabled(fragmentHomeBinding.rvRecommendedProducts, false);
@@ -300,15 +399,6 @@ public class HomeFragment extends Fragment implements ActionAdapter.ActionClickL
 
     }
 
-    //This method would check that the recyclerview scroll has reached the bottom or not
-    private boolean isLastItemDisplaying(RecyclerView recyclerView) {
-        if (recyclerView.getAdapter().getItemCount() != 0) {
-            int lastVisibleItemPosition = ((LinearLayoutManager) recyclerView.getLayoutManager()).findLastCompletelyVisibleItemPosition();
-            if (lastVisibleItemPosition != RecyclerView.NO_POSITION && lastVisibleItemPosition == recyclerView.getAdapter().getItemCount() - 1)
-                return true;
-        }
-        return false;
-    }
 
     @Override
     public void onProductProductClicked(Product product) {
@@ -317,4 +407,6 @@ public class HomeFragment extends Fragment implements ActionAdapter.ActionClickL
         intent.putExtra(PRODUCT_ID, product.getId());
         startActivity(intent);
     }
+
+
 }

@@ -23,18 +23,20 @@
         xmlns:android="http://schemas.android.com/apk/res/android"
         xmlns:app="http://schemas.android.com/apk/res-auto"
         xmlns:tools="http://schemas.android.com/tools"
-        android:layout_width="@dimen/_100dp"
-        android:layout_height="@dimen/_200dp"
-        android:layout_margin="@dimen/_4dp"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_margin="@dimen/_8dp"
         android:background="@drawable/recommended_products_bg"
         android:onClick="@{(view)->adapter.onProductClicked(view,product)}"
-        android:padding="@dimen/_16dp">
+        android:padding="@dimen/_8dp">
 
         <ImageView
 
             android:id="@+id/iv_product"
             android:layout_width="0dp"
-            android:layout_height="wrap_content"
+            android:layout_height="@dimen/_150dp"
+            android:scaleType="centerCrop"
+            app:layout_constraintDimensionRatio="3:4"
             android:src="@drawable/placeholder_products"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
@@ -44,14 +46,17 @@
         <TextView
 
             android:id="@+id/tv_brand_name"
-            android:layout_width="wrap_content"
+            android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:ellipsize="end"
             android:maxLength="15"
             android:maxLines="1"
+            android:layout_marginTop="@dimen/_4dp"
             android:text="@{product.brandName}"
+            android:fontFamily="@font/encodesansregular"
             android:textColor="@android:color/black"
             android:textSize="13sp"
+            app:layout_constraintHorizontal_bias="0"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/iv_product"
@@ -60,15 +65,16 @@
         <TextView
 
             android:id="@+id/tv_product_name"
-            android:layout_width="wrap_content"
+            android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:ellipsize="end"
             android:maxLength="20"
             android:maxLines="1"
+            android:fontFamily="@font/encodesanslight"
             android:text="@{product.name}"
+            android:textSize="11sp"
             android:textColor="@android:color/black"
-            android:textSize="12sp"
-            android:textStyle="bold"
+            app:layout_constraintHorizontal_bias="0"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/tv_brand_name"
@@ -77,12 +83,13 @@
         <TextView
 
             android:id="@+id/tv_product_sale_price"
-            android:layout_width="wrap_content"
+            android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:text="@{AppUtils.formatPriceString(product.salePrice)}"
-            android:textColor="@{AppUtils.isPriceEqual(product.salePrice ,product.actualPrice)? @android:color/black : @android:color/holo_red_dark}"
-            android:textSize="12sp"
+            android:textColor="@android:color/holo_red_dark"
+            android:textSize="14sp"
             app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/tv_product_name"
             tools:text="@tools:sample/us_zipcodes" />
@@ -90,11 +97,12 @@
         <TextView
 
             android:id="@+id/tv_product_actual_price"
-            android:layout_width="wrap_content"
+            android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:text="@{AppUtils.formatPriceString(product.actualPrice)}"
             android:textColor="@android:color/black"
             android:textSize="12sp"
+            app:layout_constraintHorizontal_bias="0"
             android:visibility="@{AppUtils.isPriceEqual(product.salePrice ,product.actualPrice) ? View.GONE : View.VISIBLE}"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"

@@ -79,15 +79,25 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content">
 
+                <androidx.constraintlayout.widget.Guideline
+
+                    android:id="@+id/gl_view_pager"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintGuide_percent=".35"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent" />
 
                 <androidx.viewpager.widget.ViewPager
 
                     android:id="@+id/vp_images"
                     android:layout_width="0dp"
-                    android:layout_height="@dimen/_260dp"
-                    android:background="@color/colorAccent"
+                    android:layout_height="0dp"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintBottom_toBottomOf="@+id/gl_view_pager"
                     app:layout_constraintTop_toTopOf="parent" />
 
                 <LinearLayout
@@ -293,7 +303,7 @@
                 android:background="@drawable/bg_round_corner_white"
                 android:onClick="@{(view)->listener.setBottomSheet(view, false)}"
                 android:text="@string/add_to_cart"
-                android:textColor="@color/colorLightGray" />
+                android:textColor="@android:color/black" />
 
             <Button
                 android:layout_width="wrap_content"
