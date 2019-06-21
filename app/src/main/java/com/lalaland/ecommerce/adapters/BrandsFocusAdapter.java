@@ -10,10 +10,9 @@ import androidx.databinding.DataBindingUtil;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.lalaland.ecommerce.R;
-import com.lalaland.ecommerce.data.models.home.Actions;
 import com.lalaland.ecommerce.data.models.home.FeaturedBrand;
-import com.lalaland.ecommerce.databinding.ActionLayoutBinding;
 import com.lalaland.ecommerce.databinding.BrandsFocusItemBinding;
+import com.lalaland.ecommerce.databinding.OldBrandsFocusItemBinding;
 
 import java.util.List;
 
@@ -22,7 +21,7 @@ public class BrandsFocusAdapter extends RecyclerView.Adapter<BrandsFocusAdapter.
 
     private Context mContext;
     private List<FeaturedBrand> mFeaturedBrandList;
-    private BrandsFocusItemBinding brandsFocusItemBinding;
+    private OldBrandsFocusItemBinding brandsFocusItemBinding;
     private LayoutInflater inflater;
     private FeatureBrandClickListener mFeatureBrandClickListener;
 
@@ -37,7 +36,7 @@ public class BrandsFocusAdapter extends RecyclerView.Adapter<BrandsFocusAdapter.
     @Override
     public BrandsFocusViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
 
-        brandsFocusItemBinding = DataBindingUtil.inflate(inflater, R.layout.brands_focus_item, parent, false);
+        brandsFocusItemBinding = DataBindingUtil.inflate(inflater, R.layout.old_brands_focus_item, parent, false);
         return new BrandsFocusViewHolder(brandsFocusItemBinding);
     }
 
@@ -64,9 +63,9 @@ public class BrandsFocusAdapter extends RecyclerView.Adapter<BrandsFocusAdapter.
 
     class BrandsFocusViewHolder extends RecyclerView.ViewHolder {
 
-        BrandsFocusItemBinding mBrandsFocusItemBinding;
+        OldBrandsFocusItemBinding mBrandsFocusItemBinding;
 
-        BrandsFocusViewHolder(@NonNull BrandsFocusItemBinding brandsFocusItemBinding) {
+        BrandsFocusViewHolder(@NonNull OldBrandsFocusItemBinding brandsFocusItemBinding) {
             super(brandsFocusItemBinding.getRoot());
 
             mBrandsFocusItemBinding = brandsFocusItemBinding;

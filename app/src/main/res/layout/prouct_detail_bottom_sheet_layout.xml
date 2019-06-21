@@ -50,14 +50,14 @@
         </androidx.cardview.widget.CardView>
 
         <TextView
-            android:id="@+id/tv_product_price"
+            android:id="@+id/tv_product_name"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_margin="@dimen/_4dp"
             android:layout_marginBottom="8dp"
-            android:text="@{AppUtils.showRangePrice(productDetails.minSalePrice, productDetails.maxSalePrice)}"
-            android:textColor="@android:color/holo_red_dark"
-            android:textSize="16sp"
+            android:text="@{productDetails.name}"
+            android:textColor="@android:color/black"
+            android:textSize="14sp"
             app:layout_constraintBottom_toTopOf="@+id/tv_product_actual_price"
             app:layout_constraintStart_toEndOf="@+id/iv_product_img"
             tools:text="@string/last_name" />
@@ -71,11 +71,10 @@
             android:layout_marginBottom="8dp"
             android:text="@{AppUtils.showRangePrice(productDetails.minActualPrice, productDetails.maxActualPrice)}"
             android:textSize="14sp"
-            android:visibility="@{AppUtils.isPriceEqual(productDetails.maxSalePrice ,productDetails.maxSalePrice) ? View.GONE : View.VISIBLE}"
+            android:textColor="@color/colorLightRed"
             app:layout_constraintBottom_toBottomOf="@+id/iv_product_img"
             app:layout_constraintStart_toEndOf="@+id/iv_product_img"
-            tools:text="@string/last_name"
-            tools:visibility="gone" />
+            tools:text="@string/last_name" />
 
 
         <ImageView
@@ -134,40 +133,47 @@
             android:layout_margin="@dimen/_4dp"
             android:text="@string/quantity"
             android:textSize="16sp"
+            app:layout_constraintBottom_toTopOf="@+id/btn_done"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/iv_line_2" />
 
         <LinearLayout
             android:id="@+id/counter_container"
-            android:layout_width="wrap_content"
+            android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:layout_margin="@dimen/_4dp"
+            android:gravity="end"
             android:orientation="horizontal"
+            android:padding="@dimen/_4dp"
             app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintBottom_toTopOf="@+id/btn_done"
+            app:layout_constraintHorizontal_bias="1"
+            app:layout_constraintStart_toEndOf="@+id/tv_quantity_title"
             app:layout_constraintTop_toBottomOf="@+id/iv_line_2">
 
             <ImageButton
 
                 android:id="@+id/btn_sub"
-                android:layout_width="@dimen/_30dp"
-                android:layout_height="@dimen/_30dp"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:padding="@dimen/_12dp"
                 app:srcCompat="@drawable/sub_icon" />
 
             <TextView
 
                 android:id="@+id/tv_count"
-                android:layout_width="wrap_content"
+                android:layout_width="@dimen/_40dp"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center_vertical"
                 android:text="1"
-                android:textSize="14sp"
-                tools:text="@tools:sample/us_zipcodes" />
+                android:textAlignment="center"
+                android:textSize="14sp" />
 
             <ImageButton
 
                 android:id="@+id/btn_add"
-                android:layout_width="@dimen/_30dp"
-                android:layout_height="@dimen/_30dp"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:padding="@dimen/_12dp"
                 app:srcCompat="@drawable/add_icon" />
 
         </LinearLayout>

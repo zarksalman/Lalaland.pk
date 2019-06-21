@@ -63,7 +63,13 @@ public class ProductImageAdapter extends PagerAdapter {
                 .into(productImageItemBinding.ivProduct);
 */
 
-        Picasso.get().load(imgUrl).into(productImageItemBinding.ivProduct);
+        Picasso
+                .get()
+                .load(imgUrl)
+                .placeholder(R.drawable.placeholder_products)
+                .fit()
+                .centerInside()
+                .into(productImageItemBinding.ivProduct);
 
         container.addView(productImageItemBinding.getRoot());
         return productImageItemBinding.getRoot();

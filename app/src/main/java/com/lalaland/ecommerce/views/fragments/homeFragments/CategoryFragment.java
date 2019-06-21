@@ -6,6 +6,7 @@ import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Toast;
 
 import androidx.databinding.DataBindingUtil;
 import androidx.fragment.app.Fragment;
@@ -153,7 +154,10 @@ public class CategoryFragment extends Fragment implements MajorCategoryAdapter.M
         fragmentCategoryBinding.rvSubCategoryBrand.setLayoutManager(new LinearLayoutManager(getContext()));
         categorBrandAdapter.setData(AppConstants.staticCategoryBrandsList);
 
-        getCategories(categoryList.get(0).getId());
+        if (categoryList.size() > 0)
+            getCategories(categoryList.get(0).getId());
+        else
+            Toast.makeText(getContext(), "No category found", Toast.LENGTH_SHORT).show();
 
         fragmentCategoryBinding.rvSubCategory.setVisibility(View.VISIBLE);
     }

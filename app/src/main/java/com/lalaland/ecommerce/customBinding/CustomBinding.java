@@ -60,8 +60,8 @@ public class CustomBinding {
         Glide
                 .with(imageView.getContext())
                 .load(imageSrc)
-                .placeholder(R.drawable.placeholder_products)
                 .fitCenter()
+                .placeholder(R.drawable.placeholder_products)
                 .into(imageView);
     }
 
@@ -73,6 +73,7 @@ public class CustomBinding {
         Glide
                 .with(imageView.getContext())
                 .load(imageSrc)
+                .centerCrop()
                 .placeholder(R.drawable.placeholder_products)
                 .into(imageView);
     }
