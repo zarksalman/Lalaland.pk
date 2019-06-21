@@ -5,6 +5,7 @@ import com.lalaland.ecommerce.data.models.actionProducs.ActionProductsContainer;
 import com.lalaland.ecommerce.data.models.cart.CartContainer;
 import com.lalaland.ecommerce.data.models.categories.CategoriesContainer;
 import com.lalaland.ecommerce.data.models.category.CategoryContainer;
+import com.lalaland.ecommerce.data.models.deliveryOption.DeliveryOptionDataContainer;
 import com.lalaland.ecommerce.data.models.filters.FilterDataContainer;
 import com.lalaland.ecommerce.data.models.globalSearch.SearchDataContainer;
 import com.lalaland.ecommerce.data.models.home.HomeDataContainer;
@@ -69,6 +70,9 @@ public interface LalalandServiceApi {
 
     @POST("getDeliveryCharges")
     Call<DeliveryChargesContainer> getDeliveryCharges(@Header("token") String token, @Query("city_id") String city_id);
+
+    @POST("getDeliveryOption")
+    Call<DeliveryOptionDataContainer> getDeliveryOption(@QueryMap Map<String, String> parameter);
 
     @POST("addressBook")
     Call<DeliveryChargesContainer> getAddress(@Header("token") String token);

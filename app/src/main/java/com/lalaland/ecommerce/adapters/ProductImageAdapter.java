@@ -10,11 +10,11 @@ import androidx.databinding.DataBindingUtil;
 import androidx.viewpager.widget.PagerAdapter;
 import androidx.viewpager.widget.ViewPager;
 
-import com.bumptech.glide.Glide;
 import com.lalaland.ecommerce.R;
 import com.lalaland.ecommerce.data.models.productDetails.ProductMultimedium;
 import com.lalaland.ecommerce.databinding.ProductImageItemBinding;
 import com.lalaland.ecommerce.helpers.AppConstants;
+import com.squareup.picasso.Picasso;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -56,11 +56,15 @@ public class ProductImageAdapter extends PagerAdapter {
 
         String imgUrl = AppConstants.PRODUCT_STORAGE_BASE_URL.concat(productMultimedia.get(position).getSource());
 
+/*
         Glide.with(context)
                 .load(imgUrl)
                 .placeholder(R.drawable.placeholder_products)
                 .into(productImageItemBinding.ivProduct);
-        
+*/
+
+        Picasso.get().load(imgUrl).into(productImageItemBinding.ivProduct);
+
         container.addView(productImageItemBinding.getRoot());
         return productImageItemBinding.getRoot();
 

@@ -6,6 +6,7 @@ import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MutableLiveData;
 
 import com.lalaland.ecommerce.data.models.DeliveryChargesData.DeliveryChargesContainer;
+import com.lalaland.ecommerce.data.models.deliveryOption.DeliveryOptionDataContainer;
 import com.lalaland.ecommerce.data.models.logout.BasicResponse;
 import com.lalaland.ecommerce.data.models.order.details.OrderDetailContainer;
 import com.lalaland.ecommerce.data.models.order.myOrders.OrderDataContainer;
@@ -30,6 +31,7 @@ public class OrdersRepository {
 
     private MutableLiveData<BasicResponse> basicResponseMutableLiveData;
     private MutableLiveData<DeliveryChargesContainer> deliveryChargesContainerMutableLiveData;
+    private MutableLiveData<DeliveryOptionDataContainer> deliveryOptionDataContainerMutableLiveData;
     private MutableLiveData<PlacingOrderDataContainer> orderDataContainerMutableLiveData = new MutableLiveData<>();
     private MutableLiveData<OrderDataContainer> myOrderDataContainerMutableLiveData = new MutableLiveData<>();
     private MutableLiveData<OrderDetailContainer> orderDetailContainerMutableLiveData = new MutableLiveData<>();
@@ -69,6 +71,30 @@ public class OrdersRepository {
 
         return deliveryChargesContainerMutableLiveData;
     }
+
+    public LiveData<DeliveryOptionDataContainer> getDeliveryOption(Map<String, String> parameter) {
+
+        deliveryOptionDataContainerMutableLiveData = new MutableLiveData<>();
+
+        lalalandServiceApi.getDeliveryOption(parameter).enqueue(new Callback<DeliveryOptionDataContainer>() {
+            @Override
+            public void onResponse(Call<DeliveryOptionDataContainer> call, Response<DeliveryOptionDataContainer> response) {
+
+                if (response.isSuccessful())
+                    deliveryOptionDataContainerMutableLiveData.postValue(response.body());
+                else
+                    deliveryOptionDataContainerMutableLiveData.postValue(null);
+            }
+
+            @Override
+            public void onFailure(Call<DeliveryOptionDataContainer> call, Throwable t) {
+                deliveryOptionDataContainerMutableLiveData.postValue(null);
+            }
+        });
+
+        return deliveryOptionDataContainerMutableLiveData;
+    }
+
 
     public LiveData<PlacingOrderDataContainer> confirmOrder(String header, Map<String, String> parameter) {
 

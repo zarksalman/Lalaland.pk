@@ -30,6 +30,17 @@ public class CustomBinding {
                 .into(imageView);
     }
 
+    @BindingAdapter("setMediumImageFromServer")
+    public static void setMediumImageFromServer(ImageView imageView, String imageName) {
+
+        String imageSrc = PRODUCT_STORAGE_BASE_URL.concat("medium/").concat(imageName);
+        Glide
+                .with(AppConstants.mContext)
+                .load(imageSrc)
+                .placeholder(R.drawable.placeholder_products)
+                .into(imageView);
+    }
+
     @BindingAdapter("setActionImage")
     public static void setActionImageFromServer(ImageView imageView, String imageName) {
 
@@ -45,7 +56,7 @@ public class CustomBinding {
     @BindingAdapter("setWeekProductImage")
     public static void setWeekProductImageFromServer(ImageView imageView, String imageName) {
 
-        String imageSrc = PRODUCT_STORAGE_BASE_URL.concat(imageName);
+        String imageSrc = PRODUCT_STORAGE_BASE_URL.concat("medium/").concat(imageName);
         Glide
                 .with(imageView.getContext())
                 .load(imageSrc)

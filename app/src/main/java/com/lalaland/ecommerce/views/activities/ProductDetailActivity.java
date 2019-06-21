@@ -34,6 +34,7 @@ import com.lalaland.ecommerce.databinding.ProuctDetailBottomSheetLayoutBinding;
 import com.lalaland.ecommerce.helpers.AppConstants;
 import com.lalaland.ecommerce.helpers.AppPreference;
 import com.lalaland.ecommerce.helpers.AppUtils;
+import com.lalaland.ecommerce.viewModels.order.OrderViewModel;
 import com.lalaland.ecommerce.viewModels.products.ProductViewModel;
 
 import java.util.ArrayList;
@@ -62,7 +63,10 @@ public class ProductDetailActivity extends AppCompatActivity implements ProductV
     private List<ProductMultimedium> mProductMultimedia = new ArrayList<>();
     private List<FitAndSizing> mFitAndSizings = new ArrayList<>();
     private ProductViewModel productViewModel;
+    private OrderViewModel orderViewModel;
+
     private Map<String, String> parameter = new HashMap<>();
+    private Map<String, String> deliverOptionparameter = new HashMap<>();
     private Map<String, String> headers = new HashMap<>();
     private int product_id, variation_id, quantity = 1;
     private String productImage;
@@ -78,6 +82,7 @@ public class ProductDetailActivity extends AppCompatActivity implements ProductV
     private int isAddOrRemove;
     private BottomSheetDialog mBottomSheetDialog;
     private ProductVariationAdapter productVariationAdapter;
+    String merchantName;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -87,6 +92,7 @@ public class ProductDetailActivity extends AppCompatActivity implements ProductV
 
         appPreference = AppPreference.getInstance(this);
         productViewModel = ViewModelProviders.of(this).get(ProductViewModel.class);
+        orderViewModel = ViewModelProviders.of(this).get(OrderViewModel.class);
 
         product_id = getIntent().getIntExtra(PRODUCT_ID, 0);
         Log.d(AppConstants.TAG, "product_id" + product_id);
@@ -94,12 +100,17 @@ public class ProductDetailActivity extends AppCompatActivity implements ProductV
         activityProductDetailBinding.pbLoading.setVisibility(View.VISIBLE);
         getProductDetail();
 
+        activityProductDetailBinding.cityContainer.setOnClickListener(v -> {
+            startActivityForResult(new Intent(this, SelectCityActivity.class), 200);
+        });
+
         activityProductDetailBinding.btnBack.setOnClickListener(v -> {
             onBackPressed();
         });
     }
 
     void loadProductDetail() {
+
 
         ProductImageAdapter productImageAdapter = new ProductImageAdapter(this, mProductMultimedia);
         activityProductDetailBinding.vpImages.setAdapter(productImageAdapter);
@@ -132,6 +143,11 @@ public class ProductDetailActivity extends AppCompatActivity implements ProductV
 
         setProductGeneralDescription(generalDescription, materialDescription);
         setFitAndSizing();
+
+        activityProductDetailBinding.tvProductCode.setText(String.valueOf(productDetails.getId()));
+        activityProductDetailBinding.tvSoldByMerchant.setText(productDetails.getMerchantName());
+
+
 
         activityProductDetailBinding.pbLoading.setVisibility(View.GONE);
         activityProductDetailBinding.svProductDetail.setVisibility(View.VISIBLE);
@@ -185,23 +201,29 @@ public class ProductDetailActivity extends AppCompatActivity implements ProductV
     void setProductGeneralDescription(String generalDescription, String materialDescription) {
 
         activityProductDetailBinding.wvProductGeneralDetail.loadData(generalDescription, "text/html", "UTF-8");
-        activityProductDetailBinding.wvProductGeneralDetail.loadData(materialDescription, "text/html", "UTF-8");
+        activityProductDetailBinding.wvProductMaterialDetail.loadData(materialDescription, "text/html", "UTF-8");
 
 
-        if (generalDescription != null && generalDescription.isEmpty()) {
+        if (generalDescription == null || generalDescription.isEmpty()) {
             activityProductDetailBinding.wvProductGeneralDetail.setVisibility(View.GONE);
             activityProductDetailBinding.tvProductGeneralDetailTitle.setVisibility(View.GONE);
         } else {
             activityProductDetailBinding.wvProductGeneralDetail.setVisibility(View.VISIBLE);
             activityProductDetailBinding.tvProductGeneralDetailTitle.setVisibility(View.VISIBLE);
+
+            activityProductDetailBinding.wvProductGeneralDetail.loadData(generalDescription, "text/html", "UTF-8");
+
         }
 
-        if (materialDescription != null && materialDescription.isEmpty()) {
+        if (materialDescription == null || materialDescription.isEmpty()) {
             activityProductDetailBinding.wvProductMaterialDetail.setVisibility(View.GONE);
             activityProductDetailBinding.tvProductMaterialDetailTitle.setVisibility(View.GONE);
         } else {
             activityProductDetailBinding.wvProductMaterialDetail.setVisibility(View.VISIBLE);
             activityProductDetailBinding.tvProductMaterialDetailTitle.setVisibility(View.VISIBLE);
+
+            activityProductDetailBinding.wvProductMaterialDetail.loadData(materialDescription, "text/html", "UTF-8");
+
         }
     }
 
@@ -441,7 +463,34 @@ public class ProductDetailActivity extends AppCompatActivity implements ProductV
                 loginToken = appPreference.getString(SIGNIN_TOKEN);
                 headers.put(SIGNIN_TOKEN, loginToken);
                 addRemoveToWishList(activityProductDetailBinding.getRoot());
+            } else if (requestCode == 200) {
+
+                if (data != null) {
+
+                    getDeliveryOption(data);
+                }
             }
         }
+    }
+
+    private void getDeliveryOption(Intent intent) {
+
+        deliverOptionparameter.put("merchant_id", String.valueOf(productDetails.getMerchantId()));
+        deliverOptionparameter.put("product_id", String.valueOf(productDetails.getId()));
+        deliverOptionparameter.put("city_id", String.valueOf(intent.getStringExtra("city_id")));
+
+        orderViewModel.getDeliveryOption(deliverOptionparameter).observe(this, deliveryOptionDataContainer -> {
+
+            if (deliveryOptionDataContainer != null) {
+
+
+                String cityName = intent.getStringExtra("city_name");
+                String deliverCharges = String.valueOf(deliveryOptionDataContainer.getData().getToReturn().getAmount());
+
+                activityProductDetailBinding.tvDeliveryCharges.setText(String.format(getResources().getString(R.string.delivery_charges_option), deliverCharges));
+                activityProductDetailBinding.tvCityName.setText(cityName);
+                activityProductDetailBinding.tvDeliveryCharges.setVisibility(View.VISIBLE);
+            }
+        });
     }
 }

@@ -226,5 +226,13 @@
     <string name="action_tag">1</string>
     <string name="pick_of_week_tag">2</string>
     <string name="login_to_view_wishlist_items">Login to view wishlist items</string>
+    <string name="delivery_charges">Delivery Options</string>
+    <string name="city_name">City Name</string>
+    <string name="select">Select</string>
+    <string name="payment_info_detail"><![CDATA[Please enter your city to check delivery rate & time along with available payment options.]]></string>
+    <string name="product_return_exchange"><![CDATA[100% original product\nProduct will be deliver with in 5 to 7 working days\nEasy 7 days return & 7 days exchange]]></string>
+    <string name="sold_by">Sold by:  </string>
+    <string name="product_code">Product code:  </string>
+    <string name="delivery_charges_option">Delivery charges are Rs %1$s</string>
 
 </resources>
