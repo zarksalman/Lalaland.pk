@@ -23,17 +23,18 @@
 
         android:id="@+id/sub_category_root"
         xmlns:android="http://schemas.android.com/apk/res/android"
-        android:layout_width="match_parent"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:orientation="vertical"
-        android:background="@color/colorScreenBg"
-        android:padding="@dimen/_8dp">
+        android:background="@color/colorScreenBg">
 
         <RelativeLayout
 
             android:id="@+id/top_bar"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:onClick="@{()->adapter.showAll(subCategory)}"
+            android:padding="@dimen/_4dp"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent">
@@ -81,6 +82,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="@dimen/_4dp"
+            android:padding="@dimen/_4dp"
             android:background="@drawable/recommended_products_bg"
             android:layout_gravity="center"
             android:visibility="visible" />

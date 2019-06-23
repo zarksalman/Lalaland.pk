@@ -1,6 +1,7 @@
 package com.lalaland.ecommerce.views.fragments.homeFragments;
 
 
+import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.LayoutInflater;
@@ -89,6 +90,10 @@ public class CategoryFragment extends Fragment implements MajorCategoryAdapter.M
 
         categoryViewModel = ViewModelProviders.of(this).get(CategoryViewModel.class);
 
+        //setting viewpagger height because in scrollview wrap/match does not calculate their height correctly
+        android.view.Display display = ((android.view.WindowManager) getContext().getSystemService(Context.WINDOW_SERVICE)).getDefaultDisplay();
+        fragmentCategoryBinding.ivCategoryHeader.getLayoutParams().height = ((int) (display.getHeight() * 0.16));
+
         setMajorCategoryList();
         setCategoryAdapter();
 
@@ -113,6 +118,7 @@ public class CategoryFragment extends Fragment implements MajorCategoryAdapter.M
                         subCategories.addAll(categoriesContainer.getData().getSubCategories());
                         trimZeroSizeInnerCategories();
 
+                        fragmentCategoryBinding.subCategoryContainer.setVisibility(View.VISIBLE);
                         categoryAdapter.notifyDataSetChanged();
 
                         String bannerImageUrl = BANNER_STORAGE_BASE_URL.concat(categoryHomeBanners.get(0).getBannerImage());
@@ -184,12 +190,16 @@ public class CategoryFragment extends Fragment implements MajorCategoryAdapter.M
         // if same category do not clicked again
         if (categoryId != category.getId()) {
 
+            fragmentCategoryBinding.subCategoryContainer.setVisibility(View.GONE);
+
+            fragmentCategoryBinding.rvSubCategoryBrand.setVisibility(View.GONE);
+            fragmentCategoryBinding.pbLoading.setVisibility(View.GONE);
+
             if (category.getName().equals("Brands")) {
 
-                fragmentCategoryBinding.rvSubCategory.setVisibility(View.GONE);
+                fragmentCategoryBinding.ivCategoryHeader.setVisibility(View.GONE);
                 fragmentCategoryBinding.rvSubCategoryBrand.setVisibility(View.VISIBLE);
-                fragmentCategoryBinding.cvHeaderImage.setVisibility(View.GONE);
-                fragmentCategoryBinding.pbLoading.setVisibility(View.GONE);
+                fragmentCategoryBinding.subCategoryContainer.setVisibility(View.VISIBLE);
 
             } else if (category.getName().equals("Sale")) {
                 Intent intent;
@@ -200,9 +210,8 @@ public class CategoryFragment extends Fragment implements MajorCategoryAdapter.M
                 startActivity(intent);
 
             } else {
-                fragmentCategoryBinding.rvSubCategory.setVisibility(View.VISIBLE);
-                fragmentCategoryBinding.rvSubCategoryBrand.setVisibility(View.GONE);
-                fragmentCategoryBinding.cvHeaderImage.setVisibility(View.VISIBLE);
+
+                fragmentCategoryBinding.ivCategoryHeader.setVisibility(View.VISIBLE);
                 fragmentCategoryBinding.pbLoading.setVisibility(View.VISIBLE);
                 categoryId = category.getId();
                 getCategories(categoryId);

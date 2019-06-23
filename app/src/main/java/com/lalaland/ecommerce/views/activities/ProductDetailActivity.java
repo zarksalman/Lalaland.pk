@@ -3,7 +3,6 @@ package com.lalaland.ecommerce.views.activities;
 import android.content.Context;
 import android.content.Intent;
 import android.content.res.Resources;
-import android.graphics.Paint;
 import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.util.Log;
@@ -114,7 +113,7 @@ public class ProductDetailActivity extends AppCompatActivity implements ProductV
 
         //setting viewpagger height because in scrollview wrap/match does not calculate their height correctly
         android.view.Display display = ((android.view.WindowManager) getSystemService(Context.WINDOW_SERVICE)).getDefaultDisplay();
-        activityProductDetailBinding.vpImages.getLayoutParams().height = ((int) (display.getHeight() * 0.55));
+        activityProductDetailBinding.vpImages.getLayoutParams().height = ((int) (display.getHeight() * 0.52));
         activityProductDetailBinding.vpImages.getLayoutParams().width = ((int) (display.getWidth() * 1.0));
 
 
@@ -189,6 +188,21 @@ public class ProductDetailActivity extends AppCompatActivity implements ProductV
 
         minActualPrice = Double.parseDouble(productDetails.getMinActualPrice());
         minSalePrice = Double.parseDouble(productDetails.getMinSalePrice());
+
+/*
+        if (minActualPrice < minSalePrice) {
+
+            if (maxActualPrice > minActualPrice) {
+                price.append(minActualPrice);
+                price.append("-");
+                price.append(maxActualPrice);
+            }
+            activityProductDetailBinding.tvProductActualPrice.setText(AppUtils.formatPriceString(price.toString()));
+            activityProductDetailBinding.tvProductActualPrice.setVisibility(View.VISIBLE);
+        }
+
+        price = new StringBuilder();
+*/
 
         if (maxSalePrice > minSalePrice) {
 
@@ -378,10 +392,6 @@ public class ProductDetailActivity extends AppCompatActivity implements ProductV
 
 
         prouctDetailBottomSheetLayoutBinding.setProductDetails(productDetails);
-
-        if (prouctDetailBottomSheetLayoutBinding.tvProductActualPrice.getVisibility() == View.VISIBLE) {
-            prouctDetailBottomSheetLayoutBinding.tvProductActualPrice.setPaintFlags(prouctDetailBottomSheetLayoutBinding.tvProductActualPrice.getPaintFlags() | Paint.STRIKE_THRU_TEXT_FLAG);
-        }
 
         prouctDetailBottomSheetLayoutBinding.btnSub.setOnClickListener(v -> {
 

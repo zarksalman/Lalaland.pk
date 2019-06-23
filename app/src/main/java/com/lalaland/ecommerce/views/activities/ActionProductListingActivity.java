@@ -77,6 +77,8 @@ public class ActionProductListingActivity extends AppCompatActivity implements A
     String pvFilter;
 
     Boolean isFromCategories = false;
+    Boolean isItemsNotFound = false;
+    int firstVisibleInListview;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -190,7 +192,12 @@ public class ActionProductListingActivity extends AppCompatActivity implements A
             }
         });
 
+        parameter.put(START_INDEX, String.valueOf(start));
+        parameter.put(LENGTH, String.valueOf(length));
 
+        setAdapter();
+
+        firstVisibleInListview = gridLayoutManager.findFirstVisibleItemPosition();
         activityProductListingBinding.rvProducts.addOnScrollListener(new RecyclerView.OnScrollListener() {
             @Override
             public void onScrollStateChanged(RecyclerView recyclerView, int newState) {
@@ -210,20 +217,27 @@ public class ActionProductListingActivity extends AppCompatActivity implements A
 
                 if (isScrolling && (currentItems + scrollOutItems == totalItems)) {
 
-                    activityProductListingBinding.pbLoadingProducts.setVisibility(View.VISIBLE);
+                    if (scrollOutItems > firstVisibleInListview) {
 
-                    isScrolling = false;
+                        if (!isItemsNotFound) {
 
-                    setActionProducts();
+                            activityProductListingBinding.pbLoadingProducts.setVisibility(View.VISIBLE);
+                            isScrolling = false;
+                            setActionProducts();
 
+                            Log.i("scrolled: ", "scroll up!");
+
+                        } else
+                            Log.i("scrolled: ", "scroll down!");
+
+                    }
+
+                    firstVisibleInListview = scrollOutItems;
                 }
             }
         });
 
-        parameter.put(START_INDEX, String.valueOf(start));
-        parameter.put(LENGTH, String.valueOf(length));
 
-        setAdapter();
         setActionProducts();
     }
 
@@ -348,6 +362,7 @@ public class ActionProductListingActivity extends AppCompatActivity implements A
 
                     if (actionProductsContainer.getData().getProducts().size() > 0) {
 
+                        isItemsNotFound = false;
                         int startPosition = actionProductsArrayList.size();
                         actionProductsArrayList.addAll(actionProductsContainer.getData().getProducts());
                         actionProductsAdapter.notifyItemRangeInserted(startPosition, actionProductsArrayList.size());
@@ -362,10 +377,14 @@ public class ActionProductListingActivity extends AppCompatActivity implements A
                         parameter.put(START_INDEX, String.valueOf(start));
                         parameter.put(LENGTH, String.valueOf(length));
                         parameter.put(SORT_BY, sortBy);
-                    } else
+                    } else {
+                        isItemsNotFound = true;
                         Toast.makeText(this, "Items not found", Toast.LENGTH_SHORT).show();
+                    }
                 }
             }
+
+            activityProductListingBinding.rvProducts.setVisibility(View.VISIBLE);
             activityProductListingBinding.pbLoadingActionProducts.setVisibility(View.GONE);
             activityProductListingBinding.pbLoadingProducts.setVisibility(View.GONE);
         });

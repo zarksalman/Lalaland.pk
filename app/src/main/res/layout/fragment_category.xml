@@ -41,77 +41,71 @@
             app:layout_constraintTop_toTopOf="parent" />
 
 
-        <androidx.constraintlayout.widget.ConstraintLayout
-
+        <androidx.core.widget.NestedScrollView
             android:id="@+id/sub_category_container"
             android:layout_width="0dp"
             android:layout_height="0dp"
-            android:padding="@dimen/_8dp"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toEndOf="@+id/gl_rv_categories"
             app:layout_constraintTop_toTopOf="parent">
 
-            <androidx.constraintlayout.widget.Guideline
-                android:id="@+id/gl_category"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:orientation="horizontal"
-                app:layout_constraintGuide_percent=".20" />
+            <androidx.constraintlayout.widget.ConstraintLayout
 
-            <androidx.cardview.widget.CardView
-                android:id="@+id/cv_header_image"
-                android:layout_width="0dp"
-                android:layout_height="0dp"
-                app:cardCornerRadius="@dimen/_16dp"
-                app:layout_constraintBottom_toTopOf="@+id/gl_category"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="parent">
+                android:id="@+id/sub_category"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent">
+
 
                 <ImageView
 
                     android:id="@+id/iv_category_header"
+                    android:layout_width="0dp"
+                    android:layout_height="100dp"
+                    android:background="@android:color/white"
+                    android:src="@drawable/placeholder_products"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent" />
+
+                <androidx.recyclerview.widget.RecyclerView
+
+                    android:id="@+id/rv_sub_category"
                     android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:src="@drawable/placeholder_products" />
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/_4dp"
+                    android:visibility="gone"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/iv_category_header"
+                    tools:listitem="@layout/sub_category_item" />
 
-            </androidx.cardview.widget.CardView>
+                <androidx.recyclerview.widget.RecyclerView
 
-            <androidx.recyclerview.widget.RecyclerView
+                    android:id="@+id/rv_sub_category_brand"
+                    android:layout_width="0dp"
+                    android:layout_height="0dp"
+                    android:layout_marginTop="@dimen/_4dp"
+                    android:visibility="gone"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent"
+                    tools:listitem="@layout/category_brand_item" />
 
-                android:id="@+id/rv_sub_category"
-                android:layout_width="0dp"
-                android:layout_height="0dp"
-                android:layout_marginTop="@dimen/_4dp"
-                android:visibility="gone"
-                app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/gl_category" />
+            </androidx.constraintlayout.widget.ConstraintLayout>
+        </androidx.core.widget.NestedScrollView>
 
-            <androidx.recyclerview.widget.RecyclerView
+        <ProgressBar
 
-                android:id="@+id/rv_sub_category_brand"
-                android:layout_width="0dp"
-                android:layout_height="0dp"
-                android:layout_marginTop="@dimen/_4dp"
-                android:visibility="gone"
-                app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="parent"
-                tools:listitem="@layout/category_brand_item" />
-            <ProgressBar
-
-                android:id="@+id/pb_loading"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="parent" />
-        </androidx.constraintlayout.widget.ConstraintLayout>
+            android:id="@+id/pb_loading"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="@+id/gl_rv_categories"
+            app:layout_constraintTop_toTopOf="parent" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>

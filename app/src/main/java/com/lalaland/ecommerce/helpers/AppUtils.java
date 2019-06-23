@@ -12,8 +12,10 @@ import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import java.text.NumberFormat;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
+import java.util.Locale;
 
 import static com.lalaland.ecommerce.helpers.AppConstants.DATE_FORMAT_TEXT;
 
@@ -95,6 +97,8 @@ public class AppUtils {
 
     public static String formatPriceString(String price) {
 
+
+        price = NumberFormat.getNumberInstance(Locale.US).format(Float.parseFloat(price));
         return "PKR " + price;
     }
 
@@ -106,6 +110,9 @@ public class AppUtils {
     public static String showRangePrice(String minPrice, String maxPrice) {
 
         StringBuilder price = new StringBuilder();
+
+        minPrice = NumberFormat.getNumberInstance(Locale.US).format(Float.parseFloat(minPrice));
+        maxPrice = NumberFormat.getNumberInstance(Locale.US).format(Float.parseFloat(maxPrice));
 
         price.append("PKR ");
         price.append(minPrice);

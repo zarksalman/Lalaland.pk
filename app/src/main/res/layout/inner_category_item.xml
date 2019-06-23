@@ -22,44 +22,35 @@
     <LinearLayout
 
         xmlns:android="http://schemas.android.com/apk/res/android"
-        android:layout_width="match_parent"
+        android:layout_width="wrap_content"
         android:layout_height="@dimen/_150dp"
         android:orientation="vertical"
+        android:gravity="center"
+        android:weightSum="1"
         android:onClick="@{()->adapter.onInnerCategoryClicked(innerCategory)}"
-        android:background="@drawable/recommended_products_bg"
         android:padding="@dimen/_8dp">
 
         <ImageView
 
             android:id="@+id/iv_inner_cat"
-            android:layout_width="match_parent"
+            android:layout_width="wrap_content"
             android:layout_height="0dp"
             android:layout_weight=".8"
-            android:scaleType="centerInside"
-            android:src="@drawable/placeholder_products"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintVertical_bias="0"
             app:setProductImage="@{innerCategory.getPrimaryImage}" />
 
         <TextView
 
             android:id="@+id/tv_inner_cat_name"
             android:layout_width="match_parent"
-            android:layout_height="0dp"
-            android:layout_weight=".15"
+            android:layout_height="wrap_content"
             android:text="@{innerCategory.name}"
             android:textColor="@android:color/black"
             android:textSize="14sp"
             android:ellipsize="end"
             android:maxLength="15"
             android:maxLines="2"
+            android:layout_weight=".15"
             android:textAlignment="center"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/iv_inner_cat"
             tools:text="@string/oldest" />
 
     </LinearLayout>

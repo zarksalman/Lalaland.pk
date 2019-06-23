@@ -58,6 +58,9 @@
             android:text="@{productDetails.name}"
             android:textColor="@android:color/black"
             android:textSize="14sp"
+            android:maxLines="2"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0"
             app:layout_constraintBottom_toTopOf="@+id/tv_product_actual_price"
             app:layout_constraintStart_toEndOf="@+id/iv_product_img"
             tools:text="@string/last_name" />

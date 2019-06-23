@@ -289,6 +289,8 @@ public class SubFiltersActivity extends AppCompatActivity {
     @Override
     public void onBackPressed() {
 
+        setResult(RESULT_CANCELED);
+        finish();
         // for multiple filters
 
       /*  switch (subFilterName) {

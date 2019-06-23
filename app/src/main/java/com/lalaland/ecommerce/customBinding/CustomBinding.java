@@ -33,7 +33,7 @@ public class CustomBinding {
     @BindingAdapter("setMediumImageFromServer")
     public static void setMediumImageFromServer(ImageView imageView, String imageName) {
 
-        String imageSrc = PRODUCT_STORAGE_BASE_URL.concat("medium/").concat(imageName);
+        String imageSrc = PRODUCT_STORAGE_BASE_URL.concat(imageName);
         Glide
                 .with(AppConstants.mContext)
                 .load(imageSrc)

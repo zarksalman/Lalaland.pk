@@ -6,7 +6,7 @@ import android.view.ViewGroup;
 
 import androidx.annotation.NonNull;
 import androidx.databinding.DataBindingUtil;
-import androidx.recyclerview.widget.GridLayoutManager;
+import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.lalaland.ecommerce.R;
@@ -72,16 +72,18 @@ public class CategoryAdapter extends RecyclerView.Adapter<CategoryAdapter.SubCat
 
             this.innerCategoryAdapter = new InnerCategoryAdapter(mContext, this);
             this.subCategoryItemBinding.rvInnerCategory.setAdapter(innerCategoryAdapter);
-            this.subCategoryItemBinding.rvInnerCategory.setLayoutManager(new GridLayoutManager(mContext, 3));
+            this.subCategoryItemBinding.rvInnerCategory.setLayoutManager(new LinearLayoutManager(mContext, RecyclerView.HORIZONTAL, false));
 
         }
 
         void bindHolder(SubCategory subCategory) {
 
-            if (subCategory.getInnerCategories().size() >= 3)
+          /*  if (subCategory.getInnerCategories().size() >= 3)
                 this.innerCategoryAdapter.setData(subCategory.getInnerCategories().subList(0, 3));
             else if (subCategory.getInnerCategories().size() > 0)
-                this.innerCategoryAdapter.setData(subCategory.getInnerCategories());
+          */
+
+            this.innerCategoryAdapter.setData(subCategory.getInnerCategories());
 
             this.subCategoryItemBinding.setSubCategory(subCategory);
             this.subCategoryItemBinding.setAdapter(CategoryAdapter.this);
