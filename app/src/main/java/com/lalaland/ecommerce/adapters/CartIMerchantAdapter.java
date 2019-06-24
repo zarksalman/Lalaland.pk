@@ -2,6 +2,7 @@ package com.lalaland.ecommerce.adapters;
 
 import android.content.Context;
 import android.view.LayoutInflater;
+import android.view.View;
 import android.view.ViewGroup;
 
 import androidx.annotation.NonNull;
@@ -13,7 +14,6 @@ import com.lalaland.ecommerce.R;
 import com.lalaland.ecommerce.data.models.cartListingModel.CartListModel;
 import com.lalaland.ecommerce.databinding.CartMerchantItemBinding;
 
-import java.util.ArrayList;
 import java.util.List;
 
 
@@ -50,8 +50,13 @@ public class CartIMerchantAdapter extends RecyclerView.Adapter<CartIMerchantAdap
         cartItemsAdapter = new CartItemsAdapter(mContext, CartIMerchantAdapter.this);
         cartMerchantItemBinding.rvCartProducts.setLayoutManager(new LinearLayoutManager(mContext, RecyclerView.VERTICAL, false));
         cartMerchantItemBinding.rvCartProducts.setAdapter(cartItemsAdapter);
-
         cartItemsAdapter.setData(cartListModel.getCartItemList());
+
+        if (mContext.getClass().getSimpleName().equals("CheckoutScreen")) {
+            cartMerchantItemBinding.priceDetailContainer.setVisibility(View.VISIBLE);
+        } else {
+            cartMerchantItemBinding.priceDetailContainer.setVisibility(View.GONE);
+        }
 
         holder.bindHolder(cartListModel);
     }

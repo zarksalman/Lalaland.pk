@@ -11,6 +11,34 @@ public class CartListModel {
 
 
     private int merchantId;
+    private String totalAmount;
+    private String totalCharges;
+
+    public String getTotalCharges() {
+        return totalCharges;
+    }
+
+    public void setTotalCharges(String totalCharges) {
+        this.totalCharges = totalCharges;
+    }
+
+    public String getMerchantShippingRate() {
+        return merchantShippingRate;
+    }
+
+    public void setMerchantShippingRate(String merchantShippingRate) {
+        this.merchantShippingRate = merchantShippingRate;
+    }
+
+    private String merchantShippingRate;
+
+    public String getTotalAmount() {
+        return totalAmount;
+    }
+
+    public void setTotalAmount(String totalAmount) {
+        this.totalAmount = totalAmount;
+    }
 
     public int getMerchantId() {
         return merchantId;

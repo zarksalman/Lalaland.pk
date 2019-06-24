@@ -8,6 +8,7 @@ import android.view.View;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.Toast;
 
+import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.databinding.DataBindingUtil;
 import androidx.fragment.app.Fragment;
@@ -75,7 +76,7 @@ public class MainActivity extends AppCompatActivity {
                 activityMainBinding.topBarWithoutSearch.setVisibility(View.VISIBLE);
 
                 activityMainBinding.topBar.setBackgroundColor(getResources().getColor(android.R.color.white));
-                activityMainBinding.tvFragmentName.setText(getResources().getString(R.string.cart));
+                activityMainBinding.tvFragmentName.setText(getResources().getString(R.string.cart_items));
 
                 fragment = CartFragment.newInstance();
                 replaceFragment(fragment, 2);
@@ -90,7 +91,7 @@ public class MainActivity extends AppCompatActivity {
                 activityMainBinding.topBarWithoutSearch.setVisibility(View.VISIBLE);
 
                 activityMainBinding.topBar.setBackgroundColor(getResources().getColor(android.R.color.white));
-                activityMainBinding.tvFragmentName.setText(getResources().getString(R.string.wish_list));
+                activityMainBinding.tvFragmentName.setText(getResources().getString(R.string.wish_items));
 
                 fragment = WishFragment.newInstance();
 
@@ -167,7 +168,7 @@ public class MainActivity extends AppCompatActivity {
             case 2:
                 activityMainBinding.topBar.setBackgroundColor(getResources().getColor(android.R.color.white));
                 activityMainBinding.topBarSearch.setVisibility(View.GONE);
-                activityMainBinding.tvFragmentName.setText(getResources().getString(R.string.cart));
+                activityMainBinding.tvFragmentName.setText(getResources().getString(R.string.cart_items));
                 activityMainBinding.topBarWithoutSearch.setVisibility(View.VISIBLE);
                 replaceFragment(CartFragment.newInstance(), LOAD_HOME_FRAGMENT_INDEX);
                 break;
@@ -176,7 +177,7 @@ public class MainActivity extends AppCompatActivity {
 
                 activityMainBinding.topBar.setBackgroundColor(getResources().getColor(android.R.color.white));
                 activityMainBinding.topBarSearch.setVisibility(View.GONE);
-                activityMainBinding.tvFragmentName.setText(getResources().getString(R.string.wish_list));
+                activityMainBinding.tvFragmentName.setText(getResources().getString(R.string.wish_items));
                 activityMainBinding.topBarWithoutSearch.setVisibility(View.VISIBLE);
                 replaceFragment(WishFragment.newInstance(), LOAD_HOME_FRAGMENT_INDEX);
                 break;
@@ -215,5 +216,18 @@ public class MainActivity extends AppCompatActivity {
         Toast.makeText(this, "Please click BACK again to exit", Toast.LENGTH_SHORT).show();
 
         new Handler().postDelayed(() -> doubleBackToExitPressedOnce = false, 2000);
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+
+        if (resultCode == RESULT_OK) {
+            if (requestCode == 100) {
+
+                LOAD_HOME_FRAGMENT_INDEX = 2;
+                loadInitialFragment();
+            }
+        }
     }
 }

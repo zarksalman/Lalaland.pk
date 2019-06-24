@@ -28,11 +28,12 @@
         <TextView
 
             android:id="@+id/tv_merchant_name"
-            android:layout_width="wrap_content"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:text="@{cartListItem.merchantName}"
             android:textColor="@android:color/black"
-            android:textSize="14sp"
+            android:fontFamily="@font/encodesansregular"
+            android:textSize="12sp"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
             tools:text="@tools:sample/last_names" />
@@ -40,12 +41,131 @@
         <androidx.recyclerview.widget.RecyclerView
 
             android:id="@+id/rv_cart_products"
-            android:layout_width="wrap_content"
+            android:layout_width="0dp"
             android:layout_height="wrap_content"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHorizontal_bias="0"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/tv_merchant_name" />
+
+        <LinearLayout
+            android:id="@+id/price_detail_container"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/_4dp"
+            android:background="@drawable/bg_round_corner_white"
+            android:orientation="vertical"
+            android:padding="@dimen/_16dp"
+            android:visibility="gone"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/rv_cart_products">
+
+            <TextView
+
+                android:id="@+id/tv_price_detail"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:fontFamily="@font/encodesansregular"
+                android:text="@string/price_detail"
+                android:textSize="12sp" />
+
+            <ImageView
+                android:layout_width="match_parent"
+                android:layout_height="1dp"
+                android:layout_marginTop="@dimen/_4dp"
+                android:background="@color/colorLightGray" />
+
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/_8dp">
+
+                <TextView
+
+                    android:id="@+id/tv_merchant_order_total_title"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentStart="true"
+                    android:fontFamily="@font/encodesansregular"
+                    android:text="@string/order_total"
+                    android:textSize="12sp" />
+
+                <TextView
+
+                    android:id="@+id/tv_merchant_order_total"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentEnd="true"
+                    android:fontFamily="@font/encodesansregular"
+                    android:text="@{AppUtils.formatPriceString(cartListItem.totalAmount)}"
+                    android:textSize="12sp" />
+
+            </RelativeLayout>
+
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/_8dp">
+
+                <TextView
+
+                    android:id="@+id/tv_merchant_delivery_charges_title"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentStart="true"
+                    android:fontFamily="@font/encodesansregular"
+                    android:text="@string/delivery_charges"
+                    android:textSize="12sp" />
+
+                <TextView
+
+                    android:id="@+id/tv_merchant_delivery_charges"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentEnd="true"
+                    android:fontFamily="@font/encodesansregular"
+                    android:text="@{AppUtils.formatPriceString(cartListItem.merchantShippingRate)}"
+                    android:textSize="12sp" />
+
+            </RelativeLayout>
+
+            <ImageView
+                android:layout_width="match_parent"
+                android:layout_height="1dp"
+                android:layout_marginTop="@dimen/_4dp"
+                android:background="@color/colorLightGray" />
+
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/_8dp">
+
+                <TextView
+
+                    android:id="@+id/tv_merchant_total_title"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentStart="true"
+                    android:fontFamily="@font/encodesansregular"
+                    android:text="@string/total_charges"
+                    android:textSize="12sp"
+                    android:textStyle="bold" />
+
+                <TextView
+
+                    android:id="@+id/tv_merchant_total"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentEnd="true"
+                    android:fontFamily="@font/encodesansregular"
+                    android:text="@{cartListItem.totalCharges}"
+                    android:textSize="12sp"
+                    android:textStyle="bold" />
+
+            </RelativeLayout>
+        </LinearLayout>
     </androidx.constraintlayout.widget.ConstraintLayout>
 
 

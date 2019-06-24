@@ -12,6 +12,7 @@ import androidx.lifecycle.ViewModelProviders;
 
 import com.lalaland.ecommerce.R;
 import com.lalaland.ecommerce.databinding.ActivityAccountInformationBinding;
+import com.lalaland.ecommerce.helpers.AppConstants;
 import com.lalaland.ecommerce.helpers.AppPreference;
 import com.lalaland.ecommerce.viewModels.user.UserViewModel;
 
@@ -152,6 +153,7 @@ public class AccountInformationActivity extends AppCompatActivity {
             if (basicResponse != null) {
 
                 if (basicResponse.getCode().equals(SUCCESS_CODE)) {
+
                     Log.d("registerUser", basicResponse.getMsg());
                     Toast.makeText(this, basicResponse.getMsg(), Toast.LENGTH_SHORT).show();
                     setResultForActivity(1);
@@ -176,6 +178,7 @@ public class AccountInformationActivity extends AppCompatActivity {
                     appPreference.setString(DATE_OF_BIRTH, updateUserDataContainer.getData().getUser().getDateOfBirth());
                     appPreference.setString(GENDER, updateUserDataContainer.getData().getUser().getGender());
 
+                    AppConstants.userAddresses.setPhone(updateUserDataContainer.getData().getUser().getPhone());
                     initUI();
                     Toast.makeText(this, updateUserDataContainer.getMsg(), Toast.LENGTH_SHORT).show();
 

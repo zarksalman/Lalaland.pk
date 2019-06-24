@@ -261,7 +261,7 @@ public class BaseRegistrationFragment extends Fragment {
                         AppPreference.getInstance(mContext).setString(PHONE_NUMBER, registrationContainer.getData().getUser().getPhone());
                         AppPreference.getInstance(mContext).setString(GENDER, registrationContainer.getData().getUser().getGender());
                         AppPreference.getInstance(mContext).setString(EMAIL, registrationContainer.getData().getUser().getEmail());
-
+                        
                         getActivity().setResult(Activity.RESULT_OK);
                         getActivity().finish();
                         break;

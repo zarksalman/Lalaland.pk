@@ -41,7 +41,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center_vertical"
-                android:src="@drawable/close_icon" />
+                app:srcCompat="@drawable/close_icon" />
 
             <TextView
                 android:layout_width="wrap_content"
@@ -55,193 +55,211 @@
                 android:textStyle="bold" />
         </LinearLayout>
 
-        <LinearLayout
-
-            android:id="@+id/address_container"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_margin="@dimen/_8dp"
-            android:orientation="vertical"
+        <androidx.core.widget.NestedScrollView
+            android:id="@+id/container"
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:visibility="gone"
+            app:layout_constraintBottom_toTopOf="@+id/bottom_bar"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/top_bar">
 
             <androidx.constraintlayout.widget.ConstraintLayout
-
-                android:id="@+id/add_user_address"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:background="@drawable/bg_round_corner_white"
-                android:orientation="vertical"
-                android:padding="@dimen/_16dp"
-                android:visibility="visible"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="parent">
+                android:layout_height="match_parent">
 
-                <androidx.constraintlayout.widget.Guideline
-                    android:id="@+id/gl_address"
-                    android:layout_width="wrap_content"
+
+                <LinearLayout
+
+                    android:id="@+id/address_container"
+                    android:layout_width="0dp"
                     android:layout_height="wrap_content"
-                    android:orientation="vertical"
-                    app:layout_constraintBottom_toBottomOf="parent"
-                    app:layout_constraintGuide_percent=".4"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toTopOf="parent" />
-
-                <ImageView
-
-                    android:id="@+id/iv_add_address"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginEnd="@dimen/_8dp"
-                    android:clickable="true"
-                    android:focusable="true"
+                    android:layout_margin="@dimen/_8dp"
                     android:onClick="@{(view)->clickListener.addNewAddress(view)}"
-                    android:src="@drawable/add_circle_icon"
-                    app:layout_constraintBottom_toBottomOf="parent"
-                    app:layout_constraintEnd_toStartOf="@+id/gl_address"
-                    app:layout_constraintTop_toTopOf="parent" />
+                    android:orientation="vertical"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent">
 
-                <TextView
-                    android:id="@+id/textView"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginStart="@dimen/_8dp"
-                    android:text="@string/add_new_address"
-                    android:textColor="@android:color/black"
-                    android:textSize="16sp"
-                    app:layout_constraintBottom_toBottomOf="parent"
-                    app:layout_constraintStart_toEndOf="@+id/gl_address"
-                    app:layout_constraintTop_toTopOf="parent" />
+                    <androidx.constraintlayout.widget.ConstraintLayout
 
-            </androidx.constraintlayout.widget.ConstraintLayout>
+                        android:id="@+id/add_user_address"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:background="@drawable/bg_round_corner_white"
+                        android:orientation="vertical"
+                        android:padding="@dimen/_16dp"
+                        android:visibility="visible"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toTopOf="parent">
 
-            <LinearLayout
+                        <androidx.constraintlayout.widget.Guideline
+                            android:id="@+id/gl_address"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:orientation="vertical"
+                            app:layout_constraintBottom_toBottomOf="parent"
+                            app:layout_constraintGuide_percent=".4"
+                            app:layout_constraintStart_toStartOf="parent"
+                            app:layout_constraintTop_toTopOf="parent" />
 
-                android:id="@+id/user_detail"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:background="@drawable/bg_round_corner_white"
-                android:orientation="vertical"
-                android:padding="@dimen/_16dp"
-                android:visibility="gone">
+                        <ImageView
 
-                <TextView
+                            android:id="@+id/iv_add_address"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginEnd="@dimen/_8dp"
+                            android:clickable="true"
+                            android:focusable="true"
+                            android:onClick="@{(view)->clickListener.addNewAddress(view)}"
+                            app:layout_constraintBottom_toBottomOf="parent"
+                            app:layout_constraintEnd_toStartOf="@+id/gl_address"
+                            app:layout_constraintTop_toTopOf="parent"
+                            app:srcCompat="@drawable/add_circle_icon" />
 
-                    android:id="@+id/tv_user_name"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="@dimen/_4dp"
-                    android:textSize="16sp"
-                    tools:text="@tools:sample/full_names" />
+                        <TextView
+                            android:id="@+id/textView"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginStart="@dimen/_8dp"
+                            android:text="@string/add_new_address"
+                            android:textColor="@android:color/black"
+                            android:textSize="16sp"
+                            app:layout_constraintBottom_toBottomOf="parent"
+                            app:layout_constraintStart_toEndOf="@+id/gl_address"
+                            app:layout_constraintTop_toTopOf="parent" />
 
-                <TextView
+                    </androidx.constraintlayout.widget.ConstraintLayout>
 
-                    android:id="@+id/tv_user_address"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="@dimen/_4dp"
-                    android:textSize="14sp"
-                    tools:text="@tools:sample/full_names" />
+                    <LinearLayout
 
-                <TextView
+                        android:id="@+id/user_detail"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:background="@drawable/bg_round_corner_white"
+                        android:orientation="vertical"
+                        android:padding="@dimen/_16dp"
+                        android:visibility="gone">
 
-                    android:id="@+id/tv_user_city_postal_code"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="@dimen/_4dp"
-                    android:textSize="14sp"
-                    tools:text="@tools:sample/full_names" />
+                        <TextView
 
-                <TextView
+                            android:id="@+id/tv_user_name"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="@dimen/_4dp"
+                            android:textSize="16sp"
+                            tools:text="@tools:sample/full_names" />
 
-                    android:id="@+id/tv_user_mobile"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="@dimen/_4dp"
-                    android:textSize="14sp"
-                    tools:text="@tools:sample/full_names" />
+                        <TextView
 
-                <ImageView
+                            android:id="@+id/tv_user_address"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="@dimen/_4dp"
+                            android:textSize="14sp"
+                            tools:text="@tools:sample/full_names" />
+
+                        <TextView
+
+                            android:id="@+id/tv_user_city_postal_code"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="@dimen/_4dp"
+                            android:textSize="14sp"
+                            tools:text="@tools:sample/full_names" />
+
+                        <TextView
+
+                            android:id="@+id/tv_user_mobile"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="@dimen/_4dp"
+                            android:textSize="14sp"
+                            tools:text="@tools:sample/full_names" />
+
+                        <ImageView
+                            android:layout_width="match_parent"
+                            android:layout_height="1dp"
+                            android:layout_marginTop="@dimen/_8dp"
+                            android:background="@color/colorScreenBg" />
+
+                        <TextView
+
+                            android:id="@+id/btn_change_contact_profile"
+                            android:layout_width="@dimen/_160dp"
+                            android:layout_height="@dimen/_35dp"
+                            android:layout_marginTop="@dimen/_8dp"
+                            android:background="@drawable/bg_round_corner_transparent_accent"
+                            android:gravity="center"
+                            android:text="@string/edit_change"
+                            android:textColor="@color/colorAccent" />
+
+                    </LinearLayout>
+
+                </LinearLayout>
+
+                <LinearLayout
+                    android:id="@+id/payment_detail"
                     android:layout_width="match_parent"
-                    android:layout_height="1dp"
-                    android:layout_marginTop="@dimen/_8dp"
-                    android:background="@color/colorScreenBg" />
-
-                <TextView
-
-                    android:id="@+id/btn_change_contact_profile"
-                    android:layout_width="@dimen/_160dp"
-                    android:layout_height="@dimen/_35dp"
-                    android:layout_marginTop="@dimen/_8dp"
-                    android:background="@drawable/bg_round_corner_transparent_accent"
-                    android:gravity="center"
-                    android:text="@string/edit_change"
-                    android:textColor="@color/colorAccent" />
-
-            </LinearLayout>
-
-        </LinearLayout>
-
-        <LinearLayout
-            android:id="@+id/payment_detail"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="@dimen/_8dp"
-            android:background="@drawable/bg_round_corner_light_green"
-            android:orientation="vertical"
-            android:padding="@dimen/_16dp"
-            android:visibility="visible"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/address_container">
-
-            <RadioGroup
-
-                android:id="@+id/rg_payment_type"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:orientation="vertical">
-
-                <RadioButton
-
-                    android:id="@+id/rb_cash_on_delivery"
-                    android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:checked="true"
-                    android:text="@string/cash_on_delivery"
-                    android:textColor="@android:color/black" />
+                    android:layout_marginTop="@dimen/_8dp"
+                    android:background="@drawable/bg_round_corner_light_green"
+                    android:orientation="vertical"
+                    android:padding="@dimen/_16dp"
+                    android:visibility="visible"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/address_container">
 
-                <RadioButton
+                    <RadioGroup
 
-                    android:id="@+id/rb_bank_transfer"
-                    android:layout_width="wrap_content"
+                        android:id="@+id/rg_payment_type"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:orientation="vertical">
+
+                        <RadioButton
+
+                            android:id="@+id/rb_cash_on_delivery"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:checked="true"
+                            android:text="@string/cash_on_delivery"
+                            android:textColor="@android:color/black" />
+
+                        <RadioButton
+
+                            android:id="@+id/rb_bank_transfer"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="@dimen/_4dp"
+                            android:text="@string/bank_transfer"
+                            android:textColor="@android:color/black" />
+                    </RadioGroup>
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="@dimen/_8dp"
+                        android:text="@string/cash_on_delivery_policy"
+                        android:textColor="@android:color/black" />
+                </LinearLayout>
+
+                <androidx.recyclerview.widget.RecyclerView
+
+                    android:id="@+id/rv_cart_products"
+                    android:layout_width="0dp"
                     android:layout_height="wrap_content"
-                    android:layout_marginTop="@dimen/_4dp"
-                    android:text="@string/bank_transfer"
-                    android:textColor="@android:color/black" />
-            </RadioGroup>
-
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="@dimen/_8dp"
-                android:text="@string/cash_on_delivery_policy"
-                android:textColor="@android:color/black" />
-        </LinearLayout>
-
-        <androidx.recyclerview.widget.RecyclerView
-
-            android:id="@+id/rv_cart_products"
-            android:layout_width="0dp"
-            android:layout_height="0dp"
-            app:layout_constraintBottom_toTopOf="@+id/bottom_bar"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/payment_detail"
-            app:layout_constraintVertical_bias="0"
-            tools:listitem="@layout/cart_products" />
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/payment_detail"
+                    app:layout_constraintVertical_bias="0"
+                    tools:listitem="@layout/cart_products" />
+            </androidx.constraintlayout.widget.ConstraintLayout>
+        </androidx.core.widget.NestedScrollView>
 
 
         <LinearLayout
@@ -288,10 +306,11 @@
             android:id="@+id/pb_loading"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:visibility="gone"
+            android:visibility="visible"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
     </androidx.constraintlayout.widget.ConstraintLayout>
+
 </layout>

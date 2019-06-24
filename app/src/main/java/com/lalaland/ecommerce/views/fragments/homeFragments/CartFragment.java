@@ -197,6 +197,7 @@ public class CartFragment extends Fragment implements View.OnClickListener, Cart
         CartListModel cartListModel;
         List<CartItem> tempCartItem;
         cartListModelList = new ArrayList<>();
+        Double totalMerchant = 0.0;
 
         // creating model list for adapter to display products merchant wise {merchantId, merchantName, List of Cart Products}
         for (int i = 0; i < merchantItems.size(); i++) {
@@ -206,19 +207,17 @@ public class CartFragment extends Fragment implements View.OnClickListener, Cart
 
                 if (merchantItems.get(i).getMerchantId().equals(cartItemList.get(j).getMerchantId())) {
                     tempCartItem.add(cartItemList.get(j));
+                    totalMerchant += Double.parseDouble(cartItemList.get(j).getSalePrice());
                 }
             }
 
-
-            //if (cartListModelList.get(i).getCartItemList().size() > 0)
-            {
-                cartListModel = new CartListModel();
-                cartListModel.setMerchantId(merchantItems.get(i).getMerchantId());
-                cartListModel.setMerchantName(merchantItems.get(i).getMerchantName());
-                cartListModel.setCartItemList(tempCartItem);
-                cartListModelList.add(cartListModel);
-            }
-
+            cartListModel = new CartListModel();
+            cartListModel.setMerchantId(merchantItems.get(i).getMerchantId());
+            cartListModel.setMerchantName(merchantItems.get(i).getMerchantName());
+            cartListModel.setTotalAmount(String.valueOf(totalMerchant));
+            cartListModel.setMerchantShippingRate("0.0");
+            cartListModel.setCartItemList(tempCartItem);
+            cartListModelList.add(cartListModel);
         }
     }
 
@@ -405,15 +404,16 @@ public class CartFragment extends Fragment implements View.OnClickListener, Cart
                             intent = new Intent(getContext(), CheckoutScreen.class);
                             intent.putExtra("total_bill", String.valueOf(totalBill));
                             intent.putParcelableArrayListExtra("ready_cart_items", (ArrayList<? extends Parcelable>) selectedCartItemList);
+                            startActivity(intent);
                         } else {
                             Toast.makeText(getContext(), "Please select some items to proceed", Toast.LENGTH_SHORT).show();
                             return;
                         }
-                    }
-                    else
+                    } else {
                         intent = new Intent(getContext(), RegistrationActivity.class);
+                        startActivityForResult(intent, 100);
+                    }
 
-                    getActivity().startActivityForResult(intent, 100);
 
                 }
                 break;
@@ -456,7 +456,14 @@ public class CartFragment extends Fragment implements View.OnClickListener, Cart
         token = appPreference.getString(SIGNIN_TOKEN);
 
         if (resultCode == RESULT_OK) {
-            fragmentCartBinding.btnCheckout.performClick();
+            if (requestCode == 100) {
+
+                token = appPreference.getString(SIGNIN_TOKEN);
+                cart_session = appPreference.getString(CART_SESSION_TOKEN);
+                getCartItems();
+
+                fragmentCartBinding.btnCheckout.performClick();
+            }
         }
     }
 

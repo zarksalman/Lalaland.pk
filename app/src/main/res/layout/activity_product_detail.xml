@@ -251,7 +251,7 @@
                     android:layout_height="wrap_content"
                     android:layout_marginStart="@dimen/_8dp"
                     android:layout_marginTop="@dimen/_16dp"
-                    android:text="@string/delivery_charges"
+                    android:text="@string/delivery_option"
                     android:textColor="@android:color/black"
                     android:textSize="14sp"
                     android:textStyle="bold"

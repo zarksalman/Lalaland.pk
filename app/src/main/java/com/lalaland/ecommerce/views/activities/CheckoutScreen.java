@@ -14,13 +14,16 @@ import androidx.lifecycle.ViewModelProviders;
 import androidx.recyclerview.widget.LinearLayoutManager;
 
 import com.lalaland.ecommerce.R;
-import com.lalaland.ecommerce.adapters.CartItemsAdapter;
+import com.lalaland.ecommerce.adapters.CartIMerchantAdapter;
+import com.lalaland.ecommerce.data.models.DeliveryChargesData.DeliveryChargesOfMerchantItem;
 import com.lalaland.ecommerce.data.models.cart.CartItem;
+import com.lalaland.ecommerce.data.models.cartListingModel.CartListModel;
 import com.lalaland.ecommerce.data.models.userAddressBook.UserAddresses;
 import com.lalaland.ecommerce.databinding.ActivityCheckoutScreenBinding;
 import com.lalaland.ecommerce.helpers.AppConstants;
 import com.lalaland.ecommerce.helpers.AppPreference;
 import com.lalaland.ecommerce.helpers.AppUtils;
+import com.lalaland.ecommerce.viewModels.order.OrderViewModel;
 import com.lalaland.ecommerce.viewModels.products.ProductViewModel;
 
 import java.util.ArrayList;
@@ -42,13 +45,23 @@ public class CheckoutScreen extends AppCompatActivity {
     private UserAddresses userAddresses;
 
     private ProductViewModel productViewModel;
+    private OrderViewModel orderViewModel;
     private AppPreference appPreference;
     private List<CartItem> cartItemList = new ArrayList<>();
+
+    private List<CartListModel> cartListModelList = new ArrayList<>();
+    private List<DeliveryChargesOfMerchantItem> merchantItems = new ArrayList<>();
+    private CartIMerchantAdapter cartIMerchantAdapter;
+    private List<CartItem> selectedCartItemList = new ArrayList<>();
+
     private Map<String, String> parameter = new HashMap<>();
     private Map<String, String> headers = new HashMap<>();
     private String token, cart_session;
     String totalBill;
+    Double totalBillWithShippingCharges = 0.0;
+    Double totalAmount = 0.0;
     private boolean isUserAddressNull = false;
+    Integer deliverCharges = 0;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -59,22 +72,72 @@ public class CheckoutScreen extends AppCompatActivity {
         activityCheckoutScreenBinding.setClickListener(this);
 
         productViewModel = ViewModelProviders.of(this).get(ProductViewModel.class);
+        orderViewModel = ViewModelProviders.of(this).get(OrderViewModel.class);
+
         token = appPreference.getString(SIGNIN_TOKEN);
 
         cartItemList = getIntent().getParcelableArrayListExtra("ready_cart_items");
+
+        getMerchantList();
+        addMerchantProductList();
+
+        getDeliveryCharges();
+
+
+    }
+
+    void setBill() {
         totalBill = getIntent().getStringExtra("total_bill");
+        totalAmount = Double.parseDouble(totalBill);
+        totalAmount += totalBillWithShippingCharges;
+        totalBill = String.valueOf(totalAmount);
 
         activityCheckoutScreenBinding.tvTotalBalance.setText(AppUtils.formatPriceString(totalBill));
 
         if (Double.parseDouble(totalBill) >= PAYMENT_LOWEST_LIMIT) {
             activityCheckoutScreenBinding.rbBankTransfer.setChecked(true);
-            activityCheckoutScreenBinding.rgPaymentType.setOnCheckedChangeListener(null);
+            //   activityCheckoutScreenBinding.rgPaymentType.setOnCheckedChangeListener(null);
         }
+    }
 
-        isUserAddressExist();
+    private void getDeliveryCharges() {
 
-        setListeners();
-        setCartAdapter();
+        orderViewModel.getDeliveryCharges(token, String.valueOf(AppConstants.userAddresses.getCityId())).observe(this, deliveryChargesContainer -> {
+
+            if (deliveryChargesContainer != null) {
+
+                setMerchantShippingRate(deliveryChargesContainer.getData().getDeliveryChargesOfMerchantItems());
+
+                setBill();
+                isUserAddressExist();
+                setListeners();
+                setCartAdapter();
+            }
+        });
+    }
+
+    private void setMerchantShippingRate(List<DeliveryChargesOfMerchantItem> deliveryChargesOfMerchantItems) {
+
+        Double billWithoutShippingCharges;
+        Integer shippingCharges;
+
+        for (int i = 0; i < deliveryChargesOfMerchantItems.size(); i++) {
+
+            for (int j = 0; j < cartListModelList.size(); j++) {
+
+                if (deliveryChargesOfMerchantItems.get(i).getMerchantId().equals(cartListModelList.get(j).getMerchantId())) {
+
+                    shippingCharges = deliveryChargesOfMerchantItems.get(i).getShippingRate();
+                    cartListModelList.get(i).setMerchantShippingRate(String.valueOf(shippingCharges));
+
+                    billWithoutShippingCharges = Double.parseDouble(cartListModelList.get(i).getTotalAmount());
+                    totalBillWithShippingCharges = billWithoutShippingCharges + shippingCharges;
+
+                    cartListModelList.get(i).setTotalCharges(String.valueOf(totalBillWithShippingCharges));
+
+                }
+            }
+        }
     }
 
 
@@ -125,9 +188,7 @@ public class CheckoutScreen extends AppCompatActivity {
 
     void setCartAdapter() {
 
-
-        activityCheckoutScreenBinding.rvCartProducts.setHasFixedSize(true);
-        CartItemsAdapter cartItemsAdapter = new CartItemsAdapter(this, new CartItemsAdapter.CartClickListener() {
+        cartIMerchantAdapter = new CartIMerchantAdapter(this, new CartIMerchantAdapter.MerchantItemClickListener() {
             @Override
             public void addItemToList(int merchantId, int position) {
 
@@ -144,17 +205,16 @@ public class CheckoutScreen extends AppCompatActivity {
             }
         });
 
+        activityCheckoutScreenBinding.rvCartProducts.setHasFixedSize(true);
         activityCheckoutScreenBinding.rvCartProducts.setLayoutManager(new LinearLayoutManager(this));
-        activityCheckoutScreenBinding.rvCartProducts.setAdapter(cartItemsAdapter);
-        cartItemsAdapter.setData(cartItemList);
+        activityCheckoutScreenBinding.rvCartProducts.setAdapter(cartIMerchantAdapter);
+        cartIMerchantAdapter.setData(cartListModelList);
+
+        activityCheckoutScreenBinding.container.setVisibility(View.VISIBLE);
+        activityCheckoutScreenBinding.pbLoading.setVisibility(View.GONE);
     }
 
     public void placeOrder() {
-
-       /* if (Double.parseDouble(totalBill) >= PAYMENT_LOWEST_LIMIT || CASH_TRANSFER_TYPE == 2) {
-            Toast.makeText(this, "You have to pay by bank", Toast.LENGTH_SHORT).show();
-            return;
-        }*/
 
         if (isUserAddressNull) {
             Toast.makeText(this, "Please add address to place order", Toast.LENGTH_SHORT).show();
@@ -218,6 +278,69 @@ public class CheckoutScreen extends AppCompatActivity {
             }
         } else {
             Toast.makeText(this, "You should fill required fields, to place order", Toast.LENGTH_SHORT).show();
+        }
+    }
+
+    private void getMerchantList() {
+
+        DeliveryChargesOfMerchantItem merchantItem;
+        merchantItems.clear();
+
+        int mId = -1;
+
+        for (int i = 0; i < cartItemList.size(); i++) {
+
+            merchantItem = new DeliveryChargesOfMerchantItem();
+
+            merchantItem.setMerchantName(cartItemList.get(i).getMerchantName());
+            merchantItem.setMerchantId(cartItemList.get(i).getMerchantId());
+
+            merchantItems.add(merchantItem);
+        }
+
+
+        for (int i = 0; i < merchantItems.size(); i++) {
+
+            if (merchantItems.get(i).getMerchantId() == mId) {
+                merchantItems.remove(merchantItems.get(i));
+                i--;
+            }
+
+            mId = merchantItems.get(i).getMerchantId();
+        }
+
+    }
+
+    private void addMerchantProductList() {
+
+        CartListModel cartListModel;
+        List<CartItem> tempCartItem;
+        cartListModelList = new ArrayList<>();
+        Double totalMerchant = 0.0;
+        Double totalTemp = 0.0;
+
+        // creating model list for adapter to display products merchant wise {merchantId, merchantName, List of Cart Products}
+        for (int i = 0; i < merchantItems.size(); i++) {
+
+            tempCartItem = new ArrayList<>();
+            for (int j = 0; j < cartItemList.size(); j++) {
+
+                if (merchantItems.get(i).getMerchantId().equals(cartItemList.get(j).getMerchantId())) {
+                    tempCartItem.add(cartItemList.get(j));
+                    totalTemp = Double.parseDouble(cartItemList.get(j).getSalePrice()) * cartItemList.get(j).getItemQuantity();
+                    totalMerchant += totalTemp;
+                }
+            }
+
+
+            cartListModel = new CartListModel();
+            cartListModel.setMerchantId(merchantItems.get(i).getMerchantId());
+            cartListModel.setMerchantName(merchantItems.get(i).getMerchantName());
+            cartListModel.setTotalAmount(String.valueOf(totalMerchant));
+
+            cartListModel.setCartItemList(tempCartItem);
+            cartListModelList.add(cartListModel);
+
         }
     }
 }

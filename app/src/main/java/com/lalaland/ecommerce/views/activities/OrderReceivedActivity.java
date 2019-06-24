@@ -10,7 +10,7 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.lalaland.ecommerce.R;
-import com.lalaland.ecommerce.adapters.ProductAdapter;
+import com.lalaland.ecommerce.adapters.RecommendedProductsAdapter;
 import com.lalaland.ecommerce.data.models.products.Product;
 import com.lalaland.ecommerce.databinding.ActivityOrderReceivedBinding;
 import com.lalaland.ecommerce.helpers.AppConstants;
@@ -22,7 +22,7 @@ import java.util.List;
 import static com.lalaland.ecommerce.helpers.AppConstants.ORDER_TOTAL;
 import static com.lalaland.ecommerce.helpers.AppConstants.PRODUCT_ID;
 
-public class OrderReceivedActivity extends AppCompatActivity implements ProductAdapter.ProductListener {
+public class OrderReceivedActivity extends AppCompatActivity implements RecommendedProductsAdapter.ProductListener {
 
     private ActivityOrderReceivedBinding activityOrderReceivedBinding;
     private List<Product> recommendedProductList = new ArrayList<>();
@@ -68,7 +68,7 @@ public class OrderReceivedActivity extends AppCompatActivity implements ProductA
 
     private void setAdapter() {
 
-        ProductAdapter productAdapter = new ProductAdapter(this, this);
+        RecommendedProductsAdapter productAdapter = new RecommendedProductsAdapter(this, this);
         productAdapter.setData(recommendedProductList);
 
         activityOrderReceivedBinding.rvRecommendedProducts.setHasFixedSize(true);

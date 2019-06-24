@@ -129,6 +129,11 @@ public class AppUtils {
         return String.valueOf(value);
     }
 
+    public static String toString(Double value) {
+
+        return String.valueOf(value);
+    }
+
     public static String toLowerCase(String str) {
 
         return str.substring(0, 1).toUpperCase().concat(str.substring(1).toLowerCase());
