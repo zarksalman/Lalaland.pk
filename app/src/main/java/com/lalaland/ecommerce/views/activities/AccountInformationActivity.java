@@ -54,6 +54,10 @@ public class AccountInformationActivity extends AppCompatActivity {
         appPreference = AppPreference.getInstance(this);
         token = appPreference.getString(SIGNIN_TOKEN);
 
+        activityAccountInformationBinding.ivCloseCheckoutScreen.setOnClickListener(v -> {
+            setResultForActivity(2);
+        });
+
         initUI();
     }
 
@@ -191,6 +195,11 @@ public class AccountInformationActivity extends AppCompatActivity {
             } else
                 Toast.makeText(this, GENERAL_ERROR, Toast.LENGTH_SHORT).show();
         });
+    }
+
+    @Override
+    public void onBackPressed() {
+        setResultForActivity(2);
     }
 
     void setResultForActivity(int resultType) {

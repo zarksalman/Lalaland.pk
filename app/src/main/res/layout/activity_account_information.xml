@@ -34,7 +34,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center_vertical"
-                android:src="@drawable/close_icon" />
+                app:srcCompat="@drawable/close_icon" />
 
             <TextView
                 android:layout_width="wrap_content"
@@ -63,8 +63,11 @@
 
                 <ImageView
                     android:id="@+id/iv_change_name"
-                    android:layout_width="@dimen/_30dp"
-                    android:layout_height="@dimen/_30dp"
+                    android:layout_width="@dimen/_20dp"
+                    android:layout_height="@dimen/_20dp"
+                    android:layout_alignParentStart="true"
+                    android:layout_centerVertical="true"
+                    android:scaleType="fitCenter"
                     android:src="@drawable/name" />
 
                 <TextView
@@ -76,7 +79,7 @@
                     android:layout_marginStart="@dimen/_8dp"
                     android:text="@string/name"
                     android:textColor="@android:color/black"
-                    android:textSize="14sp" />
+                    android:textSize="13sp" />
 
                 <TextView
 
@@ -87,7 +90,7 @@
                     android:layout_margin="@dimen/_4dp"
                     android:layout_toStartOf="@+id/iv_edit_user_name"
                     android:textColor="@android:color/black"
-                    android:textSize="14sp"
+                    android:textSize="13sp"
                     tools:text="@tools:sample/full_names" />
 
                 <ImageView
@@ -95,9 +98,10 @@
                     android:id="@+id/iv_edit_user_name"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
+                    android:layout_centerVertical="true"
                     android:layout_alignParentEnd="true"
                     android:onClick="@{()->clickListener.changeAttributes(1)}"
-                    android:src="@drawable/right_icon_black" />
+                    app:srcCompat="@drawable/right_icon_black" />
             </RelativeLayout>
 
 
@@ -108,8 +112,9 @@
 
                 <ImageView
                     android:id="@+id/iv_change_email"
-                    android:layout_width="@dimen/_30dp"
-                    android:layout_height="@dimen/_30dp"
+                    android:layout_width="@dimen/_20dp"
+                    android:layout_height="@dimen/_20dp"
+                    android:scaleType="fitCenter"
                     android:src="@drawable/mail" />
 
                 <TextView
@@ -120,8 +125,8 @@
                     android:layout_marginStart="@dimen/_8dp"
                     android:layout_toEndOf="@+id/iv_change_email"
                     android:text="@string/email"
-                    android:textColor="@color/colorLightGray"
-                    android:textSize="14sp" />
+                    android:textColor="@color/colorDarkGray"
+                    android:textSize="13sp" />
 
                 <TextView
 
@@ -131,8 +136,8 @@
                     android:layout_alignParentEnd="true"
                     android:layout_centerVertical="true"
                     android:layout_marginEnd="@dimen/_32dp"
-                    android:textColor="@color/colorLightGray"
-                    android:textSize="14sp"
+                    android:textColor="@color/colorDarkGray"
+                    android:textSize="13sp"
                     tools:text="@tools:sample/lorem" />
 
             </RelativeLayout>
@@ -144,8 +149,11 @@
 
                 <ImageView
                     android:id="@+id/iv_change_phone"
-                    android:layout_width="@dimen/_30dp"
-                    android:layout_height="@dimen/_30dp"
+                    android:layout_width="@dimen/_20dp"
+                    android:layout_height="@dimen/_20dp"
+                    android:layout_alignParentStart="true"
+                    android:layout_centerVertical="true"
+                    android:scaleType="fitCenter"
                     android:src="@drawable/mobile" />
 
                 <TextView
@@ -157,7 +165,7 @@
                     android:layout_toEndOf="@+id/iv_change_phone"
                     android:text="@string/mobile_number"
                     android:textColor="@android:color/black"
-                    android:textSize="14sp" />
+                    android:textSize="13sp" />
 
                 <TextView
 
@@ -169,7 +177,7 @@
                     android:layout_margin="@dimen/_4dp"
                     android:layout_toStartOf="@+id/iv_edit_user_phone"
                     android:textColor="@android:color/black"
-                    android:textSize="14sp"
+                    android:textSize="13sp"
                     tools:text="@tools:sample/us_phones" />
 
                 <ImageView
@@ -179,7 +187,8 @@
                     android:layout_height="wrap_content"
                     android:layout_alignParentEnd="true"
                     android:onClick="@{()->clickListener.changeAttributes(2)}"
-                    android:src="@drawable/right_icon_black" />
+                    android:layout_centerVertical="true"
+                    app:srcCompat="@drawable/right_icon_black" />
             </RelativeLayout>
 
 
@@ -190,8 +199,11 @@
 
                 <ImageView
                     android:id="@+id/iv_change_password"
-                    android:layout_width="@dimen/_30dp"
-                    android:layout_height="@dimen/_30dp"
+                    android:layout_width="@dimen/_20dp"
+                    android:layout_height="@dimen/_20dp"
+                    android:layout_alignParentStart="true"
+                    android:layout_centerVertical="true"
+                    android:scaleType="fitCenter"
                     android:src="@drawable/name" />
 
                 <TextView
@@ -203,7 +215,7 @@
                     android:layout_toEndOf="@+id/iv_change_password"
                     android:text="@string/password"
                     android:textColor="@android:color/black"
-                    android:textSize="14sp" />
+                    android:textSize="13sp" />
 
                 <TextView
 
@@ -214,7 +226,7 @@
                     android:layout_margin="@dimen/_4dp"
                     android:layout_toStartOf="@+id/iv_edit_user_password"
                     android:textColor="@android:color/black"
-                    android:textSize="14sp"
+                    android:textSize="13sp"
                     tools:text="@tools:sample/us_zipcodes" />
 
                 <ImageView
@@ -223,8 +235,9 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_alignParentEnd="true"
+                    android:layout_centerVertical="true"
                     android:onClick="@{()->clickListener.changeAttributes(3)}"
-                    android:src="@drawable/right_icon_black" />
+                    app:srcCompat="@drawable/right_icon_black" />
             </RelativeLayout>
 
 
@@ -235,8 +248,11 @@
 
                 <ImageView
                     android:id="@+id/iv_change_gender"
-                    android:layout_width="@dimen/_30dp"
-                    android:layout_height="@dimen/_30dp"
+                    android:layout_width="@dimen/_20dp"
+                    android:layout_height="@dimen/_20dp"
+                    android:layout_alignParentStart="true"
+                    android:layout_centerVertical="true"
+                    android:scaleType="fitCenter"
                     android:src="@drawable/gender" />
 
                 <TextView
@@ -248,7 +264,7 @@
                     android:layout_toEndOf="@+id/iv_change_gender"
                     android:text="@string/gender"
                     android:textColor="@android:color/black"
-                    android:textSize="14sp" />
+                    android:textSize="13sp" />
 
                 <TextView
 
@@ -259,7 +275,7 @@
                     android:layout_margin="@dimen/_4dp"
                     android:layout_toStartOf="@+id/iv_edit_user_gender"
                     android:textColor="@android:color/black"
-                    android:textSize="14sp"
+                    android:textSize="13sp"
                     tools:text="@string/gender_male" />
 
                 <ImageView
@@ -268,8 +284,9 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_alignParentEnd="true"
+                    android:layout_centerVertical="true"
                     android:onClick="@{()->clickListener.changeAttributes(4)}"
-                    android:src="@drawable/right_icon_black" />
+                    app:srcCompat="@drawable/right_icon_black" />
             </RelativeLayout>
 
             <RelativeLayout
@@ -279,8 +296,11 @@
 
                 <ImageView
                     android:id="@+id/iv_change_dob"
-                    android:layout_width="@dimen/_30dp"
-                    android:layout_height="@dimen/_30dp"
+                    android:layout_width="@dimen/_20dp"
+                    android:layout_height="@dimen/_20dp"
+                    android:layout_alignParentStart="true"
+                    android:layout_centerVertical="true"
+                    android:scaleType="fitCenter"
                     android:src="@drawable/birthday" />
 
                 <TextView
@@ -292,7 +312,7 @@
                     android:layout_toEndOf="@+id/iv_change_dob"
                     android:text="@string/date_of_birth"
                     android:textColor="@android:color/black"
-                    android:textSize="14sp" />
+                    android:textSize="13sp" />
 
                 <TextView
 
@@ -303,7 +323,7 @@
                     android:layout_margin="@dimen/_4dp"
                     android:layout_toStartOf="@+id/iv_edit_user_dob"
                     android:textColor="@android:color/black"
-                    android:textSize="14sp"
+                    android:textSize="13sp"
                     tools:text="@string/gender_male" />
 
                 <ImageView
@@ -312,8 +332,9 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_alignParentEnd="true"
+                    android:layout_centerVertical="true"
                     android:onClick="@{()->clickListener.changeAttributes(5)}"
-                    android:src="@drawable/right_icon_black" />
+                    app:srcCompat="@drawable/right_icon_black" />
             </RelativeLayout>
 
         </LinearLayout>

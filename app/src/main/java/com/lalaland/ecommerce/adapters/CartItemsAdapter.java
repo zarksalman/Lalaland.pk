@@ -98,7 +98,7 @@ public class CartItemsAdapter extends RecyclerView.Adapter<CartItemsAdapter.Cart
                 Toast.makeText(mContext, ITEM_SOLD_OUT, Toast.LENGTH_SHORT).show();
         } else {
 
-            if (quantity > 0) {
+            if (quantity > 1) {
                 quantity -= 1;
                 mCartClickListener.changeNumberOfCount(merchantId, position, quantity);
             }

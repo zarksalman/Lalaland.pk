@@ -43,6 +43,7 @@
             android:id="@+id/rv_cart_products"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/_4dp"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHorizontal_bias="0"
             app:layout_constraintStart_toStartOf="parent"
@@ -151,7 +152,7 @@
                     android:fontFamily="@font/encodesansregular"
                     android:text="@string/total_charges"
                     android:textSize="12sp"
-                    android:textStyle="bold" />
+                    android:textColor="@android:color/black" />
 
                 <TextView
 
@@ -160,9 +161,9 @@
                     android:layout_height="wrap_content"
                     android:layout_alignParentEnd="true"
                     android:fontFamily="@font/encodesansregular"
-                    android:text="@{cartListItem.totalCharges}"
+                    android:text="@{AppUtils.formatPriceString(cartListItem.totalCharges)}"
                     android:textSize="12sp"
-                    android:textStyle="bold" />
+                    android:textColor="@android:color/black" />
 
             </RelativeLayout>
         </LinearLayout>

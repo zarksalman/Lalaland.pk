@@ -81,22 +81,20 @@ public class CheckoutScreen extends AppCompatActivity {
         getMerchantList();
         addMerchantProductList();
 
-        getDeliveryCharges();
-
-
+        isUserAddressExist();
     }
 
     void setBill() {
         totalBill = getIntent().getStringExtra("total_bill");
         totalAmount = Double.parseDouble(totalBill);
-        totalAmount += totalBillWithShippingCharges;
+        totalAmount += deliverCharges;
         totalBill = String.valueOf(totalAmount);
 
         activityCheckoutScreenBinding.tvTotalBalance.setText(AppUtils.formatPriceString(totalBill));
 
         if (Double.parseDouble(totalBill) >= PAYMENT_LOWEST_LIMIT) {
             activityCheckoutScreenBinding.rbBankTransfer.setChecked(true);
-            //   activityCheckoutScreenBinding.rgPaymentType.setOnCheckedChangeListener(null);
+            activityCheckoutScreenBinding.rgPaymentType.setOnCheckedChangeListener(null);
         }
     }
 
@@ -109,7 +107,6 @@ public class CheckoutScreen extends AppCompatActivity {
                 setMerchantShippingRate(deliveryChargesContainer.getData().getDeliveryChargesOfMerchantItems());
 
                 setBill();
-                isUserAddressExist();
                 setListeners();
                 setCartAdapter();
             }
@@ -128,18 +125,26 @@ public class CheckoutScreen extends AppCompatActivity {
                 if (deliveryChargesOfMerchantItems.get(i).getMerchantId().equals(cartListModelList.get(j).getMerchantId())) {
 
                     shippingCharges = deliveryChargesOfMerchantItems.get(i).getShippingRate();
-                    cartListModelList.get(i).setMerchantShippingRate(String.valueOf(shippingCharges));
+                    cartListModelList.get(j).setMerchantShippingRate(String.valueOf(shippingCharges));
 
-                    billWithoutShippingCharges = Double.parseDouble(cartListModelList.get(i).getTotalAmount());
+                    billWithoutShippingCharges = Double.parseDouble(cartListModelList.get(j).getTotalAmount());
                     totalBillWithShippingCharges = billWithoutShippingCharges + shippingCharges;
+                    cartListModelList.get(j).setTotalCharges(String.valueOf(totalBillWithShippingCharges));
 
-                    cartListModelList.get(i).setTotalCharges(String.valueOf(totalBillWithShippingCharges));
-
+                    deliverCharges += shippingCharges;
                 }
             }
         }
     }
 
+    private void setMerchantShippingRate() {
+
+        for (int j = 0; j < cartListModelList.size(); j++) {
+
+            cartListModelList.get(j).setMerchantShippingRate(String.valueOf(0));
+            cartListModelList.get(j).setTotalCharges(cartListModelList.get(j).getTotalAmount());
+        }
+    }
 
     void setListeners() {
 
@@ -160,26 +165,34 @@ public class CheckoutScreen extends AppCompatActivity {
     }
 
     void isUserAddressExist() {
+
         userAddresses = AppConstants.userAddresses;
 
         if (userAddresses == null) {
             activityCheckoutScreenBinding.addUserAddress.setVisibility(View.VISIBLE);
             activityCheckoutScreenBinding.userDetail.setVisibility(View.GONE);
-            activityCheckoutScreenBinding.btnCheckout.setBackgroundColor(getResources().getColor(R.color.colorLightGray));
             isUserAddressNull = true;
+
+            setMerchantShippingRate();
+            setBill();
+            setListeners();
+            setCartAdapter();
+
+            activityCheckoutScreenBinding.container.setVisibility(View.VISIBLE);
+            activityCheckoutScreenBinding.pbLoading.setVisibility(View.GONE);
+
         } else {
 
             activityCheckoutScreenBinding.tvUserName.setText(userAddresses.getUserNameAddress());
             activityCheckoutScreenBinding.tvUserAddress.setText(userAddresses.getShippingAddress());
             activityCheckoutScreenBinding.tvUserCityPostalCode.setText(String.valueOf(userAddresses.getPostalCode()));
             activityCheckoutScreenBinding.tvUserMobile.setText(userAddresses.getPhone());
-
             activityCheckoutScreenBinding.btnCheckout.setBackgroundColor(getResources().getColor(R.color.colorAccent));
             activityCheckoutScreenBinding.addUserAddress.setVisibility(View.GONE);
             activityCheckoutScreenBinding.userDetail.setVisibility(View.VISIBLE);
-
-
             isUserAddressNull = false;
+
+            getDeliveryCharges();
         }
     }
     public void addNewAddress(View view) {
@@ -323,6 +336,8 @@ public class CheckoutScreen extends AppCompatActivity {
         for (int i = 0; i < merchantItems.size(); i++) {
 
             tempCartItem = new ArrayList<>();
+            totalMerchant = 0.0;
+
             for (int j = 0; j < cartItemList.size(); j++) {
 
                 if (merchantItems.get(i).getMerchantId().equals(cartItemList.get(j).getMerchantId())) {

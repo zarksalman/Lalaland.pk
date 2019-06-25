@@ -79,20 +79,14 @@ public class CartIMerchantAdapter extends RecyclerView.Adapter<CartIMerchantAdap
 
     public void updateData(List<CartListModel> newCartListModels) {
 
-        mCartListModelList.clear();
-        mCartListModelList.addAll(newCartListModels);
-        cartItemsAdapter.notifyDataSetChanged();
-
+        mCartListModelList = newCartListModels;
+        notifyDataSetChanged();
     }
-
-
-    public void emptyRecyclerView() {
-        this.mCartListModelList.clear();
-        //    notifyDataSetChanged();
-    }
+    
 
     @Override
     public void addItemToList(int merchantId, int position) {
+
         mMerchantItemClickListener.addItemToList(merchantId, position);
     }
 
@@ -103,6 +97,7 @@ public class CartIMerchantAdapter extends RecyclerView.Adapter<CartIMerchantAdap
 
     @Override
     public void changeNumberOfCount(int merchantId, int position, int quantity) {
+
         mMerchantItemClickListener.changeNumberOfCount(merchantId, position, quantity);
     }
 

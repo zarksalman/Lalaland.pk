@@ -13,6 +13,7 @@ import com.lalaland.ecommerce.adapters.CityAdapter;
 import com.lalaland.ecommerce.data.models.category.City;
 import com.lalaland.ecommerce.databinding.ActivitySelectCityBinding;
 import com.lalaland.ecommerce.helpers.AppConstants;
+import com.lalaland.ecommerce.helpers.AppUtils;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -36,6 +37,8 @@ public class SelectCityActivity extends AppCompatActivity implements CityAdapter
             public boolean onQueryTextSubmit(String query) {
 
                 cityAdapter.filter(query);
+
+                AppUtils.hideKeyboard(SelectCityActivity.this);
                 return true;
             }
 

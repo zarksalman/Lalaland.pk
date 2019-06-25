@@ -2,6 +2,7 @@
 <layout
 
     xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:animateLayoutChanges="true">
 
     <data>
@@ -13,11 +14,43 @@
 
     <androidx.constraintlayout.widget.ConstraintLayout
         
-        xmlns:app="http://schemas.android.com/apk/res-auto"
         xmlns:tools="http://schemas.android.com/tools"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         tools:context=".views.activities.SelectCityActivity">
+
+        <RelativeLayout
+
+            android:id="@+id/top_bar"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@android:color/white"
+            android:padding="@dimen/_8dp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent">
+
+            <ImageView
+
+                android:id="@+id/iv_back_arrow"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentStart="true"
+                android:layout_centerVertical="true"
+                app:srcCompat="@drawable/back_arrow_icon" />
+
+            <TextView
+                android:id="@+id/tv_city_title"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerVertical="true"
+                android:layout_marginStart="@dimen/_8dp"
+                android:layout_toEndOf="@+id/iv_back_arrow"
+                android:text="@string/select_city"
+                android:textColor="@android:color/black"
+                android:textSize="18sp" />
+
+        </RelativeLayout>
 
 
         <androidx.appcompat.widget.SearchView
@@ -27,15 +60,22 @@
             android:layout_height="wrap_content"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
+            android:layout_margin="@dimen/_8dp"
+            android:background="@drawable/search_bar_bg_round_cornors"
+            android:focusable="false"
+            app:iconifiedByDefault="false"
+            app:layout_constraintTop_toBottomOf="@+id/top_bar"
+            app:queryHint="Search" />
 
         <androidx.recyclerview.widget.RecyclerView
 
             android:id="@+id/rv_city"
             android:layout_width="0dp"
+            android:layout_marginTop="@dimen/_8dp"
             android:layout_height="wrap_content"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
+            android:background="@android:color/white"
             app:layout_constraintTop_toBottomOf="@+id/sv_city" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>

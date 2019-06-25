@@ -240,5 +240,7 @@
     <string name="order_total">Order Total</string>
     <string name="delivery_charges">Delivery Charges</string>
     <string name="total_charges">Total Charges</string>
+    <string name="order_summary">Order Summary</string>
+    <string name="select_city">Select City</string>
 
 </resources>

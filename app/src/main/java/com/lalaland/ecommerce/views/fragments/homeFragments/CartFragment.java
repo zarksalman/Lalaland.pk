@@ -216,6 +216,7 @@ public class CartFragment extends Fragment implements View.OnClickListener, Cart
             cartListModel.setMerchantName(merchantItems.get(i).getMerchantName());
             cartListModel.setTotalAmount(String.valueOf(totalMerchant));
             cartListModel.setMerchantShippingRate("0.0");
+            cartListModel.setTotalCharges("0.0");
             cartListModel.setCartItemList(tempCartItem);
             cartListModelList.add(cartListModel);
         }
@@ -226,11 +227,8 @@ public class CartFragment extends Fragment implements View.OnClickListener, Cart
         if (cartItemList.size() == 0) {
             fragmentCartBinding.tvCartEmptyState.setVisibility(View.VISIBLE);
             fragmentCartBinding.btnCheckout.setOnClickListener(null);
-            //fragmentCartBinding.btnCheckout.setBackground(getResources().getDrawable(R.drawable.btn_bg_round_corner_dark_gray));
         } else {
-
             fragmentCartBinding.tvCartEmptyState.setVisibility(View.GONE);
-            //fragmentCartBinding.btnCheckout.setBackground(getResources().getDrawable(R.drawable.btn_bg_round_corner_accent));
             fragmentCartBinding.btnCheckout.setOnClickListener(this);
         }
 
@@ -359,15 +357,8 @@ public class CartFragment extends Fragment implements View.OnClickListener, Cart
 
                     cartListModelList.get(merchantIndex).getCartItemList().get(position).setItemQuantity(quantity);
 
-                    mCartListModelList.clear();
-                    mCartListModelList.addAll(cartListModelList);
-
-                    cartIMerchantAdapter.emptyRecyclerView();
-
-                    cartListModelList.addAll(mCartListModelList);
-                    cartIMerchantAdapter.setData(cartListModelList);
-                    cartIMerchantAdapter.notifyItemRangeInserted(0, cartListModelList.size());
-
+                    cartIMerchantAdapter.updateData(cartListModelList);
+                    // cartIMerchantAdapter.notifyItemRangeInserted(0, cartListModelList.size());
 
                     if (selectedCartItemList.contains(cartItemList.get(position)))
                         calCalculateBill();

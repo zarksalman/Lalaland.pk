@@ -69,11 +69,11 @@ public class OrderReceivedActivity extends AppCompatActivity implements Recommen
     private void setAdapter() {
 
         RecommendedProductsAdapter productAdapter = new RecommendedProductsAdapter(this, this);
-        productAdapter.setData(recommendedProductList);
 
         activityOrderReceivedBinding.rvRecommendedProducts.setHasFixedSize(true);
         activityOrderReceivedBinding.rvRecommendedProducts.setLayoutManager(new LinearLayoutManager(this, RecyclerView.HORIZONTAL, false));
         activityOrderReceivedBinding.rvRecommendedProducts.setAdapter(productAdapter);
+        productAdapter.setData(recommendedProductList);
     }
 
     @Override

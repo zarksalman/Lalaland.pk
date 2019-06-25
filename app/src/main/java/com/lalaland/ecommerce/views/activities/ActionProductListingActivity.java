@@ -78,6 +78,7 @@ public class ActionProductListingActivity extends AppCompatActivity implements A
 
     Boolean isFromCategories = false;
     Boolean isItemsNotFound = false;
+    Boolean isFilterOrSort = false;
     int firstVisibleInListview;
 
     @Override
@@ -347,8 +348,9 @@ public class ActionProductListingActivity extends AppCompatActivity implements A
         actionProductsArrayList.clear();
         actionProductsAdapter.notifyDataSetChanged();
         setActionProducts();
+
+        isFilterOrSort = true;
         mBottomSheetDialog.hide();
-        showList();
 
     }
 
@@ -366,8 +368,12 @@ public class ActionProductListingActivity extends AppCompatActivity implements A
                         int startPosition = actionProductsArrayList.size();
                         actionProductsArrayList.addAll(actionProductsContainer.getData().getProducts());
                         actionProductsAdapter.notifyItemRangeInserted(startPosition, actionProductsArrayList.size());
-
                         start += size;
+
+                        if (isFilterOrSort) {
+                            activityProductListingBinding.rvProducts.scrollToPosition(0);
+                            isFilterOrSort = false;
+                        }
 
                         if (parameter.containsKey(SORT_BY)) {
                             sortBy = parameter.get(SORT_BY);
@@ -407,15 +413,6 @@ public class ActionProductListingActivity extends AppCompatActivity implements A
         finish();
     }
 
-    void showList() {
-
-        for (ActionProducts actionProducts : actionProductsArrayList) {
-
-            Log.d("after_sort", "Name:" + actionProducts.getName() + "Price:" + actionProducts.getSalePrice());
-            Log.d("after_sort", "Sales Price:" + actionProducts.getSalePrice());
-            Log.d("after_sort", "Actual Price:" + actionProducts.getActualPrice());
-        }
-    }
 
     @Override
     protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
@@ -463,6 +460,8 @@ public class ActionProductListingActivity extends AppCompatActivity implements A
         parameter.put(START_INDEX, String.valueOf(start));
         parameter.put(LENGTH, String.valueOf(length));
         parameter.put("pv_filter", pvFilterParamsBase64);
+
+        isFilterOrSort = true;
         setActionProducts();
     }
 
@@ -477,8 +476,9 @@ public class ActionProductListingActivity extends AppCompatActivity implements A
         start = 0;
         parameter.put(START_INDEX, String.valueOf(start));
         parameter.put(LENGTH, String.valueOf(length));
-
         parameter.put("price_filter", priceRangeBase64);
+
+        isFilterOrSort = true;
         setActionProducts();
     }
 
@@ -489,6 +489,7 @@ public class ActionProductListingActivity extends AppCompatActivity implements A
         parameter.put(START_INDEX, String.valueOf(start));
         parameter.put(LENGTH, String.valueOf(length));
         parameter.put("category_filter", categoryId);
+        isFilterOrSort = true;
         setActionProducts();
     }
 
@@ -503,6 +504,9 @@ public class ActionProductListingActivity extends AppCompatActivity implements A
         parameter.put(START_INDEX, String.valueOf(start));
         parameter.put(LENGTH, String.valueOf(length));
         parameter.put("brand_filter", brandParamsBase64);
+
+        isFilterOrSort = true;
         setActionProducts();
+
     }
 }

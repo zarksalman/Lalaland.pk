@@ -98,7 +98,7 @@ public class AppUtils {
     public static String formatPriceString(String price) {
 
 
-        price = NumberFormat.getNumberInstance(Locale.US).format(Float.parseFloat(price));
+        price = NumberFormat.getNumberInstance(Locale.US).format(Double.parseDouble(price));
         return "PKR " + price;
     }
 

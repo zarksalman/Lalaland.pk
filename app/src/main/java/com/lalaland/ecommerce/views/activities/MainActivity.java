@@ -1,11 +1,9 @@
 package com.lalaland.ecommerce.views.activities;
 
-import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
 import android.view.View;
-import android.view.inputmethod.InputMethodManager;
 import android.widget.Toast;
 
 import androidx.annotation.Nullable;
@@ -74,6 +72,7 @@ public class MainActivity extends AppCompatActivity {
 
                 activityMainBinding.topBarSearch.setVisibility(View.GONE);
                 activityMainBinding.topBarWithoutSearch.setVisibility(View.VISIBLE);
+                activityMainBinding.topBar.setVisibility(View.VISIBLE);
 
                 activityMainBinding.topBar.setBackgroundColor(getResources().getColor(android.R.color.white));
                 activityMainBinding.tvFragmentName.setText(getResources().getString(R.string.cart_items));
@@ -89,6 +88,7 @@ public class MainActivity extends AppCompatActivity {
 
                 activityMainBinding.topBarSearch.setVisibility(View.GONE);
                 activityMainBinding.topBarWithoutSearch.setVisibility(View.VISIBLE);
+                activityMainBinding.topBar.setVisibility(View.VISIBLE);
 
                 activityMainBinding.topBar.setBackgroundColor(getResources().getColor(android.R.color.white));
                 activityMainBinding.tvFragmentName.setText(getResources().getString(R.string.wish_items));
@@ -169,7 +169,9 @@ public class MainActivity extends AppCompatActivity {
                 activityMainBinding.topBar.setBackgroundColor(getResources().getColor(android.R.color.white));
                 activityMainBinding.topBarSearch.setVisibility(View.GONE);
                 activityMainBinding.tvFragmentName.setText(getResources().getString(R.string.cart_items));
+
                 activityMainBinding.topBarWithoutSearch.setVisibility(View.VISIBLE);
+
                 replaceFragment(CartFragment.newInstance(), LOAD_HOME_FRAGMENT_INDEX);
                 break;
 
@@ -194,16 +196,6 @@ public class MainActivity extends AppCompatActivity {
         }
     }
 
-    void closeKeyboard() {
-        View view = this.getCurrentFocus();
-
-        if (view != null) {
-
-            InputMethodManager inputMethodManager = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
-            inputMethodManager.hideSoftInputFromWindow(view.getWindowToken(), 0);
-        }
-    }
-
     @Override
     public void onBackPressed() {
 
@@ -213,7 +205,7 @@ public class MainActivity extends AppCompatActivity {
         }
 
         this.doubleBackToExitPressedOnce = true;
-        Toast.makeText(this, "Please click BACK again to exit", Toast.LENGTH_SHORT).show();
+        Toast.makeText(this, "Please click back again to exit", Toast.LENGTH_SHORT).show();
 
         new Handler().postDelayed(() -> doubleBackToExitPressedOnce = false, 2000);
     }

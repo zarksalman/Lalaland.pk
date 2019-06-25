@@ -33,12 +33,12 @@
             android:id="@+id/iv_product"
             android:layout_width="wrap_content"
             android:layout_height="@dimen/_150dp"
-            android:src="@drawable/placeholder_products"
             app:layout_constraintDimensionRatio="3:4"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
-            app:setProductImage="@{product.primaryImage}" />
+            app:setProductImage="@{product.primaryImage}"
+            tools:src="@drawable/placeholder_products" />
 
 
         <TextView

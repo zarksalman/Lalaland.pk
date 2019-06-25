@@ -24,7 +24,7 @@
         xmlns:tools="http://schemas.android.com/tools"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_margin="@dimen/_4dp"
+        android:layout_margin="@dimen/_8dp"
         android:padding="@dimen/_8dp"
         android:background="@drawable/recommended_products_bg"
         android:onClick="@{(view)->adapter.onActionProductClicked(view,actionProduct)}">
