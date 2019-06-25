@@ -137,6 +137,7 @@ public class HomeFragment extends Fragment implements ActionAdapter.ActionClickL
                 setActions();
                 setPickOfTheWeek();
                 setFeaturedBrands();
+                setRecommendationProducts();
 
                 // setRecommendationProducts();
 
@@ -145,7 +146,6 @@ public class HomeFragment extends Fragment implements ActionAdapter.ActionClickL
             }
         });
 
-        setRecommendationProducts();
 
 
     }
@@ -208,6 +208,7 @@ public class HomeFragment extends Fragment implements ActionAdapter.ActionClickL
         //   fragmentHomeBinding.rvActionContainer.removeAllViews();
 
         Integer weight = (100 / actionsList.size());
+//        Integer weight = 1;
 
         for (Integer i = 0; i < actionsList.size(); i++) {
 

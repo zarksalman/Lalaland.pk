@@ -20,6 +20,7 @@ import com.lalaland.ecommerce.data.models.wishList.WishListProduct;
 import com.lalaland.ecommerce.databinding.FragmentWishBinding;
 import com.lalaland.ecommerce.helpers.AppPreference;
 import com.lalaland.ecommerce.viewModels.products.ProductViewModel;
+import com.lalaland.ecommerce.views.activities.ProductDetailActivity;
 import com.lalaland.ecommerce.views.activities.RegistrationActivity;
 
 import java.util.ArrayList;
@@ -128,34 +129,45 @@ public class WishFragment extends Fragment implements WishlistProductAdapter.Pro
     }
 
     @Override
-    public void onProductProductClicked(WishListProduct wishListProduct) {
+    public void onProductProductClicked(WishListProduct wishListProduct, boolean isDelete) {
 
-        parameter = new HashMap<>();
-        header = new HashMap<>();
+        if (isDelete) {
 
-        parameter.clear();
-        header.clear();
+            parameter = new HashMap<>();
+            header = new HashMap<>();
 
-        parameter.put(PRODUCT_ID, String.valueOf(wishListProduct.getId()));
-        parameter.put(IS_WISH_LIST, String.valueOf(0));
+            parameter.clear();
+            header.clear();
 
-        header.put(SIGNIN_TOKEN, token);
+            parameter.put(PRODUCT_ID, String.valueOf(wishListProduct.getId()));
+            parameter.put(IS_WISH_LIST, String.valueOf(0));
 
-        int position = wishListProductList.indexOf(wishListProduct);
-        wishListProductList.remove(position);
-        wishlistProductAdapter.notifyItemRemoved(position);
+            header.put(SIGNIN_TOKEN, token);
 
-        productViewModel.addRemoveToWishList(header, parameter).observe(this, basicResponse -> {
+            productViewModel.addRemoveToWishList(header, parameter).observe(this, basicResponse -> {
 
-            if (basicResponse != null) {
-                Toast.makeText(getContext(), basicResponse.getMsg(), Toast.LENGTH_SHORT).show();
+                if (basicResponse != null) {
 
-                if (wishListProductList.size() <= 0) {
+                    int position = wishListProductList.indexOf(wishListProduct);
+                    wishListProductList.remove(position);
+                    wishlistProductAdapter.notifyItemRemoved(position);
+                    
+                    Toast.makeText(getContext(), basicResponse.getMsg(), Toast.LENGTH_SHORT).show();
 
-                    fragmentWishBinding.ivEmptyState.setVisibility(View.VISIBLE);
+                    if (wishListProductList.size() <= 0) {
+
+                        fragmentWishBinding.ivEmptyState.setVisibility(View.VISIBLE);
+                    }
                 }
-            }
-        });
+            });
+        } else {
+
+            Intent intent = new Intent(getContext(), ProductDetailActivity.class);
+            intent.putExtra(PRODUCT_ID, wishListProduct.getId());
+            startActivity(intent);
+
+        }
+
     }
 
     @Override

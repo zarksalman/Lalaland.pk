@@ -59,7 +59,7 @@
 
                 android:id="@+id/iv_search_product_listing"
                 android:layout_width="0dp"
-                android:layout_height="wrap_content"
+                android:layout_height="match_parent"
                 android:layout_gravity="center_vertical|end"
                 android:layout_weight=".2"
                 app:srcCompat="@drawable/search_icon" />
@@ -104,7 +104,6 @@
             android:layout_height="0dp"
             android:layout_margin="@dimen/_16dp"
             app:layout_constraintBottom_toTopOf="@+id/pb_loading_products"
-            tools:listitem="@layout/action_products_item"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/tl_sort_filter" />

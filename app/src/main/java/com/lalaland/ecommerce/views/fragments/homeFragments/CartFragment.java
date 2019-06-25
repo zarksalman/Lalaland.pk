@@ -322,7 +322,6 @@ public class CartFragment extends Fragment implements View.OnClickListener, Cart
 
                     if (cartListModelList.size() < 1) {
                         fragmentCartBinding.tvCartEmptyState.setVisibility(View.VISIBLE);
-                        fragmentCartBinding.btnCheckout.setBackground(getResources().getDrawable(R.drawable.btn_bg_round_corner_dark_gray));
                     } else
                         fragmentCartBinding.tvCartEmptyState.setVisibility(View.GONE);
 

@@ -61,10 +61,10 @@ public class WishlistProductAdapter extends RecyclerView.Adapter<WishlistProduct
         notifyDataSetChanged();
     }
 
-    public void onProductClicked(View view, WishListProduct wishListProduct) {
+    public void onProductClicked(View view, WishListProduct wishListProduct, boolean isDelete) {
 
         if (mProductList.indexOf(wishListProduct) != RecyclerView.NO_POSITION)
-            mProductListener.onProductProductClicked(wishListProduct);
+            mProductListener.onProductProductClicked(wishListProduct, isDelete);
     }
 
     class ProductViewHolder extends RecyclerView.ViewHolder {
@@ -85,6 +85,6 @@ public class WishlistProductAdapter extends RecyclerView.Adapter<WishlistProduct
     }
 
     public interface ProductListener {
-        void onProductProductClicked(WishListProduct wishListProduct);
+        void onProductProductClicked(WishListProduct wishListProduct, boolean isDelete);
     }
 }

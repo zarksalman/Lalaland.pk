@@ -44,7 +44,7 @@
                 android:layout_height="wrap_content"
                 android:layout_alignParentStart="true"
                 android:tint="@android:color/white"
-                app:srcCompat="@drawable/close_icon" />
+                app:srcCompat="@drawable/back_arrow_icon" />
 
             <TextView
                 android:layout_width="wrap_content"

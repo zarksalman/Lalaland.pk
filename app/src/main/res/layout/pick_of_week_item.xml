@@ -19,72 +19,66 @@
 
     </data>
 
-    <RelativeLayout
+    <LinearLayout
+
+        android:id="@+id/action_parent"
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
+        android:layout_height="wrap_content"
+        android:gravity="center"
+        android:onClick="@{(view)->adapter.pickOfWeekClicked(view, picks)}"
+        android:orientation="vertical"
+        android:padding="@dimen/_4dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent">
 
-        <LinearLayout
-
-            android:id="@+id/action_parent"
-            android:layout_width="match_parent"
+        <FrameLayout
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:gravity="center"
-            android:onClick="@{(view)->adapter.pickOfWeekClicked(view, picks)}"
-            android:orientation="vertical"
-            android:padding="@dimen/_4dp"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent">
+            android:background="@drawable/pick_of_the_week_bg">
 
-            <FrameLayout
+            <ImageView
+
+                android:id="@+id/iv_action"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:background="@drawable/pick_of_the_week_bg">
-
-                <ImageView
-
-                    android:id="@+id/iv_action"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:src="@drawable/placeholder_products"
-                    app:setWeekProductImage="@{picks.primaryImage}" />
-            </FrameLayout>
+                android:src="@drawable/placeholder_products"
+                app:setWeekProductImage="@{picks.primaryImage}" />
+        </FrameLayout>
 
 
-            <TextView
+        <TextView
 
-                android:id="@+id/tv_action_sale_price"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="@dimen/_4dp"
-                android:fontFamily="@font/encodesansregular"
-                android:gravity="center"
-                android:text="@{AppUtils.formatPriceString(picks.salePrice)}"
-                android:textAlignment="center"
-                android:textAppearance="@style/TextAppearance.AppCompat.Small"
-                android:textColor="@android:color/holo_red_dark"
-                android:textSize="12sp"
-                tools:text="@tools:sample/full_names" />
+            android:id="@+id/tv_action_sale_price"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/_4dp"
+            android:fontFamily="@font/encodesansregular"
+            android:gravity="center"
+            android:text="@{AppUtils.formatPriceString(picks.salePrice)}"
+            android:textAlignment="center"
+            android:textAppearance="@style/TextAppearance.AppCompat.Small"
+            android:textColor="@android:color/holo_red_dark"
+            android:textSize="12sp"
+            tools:text="@tools:sample/full_names" />
 
 
-            <TextView
+        <TextView
 
-                android:id="@+id/tv_action_actual_price"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="@dimen/_4dp"
-                android:fontFamily="@font/encodesansregular"
-                android:gravity="center"
-                android:text="@{AppUtils.formatPriceString(picks.actualPrice)}"
-                android:textAlignment="center"
-                android:textAppearance="@style/TextAppearance.AppCompat.Small"
-                android:textColor="@android:color/black"
-                android:textSize="10sp"
-                android:visibility="@{AppUtils.isPriceEqual(picks.salePrice ,picks.actualPrice)? View.GONE : View.VISIBLE}"
-                app:setStrike="@{picks.actualPrice}"
-                tools:text="@tools:sample/full_names" />
-        </LinearLayout>
-    </RelativeLayout>
-
+            android:id="@+id/tv_action_actual_price"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/_4dp"
+            android:fontFamily="@font/encodesansregular"
+            android:gravity="center"
+            android:text="@{AppUtils.formatPriceString(picks.actualPrice)}"
+            android:textAlignment="center"
+            android:textAppearance="@style/TextAppearance.AppCompat.Small"
+            android:textColor="@android:color/black"
+            android:textSize="11sp"
+            android:visibility="@{AppUtils.isPriceEqual(picks.salePrice ,picks.actualPrice)? View.GONE : View.VISIBLE}"
+            app:setStrike="@{picks.actualPrice}"
+            tools:text="@tools:sample/full_names" />
+    </LinearLayout>
 </layout>

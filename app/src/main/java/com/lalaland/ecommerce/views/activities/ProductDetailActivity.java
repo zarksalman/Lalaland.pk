@@ -131,7 +131,7 @@ public class ProductDetailActivity extends AppCompatActivity implements ProductV
         addDots();
 
         if (productDetails.getIsWishListItem() != null) {
-            activityProductDetailBinding.btnAddToWish.setImageResource(R.drawable.selected_wish_list_icon);
+            activityProductDetailBinding.btnAddToWish.setImageResource(R.drawable.wish_list_filled_icon);
             activityProductDetailBinding.btnAddToWish.setBackground(getResources().getDrawable(R.drawable.bg_round_corner_white_accent));
             isAddOrRemove = 1;  // setting initial showing that it is added to list
         } else {
@@ -342,7 +342,7 @@ public class ProductDetailActivity extends AppCompatActivity implements ProductV
                     Toast.makeText(this, basicResponse.getMsg(), Toast.LENGTH_SHORT).show();
 
                     if (isAddOrRemove == 1) {
-                        activityProductDetailBinding.btnAddToWish.setImageResource(R.drawable.selected_wish_list_icon);
+                        activityProductDetailBinding.btnAddToWish.setImageResource(R.drawable.wish_list_filled_icon);
                         activityProductDetailBinding.btnAddToWish.setBackground(getResources().getDrawable(R.drawable.bg_round_corner_white_accent));
                     } else {
                         activityProductDetailBinding.btnAddToWish.setImageResource(R.drawable.wish_list_icon);

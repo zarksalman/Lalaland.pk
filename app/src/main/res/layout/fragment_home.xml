@@ -1,6 +1,5 @@
 <layout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    android:animateLayoutChanges="true"
     xmlns:tools="http://schemas.android.com/tools"
     tools:context="com.lalaland.ecommerce.MainActivity">
 
@@ -21,7 +20,7 @@
             android:layout_width="match_parent"
             android:isScrollContainer="true"
             android:measureAllChildren="true"
-            android:layout_height="800dp"
+            android:layout_height="wrap_content"
             android:scrollbars="none"
             android:visibility="gone">
 
@@ -41,7 +40,7 @@
 
                 <LinearLayout
                     android:id="@+id/rv_action_container"
-                    android:layout_width="match_parent"
+                    android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="@dimen/_4dp"
                     android:background="@android:color/white"
@@ -51,9 +50,8 @@
                     android:weightSum="100"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@+id/vf_slider">
+                    app:layout_constraintTop_toBottomOf="@+id/vf_slider" />
 
-                </LinearLayout>
 
                 <!--Picks of the week-->
 
@@ -114,7 +112,6 @@
                         android:layout_height="wrap_content"
                         android:layout_below="@+id/iv_pick_of_week_show_all"
                         android:layout_centerHorizontal="true"
-                        android:gravity="center_horizontal"
                         android:orientation="horizontal"
                         android:weightSum="100" />
 

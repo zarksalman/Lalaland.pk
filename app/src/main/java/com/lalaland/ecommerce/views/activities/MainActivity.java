@@ -150,47 +150,68 @@ public class MainActivity extends AppCompatActivity {
 
     void loadInitialFragment() {
 
-        activityMainBinding.topBar.setVisibility(View.VISIBLE);
-        activityMainBinding.topBarSearch.setVisibility(View.VISIBLE);
-        activityMainBinding.topBarWithoutSearch.setVisibility(View.GONE);
-
         switch (LOAD_HOME_FRAGMENT_INDEX) {
 
             case 0:
+
+                activityMainBinding.topBar.setVisibility(View.VISIBLE);
+                activityMainBinding.topBarSearch.setVisibility(View.VISIBLE);
+                activityMainBinding.topBarWithoutSearch.setVisibility(View.GONE);
+
                 activityMainBinding.topBar.setBackgroundColor(getResources().getColor(R.color.colorAccent));
                 activityMainBinding.tvAppName.setText(getResources().getString(R.string.app_name));
                 replaceFragment(HomeFragment.newInstance(), LOAD_HOME_FRAGMENT_INDEX);
                 break;
             case 1:
+
+                activityMainBinding.topBar.setVisibility(View.VISIBLE);
+                activityMainBinding.topBarSearch.setVisibility(View.VISIBLE);
+                activityMainBinding.topBarWithoutSearch.setVisibility(View.GONE);
+
+                activityMainBinding.navView.setSelectedItemId(R.id.navigation_category);
                 activityMainBinding.topBar.setBackgroundColor(getResources().getColor(R.color.colorAccent));
                 replaceFragment(CategoryFragment.newInstance(), LOAD_HOME_FRAGMENT_INDEX);
                 break;
             case 2:
-                activityMainBinding.topBar.setBackgroundColor(getResources().getColor(android.R.color.white));
-                activityMainBinding.topBarSearch.setVisibility(View.GONE);
-                activityMainBinding.tvFragmentName.setText(getResources().getString(R.string.cart_items));
 
+                activityMainBinding.topBar.setVisibility(View.VISIBLE);
+                activityMainBinding.topBarSearch.setVisibility(View.GONE);
                 activityMainBinding.topBarWithoutSearch.setVisibility(View.VISIBLE);
 
+                activityMainBinding.navView.setSelectedItemId(R.id.navigation_cart);
+                activityMainBinding.topBar.setBackgroundColor(getResources().getColor(android.R.color.white));
+                activityMainBinding.tvFragmentName.setText(getResources().getString(R.string.cart_items));
                 replaceFragment(CartFragment.newInstance(), LOAD_HOME_FRAGMENT_INDEX);
                 break;
 
             case 3:
 
-                activityMainBinding.topBar.setBackgroundColor(getResources().getColor(android.R.color.white));
+                activityMainBinding.topBar.setVisibility(View.VISIBLE);
                 activityMainBinding.topBarSearch.setVisibility(View.GONE);
-                activityMainBinding.tvFragmentName.setText(getResources().getString(R.string.wish_items));
                 activityMainBinding.topBarWithoutSearch.setVisibility(View.VISIBLE);
+
+                activityMainBinding.navView.setSelectedItemId(R.id.navigation_wish);
+                activityMainBinding.topBar.setBackgroundColor(getResources().getColor(android.R.color.white));
+                activityMainBinding.tvFragmentName.setText(getResources().getString(R.string.wish_items));
                 replaceFragment(WishFragment.newInstance(), LOAD_HOME_FRAGMENT_INDEX);
                 break;
             case 4:
 
                 activityMainBinding.topBar.setVisibility(View.GONE);
+                activityMainBinding.topBarSearch.setVisibility(View.VISIBLE);
+                activityMainBinding.topBarWithoutSearch.setVisibility(View.GONE);
+
+                activityMainBinding.navView.setSelectedItemId(R.id.navigation_account);
                 activityMainBinding.tvAppName.setText(getResources().getString(R.string.account));
                 replaceFragment(AccountFragment.newInstance(), LOAD_HOME_FRAGMENT_INDEX);
                 break;
 
             default:
+
+                activityMainBinding.topBar.setVisibility(View.VISIBLE);
+                activityMainBinding.topBarSearch.setVisibility(View.VISIBLE);
+                activityMainBinding.topBarWithoutSearch.setVisibility(View.GONE);
+
                 activityMainBinding.tvAppName.setText(getResources().getString(R.string.app_name));
                 replaceFragment(HomeFragment.newInstance(), 0);
         }

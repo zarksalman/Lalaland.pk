@@ -35,7 +35,7 @@
                 android:layout_height="wrap_content"
                 android:layout_gravity="center_vertical"
                 android:onClick="@{()->clickListener.onBackPressed()}"
-                app:srcCompat="@drawable/close_icon" />
+                app:srcCompat="@drawable/back_arrow_icon" />
 
             <TextView
                 android:layout_width="wrap_content"
