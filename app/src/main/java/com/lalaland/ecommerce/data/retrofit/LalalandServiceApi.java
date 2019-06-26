@@ -54,7 +54,7 @@ public interface LalalandServiceApi {
     Call<ActionProductsContainer> getActionProducts(@Path("action") String action, @QueryMap Map<String, String> parameter);
 
     @POST("getGeneralData")
-    Call<CategoryContainer> getCategoryGeneralData();
+    Call<CategoryContainer> getCategoryGeneralData(@HeaderMap Map<String, String> headers);
 
     @POST("addToCart")
     Call<BasicResponse> addToCart(@HeaderMap Map<String, String> headers, @QueryMap Map<String, String> parameter);

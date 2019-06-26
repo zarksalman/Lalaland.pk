@@ -82,11 +82,13 @@ public class ProductsRepository {
             @Override
             public void onResponse(Call<HomeDataContainer> call, Response<HomeDataContainer> response) {
 
-                if (!response.isSuccessful()) {
+                if (response.isSuccessful()) {
+
+                    homeDataContainerMutableLiveData.postValue(response.body());
+                } else {
                     homeDataContainerMutableLiveData.postValue(null);
-                    return;
                 }
-                homeDataContainerMutableLiveData.postValue(response.body());
+
 
                 checkResponseSource(response);
             }
@@ -161,10 +163,10 @@ public class ProductsRepository {
         return actionProductsContainerMutableLiveData;
     }
 
-    public LiveData<CategoryContainer> getCategoryGeneralData() {
+    public LiveData<CategoryContainer> getCategoryGeneralData(Map<String, String> headers) {
 
         cartContainerMutableLiveData = new MutableLiveData<>();
-        lalalandServiceApi.getCategoryGeneralData().enqueue(new Callback<CategoryContainer>() {
+        lalalandServiceApi.getCategoryGeneralData(headers).enqueue(new Callback<CategoryContainer>() {
             @Override
             public void onResponse(Call<CategoryContainer> call, Response<CategoryContainer> response) {
 
@@ -226,7 +228,7 @@ public class ProductsRepository {
                     // saving header response for different purposes like add to wish list etc
                     Headers headers = response.headers();
                     AppPreference.getInstance(AppConstants.mContext).setString(CART_SESSION_TOKEN, headers.get(CART_SESSION_TOKEN));
-
+                    AppConstants.CART_COUNTER = response.body().getData().getCartCount();
                 } else
                     basicResponseMutableLiveData.postValue(null);
             }

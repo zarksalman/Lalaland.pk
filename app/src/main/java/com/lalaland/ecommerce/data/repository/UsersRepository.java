@@ -98,8 +98,7 @@ public class UsersRepository {
 
                         recommendedCategry = response.body().getData().getRecommendedCat();
                         appPreference.setString(RECOMMENDED_CAT_TOKEN, recommendedCategry);
-
-
+                        AppConstants.CART_COUNTER = response.body().getData().getCartCount();
                     }
 
 
@@ -135,6 +134,7 @@ public class UsersRepository {
                     AppPreference.getInstance(AppConstants.mContext).setString(SIGNIN_TOKEN, "");
                     AppConstants.user = null;
                     AppConstants.userAddresses = null;
+                    AppConstants.CART_COUNTER = 0;
 
                     checkResponseSource(response);
                 } else {
@@ -216,7 +216,7 @@ public class UsersRepository {
                 AppPreference.getInstance(AppConstants.mContext).setString(SIGNIN_TOKEN, headers.get(SIGNIN_TOKEN));
                 // if login successfully then discard cart session token
                 AppPreference.getInstance(AppConstants.mContext).setString(CART_SESSION_TOKEN, "");
-
+                AppConstants.CART_COUNTER = response.body().getData().getCartCount();
                 checkResponseSource(response);
             }
 

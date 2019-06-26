@@ -1,9 +1,9 @@
 package com.lalaland.ecommerce.data.models.home;
 
-import java.util.List;
-
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
+
+import java.util.List;
 
 public class HomeData {
 
@@ -22,6 +22,15 @@ public class HomeData {
     @SerializedName("recommendation")
     @Expose
     private List<Recommendation> recommendation = null;
+
+
+    public List<Actions> getActions() {
+        return actions;
+    }
+
+    public void setActions(List<Actions> actions) {
+        this.actions = actions;
+    }
 
     public List<HomeBanner> getHomeBanners() {
         return homeBanners;

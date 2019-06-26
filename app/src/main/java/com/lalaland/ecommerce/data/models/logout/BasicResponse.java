@@ -11,6 +11,9 @@ public class BasicResponse {
     @SerializedName("msg")
     @Expose
     private String msg;
+    @SerializedName("data")
+    @Expose
+    private BasicResponseData data;
 
     public String getCode() {
         return code;
@@ -26,6 +29,14 @@ public class BasicResponse {
 
     public void setMsg(String msg) {
         this.msg = msg;
+    }
+
+    public BasicResponseData getData() {
+        return data;
+    }
+
+    public void setData(BasicResponseData data) {
+        this.data = data;
     }
 
 }

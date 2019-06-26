@@ -28,7 +28,7 @@
         android:gravity="center"
         android:weightSum="1"
         android:onClick="@{()->adapter.onInnerCategoryClicked(innerCategory)}"
-        android:padding="@dimen/_8dp">
+        android:padding="@dimen/_4dp">
 
         <ImageView
 
@@ -41,11 +41,12 @@
         <TextView
 
             android:id="@+id/tv_inner_cat_name"
-            android:layout_width="match_parent"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="@{innerCategory.name}"
             android:textColor="@android:color/black"
-            android:textSize="14sp"
+            android:textSize="11sp"
+            android:fontFamily="@font/encodesansregular"
             android:ellipsize="end"
             android:maxLength="15"
             android:maxLines="2"

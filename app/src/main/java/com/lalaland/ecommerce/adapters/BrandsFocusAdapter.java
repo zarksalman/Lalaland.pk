@@ -11,7 +11,6 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.lalaland.ecommerce.R;
 import com.lalaland.ecommerce.data.models.home.FeaturedBrand;
-import com.lalaland.ecommerce.databinding.BrandsFocusItemBinding;
 import com.lalaland.ecommerce.databinding.OldBrandsFocusItemBinding;
 
 import java.util.List;

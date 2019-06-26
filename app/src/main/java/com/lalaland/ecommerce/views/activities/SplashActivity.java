@@ -15,14 +15,19 @@ import com.lalaland.ecommerce.R;
 import com.lalaland.ecommerce.data.models.category.Category;
 import com.lalaland.ecommerce.databinding.ActivitySplashBinding;
 import com.lalaland.ecommerce.helpers.AppConstants;
+import com.lalaland.ecommerce.helpers.AppPreference;
 import com.lalaland.ecommerce.helpers.AppUtils;
 import com.lalaland.ecommerce.viewModels.products.CategoryViewModel;
 
 import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.Map;
 
 public class SplashActivity extends AppCompatActivity {
 
     ActivitySplashBinding activitySplashBinding;
+    Map<String, String> headers = new HashMap<>();
+    AppPreference appPreference;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -31,6 +36,10 @@ public class SplashActivity extends AppCompatActivity {
         requestWindowFeature(Window.FEATURE_NO_TITLE);
         getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN, WindowManager.LayoutParams.FLAG_FULLSCREEN);
         activitySplashBinding = DataBindingUtil.setContentView(this, R.layout.activity_splash);
+
+        appPreference = AppPreference.getInstance(this);
+        headers.put("cart-session", appPreference.getString(AppConstants.CART_SESSION_TOKEN));
+        headers.put("token", appPreference.getString(AppConstants.SIGNIN_TOKEN));
 
         activitySplashBinding.tvReload.setOnClickListener(v -> {
 
@@ -47,7 +56,7 @@ public class SplashActivity extends AppCompatActivity {
         if (AppUtils.isNetworkAvailable()) {
             CategoryViewModel categoryViewModel = ViewModelProviders.of(this).get(CategoryViewModel.class);
 
-            categoryViewModel.getActionProducts().observe(this, categoryContainer ->
+            categoryViewModel.getActionProducts(headers).observe(this, categoryContainer ->
             {
                 if (categoryContainer != null) {
 
@@ -65,6 +74,8 @@ public class SplashActivity extends AppCompatActivity {
                     AppConstants.RETURN_POLICY_URL = categoryContainer.getData().getReturns();
                     AppConstants.TERMS_AND_CONDITIONS_URL = categoryContainer.getData().getTerms();
                     AppConstants.FAQ_URL = categoryContainer.getData().getFaq();
+
+                    AppConstants.CART_COUNTER = categoryContainer.getData().getCartCount();
 
                     // remove Gift category
                     for (Category category : new ArrayList<>(AppConstants.staticCategoryList)) {

@@ -6,7 +6,6 @@ import androidx.annotation.NonNull;
 import androidx.lifecycle.AndroidViewModel;
 import androidx.lifecycle.LiveData;
 
-import com.lalaland.ecommerce.data.models.actionProducs.ActionProductsContainer;
 import com.lalaland.ecommerce.data.models.category.CategoryContainer;
 import com.lalaland.ecommerce.data.repository.ProductsRepository;
 
@@ -18,8 +17,8 @@ public class CategoryViewModel extends AndroidViewModel {
         super(application);
     }
 
-    public LiveData<CategoryContainer> getActionProducts() {
+    public LiveData<CategoryContainer> getActionProducts(Map<String, String> headers) {
 
-        return ProductsRepository.getInstance().getCategoryGeneralData();
+        return ProductsRepository.getInstance().getCategoryGeneralData(headers);
     }
 }

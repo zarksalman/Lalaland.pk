@@ -30,7 +30,7 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:layout_above="@+id/btns_container"
-            android:layout_below="@+id/top_bar"
+            android:layout_alignParentTop="false"
             android:scrollbars="none"
             android:visibility="visible">
 
@@ -56,11 +56,10 @@
 
                     android:id="@+id/vp_images"
                     android:layout_width="0dp"
-                    android:layout_height="0dp"
+                    android:layout_height="wrap_content"
                     app:layout_constraintEnd_toEndOf="parent"
                     android:visibility="visible"
                     app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintBottom_toTopOf="@+id/gl_view_pager"
                     app:layout_constraintTop_toTopOf="parent" />
 
                 <LinearLayout
@@ -73,7 +72,7 @@
                     android:padding="@dimen/_5dp"
                     app:layout_constraintLeft_toLeftOf="parent"
                     app:layout_constraintRight_toRightOf="parent"
-                    app:layout_constraintTop_toBottomOf="@+id/gl_view_pager" />
+                    app:layout_constraintTop_toBottomOf="@+id/vp_images" />
 
 
                 <LinearLayout
@@ -444,17 +443,20 @@
 
             android:id="@+id/top_bar"
             android:layout_width="match_parent"
-            android:layout_height="?attr/actionBarSize"
+            android:layout_height="wrap_content"
             android:layout_alignParentTop="true"
+            android:layout_margin="@dimen/_4dp"
             android:background="@android:color/transparent">
 
             <ImageView
 
                 android:id="@+id/btn_back"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
+                android:layout_width="@dimen/_50dp"
+                android:layout_height="@dimen/_50dp"
                 android:layout_alignParentStart="true"
-                android:layout_margin="@dimen/_8dp"
+                android:background="@drawable/back_arrow_bg_oval_corner_gray"
+                android:padding="@dimen/_8dp"
+                android:scaleType="center"
                 android:layout_centerVertical="true"
                 app:srcCompat="@drawable/back_arrow_icon" />
 
@@ -470,18 +472,49 @@
                 android:textSize="18sp"
                 android:visibility="gone" />
 
-            <ImageView
-
-                android:id="@+id/iv_mail"
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:id="@+id/cart_counter_container"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_alignParentStart="true"
-                android:background="?selectableItemBackground"
-                android:clickable="true"
-                android:focusable="true"
-                android:padding="4dp"
-                android:visibility="gone"
-                app:srcCompat="@drawable/message_icon" />
+                android:layout_alignParentEnd="true"
+                android:layout_centerVertical="true"
+                android:orientation="vertical"
+                android:padding="@dimen/_8dp">
+
+
+                <ImageView
+
+                    android:id="@+id/iv_cart"
+                    android:layout_width="@dimen/_50dp"
+                    android:layout_height="@dimen/_50dp"
+                    android:background="@drawable/back_arrow_bg_oval_corner_gray"
+                    android:clickable="true"
+                    android:focusable="true"
+                    android:padding="4dp"
+                    android:scaleType="center"
+                    android:tint="@android:color/black"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:srcCompat="@drawable/cart_icon_unselected" />
+
+                <TextView
+                    android:id="@+id/tv_counter"
+                    android:layout_width="@dimen/_20dp"
+                    android:layout_height="@dimen/_20dp"
+                    android:layout_gravity="end"
+                    android:background="@drawable/counter_bg_oval_accent"
+                    android:gravity="center"
+                    android:text="0"
+                    android:textAlignment="center"
+                    android:textColor="@android:color/white"
+                    android:textSize="11sp"
+                    app:layout_constraintBottom_toTopOf="@+id/iv_cart"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintTop_toTopOf="@+id/iv_cart" />
+
+            </androidx.constraintlayout.widget.ConstraintLayout>
+
 
         </RelativeLayout>
 

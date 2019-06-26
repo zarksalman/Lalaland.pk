@@ -15,6 +15,17 @@ public class PlacingOrderData {
     @SerializedName("order_id")
     @Expose
     private Integer orderId;
+    @SerializedName("cart_count")
+    @Expose
+    private Integer cartCount;
+
+    public Integer getCartCount() {
+        return cartCount;
+    }
+
+    public void setCartCount(Integer cartCount) {
+        this.cartCount = cartCount;
+    }
 
     public List<Product> getRecommendation() {
         return recommendation;

@@ -1,0 +1,21 @@
+<layout>
+
+    <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+        android:layout_width="@dimen/_20dp"
+        android:layout_height="@dimen/_20dp"
+        android:background="@drawable/counter_bg_oval_accent"
+        android:orientation="vertical">
+
+        <TextView
+            android:id="@+id/badge"
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_gravity="center"
+            android:layout_weight="1"
+            android:gravity="center"
+            android:text="0"
+            android:textAlignment="center"
+            android:textColor="@android:color/white"
+            android:textSize="11sp" />
+    </LinearLayout>
+</layout>

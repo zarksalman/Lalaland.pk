@@ -45,11 +45,11 @@
             android:layout_height="wrap_content"
             android:orientation="vertical"
             android:layout_marginStart="@dimen/_8dp"
-            app:layout_constraintBottom_toBottomOf="@+id/iv_product"
+            app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toStartOf="@+id/btn_wishlist"
             app:layout_constraintHorizontal_bias="0"
             app:layout_constraintStart_toEndOf="@+id/iv_product"
-            app:layout_constraintTop_toTopOf="@+id/iv_product">
+            app:layout_constraintTop_toTopOf="parent">
 
             <TextView
 
@@ -95,12 +95,13 @@
         <ImageButton
 
             android:id="@+id/btn_wishlist"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+            android:layout_width="@dimen/_20dp"
+            android:layout_height="@dimen/_20dp"
             android:background="@android:color/transparent"
             android:onClick="@{(view)->adapter.onProductClicked(view,product, true)}"
             app:layout_constraintTop_toTopOf="parent"
-            app:srcCompat="@drawable/trash_icon"
+            android:scaleType="centerCrop"
+            app:srcCompat="@drawable/trash"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent" />
 

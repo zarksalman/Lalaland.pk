@@ -94,6 +94,8 @@ public class AppConstants {
 
     public static int CASH_TRANSFER_TYPE = 1;
     public static int LOAD_HOME_FRAGMENT_INDEX = 0;
+    public static int CART_COUNTER = 0;
+
     public static final String START_INDEX = "start";
     public static final String LENGTH = "length";
 

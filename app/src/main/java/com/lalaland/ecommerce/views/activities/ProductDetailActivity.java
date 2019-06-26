@@ -47,6 +47,7 @@ import static com.lalaland.ecommerce.helpers.AppConstants.CART_SESSION_TOKEN;
 import static com.lalaland.ecommerce.helpers.AppConstants.GENERAL_ERROR;
 import static com.lalaland.ecommerce.helpers.AppConstants.IS_WISH_LIST;
 import static com.lalaland.ecommerce.helpers.AppConstants.ITEM_SOLD;
+import static com.lalaland.ecommerce.helpers.AppConstants.LOAD_HOME_FRAGMENT_INDEX;
 import static com.lalaland.ecommerce.helpers.AppConstants.PRODUCT_ID;
 import static com.lalaland.ecommerce.helpers.AppConstants.PRODUCT_STORAGE_BASE_URL;
 import static com.lalaland.ecommerce.helpers.AppConstants.PRODUCT_VARIATION_ID;
@@ -83,6 +84,7 @@ public class ProductDetailActivity extends AppCompatActivity implements ProductV
     private BottomSheetDialog mBottomSheetDialog;
     private ProductVariationAdapter productVariationAdapter;
     String merchantName;
+    Intent intent;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -100,8 +102,25 @@ public class ProductDetailActivity extends AppCompatActivity implements ProductV
         activityProductDetailBinding.pbLoading.setVisibility(View.VISIBLE);
         getProductDetail();
 
+        intent = new Intent(this, MainActivity.class);
+
+
         activityProductDetailBinding.cityContainer.setOnClickListener(v -> {
             startActivityForResult(new Intent(this, SelectCityActivity.class), 200);
+        });
+
+        activityProductDetailBinding.cartCounterContainer.setOnClickListener(v -> {
+            LOAD_HOME_FRAGMENT_INDEX = 2;
+            intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
+            startActivity(intent);
+            finish();
+        });
+
+        activityProductDetailBinding.ivCart.setOnClickListener(v -> {
+            LOAD_HOME_FRAGMENT_INDEX = 2;
+            intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
+            startActivity(intent);
+            finish();
         });
 
         activityProductDetailBinding.btnBack.setOnClickListener(v -> {
@@ -111,9 +130,10 @@ public class ProductDetailActivity extends AppCompatActivity implements ProductV
 
     void loadProductDetail() {
 
+        activityProductDetailBinding.tvCounter.setText(String.valueOf(AppConstants.CART_COUNTER));
         //setting viewpagger height because in scrollview wrap/match does not calculate their height correctly
         android.view.Display display = ((android.view.WindowManager) getSystemService(Context.WINDOW_SERVICE)).getDefaultDisplay();
-        activityProductDetailBinding.vpImages.getLayoutParams().height = ((int) (display.getHeight() * 0.52));
+        activityProductDetailBinding.vpImages.getLayoutParams().height = ((int) (display.getHeight() * 0.65));
         activityProductDetailBinding.vpImages.getLayoutParams().width = ((int) (display.getWidth() * 1.0));
 
 
@@ -132,7 +152,7 @@ public class ProductDetailActivity extends AppCompatActivity implements ProductV
 
         if (productDetails.getIsWishListItem() != null) {
             activityProductDetailBinding.btnAddToWish.setImageResource(R.drawable.wish_list_filled_icon);
-            activityProductDetailBinding.btnAddToWish.setBackground(getResources().getDrawable(R.drawable.bg_round_corner_white_accent));
+            // activityProductDetailBinding.btnAddToWish.setBackground(getResources().getDrawable(R.drawable.bg_round_corner_white_accent));
             isAddOrRemove = 1;  // setting initial showing that it is added to list
         } else {
             isAddOrRemove = 0; // setting initial showing that it is not added to list
@@ -296,6 +316,8 @@ public class ProductDetailActivity extends AppCompatActivity implements ProductV
                         startActivity(new Intent(this, MainActivity.class));
                         finish();
                     } else {
+
+                        activityProductDetailBinding.tvCounter.setText(String.valueOf(AppConstants.CART_COUNTER));
                         Toast.makeText(this, ADD_TO_CART, Toast.LENGTH_SHORT).show();
                         Log.d("AddToCart", ADD_TO_CART);
                     }
@@ -343,7 +365,7 @@ public class ProductDetailActivity extends AppCompatActivity implements ProductV
 
                     if (isAddOrRemove == 1) {
                         activityProductDetailBinding.btnAddToWish.setImageResource(R.drawable.wish_list_filled_icon);
-                        activityProductDetailBinding.btnAddToWish.setBackground(getResources().getDrawable(R.drawable.bg_round_corner_white_accent));
+                        // activityProductDetailBinding.btnAddToWish.setBackground(getResources().getDrawable(R.drawable.bg_round_corner_white_accent));
                     } else {
                         activityProductDetailBinding.btnAddToWish.setImageResource(R.drawable.wish_list_icon);
                         activityProductDetailBinding.btnAddToWish.setBackground(getResources().getDrawable(R.drawable.bg_round_corner_white));

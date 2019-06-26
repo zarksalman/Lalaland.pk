@@ -90,7 +90,9 @@ public class OrderReceivedActivity extends AppCompatActivity implements Recommen
     public void onBackPressed() {
 
         AppConstants.LOAD_HOME_FRAGMENT_INDEX = 0;
-        startActivity(new Intent(this, MainActivity.class).addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP));
+        Intent intent = new Intent(this, MainActivity.class);
+        intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
+        startActivity(intent);
         finish();
     }
 }

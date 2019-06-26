@@ -1,8 +1,11 @@
 package com.lalaland.ecommerce.adapters;
 
 import android.content.Context;
+import android.graphics.Point;
+import android.view.Display;
 import android.view.LayoutInflater;
 import android.view.ViewGroup;
+import android.view.WindowManager;
 
 import androidx.annotation.NonNull;
 import androidx.databinding.DataBindingUtil;
@@ -35,7 +38,19 @@ public class InnerCategoryAdapter extends RecyclerView.Adapter<InnerCategoryAdap
     public InnerCategoryViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
 
         mInnerCategoryItemBinding = DataBindingUtil.inflate(inflater, R.layout.inner_category_item, parent, false);
+
+        mInnerCategoryItemBinding.ivInnerCat.getLayoutParams().width = (int) (getScreenWidth() / 5);
         return new InnerCategoryViewHolder(mInnerCategoryItemBinding);
+    }
+
+    public int getScreenWidth() {
+
+        WindowManager wm = (WindowManager) mContext.getSystemService(Context.WINDOW_SERVICE);
+        Display display = wm.getDefaultDisplay();
+        Point size = new Point();
+        display.getSize(size);
+
+        return size.x;
     }
 
     @Override

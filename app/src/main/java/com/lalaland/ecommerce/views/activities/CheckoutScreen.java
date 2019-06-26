@@ -265,6 +265,7 @@ public class CheckoutScreen extends AppCompatActivity {
                     intent.putExtra(ORDER_TOTAL, String.valueOf(totalBill));
                     CASH_TRANSFER_TYPE = 1;
                     intent.putParcelableArrayListExtra("recommended_products", (ArrayList<? extends Parcelable>) orderDataContainer.getData().getRecommendation());
+                    intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
                     startActivity(intent);
                     finish();
                 } else if (orderDataContainer.getCode().equals(VALIDATION_FAIL_CODE) || orderDataContainer.getCode().equals("403"))
