@@ -19,40 +19,59 @@
 
     </data>
 
-    <LinearLayout
+    <androidx.constraintlayout.widget.ConstraintLayout
 
         xmlns:android="http://schemas.android.com/apk/res/android"
-        android:layout_width="wrap_content"
-        android:layout_height="@dimen/_150dp"
+        android:id="@+id/inner_cat_parent"
+        android:layout_width="@dimen/_100dp"
         android:orientation="vertical"
         android:gravity="center"
         android:weightSum="1"
+        android:layout_height="@dimen/_150dp"
         android:onClick="@{()->adapter.onInnerCategoryClicked(innerCategory)}"
         android:padding="@dimen/_4dp">
+
+        <androidx.constraintlayout.widget.Guideline
+            android:id="@+id/gl_top"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            app:layout_constraintGuide_percent=".8"
+            app:layout_constraintTop_toTopOf="parent" />
 
         <ImageView
 
             android:id="@+id/iv_inner_cat"
             android:layout_width="wrap_content"
             android:layout_height="0dp"
-            android:layout_weight=".8"
+            app:layout_constraintBottom_toBottomOf="@+id/gl_top"
+            app:layout_constraintDimensionRatio="3:4"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            tools:src="@drawable/placeholder_products"
             app:setProductImage="@{innerCategory.getPrimaryImage}" />
 
         <TextView
 
             android:id="@+id/tv_inner_cat_name"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            android:ellipsize="end"
+            android:fontFamily="@font/encodesansregular"
+            android:maxLength="15"
+            android:gravity="center"
+            android:maxLines="2"
             android:text="@{innerCategory.name}"
+            android:textAlignment="center"
             android:textColor="@android:color/black"
             android:textSize="11sp"
-            android:fontFamily="@font/encodesansregular"
-            android:ellipsize="end"
-            android:maxLength="15"
-            android:maxLines="2"
-            android:layout_weight=".15"
-            android:textAlignment="center"
-            tools:text="@string/oldest" />
-
-    </LinearLayout>
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="@+id/iv_inner_cat"
+            app:layout_constraintHorizontal_bias="0.5"
+            app:layout_constraintStart_toStartOf="@+id/iv_inner_cat"
+            app:layout_constraintTop_toTopOf="@+id/gl_top"
+            app:layout_constraintVertical_bias="1.0"
+            tools:text="@string/order_placed_successful" />
+    </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>

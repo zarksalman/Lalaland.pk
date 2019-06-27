@@ -100,10 +100,10 @@ public class ProductDetailActivity extends AppCompatActivity implements ProductV
         Log.d(AppConstants.TAG, "product_id" + product_id);
         activityProductDetailBinding.svProductDetail.setVisibility(View.GONE);
         activityProductDetailBinding.pbLoading.setVisibility(View.VISIBLE);
-        getProductDetail();
 
         intent = new Intent(this, MainActivity.class);
 
+        getProductDetail();
 
         activityProductDetailBinding.cityContainer.setOnClickListener(v -> {
             startActivityForResult(new Intent(this, SelectCityActivity.class), 200);
@@ -209,21 +209,6 @@ public class ProductDetailActivity extends AppCompatActivity implements ProductV
         minActualPrice = Double.parseDouble(productDetails.getMinActualPrice());
         minSalePrice = Double.parseDouble(productDetails.getMinSalePrice());
 
-/*
-        if (minActualPrice < minSalePrice) {
-
-            if (maxActualPrice > minActualPrice) {
-                price.append(minActualPrice);
-                price.append("-");
-                price.append(maxActualPrice);
-            }
-            activityProductDetailBinding.tvProductActualPrice.setText(AppUtils.formatPriceString(price.toString()));
-            activityProductDetailBinding.tvProductActualPrice.setVisibility(View.VISIBLE);
-        }
-
-        price = new StringBuilder();
-*/
-
         if (maxSalePrice > minSalePrice) {
 
             price.append(minSalePrice);
@@ -276,6 +261,7 @@ public class ProductDetailActivity extends AppCompatActivity implements ProductV
                 if (productDetailDataContainer.getCode().equals(SUCCESS_CODE)) {
                     mProductDetailDataContainer = productDetailDataContainer;
 
+
                     mProductVariation = productDetailDataContainer.getData().getProductVariations();
                     mProductMultimedia.addAll(productDetailDataContainer.getData().getProductMultimedia());
                     mFitAndSizings.addAll(mProductDetailDataContainer.getData().getFitAndSizing());
@@ -313,7 +299,9 @@ public class ProductDetailActivity extends AppCompatActivity implements ProductV
                     if (isBuyNow) {
 
                         AppConstants.LOAD_HOME_FRAGMENT_INDEX = 2; // setting cart fragment index to load
-                        startActivity(new Intent(this, MainActivity.class));
+                        intent = new Intent(this, MainActivity.class);
+                        intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_CLEAR_TASK);
+                        startActivity(intent);
                         finish();
                     } else {
 

@@ -36,6 +36,7 @@
 
                 android:id="@+id/iv_back_product_listing"
                 android:layout_width="0dp"
+                android:padding="@dimen/_12dp"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center_vertical"
                 android:layout_weight=".2"
@@ -51,17 +52,18 @@
                 android:layout_weight=".6"
                 android:text="Head Title"
                 android:textAlignment="center"
+                android:fontFamily="@font/encodesansmedium"
                 android:textColor="@android:color/black"
-                android:textSize="18sp"
-                android:textStyle="bold" />
+                android:textSize="18sp" />
 
             <ImageView
 
                 android:id="@+id/iv_search_product_listing"
                 android:layout_width="0dp"
-                android:layout_height="match_parent"
+                android:layout_height="wrap_content"
                 android:layout_gravity="center_vertical|end"
                 android:layout_weight=".2"
+                android:scaleType="fitCenter"
                 app:srcCompat="@drawable/search_icon" />
 
         </LinearLayout>
@@ -79,6 +81,7 @@
             app:tabIndicator="@color/colorLightRed"
             app:tabIndicatorHeight="0dp"
             app:tabInlineLabel="true"
+            app:tabTextAppearance="@style/tab_text"
             app:tabSelectedTextColor="@android:color/black"
             app:tabTextColor="@android:color/black">
 
@@ -125,6 +128,19 @@
             android:id="@+id/pb_loading_action_products"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <ImageView
+
+            android:id="@+id/iv_empty_state"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:scaleType="fitCenter"
+            android:visibility="gone"
+            android:src="@drawable/search_empty_state"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"

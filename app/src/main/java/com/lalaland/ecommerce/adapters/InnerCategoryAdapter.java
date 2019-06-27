@@ -26,11 +26,12 @@ public class InnerCategoryAdapter extends RecyclerView.Adapter<InnerCategoryAdap
     private InnerCategoryItemBinding mInnerCategoryItemBinding;
     private LayoutInflater inflater;
     private InnerCategoryListener mInnerCategoryListener;
-
+    float width = 0;
     public InnerCategoryAdapter(Context context, InnerCategoryListener innerCategoryListener) {
         mContext = context;
         inflater = LayoutInflater.from(context);
         mInnerCategoryListener = innerCategoryListener;
+        width = getScreenWidth();
     }
 
     @NonNull
@@ -39,7 +40,8 @@ public class InnerCategoryAdapter extends RecyclerView.Adapter<InnerCategoryAdap
 
         mInnerCategoryItemBinding = DataBindingUtil.inflate(inflater, R.layout.inner_category_item, parent, false);
 
-        mInnerCategoryItemBinding.ivInnerCat.getLayoutParams().width = (int) (getScreenWidth() / 5);
+        mInnerCategoryItemBinding.innerCatParent.getLayoutParams().width = (int) (width / 4.8);
+//        mInnerCategoryItemBinding.ivInnerCat.getLayoutParams().height = (int) (getScreenWidth());
         return new InnerCategoryViewHolder(mInnerCategoryItemBinding);
     }
 
@@ -86,6 +88,7 @@ public class InnerCategoryAdapter extends RecyclerView.Adapter<InnerCategoryAdap
         }
 
         void bindHolder(InnerCategory innerCategory) {
+
             this.innerCategoryItemBinding.setInnerCategory(innerCategory);
             this.innerCategoryItemBinding.setAdapter(InnerCategoryAdapter.this);
             this.innerCategoryItemBinding.executePendingBindings();

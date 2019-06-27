@@ -5,6 +5,8 @@ import android.os.Bundle;
 import android.os.Handler;
 import android.view.LayoutInflater;
 import android.view.View;
+import android.widget.AutoCompleteTextView;
+import android.widget.LinearLayout;
 import android.widget.Toast;
 
 import androidx.annotation.Nullable;
@@ -129,6 +131,14 @@ public class MainActivity extends AppCompatActivity {
         setListeners();
         loadInitialFragment();  // load first fragment
 
+
+        // setting search bar text size
+        LinearLayout linearLayout1 = (LinearLayout) activityMainBinding.svItems.getChildAt(0);
+        LinearLayout linearLayout2 = (LinearLayout) linearLayout1.getChildAt(2);
+        LinearLayout linearLayout3 = (LinearLayout) linearLayout2.getChildAt(1);
+        AutoCompleteTextView autoComplete = (AutoCompleteTextView) linearLayout3.getChildAt(0);
+        autoComplete.setTextSize(13);
+
         //  addItemsToBottomNavigation();
     }
 
@@ -158,6 +168,7 @@ public class MainActivity extends AppCompatActivity {
         activityMainBinding.bottomNavigation.setNotification(String.valueOf(AppConstants.CART_COUNTER), 2);
 
 
+/*
         activityMainBinding.bottomNavigation.setOnTabSelectedListener(new AHBottomNavigation.OnTabSelectedListener() {
             @Override
             public boolean onTabSelected(int position, boolean wasSelected) {
@@ -184,7 +195,7 @@ public class MainActivity extends AppCompatActivity {
                     case 1:
 
                         if (selectedFragment == 1)
-                            return false;
+                            return true;
 
                         activityMainBinding.topBar.setVisibility(View.VISIBLE);
                         activityMainBinding.topBarSearch.setVisibility(View.VISIBLE);
@@ -240,6 +251,7 @@ public class MainActivity extends AppCompatActivity {
                 return false;
             }
         });
+*/
     }
 
     private void addBadgeView() {
@@ -264,35 +276,13 @@ public class MainActivity extends AppCompatActivity {
         menuItem.addView(batchLayoutBinding.getRoot());*/
     }
 
-/*    private void refreshBadgeView() {
-        boolean badgeIsVisible = notificationBadge.getVisibility() != VISIBLE;
-        notificationBadge.setVisibility(badgeIsVisible ? VISIBLE : GONE);
-        button.setText(badgeIsVisible ? "Hide badge" : " Show badge");
-    }*/
-
     void setListeners() {
         activityMainBinding.navView.setOnNavigationItemSelectedListener(mOnNavigationItemSelectedListener);
 
         activityMainBinding.ivSvItemFg.setOnClickListener(v -> {
-
-            //  closeKeyboard();
             startActivity(new Intent(MainActivity.this, GlobalSearchActivity.class));
-
         });
 
-    }
-
-    @Override
-    protected void onStart() {
-        super.onStart();
-
-//        addBadgeView();
-    }
-
-    @Override
-    protected void onResume() {
-        super.onResume();
-        // activityMainBinding.bottomNavigation.setNotification(String.valueOf(AppConstants.CART_COUNTER), 2);
     }
 
     void replaceFragment(Fragment fragment, int index) {
@@ -302,12 +292,36 @@ public class MainActivity extends AppCompatActivity {
         getSupportFragmentManager().beginTransaction().replace(R.id.fragment_host, fragment, "fragment_" + index).commit();
     }
 
+    @Override
+    public void onBackPressed() {
+
+        if (selectedFragment == 0) {
+            if (doubleBackToExitPressedOnce) {
+                super.onBackPressed();
+                finish();
+                android.os.Process.killProcess(android.os.Process.myPid());
+                return;
+            }
+
+            this.doubleBackToExitPressedOnce = true;
+            Toast.makeText(this, "Please click back again to exit", Toast.LENGTH_SHORT).show();
+
+            new Handler().postDelayed(() -> doubleBackToExitPressedOnce = false, 2000);
+        } else {
+
+            LOAD_HOME_FRAGMENT_INDEX = 0;
+            activityMainBinding.navView.setSelectedItemId(R.id.navigation_home);
+        }
+
+    }
+
     void loadInitialFragment() {
 
         switch (LOAD_HOME_FRAGMENT_INDEX) {
 
             case 0:
 
+/*
                 activityMainBinding.topBar.setVisibility(View.VISIBLE);
                 activityMainBinding.topBarSearch.setVisibility(View.VISIBLE);
                 activityMainBinding.topBarWithoutSearch.setVisibility(View.GONE);
@@ -315,53 +329,62 @@ public class MainActivity extends AppCompatActivity {
                 activityMainBinding.topBar.setBackgroundColor(getResources().getColor(R.color.colorAccent));
                 activityMainBinding.tvAppName.setText(getResources().getString(R.string.app_name));
                 replaceFragment(HomeFragment.newInstance(), LOAD_HOME_FRAGMENT_INDEX);
+*/
+
+                activityMainBinding.navView.setSelectedItemId(R.id.navigation_home);
+
                 break;
             case 1:
 
-                activityMainBinding.topBar.setVisibility(View.VISIBLE);
+         /*       activityMainBinding.topBar.setVisibility(View.VISIBLE);
                 activityMainBinding.topBarSearch.setVisibility(View.VISIBLE);
                 activityMainBinding.topBarWithoutSearch.setVisibility(View.GONE);
 
-                activityMainBinding.navView.setSelectedItemId(R.id.navigation_category);
 
                 activityMainBinding.topBar.setBackgroundColor(getResources().getColor(R.color.colorAccent));
-                replaceFragment(CategoryFragment.newInstance(), LOAD_HOME_FRAGMENT_INDEX);
+                replaceFragment(CategoryFragment.newInstance(), LOAD_HOME_FRAGMENT_INDEX);*/
+                // setting it to zero
+                selectedFragment = 0;
+                activityMainBinding.navView.setSelectedItemId(R.id.navigation_category);
                 break;
             case 2:
 
-                activityMainBinding.topBar.setVisibility(View.VISIBLE);
+               /* activityMainBinding.topBar.setVisibility(View.VISIBLE);
                 activityMainBinding.topBarSearch.setVisibility(View.GONE);
                 activityMainBinding.topBarWithoutSearch.setVisibility(View.VISIBLE);
 
-                activityMainBinding.navView.setSelectedItemId(R.id.navigation_cart);
 
                 activityMainBinding.topBar.setBackgroundColor(getResources().getColor(android.R.color.white));
                 activityMainBinding.tvFragmentName.setText(getResources().getString(R.string.cart_items));
-                replaceFragment(CartFragment.newInstance(), LOAD_HOME_FRAGMENT_INDEX);
+                replaceFragment(CartFragment.newInstance(), LOAD_HOME_FRAGMENT_INDEX);*/
+
+                activityMainBinding.navView.setSelectedItemId(R.id.navigation_cart);
                 break;
 
             case 3:
 
-                activityMainBinding.topBar.setVisibility(View.VISIBLE);
+              /*  activityMainBinding.topBar.setVisibility(View.VISIBLE);
                 activityMainBinding.topBarSearch.setVisibility(View.GONE);
                 activityMainBinding.topBarWithoutSearch.setVisibility(View.VISIBLE);
 
-                activityMainBinding.navView.setSelectedItemId(R.id.navigation_wish);
 
                 activityMainBinding.topBar.setBackgroundColor(getResources().getColor(android.R.color.white));
                 activityMainBinding.tvFragmentName.setText(getResources().getString(R.string.wish_items));
-                replaceFragment(WishFragment.newInstance(), LOAD_HOME_FRAGMENT_INDEX);
+                replaceFragment(WishFragment.newInstance(), LOAD_HOME_FRAGMENT_INDEX);*/
+
+                activityMainBinding.navView.setSelectedItemId(R.id.navigation_wish);
                 break;
             case 4:
 
-                activityMainBinding.topBar.setVisibility(View.GONE);
+          /*      activityMainBinding.topBar.setVisibility(View.GONE);
                 activityMainBinding.topBarSearch.setVisibility(View.VISIBLE);
                 activityMainBinding.topBarWithoutSearch.setVisibility(View.GONE);
 
-                activityMainBinding.navView.setSelectedItemId(R.id.navigation_account);
 
                 activityMainBinding.tvAppName.setText(getResources().getString(R.string.account));
                 replaceFragment(AccountFragment.newInstance(), LOAD_HOME_FRAGMENT_INDEX);
+*/
+                activityMainBinding.navView.setSelectedItemId(R.id.navigation_account);
                 break;
 
             default:
@@ -373,20 +396,6 @@ public class MainActivity extends AppCompatActivity {
                 activityMainBinding.tvAppName.setText(getResources().getString(R.string.app_name));
                 replaceFragment(HomeFragment.newInstance(), 0);
         }
-    }
-
-    @Override
-    public void onBackPressed() {
-
-        if (doubleBackToExitPressedOnce) {
-            super.onBackPressed();
-            return;
-        }
-
-        this.doubleBackToExitPressedOnce = true;
-        Toast.makeText(this, "Please click back again to exit", Toast.LENGTH_SHORT).show();
-
-        new Handler().postDelayed(() -> doubleBackToExitPressedOnce = false, 2000);
     }
 
     @Override

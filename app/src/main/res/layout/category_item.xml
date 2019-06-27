@@ -26,19 +26,22 @@
         android:clickable="true"
         android:id="@+id/category_item_root"
         android:focusable="true"
+        android:padding="@dimen/_4dp"
         android:onClick="@{(view)->adapter.categoryClicked(view, category)}"
         android:orientation="vertical">
 
         <TextView
 
             android:id="@+id/tv_category_name"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
             android:layout_centerInParent="true"
-            android:text="@{AppUtils.insertNewLine(category.name)}"
+            android:fontFamily="@font/encodesansregular"
             android:textAlignment="center"
+            android:gravity="center"
+            android:text="@{category.name}"
             android:textColor="@android:color/black"
-            android:textSize="16sp" />
+            android:textSize="13sp" />
 
     </RelativeLayout>
 </layout>

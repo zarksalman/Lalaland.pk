@@ -384,6 +384,8 @@ public class ActionProductListingActivity extends AppCompatActivity implements A
                         parameter.put(LENGTH, String.valueOf(length));
                         parameter.put(SORT_BY, sortBy);
                     } else {
+
+                        activityProductListingBinding.ivEmptyState.setVisibility(View.VISIBLE);
                         isItemsNotFound = true;
                         Toast.makeText(this, "Items not found", Toast.LENGTH_SHORT).show();
                     }
@@ -407,9 +409,17 @@ public class ActionProductListingActivity extends AppCompatActivity implements A
     @Override
     public void onBackPressed() {
 
+/*
+        Intent intent = new Intent(this, MainActivity.class);
+
         if (isFromCategories) {
-            startActivity(new Intent(this, MainActivity.class));
-        }
+            LOAD_HOME_FRAGMENT_INDEX = 1;
+            intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_CLEAR_TASK);
+            startActivity(intent);
+        } else
+            LOAD_HOME_FRAGMENT_INDEX = 0;
+*/
+
         finish();
     }
 

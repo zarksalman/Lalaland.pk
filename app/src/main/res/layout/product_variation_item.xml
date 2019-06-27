@@ -26,7 +26,7 @@
         android:layout_width="@dimen/_40dp"
         android:layout_height="@dimen/_40dp"
         android:layout_margin="@dimen/_4dp"
-        android:background="@drawable/bg_round_corner_transparent_accent"
+        android:background="@drawable/bg_round_corner_transparent_gray"
         android:onClick="@{()->adapter.onVariationClicked(productVariation)}">
 
         <TextView
@@ -38,7 +38,7 @@
             android:layout_centerVertical="true"
             android:text="@{productVariation.attributeValue}"
             android:textAlignment="center"
-            android:textColor="@android:color/black"
+            android:textColor="@color/colorDarkGray"
             android:textSize="13sp"
             tools:text="@tools:sample/full_names" />
 

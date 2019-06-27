@@ -159,6 +159,14 @@ public class CheckoutScreen extends AppCompatActivity {
             }
         });
 
+        activityCheckoutScreenBinding.btnChangePaymentType.setOnClickListener(v -> {
+            startActivityForResult(new Intent(CheckoutScreen.this, ChangePaymentActivity.class), 201);
+        });
+
+        activityCheckoutScreenBinding.btnAddAddress.setOnClickListener(v -> {
+            startActivityForResult(new Intent(CheckoutScreen.this, ChangeShippingAddress.class), 202);
+        });
+        
         activityCheckoutScreenBinding.ivCloseCheckoutScreen.setOnClickListener(v -> {
             finish();
         });
@@ -184,8 +192,7 @@ public class CheckoutScreen extends AppCompatActivity {
         } else {
 
             activityCheckoutScreenBinding.tvUserName.setText(userAddresses.getUserNameAddress());
-            activityCheckoutScreenBinding.tvUserAddress.setText(userAddresses.getShippingAddress());
-            activityCheckoutScreenBinding.tvUserCityPostalCode.setText(String.valueOf(userAddresses.getPostalCode()));
+            activityCheckoutScreenBinding.tvUserAddress.setText(userAddresses.getShippingAddress().concat(" ").concat(String.valueOf(userAddresses.getPostalCode())));
             activityCheckoutScreenBinding.tvUserMobile.setText(userAddresses.getPhone());
             activityCheckoutScreenBinding.btnCheckout.setBackgroundColor(getResources().getColor(R.color.colorAccent));
             activityCheckoutScreenBinding.addUserAddress.setVisibility(View.GONE);
@@ -280,21 +287,6 @@ public class CheckoutScreen extends AppCompatActivity {
         });
     }
 
-    @Override
-    protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
-        super.onActivityResult(requestCode, resultCode, data);
-
-        if (resultCode == Activity.RESULT_OK) {
-            if (requestCode == Integer.parseInt(SUCCESS_CODE)) {
-                isUserAddressExist();
-            } else if (requestCode == 1) {
-                isUserAddressExist();
-            }
-        } else {
-            Toast.makeText(this, "You should fill required fields, to place order", Toast.LENGTH_SHORT).show();
-        }
-    }
-
     private void getMerchantList() {
 
         DeliveryChargesOfMerchantItem merchantItem;
@@ -359,4 +351,31 @@ public class CheckoutScreen extends AppCompatActivity {
 
         }
     }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+
+        if (resultCode == Activity.RESULT_OK) {
+            if (requestCode == Integer.parseInt(SUCCESS_CODE)) {
+                isUserAddressExist();
+            } else if (requestCode == 1) {
+                isUserAddressExist();
+            } else if (requestCode == 201) {
+
+                if (CASH_TRANSFER_TYPE == 1) {
+                    activityCheckoutScreenBinding.tvPaymentType.setText(getResources().getString(R.string.cash_on_delivery));
+                } else {
+                    activityCheckoutScreenBinding.tvPaymentType.setText(getResources().getString(R.string.bank_transfer));
+                }
+
+                CASH_TRANSFER_TYPE = 1;
+
+            }
+        } else {
+            Toast.makeText(this, "You should fill required fields, to place order", Toast.LENGTH_SHORT).show();
+        }
+    }
+
+
 }

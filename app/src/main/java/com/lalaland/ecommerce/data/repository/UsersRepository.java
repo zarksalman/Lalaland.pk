@@ -273,6 +273,29 @@ public class UsersRepository {
         return updateUserDataContainerMutableLiveData;
     }
 
+    public LiveData<AddressDataContainer> getAddresses(String token) {
+
+        addressDataContainerMutableLiveData = new MutableLiveData<>();
+
+        lalalandServiceApi.getAddress(token).enqueue(new Callback<AddressDataContainer>() {
+            @Override
+            public void onResponse(Call<AddressDataContainer> call, Response<AddressDataContainer> response) {
+
+                if (response.isSuccessful()) {
+                    addressDataContainerMutableLiveData.postValue(response.body());
+                } else {
+                    addressDataContainerMutableLiveData.postValue(null);
+                }
+            }
+
+            @Override
+            public void onFailure(Call<AddressDataContainer> call, Throwable t) {
+                addressDataContainerMutableLiveData.postValue(null);
+            }
+        });
+
+        return addressDataContainerMutableLiveData;
+    }
     private void checkResponseSource(Response response) {
 
         if (response.raw().networkResponse() != null) {

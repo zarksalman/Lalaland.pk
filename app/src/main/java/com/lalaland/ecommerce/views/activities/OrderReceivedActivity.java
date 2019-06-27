@@ -1,5 +1,6 @@
 package com.lalaland.ecommerce.views.activities;
 
+import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
@@ -22,7 +23,7 @@ import java.util.List;
 import static com.lalaland.ecommerce.helpers.AppConstants.ORDER_TOTAL;
 import static com.lalaland.ecommerce.helpers.AppConstants.PRODUCT_ID;
 
-public class OrderReceivedActivity extends AppCompatActivity implements RecommendedProductsAdapter.ProductListener {
+public class OrderReceivedActivity extends AppCompatActivity {
 
     private ActivityOrderReceivedBinding activityOrderReceivedBinding;
     private List<Product> recommendedProductList = new ArrayList<>();
@@ -44,6 +45,9 @@ public class OrderReceivedActivity extends AppCompatActivity implements Recommen
     }
 
     private void setInitValues() {
+
+        android.view.Display display = ((android.view.WindowManager) getSystemService(Context.WINDOW_SERVICE)).getDefaultDisplay();
+        activityOrderReceivedBinding.topBar.getLayoutParams().height = ((int) (display.getHeight() * 1.5));
 
         activityOrderReceivedBinding.tvTotalAmount.setText(AppUtils.formatPriceString(totalBill));
         activityOrderReceivedBinding.setListener(this);
@@ -68,22 +72,32 @@ public class OrderReceivedActivity extends AppCompatActivity implements Recommen
 
     private void setAdapter() {
 
-        RecommendedProductsAdapter productAdapter = new RecommendedProductsAdapter(this, this);
+/*
+        ProductAdapter recommendationProductAdapter = new ProductAdapter(this, this);
+        recommendationProductAdapter.setData(recommendedProductList);
+        activityOrderReceivedBinding.rvRecommendedProducts.setAdapter(recommendationProductAdapter);
+
+        activityOrderReceivedBinding.rvRecommendedProducts.setLayoutManager(new GridLayoutManager(this, 2));
+*/
+
+
+        RecommendedProductsAdapter productAdapter = new RecommendedProductsAdapter(this, new RecommendedProductsAdapter.ProductListener() {
+            @Override
+            public void onProductProductClicked(Product product) {
+                AppConstants.LOAD_HOME_FRAGMENT_INDEX = 0;
+                Intent intent = new Intent(OrderReceivedActivity.this, ProductDetailActivity.class);
+                intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_CLEAR_TASK);
+                intent.putExtra(PRODUCT_ID, product.getId());
+                startActivity(intent);
+                finish();
+            }
+        });
 
         activityOrderReceivedBinding.rvRecommendedProducts.setHasFixedSize(true);
         activityOrderReceivedBinding.rvRecommendedProducts.setLayoutManager(new LinearLayoutManager(this, RecyclerView.HORIZONTAL, false));
         activityOrderReceivedBinding.rvRecommendedProducts.setAdapter(productAdapter);
         productAdapter.setData(recommendedProductList);
-    }
 
-    @Override
-    public void onProductProductClicked(Product product) {
-        AppConstants.LOAD_HOME_FRAGMENT_INDEX = 0;
-        Intent intent = new Intent(this, ProductDetailActivity.class);
-        intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
-        intent.putExtra(PRODUCT_ID, product.getId());
-        startActivity(intent);
-        finish();
     }
 
     @Override

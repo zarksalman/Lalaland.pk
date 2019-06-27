@@ -3,6 +3,7 @@ package com.lalaland.ecommerce.views.fragments.homeFragments;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.os.Handler;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -141,8 +142,14 @@ public class HomeFragment extends Fragment implements ActionAdapter.ActionClickL
 
                 // setRecommendationProducts();
 
-                fragmentHomeBinding.containersParent.setVisibility(View.VISIBLE);
-                fragmentHomeBinding.pbLoading.setVisibility(View.GONE);
+                new Handler().postDelayed(() -> {
+
+                    fragmentHomeBinding.containersParent.setVisibility(View.VISIBLE);
+                    fragmentHomeBinding.pbLoading.setVisibility(View.GONE);
+
+                }, 2000);
+
+
             }
         });
 

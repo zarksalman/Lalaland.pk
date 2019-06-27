@@ -75,10 +75,13 @@ public class ProductVariationAdapter extends RecyclerView.Adapter<ProductVariati
 
         void bindHolder(ProductVariation productVariation) {
 
-            if (selectedPosition == getAdapterPosition())
+            if (selectedPosition == getAdapterPosition()) {
                 mProductVariationItemBinding.tvVariation.setTextColor(mContext.getResources().getColor(R.color.colorPrimary));
-            else
+                mProductVariationItemBinding.variationRoot.setBackground(mContext.getResources().getDrawable(R.drawable.bg_round_corner_transparent_accent));
+            } else {
                 mProductVariationItemBinding.tvVariation.setTextColor(mContext.getResources().getColor(android.R.color.black));
+                mProductVariationItemBinding.variationRoot.setBackground(mContext.getResources().getDrawable(R.drawable.bg_round_corner_transparent_gray));
+            }
 
             mProductVariationItemBinding.setProductVariation(productVariation);
             mProductVariationItemBinding.setAdapter(ProductVariationAdapter.this);

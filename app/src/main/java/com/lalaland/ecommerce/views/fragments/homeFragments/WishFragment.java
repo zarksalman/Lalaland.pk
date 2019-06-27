@@ -103,10 +103,14 @@ public class WishFragment extends Fragment implements WishlistProductAdapter.Pro
 
                     wishListProductList.addAll(wishListContainer.getData().getWishListProducts());
 
-                    if (wishListProductList.size() > 0)
+                    if (wishListProductList.size() > 0) {
+                        fragmentWishBinding.rvWishlist.setVisibility(View.VISIBLE);
                         setAdapter();
+                    }
                     else {
                         fragmentWishBinding.ivEmptyState.setVisibility(View.VISIBLE);
+                        fragmentWishBinding.tvEmptyState.setVisibility(View.VISIBLE);
+                        fragmentWishBinding.rvWishlist.setVisibility(View.GONE);
                         fragmentWishBinding.pbLoading.setVisibility(View.GONE);
                     }
 

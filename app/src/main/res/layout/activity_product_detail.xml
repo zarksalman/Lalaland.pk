@@ -30,7 +30,7 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:layout_above="@+id/btns_container"
-            android:layout_alignParentTop="false"
+            android:layout_alignParentTop="true"
             android:scrollbars="none"
             android:visibility="visible">
 
@@ -451,12 +451,12 @@
             <ImageView
 
                 android:id="@+id/btn_back"
-                android:layout_width="@dimen/_50dp"
-                android:layout_height="@dimen/_50dp"
+                android:layout_width="50dp"
+                android:layout_height="50dp"
                 android:layout_alignParentStart="true"
                 android:background="@drawable/back_arrow_bg_oval_corner_gray"
                 android:padding="@dimen/_8dp"
-                android:scaleType="center"
+                android:scaleType="centerInside"
                 android:layout_centerVertical="true"
                 app:srcCompat="@drawable/back_arrow_icon" />
 

@@ -76,11 +76,27 @@
             android:id="@+id/tv_cart_empty_state"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:src="@drawable/cart_shipping_empty_state"
+            android:scaleType="fitCenter"
+            android:src="@drawable/cart_empty_state"
             android:visibility="gone"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
+
+        <TextView
+            android:id="@+id/tv_empty_state"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_margin="@dimen/_16dp"
+            android:text="@string/no_item_found_in_your_cart"
+            android:textColor="@color/colorDarkGray"
+            android:textSize="14sp"
+            android:visibility="gone"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/tv_cart_empty_state" />
+
+
     </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>

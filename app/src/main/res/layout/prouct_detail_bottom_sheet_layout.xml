@@ -86,6 +86,7 @@
             android:onClick="@{()->variationListener.hideBottomSheet()}"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintTop_toTopOf="parent"
+            android:background="@drawable/back_arrow_bg_oval_corner_gray"
             app:srcCompat="@drawable/close_icon" />
 
         <ImageView
@@ -103,7 +104,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_margin="@dimen/_4dp"
-            android:text="@string/size"
+            android:text="@string/size_without_colon"
             android:textSize="16sp"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/iv_line_1" />
@@ -116,6 +117,7 @@
             android:layout_margin="@dimen/_4dp"
             android:orientation="horizontal"
             app:layout_constraintEnd_toEndOf="parent"
+            tools:listitem="@layout/product_variation_item"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/tv_product_size_title" />
 

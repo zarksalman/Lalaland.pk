@@ -75,7 +75,7 @@ public interface LalalandServiceApi {
     Call<DeliveryOptionDataContainer> getDeliveryOption(@QueryMap Map<String, String> parameter);
 
     @POST("addressBook")
-    Call<DeliveryChargesContainer> getAddress(@Header("token") String token);
+    Call<AddressDataContainer> getAddress(@Header("token") String token);
 
     @POST("cart")
     Call<CartContainer> getCart(@HeaderMap Map<String, String> headers);

@@ -154,4 +154,24 @@ public class AppUtils {
         }
         imm.hideSoftInputFromWindow(view.getWindowToken(), 0);
     }
+
+    public static String concatString(String str1, String str2) {
+
+        return str1.concat(" ").concat(str2);
+    }
+
+    public static String concatString(Integer str1, String str2) {
+
+        return String.valueOf(str1).concat(" ").concat(str2);
+    }
+
+    public static String concatString(String str1, Integer str2) {
+
+        return str1.concat(" ").concat(String.valueOf(str2));
+    }
+
+    public static String concatString(Integer str1, Integer str2) {
+
+        return String.valueOf(str1).concat(" ").concat(String.valueOf(str2));
+    }
 }

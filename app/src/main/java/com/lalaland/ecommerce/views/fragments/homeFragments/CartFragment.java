@@ -116,14 +116,13 @@ public class CartFragment extends Fragment implements View.OnClickListener, Cart
                 if (cartContainer != null) {
 
                     if (cartContainer.getCode().equals(SUCCESS_CODE)) {
+
                         cartItemList = cartContainer.getData().getCartItems();
                         AppConstants.userAddresses = cartContainer.getData().getUserAddresses();
 
                         getMerchantList();
                         addMerchantProductList();
-
                         setCartAdapter();
-
                         setSelectedCartItemList();
 
                         Log.d(TAG, String.valueOf(cartContainer.getData().getCartItems().size()));
@@ -226,9 +225,12 @@ public class CartFragment extends Fragment implements View.OnClickListener, Cart
 
         if (cartItemList.size() == 0) {
             fragmentCartBinding.tvCartEmptyState.setVisibility(View.VISIBLE);
+            fragmentCartBinding.tvEmptyState.setVisibility(View.VISIBLE);
+
             fragmentCartBinding.btnCheckout.setOnClickListener(null);
         } else {
             fragmentCartBinding.tvCartEmptyState.setVisibility(View.GONE);
+            fragmentCartBinding.tvEmptyState.setVisibility(View.GONE);
             fragmentCartBinding.btnCheckout.setOnClickListener(this);
         }
 
@@ -322,8 +324,12 @@ public class CartFragment extends Fragment implements View.OnClickListener, Cart
 
                     if (cartListModelList.size() < 1) {
                         fragmentCartBinding.tvCartEmptyState.setVisibility(View.VISIBLE);
-                    } else
+                        fragmentCartBinding.tvEmptyState.setVisibility(View.VISIBLE);
+                        AppConstants.CART_COUNTER = 0;
+                    } else {
                         fragmentCartBinding.tvCartEmptyState.setVisibility(View.GONE);
+                        fragmentCartBinding.tvEmptyState.setVisibility(View.VISIBLE);
+                    }
 
                     Toast.makeText(getContext(), REMOVED_FROM_CART, Toast.LENGTH_SHORT).show();
                 } else {

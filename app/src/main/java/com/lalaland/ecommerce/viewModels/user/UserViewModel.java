@@ -6,7 +6,6 @@ import androidx.annotation.NonNull;
 import androidx.lifecycle.AndroidViewModel;
 import androidx.lifecycle.LiveData;
 
-import com.lalaland.ecommerce.data.models.login.Login;
 import com.lalaland.ecommerce.data.models.logout.BasicResponse;
 import com.lalaland.ecommerce.data.models.updateUserData.UpdateUserDataContainer;
 import com.lalaland.ecommerce.data.models.userAddressBook.AddressDataContainer;
@@ -36,4 +35,7 @@ public class UserViewModel extends AndroidViewModel {
         return usersRepository.changePassword(token,parameter);
     }
 
+    public LiveData<AddressDataContainer> getAddresses(String token) {
+        return usersRepository.getAddresses(token);
+    }
 }
