@@ -42,7 +42,8 @@ public class AddressCreationActivity extends AppCompatActivity {
     private String city, cityId;
     private boolean is_primary = false;
     private Map<String, String> parameter = new HashMap<>();
-
+    private boolean isEditAddress = false;
+    private UserAddresses editUserAddresses;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -53,7 +54,30 @@ public class AddressCreationActivity extends AppCompatActivity {
         appPreference = AppPreference.getInstance(this);
         token = appPreference.getString(SIGNIN_TOKEN);
 
-        userAddresses = new UserAddresses();
+        isEditAddress = getIntent().getBooleanExtra("is_edit_address", false);
+
+        if (isEditAddress) {
+            editUserAddresses = getIntent().getParcelableExtra("user_address");
+            activityAddressCreationBinding.cbDefault.setVisibility(View.GONE);
+
+            String[] fullName = editUserAddresses.getUserNameAddress().split(" ");
+            activityAddressCreationBinding.etFirstName.setText(fullName[0]);
+            activityAddressCreationBinding.etLastName.setText(fullName[1]);
+            activityAddressCreationBinding.etCity.setText(editUserAddresses.getCityName());
+            activityAddressCreationBinding.etPostalCode.setText(String.valueOf(editUserAddresses.getPostalCode()));
+            activityAddressCreationBinding.etAddress.setText(String.valueOf(editUserAddresses.getShippingAddress()));
+
+            cityId = String.valueOf(editUserAddresses.getCityId());
+
+            if (editUserAddresses.getIsPrimary() == 0)
+                activityAddressCreationBinding.cbDefault.setChecked(false);
+            else
+                activityAddressCreationBinding.cbDefault.setChecked(true);
+
+        } else {
+            userAddresses = new UserAddresses();
+        }
+
         activityAddressCreationBinding.setClickListener(this);
 
         activityAddressCreationBinding.etCity.setOnClickListener(v -> {
@@ -90,40 +114,62 @@ public class AddressCreationActivity extends AppCompatActivity {
             parameter.put("postal_code", postal_code);
 
 
-            if (is_primary) {
-                parameter.put("is_primary", "1");
-                userAddresses.setIsPrimary(1);
-            } else {
-                parameter.put("is_primary", "0");
-                userAddresses.setIsPrimary(0);
-            }
+            if (isEditAddress) {
 
-            userViewModel.addNewAddress(token, parameter).observe(this, addressDataContainer -> {
+                if (is_primary) {
+                    parameter.put("is_primary", "1");
+                } else {
+                    parameter.put("is_primary", "0");
+                }
 
-                if (addressDataContainer != null) {
+                parameter.put("address_id", String.valueOf(editUserAddresses.getAddressId()));
+                userViewModel.editAddress(token, parameter).observe(this, addressDataContainer -> {
 
-                    if (addressDataContainer.getCode().equals(SUCCESS_CODE)) {
-
+                    if (addressDataContainer != null) {
                         AppConstants.userAddresses = addressDataContainer.getData().getUserAddress().get(0);
-                        Log.d(AppConstants.TAG, addressDataContainer.getMsg());
                         Toast.makeText(this, addressDataContainer.getMsg(), Toast.LENGTH_SHORT).show();
-                        //startActivity(new Intent(this, CheckoutScreen.class));
                         setResult(RESULT_OK);
                         finish();
-                    } else if (addressDataContainer.getCode().equals(VALIDATION_FAIL_CODE)) {
+                    }
+                });
 
-                        Log.d(AppConstants.TAG, addressDataContainer.getMsg());
-                        Toast.makeText(this, addressDataContainer.getMsg(), Toast.LENGTH_SHORT).show();
+            } else {
+
+                if (is_primary) {
+                    parameter.put("is_primary", "1");
+                    userAddresses.setIsPrimary(1);
+                } else {
+                    parameter.put("is_primary", "0");
+                    userAddresses.setIsPrimary(0);
+                }
+
+                userViewModel.addNewAddress(token, parameter).observe(this, addressDataContainer -> {
+
+                    if (addressDataContainer != null) {
+
+                        if (addressDataContainer.getCode().equals(SUCCESS_CODE)) {
+
+                            AppConstants.userAddresses = addressDataContainer.getData().getUserAddress().get(0);
+                            Log.d(AppConstants.TAG, addressDataContainer.getMsg());
+                            Toast.makeText(this, addressDataContainer.getMsg(), Toast.LENGTH_SHORT).show();
+                            //startActivity(new Intent(this, CheckoutScreen.class));
+                            setResult(RESULT_OK);
+                            finish();
+                        } else if (addressDataContainer.getCode().equals(VALIDATION_FAIL_CODE)) {
+
+                            Log.d(AppConstants.TAG, addressDataContainer.getMsg());
+                            Toast.makeText(this, addressDataContainer.getMsg(), Toast.LENGTH_SHORT).show();
+                        } else {
+
+                            Log.d(AppConstants.TAG, GENERAL_ERROR);
+                            Toast.makeText(this, GENERAL_ERROR, Toast.LENGTH_SHORT).show();
+                        }
                     } else {
-
                         Log.d(AppConstants.TAG, GENERAL_ERROR);
                         Toast.makeText(this, GENERAL_ERROR, Toast.LENGTH_SHORT).show();
                     }
-                } else {
-                    Log.d(AppConstants.TAG, GENERAL_ERROR);
-                    Toast.makeText(this, GENERAL_ERROR, Toast.LENGTH_SHORT).show();
-                }
-            });
+                });
+            }
         }
 
         activityAddressCreationBinding.pbLoading.setVisibility(View.GONE);

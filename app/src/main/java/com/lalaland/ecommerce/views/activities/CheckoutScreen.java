@@ -80,7 +80,6 @@ public class CheckoutScreen extends AppCompatActivity {
 
         getMerchantList();
         addMerchantProductList();
-
         isUserAddressExist();
     }
 
@@ -93,6 +92,7 @@ public class CheckoutScreen extends AppCompatActivity {
         activityCheckoutScreenBinding.tvTotalBalance.setText(AppUtils.formatPriceString(totalBill));
 
         if (Double.parseDouble(totalBill) >= PAYMENT_LOWEST_LIMIT) {
+            activityCheckoutScreenBinding.tvPaymentType.setText(getResources().getString(R.string.bank_transfer));
             activityCheckoutScreenBinding.rbBankTransfer.setChecked(true);
             activityCheckoutScreenBinding.rgPaymentType.setOnCheckedChangeListener(null);
         }
@@ -160,7 +160,10 @@ public class CheckoutScreen extends AppCompatActivity {
         });
 
         activityCheckoutScreenBinding.btnChangePaymentType.setOnClickListener(v -> {
-            startActivityForResult(new Intent(CheckoutScreen.this, ChangePaymentActivity.class), 201);
+
+            Intent intent = new Intent(CheckoutScreen.this, ChangePaymentActivity.class);
+            intent.putExtra("total_bill", totalBill);
+            startActivityForResult(intent, 201);
         });
 
         activityCheckoutScreenBinding.btnAddAddress.setOnClickListener(v -> {
@@ -192,6 +195,7 @@ public class CheckoutScreen extends AppCompatActivity {
         } else {
 
             activityCheckoutScreenBinding.tvUserName.setText(userAddresses.getUserNameAddress());
+            activityCheckoutScreenBinding.tvUserCity.setText(userAddresses.getCityName());
             activityCheckoutScreenBinding.tvUserAddress.setText(userAddresses.getShippingAddress().concat(" ").concat(String.valueOf(userAddresses.getPostalCode())));
             activityCheckoutScreenBinding.tvUserMobile.setText(userAddresses.getPhone());
             activityCheckoutScreenBinding.btnCheckout.setBackgroundColor(getResources().getColor(R.color.colorAccent));
@@ -203,7 +207,9 @@ public class CheckoutScreen extends AppCompatActivity {
         }
     }
     public void addNewAddress(View view) {
-        startActivityForResult(new Intent(this, AddressCreationActivity.class), 1);
+        Intent intent = new Intent(this, AddressCreationActivity.class);
+        intent.putExtra("is_edit_address", false);
+        startActivityForResult(intent, 1);
     }
 
     void setCartAdapter() {
@@ -371,9 +377,9 @@ public class CheckoutScreen extends AppCompatActivity {
 
                 CASH_TRANSFER_TYPE = 1;
 
+            } else if (requestCode == 202) {
+                isUserAddressExist();
             }
-        } else {
-            Toast.makeText(this, "You should fill required fields, to place order", Toast.LENGTH_SHORT).show();
         }
     }
 

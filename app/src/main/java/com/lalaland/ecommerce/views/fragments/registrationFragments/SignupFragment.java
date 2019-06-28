@@ -2,7 +2,9 @@ package com.lalaland.ecommerce.views.fragments.registrationFragments;
 
 
 import android.app.Activity;
+import android.app.AlertDialog;
 import android.app.DatePickerDialog;
+import android.app.Dialog;
 import android.os.Bundle;
 import android.util.Log;
 import android.util.Patterns;
@@ -14,6 +16,7 @@ import android.widget.RadioButton;
 import android.widget.Toast;
 
 import androidx.databinding.DataBindingUtil;
+import androidx.fragment.app.DialogFragment;
 import androidx.lifecycle.ViewModelProviders;
 
 import com.lalaland.ecommerce.R;
@@ -311,13 +314,18 @@ public class SignupFragment extends BaseRegistrationFragment {
         // context might be null
         if (getContext() != null) {
 
-            DatePickerDialog dialog = new DatePickerDialog(getContext(), date,
+            DatePickerDialog dialog = new DatePickerDialog(getContext(),
+                    date,
                     dobCalender.get(Calendar.YEAR),
                     dobCalender.get(Calendar.MONTH),
                     dobCalender.get(Calendar.DAY_OF_MONTH));
 
             dialog.getDatePicker().setMaxDate(System.currentTimeMillis());
+
+            dialog.getDatePicker().setCalendarViewShown(true);
             dialog.show();
+
+
         }
     }
 
@@ -337,5 +345,6 @@ public class SignupFragment extends BaseRegistrationFragment {
     void showToast(String message) {
         Toast.makeText(getContext(), message, Toast.LENGTH_LONG).show();
     }
+
 
 }

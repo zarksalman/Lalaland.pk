@@ -1,16 +1,17 @@
 package com.lalaland.ecommerce.views.activities;
 
+import android.app.AlertDialog;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
-import android.os.Handler;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.AutoCompleteTextView;
 import android.widget.LinearLayout;
-import android.widget.Toast;
 
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.content.ContextCompat;
 import androidx.databinding.DataBindingUtil;
 import androidx.fragment.app.Fragment;
 
@@ -23,6 +24,7 @@ import com.lalaland.ecommerce.R;
 import com.lalaland.ecommerce.databinding.ActivityMainBinding;
 import com.lalaland.ecommerce.helpers.AppConstants;
 import com.lalaland.ecommerce.helpers.AppPreference;
+import com.lalaland.ecommerce.listeners.CloseAppListener;
 import com.lalaland.ecommerce.views.fragments.homeFragments.AccountFragment;
 import com.lalaland.ecommerce.views.fragments.homeFragments.CartFragment;
 import com.lalaland.ecommerce.views.fragments.homeFragments.CategoryFragment;
@@ -32,12 +34,13 @@ import com.lalaland.ecommerce.views.fragments.homeFragments.WishFragment;
 import static com.lalaland.ecommerce.helpers.AppConstants.LOAD_HOME_FRAGMENT_INDEX;
 import static com.lalaland.ecommerce.helpers.AppConstants.SIGNIN_TOKEN;
 
-public class MainActivity extends AppCompatActivity {
+public class MainActivity extends AppCompatActivity implements CloseAppListener {
     private ActivityMainBinding activityMainBinding;
     private AppPreference appPreference;
     private int selectedFragment = 1;
     boolean doubleBackToExitPressedOnce = false;
     String token;
+    AlertDialog exitDialog;
 
     private BottomNavigationView.OnNavigationItemSelectedListener mOnNavigationItemSelectedListener
             = item -> {
@@ -130,7 +133,7 @@ public class MainActivity extends AppCompatActivity {
         token = appPreference.getString(SIGNIN_TOKEN);
         setListeners();
         loadInitialFragment();  // load first fragment
-
+        prepareExitDialog();
 
         // setting search bar text size
         LinearLayout linearLayout1 = (LinearLayout) activityMainBinding.svItems.getChildAt(0);
@@ -295,8 +298,14 @@ public class MainActivity extends AppCompatActivity {
     @Override
     public void onBackPressed() {
 
+        showExitDialog();
+    }
+
+    private void showExitDialog() {
+
         if (selectedFragment == 0) {
-            if (doubleBackToExitPressedOnce) {
+            /*if (doubleBackToExitPressedOnce)
+            {
                 super.onBackPressed();
                 finish();
                 android.os.Process.killProcess(android.os.Process.myPid());
@@ -305,85 +314,52 @@ public class MainActivity extends AppCompatActivity {
 
             this.doubleBackToExitPressedOnce = true;
             Toast.makeText(this, "Please click back again to exit", Toast.LENGTH_SHORT).show();
-
             new Handler().postDelayed(() -> doubleBackToExitPressedOnce = false, 2000);
+            */
+
+
+            if (exitDialog != null) {
+
+                exitDialog.show();
+                exitDialog.getButton(DialogInterface.BUTTON_NEUTRAL).setTextColor(ContextCompat.getColor(this, R.color.colorPrimary));
+                exitDialog.getButton(DialogInterface.BUTTON_NEUTRAL).setTransformationMethod(null);
+                exitDialog.getButton(DialogInterface.BUTTON_NEGATIVE).setTextColor(ContextCompat.getColor(this, android.R.color.darker_gray));
+                exitDialog.getButton(DialogInterface.BUTTON_NEGATIVE).setTransformationMethod(null);
+                exitDialog.getButton(DialogInterface.BUTTON_POSITIVE).setTextColor(ContextCompat.getColor(this, R.color.colorPrimary));
+                exitDialog.getButton(DialogInterface.BUTTON_POSITIVE).setTransformationMethod(null);
+            }
+
         } else {
 
             LOAD_HOME_FRAGMENT_INDEX = 0;
             activityMainBinding.navView.setSelectedItemId(R.id.navigation_home);
         }
-
     }
-
     void loadInitialFragment() {
 
         switch (LOAD_HOME_FRAGMENT_INDEX) {
 
             case 0:
 
-/*
-                activityMainBinding.topBar.setVisibility(View.VISIBLE);
-                activityMainBinding.topBarSearch.setVisibility(View.VISIBLE);
-                activityMainBinding.topBarWithoutSearch.setVisibility(View.GONE);
-
-                activityMainBinding.topBar.setBackgroundColor(getResources().getColor(R.color.colorAccent));
-                activityMainBinding.tvAppName.setText(getResources().getString(R.string.app_name));
-                replaceFragment(HomeFragment.newInstance(), LOAD_HOME_FRAGMENT_INDEX);
-*/
-
                 activityMainBinding.navView.setSelectedItemId(R.id.navigation_home);
 
                 break;
             case 1:
-
-         /*       activityMainBinding.topBar.setVisibility(View.VISIBLE);
-                activityMainBinding.topBarSearch.setVisibility(View.VISIBLE);
-                activityMainBinding.topBarWithoutSearch.setVisibility(View.GONE);
-
-
-                activityMainBinding.topBar.setBackgroundColor(getResources().getColor(R.color.colorAccent));
-                replaceFragment(CategoryFragment.newInstance(), LOAD_HOME_FRAGMENT_INDEX);*/
                 // setting it to zero
                 selectedFragment = 0;
                 activityMainBinding.navView.setSelectedItemId(R.id.navigation_category);
                 break;
             case 2:
 
-               /* activityMainBinding.topBar.setVisibility(View.VISIBLE);
-                activityMainBinding.topBarSearch.setVisibility(View.GONE);
-                activityMainBinding.topBarWithoutSearch.setVisibility(View.VISIBLE);
-
-
-                activityMainBinding.topBar.setBackgroundColor(getResources().getColor(android.R.color.white));
-                activityMainBinding.tvFragmentName.setText(getResources().getString(R.string.cart_items));
-                replaceFragment(CartFragment.newInstance(), LOAD_HOME_FRAGMENT_INDEX);*/
-
                 activityMainBinding.navView.setSelectedItemId(R.id.navigation_cart);
                 break;
 
             case 3:
 
-              /*  activityMainBinding.topBar.setVisibility(View.VISIBLE);
-                activityMainBinding.topBarSearch.setVisibility(View.GONE);
-                activityMainBinding.topBarWithoutSearch.setVisibility(View.VISIBLE);
-
-
-                activityMainBinding.topBar.setBackgroundColor(getResources().getColor(android.R.color.white));
-                activityMainBinding.tvFragmentName.setText(getResources().getString(R.string.wish_items));
-                replaceFragment(WishFragment.newInstance(), LOAD_HOME_FRAGMENT_INDEX);*/
-
                 activityMainBinding.navView.setSelectedItemId(R.id.navigation_wish);
                 break;
             case 4:
 
-          /*      activityMainBinding.topBar.setVisibility(View.GONE);
-                activityMainBinding.topBarSearch.setVisibility(View.VISIBLE);
-                activityMainBinding.topBarWithoutSearch.setVisibility(View.GONE);
-
-
-                activityMainBinding.tvAppName.setText(getResources().getString(R.string.account));
-                replaceFragment(AccountFragment.newInstance(), LOAD_HOME_FRAGMENT_INDEX);
-*/
                 activityMainBinding.navView.setSelectedItemId(R.id.navigation_account);
                 break;
 
@@ -409,5 +385,29 @@ public class MainActivity extends AppCompatActivity {
                 loadInitialFragment();
             }
         }
+    }
+
+    private void prepareExitDialog() {
+
+        View dialogView = LayoutInflater.from(this).inflate(R.layout.exit_dialogue_layout, null);
+
+        AlertDialog.Builder dialogBuilder = new AlertDialog.Builder(this);
+        exitDialog = dialogBuilder.create();
+        exitDialog.setCancelable(false);
+        exitDialog.setView(dialogView);
+
+        exitDialog.setButton(DialogInterface.BUTTON_NEGATIVE, getText(R.string.no), (dialog, which) -> {
+            dialog.dismiss();
+        });
+
+        exitDialog.setButton(DialogInterface.BUTTON_POSITIVE, getText(R.string.yes), (dialog, which) -> {
+            closeApp();
+        });
+    }
+
+    @Override
+    public void closeApp() {
+        finish();
+        android.os.Process.killProcess(android.os.Process.myPid());
     }
 }

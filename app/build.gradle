@@ -82,5 +82,4 @@ dependencies {
 
 // native bottom navigation has not badge (counter)
     implementation 'com.aurelhubert:ahbottomnavigation:2.3.4'
-
 }

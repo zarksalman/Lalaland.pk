@@ -230,6 +230,7 @@
                 android:layout_weight=".5"
                 android:background="@drawable/bg_round_corner_white"
                 android:text="@string/cancel"
+                android:layout_marginEnd="@dimen/_4dp"
                 android:onClick="@{(view)->clickListener.cancel(view)}"
                 android:textColor="@android:color/black" />
 
@@ -239,6 +240,7 @@
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_weight=".5"
+                android:layout_marginStart="@dimen/_4dp"
                 android:background="@drawable/btn_bg_round_corner_accent"
                 android:onClick="@{(view)->clickListener.save(view)}"
                 android:text="@string/save"

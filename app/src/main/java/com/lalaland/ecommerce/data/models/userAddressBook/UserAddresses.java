@@ -1,9 +1,12 @@
 package com.lalaland.ecommerce.data.models.userAddressBook;
 
+import android.os.Parcel;
+import android.os.Parcelable;
+
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
 
-public class UserAddresses {
+public class UserAddresses implements Parcelable {
 
     @SerializedName("user_name_address")
     @Expose
@@ -115,4 +118,51 @@ public class UserAddresses {
     public void setPhone(String phone) {
         this.phone = phone;
     }
+
+    @Override
+    public int describeContents() {
+        return 0;
+    }
+
+    @Override
+    public void writeToParcel(Parcel dest, int flags) {
+        dest.writeString(this.userNameAddress);
+        dest.writeString(this.email);
+        dest.writeValue(this.cityId);
+        dest.writeString(this.cityName);
+        dest.writeValue(this.addressId);
+        dest.writeValue(this.isPrimary);
+        dest.writeString(this.userName);
+        dest.writeValue(this.postalCode);
+        dest.writeString(this.shippingAddress);
+        dest.writeString(this.phone);
+    }
+
+    public UserAddresses() {
+    }
+
+    protected UserAddresses(Parcel in) {
+        this.userNameAddress = in.readString();
+        this.email = in.readString();
+        this.cityId = (Integer) in.readValue(Integer.class.getClassLoader());
+        this.cityName = in.readString();
+        this.addressId = (Integer) in.readValue(Integer.class.getClassLoader());
+        this.isPrimary = (Integer) in.readValue(Integer.class.getClassLoader());
+        this.userName = in.readString();
+        this.postalCode = (Integer) in.readValue(Integer.class.getClassLoader());
+        this.shippingAddress = in.readString();
+        this.phone = in.readString();
+    }
+
+    public static final Parcelable.Creator<UserAddresses> CREATOR = new Parcelable.Creator<UserAddresses>() {
+        @Override
+        public UserAddresses createFromParcel(Parcel source) {
+            return new UserAddresses(source);
+        }
+
+        @Override
+        public UserAddresses[] newArray(int size) {
+            return new UserAddresses[size];
+        }
+    };
 }

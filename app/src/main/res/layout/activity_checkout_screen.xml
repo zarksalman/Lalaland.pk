@@ -77,7 +77,6 @@
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_margin="@dimen/_8dp"
-                    android:onClick="@{(view)->clickListener.addNewAddress(view)}"
                     android:orientation="vertical"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
@@ -92,6 +91,7 @@
                         android:orientation="vertical"
                         android:padding="@dimen/_16dp"
                         android:visibility="visible"
+                        android:onClick="@{(view)->clickListener.addNewAddress(view)}"
                         app:layout_constraintEnd_toEndOf="parent"
                         app:layout_constraintStart_toStartOf="parent"
                         app:layout_constraintTop_toTopOf="parent">
@@ -114,7 +114,6 @@
                             android:layout_marginEnd="@dimen/_8dp"
                             android:clickable="true"
                             android:focusable="true"
-                            android:onClick="@{(view)->clickListener.addNewAddress(view)}"
                             app:layout_constraintBottom_toBottomOf="parent"
                             app:layout_constraintEnd_toStartOf="@+id/gl_address"
                             app:layout_constraintTop_toTopOf="parent"
@@ -168,7 +167,6 @@
                                 android:layout_alignParentStart="true"
                                 android:layout_centerVertical="true"
                                 android:fontFamily="@font/encodesansregular"
-                                android:text="@string/cash_on_delivery"
                                 android:textColor="@android:color/black"
                                 android:textSize="14sp"
                                 tools:text="@tools:sample/full_names" />
@@ -190,13 +188,21 @@
 
                         <TextView
 
-                            android:id="@+id/tv_user_address"
+                            android:id="@+id/tv_user_city"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:layout_marginTop="@dimen/_4dp"
                             android:textSize="14sp"
                             tools:text="@tools:sample/full_names" />
 
+                        <TextView
+
+                            android:id="@+id/tv_user_address"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="@dimen/_4dp"
+                            android:textSize="14sp"
+                            tools:text="@tools:sample/full_names" />
 
                         <LinearLayout
                             android:layout_width="match_parent"

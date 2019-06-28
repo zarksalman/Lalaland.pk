@@ -67,10 +67,10 @@
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/toolbar_registration"
-            app:tabIndicator="@color/colorLightRed"
+            app:tabIndicator="@color/colorAccent"
             app:tabIndicatorHeight="2dp"
-            app:tabSelectedTextColor="@android:color/black"
-            app:tabTextColor="@color/colorLightGray" />
+            app:tabSelectedTextColor="@color/colorAccent"
+            app:tabTextColor="@color/colorDarkGray" />
 
         <androidx.viewpager.widget.ViewPager
 

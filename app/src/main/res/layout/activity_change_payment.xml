@@ -10,7 +10,7 @@
             type="com.lalaland.ecommerce.views.activities.ChangePaymentActivity" />
     </data>
 
-    <LinearLayout
+    <RelativeLayout
 
         xmlns:android="http://schemas.android.com/apk/res/android"
         xmlns:app="http://schemas.android.com/apk/res-auto"
@@ -25,11 +25,13 @@
 
             android:id="@+id/top_bar"
             android:layout_width="match_parent"
-            android:layout_height="@dimen/_50dp"
+            android:layout_height="wrap_content"
             android:background="@android:color/white"
             android:elevation="@dimen/_8dp"
             android:orientation="horizontal"
-            android:padding="@dimen/_8dp"
+            android:layout_alignParentTop="true"
+            android:layout_centerHorizontal="true"
+            android:padding="@dimen/_16dp"
             android:visibility="visible"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
@@ -62,9 +64,11 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="@dimen/_8dp"
+            android:layout_below="@+id/top_bar"
+            android:layout_centerHorizontal="true"
             android:onClick="@{(view)->listener.cashOnDeliverTransfer(view)}"
             android:orientation="horizontal"
-            android:padding="@dimen/_8dp"
+            android:padding="@dimen/_16dp"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/top_bar">
@@ -86,10 +90,14 @@
         </LinearLayout>
 
         <ImageView
+
+            android:id="@+id/iv_line_1"
             android:layout_width="match_parent"
             android:layout_height="1dp"
-            android:layout_marginStart="@dimen/_8dp"
-            android:layout_marginEnd="@dimen/_8dp"
+            android:layout_below="@+id/cash_on_delivery_container"
+            android:layout_centerHorizontal="true"
+            android:layout_marginStart="@dimen/_16dp"
+            android:layout_marginEnd="@dimen/_16dp"
             android:background="@color/colorMediumGray" />
 
         <LinearLayout
@@ -100,13 +108,16 @@
             android:layout_height="wrap_content"
             android:layout_marginTop="@dimen/_8dp"
             android:onClick="@{(view)->listener.bankTransfer(view)}"
+            android:layout_below="@+id/iv_line_1"
+            android:layout_centerHorizontal="true"
             android:orientation="horizontal"
-            android:padding="@dimen/_8dp"
+            android:padding="@dimen/_16dp"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/cash_on_delivery_container">
 
             <ImageView
+
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:scaleType="centerInside"
@@ -123,10 +134,39 @@
         </LinearLayout>
 
         <ImageView
+
+            android:id="@+id/iv_line_2"
             android:layout_width="match_parent"
             android:layout_height="1dp"
-            android:layout_marginStart="@dimen/_8dp"
-            android:layout_marginEnd="@dimen/_8dp"
+            android:layout_below="@+id/bank_transfer_container"
+            android:layout_centerHorizontal="true"
+            android:layout_marginStart="@dimen/_16dp"
+            android:layout_marginEnd="@dimen/_16dp"
             android:background="@color/colorMediumGray" />
-    </LinearLayout>
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_above="@+id/tv_cash_exceeding"
+            android:layout_centerHorizontal="true"
+            android:padding="@dimen/_4dp"
+            android:text="@string/note"
+            android:textAlignment="center"
+            android:textColor="@color/colorDarkGray"
+            android:textSize="14sp" />
+
+        <TextView
+
+            android:id="@+id/tv_cash_exceeding"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentBottom="true"
+            android:layout_centerHorizontal="true"
+            android:padding="@dimen/_16dp"
+            android:text="@string/cash_on_delivery_policy"
+            android:textAlignment="center"
+            android:textColor="@color/colorDarkGray"
+            android:textSize="14sp" />
+
+    </RelativeLayout>
 </layout>

@@ -251,6 +251,29 @@ public class UsersRepository {
         return addressDataContainerMutableLiveData;
     }
 
+    public LiveData<AddressDataContainer> editAddress(String token, Map<String, String> parameters) {
+
+        addressDataContainerMutableLiveData = new MutableLiveData<>();
+        lalalandServiceApi.editAddress(token, parameters).enqueue(new Callback<AddressDataContainer>() {
+            @Override
+            public void onResponse(Call<AddressDataContainer> call, Response<AddressDataContainer> response) {
+
+                if (response.isSuccessful())
+                    addressDataContainerMutableLiveData.postValue(response.body());
+                else
+                    addressDataContainerMutableLiveData.postValue(null);
+            }
+
+            @Override
+            public void onFailure(Call<AddressDataContainer> call, Throwable t) {
+                addressDataContainerMutableLiveData.postValue(null);
+            }
+        });
+
+        return addressDataContainerMutableLiveData;
+    }
+
+
     public LiveData<UpdateUserDataContainer> updateUserDetails(String token, Map<String, String> parameter) {
 
         updateUserDataContainerMutableLiveData = new MutableLiveData<>();

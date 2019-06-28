@@ -27,6 +27,10 @@ public class UserViewModel extends AndroidViewModel {
         return usersRepository.addNewAddress(token, parameter);
     }
 
+    public LiveData<AddressDataContainer> editAddress(String token, Map<String, String> parameter) {
+        return usersRepository.editAddress(token, parameter);
+    }
+
     public LiveData<UpdateUserDataContainer> updateUserDetails(String token, Map<String, String> parameter) {
         return usersRepository.updateUserDetails(token, parameter);
     }

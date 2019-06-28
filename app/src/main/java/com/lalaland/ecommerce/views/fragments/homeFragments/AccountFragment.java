@@ -108,6 +108,7 @@ public class AccountFragment extends Fragment implements View.OnClickListener {
         fragmentAccountBinding.tvTermsAndConditions.setOnClickListener(this);
         fragmentAccountBinding.tvFaq.setOnClickListener(this);
         fragmentAccountBinding.tvLoginLogout.setOnClickListener(this);
+        fragmentAccountBinding.tvUserName.setOnClickListener(this);
 
         fragmentAccountBinding.ivViewAll.setOnClickListener(this);
         fragmentAccountBinding.tvViewAll.setOnClickListener(this);
@@ -209,6 +210,12 @@ public class AccountFragment extends Fragment implements View.OnClickListener {
                     startActivityForResult(new Intent(getContext(), RegistrationActivity.class), 100);
                 } else {
                     logoutUser();
+                }
+                break;
+
+            case R.id.tv_user_name:
+                if (signInToken.isEmpty()) {
+                    startActivityForResult(new Intent(getContext(), RegistrationActivity.class), 100);
                 }
                 break;
         }

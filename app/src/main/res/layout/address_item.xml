@@ -3,6 +3,7 @@
 
     <data>
 
+        <import type="android.view.View" />
         <import type="com.lalaland.ecommerce.helpers.AppUtils" />
 
         <variable
@@ -35,17 +36,39 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/address_container">
 
-        <TextView
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
 
-            android:id="@+id/tv_user_name"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="@dimen/_4dp"
-            android:fontFamily="@font/encodesansregular"
-            android:text="@{user.userName}"
-            android:textColor="@android:color/black"
-            android:textSize="13sp"
-            tools:text="@tools:sample/full_names" />
+            <TextView
+
+                android:id="@+id/tv_user_name"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentStart="true"
+                android:layout_centerVertical="true"
+                android:layout_marginTop="@dimen/_4dp"
+                android:fontFamily="@font/encodesansregular"
+                android:text="@{user.userNameAddress}"
+                android:textColor="@android:color/black"
+                android:textSize="13sp"
+                tools:text="@tools:sample/full_names" />
+
+            <TextView
+
+                android:id="@+id/tv_default"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentEnd="true"
+                android:layout_centerVertical="true"
+                android:layout_marginTop="@dimen/_4dp"
+                android:fontFamily="@font/encodesansregular"
+                android:text="@string/default_address"
+                android:textColor="@color/colorDarkGray"
+                android:textSize="13sp"
+                android:visibility="@{user.isPrimary == 1 ? View.VISIBLE: View.GONE}"
+                tools:text="@tools:sample/full_names" />
+        </RelativeLayout>
 
 
         <TextView
@@ -56,7 +79,7 @@
             android:layout_marginTop="@dimen/_8dp"
             android:fontFamily="@font/encodesansregular"
             android:text="@{user.shippingAddress}"
-            android:textColor="@android:color/black"
+            android:textColor="@color/colorDarkGray"
             android:textSize="13sp"
             tools:text="@tools:sample/cities" />
 
@@ -68,7 +91,7 @@
             android:layout_marginTop="@dimen/_8dp"
             android:fontFamily="@font/encodesansregular"
             android:text="@{AppUtils.concatString(user.cityName, user.postalCode)}"
-            android:textColor="@android:color/black"
+            android:textColor="@color/colorDarkGray"
             android:textSize="13sp"
             tools:text="@tools:sample/cities" />
 
@@ -80,7 +103,7 @@
             android:layout_marginTop="@dimen/_8dp"
             android:fontFamily="@font/encodesansregular"
             android:text="@{user.phone}"
-            android:textColor="@android:color/black"
+            android:textColor="@color/colorDarkGray"
             android:textSize="13sp"
             tools:text="@tools:sample/us_phones" />
 
@@ -97,10 +120,11 @@
                 android:layout_centerVertical="true"
                 android:layout_marginTop="@dimen/_8dp"
                 android:background="@drawable/bg_round_corner_transparent_accent"
+                android:onClick="@{(view)->adapter.onAddressClicked(view, user)}"
                 android:gravity="center"
-                android:text="@string/make_this_default"
                 android:textColor="@color/colorAccent"
-                android:visibility="visible" />
+                android:text="@string/make_this_default"
+                android:visibility="@{user.isPrimary == 1 ? View.GONE: View.VISIBLE}" />
 
             <ImageView
 
@@ -110,6 +134,7 @@
                 android:layout_alignParentEnd="true"
                 android:layout_centerVertical="true"
                 android:fontFamily="@font/encodesansregular"
+                android:onClick="@{(view)->adapter.onEditAddressClicked(view, user)}"
                 android:src="@drawable/edit_icon"
                 android:textColor="@android:color/white"
                 android:textSize="13sp" />

@@ -56,7 +56,7 @@
             android:id="@+id/rv_address"
             android:layout_width="0dp"
             android:layout_height="0dp"
-            android:padding="@dimen/_16dp"
+            android:visibility="gone"
             app:layout_constraintBottom_toTopOf="@+id/bottom_bar"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
@@ -81,6 +81,7 @@
                 android:background="@drawable/btn_bg_round_corner_accent"
                 android:fontFamily="@font/encodesansregular"
                 android:text="+New Address"
+                android:onClick="@{(view)->listener.addNewAddress(view)}"
                 android:textColor="@android:color/white"
                 android:textSize="16sp" />
         </FrameLayout>

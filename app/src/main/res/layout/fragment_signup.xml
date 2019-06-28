@@ -204,7 +204,7 @@
                         android:layout_margin="16dp"
                         android:checked="true"
                         android:text="@string/gender_male"
-                        android:textColor="@color/colorLightGray" />
+                        android:textColor="@color/colorDarkGray" />
 
                     <RadioButton
 
@@ -213,7 +213,7 @@
                         android:layout_height="wrap_content"
                         android:layout_margin="16dp"
                         android:text="@string/gender_female"
-                        android:textColor="@color/colorLightGray" />
+                        android:textColor="@color/colorDarkGray" />
                 </RadioGroup>
 
                 <Button

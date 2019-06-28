@@ -61,6 +61,10 @@ public class AddressAdapter extends RecyclerView.Adapter<AddressAdapter.AddressV
         mAddressListener.onAddressClicked(userAddresses);
     }
 
+    public void onEditAddressClicked(View view, UserAddresses userAddresses) {
+        mAddressListener.onEditAddressClicked(userAddresses);
+    }
+
     class AddressViewHolder extends RecyclerView.ViewHolder {
 
         AddressItemBinding mAddressItemBinding;
@@ -80,5 +84,7 @@ public class AddressAdapter extends RecyclerView.Adapter<AddressAdapter.AddressV
 
     public interface AddressListener {
         void onAddressClicked(UserAddresses userAddresses);
+
+        void onEditAddressClicked(UserAddresses userAddresses);
     }
 }

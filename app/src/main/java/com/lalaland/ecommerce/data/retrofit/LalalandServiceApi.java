@@ -104,6 +104,10 @@ public interface LalalandServiceApi {
     @POST("addAddress")
     Call<AddressDataContainer> addNewAddress(@Header("token") String cart_session, @QueryMap Map<String, String> parameter);
 
+    @POST("editAddress")
+    Call<AddressDataContainer> editAddress(@Header("token") String token, @QueryMap Map<String, String> parameter);
+
+
     @POST("updateUserDetails")
     Call<UpdateUserDataContainer> updateUserDetails(@Header("token") String token, @QueryMap Map<String, String> parameter);
 
