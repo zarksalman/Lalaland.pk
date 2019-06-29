@@ -2,6 +2,7 @@ package com.lalaland.ecommerce.views.activities;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.os.Handler;
 import android.util.Base64;
 import android.util.Log;
 import android.view.View;
@@ -12,6 +13,7 @@ import android.widget.Toast;
 
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.view.ViewCompat;
 import androidx.databinding.DataBindingUtil;
 import androidx.lifecycle.ViewModelProviders;
 import androidx.recyclerview.widget.GridLayoutManager;
@@ -365,6 +367,8 @@ public class ActionProductListingActivity extends AppCompatActivity implements A
                     if (actionProductsContainer.getData().getProducts().size() > 0) {
 
                         isItemsNotFound = false;
+                        activityProductListingBinding.ivEmptyState.setVisibility(View.GONE);
+
                         int startPosition = actionProductsArrayList.size();
                         actionProductsArrayList.addAll(actionProductsContainer.getData().getProducts());
                         actionProductsAdapter.notifyItemRangeInserted(startPosition, actionProductsArrayList.size());
@@ -385,8 +389,11 @@ public class ActionProductListingActivity extends AppCompatActivity implements A
                         parameter.put(SORT_BY, sortBy);
                     } else {
 
-                        activityProductListingBinding.ivEmptyState.setVisibility(View.VISIBLE);
                         isItemsNotFound = true;
+                        if (actionProductsArrayList.size() < 1) {
+                            activityProductListingBinding.ivEmptyState.setVisibility(View.VISIBLE);
+                        }
+
                         Toast.makeText(this, "Items not found", Toast.LENGTH_SHORT).show();
                     }
                 }
@@ -395,6 +402,7 @@ public class ActionProductListingActivity extends AppCompatActivity implements A
             activityProductListingBinding.rvProducts.setVisibility(View.VISIBLE);
             activityProductListingBinding.pbLoadingActionProducts.setVisibility(View.GONE);
             activityProductListingBinding.pbLoadingProducts.setVisibility(View.GONE);
+
         });
     }
 

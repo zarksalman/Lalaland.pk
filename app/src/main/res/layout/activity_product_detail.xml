@@ -445,16 +445,18 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_alignParentTop="true"
+            android:layout_alignParentStart="true"
             android:layout_margin="@dimen/_4dp"
             android:background="@android:color/transparent">
 
             <ImageView
 
                 android:id="@+id/btn_back"
-                android:layout_width="50dp"
-                android:layout_height="50dp"
+                android:layout_width="@dimen/_50dp"
+                android:layout_height="@dimen/_50dp"
                 android:layout_alignParentStart="true"
                 android:background="@drawable/back_arrow_bg_oval_corner_gray"
+                android:layout_marginStart="@dimen/_8dp"
                 android:padding="@dimen/_8dp"
                 android:scaleType="centerInside"
                 android:layout_centerVertical="true"
@@ -476,6 +478,7 @@
                 android:id="@+id/cart_counter_container"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:layout_marginEnd="@dimen/_4dp"
                 android:layout_alignParentEnd="true"
                 android:layout_centerVertical="true"
                 android:orientation="vertical"
@@ -491,12 +494,12 @@
                     android:clickable="true"
                     android:focusable="true"
                     android:padding="4dp"
-                    android:scaleType="center"
+                    android:scaleType="centerInside"
                     android:tint="@android:color/black"
                     app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
-                    app:srcCompat="@drawable/cart_icon_unselected" />
+                    app:srcCompat="@drawable/cart_counter_icon" />
 
                 <TextView
                     android:id="@+id/tv_counter"

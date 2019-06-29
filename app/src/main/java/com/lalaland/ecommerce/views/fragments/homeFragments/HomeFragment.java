@@ -1,6 +1,7 @@
 package com.lalaland.ecommerce.views.fragments.homeFragments;
 
 
+import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
@@ -12,6 +13,7 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.Toast;
 
+import androidx.core.view.ViewCompat;
 import androidx.core.widget.NestedScrollView;
 import androidx.databinding.DataBindingUtil;
 import androidx.fragment.app.Fragment;
@@ -78,7 +80,7 @@ public class HomeFragment extends Fragment implements ActionAdapter.ActionClickL
     Boolean isLoading = false;
     public static int INITIAL_INDEX = 0;
     public static int END_INDEX = 30;
-    public static final int NUMBER_OF_ITEM = 30;
+    public static final int NUMBER_OF_ITEM = 20;
     private String recommended_cat;
 
     View.OnClickListener btnClickListener = v -> {
@@ -108,8 +110,11 @@ public class HomeFragment extends Fragment implements ActionAdapter.ActionClickL
         homeViewModel = ViewModelProviders.of(this, new ProductViewModelFactory()).get(HomeViewModel.class);
 
         fragmentHomeBinding.setHomeListener(this);
-
         recommended_cat = AppPreference.getInstance(getContext()).getString(RECOMMENDED_CAT_TOKEN);
+
+        android.view.Display display = ((android.view.WindowManager) getContext().getSystemService(Context.WINDOW_SERVICE)).getDefaultDisplay();
+        fragmentHomeBinding.containersParent.getLayoutParams().height = ((int) (display.getHeight() * 0.7));
+
         requestInitialProducts();
         return fragmentHomeBinding.getRoot();
     }
@@ -170,14 +175,16 @@ public class HomeFragment extends Fragment implements ActionAdapter.ActionClickL
                 startPosition = productList.size();
 
                 productList.addAll(productContainer.getProductData().getProducts());
-                recommendationProductAdapter.notifyItemRangeInserted(startPosition, productList.size());
+                recommendationProductAdapter.notifyDataSetChanged();
+                // recommendationProductAdapter.notifyItemRangeInserted(startPosition, productList.size());
 
                 Log.d(TAG, "getProductItems" + productList.size());
                 isLoading = false;
-
             }
 
-            fragmentHomeBinding.pbProductLoad.setVisibility(View.GONE);
+            new Handler().postDelayed(() -> {
+                fragmentHomeBinding.pbProductLoad.setVisibility(View.GONE);
+            }, 0);
 
         });
     }
@@ -369,10 +376,10 @@ public class HomeFragment extends Fragment implements ActionAdapter.ActionClickL
         fragmentHomeBinding.rvRecommendedProducts.setAdapter(recommendationProductAdapter);
         gridLayoutManager = new GridLayoutManager(getContext(), 2);
         fragmentHomeBinding.rvRecommendedProducts.setLayoutManager(gridLayoutManager);
+        // just to remove lag from recommendation products adapter
+        ViewCompat.setNestedScrollingEnabled(fragmentHomeBinding.rvRecommendedProducts, false);
 
-        //  ViewCompat.setNestedScrollingEnabled(fragmentHomeBinding.rvRecommendedProducts, false);
-
-        // It takes almost 3 4 days jut because, recyclerview is under nestedScrollView (onScrolled does not call)
+        // It takes almost 3 4 days just because, recyclerview is under nestedScrollView (onScrolled does not call)
         fragmentHomeBinding.containersParent.setOnScrollChangeListener((NestedScrollView.OnScrollChangeListener) (v, scrollX, scrollY, oldScrollX, oldScrollY) -> {
             if (v.getChildAt(v.getChildCount() - 1) != null) {
                 if ((scrollY >= (v.getChildAt(v.getChildCount() - 1).getMeasuredHeight() - v.getMeasuredHeight())) &&

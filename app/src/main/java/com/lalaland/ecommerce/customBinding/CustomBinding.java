@@ -26,6 +26,7 @@ public class CustomBinding {
         Glide
                 .with(AppConstants.mContext)
                 .load(imageSrc)
+                .fitCenter()
                 .placeholder(R.drawable.placeholder_products)
                 .into(imageView);
     }

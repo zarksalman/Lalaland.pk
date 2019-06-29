@@ -110,6 +110,9 @@ public class BaseRegistrationFragment extends Fragment {
     public void signInOrSignUpWithGoogle(SignInButton signInButton) {
 
 
+/*
+
+
         gso = new GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)
                 .requestScopes(new Scope(Scopes.DRIVE_APPFOLDER))
                 .requestIdToken(getString(R.string.server_client_id))
@@ -130,12 +133,14 @@ public class BaseRegistrationFragment extends Fragment {
 
         // means user is login otherwise not login
         if (account == null) {
-            Intent signInIntent = Auth.GoogleSignInApi.getSignInIntent(mGoogleApiClient);
+            Intent signInIntent = mGoogleSignInClient.getSignInIntent();
+//            Intent signInIntent = Auth.GoogleSignInApi.getSignInIntent(mGoogleApiClient);
             startActivityForResult(signInIntent, 201);
 
             //   getAccessToken();
         }
         //updateUI(account);
+*/
 
 
     }

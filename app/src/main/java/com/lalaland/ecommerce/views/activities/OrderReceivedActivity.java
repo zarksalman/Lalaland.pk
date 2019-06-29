@@ -7,10 +7,12 @@ import android.view.View;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.databinding.DataBindingUtil;
+import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.lalaland.ecommerce.R;
+import com.lalaland.ecommerce.adapters.ProductAdapter;
 import com.lalaland.ecommerce.adapters.RecommendedProductsAdapter;
 import com.lalaland.ecommerce.data.models.products.Product;
 import com.lalaland.ecommerce.databinding.ActivityOrderReceivedBinding;
@@ -45,9 +47,6 @@ public class OrderReceivedActivity extends AppCompatActivity {
     }
 
     private void setInitValues() {
-
-        android.view.Display display = ((android.view.WindowManager) getSystemService(Context.WINDOW_SERVICE)).getDefaultDisplay();
-        activityOrderReceivedBinding.topBar.getLayoutParams().height = ((int) (display.getHeight() * 1.5));
 
         activityOrderReceivedBinding.tvTotalAmount.setText(AppUtils.formatPriceString(totalBill));
         activityOrderReceivedBinding.setListener(this);

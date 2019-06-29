@@ -36,14 +36,13 @@
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:background="@drawable/bg_round_corner_transparent_accent"
+                android:background="@drawable/bg_round_corner_transparent"
                 android:orientation="vertical">
 
                 <ImageView
 
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
-                    android:scaleType="centerCrop"
                     android:src="@drawable/placeholder_products"
                     app:setProductImage="@{productDetails.primaryImage}" />
             </LinearLayout>

@@ -10,25 +10,28 @@
             type="com.lalaland.ecommerce.views.fragments.homeFragments.HomeFragment" />
     </data>
 
-    <RelativeLayout
+    <androidx.coordinatorlayout.widget.CoordinatorLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent">
 
+        <!--        android:isScrollContainer="true"
+                android:measureAllChildren="true"
+                -->
         <androidx.core.widget.NestedScrollView
 
             android:id="@+id/containers_parent"
             android:layout_width="match_parent"
-            android:isScrollContainer="true"
-            android:measureAllChildren="true"
             android:layout_height="wrap_content"
+            android:fillViewport="true"
             android:scrollbars="none"
             android:visibility="gone">
 
             <androidx.constraintlayout.widget.ConstraintLayout
 
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:background="@color/colorScreenBg">
+                android:layout_height="match_parent"
+                android:layout_marginBottom="@dimen/_8dp"
+                android:background="@color/colorLightGray">
 
                 <ViewFlipper
                     android:id="@+id/vf_slider"
@@ -51,10 +54,7 @@
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toBottomOf="@+id/vf_slider" />
 
-
                 <!--Picks of the week-->
-
-
                 <RelativeLayout
 
                     android:id="@+id/pick_of_week_container"
@@ -171,6 +171,7 @@
                     android:layout_width="0dp"
                     android:layout_height="match_parent"
                     android:padding="@dimen/_8dp"
+                    android:descendantFocusability="blocksDescendants"
                     android:orientation="vertical"
                     app:layout_constraintBottom_toTopOf="@+id/pb_product_load"
                     app:layout_constraintEnd_toEndOf="parent"
@@ -191,9 +192,10 @@
 
                     <androidx.recyclerview.widget.RecyclerView
                         android:id="@+id/rv_recommended_products"
+                        android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:scrollbars="none"
-                        android:layout_width="match_parent"
+                        android:nestedScrollingEnabled="false"
                         tools:listitem="@layout/product_paged_item" />
 
                 </LinearLayout>
@@ -218,9 +220,10 @@
 
             android:id="@+id/pb_loading"
             android:layout_width="wrap_content"
+            android:layout_gravity="center"
             android:layout_height="wrap_content"
             android:layout_centerInParent="true" />
-    </RelativeLayout>
+    </androidx.coordinatorlayout.widget.CoordinatorLayout>
 
 
 </layout>

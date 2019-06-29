@@ -131,6 +131,7 @@ public class ProductDetailActivity extends AppCompatActivity implements ProductV
     void loadProductDetail() {
 
         activityProductDetailBinding.tvCounter.setText(String.valueOf(AppConstants.CART_COUNTER));
+
         //setting viewpagger height because in scrollview wrap/match does not calculate their height correctly
         android.view.Display display = ((android.view.WindowManager) getSystemService(Context.WINDOW_SERVICE)).getDefaultDisplay();
         activityProductDetailBinding.vpImages.getLayoutParams().height = ((int) (display.getHeight() * 0.65));
@@ -152,7 +153,6 @@ public class ProductDetailActivity extends AppCompatActivity implements ProductV
 
         if (productDetails.getIsWishListItem() != null) {
             activityProductDetailBinding.btnAddToWish.setImageResource(R.drawable.wish_list_filled_icon);
-            // activityProductDetailBinding.btnAddToWish.setBackground(getResources().getDrawable(R.drawable.bg_round_corner_white_accent));
             isAddOrRemove = 1;  // setting initial showing that it is added to list
         } else {
             isAddOrRemove = 0; // setting initial showing that it is not added to list
@@ -162,7 +162,6 @@ public class ProductDetailActivity extends AppCompatActivity implements ProductV
         activityProductDetailBinding.tvBrandName.setText(productDetails.getBrandName());
         setPrice();
 
-        //activityProductDetailBinding.tvProductPrice.setText(productDetails.getMinSalePrice());
         generalDescription = productDetails.getGeneralDescription();
         materialDescription = productDetails.getMaterialDescription();
 

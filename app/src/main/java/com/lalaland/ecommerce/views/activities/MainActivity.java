@@ -15,14 +15,9 @@ import androidx.core.content.ContextCompat;
 import androidx.databinding.DataBindingUtil;
 import androidx.fragment.app.Fragment;
 
-import com.aurelhubert.ahbottomnavigation.AHBottomNavigation;
-import com.aurelhubert.ahbottomnavigation.AHBottomNavigationItem;
-import com.google.android.material.bottomnavigation.BottomNavigationItemView;
-import com.google.android.material.bottomnavigation.BottomNavigationMenuView;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.lalaland.ecommerce.R;
 import com.lalaland.ecommerce.databinding.ActivityMainBinding;
-import com.lalaland.ecommerce.helpers.AppConstants;
 import com.lalaland.ecommerce.helpers.AppPreference;
 import com.lalaland.ecommerce.listeners.CloseAppListener;
 import com.lalaland.ecommerce.views.fragments.homeFragments.AccountFragment;
@@ -31,6 +26,9 @@ import com.lalaland.ecommerce.views.fragments.homeFragments.CategoryFragment;
 import com.lalaland.ecommerce.views.fragments.homeFragments.HomeFragment;
 import com.lalaland.ecommerce.views.fragments.homeFragments.WishFragment;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import static com.lalaland.ecommerce.helpers.AppConstants.LOAD_HOME_FRAGMENT_INDEX;
 import static com.lalaland.ecommerce.helpers.AppConstants.SIGNIN_TOKEN;
 
@@ -38,9 +36,9 @@ public class MainActivity extends AppCompatActivity implements CloseAppListener 
     private ActivityMainBinding activityMainBinding;
     private AppPreference appPreference;
     private int selectedFragment = 1;
-    boolean doubleBackToExitPressedOnce = false;
     String token;
     AlertDialog exitDialog;
+    List<Fragment> fragments = new ArrayList<>();
 
     private BottomNavigationView.OnNavigationItemSelectedListener mOnNavigationItemSelectedListener
             = item -> {
@@ -60,8 +58,9 @@ public class MainActivity extends AppCompatActivity implements CloseAppListener 
 
                 activityMainBinding.topBar.setBackgroundColor(getResources().getColor(R.color.colorAccent));
                 activityMainBinding.tvAppName.setText(getResources().getString(R.string.app_name));
-                fragment = HomeFragment.newInstance();
-                replaceFragment(fragment, 0);
+                //fragment = HomeFragment.newInstance();
+
+                replaceFragment(fragments.get(0), 0);
                 return true;
             case R.id.navigation_category:
 
@@ -73,8 +72,8 @@ public class MainActivity extends AppCompatActivity implements CloseAppListener 
                 activityMainBinding.topBarWithoutSearch.setVisibility(View.GONE);
 
                 activityMainBinding.topBar.setBackgroundColor(getResources().getColor(R.color.colorAccent));
-                fragment = CategoryFragment.newInstance();
-                replaceFragment(fragment, 1);
+                //  fragment = CategoryFragment.newInstance();
+                replaceFragment(fragments.get(1), 1);
                 return true;
             case R.id.navigation_cart:
 
@@ -88,8 +87,8 @@ public class MainActivity extends AppCompatActivity implements CloseAppListener 
                 activityMainBinding.topBar.setBackgroundColor(getResources().getColor(android.R.color.white));
                 activityMainBinding.tvFragmentName.setText(getResources().getString(R.string.cart_items));
 
-                fragment = CartFragment.newInstance();
-                replaceFragment(fragment, 2);
+                // fragment = CartFragment.newInstance();
+                replaceFragment(fragments.get(2), 2);
                 return true;
 
             case R.id.navigation_wish:
@@ -104,9 +103,8 @@ public class MainActivity extends AppCompatActivity implements CloseAppListener 
                 activityMainBinding.topBar.setBackgroundColor(getResources().getColor(android.R.color.white));
                 activityMainBinding.tvFragmentName.setText(getResources().getString(R.string.wish_items));
 
-                fragment = WishFragment.newInstance();
-
-                replaceFragment(fragment, 3);
+                //  fragment = WishFragment.newInstance();
+                replaceFragment(fragments.get(3), 3);
                 return true;
 
             case R.id.navigation_account:
@@ -115,8 +113,9 @@ public class MainActivity extends AppCompatActivity implements CloseAppListener 
                     return false;
 
                 activityMainBinding.topBar.setVisibility(View.GONE);
-                fragment = AccountFragment.newInstance();
-                replaceFragment(fragment, 4);
+
+                // fragment = AccountFragment.newInstance();
+                replaceFragment(fragments.get(4), 4);
                 return true;
         }
         return false;
@@ -131,6 +130,13 @@ public class MainActivity extends AppCompatActivity implements CloseAppListener 
 
         activityMainBinding.navView.setItemIconTintList(null);
         token = appPreference.getString(SIGNIN_TOKEN);
+
+        fragments.add(HomeFragment.newInstance());
+        fragments.add(CategoryFragment.newInstance());
+        fragments.add(CartFragment.newInstance());
+        fragments.add(WishFragment.newInstance());
+        fragments.add(AccountFragment.newInstance());
+
         setListeners();
         loadInitialFragment();  // load first fragment
         prepareExitDialog();
@@ -143,140 +149,6 @@ public class MainActivity extends AppCompatActivity implements CloseAppListener 
         autoComplete.setTextSize(13);
 
         //  addItemsToBottomNavigation();
-    }
-
-    private void addItemsToBottomNavigation() {
-
-
-        activityMainBinding.bottomNavigation.setForceTint(true);
-        // Create items
-        AHBottomNavigationItem item1 = new AHBottomNavigationItem(R.string.title_home, R.drawable.home_bg_selector, android.R.color.white);
-        AHBottomNavigationItem item2 = new AHBottomNavigationItem(R.string.category, R.drawable.category_bg_selector, android.R.color.white);
-        AHBottomNavigationItem item3 = new AHBottomNavigationItem(R.string.cart, R.drawable.cart_bg_selector, android.R.color.white);
-        AHBottomNavigationItem item4 = new AHBottomNavigationItem(R.string.wish, R.drawable.wishlist_bg_selector, android.R.color.white);
-        AHBottomNavigationItem item5 = new AHBottomNavigationItem(R.string.account, R.drawable.account_bg_selector, android.R.color.white);
-
-// Add items
-        activityMainBinding.bottomNavigation.addItem(item1);
-        activityMainBinding.bottomNavigation.addItem(item2);
-        activityMainBinding.bottomNavigation.addItem(item3);
-        activityMainBinding.bottomNavigation.addItem(item4);
-        activityMainBinding.bottomNavigation.addItem(item5);
-
-        activityMainBinding.bottomNavigation.setTitleState(AHBottomNavigation.TitleState.ALWAYS_SHOW);
-
-
-// Set background color
-        activityMainBinding.bottomNavigation.setDefaultBackgroundColor(getResources().getColor(android.R.color.white));
-        activityMainBinding.bottomNavigation.setNotification(String.valueOf(AppConstants.CART_COUNTER), 2);
-
-
-/*
-        activityMainBinding.bottomNavigation.setOnTabSelectedListener(new AHBottomNavigation.OnTabSelectedListener() {
-            @Override
-            public boolean onTabSelected(int position, boolean wasSelected) {
-
-                Fragment fragment;
-
-                switch (position) {
-
-                    case 0:
-
-                        if (selectedFragment == 0)
-                            return false;
-
-                        activityMainBinding.topBar.setVisibility(View.VISIBLE);
-                        activityMainBinding.topBarSearch.setVisibility(View.VISIBLE);
-                        activityMainBinding.topBarWithoutSearch.setVisibility(View.GONE);
-
-                        activityMainBinding.topBar.setBackgroundColor(getResources().getColor(R.color.colorAccent));
-                        activityMainBinding.tvAppName.setText(getResources().getString(R.string.app_name));
-                        fragment = HomeFragment.newInstance();
-                        replaceFragment(fragment, 0);
-                        return true;
-
-                    case 1:
-
-                        if (selectedFragment == 1)
-                            return true;
-
-                        activityMainBinding.topBar.setVisibility(View.VISIBLE);
-                        activityMainBinding.topBarSearch.setVisibility(View.VISIBLE);
-                        activityMainBinding.topBarWithoutSearch.setVisibility(View.GONE);
-
-                        activityMainBinding.topBar.setBackgroundColor(getResources().getColor(R.color.colorAccent));
-                        fragment = CategoryFragment.newInstance();
-                        replaceFragment(fragment, 1);
-                        return true;
-                    case 2:
-
-                        if (selectedFragment == 2)
-                            return false;
-
-                        activityMainBinding.topBarSearch.setVisibility(View.GONE);
-                        activityMainBinding.topBarWithoutSearch.setVisibility(View.VISIBLE);
-                        activityMainBinding.topBar.setVisibility(View.VISIBLE);
-
-                        activityMainBinding.topBar.setBackgroundColor(getResources().getColor(android.R.color.white));
-                        activityMainBinding.tvFragmentName.setText(getResources().getString(R.string.cart_items));
-
-                        fragment = CartFragment.newInstance();
-                        replaceFragment(fragment, 2);
-                        return true;
-
-                    case 3:
-
-                        if (selectedFragment == 3)
-                            return false;
-
-                        activityMainBinding.topBarSearch.setVisibility(View.GONE);
-                        activityMainBinding.topBarWithoutSearch.setVisibility(View.VISIBLE);
-                        activityMainBinding.topBar.setVisibility(View.VISIBLE);
-
-                        activityMainBinding.topBar.setBackgroundColor(getResources().getColor(android.R.color.white));
-                        activityMainBinding.tvFragmentName.setText(getResources().getString(R.string.wish_items));
-
-                        fragment = WishFragment.newInstance();
-
-                        replaceFragment(fragment, 3);
-                        return true;
-
-                    case 4:
-
-                        if (selectedFragment == 4)
-                            return false;
-
-                        activityMainBinding.topBar.setVisibility(View.GONE);
-                        fragment = AccountFragment.newInstance();
-                        replaceFragment(fragment, 4);
-                        return true;
-                }
-                return false;
-            }
-        });
-*/
-    }
-
-    private void addBadgeView() {
-        /*BottomNavigationMenuView menuView = (BottomNavigationMenuView) activityMainBinding.navView.getChildAt(2);
-        BottomNavigationItemView itemView = (BottomNavigationItemView) menuView.getChildAt(0);
-*/
-
-        BottomNavigationMenuView bottomNavigationMenuView =
-                (BottomNavigationMenuView) activityMainBinding.navView.getChildAt(0);
-        View v = bottomNavigationMenuView.getChildAt(2);
-        BottomNavigationItemView itemView = (BottomNavigationItemView) v;
-
-        View badge = LayoutInflater.from(this)
-                .inflate(R.layout.batch_layout, itemView, true);
-
-        //itemView.removeView(badge);
-        // itemView.addView(badge, 2);
-   /*     MenuItem menuItem = activityMainBinding.navView.getMenu().getItem(2);
-        BatchLayoutBinding batchLayoutBinding = DataBindingUtil.inflate(getLayoutInflater(), R.layout.batch_layout, null, false);
-
-        batchLayoutBinding.badge.setText(String.valueOf(AppConstants.CART_COUNTER));
-        menuItem.addView(batchLayoutBinding.getRoot());*/
     }
 
     void setListeners() {
@@ -304,19 +176,6 @@ public class MainActivity extends AppCompatActivity implements CloseAppListener 
     private void showExitDialog() {
 
         if (selectedFragment == 0) {
-            /*if (doubleBackToExitPressedOnce)
-            {
-                super.onBackPressed();
-                finish();
-                android.os.Process.killProcess(android.os.Process.myPid());
-                return;
-            }
-
-            this.doubleBackToExitPressedOnce = true;
-            Toast.makeText(this, "Please click back again to exit", Toast.LENGTH_SHORT).show();
-            new Handler().postDelayed(() -> doubleBackToExitPressedOnce = false, 2000);
-            */
-
 
             if (exitDialog != null) {
 
@@ -345,7 +204,7 @@ public class MainActivity extends AppCompatActivity implements CloseAppListener 
 
                 break;
             case 1:
-                // setting it to zero
+
                 selectedFragment = 0;
                 activityMainBinding.navView.setSelectedItemId(R.id.navigation_category);
                 break;
@@ -365,12 +224,7 @@ public class MainActivity extends AppCompatActivity implements CloseAppListener 
 
             default:
 
-                activityMainBinding.topBar.setVisibility(View.VISIBLE);
-                activityMainBinding.topBarSearch.setVisibility(View.VISIBLE);
-                activityMainBinding.topBarWithoutSearch.setVisibility(View.GONE);
-
-                activityMainBinding.tvAppName.setText(getResources().getString(R.string.app_name));
-                replaceFragment(HomeFragment.newInstance(), 0);
+                activityMainBinding.navView.setSelectedItemId(R.id.navigation_home);
         }
     }
 
