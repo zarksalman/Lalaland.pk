@@ -103,6 +103,7 @@ public class CategoryFragment extends Fragment implements MajorCategoryAdapter.M
 
         setMajorCategoryList();
         setCategoryAdapter();
+        setBrandCategory();
     }
 
     private void getCategories(int majorCategoryId) {
@@ -116,9 +117,6 @@ public class CategoryFragment extends Fragment implements MajorCategoryAdapter.M
                 if (categoriesContainer.getCode().equals(SUCCESS_CODE)) {
 
                     if (categoriesContainer.getData().getSubCategories().size() > 0) {
-
-                        subCategories.clear();
-                        categoryHomeBanners.clear();
 
                         categoryHomeBanners.addAll(categoriesContainer.getData().getHomeBanner());
                         subCategories.addAll(categoriesContainer.getData().getSubCategories());
@@ -160,11 +158,7 @@ public class CategoryFragment extends Fragment implements MajorCategoryAdapter.M
         fragmentCategoryBinding.rvSubCategory.setLayoutManager(new LinearLayoutManager(getContext()));
         categoryAdapter.setData(subCategories);
 
-        categorBrandAdapter = new CategorBrandAdapter(getContext(), this);
-        fragmentCategoryBinding.rvSubCategoryBrand.setHasFixedSize(true);
-        fragmentCategoryBinding.rvSubCategoryBrand.setAdapter(categorBrandAdapter);
-        fragmentCategoryBinding.rvSubCategoryBrand.setLayoutManager(new LinearLayoutManager(getContext()));
-        categorBrandAdapter.setData(AppConstants.staticCategoryBrandsList);
+        setBrandCategory();
 
         if (categoryList.size() > 0)
             getCategories(categoryList.get(0).getId());
@@ -172,6 +166,16 @@ public class CategoryFragment extends Fragment implements MajorCategoryAdapter.M
             Toast.makeText(getContext(), "No category found", Toast.LENGTH_SHORT).show();
 
         fragmentCategoryBinding.rvSubCategory.setVisibility(View.VISIBLE);
+    }
+
+    private void setBrandCategory() {
+
+        categorBrandAdapter = new CategorBrandAdapter(getContext(), this);
+        fragmentCategoryBinding.rvSubCategoryBrand.setHasFixedSize(true);
+        fragmentCategoryBinding.rvSubCategoryBrand.setAdapter(categorBrandAdapter);
+        fragmentCategoryBinding.rvSubCategoryBrand.setLayoutManager(new LinearLayoutManager(getContext()));
+        categorBrandAdapter.setData(AppConstants.staticCategoryBrandsList);
+
     }
 
     private void trimZeroSizeInnerCategories() {
@@ -197,19 +201,16 @@ public class CategoryFragment extends Fragment implements MajorCategoryAdapter.M
         if (categoryId != category.getId()) {
 
 
-            //       fragmentCategoryBinding.subCategoryContainer.setVisibility(View.GONE);
-
-/*            fragmentCategoryBinding.rvSubCategoryBrand.setVisibility(View.GONE);
-            fragmentCategoryBinding.pbLoading.setVisibility(View.VISIBLE);*/
+            fragmentCategoryBinding.subCategoryContainer.setVisibility(View.GONE);
+            fragmentCategoryBinding.rvSubCategoryBrand.setVisibility(View.GONE);
+            fragmentCategoryBinding.pbLoading.setVisibility(View.VISIBLE);
 
             if (category.getName().equals("Brands")) {
 
                 fragmentCategoryBinding.ivCategoryHeader.setVisibility(View.GONE);
-                fragmentCategoryBinding.rvSubCategory.setVisibility(View.GONE);
-
                 fragmentCategoryBinding.rvSubCategoryBrand.setVisibility(View.VISIBLE);
-
-//                fragmentCategoryBinding.subCategoryContainer.setVisibility(View.VISIBLE);
+                fragmentCategoryBinding.subCategoryContainer.setVisibility(View.VISIBLE);
+                fragmentCategoryBinding.pbLoading.setVisibility(View.GONE);
 
             } else if (category.getName().equals("Sale")) {
                 Intent intent;
@@ -221,12 +222,17 @@ public class CategoryFragment extends Fragment implements MajorCategoryAdapter.M
 
             } else {
 
-                fragmentCategoryBinding.ivCategoryHeader.setVisibility(View.VISIBLE);
-                fragmentCategoryBinding.rvSubCategory.setVisibility(View.VISIBLE);
-
+                fragmentCategoryBinding.subCategoryContainer.setVisibility(View.VISIBLE);
                 fragmentCategoryBinding.rvSubCategoryBrand.setVisibility(View.GONE);
 
+                fragmentCategoryBinding.ivCategoryHeader.setVisibility(View.VISIBLE);
+                fragmentCategoryBinding.pbLoading.setVisibility(View.VISIBLE);
+
+                subCategories.clear();
+                categoryHomeBanners.clear();
+
                 categoryId = category.getId();
+
                 getCategories(categoryId);
             }
         }

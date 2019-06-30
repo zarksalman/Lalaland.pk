@@ -41,7 +41,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_below="@id/iv_back_arrow"
-                android:layout_marginTop="@dimen/_4dp"
+                android:layout_margin="@dimen/_8dp"
                 android:background="@drawable/search_bar_bg_round_cornors"
                 android:focusable="true"
                 app:iconifiedByDefault="false"
