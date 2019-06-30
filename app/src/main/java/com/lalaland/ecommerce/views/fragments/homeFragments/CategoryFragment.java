@@ -94,9 +94,15 @@ public class CategoryFragment extends Fragment implements MajorCategoryAdapter.M
         android.view.Display display = ((android.view.WindowManager) getContext().getSystemService(Context.WINDOW_SERVICE)).getDefaultDisplay();
         fragmentCategoryBinding.ivCategoryHeader.getLayoutParams().height = ((int) (display.getHeight() * 0.16));
 
+
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+
         setMajorCategoryList();
         setCategoryAdapter();
-
     }
 
     private void getCategories(int majorCategoryId) {
@@ -190,16 +196,20 @@ public class CategoryFragment extends Fragment implements MajorCategoryAdapter.M
         // if same category do not clicked again
         if (categoryId != category.getId()) {
 
-            fragmentCategoryBinding.subCategoryContainer.setVisibility(View.GONE);
 
-            fragmentCategoryBinding.rvSubCategoryBrand.setVisibility(View.GONE);
-            fragmentCategoryBinding.pbLoading.setVisibility(View.GONE);
+            //       fragmentCategoryBinding.subCategoryContainer.setVisibility(View.GONE);
+
+/*            fragmentCategoryBinding.rvSubCategoryBrand.setVisibility(View.GONE);
+            fragmentCategoryBinding.pbLoading.setVisibility(View.VISIBLE);*/
 
             if (category.getName().equals("Brands")) {
 
                 fragmentCategoryBinding.ivCategoryHeader.setVisibility(View.GONE);
+                fragmentCategoryBinding.rvSubCategory.setVisibility(View.GONE);
+
                 fragmentCategoryBinding.rvSubCategoryBrand.setVisibility(View.VISIBLE);
-                fragmentCategoryBinding.subCategoryContainer.setVisibility(View.VISIBLE);
+
+//                fragmentCategoryBinding.subCategoryContainer.setVisibility(View.VISIBLE);
 
             } else if (category.getName().equals("Sale")) {
                 Intent intent;
@@ -212,7 +222,10 @@ public class CategoryFragment extends Fragment implements MajorCategoryAdapter.M
             } else {
 
                 fragmentCategoryBinding.ivCategoryHeader.setVisibility(View.VISIBLE);
-                fragmentCategoryBinding.pbLoading.setVisibility(View.VISIBLE);
+                fragmentCategoryBinding.rvSubCategory.setVisibility(View.VISIBLE);
+
+                fragmentCategoryBinding.rvSubCategoryBrand.setVisibility(View.GONE);
+
                 categoryId = category.getId();
                 getCategories(categoryId);
             }

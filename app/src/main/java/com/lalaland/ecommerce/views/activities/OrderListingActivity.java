@@ -99,7 +99,6 @@ public class OrderListingActivity extends AppCompatActivity implements MyOrderAd
         intent.putExtra(ORDER_ID, String.valueOf(order.getOrderId()));
         intent.putExtra(ORDER_DATE, order.getCreatedAt());
         intent.putExtra(ORDER_MERCHANT, order.getMerchantName());
-        intent.putExtra(ORDER_MERCHANT, order.getMerchantName());
         intent.putExtra(ORDER_ADDRESS, order.getDeliveryAddress());
         intent.putExtra(ORDER_TOTAL, order.getGrandTotal());
 

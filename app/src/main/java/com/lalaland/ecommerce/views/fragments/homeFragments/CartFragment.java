@@ -69,6 +69,7 @@ public class CartFragment extends Fragment implements View.OnClickListener, Cart
 
     private Double totalBill = 0.0;
     Double perItemBill;
+    boolean isApiCalling = false;
 
     public CartFragment() {
         // Required empty public constructor
@@ -100,8 +101,33 @@ public class CartFragment extends Fragment implements View.OnClickListener, Cart
         cart_session = appPreference.getString(CART_SESSION_TOKEN);
 
         getCartItems();
+
         return fragmentCartBinding.getRoot();
     }
+
+
+    void setCartAdapter() {
+
+        if (cartItemList.size() == 0) {
+            fragmentCartBinding.tvCartEmptyState.setVisibility(View.VISIBLE);
+            fragmentCartBinding.tvEmptyState.setVisibility(View.VISIBLE);
+
+            fragmentCartBinding.btnCheckout.setOnClickListener(null);
+        } else {
+            fragmentCartBinding.tvCartEmptyState.setVisibility(View.GONE);
+            fragmentCartBinding.tvEmptyState.setVisibility(View.GONE);
+            fragmentCartBinding.btnCheckout.setOnClickListener(this);
+        }
+
+
+        cartIMerchantAdapter = new CartIMerchantAdapter(getContext(), this);
+
+        fragmentCartBinding.rvCartItems.setLayoutManager(new LinearLayoutManager(getContext()));
+        fragmentCartBinding.rvCartItems.setAdapter(cartIMerchantAdapter);
+        cartIMerchantAdapter.setData(cartListModelList);
+
+    }
+
 
     private void getCartItems() {
 
@@ -221,27 +247,6 @@ public class CartFragment extends Fragment implements View.OnClickListener, Cart
         }
     }
 
-    void setCartAdapter() {
-
-        if (cartItemList.size() == 0) {
-            fragmentCartBinding.tvCartEmptyState.setVisibility(View.VISIBLE);
-            fragmentCartBinding.tvEmptyState.setVisibility(View.VISIBLE);
-
-            fragmentCartBinding.btnCheckout.setOnClickListener(null);
-        } else {
-            fragmentCartBinding.tvCartEmptyState.setVisibility(View.GONE);
-            fragmentCartBinding.tvEmptyState.setVisibility(View.GONE);
-            fragmentCartBinding.btnCheckout.setOnClickListener(this);
-        }
-
-
-        cartIMerchantAdapter = new CartIMerchantAdapter(getContext(), this);
-
-        fragmentCartBinding.rvCartItems.setLayoutManager(new LinearLayoutManager(getContext()));
-        fragmentCartBinding.rvCartItems.setAdapter(cartIMerchantAdapter);
-        cartIMerchantAdapter.setData(cartListModelList);
-
-    }
 
     void setSelectedCartItemList() {
 
@@ -258,10 +263,12 @@ public class CartFragment extends Fragment implements View.OnClickListener, Cart
     @Override
     public void addItemToList(int merchantId, int position) {
 
+        // if response has not received of previous api
+        if (isApiCalling)
+            return;
+
         Integer merchantIndex = getMerchantModelIndex(merchantId);
-
         fragmentCartBinding.pbLoading.setVisibility(View.VISIBLE);
-
         CartItem cartItem = cartListModelList.get(merchantIndex).getCartItemList().get(position);
 
         parameter.clear();
@@ -279,6 +286,8 @@ public class CartFragment extends Fragment implements View.OnClickListener, Cart
 
         productViewModel.addToReadyCartList(headers, parameter).observe(this, basicResponse ->
         {
+            isApiCalling = true;
+
             if (basicResponse != null) {
                 if (basicResponse.getCode().equals(SUCCESS_CODE)) {
 
@@ -292,18 +301,20 @@ public class CartFragment extends Fragment implements View.OnClickListener, Cart
             } else
                 Toast.makeText(getContext(), GENERAL_ERROR, Toast.LENGTH_SHORT).show();
 
+            isApiCalling = false;
             fragmentCartBinding.pbLoading.setVisibility(View.GONE);
-
         });
     }
 
     @Override
     public void deleteFromCart(int merchantId, int position) {
 
+        // if response has not received of previous api
+        if (isApiCalling)
+            return;
+
         Integer merchantIndex = getMerchantModelIndex(merchantId);
-
         fragmentCartBinding.pbLoading.setVisibility(View.VISIBLE);
-
         CartItem cartItem = cartListModelList.get(merchantIndex).getCartItemList().get(position);
 
         parameter.clear();
@@ -312,6 +323,7 @@ public class CartFragment extends Fragment implements View.OnClickListener, Cart
 
         productViewModel.deleteCartItem(headers, parameter).observe(this, basicResponse ->
         {
+            isApiCalling = true;
             if (basicResponse != null) {
                 if (basicResponse.getCode().equals(SUCCESS_CODE)) {
 
@@ -328,7 +340,7 @@ public class CartFragment extends Fragment implements View.OnClickListener, Cart
                         AppConstants.CART_COUNTER = 0;
                     } else {
                         fragmentCartBinding.tvCartEmptyState.setVisibility(View.GONE);
-                        fragmentCartBinding.tvEmptyState.setVisibility(View.VISIBLE);
+                        fragmentCartBinding.tvEmptyState.setVisibility(View.GONE);
                     }
 
                     Toast.makeText(getContext(), REMOVED_FROM_CART, Toast.LENGTH_SHORT).show();
@@ -338,12 +350,17 @@ public class CartFragment extends Fragment implements View.OnClickListener, Cart
             } else
                 Toast.makeText(getContext(), GENERAL_ERROR, Toast.LENGTH_SHORT).show();
 
+            isApiCalling = false;
             fragmentCartBinding.pbLoading.setVisibility(View.GONE);
         });
     }
 
     @Override
     public void changeNumberOfCount(int merchantId, int position, int quantity) {
+
+        // if response has not received of previous api
+        if (isApiCalling)
+            return;
 
         Integer merchantIndex = getMerchantModelIndex(merchantId);
         fragmentCartBinding.pbLoading.setVisibility(View.VISIBLE);
@@ -356,14 +373,15 @@ public class CartFragment extends Fragment implements View.OnClickListener, Cart
 
         productViewModel.changeCartProductQuantity(parameter).observe(this, basicResponse ->
         {
+            isApiCalling = true;
+
             if (basicResponse != null) {
                 if (basicResponse.getCode().equals(SUCCESS_CODE)) {
 
-
                     cartListModelList.get(merchantIndex).getCartItemList().get(position).setItemQuantity(quantity);
 
-                    cartIMerchantAdapter.updateData(cartListModelList);
-                    // cartIMerchantAdapter.notifyItemRangeInserted(0, cartListModelList.size());
+                    //cartIMerchantAdapter.setData(cartListModelList);
+                    setCartAdapter();
 
                     if (selectedCartItemList.contains(cartItemList.get(position)))
                         calCalculateBill();
@@ -377,9 +395,10 @@ public class CartFragment extends Fragment implements View.OnClickListener, Cart
                 }
             } else
                 Toast.makeText(getContext(), GENERAL_ERROR, Toast.LENGTH_SHORT).show();
-        });
 
-        fragmentCartBinding.pbLoading.setVisibility(View.GONE);
+            isApiCalling = false;
+            fragmentCartBinding.pbLoading.setVisibility(View.GONE);
+        });
     }
 
     @Override
@@ -458,7 +477,7 @@ public class CartFragment extends Fragment implements View.OnClickListener, Cart
                 cart_session = appPreference.getString(CART_SESSION_TOKEN);
                 getCartItems();
 
-                fragmentCartBinding.btnCheckout.performClick();
+                //        fragmentCartBinding.btnCheckout.performClick();
             }
         }
     }

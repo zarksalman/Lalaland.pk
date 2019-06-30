@@ -18,6 +18,17 @@
         android:background="@color/colorLightGray"
         tools:context=".views.activities.ChangeShippingAddress">
 
+        <ImageView
+
+            android:id="@+id/iv_empty_state"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:visibility="gone"
+            android:src="@drawable/shipping_empty_state"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"/>
         <LinearLayout
 
             android:id="@+id/top_bar"
@@ -33,7 +44,7 @@
 
             <ImageView
 
-                android:id="@+id/iv_close_checkout_screen"
+                android:id="@+id/iv_back_arrow"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center_vertical"

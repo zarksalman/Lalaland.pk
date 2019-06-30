@@ -98,7 +98,22 @@ public class CartIMerchantAdapter extends RecyclerView.Adapter<CartIMerchantAdap
     @Override
     public void changeNumberOfCount(int merchantId, int position, int quantity) {
 
+        Integer index = getMerchantIndex(merchantId);
+
+       /* mCartListModelList.get(index).getCartItemList().get(position).setItemQuantity(quantity);
+        cartItemsAdapter.notifyItemChanged(mCartListModelList.get(index).getCartItemList().get(position).getItemQuantity());
+       */
         mMerchantItemClickListener.changeNumberOfCount(merchantId, position, quantity);
+    }
+
+    Integer getMerchantIndex(Integer merchantId) {
+
+        for (int i = 0; i < mCartListModelList.size(); i++) {
+            if (merchantId == mCartListModelList.get(i).getMerchantId())
+                return i;
+        }
+
+        return 0;
     }
 
     public void notifyDataSetChange() {

@@ -58,9 +58,11 @@ public class MainActivity extends AppCompatActivity implements CloseAppListener 
 
                 activityMainBinding.topBar.setBackgroundColor(getResources().getColor(R.color.colorAccent));
                 activityMainBinding.tvAppName.setText(getResources().getString(R.string.app_name));
-                //fragment = HomeFragment.newInstance();
 
-                replaceFragment(fragments.get(0), 0);
+                fragment = HomeFragment.newInstance();
+                replaceFragment(fragment, 0);
+//                replaceFragment(fragments.get(0), 0);
+
                 return true;
             case R.id.navigation_category:
 
@@ -72,8 +74,11 @@ public class MainActivity extends AppCompatActivity implements CloseAppListener 
                 activityMainBinding.topBarWithoutSearch.setVisibility(View.GONE);
 
                 activityMainBinding.topBar.setBackgroundColor(getResources().getColor(R.color.colorAccent));
-                //  fragment = CategoryFragment.newInstance();
-                replaceFragment(fragments.get(1), 1);
+
+                fragment = CategoryFragment.newInstance();
+                replaceFragment(fragment, 1);
+                //replaceFragment(fragments.get(1), 1);
+
                 return true;
             case R.id.navigation_cart:
 
@@ -87,8 +92,10 @@ public class MainActivity extends AppCompatActivity implements CloseAppListener 
                 activityMainBinding.topBar.setBackgroundColor(getResources().getColor(android.R.color.white));
                 activityMainBinding.tvFragmentName.setText(getResources().getString(R.string.cart_items));
 
-                // fragment = CartFragment.newInstance();
-                replaceFragment(fragments.get(2), 2);
+                fragment = CartFragment.newInstance();
+                replaceFragment(fragment, 2);
+                //replaceFragment(fragments.get(2), 2);
+
                 return true;
 
             case R.id.navigation_wish:
@@ -103,8 +110,10 @@ public class MainActivity extends AppCompatActivity implements CloseAppListener 
                 activityMainBinding.topBar.setBackgroundColor(getResources().getColor(android.R.color.white));
                 activityMainBinding.tvFragmentName.setText(getResources().getString(R.string.wish_items));
 
-                //  fragment = WishFragment.newInstance();
-                replaceFragment(fragments.get(3), 3);
+                fragment = WishFragment.newInstance();
+                replaceFragment(fragment, 3);
+                //replaceFragment(fragments.get(3), 3);
+
                 return true;
 
             case R.id.navigation_account:
@@ -114,8 +123,10 @@ public class MainActivity extends AppCompatActivity implements CloseAppListener 
 
                 activityMainBinding.topBar.setVisibility(View.GONE);
 
-                // fragment = AccountFragment.newInstance();
-                replaceFragment(fragments.get(4), 4);
+                fragment = AccountFragment.newInstance();
+                replaceFragment(fragment, 4);
+                //replaceFragment(fragments.get(4), 4);
+
                 return true;
         }
         return false;

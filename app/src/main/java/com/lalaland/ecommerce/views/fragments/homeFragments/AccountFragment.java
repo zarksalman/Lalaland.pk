@@ -169,19 +169,19 @@ public class AccountFragment extends Fragment implements View.OnClickListener {
 
             case R.id.iv_setting:
 
-                if (!signInToken.isEmpty())
-                    startActivityForResult(new Intent(getContext(), AccountInformationActivity.class), 100);
-                else
+                if (signInToken.isEmpty())
                     startActivityForResult(new Intent(getContext(), RegistrationActivity.class), 101);
+                else
+                    startActivityForResult(new Intent(getContext(), AccountInformationActivity.class), 100);
 
                 break;
 
             case R.id.tv_setting:
-
-                if (!signInToken.isEmpty())
-                    startActivityForResult(new Intent(getContext(), AccountInformationActivity.class), 100);
-                else
+                if (signInToken.isEmpty())
                     startActivityForResult(new Intent(getContext(), RegistrationActivity.class), 101);
+                else
+                    startActivityForResult(new Intent(getContext(), AccountInformationActivity.class), 100);
+
                 break;
 
             case R.id.tv_about_us:
@@ -230,6 +230,7 @@ public class AccountFragment extends Fragment implements View.OnClickListener {
     }
     void logoutUser() {
 
+        fragmentAccountBinding.progressBar.setVisibility(View.VISIBLE);
         LoginViewModel loginViewModel = ViewModelProviders.of(this).get(LoginViewModel.class);
         loginViewModel.logoutUser().observe(this, logout -> {
 
@@ -249,6 +250,9 @@ public class AccountFragment extends Fragment implements View.OnClickListener {
                 Toast.makeText(getContext(), logout.getMsg(), Toast.LENGTH_SHORT).show();
 
             }
+
+            fragmentAccountBinding.progressBar.setVisibility(View.GONE);
+
         });
     }
 
@@ -286,6 +290,9 @@ public class AccountFragment extends Fragment implements View.OnClickListener {
                         .load(avatarImagePath)
                         .placeholder(R.drawable.placeholder_products)
                         .into(fragmentAccountBinding.ivDp);
+
+                intent = new Intent(getContext(), OrderListingActivity.class);
+
             }
         }
 

@@ -206,6 +206,7 @@ public class CheckoutScreen extends AppCompatActivity {
             getDeliveryCharges();
         }
     }
+
     public void addNewAddress(View view) {
         Intent intent = new Intent(this, AddressCreationActivity.class);
         intent.putExtra("is_edit_address", false);
@@ -281,6 +282,7 @@ public class CheckoutScreen extends AppCompatActivity {
                     intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
                     startActivity(intent);
                     finish();
+
                 } else if (orderDataContainer.getCode().equals(VALIDATION_FAIL_CODE) || orderDataContainer.getCode().equals("403"))
                     Toast.makeText(this, orderDataContainer.getMsg(), Toast.LENGTH_SHORT).show();
                 else

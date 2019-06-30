@@ -58,93 +58,78 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:orientation="horizontal"
-            app:layout_constraintGuide_percent=".45" />
+            app:layout_constraintBottom_toBottomOf="@+id/iv_product_img"
+            app:layout_constraintGuide_percent=".5"
+            app:layout_constraintTop_toTopOf="@+id/iv_product_img" />
 
         <TextView
             android:id="@+id/tv_product_name_title"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_margin="@dimen/_2dp"
-            android:layout_marginBottom="@dimen/_8dp"
+            android:layout_marginStart="@dimen/_8dp"
+            android:layout_marginEnd="@dimen/_8dp"
             android:text="@string/name"
             android:textColor="@android:color/black"
             android:textSize="12sp"
             app:layout_constraintStart_toEndOf="@+id/iv_product_img"
-            app:layout_constraintTop_toBottomOf="@+id/gl_mid" />
+            app:layout_constraintTop_toTopOf="@+id/tv_product_name" />
 
         <TextView
             android:id="@+id/tv_product_name"
-            android:layout_width="wrap_content"
+            android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:layout_margin="@dimen/_2dp"
-            android:layout_marginBottom="8dp"
+            android:layout_margin="@dimen/_8dp"
             android:text="@{Orderproduct.name}"
             android:textColor="@android:color/black"
             android:textSize="12sp"
+            app:layout_constraintBottom_toTopOf="@+id/gl_mid"
+            app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toEndOf="@+id/tv_product_name_title"
-            app:layout_constraintTop_toBottomOf="@+id/gl_mid"
             tools:text="@tools:sample/full_names" />
 
         <TextView
             android:id="@+id/tv_product_size_title"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_margin="@dimen/_2dp"
-            android:layout_marginBottom="8dp"
+            android:layout_marginStart="@dimen/_8dp"
             android:text="@string/size"
             android:textColor="@android:color/black"
             android:textSize="12sp"
             app:layout_constraintStart_toEndOf="@+id/iv_product_img"
-            app:layout_constraintTop_toBottomOf="@+id/tv_product_name_title" />
+            app:layout_constraintTop_toBottomOf="@+id/gl_mid" />
 
         <TextView
             android:id="@+id/tv_product_size"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_margin="@dimen/_2dp"
-            android:layout_marginBottom="8dp"
+            android:layout_marginStart="@dimen/_8dp"
             android:textColor="@android:color/black"
             android:textSize="12sp"
             app:layout_constraintStart_toEndOf="@+id/tv_product_size_title"
-            app:layout_constraintTop_toBottomOf="@+id/tv_product_name_title"
+            app:layout_constraintTop_toTopOf="@+id/tv_product_size_title"
             tools:text="@tools:sample/us_zipcodes" />
 
         <TextView
             android:id="@+id/tv_product_price"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_margin="@dimen/_2dp"
-            android:layout_marginBottom="8dp"
             android:text="@{AppUtils.formatPriceString(Orderproduct.salePrice)}"
             android:textColor="@android:color/black"
             android:textSize="12sp"
+            app:layout_constraintTop_toBottomOf="@+id/gl_mid"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/tv_product_name_title"
             tools:text="@tools:sample/us_zipcodes" />
-
-        <TextView
-            android:id="@+id/tv_product_qty_title"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_margin="@dimen/_2dp"
-            android:layout_marginBottom="8dp"
-            android:text="@string/quantity"
-            android:textColor="@android:color/black"
-            android:textSize="12sp"
-            app:layout_constraintStart_toEndOf="@+id/iv_product_img"
-            app:layout_constraintTop_toBottomOf="@+id/tv_product_size_title" />
 
         <TextView
             android:id="@+id/tv_product_qty"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_margin="@dimen/_2dp"
-            android:layout_marginBottom="8dp"
+            android:layout_marginStart="@dimen/_8dp"
             android:text="@{ `Quantity: `+ AppUtils.toString(Orderproduct.itemQuantity) }"
             android:textColor="@android:color/black"
             android:textSize="12sp"
-            app:layout_constraintStart_toEndOf="@+id/tv_product_qty_title"
-            app:layout_constraintTop_toBottomOf="@+id/tv_product_size_title"
+            app:layout_constraintStart_toEndOf="@+id/iv_product_img"
+            app:layout_constraintTop_toBottomOf="@+id/tv_product_size"
             tools:text="@tools:sample/us_zipcodes" />
 
 

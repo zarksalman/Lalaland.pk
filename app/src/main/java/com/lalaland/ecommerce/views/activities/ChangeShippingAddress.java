@@ -42,6 +42,10 @@ public class ChangeShippingAddress extends AppCompatActivity {
         token = AppPreference.getInstance(this).getString(AppConstants.SIGNIN_TOKEN);
         userViewModel = ViewModelProviders.of(this).get(UserViewModel.class);
         getAddresses();
+
+        activityChangeShippingAddressBinding.ivBackArrow.setOnClickListener(v -> {
+            onBackPressed();
+        });
     }
 
     private void getAddresses() {
@@ -49,10 +53,16 @@ public class ChangeShippingAddress extends AppCompatActivity {
         userViewModel.getAddresses(token).observe(this, addressDataContainer -> {
 
             if (addressDataContainer != null) {
-                addressesList = addressDataContainer.getData().getUserAddress();
-                setAdapter();
-                activityChangeShippingAddressBinding.rvAddress.setVisibility(View.VISIBLE);
-                activityChangeShippingAddressBinding.pbLoading.setVisibility(View.GONE);
+
+                if (addressDataContainer.getData().getUserAddress().size() > 0) {
+                    addressesList = addressDataContainer.getData().getUserAddress();
+                    setAdapter();
+                    activityChangeShippingAddressBinding.rvAddress.setVisibility(View.VISIBLE);
+                    activityChangeShippingAddressBinding.pbLoading.setVisibility(View.GONE);
+                } else {
+                    activityChangeShippingAddressBinding.ivEmptyState.setVisibility(View.VISIBLE);
+                }
+
             }
         });
     }
