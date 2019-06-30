@@ -6,7 +6,6 @@ import androidx.annotation.NonNull;
 import androidx.lifecycle.AndroidViewModel;
 import androidx.lifecycle.LiveData;
 
-import com.lalaland.ecommerce.data.models.login.Login;
 import com.lalaland.ecommerce.data.models.login.LoginDataContainer;
 import com.lalaland.ecommerce.data.models.logout.BasicResponse;
 import com.lalaland.ecommerce.data.repository.UsersRepository;

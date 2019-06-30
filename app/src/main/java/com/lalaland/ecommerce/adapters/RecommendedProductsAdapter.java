@@ -12,9 +12,7 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.lalaland.ecommerce.R;
 import com.lalaland.ecommerce.data.models.products.Product;
-import com.lalaland.ecommerce.databinding.ProductItemBinding;
 import com.lalaland.ecommerce.databinding.RecietRecommendationItemBinding;
-import com.lalaland.ecommerce.databinding.RecommendationItemBinding;
 
 import java.util.List;
 

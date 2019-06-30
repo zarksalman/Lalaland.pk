@@ -123,6 +123,9 @@ public class CategoryFragment extends Fragment implements MajorCategoryAdapter.M
                         trimZeroSizeInnerCategories();
 
                         fragmentCategoryBinding.subCategoryContainer.setVisibility(View.VISIBLE);
+                        fragmentCategoryBinding.rvSubCategoryBrand.setVisibility(View.GONE);
+                        fragmentCategoryBinding.ivCategoryHeader.setVisibility(View.VISIBLE);
+
                         categoryAdapter.notifyDataSetChanged();
 
                         String bannerImageUrl = BANNER_STORAGE_BASE_URL.concat(categoryHomeBanners.get(0).getBannerImage());
@@ -222,10 +225,6 @@ public class CategoryFragment extends Fragment implements MajorCategoryAdapter.M
 
             } else {
 
-                fragmentCategoryBinding.subCategoryContainer.setVisibility(View.VISIBLE);
-                fragmentCategoryBinding.rvSubCategoryBrand.setVisibility(View.GONE);
-
-                fragmentCategoryBinding.ivCategoryHeader.setVisibility(View.VISIBLE);
                 fragmentCategoryBinding.pbLoading.setVisibility(View.VISIBLE);
 
                 subCategories.clear();

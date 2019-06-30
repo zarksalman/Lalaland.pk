@@ -2,9 +2,7 @@ package com.lalaland.ecommerce.views.fragments.registrationFragments;
 
 
 import android.app.Activity;
-import android.app.AlertDialog;
 import android.app.DatePickerDialog;
-import android.app.Dialog;
 import android.os.Bundle;
 import android.util.Log;
 import android.util.Patterns;
@@ -16,7 +14,6 @@ import android.widget.RadioButton;
 import android.widget.Toast;
 
 import androidx.databinding.DataBindingUtil;
-import androidx.fragment.app.DialogFragment;
 import androidx.lifecycle.ViewModelProviders;
 
 import com.lalaland.ecommerce.R;

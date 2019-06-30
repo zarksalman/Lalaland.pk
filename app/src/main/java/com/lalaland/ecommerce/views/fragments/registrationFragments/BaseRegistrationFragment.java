@@ -30,7 +30,6 @@ import com.google.android.gms.common.SignInButton;
 import com.google.android.gms.common.api.ApiException;
 import com.google.android.gms.common.api.GoogleApiClient;
 import com.google.android.gms.tasks.Task;
-import com.lalaland.ecommerce.helpers.AppConstants;
 import com.lalaland.ecommerce.helpers.AppPreference;
 import com.lalaland.ecommerce.viewModels.user.LoginViewModel;
 import com.lalaland.ecommerce.viewModels.user.RegistrationViewModel;

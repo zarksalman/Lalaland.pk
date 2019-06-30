@@ -23,9 +23,10 @@
         xmlns:android="http://schemas.android.com/apk/res/android"
         xmlns:tools="http://schemas.android.com/tools"
         android:id="@+id/variation_root"
-        android:layout_width="@dimen/_40dp"
+        android:layout_width="80dp"
         android:layout_height="@dimen/_40dp"
         android:layout_margin="@dimen/_4dp"
+        android:padding="@dimen/_8dp"
         android:background="@drawable/bg_round_corner_transparent_gray"
         android:onClick="@{()->adapter.onVariationClicked(productVariation)}">
 

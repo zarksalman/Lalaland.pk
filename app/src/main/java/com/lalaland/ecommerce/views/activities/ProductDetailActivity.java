@@ -103,6 +103,9 @@ public class ProductDetailActivity extends AppCompatActivity implements ProductV
 
         intent = new Intent(this, MainActivity.class);
 
+        loginToken = appPreference.getString(SIGNIN_TOKEN);
+        cartSessionToken = appPreference.getString(CART_SESSION_TOKEN);
+
         getProductDetail();
 
         activityProductDetailBinding.cityContainer.setOnClickListener(v -> {

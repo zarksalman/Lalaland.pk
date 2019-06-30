@@ -2,7 +2,6 @@ package com.lalaland.ecommerce.views.activities;
 
 import android.content.Intent;
 import android.os.Bundle;
-import android.os.Handler;
 import android.util.Base64;
 import android.util.Log;
 import android.view.View;
@@ -13,7 +12,6 @@ import android.widget.Toast;
 
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.core.view.ViewCompat;
 import androidx.databinding.DataBindingUtil;
 import androidx.lifecycle.ViewModelProviders;
 import androidx.recyclerview.widget.GridLayoutManager;
