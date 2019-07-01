@@ -23,6 +23,8 @@ import com.lalaland.ecommerce.data.models.wishList.WishListContainer;
 
 import java.util.Map;
 
+import io.reactivex.Observable;
+import io.reactivex.ObservableSource;
 import retrofit2.Call;
 import retrofit2.http.GET;
 import retrofit2.http.Header;
@@ -122,6 +124,9 @@ public interface LalalandServiceApi {
 
     @POST("changePassword")
     Call<BasicResponse> changePassword(@Header("token") String token, @QueryMap Map<String, String> parameters);
+
+    @POST("globalSearch")
+    Observable<SearchDataContainer> globalRxSearch(@Query("qstr") String queryString);
 
     @POST("globalSearch")
     Call<SearchDataContainer> globalSearch(@Query("qstr") String queryString);

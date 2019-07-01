@@ -1,5 +1,6 @@
 package com.lalaland.ecommerce.views.activities;
 
+import android.app.ActivityManager;
 import android.content.Context;
 import android.content.Intent;
 import android.content.res.Resources;
@@ -470,10 +471,32 @@ public class ProductDetailActivity extends AppCompatActivity implements ProductV
         }
     }
 
-
     @Override
     public void onBackPressed() {
-        finish();
+
+        // if user comes from order receive activity, user has finish all activities
+        if (isLastActivity()) {
+            AppConstants.LOAD_HOME_FRAGMENT_INDEX = 0;
+            intent = new Intent(this, MainActivity.class);
+            intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
+            startActivity(intent);
+        } else
+            finish();
+    }
+
+    boolean isLastActivity() {
+
+        ActivityManager mngr = (ActivityManager) getSystemService(ACTIVITY_SERVICE);
+
+        List<ActivityManager.RunningTaskInfo> taskList = mngr.getRunningTasks(10);
+
+        if (taskList.get(0).numActivities == 1 &&
+                taskList.get(0).topActivity.getClassName().equals(this.getClass().getName())) {
+
+            Log.i(AppConstants.TAG, "This is last activity in the stack");
+            return true;
+        } else
+            return false;
     }
 
     @Override

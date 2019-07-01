@@ -1,4 +1,5 @@
 <resources>
+    <string name="main_app_name">Lalaland</string>
     <string name="app_name">lalaland</string>
     <string name="title_home">Home</string>
 
@@ -13,7 +14,6 @@
     <string name="last_name">Last Name</string>
     <string name="mobile_number">Mobile Number</string>
     <string name="email">Email</string>
-    <string name="email_number">Email or Number</string>
     <string name="confirm_email">Confirm Email</string>
     <string name="password">Password</string>
     <string name="confirm_password">Confirm Password</string>
@@ -35,14 +35,15 @@
     <string name="add_to_cart">Add to cart</string>
     <string name="title_activity_product_listing">ProductListingActivity</string>
     <string name="sort_by">SORT</string>
+    <string name="sort">SORT BY</string>
     <string name="filter_by">FILTER</string>
     <string name="choose">Choose..</string>
     <string name="a_z">A - Z</string>
     <string name="z_a">Z - A</string>
-    <string name="newest">NEWEST</string>
-    <string name="oldest">OLDEST</string>
-    <string name="high_to_low">HIGH TO LOW</string>
-    <string name="low_to_high">LOW TO HIGH</string>
+    <string name="newest">Newest</string>
+    <string name="oldest">Oldest</string>
+    <string name="high_to_low">High To Low</string>
+    <string name="low_to_high">Low To High</string>
     <string name="title_activity_checkout_screen">CheckoutScreen</string>
     <string name="cart_items">Cart Items</string>
     <string name="edit_change">Edit / Change</string>
@@ -113,7 +114,6 @@
     <string name="search_history">Search History</string>
     <string name="clear_all">Clear All</string>
     <!--<string name="server_client_id">122765248262-6n4knohpbldpkuc3bu11i5oovu2lhvg5.apps.googleusercontent.com</string>-->
-    <string name="server_client_id">122765248262-03m7dmonpdot2a59ertdtovcgkja4sq5.apps.googleusercontent.com</string>
     <string name="filter">Filter</string>
     <string name="apply">Apply</string>
     <string name="reset">Reset</string>

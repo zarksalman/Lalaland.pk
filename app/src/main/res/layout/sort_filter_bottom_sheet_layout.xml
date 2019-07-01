@@ -26,14 +26,15 @@
                 android:id="@+id/iv_sort_icon"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                app:srcCompat="@drawable/back_arrow_icon" />
+                app:srcCompat="@drawable/sorting_icon" />
 
             <TextView
 
                 android:id="@+id/tv_sort"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="@string/sort_by"
+                android:layout_marginStart="@dimen/_16dp"
+                android:text="@string/sort"
                 android:textSize="16sp" />
         </androidx.appcompat.widget.LinearLayoutCompat>
 

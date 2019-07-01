@@ -103,10 +103,7 @@ public class BaseRegistrationFragment extends Fragment {
     }
 
     public void signInOrSignUpWithGoogle(SignInButton signInButton) {
-
-
 /*
-
 
         gso = new GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)
                 .requestScopes(new Scope(Scopes.DRIVE_APPFOLDER))

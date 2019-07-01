@@ -8,7 +8,6 @@ import android.view.View;
 import android.view.Window;
 import android.view.WindowManager;
 import android.widget.AbsListView;
-import android.widget.Toast;
 
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
@@ -392,7 +391,7 @@ public class ActionProductListingActivity extends AppCompatActivity implements A
                             activityProductListingBinding.ivEmptyState.setVisibility(View.VISIBLE);
                         }
 
-                        Toast.makeText(this, "Items not found", Toast.LENGTH_SHORT).show();
+//                        Toast.makeText(this, "Items not found", Toast.LENGTH_SHORT).show();
                     }
                 }
             }

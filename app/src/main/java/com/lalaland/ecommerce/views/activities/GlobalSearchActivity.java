@@ -10,7 +10,6 @@ import android.widget.LinearLayout;
 import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.appcompat.widget.SearchView;
 import androidx.databinding.DataBindingUtil;
 import androidx.lifecycle.ViewModelProviders;
 import androidx.recyclerview.widget.LinearLayoutManager;
@@ -20,13 +19,24 @@ import com.lalaland.ecommerce.R;
 import com.lalaland.ecommerce.adapters.SearchAdapter;
 import com.lalaland.ecommerce.adapters.SearchProductAdapter;
 import com.lalaland.ecommerce.data.models.globalSearch.SearchCategory;
+import com.lalaland.ecommerce.data.models.globalSearch.SearchDataContainer;
 import com.lalaland.ecommerce.data.models.globalSearch.SearchProduct;
+import com.lalaland.ecommerce.data.retrofit.RetrofitRxJavaClient;
 import com.lalaland.ecommerce.databinding.ActivityGlobalSearchBinding;
 import com.lalaland.ecommerce.helpers.AppPreference;
+import com.lalaland.ecommerce.helpers.RxSearchObservable;
 import com.lalaland.ecommerce.viewModels.products.ProductViewModel;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.concurrent.TimeUnit;
+
+import io.reactivex.Observable;
+import io.reactivex.Observer;
+import io.reactivex.android.schedulers.AndroidSchedulers;
+import io.reactivex.disposables.Disposable;
+import io.reactivex.functions.Function;
+import io.reactivex.schedulers.Schedulers;
 
 import static com.lalaland.ecommerce.helpers.AppConstants.ACTION_ID;
 import static com.lalaland.ecommerce.helpers.AppConstants.ACTION_NAME;
@@ -49,6 +59,7 @@ public class GlobalSearchActivity extends AppCompatActivity implements SearchPro
     private List<SearchCategory> searchCategories = new ArrayList<>();
     private List<SearchCategory> savedSearchCategories = new ArrayList<>();
     private boolean isHistory = true;
+    private boolean isReponseReceive = false;
     private Intent intent;
 
     @Override
@@ -71,6 +82,7 @@ public class GlobalSearchActivity extends AppCompatActivity implements SearchPro
         setHistoryAdapter();
         setAdapter();
 
+
         productViewModel.getAllSearchCategories().observe(this, searchCategories1 -> {
 
             if (searchCategories1.size() > 0) {
@@ -87,7 +99,118 @@ public class GlobalSearchActivity extends AppCompatActivity implements SearchPro
                 activityGlobalSearchBinding.emptyState.setVisibility(View.VISIBLE);
             }
         });
-        activityGlobalSearchBinding.svGlobalSearch.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
+
+        RxSearchObservable.fromView(activityGlobalSearchBinding.svGlobalSearch)
+                .debounce(500, TimeUnit.MILLISECONDS)
+                .filter(text -> {
+                    if (text.isEmpty()) {
+
+                        if (savedSearchCategories.size() > 0) {
+                            activityGlobalSearchBinding.recentSearches.setVisibility(View.VISIBLE);
+                            activityGlobalSearchBinding.rvSearchProducts.setVisibility(View.GONE);
+                            searchCategories.clear();
+                            saveSearchAdapter.notifyDataSetChanged();
+                        } else if (savedSearchCategories.size() < 1) {
+                            activityGlobalSearchBinding.emptyState.setVisibility(View.VISIBLE);
+                        }
+
+                        return false;
+                    } else {
+                        return true;
+                    }
+                })
+                .distinctUntilChanged()
+                .switchMap((new Function<String, Observable<SearchDataContainer>>() {
+                    @Override
+                    public Observable<SearchDataContainer> apply(String s) throws Exception {
+                        return RetrofitRxJavaClient.getInstance().createClient().globalRxSearch(s);
+                    }
+                }))
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(new Observer<SearchDataContainer>() {
+                    @Override
+                    public void onSubscribe(Disposable d) {
+
+                    }
+
+                    @Override
+                    public void onNext(SearchDataContainer searchDataContainer) {
+
+                        if (searchDataContainer != null) {
+                            if (searchDataContainer.getCode().equals(SUCCESS_CODE)) {
+                                searchProducts.clear();
+                                searchCategories.clear();
+
+                                searchProducts.addAll(searchDataContainer.getData().getProduct());
+                                searchCategories.addAll(searchDataContainer.getData().getCategory());
+
+                                createModelsForAdapter();
+
+                                if (searchCategories.size() > 0) {
+
+                                    activityGlobalSearchBinding.emptyState.setVisibility(View.GONE);
+                                    activityGlobalSearchBinding.rvSearchProducts.setVisibility(View.VISIBLE);
+
+                                } else {
+                                    Toast.makeText(GlobalSearchActivity.this, "Items Not Found", Toast.LENGTH_SHORT).show();
+                                    searchCategories.clear();
+                                }
+
+                                searchProductAdapter.setData(searchCategories);
+                                searchProductAdapter.notifyDataSetChanged();
+                            }
+                        }
+
+                        activityGlobalSearchBinding.pbLoading.setVisibility(View.GONE);
+                    }
+
+                    @Override
+                    public void onError(Throwable e) {
+
+                    }
+
+                    @Override
+                    public void onComplete() {
+
+                    }
+                });
+
+
+/*
+                .subscribe(new Consumer<SearchDataContainer>() {
+                    @Override
+                    public void accept(SearchDataContainer searchDataContainer) throws Exception {
+
+                        if (searchDataContainer.getCode().equals(SUCCESS_CODE)) {
+                            searchProducts.clear();
+                            searchCategories.clear();
+
+                            searchProducts.addAll(searchDataContainer.getData().getProduct());
+                            searchCategories.addAll(searchDataContainer.getData().getCategory());
+
+                            createModelsForAdapter();
+
+                            if (searchCategories.size() > 0) {
+
+                                activityGlobalSearchBinding.emptyState.setVisibility(View.GONE);
+                                activityGlobalSearchBinding.rvSearchProducts.setVisibility(View.VISIBLE);
+
+                            } else {
+                                Toast.makeText(GlobalSearchActivity.this, "Items Not Found", Toast.LENGTH_SHORT).show();
+                                searchCategories.clear();
+                            }
+
+                            searchProductAdapter.setData(searchCategories);
+                            searchProductAdapter.notifyDataSetChanged();
+                        }
+
+                        activityGlobalSearchBinding.pbLoading.setVisibility(View.GONE);
+                    }
+                });
+*/
+
+     /*   activityGlobalSearchBinding.svGlobalSearch.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
             @Override
             public boolean onQueryTextSubmit(String query) {
                 //searchAdapter.filter(query);
@@ -106,6 +229,8 @@ public class GlobalSearchActivity extends AppCompatActivity implements SearchPro
 
                     activityGlobalSearchBinding.pbLoading.setVisibility(View.VISIBLE);
                     callToApi(query);
+                    closeKeyboard();
+
                 }
 
                 return true;
@@ -126,7 +251,7 @@ public class GlobalSearchActivity extends AppCompatActivity implements SearchPro
                 return true;
             }
         });
-
+*/
         activityGlobalSearchBinding.tvClearAll.setOnClickListener(v -> {
 
             if (savedSearchCategories.size() > 0)
@@ -167,8 +292,6 @@ public class GlobalSearchActivity extends AppCompatActivity implements SearchPro
 
     private void callToApi(String queryString) {
 
-        closeKeyboard();
-
         activityGlobalSearchBinding.recentSearches.setVisibility(View.GONE);
         activityGlobalSearchBinding.emptyState.setVisibility(View.GONE);
 
@@ -198,6 +321,7 @@ public class GlobalSearchActivity extends AppCompatActivity implements SearchPro
             }
 
             activityGlobalSearchBinding.pbLoading.setVisibility(View.GONE);
+
         });
     }
 

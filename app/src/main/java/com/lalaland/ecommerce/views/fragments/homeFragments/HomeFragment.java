@@ -113,7 +113,7 @@ public class HomeFragment extends Fragment implements ActionAdapter.ActionClickL
         recommended_cat = AppPreference.getInstance(getContext()).getString(RECOMMENDED_CAT_TOKEN);
 
         android.view.Display display = ((android.view.WindowManager) getContext().getSystemService(Context.WINDOW_SERVICE)).getDefaultDisplay();
-        fragmentHomeBinding.containersParent.getLayoutParams().height = ((int) (display.getHeight() * 0.7));
+        fragmentHomeBinding.containersParent.getLayoutParams().height = ((int) (display.getHeight() * 0.9));
 
         requestInitialProducts();
         return fragmentHomeBinding.getRoot();
