@@ -1,6 +1,7 @@
 package com.lalaland.ecommerce.views.activities;
 
 import android.content.Intent;
+import android.graphics.drawable.GradientDrawable;
 import android.os.Bundle;
 import android.util.Base64;
 import android.util.Log;
@@ -8,6 +9,7 @@ import android.view.View;
 import android.view.Window;
 import android.view.WindowManager;
 import android.widget.AbsListView;
+import android.widget.LinearLayout;
 
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
@@ -163,6 +165,16 @@ public class ActionProductListingActivity extends AppCompatActivity implements A
         activityProductListingBinding.ivSearchProductListing.setOnClickListener(v -> {
             startActivity(new Intent(this, GlobalSearchActivity.class));
         });
+
+        View root = activityProductListingBinding.tlSortFilter.getChildAt(0);
+        if (root instanceof LinearLayout) {
+            ((LinearLayout) root).setShowDividers(LinearLayout.SHOW_DIVIDER_MIDDLE);
+            GradientDrawable drawable = new GradientDrawable();
+            drawable.setColor(getResources().getColor(R.color.colorDarkGray));
+            drawable.setSize(2, 1);
+
+            ((LinearLayout) root).setDividerDrawable(drawable);
+        }
 
         activityProductListingBinding.tlSortFilter.addOnTabSelectedListener(new TabLayout.OnTabSelectedListener() {
             @Override

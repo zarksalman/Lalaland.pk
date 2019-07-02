@@ -11,6 +11,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.lalaland.ecommerce.R;
 import com.lalaland.ecommerce.data.models.productDetails.ProductVariation;
 import com.lalaland.ecommerce.databinding.ProductVariationItemBinding;
+import com.lalaland.ecommerce.helpers.AppUtils;
 
 import java.util.List;
 
@@ -22,12 +23,14 @@ public class ProductVariationAdapter extends RecyclerView.Adapter<ProductVariati
     private ProductVariationItemBinding productVariationItemBinding;
     private LayoutInflater inflater;
     private ProductVariationListener mProductVariationListener;
-    private int selectedPosition = 0;
+    private int selectedPosition;
 
-    public ProductVariationAdapter(Context context, ProductVariationListener productVariationListener) {
+    public ProductVariationAdapter(Context context, ProductVariationListener productVariationListener, int firstSelected) {
         mContext = context;
         inflater = LayoutInflater.from(context);
         mProductVariationListener = productVariationListener;
+
+        selectedPosition = firstSelected;
     }
 
     @NonNull
@@ -57,10 +60,12 @@ public class ProductVariationAdapter extends RecyclerView.Adapter<ProductVariati
 
     public void onVariationClicked(ProductVariation productVariation) {
 
-        selectedPosition = mProductVariations.indexOf(productVariation);
+        if (AppUtils.toInteger(productVariation.getRemainingQuantity()) > 0) {
+            selectedPosition = mProductVariations.indexOf(productVariation);
+            mProductVariationListener.onProductVariationClicked(productVariation);
+        }
+
         notifyDataSetChanged();
-        
-        mProductVariationListener.onProductVariationClicked(productVariation);
     }
 
     class ProductVariationViewHolder extends RecyclerView.ViewHolder {
@@ -75,12 +80,22 @@ public class ProductVariationAdapter extends RecyclerView.Adapter<ProductVariati
 
         void bindHolder(ProductVariation productVariation) {
 
-            if (selectedPosition == getAdapterPosition()) {
-                mProductVariationItemBinding.tvVariation.setTextColor(mContext.getResources().getColor(R.color.colorPrimary));
-                mProductVariationItemBinding.variationRoot.setBackground(mContext.getResources().getDrawable(R.drawable.bg_round_corner_transparent_accent));
+            if (AppUtils.toInteger(productVariation.getRemainingQuantity()) > 0) {
+
+                if (selectedPosition == getAdapterPosition()) {
+
+                    mProductVariationItemBinding.tvVariation.setTextColor(mContext.getResources().getColor(R.color.colorPrimary));
+                    mProductVariationItemBinding.variationRoot.setBackground(mContext.getResources().getDrawable(R.drawable.bg_round_corner_transparent_accent));
+
+                    
+                } else {
+                    mProductVariationItemBinding.tvVariation.setTextColor(mContext.getResources().getColor(android.R.color.black));
+                    mProductVariationItemBinding.variationRoot.setBackground(mContext.getResources().getDrawable(R.drawable.bg_round_corner_transparent_gray));
+                }
             } else {
-                mProductVariationItemBinding.tvVariation.setTextColor(mContext.getResources().getColor(android.R.color.black));
-                mProductVariationItemBinding.variationRoot.setBackground(mContext.getResources().getDrawable(R.drawable.bg_round_corner_transparent_gray));
+
+                mProductVariationItemBinding.tvVariation.setTextColor(mContext.getResources().getColor(android.R.color.white));
+                mProductVariationItemBinding.variationRoot.setBackground(mContext.getResources().getDrawable(R.drawable.bg_round_corner_gray));
             }
 
             mProductVariationItemBinding.setProductVariation(productVariation);

@@ -61,6 +61,8 @@ public class AppConstants {
     public static final String CATEGORY_PRODUCTS = "category";
     public static final String CUSTOM_LIST_PRODUCTS = "custom_list";
 
+    public static final String REMAINING_QUANTITY = "remaining_qty";
+
     public static final String IS_FIRST_UPGRADE = "first_upgrade";
     public static final String PRODUCT_ID = "product_id";
     public static final String CART_ID = "cart_id[0]"; // for only one id

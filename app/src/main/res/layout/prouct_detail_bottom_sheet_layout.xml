@@ -49,35 +49,65 @@
         </androidx.cardview.widget.CardView>
 
         <TextView
-            android:id="@+id/tv_product_name"
+            android:id="@+id/tv_brand_name"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_margin="@dimen/_4dp"
             android:layout_marginBottom="8dp"
-            android:text="@{productDetails.name}"
+            android:text="@{productDetails.brandName}"
             android:textColor="@android:color/black"
             android:textSize="14sp"
             android:maxLines="2"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHorizontal_bias="0"
-            app:layout_constraintBottom_toTopOf="@+id/tv_product_actual_price"
+            app:layout_constraintBottom_toTopOf="@+id/tv_product_name"
+            app:layout_constraintStart_toEndOf="@+id/iv_product_img"
+            tools:text="@string/last_name" />
+
+        <TextView
+            android:id="@+id/tv_product_name"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_margin="@dimen/_4dp"
+            android:layout_marginBottom="8dp"
+            android:maxLines="2"
+            android:text="@{productDetails.name}"
+            android:textColor="@android:color/black"
+            android:textSize="14sp"
+            app:layout_constraintBottom_toTopOf="@+id/tv_product_sale_price"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0"
             app:layout_constraintStart_toEndOf="@+id/iv_product_img"
             tools:text="@string/last_name" />
 
 
+        <!--        android:text="@{AppUtils.showRangePrice(productDetails.minSalePrice, productDetails.minSalePrice)}"-->
         <TextView
-            android:id="@+id/tv_product_actual_price"
+            android:id="@+id/tv_product_sale_price"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_margin="@dimen/_4dp"
             android:layout_marginBottom="8dp"
-            android:text="@{AppUtils.showRangePrice(productDetails.minActualPrice, productDetails.maxActualPrice)}"
             android:textSize="14sp"
             android:textColor="@color/colorLightRed"
-            app:layout_constraintBottom_toBottomOf="@+id/iv_product_img"
+            app:layout_constraintBottom_toTopOf="@+id/tv_product_actual_price"
             app:layout_constraintStart_toEndOf="@+id/iv_product_img"
             tools:text="@string/last_name" />
 
+        <TextView
+            android:id="@+id/tv_product_actual_price"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="@dimen/_4dp"
+            android:maxLines="2"
+            android:textColor="@android:color/black"
+            android:textSize="14sp"
+            android:visibility="@{AppUtils.isPriceEqual(productDetails.minSalePrice, productDetails.minActualPrice) ? View.GONE:View.VISIBLE}"
+            app:layout_constraintBottom_toBottomOf="@+id/iv_product_img"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0"
+            app:layout_constraintStart_toEndOf="@+id/iv_product_img"
+            tools:text="@string/last_name" />
 
         <ImageView
             android:layout_width="wrap_content"
@@ -85,6 +115,7 @@
             android:onClick="@{()->variationListener.hideBottomSheet()}"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintTop_toTopOf="parent"
+            android:padding="@dimen/_4dp"
             android:background="@drawable/back_arrow_bg_oval_corner_gray"
             app:srcCompat="@drawable/close_icon" />
 
@@ -104,7 +135,7 @@
             android:layout_height="wrap_content"
             android:layout_margin="@dimen/_4dp"
             android:text="@string/size_without_colon"
-            android:textSize="16sp"
+            android:textSize="14sp"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/iv_line_1" />
 
@@ -136,7 +167,7 @@
             android:layout_height="wrap_content"
             android:layout_margin="@dimen/_4dp"
             android:text="@string/quantity"
-            android:textSize="16sp"
+            android:textSize="14sp"
             app:layout_constraintBottom_toTopOf="@+id/btn_done"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/iv_line_2" />

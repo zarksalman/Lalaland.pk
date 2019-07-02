@@ -151,7 +151,7 @@
     <string name="make_this_default">Make This Default</string>
     <string name="note">Note</string>
     <string name="your_order_amount_is_exceeding_pkr_40_000_so_you_can_not_select_cash_on_delivery">Your order amount is exceeding PKR 40,000 so you can not select CASH ON DELIVERY</string>
-    <string name="exit_info">Do you really want to exit ?</string>
+    <string name="exit_info">Do you really want to close application ?</string>
 
     <string name="exit_application">Exit Application</string>
 

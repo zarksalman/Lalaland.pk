@@ -6,6 +6,7 @@ import android.os.Bundle;
 import android.view.View;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.AutoCompleteTextView;
+import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.Toast;
 
@@ -61,7 +62,7 @@ public class GlobalSearchActivity extends AppCompatActivity implements SearchPro
     private boolean isHistory = true;
     private boolean isReponseReceive = false;
     private Intent intent;
-
+    private ImageView imageView;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -78,6 +79,10 @@ public class GlobalSearchActivity extends AppCompatActivity implements SearchPro
         LinearLayout linearLayout3 = (LinearLayout) linearLayout2.getChildAt(1);
         AutoCompleteTextView autoComplete = (AutoCompleteTextView) linearLayout3.getChildAt(0);
         autoComplete.setTextSize(13);
+
+        // setting searchview cross icon
+        imageView = (ImageView) linearLayout3.getChildAt(1);
+        imageView.setImageDrawable(getResources().getDrawable(R.drawable.cross_icon));
 
         setHistoryAdapter();
         setAdapter();
@@ -110,7 +115,7 @@ public class GlobalSearchActivity extends AppCompatActivity implements SearchPro
                             activityGlobalSearchBinding.rvSearchProducts.setVisibility(View.GONE);
                             searchCategories.clear();
                             saveSearchAdapter.notifyDataSetChanged();
-                        } else if (savedSearchCategories.size() < 1) {
+                        } else {
                             activityGlobalSearchBinding.emptyState.setVisibility(View.VISIBLE);
                         }
 

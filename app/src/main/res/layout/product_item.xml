@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 
-<layout>
+<layout xmlns:android="http://schemas.android.com/apk/res/android">
 
     <data>
 
@@ -18,104 +18,149 @@
 
     </data>
 
-    <androidx.constraintlayout.widget.ConstraintLayout
+    <RelativeLayout
 
-        xmlns:android="http://schemas.android.com/apk/res/android"
         xmlns:app="http://schemas.android.com/apk/res-auto"
         xmlns:tools="http://schemas.android.com/tools"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_margin="@dimen/_8dp"
-        android:background="@drawable/recommended_products_bg"
-        android:onClick="@{(view)->adapter.onProductClicked(view,product)}"
-        android:padding="@dimen/_8dp">
+        android:layout_height="wrap_content">
 
-        <androidx.constraintlayout.widget.Guideline
-            android:id="@+id/gl_img"
-            android:layout_width="wrap_content"
+        <androidx.constraintlayout.widget.ConstraintLayout
+
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:orientation="horizontal"
-            app:layout_constraintGuide_percent=".75"
-            app:layout_constraintTop_toTopOf="parent" />
+            android:layout_margin="@dimen/_8dp"
+            android:background="@drawable/recommended_products_bg"
+            android:onClick="@{(view)->adapter.onProductClicked(view,product)}"
+            android:padding="@dimen/_8dp">
+
+            <androidx.constraintlayout.widget.Guideline
+                android:id="@+id/gl_img"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                app:layout_constraintGuide_percent=".75"
+                app:layout_constraintTop_toTopOf="parent" />
+
+            <ImageView
+
+                android:id="@+id/iv_product"
+                android:layout_width="wrap_content"
+                android:layout_height="0dp"
+                app:layout_constraintBottom_toBottomOf="@+id/gl_img"
+                app:layout_constraintDimensionRatio="3:4"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintVertical_bias="0"
+                app:setMediumImageFromServer="@{product.primaryImage}"
+                tools:src="@drawable/placeholder_products" />
+
+            <TextView
+
+                android:id="@+id/tv_brand_name"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/_4dp"
+                android:ellipsize="end"
+                android:fontFamily="@font/encodesansregular"
+                android:maxLength="15"
+                android:maxLines="1"
+                android:text="@{product.brandName}"
+                android:textColor="@android:color/black"
+                android:textSize="13sp"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintHorizontal_bias="0"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/iv_product"
+                tools:text="@tools:sample/full_names" />
+
+            <TextView
+
+                android:id="@+id/tv_product_name"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:ellipsize="end"
+                android:fontFamily="@font/encodesanslight"
+                android:maxLength="20"
+                android:maxLines="1"
+                android:text="@{product.name}"
+                android:textColor="@android:color/black"
+                android:textSize="11sp"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintHorizontal_bias="0"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/tv_brand_name"
+                tools:text="@tools:sample/lorem/random" />
+
+            <TextView
+
+                android:id="@+id/tv_product_sale_price"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:text="@{AppUtils.formatPriceString(product.salePrice)}"
+                android:textColor="@color/colorLightRed"
+                android:textSize="14sp"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintHorizontal_bias="0"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/tv_product_name"
+                tools:text="@tools:sample/us_zipcodes" />
+
+            <TextView
+
+                android:id="@+id/tv_product_actual_price"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:text="@{AppUtils.formatPriceString(product.actualPrice)}"
+                android:textColor="@android:color/black"
+                android:textSize="12sp"
+                android:visibility="@{AppUtils.isPriceEqual(product.salePrice ,product.actualPrice) ? View.GONE : View.VISIBLE}"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintHorizontal_bias="0"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/tv_product_sale_price"
+                tools:text="@tools:sample/us_zipcodes" />
+        </androidx.constraintlayout.widget.ConstraintLayout>
 
         <ImageView
 
-            android:id="@+id/iv_product"
             android:layout_width="wrap_content"
-            android:layout_height="0dp"
-            app:layout_constraintBottom_toBottomOf="@+id/gl_img"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintDimensionRatio="3:4"
-            app:layout_constraintVertical_bias="0"
-            tools:src="@drawable/placeholder_products"
-            app:setMediumImageFromServer="@{product.primaryImage}" />
-
-        <TextView
-
-            android:id="@+id/tv_brand_name"
-            android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:layout_marginTop="@dimen/_4dp"
-            android:ellipsize="end"
-            android:fontFamily="@font/encodesansregular"
-            android:maxLength="15"
-            android:maxLines="1"
-            android:text="@{product.brandName}"
-            android:textColor="@android:color/black"
-            android:textSize="13sp"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="0"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/iv_product"
-            tools:text="@tools:sample/full_names" />
+            android:layout_alignParentStart="true"
+            android:layout_alignParentTop="true"
+            android:layout_marginStart="@dimen/_8dp"
+            android:layout_marginTop="@dimen/_16dp"
+            android:scaleType="fitCenter"
+            android:src="@drawable/out_of_stock"
+            android:visibility="@{AppUtils.toInteger(product.quantity) > 0 ? View.GONE: View.VISIBLE}" />
 
-        <TextView
-
-            android:id="@+id/tv_product_name"
-            android:layout_width="0dp"
+        <RelativeLayout
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:ellipsize="end"
-            android:fontFamily="@font/encodesanslight"
-            android:maxLength="20"
-            android:maxLines="1"
-            android:text="@{product.name}"
-            android:textColor="@android:color/black"
-            android:textSize="11sp"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="0"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/tv_brand_name"
-            tools:text="@tools:sample/lorem/random" />
+            android:layout_alignParentTop="true"
+            android:layout_alignParentEnd="true"
+            android:layout_marginTop="@dimen/_16dp"
+            android:layout_marginEnd="@dimen/_8dp"
+            android:scaleType="fitCenter"
+            android:visibility="@{AppUtils.isPriceEqual(product.salePrice,product.actualPrice) ? View.GONE : View.VISIBLE}">
 
-        <TextView
+            <ImageView
 
-            android:id="@+id/tv_product_sale_price"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:text="@{AppUtils.formatPriceString(product.salePrice)}"
-            android:textColor="@color/colorLightRed"
-            android:textSize="14sp"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="0"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/tv_product_name"
-            tools:text="@tools:sample/us_zipcodes" />
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerInParent="true"
+                android:src="@drawable/sale_tag" />
 
-        <TextView
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerInParent="true"
+                android:text="@{AppUtils.caculatePercentage(product.actualPrice, product.salePrice)}"
+                android:textColor="@android:color/white"
+                android:textSize="11sp" />
 
-            android:id="@+id/tv_product_actual_price"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:text="@{AppUtils.formatPriceString(product.actualPrice)}"
-            android:textColor="@android:color/black"
-            android:textSize="12sp"
-            android:visibility="@{AppUtils.isPriceEqual(product.salePrice ,product.actualPrice) ? View.GONE : View.VISIBLE}"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="0"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/tv_product_sale_price"
-            tools:text="@tools:sample/us_zipcodes" />
-    </androidx.constraintlayout.widget.ConstraintLayout>
+        </RelativeLayout>
+
+    </RelativeLayout>
 </layout>

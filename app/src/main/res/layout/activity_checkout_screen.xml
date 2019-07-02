@@ -42,6 +42,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center_vertical"
+                android:layout_marginStart="@dimen/_8dp"
                 app:srcCompat="@drawable/back_arrow_icon" />
 
             <TextView

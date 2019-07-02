@@ -32,6 +32,7 @@ import static android.app.Activity.RESULT_OK;
 import static com.lalaland.ecommerce.helpers.AppConstants.GENERAL_ERROR;
 import static com.lalaland.ecommerce.helpers.AppConstants.IS_WISH_LIST;
 import static com.lalaland.ecommerce.helpers.AppConstants.PRODUCT_ID;
+import static com.lalaland.ecommerce.helpers.AppConstants.REMAINING_QUANTITY;
 import static com.lalaland.ecommerce.helpers.AppConstants.SIGNIN_TOKEN;
 import static com.lalaland.ecommerce.helpers.AppConstants.SUCCESS_CODE;
 import static com.lalaland.ecommerce.helpers.AppConstants.TAG;
@@ -74,6 +75,7 @@ public class WishFragment extends Fragment implements WishlistProductAdapter.Pro
         fragmentWishBinding.btnLogin.setOnClickListener(v -> {
             startActivityForResult(new Intent(getContext(), RegistrationActivity.class), 100);
         });
+
         productViewModel = ViewModelProviders.of(this).get(ProductViewModel.class);
         return fragmentWishBinding.getRoot();
     }

@@ -118,8 +118,8 @@ public class CategoryFragment extends Fragment implements MajorCategoryAdapter.M
 
                     if (categoriesContainer.getData().getSubCategories().size() > 0) {
 
-                        categoryHomeBanners.addAll(categoriesContainer.getData().getHomeBanner());
-                        subCategories.addAll(categoriesContainer.getData().getSubCategories());
+                        categoryHomeBanners = categoriesContainer.getData().getHomeBanner();
+                        subCategories = categoriesContainer.getData().getSubCategories();
                         trimZeroSizeInnerCategories();
 
                         fragmentCategoryBinding.subCategoryContainer.setVisibility(View.VISIBLE);

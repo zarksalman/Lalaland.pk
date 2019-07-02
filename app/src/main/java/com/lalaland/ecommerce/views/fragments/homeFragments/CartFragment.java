@@ -380,7 +380,7 @@ public class CartFragment extends Fragment implements View.OnClickListener, Cart
 
                     cartListModelList.get(merchantIndex).getCartItemList().get(position).setItemQuantity(quantity);
 
-                    //cartIMerchantAdapter.setData(cartListModelList);
+//                    cartIMerchantAdapter.setData(cartListModelList);
                     setCartAdapter();
 
                     if (selectedCartItemList.contains(cartItemList.get(position)))

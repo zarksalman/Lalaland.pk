@@ -80,6 +80,7 @@ public class ProductDetailActivity extends AppCompatActivity implements ProductV
     private ProductDetails productDetails;
     private ProuctDetailBottomSheetLayoutBinding prouctDetailBottomSheetLayoutBinding;
     private boolean isBuyNow = false;
+    private boolean isOutOfStock = false;
     private List<ImageView> dots = new ArrayList<>();
     private int isAddOrRemove;
     private BottomSheetDialog mBottomSheetDialog;
@@ -175,8 +176,6 @@ public class ProductDetailActivity extends AppCompatActivity implements ProductV
         activityProductDetailBinding.tvProductCode.setText(String.valueOf(productDetails.getId()));
         activityProductDetailBinding.tvSoldByMerchant.setText(productDetails.getMerchantName());
 
-
-
         activityProductDetailBinding.pbLoading.setVisibility(View.GONE);
         activityProductDetailBinding.svProductDetail.setVisibility(View.VISIBLE);
 
@@ -251,7 +250,6 @@ public class ProductDetailActivity extends AppCompatActivity implements ProductV
             activityProductDetailBinding.tvProductMaterialDetailTitle.setVisibility(View.VISIBLE);
 
             activityProductDetailBinding.wvProductMaterialDetail.loadData(materialDescription, "text/html", "UTF-8");
-
         }
     }
 
@@ -270,10 +268,14 @@ public class ProductDetailActivity extends AppCompatActivity implements ProductV
                     mFitAndSizings.addAll(mProductDetailDataContainer.getData().getFitAndSizing());
                     productDetails = mProductDetailDataContainer.getData().getProductDetails();
 
-                    variation_id = mProductVariation.get(0).getId();
 
                     initBottomSheet();
                     loadProductDetail();
+
+                    if (variation_id == -1) {
+                        prouctDetailBottomSheetLayoutBinding.btnDone.setText("Sold Out");
+                        prouctDetailBottomSheetLayoutBinding.btnDone.setBackground(getResources().getDrawable(R.drawable.bg_round_corner_gray));
+                    }
 
                     activityProductDetailBinding.setListener(this);
                 }
@@ -281,7 +283,27 @@ public class ProductDetailActivity extends AppCompatActivity implements ProductV
         });
     }
 
+    private int getFirstSelectedVariationIndex() {
+
+        for (int i = 0; i < mProductVariation.size(); i++) {
+
+            if (AppUtils.toInteger(mProductVariation.get(i).getRemainingQuantity()) > 1) {
+
+                // if user does not select any variation then first will be selected if quantity available
+                variation_id = mProductVariation.get(i).getId();
+                return i;
+            }
+        }
+
+        // all variations sold out
+        variation_id = -1;
+        return variation_id;
+    }
+
     public void AddToCart(View view) {
+
+        if (variation_id == -1)
+            return;
 
         activityProductDetailBinding.pbLoading.setVisibility(View.VISIBLE);
         quantity = Integer.parseInt(prouctDetailBottomSheetLayoutBinding.tvCount.getText().toString());
@@ -396,7 +418,20 @@ public class ProductDetailActivity extends AppCompatActivity implements ProductV
         prouctDetailBottomSheetLayoutBinding.setVariationListener(this);
         mBottomSheetDialog.setContentView(prouctDetailBottomSheetLayoutBinding.getRoot());
 
-        productVariationAdapter = new ProductVariationAdapter(this, this);
+        // if all variations are not out of stock if true then select first's price
+        if (getFirstSelectedVariationIndex() != -1) {
+            prouctDetailBottomSheetLayoutBinding.tvProductSalePrice.setText(AppUtils.formatPriceString(mProductVariation.get(getFirstSelectedVariationIndex()).getSalePrice()));
+            prouctDetailBottomSheetLayoutBinding.tvProductActualPrice.setText(AppUtils.formatPriceString(mProductVariation.get(getFirstSelectedVariationIndex()).getActualPrice()));
+
+        } else {
+            prouctDetailBottomSheetLayoutBinding.tvProductSalePrice.setText(AppUtils.formatPriceString(mProductVariation.get(0).getSalePrice()));
+            prouctDetailBottomSheetLayoutBinding.tvProductActualPrice.setText(AppUtils.formatPriceString(mProductVariation.get(0).getActualPrice()));
+        }
+        AppUtils.showSalePrice(prouctDetailBottomSheetLayoutBinding.tvProductActualPrice);
+
+
+        // variation_id = first by default selected item
+        productVariationAdapter = new ProductVariationAdapter(this, this, getFirstSelectedVariationIndex());
         productVariationAdapter.setData(mProductVariation);
         prouctDetailBottomSheetLayoutBinding.rvVariation.setAdapter(productVariationAdapter);
 
@@ -502,7 +537,13 @@ public class ProductDetailActivity extends AppCompatActivity implements ProductV
     @Override
     public void onProductVariationClicked(ProductVariation productVariation) {
 
-        variation_id = productVariation.getId();
+        if (AppUtils.toInteger(productVariation.getRemainingQuantity()) > 0) {
+            variation_id = productVariation.getId();
+            prouctDetailBottomSheetLayoutBinding.tvProductSalePrice.setText(AppUtils.formatPriceString(productVariation.getSalePrice()));
+            prouctDetailBottomSheetLayoutBinding.tvProductActualPrice.setText(AppUtils.formatPriceString(productVariation.getActualPrice()));
+            //prouctDetailBottomSheetLayoutBinding.tvProductPrice.setText(AppUtils.formatPriceString(productVariation.getSalePrice()));
+        }
+
         Log.d(AppConstants.TAG, "onProductVariationClicked:" + variation_id);
     }
 

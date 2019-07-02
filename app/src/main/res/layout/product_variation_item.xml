@@ -18,6 +18,10 @@
 
     </data>
 
+    <!--
+        android:background="@{AppUtils.toInteger(productVariation.getRemainingQuantity) > 0 ? @drawable/bg_round_corner_transparent_gray:  @drawable/bg_round_corner_gray}"
+    -->
+
     <RelativeLayout
 
         xmlns:android="http://schemas.android.com/apk/res/android"
@@ -30,6 +34,10 @@
         android:background="@drawable/bg_round_corner_transparent_gray"
         android:onClick="@{()->adapter.onVariationClicked(productVariation)}">
 
+        <!--
+                android:textColor="@{AppUtils.toInteger(productVariation.getRemainingQuantity) > 0 ? @color/colorDarkGray : @android:color/white}"
+        -->
+
         <TextView
 
             android:id="@+id/tv_variation"
@@ -39,8 +47,8 @@
             android:layout_centerVertical="true"
             android:text="@{productVariation.attributeValue}"
             android:textAlignment="center"
-            android:textColor="@color/colorDarkGray"
             android:textSize="13sp"
+            android:textColor="@color/colorDarkGray"
             tools:text="@tools:sample/full_names" />
 
     </RelativeLayout>

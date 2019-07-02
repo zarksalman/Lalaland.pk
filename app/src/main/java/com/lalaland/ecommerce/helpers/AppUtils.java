@@ -3,11 +3,13 @@ package com.lalaland.ecommerce.helpers;
 import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
+import android.graphics.Paint;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.net.Uri;
 import android.view.View;
 import android.view.inputmethod.InputMethodManager;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
@@ -97,9 +99,16 @@ public class AppUtils {
 
     public static String formatPriceString(String price) {
 
+        String[] prices = price.split("-");
 
-        price = NumberFormat.getNumberInstance(Locale.US).format(Double.parseDouble(price));
-        return "PKR " + price;
+        prices[0] = NumberFormat.getNumberInstance(Locale.US).format(Double.parseDouble(prices[0]));
+
+        if (prices.length > 1) {
+            prices[1] = NumberFormat.getNumberInstance(Locale.US).format(Double.parseDouble(prices[1]));
+            return "PKR " + prices[0] + "-" + prices[1];
+        } else {
+            return "PKR " + prices[0];
+        }
     }
 
     public static String formatName(String str) {
@@ -174,4 +183,28 @@ public class AppUtils {
 
         return String.valueOf(str1).concat(" ").concat(String.valueOf(str2));
     }
+
+    public static Integer toInteger(String quantity) {
+
+        return Integer.parseInt(quantity);
+    }
+
+    public static String caculatePercentage(String actualPrice, String salePrice) {
+
+        Double aPrice, sPrice, difference, percentage;
+
+        aPrice = Double.parseDouble(actualPrice);
+        sPrice = Double.parseDouble(salePrice);
+
+        difference = aPrice - sPrice;
+        percentage = (difference * 100) / aPrice;
+
+        return String.valueOf(Math.round(percentage)).concat("% OFF");
+    }
+
+    public static void showSalePrice(TextView textView) {
+        textView.setPaintFlags(textView.getPaintFlags() | Paint.STRIKE_THRU_TEXT_FLAG);  // making price for sales
+
+    }
+
 }
