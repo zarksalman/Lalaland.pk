@@ -166,6 +166,7 @@ public class ActionProductListingActivity extends AppCompatActivity implements A
             startActivity(new Intent(this, GlobalSearchActivity.class));
         });
 
+
         View root = activityProductListingBinding.tlSortFilter.getChildAt(0);
         if (root instanceof LinearLayout) {
             ((LinearLayout) root).setShowDividers(LinearLayout.SHOW_DIVIDER_MIDDLE);
@@ -275,6 +276,8 @@ public class ActionProductListingActivity extends AppCompatActivity implements A
             mBottomSheetDialog.setContentView(sheetView.getRoot());
             mBottomSheetDialog.show();
             sheetView.ivSortIcon.setOnClickListener(v -> mBottomSheetDialog.hide());
+
+            sheetView.ivDownArrowIcon.setOnClickListener(v -> mBottomSheetDialog.hide());
             //   sheetView = DataBindingUtil.inflate(getLayoutInflater(), R.layout.sort_filter_bottom_sheet_layout, null, false);
         } else // if bottom sheet is sort
         {

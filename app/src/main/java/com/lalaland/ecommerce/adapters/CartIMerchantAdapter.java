@@ -47,7 +47,7 @@ public class CartIMerchantAdapter extends RecyclerView.Adapter<CartIMerchantAdap
         CartListModel cartListModel = mCartListModelList.get(position);
 
 
-        cartItemsAdapter = new CartItemsAdapter(mContext, CartIMerchantAdapter.this);
+        cartItemsAdapter = new CartItemsAdapter(mContext, CartIMerchantAdapter.this, 1);
         cartMerchantItemBinding.rvCartProducts.setLayoutManager(new LinearLayoutManager(mContext, RecyclerView.VERTICAL, false));
         cartMerchantItemBinding.rvCartProducts.setAdapter(cartItemsAdapter);
         cartItemsAdapter.setData(cartListModel.getCartItemList());

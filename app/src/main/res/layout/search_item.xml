@@ -68,7 +68,7 @@
             android:layout_height="@dimen/_20dp"
             android:layout_margin="@dimen/_8dp"
             android:visibility="gone"
-            android:src="@drawable/tick_gray_icon"
+            android:src="@drawable/left_up_icon"
             app:layout_constraintBottom_toTopOf="@+id/iv_line"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintTop_toTopOf="parent" />

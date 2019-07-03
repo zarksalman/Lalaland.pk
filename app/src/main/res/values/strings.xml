@@ -157,5 +157,6 @@
 
     <string name="yes">Yes</string>
     <string name="no">No</string>
+    <string name="out_of_stock">The following items are no longer in stock</string>
 
 </resources>

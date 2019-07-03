@@ -1,6 +1,7 @@
 package com.lalaland.ecommerce.views.activities;
 
 import android.app.Activity;
+import android.app.AlertDialog;
 import android.content.Intent;
 import android.os.Bundle;
 import android.os.Parcelable;
@@ -15,11 +16,14 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 
 import com.lalaland.ecommerce.R;
 import com.lalaland.ecommerce.adapters.CartIMerchantAdapter;
+import com.lalaland.ecommerce.adapters.CartItemsAdapter;
+import com.lalaland.ecommerce.customDialogue.CustomListViewDialog;
 import com.lalaland.ecommerce.data.models.DeliveryChargesData.DeliveryChargesOfMerchantItem;
 import com.lalaland.ecommerce.data.models.cart.CartItem;
 import com.lalaland.ecommerce.data.models.cartListingModel.CartListModel;
 import com.lalaland.ecommerce.data.models.userAddressBook.UserAddresses;
 import com.lalaland.ecommerce.databinding.ActivityCheckoutScreenBinding;
+import com.lalaland.ecommerce.databinding.DeleteOutOfStockDialogueBinding;
 import com.lalaland.ecommerce.helpers.AppConstants;
 import com.lalaland.ecommerce.helpers.AppPreference;
 import com.lalaland.ecommerce.helpers.AppUtils;
@@ -34,6 +38,7 @@ import java.util.Map;
 import static com.lalaland.ecommerce.helpers.AppConstants.CASH_TRANSFER_TYPE;
 import static com.lalaland.ecommerce.helpers.AppConstants.GENERAL_ERROR;
 import static com.lalaland.ecommerce.helpers.AppConstants.ORDER_TOTAL;
+import static com.lalaland.ecommerce.helpers.AppConstants.OUT_OF_STOCK_CODE;
 import static com.lalaland.ecommerce.helpers.AppConstants.PAYMENT_LOWEST_LIMIT;
 import static com.lalaland.ecommerce.helpers.AppConstants.SIGNIN_TOKEN;
 import static com.lalaland.ecommerce.helpers.AppConstants.SUCCESS_CODE;
@@ -63,6 +68,11 @@ public class CheckoutScreen extends AppCompatActivity {
     private boolean isUserAddressNull = false;
     Integer deliverCharges = 0;
 
+    AlertDialog alertDialog;
+    View dialogView;
+    DeleteOutOfStockDialogueBinding outOfStockItemDialogueBinding;
+    CartItemsAdapter outOfStockAdapter;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -81,6 +91,56 @@ public class CheckoutScreen extends AppCompatActivity {
         getMerchantList();
         addMerchantProductList();
         isUserAddressExist();
+        prepareDialogue();
+    }
+
+    private void prepareDialogue() {
+
+
+      /*  outOfStockItemDialogueBinding = DataBindingUtil.inflate(getLayoutInflater(), R.layout.delete_out_of_stock_dialogue, activityCheckoutScreenBinding.parent, false);
+
+        dialogView = LayoutInflater.from(this).inflate(R.layout.delete_out_of_stock_dialogue, null);
+
+        AlertDialog.Builder dialogBuilder = new AlertDialog.Builder(this);
+        alertDialog = dialogBuilder.create();
+        alertDialog.setCancelable(true);
+        alertDialog.setView(dialogView);
+
+        dialogView.findViewById(R.id.btn_delete_item).setOnClickListener(v -> {
+            Toast.makeText(this, "Delete items", Toast.LENGTH_SHORT).show();
+        });
+
+        dialogView.findViewById(R.id.btn_cancel_delete_item).setOnClickListener(v -> {
+            Toast.makeText(this, "Cancel Delete items", Toast.LENGTH_SHORT).show();
+        });
+
+*//*
+        AlertDialog.Builder dialogBuilder = new AlertDialog.Builder(this);
+        alertDialog = dialogBuilder.create();
+        alertDialog.setCancelable(false);
+        alertDialog.setView(outOfStockItemDialogueBinding.getRoot());
+*//*
+         */
+        outOfStockAdapter = new CartItemsAdapter(this, new CartItemsAdapter.CartClickListener() {
+            @Override
+            public void addItemToList(int merchantId, int position) {
+
+            }
+
+            @Override
+            public void deleteFromCart(int merchantId, int position) {
+
+            }
+
+            @Override
+            public void changeNumberOfCount(int merchantId, int position, int quantity) {
+
+            }
+        }, 2);
+
+        //      outOfStockItemDialogueBinding.recyclerView.setAdapter(outOfStockAdapter);
+        //     outOfStockItemDialogueBinding.recyclerView.setHasFixedSize(true);
+        //    outOfStockItemDialogueBinding.recyclerView.setLayoutManager(new LinearLayoutManager(this, RecyclerView.VERTICAL, false));
     }
 
     void setBill() {
@@ -283,7 +343,10 @@ public class CheckoutScreen extends AppCompatActivity {
                     startActivity(intent);
                     finish();
 
-                } else if (orderDataContainer.getCode().equals(VALIDATION_FAIL_CODE) || orderDataContainer.getCode().equals("403"))
+                } else if (orderDataContainer.getCode().equals(OUT_OF_STOCK_CODE)) {
+
+                    setOutOfStockItems(orderDataContainer.getData().getProducts());
+                } else if (orderDataContainer.getCode().equals(VALIDATION_FAIL_CODE))
                     Toast.makeText(this, orderDataContainer.getMsg(), Toast.LENGTH_SHORT).show();
                 else
                     Toast.makeText(this, GENERAL_ERROR, Toast.LENGTH_SHORT).show();
@@ -293,6 +356,22 @@ public class CheckoutScreen extends AppCompatActivity {
 
             activityCheckoutScreenBinding.pbLoading.setVisibility(View.GONE);
         });
+    }
+
+    private void setOutOfStockItems(List<CartItem> cartProducts) {
+/*
+        outOfStockAdapter.setData(cartProducts);
+        outOfStockAdapter.notifyDataSetChanged();
+
+        alertDialog.show();
+        */
+
+        outOfStockAdapter.setData(cartProducts);
+        CustomListViewDialog customListViewDialog = new CustomListViewDialog(this, outOfStockAdapter);
+        customListViewDialog.show();
+
+/*        CustomDialogClass customDialogClass = new CustomDialogClass(this, cartProducts);
+        customDialogClass.show();*/
     }
 
     private void getMerchantList() {

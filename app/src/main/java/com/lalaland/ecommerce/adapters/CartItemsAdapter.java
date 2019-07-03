@@ -28,12 +28,13 @@ public class CartItemsAdapter extends RecyclerView.Adapter<CartItemsAdapter.Cart
 
     private LayoutInflater inflater;
     private CartClickListener mCartClickListener;
+    private int mAdapterType;
 
-    public CartItemsAdapter(Context context, CartClickListener cartClickListener) {
+    public CartItemsAdapter(Context context, CartClickListener cartClickListener, int adapterType) {
         mContext = context;
         inflater = LayoutInflater.from(context);
         mCartClickListener = cartClickListener;
-
+        mAdapterType = adapterType;
         //   EventBus.getDefault().register(this);
 
     }
@@ -55,6 +56,19 @@ public class CartItemsAdapter extends RecyclerView.Adapter<CartItemsAdapter.Cart
             lp.topMargin = 0;
             cartItemBinding.cartItemsParent.setLayoutParams(lp);
         }
+
+        // for testing now
+        // for checkout and out of stock product listing
+      /*  if (mAdapterType == 2) {
+            cartItemBinding.ivDeleteItem.setVisibility(View.GONE);
+            cartItemBinding.cbAddToList.setVisibility(View.GONE);
+            cartItemBinding.counterContainer.setVisibility(View.GONE);
+            cartItemBinding.tvQuantityDetail.setVisibility(View.VISIBLE);
+            cartItemBinding.tvQuantityTitle.setVisibility(View.VISIBLE);
+            ConstraintLayout.LayoutParams lp = new ConstraintLayout.LayoutParams(ConstraintLayout.LayoutParams.MATCH_PARENT, ConstraintLayout.LayoutParams.WRAP_CONTENT);
+            lp.topMargin = 0;
+            cartItemBinding.cartItemsParent.setLayoutParams(lp);
+        }*/
 
         return new CartItemViewHolder(cartItemBinding);
     }
@@ -122,12 +136,15 @@ public class CartItemsAdapter extends RecyclerView.Adapter<CartItemsAdapter.Cart
             mCartItemBinding.setAdapter(CartItemsAdapter.this);
             mCartItemBinding.executePendingBindings();
 
-            if (cartItem.getCartStatus() == 1)
-                mCartItemBinding.cbAddToList.setChecked(false);
-            else if (cartItem.getCartStatus() == 3)
-                mCartItemBinding.cbAddToList.setChecked(true);
-            else
-                mCartItemBinding.cbAddToList.setChecked(true);
+            if (mAdapterType == 1) {
+                if (cartItem.getCartStatus() == 1)
+                    mCartItemBinding.cbAddToList.setChecked(false);
+                else if (cartItem.getCartStatus() == 3)
+                    mCartItemBinding.cbAddToList.setChecked(true);
+                else
+                    mCartItemBinding.cbAddToList.setChecked(true);
+            }
+
 
             mCartItemBinding.ivDeleteItem.setOnClickListener(v -> {
                 if (getAdapterPosition() != RecyclerView.NO_POSITION)

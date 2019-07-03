@@ -1,0 +1,60 @@
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@drawable/bg_round_corner_gray"
+        android:gravity="center"
+        android:padding="@dimen/_8dp">
+
+        <TextView
+            android:id="@+id/title"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_margin="@dimen/_8dp"
+            android:gravity="center"
+            android:text="@string/out_of_stock"
+            android:textColor="@color/colorDarkGray"
+            android:textSize="16sp" />
+
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/recycler_view"
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_above="@+id/btn_container"
+            android:layout_below="@+id/title"
+            android:layout_centerHorizontal="true"
+            tools:listitem="@layout/cart_item" />
+
+        <LinearLayout
+
+            android:id="@+id/btn_container"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_alignParentBottom="true"
+            android:orientation="vertical">
+
+            <Button
+                android:id="@+id/btn_delete_item"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/_4dp"
+                android:background="@drawable/btn_bg_round_corner_accent"
+                android:text="Remove products"
+                android:textColor="@android:color/white" />
+
+            <Button
+                android:id="@+id/btn_cancel_delete_item"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/_8dp"
+                android:background="@drawable/bg_round_corner_medium_gray"
+                android:text="Cancel"
+                android:textColor="@android:color/white" />
+
+        </LinearLayout>
+
+
+    </RelativeLayout>
+</layout>

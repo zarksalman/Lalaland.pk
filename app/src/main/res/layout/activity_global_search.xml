@@ -44,17 +44,45 @@
                     android:textSize="18sp" />
             </LinearLayout>
 
-            <androidx.appcompat.widget.SearchView
+<!--
+            android:drawableEnd="@drawable/cross_icon"
+-->
+
+            <EditText
+
+                android:id="@+id/et_global_search"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/logo_container"
+                android:layout_marginStart="@dimen/_4dp"
+                android:layout_marginTop="@dimen/_8dp"
+                android:layout_marginEnd="@dimen/_4dp"
+                android:layout_marginBottom="@dimen/_8dp"
+                android:background="@drawable/search_bar_bg_round_cornors"
+                android:drawableStart="@drawable/searchview_icon"
+                android:drawablePadding="@dimen/_8dp"
+                android:focusable="true"
+                android:hint="Search Everything"
+                android:imeOptions="actionSearch"
+                android:inputType="text"
+                android:maxLines="1"
+                android:padding="@dimen/_8dp"
+                android:scrollHorizontally="true"
+                android:textSize="12sp" />
+
+            <SearchView
 
                 android:id="@+id/sv_global_search"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_below="@id/logo_container"
+                android:visibility="gone"
                 android:layout_margin="@dimen/_8dp"
                 android:background="@drawable/search_bar_bg_round_cornors"
                 android:focusable="true"
                 app:iconifiedByDefault="false"
                 app:queryHint="Search for Everything" />
+
         </RelativeLayout>
 
         <LinearLayout

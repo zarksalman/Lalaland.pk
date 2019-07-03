@@ -111,6 +111,7 @@ public class AppConstants {
     public static final String SUCCESS_CODE = "200";
     public static final String VALIDATION_FAIL_CODE = "400";
     public static final String AUTHORIZATION_FAIL_CODE = "401";
+    public static final String OUT_OF_STOCK_CODE = "403";
 
     // Toast Strings
     public static final String SUCCESS_MESSAGE = "Success";

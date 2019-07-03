@@ -45,7 +45,6 @@
 
                 <androidx.appcompat.widget.SearchView
 
-
                     android:id="@+id/sv_items"
                     android:layout_width="match_parent"
                     android:layout_height="40dp"
@@ -54,23 +53,48 @@
                     android:background="@drawable/search_bar_bg_round_cornors"
                     android:focusable="false"
                     android:focusableInTouchMode="false"
+                    android:visibility="gone"
                     app:iconifiedByDefault="false"
                     android:textSize="15sp"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@id/tv_app_name"
+                    app:layout_constraintTop_toBottomOf="@+id/tv_app_name"
                     app:queryHint="Search for Everything" />
 
+                <EditText
+
+                    android:id="@+id/et_global_search"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="@dimen/_4dp"
+                    android:layout_marginTop="@dimen/_8dp"
+                    android:layout_marginEnd="@dimen/_4dp"
+                    android:layout_marginBottom="@dimen/_8dp"
+                    android:background="@drawable/search_bar_bg_round_cornors"
+                    android:cursorVisible="false"
+                    android:drawableStart="@drawable/searchview_icon"
+                    android:drawablePadding="@dimen/_8dp"
+                    android:focusable="false"
+                    android:hint="Search Everything"
+                    android:imeOptions="actionSearch"
+                    android:inputType="text"
+                    android:maxLines="1"
+                    android:padding="@dimen/_8dp"
+                    android:scrollHorizontally="true"
+                    android:textSize="12sp"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/tv_app_name" />
 
                 <ImageView
 
                     android:id="@+id/iv_sv_item_fg"
                     android:layout_width="0dp"
                     android:layout_height="0dp"
-                    app:layout_constraintBottom_toBottomOf="@+id/sv_items"
-                    app:layout_constraintEnd_toEndOf="@+id/sv_items"
-                    app:layout_constraintStart_toStartOf="@+id/sv_items"
-                    app:layout_constraintTop_toTopOf="@+id/sv_items" />
+                    app:layout_constraintBottom_toBottomOf="@+id/et_global_search"
+                    app:layout_constraintEnd_toEndOf="@+id/et_global_search"
+                    app:layout_constraintStart_toStartOf="@+id/et_global_search"
+                    app:layout_constraintTop_toTopOf="@+id/et_global_search" />
 
             </androidx.constraintlayout.widget.ConstraintLayout>
 
