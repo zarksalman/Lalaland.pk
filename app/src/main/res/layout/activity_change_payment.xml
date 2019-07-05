@@ -43,6 +43,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center_vertical"
+                android:padding="@dimen/_8dp"
                 android:onClick="@{(view)->listener.onBackPressed()}"
                 app:srcCompat="@drawable/back_arrow_icon" />
 
@@ -50,7 +51,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center_vertical"
-                android:layout_marginStart="@dimen/_16dp"
+                android:layout_marginStart="@dimen/_8dp"
                 android:fontFamily="@font/encodesansmedium"
                 android:text="@string/select_payment_method"
                 android:textAlignment="center"

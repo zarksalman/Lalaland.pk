@@ -70,6 +70,7 @@ public class CartFragment extends Fragment implements View.OnClickListener, Cart
     private Double totalBill = 0.0;
     Double perItemBill;
     boolean isApiCalling = false;
+    String[] cartIds = new String[2];
 
     public CartFragment() {
         // Required empty public constructor
@@ -318,7 +319,9 @@ public class CartFragment extends Fragment implements View.OnClickListener, Cart
         CartItem cartItem = cartListModelList.get(merchantIndex).getCartItemList().get(position);
 
         parameter.clear();
+
         parameter.put(CART_ID, String.valueOf(cartItem.getCartId()));
+
         parameter.put("is_delete_all", String.valueOf(0));
 
         productViewModel.deleteCartItem(headers, parameter).observe(this, basicResponse ->

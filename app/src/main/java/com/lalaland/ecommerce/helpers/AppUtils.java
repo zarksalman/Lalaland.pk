@@ -3,10 +3,14 @@ package com.lalaland.ecommerce.helpers;
 import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
+import android.content.pm.PackageInfo;
+import android.content.pm.PackageManager;
 import android.graphics.Paint;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.net.Uri;
+import android.net.wifi.WifiManager;
+import android.os.Build;
 import android.view.View;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.TextView;
@@ -204,7 +208,43 @@ public class AppUtils {
 
     public static void showSalePrice(TextView textView) {
         textView.setPaintFlags(textView.getPaintFlags() | Paint.STRIKE_THRU_TEXT_FLAG);  // making price for sales
+    }
 
+    public static String getDeviceName() {
+        String manufacturer = Build.MANUFACTURER;
+        String model = Build.MODEL;
+        if (model.startsWith(manufacturer)) {
+            return toLowerCase(model);
+        }
+        return toLowerCase(manufacturer) + " " + model;
+    }
+
+    public static String getDeviceOS() {
+
+        String operatingSystem = Build.VERSION.SDK_INT + ":" + Build.VERSION.RELEASE;
+        return operatingSystem;
+    }
+
+
+    public static String getBuildVersion() {
+
+        try {
+            PackageInfo pInfo = AppConstants.mContext.getPackageManager().getPackageInfo(AppConstants.mContext.getPackageName(), 0);
+            String version = pInfo.versionName;
+            int verCode = pInfo.versionCode;
+            return version + " " + verCode;
+        } catch (PackageManager.NameNotFoundException e) {
+            e.printStackTrace();
+            return "";
+        }
+    }
+
+    public static String getDeviceId() {
+
+        WifiManager m_wm = (WifiManager) AppConstants.mContext.getSystemService(Context.WIFI_SERVICE);
+        String m_wlanMacAdd = m_wm.getConnectionInfo().getMacAddress();
+
+        return m_wlanMacAdd;
     }
 
 }

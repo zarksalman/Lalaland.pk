@@ -20,7 +20,8 @@ public class AppConstants {
     public static String RETURN_POLICY_URL = "";
     public static String TERMS_AND_CONDITIONS_URL = "";
     public static String FAQ_URL = "";
-
+    public static String BLOGS = "blog";
+    public static int URL_TYPE = 0;
 
     public static final String APP_NAME = "Lalaland";
     public static Context mContext;
@@ -36,7 +37,7 @@ public class AppConstants {
 
     public static final String PREF_NAME = "com.lalaland.pk.PREF_NAME";
     public static final String SHARE_CONTENT = "Lalaland.pk";
-    public static final String GOOGLE_PLAY_URL = "https://play.icon.com/store/apps/details?id=";
+    public static final String GOOGLE_PLAY_URL = "https://play.google.com/store/apps/details?id=";
     public static final String DATE_FORMAT_TEXT = "yyyy-MM-dd";
     public static final String ACTION_NAME = "action_name";
     public static final String ACTION_ID = "action_id";
@@ -50,7 +51,6 @@ public class AppConstants {
     public static final String PRICE_RANGE = "price_range";
 
     public static final String PV_FILTER_ = "pv_filter";
-
 
     public static final String PRODUCT_TYPE = "product_type";
 
@@ -66,10 +66,18 @@ public class AppConstants {
     public static final String IS_FIRST_UPGRADE = "first_upgrade";
     public static final String PRODUCT_ID = "product_id";
     public static final String CART_ID = "cart_id[0]"; // for only one id
+    public static final String CART_ID_1 = "cart_id[1]"; // for only one id
     public static final String CART_ITEM_ID = "cart_id"; // for only one id
     public static final String IS_WISH_LIST = "is_wish_list";
     public static final String PRODUCT_VARIATION_ID = "product_variation_group_id";
     public static final String QUANTITY = "quantity";
+
+    public static String DEVICE_ID;
+    public static String APP_BUILD_VERSION;
+    public static String USER_ID;
+    public static String DEVICE_NAME;
+    public static String DEVICE_OS;
+
 
     public static final String PRODUCT_STORAGE_BASE_URL = "https://api.uat.lalaland.pk/storage/products/";
     public static final String CATEGORY_BRAND_STORAGE_BASE_URL = "https://api.uat.lalaland.pk/storage/brands/";

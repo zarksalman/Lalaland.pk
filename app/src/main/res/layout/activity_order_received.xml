@@ -37,12 +37,13 @@
                 android:layout_height="wrap_content"
                 android:layout_alignParentStart="true"
                 android:tint="@android:color/white"
-                app:srcCompat="@drawable/back_arrow_icon" />
+                android:padding="@dimen/_8dp"
+                app:srcCompat="@drawable/cross_icon" />
 
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginStart="@dimen/_16dp"
+                android:layout_marginStart="@dimen/_8dp"
                 android:layout_toEndOf="@+id/btn_back"
                 android:text="@string/order_received"
                 android:textColor="@android:color/white"
@@ -163,9 +164,10 @@
 
             android:id="@+id/recommendation_container"
             android:layout_width="0dp"
-            android:layout_height="wrap_content"
+            android:layout_height="0dp"
             android:padding="@dimen/_8dp"
             android:orientation="vertical"
+            android:gravity="bottom"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintStart_toStartOf="parent"

@@ -37,6 +37,11 @@ public class CategoryData {
     @Expose
     private String faq;
 
+    @SerializedName("blogs")
+    @Expose
+    private String blogs;
+
+
     public Integer getCartCount() {
         return cartCount;
     }
@@ -106,5 +111,13 @@ public class CategoryData {
 
     public void setFaq(String faq) {
         this.faq = faq;
+    }
+
+    public String getBlogs() {
+        return blogs;
+    }
+
+    public void setBlogs(String blogs) {
+        this.blogs = blogs;
     }
 }

@@ -39,11 +39,13 @@
                 app:srcCompat="@drawable/close_icon" />
 
             <TextView
+
+                android:id="@+id/tv_screen_title"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center_vertical"
                 android:layout_marginStart="@dimen/_8dp"
-                android:text="@string/select_shipping_address"
+                android:text="@string/add_new_address"
                 android:textAlignment="center"
                 android:textColor="@android:color/black"
                 android:textSize="16sp"

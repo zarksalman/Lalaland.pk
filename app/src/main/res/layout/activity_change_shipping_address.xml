@@ -47,6 +47,7 @@
                 android:id="@+id/iv_back_arrow"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:padding="@dimen/_8dp"
                 android:layout_gravity="center_vertical"
                 app:srcCompat="@drawable/back_arrow_icon" />
 
@@ -54,7 +55,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center_vertical"
-                android:layout_marginStart="@dimen/_16dp"
+                android:layout_marginStart="@dimen/_8dp"
                 android:fontFamily="@font/encodesansmedium"
                 android:text="@string/select_shipping_address"
                 android:textAlignment="center"

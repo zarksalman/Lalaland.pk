@@ -41,6 +41,13 @@ public class SplashActivity extends AppCompatActivity {
         headers.put("cart-session", appPreference.getString(AppConstants.CART_SESSION_TOKEN));
         headers.put("token", appPreference.getString(AppConstants.SIGNIN_TOKEN));
 
+        AppConstants.DEVICE_ID = AppUtils.getDeviceId();
+        AppConstants.APP_BUILD_VERSION = AppUtils.getBuildVersion();
+        AppConstants.USER_ID = "";
+        AppConstants.DEVICE_NAME = AppUtils.getDeviceName();
+        AppConstants.DEVICE_OS = AppUtils.getDeviceOS();
+        AppConstants.DEVICE_OS = AppUtils.getDeviceOS();
+
         activitySplashBinding.tvReload.setOnClickListener(v -> {
 
             if (AppUtils.isNetworkAvailable()) {
@@ -50,6 +57,7 @@ public class SplashActivity extends AppCompatActivity {
         });
         fetchCategoryData();
     }
+
 
     private void fetchCategoryData() {
 
@@ -74,6 +82,7 @@ public class SplashActivity extends AppCompatActivity {
                     AppConstants.RETURN_POLICY_URL = categoryContainer.getData().getReturns();
                     AppConstants.TERMS_AND_CONDITIONS_URL = categoryContainer.getData().getTerms();
                     AppConstants.FAQ_URL = categoryContainer.getData().getFaq();
+                    AppConstants.BLOGS = categoryContainer.getData().getBlogs();
 
                     AppConstants.CART_COUNTER = categoryContainer.getData().getCartCount();
 

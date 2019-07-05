@@ -49,8 +49,7 @@
                 android:layout_alignParentEnd="true"
                 android:layout_centerVertical="true"
                 android:padding="@dimen/_8dp"
-                android:rotation="270"
-                app:srcCompat="@drawable/back_arrow_icon" />
+                app:srcCompat="@drawable/arrow_down_icon" />
         </RelativeLayout>
 
         <ImageView

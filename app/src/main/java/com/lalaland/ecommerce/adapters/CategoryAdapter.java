@@ -77,12 +77,7 @@ public class CategoryAdapter extends RecyclerView.Adapter<CategoryAdapter.SubCat
         }
 
         void bindHolder(SubCategory subCategory) {
-
-          /*  if (subCategory.getInnerCategories().size() >= 3)
-                this.innerCategoryAdapter.setData(subCategory.getInnerCategories().subList(0, 3));
-            else if (subCategory.getInnerCategories().size() > 0)
-          */
-
+            
             this.innerCategoryAdapter.setData(subCategory.getInnerCategories());
 
             this.subCategoryItemBinding.setSubCategory(subCategory);

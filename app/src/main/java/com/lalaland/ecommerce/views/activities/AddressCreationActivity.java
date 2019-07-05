@@ -58,7 +58,7 @@ public class AddressCreationActivity extends AppCompatActivity {
 
         if (isEditAddress) {
             editUserAddresses = getIntent().getParcelableExtra("user_address");
-            activityAddressCreationBinding.cbDefault.setVisibility(View.GONE);
+            activityAddressCreationBinding.cbDefaultContainer.setVisibility(View.GONE);
 
             String[] fullName = editUserAddresses.getUserNameAddress().split(" ");
             activityAddressCreationBinding.etFirstName.setText(fullName[0]);
@@ -74,6 +74,7 @@ public class AddressCreationActivity extends AppCompatActivity {
             else
                 activityAddressCreationBinding.cbDefault.setChecked(true);
 
+            activityAddressCreationBinding.tvScreenTitle.setText(getResources().getString(R.string.edit_information));
         } else {
             userAddresses = new UserAddresses();
         }

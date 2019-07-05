@@ -23,8 +23,6 @@ import com.lalaland.ecommerce.data.models.wishList.WishListContainer;
 
 import java.util.Map;
 
-import io.reactivex.Observable;
-import io.reactivex.ObservableSource;
 import io.reactivex.Single;
 import retrofit2.Call;
 import retrofit2.http.GET;
@@ -41,6 +39,9 @@ public interface LalalandServiceApi {
     @GET
     Call<String> testResponse(@Url String url);
 
+    @POST("getGeneralData")
+    Call<CategoryContainer> getCategoryGeneralData(@HeaderMap Map<String, String> headers);
+
     @POST("home")
     Call<HomeDataContainer> getHomeData(@Query("recommended_cat") String recommendedCategory);
 
@@ -56,8 +57,6 @@ public interface LalalandServiceApi {
     @POST("{action}")
     Call<ActionProductsContainer> getActionProducts(@Path("action") String action, @QueryMap Map<String, String> parameter);
 
-    @POST("getGeneralData")
-    Call<CategoryContainer> getCategoryGeneralData(@HeaderMap Map<String, String> headers);
 
     @POST("addToCart")
     Call<BasicResponse> addToCart(@HeaderMap Map<String, String> headers, @QueryMap Map<String, String> parameter);

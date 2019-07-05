@@ -516,8 +516,6 @@ public class ProductsRepository {
         new DeleteAllSaveSearchAsyTask(searchCategoryDao).execute();
     }
 
-
-
     private void checkResponseSource(Response response) {
 
         Log.d("response_source", String.valueOf(response.code()) + response.errorBody());

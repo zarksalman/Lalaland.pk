@@ -23,8 +23,10 @@ import com.lalaland.ecommerce.helpers.AppPreference;
 import com.lalaland.ecommerce.helpers.AppUtils;
 import com.lalaland.ecommerce.viewModels.user.LoginViewModel;
 import com.lalaland.ecommerce.views.activities.AccountInformationActivity;
+import com.lalaland.ecommerce.views.activities.ContactUsActivity;
 import com.lalaland.ecommerce.views.activities.OrderListingActivity;
 import com.lalaland.ecommerce.views.activities.RegistrationActivity;
+import com.lalaland.ecommerce.views.activities.WebViewActivity;
 
 import static com.lalaland.ecommerce.helpers.AppConstants.ORDER_STATUS;
 import static com.lalaland.ecommerce.helpers.AppConstants.SIGNIN_TOKEN;
@@ -74,7 +76,7 @@ public class AccountFragment extends Fragment implements View.OnClickListener {
 
             Glide.with(getContext())
                     .load(R.drawable.placeholder_products)
-                    .into(fragmentAccountBinding.ivDp);
+                    .into(fragmentAccountBinding.ivDisplayPicture);
 
         } else {
 
@@ -89,7 +91,7 @@ public class AccountFragment extends Fragment implements View.OnClickListener {
             Glide.with(getContext())
                     .load(avatarImagePath)
                     .placeholder(R.drawable.placeholder_products)
-                    .into(fragmentAccountBinding.ivDp);
+                    .into(fragmentAccountBinding.ivDisplayPicture);
         }
 
         initListeners();
@@ -99,16 +101,20 @@ public class AccountFragment extends Fragment implements View.OnClickListener {
 
     private void initListeners() {
 
-        fragmentAccountBinding.tvSetting.setOnClickListener(this);
         fragmentAccountBinding.ivSetting.setOnClickListener(this);
 
-        fragmentAccountBinding.tvAboutUs.setOnClickListener(this);
-        fragmentAccountBinding.tvPrivacyPolicy.setOnClickListener(this);
-        fragmentAccountBinding.tvReturnPolicy.setOnClickListener(this);
-        fragmentAccountBinding.tvTermsAndConditions.setOnClickListener(this);
-        fragmentAccountBinding.tvFaq.setOnClickListener(this);
         fragmentAccountBinding.tvLoginLogout.setOnClickListener(this);
+
         fragmentAccountBinding.tvUserName.setOnClickListener(this);
+        fragmentAccountBinding.ivDisplayPicture.setOnClickListener(this);
+
+        fragmentAccountBinding.blog.setOnClickListener(this);
+        fragmentAccountBinding.shippingAddress.setOnClickListener(this);
+        fragmentAccountBinding.appSuggestion.setOnClickListener(this);
+        fragmentAccountBinding.contactUs.setOnClickListener(this);
+        fragmentAccountBinding.faq.setOnClickListener(this);
+        fragmentAccountBinding.termsCondition.setOnClickListener(this);
+        fragmentAccountBinding.refund.setOnClickListener(this);
 
         fragmentAccountBinding.ivViewAll.setOnClickListener(this);
         fragmentAccountBinding.tvViewAll.setOnClickListener(this);
@@ -176,7 +182,7 @@ public class AccountFragment extends Fragment implements View.OnClickListener {
 
                 break;
 
-            case R.id.tv_setting:
+            case R.id.iv_display_picture:
                 if (signInToken.isEmpty())
                     startActivityForResult(new Intent(getContext(), RegistrationActivity.class), 101);
                 else
@@ -184,25 +190,21 @@ public class AccountFragment extends Fragment implements View.OnClickListener {
 
                 break;
 
-            case R.id.tv_about_us:
+            case R.id.tv_user_name:
+                if (signInToken.isEmpty())
+                    startActivityForResult(new Intent(getContext(), RegistrationActivity.class), 101);
+                else
+                    startActivityForResult(new Intent(getContext(), AccountInformationActivity.class), 100);
+                break;
+
+/*            case R.id.contact_us:
                 startActivity(AppUtils.getOpenUrlIntent(AppConstants.ABOUT_US_URL));
-                break;
+                break;*/
 
-            case R.id.tv_privacy_policy:
+/*            case R.id.tv_privacy_policy:
                 startActivity(AppUtils.getOpenUrlIntent(AppConstants.PRIVACY_POLICY_URL));
-                break;
+                break;*/
 
-            case R.id.tv_return_policy:
-                startActivity(AppUtils.getOpenUrlIntent(AppConstants.RETURN_POLICY_URL));
-                break;
-
-            case R.id.tv_terms_and_conditions:
-                startActivity(AppUtils.getOpenUrlIntent(AppConstants.TERMS_AND_CONDITIONS_URL));
-                break;
-
-            case R.id.tv_faq:
-                startActivity(AppUtils.getOpenUrlIntent(AppConstants.FAQ_URL));
-                break;
 
             case R.id.tv_login_logout:
 
@@ -213,10 +215,35 @@ public class AccountFragment extends Fragment implements View.OnClickListener {
                 }
                 break;
 
-            case R.id.tv_user_name:
-                if (signInToken.isEmpty()) {
-                    startActivityForResult(new Intent(getContext(), RegistrationActivity.class), 100);
-                }
+            case R.id.blog:
+                AppConstants.URL_TYPE = 1;
+                startActivity(new Intent(getContext(), WebViewActivity.class));
+                break;
+
+            case R.id.refund:
+                AppConstants.URL_TYPE = 2;
+                startActivity(new Intent(getContext(), WebViewActivity.class));
+//                startActivity(AppUtils.getOpenUrlIntent(AppConstants.RETURN_POLICY_URL));
+                break;
+
+            case R.id.terms_condition:
+                AppConstants.URL_TYPE = 3;
+                startActivity(new Intent(getContext(), WebViewActivity.class));
+                //                startActivity(AppUtils.getOpenUrlIntent(AppConstants.TERMS_AND_CONDITIONS_URL));
+                break;
+
+            case R.id.faq:
+                AppConstants.URL_TYPE = 4;
+                startActivity(new Intent(getContext(), WebViewActivity.class));
+                //startActivity(AppUtils.getOpenUrlIntent(AppConstants.FAQ_URL));
+                break;
+
+            case R.id.app_suggestion:
+                startActivity(AppUtils.getShareIntent());
+                break;
+
+            case R.id.contact_us:
+                startActivity(new Intent(getContext(), ContactUsActivity.class));
                 break;
         }
     }
@@ -245,7 +272,7 @@ public class AccountFragment extends Fragment implements View.OnClickListener {
 
                 Glide.with(getContext())
                         .load(R.drawable.placeholder_products)
-                        .into(fragmentAccountBinding.ivDp);
+                        .into(fragmentAccountBinding.ivDisplayPicture);
 
                 Toast.makeText(getContext(), logout.getMsg(), Toast.LENGTH_SHORT).show();
 
@@ -289,7 +316,7 @@ public class AccountFragment extends Fragment implements View.OnClickListener {
                 Glide.with(getContext())
                         .load(avatarImagePath)
                         .placeholder(R.drawable.placeholder_products)
-                        .into(fragmentAccountBinding.ivDp);
+                        .into(fragmentAccountBinding.ivDisplayPicture);
 
                 intent = new Intent(getContext(), OrderListingActivity.class);
 

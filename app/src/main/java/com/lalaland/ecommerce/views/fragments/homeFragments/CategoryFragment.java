@@ -7,7 +7,6 @@ import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Toast;
 
 import androidx.databinding.DataBindingUtil;
 import androidx.fragment.app.Fragment;
@@ -57,7 +56,7 @@ public class CategoryFragment extends Fragment implements MajorCategoryAdapter.M
     private CategoryAdapter categoryAdapter;
     private CategorBrandAdapter categorBrandAdapter;
     private CategoriesViewModel categoriesViewModel;
-    private int categoryId;
+    private int categoryId, resumeCatId;
 
     public CategoryFragment() {
         // Required empty public constructor
@@ -81,7 +80,20 @@ public class CategoryFragment extends Fragment implements MajorCategoryAdapter.M
 
         fragmentCategoryBinding = DataBindingUtil.inflate(inflater, R.layout.fragment_category, container, false);
         categoriesViewModel = ViewModelProviders.of(this).get(CategoriesViewModel.class);
+
+        setMajorCategoryList();
+
+        if (categoryList.size() > 0) {
+            getCategories(categoryList.get(0).getId());
+            fragmentCategoryBinding.rvSubCategory.setVisibility(View.VISIBLE);
+        }
+
+
+        setBrandCategory();
+
+
         return fragmentCategoryBinding.getRoot();
+
     }
 
     @Override
@@ -94,52 +106,11 @@ public class CategoryFragment extends Fragment implements MajorCategoryAdapter.M
         android.view.Display display = ((android.view.WindowManager) getContext().getSystemService(Context.WINDOW_SERVICE)).getDefaultDisplay();
         fragmentCategoryBinding.ivCategoryHeader.getLayoutParams().height = ((int) (display.getHeight() * 0.16));
 
-
     }
 
     @Override
     public void onResume() {
         super.onResume();
-
-        setMajorCategoryList();
-        setCategoryAdapter();
-        setBrandCategory();
-    }
-
-    private void getCategories(int majorCategoryId) {
-
-        String firstMajorCategoryId = String.valueOf(majorCategoryId);
-        categoriesViewModel.getCategories(firstMajorCategoryId).observe(this, categoriesContainer -> {
-
-
-            if (categoriesContainer != null) {
-
-                if (categoriesContainer.getCode().equals(SUCCESS_CODE)) {
-
-                    if (categoriesContainer.getData().getSubCategories().size() > 0) {
-
-                        categoryHomeBanners = categoriesContainer.getData().getHomeBanner();
-                        subCategories = categoriesContainer.getData().getSubCategories();
-                        trimZeroSizeInnerCategories();
-
-                        fragmentCategoryBinding.subCategoryContainer.setVisibility(View.VISIBLE);
-                        fragmentCategoryBinding.rvSubCategoryBrand.setVisibility(View.GONE);
-                        fragmentCategoryBinding.ivCategoryHeader.setVisibility(View.VISIBLE);
-
-                        categoryAdapter.notifyDataSetChanged();
-
-                        String bannerImageUrl = BANNER_STORAGE_BASE_URL.concat(categoryHomeBanners.get(0).getBannerImage());
-                        Glide.with(getContext())
-                                .load(bannerImageUrl)
-                                .placeholder(R.drawable.placeholder_products)
-                                .into(fragmentCategoryBinding.ivCategoryHeader);
-
-                    }
-                }
-            }
-
-            fragmentCategoryBinding.pbLoading.setVisibility(View.GONE);
-        });
 
     }
 
@@ -159,16 +130,6 @@ public class CategoryFragment extends Fragment implements MajorCategoryAdapter.M
         categoryAdapter = new CategoryAdapter(getContext(), this);
         fragmentCategoryBinding.rvSubCategory.setAdapter(categoryAdapter);
         fragmentCategoryBinding.rvSubCategory.setLayoutManager(new LinearLayoutManager(getContext()));
-        categoryAdapter.setData(subCategories);
-
-        setBrandCategory();
-
-        if (categoryList.size() > 0)
-            getCategories(categoryList.get(0).getId());
-        else
-            Toast.makeText(getContext(), "No category found", Toast.LENGTH_SHORT).show();
-
-        fragmentCategoryBinding.rvSubCategory.setVisibility(View.VISIBLE);
     }
 
     private void setBrandCategory() {
@@ -178,6 +139,46 @@ public class CategoryFragment extends Fragment implements MajorCategoryAdapter.M
         fragmentCategoryBinding.rvSubCategoryBrand.setAdapter(categorBrandAdapter);
         fragmentCategoryBinding.rvSubCategoryBrand.setLayoutManager(new LinearLayoutManager(getContext()));
         categorBrandAdapter.setData(AppConstants.staticCategoryBrandsList);
+
+    }
+
+    private void getCategories(int majorCategoryId) {
+
+        String firstMajorCategoryId = String.valueOf(majorCategoryId);
+        categoriesViewModel.getCategories(firstMajorCategoryId).observe(this, categoriesContainer -> {
+
+
+            if (categoriesContainer != null) {
+
+                if (categoriesContainer.getCode().equals(SUCCESS_CODE)) {
+
+                    if (categoriesContainer.getData().getSubCategories().size() > 0) {
+
+                        categoryHomeBanners = categoriesContainer.getData().getHomeBanner();
+                        subCategories = categoriesContainer.getData().getSubCategories();
+                        trimZeroSizeInnerCategories();
+
+                        setCategoryAdapter();
+
+                        fragmentCategoryBinding.subCategoryContainer.setVisibility(View.VISIBLE);
+                        fragmentCategoryBinding.rvSubCategoryBrand.setVisibility(View.GONE);
+                        fragmentCategoryBinding.ivCategoryHeader.setVisibility(View.VISIBLE);
+
+                        categoryAdapter.setData(subCategories);
+                        categoryAdapter.notifyDataSetChanged();
+
+                        String bannerImageUrl = BANNER_STORAGE_BASE_URL.concat(categoryHomeBanners.get(0).getBannerImage());
+                        Glide.with(getContext())
+                                .load(bannerImageUrl)
+                                .placeholder(R.drawable.placeholder_products)
+                                .into(fragmentCategoryBinding.ivCategoryHeader);
+
+                    }
+                }
+            }
+
+            fragmentCategoryBinding.pbLoading.setVisibility(View.GONE);
+        });
 
     }
 
@@ -200,13 +201,11 @@ public class CategoryFragment extends Fragment implements MajorCategoryAdapter.M
     @Override
     public void onMajorCategoryClicked(Category category) {
 
+
         // if same category do not clicked again
         if (categoryId != category.getId()) {
 
-
-            fragmentCategoryBinding.subCategoryContainer.setVisibility(View.GONE);
-            fragmentCategoryBinding.rvSubCategoryBrand.setVisibility(View.GONE);
-            fragmentCategoryBinding.pbLoading.setVisibility(View.VISIBLE);
+            categoryId = category.getId();
 
             if (category.getName().equals("Brands")) {
 
@@ -225,12 +224,13 @@ public class CategoryFragment extends Fragment implements MajorCategoryAdapter.M
 
             } else {
 
+                fragmentCategoryBinding.subCategoryContainer.setVisibility(View.GONE);
+                fragmentCategoryBinding.rvSubCategoryBrand.setVisibility(View.GONE);
                 fragmentCategoryBinding.pbLoading.setVisibility(View.VISIBLE);
 
                 subCategories.clear();
                 categoryHomeBanners.clear();
-
-                categoryId = category.getId();
+                resumeCatId = category.getId();
 
                 getCategories(categoryId);
             }

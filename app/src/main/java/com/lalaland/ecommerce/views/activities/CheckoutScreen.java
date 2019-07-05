@@ -5,6 +5,8 @@ import android.app.AlertDialog;
 import android.content.Intent;
 import android.os.Bundle;
 import android.os.Parcelable;
+import android.util.Log;
+import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.Toast;
 
@@ -17,7 +19,6 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import com.lalaland.ecommerce.R;
 import com.lalaland.ecommerce.adapters.CartIMerchantAdapter;
 import com.lalaland.ecommerce.adapters.CartItemsAdapter;
-import com.lalaland.ecommerce.customDialogue.CustomListViewDialog;
 import com.lalaland.ecommerce.data.models.DeliveryChargesData.DeliveryChargesOfMerchantItem;
 import com.lalaland.ecommerce.data.models.cart.CartItem;
 import com.lalaland.ecommerce.data.models.cartListingModel.CartListModel;
@@ -58,20 +59,25 @@ public class CheckoutScreen extends AppCompatActivity {
     private List<DeliveryChargesOfMerchantItem> merchantItems = new ArrayList<>();
     private CartIMerchantAdapter cartIMerchantAdapter;
     private List<CartItem> selectedCartItemList = new ArrayList<>();
+    private List<CartItem> mCartProducts;
 
     private Map<String, String> parameter = new HashMap<>();
-    private Map<String, String> headers = new HashMap<>();
-    private String token, cart_session;
+    private Map<String, String> header = new HashMap<>();
+    private String token;
+
     String totalBill;
     Double totalBillWithShippingCharges = 0.0;
     Double totalAmount = 0.0;
     private boolean isUserAddressNull = false;
     Integer deliverCharges = 0;
 
+    StringBuilder cartIds = new StringBuilder();
+    String cartIdsStart = "cart_id[";
+    String cartIdsEnd = "]";
+
     AlertDialog alertDialog;
-    View dialogView;
     DeleteOutOfStockDialogueBinding outOfStockItemDialogueBinding;
-    CartItemsAdapter outOfStockAdapter;
+    CartItemsAdapter cartItemsAdapter;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -96,32 +102,22 @@ public class CheckoutScreen extends AppCompatActivity {
 
     private void prepareDialogue() {
 
+        outOfStockItemDialogueBinding = DataBindingUtil.inflate(LayoutInflater.from(this), R.layout.delete_out_of_stock_dialogue, null, false);
 
-      /*  outOfStockItemDialogueBinding = DataBindingUtil.inflate(getLayoutInflater(), R.layout.delete_out_of_stock_dialogue, activityCheckoutScreenBinding.parent, false);
-
-        dialogView = LayoutInflater.from(this).inflate(R.layout.delete_out_of_stock_dialogue, null);
-
-        AlertDialog.Builder dialogBuilder = new AlertDialog.Builder(this);
-        alertDialog = dialogBuilder.create();
-        alertDialog.setCancelable(true);
-        alertDialog.setView(dialogView);
-
-        dialogView.findViewById(R.id.btn_delete_item).setOnClickListener(v -> {
-            Toast.makeText(this, "Delete items", Toast.LENGTH_SHORT).show();
-        });
-
-        dialogView.findViewById(R.id.btn_cancel_delete_item).setOnClickListener(v -> {
-            Toast.makeText(this, "Cancel Delete items", Toast.LENGTH_SHORT).show();
-        });
-
-*//*
         AlertDialog.Builder dialogBuilder = new AlertDialog.Builder(this);
         alertDialog = dialogBuilder.create();
         alertDialog.setCancelable(false);
         alertDialog.setView(outOfStockItemDialogueBinding.getRoot());
-*//*
-         */
-        outOfStockAdapter = new CartItemsAdapter(this, new CartItemsAdapter.CartClickListener() {
+
+        outOfStockItemDialogueBinding.btnDeleteItem.setOnClickListener(v -> {
+            deleteOutOfStockItems();
+        });
+
+        outOfStockItemDialogueBinding.btnCancelDeleteItem.setOnClickListener(v -> {
+            alertDialog.dismiss();
+        });
+
+        cartItemsAdapter = new CartItemsAdapter(this, new CartItemsAdapter.CartClickListener() {
             @Override
             public void addItemToList(int merchantId, int position) {
 
@@ -137,10 +133,8 @@ public class CheckoutScreen extends AppCompatActivity {
 
             }
         }, 2);
-
-        //      outOfStockItemDialogueBinding.recyclerView.setAdapter(outOfStockAdapter);
-        //     outOfStockItemDialogueBinding.recyclerView.setHasFixedSize(true);
-        //    outOfStockItemDialogueBinding.recyclerView.setLayoutManager(new LinearLayoutManager(this, RecyclerView.VERTICAL, false));
+        outOfStockItemDialogueBinding.recyclerView.setAdapter(cartItemsAdapter);
+        outOfStockItemDialogueBinding.recyclerView.setLayoutManager(new LinearLayoutManager(this));
     }
 
     void setBill() {
@@ -165,7 +159,6 @@ public class CheckoutScreen extends AppCompatActivity {
             if (deliveryChargesContainer != null) {
 
                 setMerchantShippingRate(deliveryChargesContainer.getData().getDeliveryChargesOfMerchantItems());
-
                 setBill();
                 setListeners();
                 setCartAdapter();
@@ -345,7 +338,9 @@ public class CheckoutScreen extends AppCompatActivity {
 
                 } else if (orderDataContainer.getCode().equals(OUT_OF_STOCK_CODE)) {
 
-                    setOutOfStockItems(orderDataContainer.getData().getProducts());
+                    mCartProducts = orderDataContainer.getData().getProducts();
+                    setOutOfStockItems(mCartProducts);
+
                 } else if (orderDataContainer.getCode().equals(VALIDATION_FAIL_CODE))
                     Toast.makeText(this, orderDataContainer.getMsg(), Toast.LENGTH_SHORT).show();
                 else
@@ -359,19 +354,82 @@ public class CheckoutScreen extends AppCompatActivity {
     }
 
     private void setOutOfStockItems(List<CartItem> cartProducts) {
-/*
-        outOfStockAdapter.setData(cartProducts);
-        outOfStockAdapter.notifyDataSetChanged();
 
-        alertDialog.show();
-        */
+        setParameters(cartProducts);
 
-        outOfStockAdapter.setData(cartProducts);
-        CustomListViewDialog customListViewDialog = new CustomListViewDialog(this, outOfStockAdapter);
-        customListViewDialog.show();
+        if (alertDialog != null) {
 
-/*        CustomDialogClass customDialogClass = new CustomDialogClass(this, cartProducts);
-        customDialogClass.show();*/
+            cartItemsAdapter.setData(cartProducts);
+            alertDialog.show();
+        }
+    }
+
+    private void setParameters(List<CartItem> cartItemList) {
+
+        StringBuilder parameterKey = new StringBuilder();
+        parameter.clear();
+
+        for (int i = 0; i < cartItemList.size(); i++) {
+            parameterKey.append(cartIdsStart);
+            parameterKey.append(i);
+            parameterKey.append(cartIdsEnd);
+            parameter.put(parameterKey.toString(), String.valueOf(cartItemList.get(i).getCartId()));
+
+            parameterKey = new StringBuilder();
+        }
+    }
+
+    private void deleteOutOfStockItems() {
+
+        alertDialog.dismiss();
+        activityCheckoutScreenBinding.pbLoading.setVisibility(View.VISIBLE);
+        header.put(SIGNIN_TOKEN, token);
+
+        productViewModel.deleteCartItem(header, parameter).observe(this, basicResponse -> {
+
+            if (basicResponse != null) {
+                if (basicResponse.getCode().equals(SUCCESS_CODE)) {
+
+                    deleteFromList();
+                    Toast.makeText(this, basicResponse.getMsg(), Toast.LENGTH_SHORT).show();
+                } else {
+                    Toast.makeText(this, basicResponse.getMsg(), Toast.LENGTH_SHORT).show();
+                }
+            } else {
+                Toast.makeText(this, GENERAL_ERROR, Toast.LENGTH_SHORT).show();
+            }
+
+            activityCheckoutScreenBinding.pbLoading.setVisibility(View.VISIBLE);
+        });
+    }
+
+    private void deleteFromList() {
+
+        Log.d(AppConstants.TAG, "deleteFromList:");
+        for (int i = 0; i < cartItemList.size(); i++) {
+            for (int j = 0; j < mCartProducts.size(); j++) {
+
+                if (cartItemList.get(i).getCartId().equals(mCartProducts.get(j).getCartId())) {
+                    cartItemList.remove(i);
+                    i--;
+                    break;
+                }
+            }
+        }
+
+        if (cartItemList.size() > 0) {
+            getMerchantList();
+            addMerchantProductList();
+            isUserAddressExist();
+        } else {
+
+            AppConstants.LOAD_HOME_FRAGMENT_INDEX = 2;
+            Intent intent = new Intent(this, MainActivity.class);
+            intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_CLEAR_TASK);
+            startActivity(intent);
+            finish();
+        }
+
     }
 
     private void getMerchantList() {

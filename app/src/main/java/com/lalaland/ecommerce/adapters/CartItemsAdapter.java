@@ -35,7 +35,6 @@ public class CartItemsAdapter extends RecyclerView.Adapter<CartItemsAdapter.Cart
         inflater = LayoutInflater.from(context);
         mCartClickListener = cartClickListener;
         mAdapterType = adapterType;
-        //   EventBus.getDefault().register(this);
 
     }
 
@@ -143,8 +142,9 @@ public class CartItemsAdapter extends RecyclerView.Adapter<CartItemsAdapter.Cart
                     mCartItemBinding.cbAddToList.setChecked(true);
                 else
                     mCartItemBinding.cbAddToList.setChecked(true);
+            } else if (mAdapterType == 2) {
+                mCartItemBinding.cartItemsParent.setBackground(mContext.getResources().getDrawable(R.drawable.bg_round_corner_gray));
             }
-
 
             mCartItemBinding.ivDeleteItem.setOnClickListener(v -> {
                 if (getAdapterPosition() != RecyclerView.NO_POSITION)
