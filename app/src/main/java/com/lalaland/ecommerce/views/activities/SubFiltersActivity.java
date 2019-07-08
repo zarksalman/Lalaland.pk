@@ -21,7 +21,6 @@ import java.util.List;
 import static com.lalaland.ecommerce.helpers.AppConstants.FILTER_NAME;
 import static com.lalaland.ecommerce.helpers.AppConstants.PRICE_FILTER;
 import static com.lalaland.ecommerce.helpers.AppConstants.PRICE_RANGE;
-import static com.lalaland.ecommerce.helpers.AppConstants.PV_FILTER_;
 import static com.lalaland.ecommerce.helpers.AppConstants.SELECTED_FILTER_ID;
 import static com.lalaland.ecommerce.helpers.AppConstants.SELECTED_FILTER_NAME;
 
@@ -70,6 +69,7 @@ public class SubFiltersActivity extends AppCompatActivity {
         activitySubFiltersBinding = DataBindingUtil.setContentView(this, R.layout.activity_sub_filters);
 
         subFilterName = getIntent().getStringExtra(FILTER_NAME);
+        activitySubFiltersBinding.tvSubFilterTitle.setText(subFilterName);
 
         if (subFilterName.equals("Price")) {
             activitySubFiltersBinding.priceContainer.setVisibility(View.VISIBLE);
@@ -117,7 +117,7 @@ public class SubFiltersActivity extends AppCompatActivity {
         return trimLastComa(sFilterNames);
     }
 
-    private void setPriceParams() {
+    private boolean setPriceParams() {
 
         StringBuilder lowPrice = new StringBuilder();
         StringBuilder highPrice = new StringBuilder();
@@ -125,13 +125,16 @@ public class SubFiltersActivity extends AppCompatActivity {
         lowPrice.append(activitySubFiltersBinding.etLow.getText().toString().trim());
         highPrice.append(activitySubFiltersBinding.etHigh.getText().toString().trim());
 
-        if (Integer.parseInt(lowPrice.toString()) >= Integer.parseInt(highPrice.toString())) {
-
-            Toast.makeText(this, "Low price should be less than high price !!!", Toast.LENGTH_SHORT).show();
-            lowPrice = new StringBuilder();
-            highPrice = new StringBuilder();
-            return;
+        if (lowPrice.toString().isEmpty() && highPrice.toString().isEmpty()) {
+            return false;
         }
+
+        if (!(lowPrice.toString().isEmpty() || highPrice.toString().isEmpty()))
+            if (Integer.parseInt(lowPrice.toString()) >= Integer.parseInt(highPrice.toString())) {
+
+                Toast.makeText(this, "Low price should be less than high price !!!", Toast.LENGTH_SHORT).show();
+                return false;
+            }
 
         if (!lowPrice.toString().isEmpty() && !highPrice.toString().isEmpty()) {
             // do nothing just send low value [10,100]
@@ -145,7 +148,9 @@ public class SubFiltersActivity extends AppCompatActivity {
             lowPrice.append(highPrice.toString());
         } else if (highPrice.toString().isEmpty()) {
             // do nothing just send low value [100]
+
             lowPrice.append(highPrice.toString());
+//            lowPrice.append("Greater then PKR ");
         } else {
 
             priceParamsStart = "";
@@ -161,6 +166,7 @@ public class SubFiltersActivity extends AppCompatActivity {
         priceParams.append(priceParamsEnd);
 
         setPriceFilterIntent();
+        return true;
     }
 
     private void setSubFilterAdapter() {
@@ -172,7 +178,7 @@ public class SubFiltersActivity extends AppCompatActivity {
         activitySubFiltersBinding.rvColor.setAdapter(filtersAdapter);
         activitySubFiltersBinding.rvColor.setLayoutManager(new LinearLayoutManager(this));
         filtersAdapter.setData(subFilterList);
-
+        filtersAdapter.setFirstFilter();
         activitySubFiltersBinding.rvColor.setVisibility(View.VISIBLE);
     }
 
@@ -200,7 +206,6 @@ public class SubFiltersActivity extends AppCompatActivity {
         pvFilterParams.append(pvFilterParamsIdsEnd);
         pvFilterParams = new StringBuilder(trimLastComa(pvFilterParams.toString()));
         pvFilterParams.append(pvFilterParamsEnd);
-
     }
 
     private void setCategoryFilterIntent() {
@@ -236,22 +241,22 @@ public class SubFiltersActivity extends AppCompatActivity {
 
         if (filtersAdapter.getSelectedFilters() != null) {
             selectedFilters = filtersAdapter.getSelectedFilters();
+            /*
 
             setPbFiltersParams();
 
             intent.putExtra(PV_FILTER_, pvFilterParams.toString());
             intent.putExtra(SELECTED_FILTER_NAME, selectedFilters.get(0).getFilterName());
-            intent.putExtra(FILTER_NAME, selectedFilters.get(0).getFilterName());
+            intent.putExtra(FILTER_NAME, selectedFilters.get(0).getFilterName());*/
 
             //intent.putParcelableArrayListExtra("selected_filters", (ArrayList<? extends Parcelable>) selectedFilters);
 
             // for multiple filters
-            /*  setOthersParams();
+            setOthersParams();
 
             intent.putExtra(FILTER_NAME, selectedFilters.get(0).getFilterName());
             intent.putExtra(SELECTED_FILTER_NAME, sFilterNames.toString());
             intent.putExtra(SELECTED_FILTER_ID, sFilterIds.toString());
-            */
 
         } else
             Toast.makeText(this, "Select atleast one filter", Toast.LENGTH_SHORT).show();
@@ -289,15 +294,19 @@ public class SubFiltersActivity extends AppCompatActivity {
     @Override
     public void onBackPressed() {
 
-        setResult(RESULT_CANCELED);
-        finish();
         // for multiple filters
-
-      /*  switch (subFilterName) {
+        switch (subFilterName) {
             case "Price":
-                intent = new Intent();
-                intent.putExtra(FILTER_NAME, "not null");
-                intent.putExtra(PRICE_RANGE, "Any");
+
+                if (setPriceParams()) {
+                    intent.putExtra(FILTER_NAME, "Price");
+                } else {
+                    intent = new Intent();
+                    intent.putExtra(FILTER_NAME, "not null");
+                    intent.putExtra(PRICE_RANGE, "Any");
+                }
+
+
                 break;
             case "Category":
                 setCategoryFilterIntent();
@@ -310,6 +319,6 @@ public class SubFiltersActivity extends AppCompatActivity {
                 break;
         }
         setResult(RESULT_CANCELED, intent);
-        finish();*/
+        finish();
     }
 }

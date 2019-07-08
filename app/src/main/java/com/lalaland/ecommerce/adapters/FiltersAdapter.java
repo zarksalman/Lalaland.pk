@@ -40,6 +40,7 @@ public class FiltersAdapter extends RecyclerView.Adapter<FiltersAdapter.FilterVi
         mContext = context;
         inflater = LayoutInflater.from(context);
         this.filterName = filterName;
+
     }
 
     @NonNull
@@ -64,6 +65,13 @@ public class FiltersAdapter extends RecyclerView.Adapter<FiltersAdapter.FilterVi
     public void setData(List<Filter> filterList) {
 
         mFilterList = filterList;
+        notifyDataSetChanged();
+    }
+
+    public void setFirstFilter() {
+
+        itemStateArray.put(0, true);
+        checkedPosition = 0;
         notifyDataSetChanged();
     }
 
@@ -160,6 +168,7 @@ public class FiltersAdapter extends RecyclerView.Adapter<FiltersAdapter.FilterVi
             } else {
                 // use the sparse boolean array to check
                 if (itemStateArray.get(getAdapterPosition(), false)) {
+
                     mFilterItemBinding.ivFilter.setVisibility(View.VISIBLE);
                 } else {
                     mFilterItemBinding.ivFilter.setVisibility(View.GONE);
@@ -169,8 +178,16 @@ public class FiltersAdapter extends RecyclerView.Adapter<FiltersAdapter.FilterVi
                 mFilterItemBinding.getRoot().setOnClickListener(v -> {
 
                     if (!itemStateArray.get(getAdapterPosition(), false)) {
-                        mFilterItemBinding.ivFilter.setVisibility(View.VISIBLE);
-                        itemStateArray.put(getAdapterPosition(), true);
+
+                        if (getAdapterPosition() == 0) {
+                            setAllUnCheck();
+                        } else {
+                            mFilterItemBinding.ivFilter.setVisibility(View.VISIBLE);
+                            itemStateArray.put(getAdapterPosition(), true);
+
+                            itemStateArray.put(0, false);
+                            notifyDataSetChanged();
+                        }
                     } else {
                         mFilterItemBinding.ivFilter.setVisibility(View.GONE);
                         itemStateArray.put(getAdapterPosition(), false);
@@ -182,5 +199,15 @@ public class FiltersAdapter extends RecyclerView.Adapter<FiltersAdapter.FilterVi
             mFilterItemBinding.setAdapter(FiltersAdapter.this);
             mFilterItemBinding.executePendingBindings();
         }
+    }
+
+    private void setAllUnCheck() {
+
+        for (int i = 0; i < itemStateArray.size(); i++) {
+            itemStateArray.put(i, false);
+        }
+
+        itemStateArray.put(0, true);
+        notifyDataSetChanged();
     }
 }

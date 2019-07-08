@@ -41,7 +41,7 @@ public class SplashActivity extends AppCompatActivity {
         headers.put("cart-session", appPreference.getString(AppConstants.CART_SESSION_TOKEN));
         headers.put("token", appPreference.getString(AppConstants.SIGNIN_TOKEN));
 
-        AppConstants.DEVICE_ID = AppUtils.getDeviceId();
+        // AppConstants.DEVICE_ID = AppUtils.getDeviceId();
         AppConstants.APP_BUILD_VERSION = AppUtils.getBuildVersion();
         AppConstants.USER_ID = "";
         AppConstants.DEVICE_NAME = AppUtils.getDeviceName();

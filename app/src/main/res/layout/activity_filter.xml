@@ -15,18 +15,28 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:background="@color/colorScreenBg"
-            android:padding="@dimen/_8dp"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent">
+
+            <ImageView
+
+                android:id="@+id/iv_btn_back"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentStart="true"
+                android:layout_centerVertical="true"
+                android:padding="@dimen/_16dp"
+                android:src="@drawable/back_arrow_icon"
+                android:visibility="visible" />
 
             <TextView
                 android:id="@+id/tv_filter_title"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_centerHorizontal="true"
-                android:layout_margin="@dimen/_4dp"
                 android:text="@string/filter"
+                android:layout_centerVertical="true"
                 android:textColor="@android:color/black"
                 android:textSize="18sp" />
 
@@ -36,10 +46,10 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_alignParentEnd="true"
-                android:layout_margin="@dimen/_4dp"
                 android:text="@string/apply"
+                android:padding="@dimen/_16dp"
                 android:textColor="@android:color/holo_blue_light"
-                android:textSize="18sp" />
+                android:textSize="16sp" />
         </RelativeLayout>
 
         <androidx.recyclerview.widget.RecyclerView

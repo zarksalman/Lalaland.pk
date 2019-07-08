@@ -16,6 +16,7 @@ import com.lalaland.ecommerce.data.retrofit.RetrofitClient;
 import com.lalaland.ecommerce.helpers.AppConstants;
 import com.lalaland.ecommerce.helpers.AppPreference;
 
+import java.util.HashMap;
 import java.util.Map;
 
 import retrofit2.Call;
@@ -28,6 +29,7 @@ public class OrdersRepository {
     private LalalandServiceApi lalalandServiceApi;
     private AppPreference appPreference;
     String recommendedCat;
+    private Map<String, String> userInfo = new HashMap<>();
 
     private MutableLiveData<BasicResponse> basicResponseMutableLiveData;
     private MutableLiveData<DeliveryChargesContainer> deliveryChargesContainerMutableLiveData;
@@ -39,21 +41,27 @@ public class OrdersRepository {
     private OrdersRepository() {
         lalalandServiceApi = RetrofitClient.getInstance().createClient();
         appPreference = AppPreference.getInstance(AppConstants.mContext);
+
+        userInfo.put("device-id", AppConstants.DEVICE_ID);
+        userInfo.put("app-version", AppConstants.APP_BUILD_VERSION);
+        userInfo.put("user-id", AppConstants.USER_ID);
+        userInfo.put("device-name", AppConstants.DEVICE_NAME);
+        userInfo.put("device-OS-version", AppConstants.DEVICE_OS);
     }
 
     public static OrdersRepository getInstance() {
         if (repository == null)
             repository = new OrdersRepository();
-
         return repository;
     }
 
 
     public LiveData<DeliveryChargesContainer> getDeliveryCharges(String token, String cityId) {
 
+        //userInfo.put("token", token);
         deliveryChargesContainerMutableLiveData = new MutableLiveData<>();
 
-        lalalandServiceApi.getDeliveryCharges(token, cityId).enqueue(new Callback<DeliveryChargesContainer>() {
+        lalalandServiceApi.getDeliveryCharges(userInfo, cityId).enqueue(new Callback<DeliveryChargesContainer>() {
             @Override
             public void onResponse(Call<DeliveryChargesContainer> call, Response<DeliveryChargesContainer> response) {
 

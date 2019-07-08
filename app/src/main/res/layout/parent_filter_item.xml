@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
-<layout xmlns:app="http://schemas.android.com/apk/res-auto">
+<layout xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
 
     <data>
 
@@ -29,7 +30,7 @@
             android:layout_centerVertical="true"
             android:text="@{parentFilter.parentFilterName}"
             android:textColor="@android:color/black"
-            android:textSize="16sp"
+            android:textSize="14sp"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
 
@@ -40,9 +41,11 @@
             android:layout_height="wrap_content"
             android:layout_marginEnd="@dimen/_4dp"
             android:text="@{parentFilter.filterSelected}"
-            android:textSize="16sp"
-            android:ellipsize="end"
-            android:maxLength="15"
+            android:ems="10"
+            android:maxLines="1"
+            android:gravity="end"
+            android:textSize="13sp"
+            tools:text="@tools:sample/lorem/random"
             android:singleLine="true"
             app:layout_constraintEnd_toStartOf="@+id/iv_filter"
             app:layout_constraintTop_toTopOf="parent" />

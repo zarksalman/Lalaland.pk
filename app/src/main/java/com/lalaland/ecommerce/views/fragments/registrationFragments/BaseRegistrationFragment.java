@@ -23,34 +23,27 @@ import com.facebook.FacebookException;
 import com.facebook.login.LoginManager;
 import com.facebook.login.LoginResult;
 import com.facebook.login.widget.LoginButton;
+import com.google.android.gms.auth.api.Auth;
 import com.google.android.gms.auth.api.signin.GoogleSignIn;
 import com.google.android.gms.auth.api.signin.GoogleSignInAccount;
+import com.google.android.gms.auth.api.signin.GoogleSignInClient;
 import com.google.android.gms.auth.api.signin.GoogleSignInOptions;
+import com.google.android.gms.common.Scopes;
 import com.google.android.gms.common.SignInButton;
 import com.google.android.gms.common.api.ApiException;
 import com.google.android.gms.common.api.GoogleApiClient;
+import com.google.android.gms.common.api.Scope;
 import com.google.android.gms.tasks.Task;
+import com.lalaland.ecommerce.R;
 import com.lalaland.ecommerce.helpers.AppPreference;
 import com.lalaland.ecommerce.viewModels.user.LoginViewModel;
 import com.lalaland.ecommerce.viewModels.user.RegistrationViewModel;
 
-import org.json.JSONException;
-import org.json.JSONObject;
-
-import java.io.IOException;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
 import java.util.Arrays;
 import java.util.HashMap;
 import java.util.Map;
-
-import okhttp3.Call;
-import okhttp3.Callback;
-import okhttp3.FormBody;
-import okhttp3.OkHttpClient;
-import okhttp3.Request;
-import okhttp3.RequestBody;
-import okhttp3.Response;
 
 import static com.lalaland.ecommerce.helpers.AppConstants.ACCOUNT_CREATION_ERROR;
 import static com.lalaland.ecommerce.helpers.AppConstants.AUTHORIZATION_FAIL_CODE;
@@ -103,12 +96,11 @@ public class BaseRegistrationFragment extends Fragment {
     }
 
     public void signInOrSignUpWithGoogle(SignInButton signInButton) {
-/*
 
         gso = new GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)
                 .requestScopes(new Scope(Scopes.DRIVE_APPFOLDER))
-                .requestIdToken(getString(R.string.server_client_id))
-                .requestServerAuthCode(getString(R.string.server_client_id))
+                .requestIdToken(getString(R.string.client_id))
+                .requestServerAuthCode(getString(R.string.client_id))
                 .requestEmail()
                 .build();
 
@@ -132,47 +124,7 @@ public class BaseRegistrationFragment extends Fragment {
             //   getAccessToken();
         }
         //updateUI(account);
-*/
 
-
-    }
-
-    void getAccessToken() {
-        OkHttpClient client = new OkHttpClient();
-        RequestBody requestBody = new FormBody.Builder()
-                .add("grant_type", "authorization_code")
-                .add("client_id", "122765248262-03m7dmonpdot2a59ertdtovcgkja4sq5.apps.googleusercontent.com")
-                .add("client_secret", "hZdYEq9KJxDRp_MzbW1JvXWT")
-                .add("redirect_uri", "")
-                .add("code", "4/4-GMMhmHCXhWEzkobqIHGG_EnNYYsAkukHspeYUk9E8")
-                .build();
-
-        final Request request = new Request.Builder()
-                .url("https://www.googleapis.com/oauth2/v4/token")
-                .post(requestBody)
-                .build();
-
-
-        client.newCall(request).enqueue(new Callback() {
-            @Override
-            public void onFailure(Call call, IOException e) {
-
-            }
-
-            @Override
-            public void onResponse(Call call, Response response) throws IOException {
-
-                try {
-
-                    JSONObject jsonObject = new JSONObject(response.body().string());
-                    final String message = jsonObject.toString(5);
-                    Log.d(TAG, "onResponse:" + message);
-                } catch (JSONException e) {
-                    e.printStackTrace();
-                }
-
-            }
-        });
 
     }
 

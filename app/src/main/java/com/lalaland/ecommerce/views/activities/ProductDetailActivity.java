@@ -173,7 +173,7 @@ public class ProductDetailActivity extends AppCompatActivity implements ProductV
         setProductGeneralDescription(generalDescription, materialDescription);
         setFitAndSizing();
 
-        activityProductDetailBinding.tvProductCode.setText(String.valueOf(productDetails.getId()));
+        activityProductDetailBinding.tvProductCode.setText(String.valueOf(productDetails.getProductNum()));
         activityProductDetailBinding.tvSoldByMerchant.setText(productDetails.getMerchantName());
 
         activityProductDetailBinding.pbLoading.setVisibility(View.GONE);
