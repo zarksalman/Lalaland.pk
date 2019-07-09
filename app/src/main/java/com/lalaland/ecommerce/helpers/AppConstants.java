@@ -49,6 +49,7 @@ public class AppConstants {
     public static final String SELECTED_FILTER_ID = "selected_filter_id";
     public static final String PRICE_FILTER = "price_filter";
     public static final String CATEGORY_FILTER = "category_filter";
+    public static final String BRAND_FILTER = "brand_filter";
     public static final String PRICE_RANGE = "price_range";
 
     public static final String PV_FILTER_ = "pv_filter";

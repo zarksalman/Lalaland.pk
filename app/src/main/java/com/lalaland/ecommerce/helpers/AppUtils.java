@@ -210,6 +210,14 @@ public class AppUtils {
         textView.setPaintFlags(textView.getPaintFlags() | Paint.STRIKE_THRU_TEXT_FLAG);  // making price for sales
     }
 
+    public static String trimLastComa(String trimString) {
+
+        StringBuffer sb = new StringBuffer(trimString);
+        sb.replace(trimString.lastIndexOf(","), trimString.lastIndexOf(",") + 1, "");
+
+        return sb.toString();
+    }
+
     public static String getDeviceName() {
         String manufacturer = Build.MANUFACTURER;
         String model = Build.MODEL;

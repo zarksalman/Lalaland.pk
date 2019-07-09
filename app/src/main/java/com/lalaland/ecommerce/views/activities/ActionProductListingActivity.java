@@ -37,6 +37,8 @@ import java.util.Map;
 import static com.lalaland.ecommerce.helpers.AppConstants.ACTION_ID;
 import static com.lalaland.ecommerce.helpers.AppConstants.ACTION_NAME;
 import static com.lalaland.ecommerce.helpers.AppConstants.BRANDS_IN_FOCUS_PRODUCTS;
+import static com.lalaland.ecommerce.helpers.AppConstants.BRAND_FILTER;
+import static com.lalaland.ecommerce.helpers.AppConstants.CATEGORY_FILTER;
 import static com.lalaland.ecommerce.helpers.AppConstants.CATEGORY_PRODUCTS;
 import static com.lalaland.ecommerce.helpers.AppConstants.CUSTOM_LIST_PRODUCTS;
 import static com.lalaland.ecommerce.helpers.AppConstants.FILTER_KEY;
@@ -48,7 +50,6 @@ import static com.lalaland.ecommerce.helpers.AppConstants.PRODUCT_ID;
 import static com.lalaland.ecommerce.helpers.AppConstants.PRODUCT_TYPE;
 import static com.lalaland.ecommerce.helpers.AppConstants.PV_FILTER_;
 import static com.lalaland.ecommerce.helpers.AppConstants.SALE_PRODUCT;
-import static com.lalaland.ecommerce.helpers.AppConstants.SELECTED_FILTER_ID;
 import static com.lalaland.ecommerce.helpers.AppConstants.SELECTED_FILTER_NAME;
 import static com.lalaland.ecommerce.helpers.AppConstants.START_INDEX;
 import static com.lalaland.ecommerce.helpers.AppConstants.SUCCESS_CODE;
@@ -275,7 +276,6 @@ public class ActionProductListingActivity extends AppCompatActivity implements A
             sheetView.setSortSheetListener(this);
             mBottomSheetDialog.setContentView(sheetView.getRoot());
             mBottomSheetDialog.show();
-            sheetView.ivSortIcon.setOnClickListener(v -> mBottomSheetDialog.hide());
 
             sheetView.ivDownArrowIcon.setOnClickListener(v -> mBottomSheetDialog.hide());
             //   sheetView = DataBindingUtil.inflate(getLayoutInflater(), R.layout.sort_filter_bottom_sheet_layout, null, false);
@@ -329,6 +329,12 @@ public class ActionProductListingActivity extends AppCompatActivity implements A
 //        parameter.clear();
 
         switch (view.getId()) {
+
+            case R.id.tv_best_match:
+
+                parameter.put(SORT_BY, "");
+                break;
+
             case R.id.tv_ascending_alphabetically:
 
                 parameter.put(SORT_BY, "az");
@@ -405,8 +411,6 @@ public class ActionProductListingActivity extends AppCompatActivity implements A
                         if (actionProductsArrayList.size() < 1) {
                             activityProductListingBinding.ivEmptyState.setVisibility(View.VISIBLE);
                         }
-
-//                        Toast.makeText(this, "Items not found", Toast.LENGTH_SHORT).show();
                     }
                 }
             }
@@ -428,18 +432,6 @@ public class ActionProductListingActivity extends AppCompatActivity implements A
 
     @Override
     public void onBackPressed() {
-
-/*
-        Intent intent = new Intent(this, MainActivity.class);
-
-        if (isFromCategories) {
-            LOAD_HOME_FRAGMENT_INDEX = 1;
-            intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_CLEAR_TASK);
-            startActivity(intent);
-        } else
-            LOAD_HOME_FRAGMENT_INDEX = 0;
-*/
-
         finish();
     }
 
@@ -456,16 +448,16 @@ public class ActionProductListingActivity extends AppCompatActivity implements A
 
                 //    isFilterApplied = true;
                 switch (data.getStringExtra(SELECTED_FILTER_NAME)) {
-                    case "price_filter":
-                        setPriceParams(data, true);
+                    case "Price":
+                        setPriceParams(data, false);
                         break;
 
-                    case "category_filter":
-                        setCategoryParams(data, true);
+                    case "Category":
+                        setCategoryParams(data, false);
                         break;
 
                     case "Brands":
-                        setBrandParams(data, true);
+                        setBrandParams(data, false);
                         break;
 
                     case "Multiple_Filters":
@@ -473,7 +465,7 @@ public class ActionProductListingActivity extends AppCompatActivity implements A
                         break;
 
                     default:
-                        setOtherFiltersParams(data, true);
+                        setOtherFiltersParams(data, false);
                         break;
                 }
             }
@@ -482,6 +474,16 @@ public class ActionProductListingActivity extends AppCompatActivity implements A
 
     private void setMultipleFilterParams(Intent data) {
 
+        //if (data.getStringExtra(PRICE_FILTER) != null)
+        {
+            setPriceParams(data, true);
+        }
+        setCategoryParams(data, true);
+        setBrandParams(data, true);
+        setOtherFiltersParams(data, true);
+
+        isFilterOrSort = true;
+        setActionProducts();
     }
 
     private void setOtherFiltersParams(Intent data, Boolean isMultipleFilters) {
@@ -497,7 +499,7 @@ public class ActionProductListingActivity extends AppCompatActivity implements A
         start = 0;
         parameter.put(START_INDEX, String.valueOf(start));
         parameter.put(LENGTH, String.valueOf(length));
-        parameter.put("pv_filter", pvFilterParamsBase64);
+        parameter.put(PV_FILTER_, pvFilterParamsBase64);
 
         if (!isMultipleFilters) {
             isFilterOrSort = true;
@@ -516,7 +518,7 @@ public class ActionProductListingActivity extends AppCompatActivity implements A
         start = 0;
         parameter.put(START_INDEX, String.valueOf(start));
         parameter.put(LENGTH, String.valueOf(length));
-        parameter.put("price_filter", priceRangeBase64);
+        parameter.put(PRICE_FILTER, priceRangeBase64);
 
         if (!isMultipleFilters) {
             isFilterOrSort = true;
@@ -527,10 +529,10 @@ public class ActionProductListingActivity extends AppCompatActivity implements A
     private void setCategoryParams(Intent data, Boolean isMultipleFilters) {
 
         start = 0;
-        String categoryId = data.getStringExtra(SELECTED_FILTER_ID);
+        String categoryId = data.getStringExtra(CATEGORY_FILTER);
         parameter.put(START_INDEX, String.valueOf(start));
         parameter.put(LENGTH, String.valueOf(length));
-        parameter.put("category_filter", categoryId);
+        parameter.put(CATEGORY_FILTER, categoryId);
 
         if (!isMultipleFilters) {
             isFilterOrSort = true;
@@ -541,14 +543,14 @@ public class ActionProductListingActivity extends AppCompatActivity implements A
     private void setBrandParams(Intent data, Boolean isMultipleFilters) {
 
         String brandParamsBase64;
-        brandIds = data.getStringExtra(SELECTED_FILTER_ID);
+        brandIds = data.getStringExtra(BRAND_FILTER);
         byte[] brandIdsBytes = brandIds.getBytes(StandardCharsets.UTF_8);
         brandParamsBase64 = Base64.encodeToString(brandIdsBytes, Base64.DEFAULT);
 
         start = 0;
         parameter.put(START_INDEX, String.valueOf(start));
         parameter.put(LENGTH, String.valueOf(length));
-        parameter.put("brand_filter", brandParamsBase64);
+        parameter.put(BRAND_FILTER, brandParamsBase64);
 
         if (!isMultipleFilters) {
             setActionProducts();

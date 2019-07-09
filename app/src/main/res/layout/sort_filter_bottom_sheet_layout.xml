@@ -19,7 +19,7 @@
             android:layout_height="wrap_content"
             android:gravity="center_vertical"
             android:orientation="horizontal"
-            android:padding="@dimen/_20dp">
+            android:padding="@dimen/_8dp">
 
             <ImageView
 
@@ -36,8 +36,9 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_centerVertical="true"
+                android:layout_marginStart="@dimen/_8dp"
                 android:layout_toEndOf="@+id/iv_sort_icon"
-                android:layout_marginStart="@dimen/_16dp"
+                android:fontFamily="@font/encodesansregular"
                 android:text="@string/sort"
                 android:textSize="16sp" />
 
@@ -62,10 +63,23 @@
             android:id="@+id/tv_choose"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="@dimen/_16dp"
-            android:onClick="@{(view)->sortSheetListener.bottomSheetClick(view)}"
-            android:padding="@dimen/_16dp"
+            android:layout_marginTop="@dimen/_8dp"
+            android:fontFamily="@font/encodesansregular"
+            android:padding="@dimen/_8dp"
             android:text="@string/choose"
+            android:textSize="16sp" />
+
+        <TextView
+
+            android:id="@+id/tv_best_match"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/_8dp"
+            android:fontFamily="@font/encodesansregular"
+            android:onClick="@{(view)->sortSheetListener.bottomSheetClick(view)}"
+            android:padding="@dimen/_8dp"
+            android:text="@string/best_match"
+            android:textColor="@color/colorAccent"
             android:textSize="16sp" />
 
         <TextView
@@ -73,13 +87,13 @@
             android:id="@+id/tv_ascending_alphabetically"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="@dimen/_16dp"
-
+            android:layout_marginTop="@dimen/_8dp"
+            android:fontFamily="@font/encodesansregular"
             android:background="?android:attr/selectableItemBackground"
             android:clickable="true"
             android:focusable="true"
             android:onClick="@{(view)->sortSheetListener.bottomSheetClick(view)}"
-            android:padding="@dimen/_16dp"
+            android:padding="@dimen/_8dp"
             android:text="@string/a_z"
             android:textSize="16sp" />
 
@@ -88,12 +102,13 @@
             android:id="@+id/tv_descending_alphabetically"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="@dimen/_16dp"
+            android:layout_marginTop="@dimen/_8dp"
             android:background="?android:attr/selectableItemBackground"
             android:clickable="true"
             android:focusable="true"
             android:onClick="@{(view)->sortSheetListener.bottomSheetClick(view)}"
-            android:padding="@dimen/_16dp"
+            android:fontFamily="@font/encodesansregular"
+            android:padding="@dimen/_8dp"
             android:text="@string/z_a"
             android:textSize="16sp" />
 
@@ -102,12 +117,13 @@
             android:id="@+id/tv_newest"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="@dimen/_16dp"
+            android:layout_marginTop="@dimen/_8dp"
+            android:fontFamily="@font/encodesansregular"
             android:background="?android:attr/selectableItemBackground"
             android:clickable="true"
             android:focusable="true"
             android:onClick="@{(view)->sortSheetListener.bottomSheetClick(view)}"
-            android:padding="@dimen/_16dp"
+            android:padding="@dimen/_8dp"
             android:text="@string/newest"
             android:textSize="16sp" />
 
@@ -115,13 +131,14 @@
 
             android:id="@+id/tv_oldest"
             android:layout_width="match_parent"
+            android:layout_marginTop="@dimen/_8dp"
             android:layout_height="wrap_content"
-            android:layout_marginTop="@dimen/_16dp"
+            android:fontFamily="@font/encodesansregular"
             android:background="?android:attr/selectableItemBackground"
             android:clickable="true"
             android:focusable="true"
             android:onClick="@{(view)->sortSheetListener.bottomSheetClick(view)}"
-            android:padding="@dimen/_16dp"
+            android:padding="@dimen/_8dp"
             android:text="@string/oldest"
             android:textSize="16sp" />
 
@@ -130,13 +147,14 @@
 
             android:id="@+id/tv_low_to_high"
             android:layout_width="match_parent"
+            android:layout_marginTop="@dimen/_8dp"
             android:layout_height="wrap_content"
-            android:layout_marginTop="@dimen/_16dp"
+            android:fontFamily="@font/encodesansregular"
             android:background="?android:attr/selectableItemBackground"
             android:clickable="true"
             android:focusable="true"
             android:onClick="@{(view)->sortSheetListener.bottomSheetClick(view)}"
-            android:padding="@dimen/_16dp"
+            android:padding="@dimen/_8dp"
             android:text="@string/low_to_high"
             android:textSize="16sp" />
 
@@ -145,12 +163,13 @@
             android:id="@+id/tv_high_to_low"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="@dimen/_16dp"
+            android:layout_marginTop="@dimen/_8dp"
+            android:fontFamily="@font/encodesansregular"
             android:background="?android:attr/selectableItemBackground"
             android:clickable="true"
             android:focusable="true"
             android:onClick="@{(view)->sortSheetListener.bottomSheetClick(view)}"
-            android:padding="@dimen/_16dp"
+            android:padding="@dimen/_8dp"
             android:text="@string/high_to_low"
             android:textSize="16sp" />
 

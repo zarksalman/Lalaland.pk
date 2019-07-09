@@ -12,16 +12,17 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import com.lalaland.ecommerce.R;
 import com.lalaland.ecommerce.adapters.FiltersAdapter;
 import com.lalaland.ecommerce.data.models.filters.Filter;
-import com.lalaland.ecommerce.data.models.filters.PvFilterCustomModel;
 import com.lalaland.ecommerce.databinding.ActivitySubFiltersBinding;
+import com.lalaland.ecommerce.helpers.AppUtils;
 
 import java.util.ArrayList;
 import java.util.List;
 
+import static com.lalaland.ecommerce.helpers.AppConstants.BRAND_FILTER;
 import static com.lalaland.ecommerce.helpers.AppConstants.FILTER_NAME;
 import static com.lalaland.ecommerce.helpers.AppConstants.PRICE_FILTER;
 import static com.lalaland.ecommerce.helpers.AppConstants.PRICE_RANGE;
-import static com.lalaland.ecommerce.helpers.AppConstants.SELECTED_FILTER_ID;
+import static com.lalaland.ecommerce.helpers.AppConstants.PV_FILTER_;
 import static com.lalaland.ecommerce.helpers.AppConstants.SELECTED_FILTER_NAME;
 
 public class SubFiltersActivity extends AppCompatActivity {
@@ -99,23 +100,19 @@ public class SubFiltersActivity extends AppCompatActivity {
 
     }
 
-    private String setBrandParams(String sFilterNames) {
+    private void setSubFilterAdapter() {
 
-        StringBuffer sb;
 
-        brandParams.append(brandParamsStart);
+        filtersAdapter = new FiltersAdapter(this, filterName);
 
-        for (int i = 0; i < selectedFilters.size(); i++) {
-            brandParamsMid = brandParamsMid.concat(String.valueOf(selectedFilters.get(i).getId()));
-            brandParamsMid = brandParamsMid.concat(",");
-            sFilterNames = sFilterNames.concat(selectedFilters.get(i).getDisplayName()).concat(",");
-        }
-
-        brandParams.append(trimLastComa(brandParamsMid));
-        brandParams.append(brandParamsEnd);
-
-        return trimLastComa(sFilterNames);
+        activitySubFiltersBinding.rvColor.setHasFixedSize(true);
+        activitySubFiltersBinding.rvColor.setAdapter(filtersAdapter);
+        activitySubFiltersBinding.rvColor.setLayoutManager(new LinearLayoutManager(this));
+        filtersAdapter.setData(subFilterList);
+        filtersAdapter.setFirstFilter();
+        activitySubFiltersBinding.rvColor.setVisibility(View.VISIBLE);
     }
+
 
     private boolean setPriceParams() {
 
@@ -169,55 +166,29 @@ public class SubFiltersActivity extends AppCompatActivity {
         return true;
     }
 
-    private void setSubFilterAdapter() {
-
-
-        filtersAdapter = new FiltersAdapter(this, filterName);
-
-        activitySubFiltersBinding.rvColor.setHasFixedSize(true);
-        activitySubFiltersBinding.rvColor.setAdapter(filtersAdapter);
-        activitySubFiltersBinding.rvColor.setLayoutManager(new LinearLayoutManager(this));
-        filtersAdapter.setData(subFilterList);
-        filtersAdapter.setFirstFilter();
-        activitySubFiltersBinding.rvColor.setVisibility(View.VISIBLE);
-    }
-
     private void setPriceFilterIntent() {
         intent = new Intent();
         intent.putExtra(PRICE_FILTER, priceParams.toString().trim());
         intent.putExtra(PRICE_RANGE, priceParamsMid.trim());
+        intent.putExtra(FILTER_NAME, PRICE_FILTER);
     }
 
-    void setPbFiltersParams() {
+    private String setBrandParams(String sFilterNames) {
 
-        pvFilterParams.append(pvFilterParamsStart);
-        pvParentFilterId = String.valueOf(selectedFilters.get(0).getId());
-        pvFilterParams.append(pvParentFilterId);
-        pvFilterParams.append(pvFilterParamsIdsStart);
+        StringBuffer sb;
+
+        brandParams.append(brandParamsStart);
 
         for (int i = 0; i < selectedFilters.size(); i++) {
-
-            pvFilterParamsIdsMid.append(selectedFilters.get(i).getProductVariationValueId());
-            pvFilterParamsIdsMid.append(",");
+            brandParamsMid = brandParamsMid.concat(String.valueOf(selectedFilters.get(i).getId()));
+            brandParamsMid = brandParamsMid.concat(",");
+            sFilterNames = sFilterNames.concat(selectedFilters.get(i).getDisplayName()).concat(",");
         }
 
-        pvFilterParamsIdsMid = new StringBuilder(trimLastComa(pvFilterParamsIdsMid.toString()));
-        pvFilterParams.append(pvFilterParamsIdsMid);
-        pvFilterParams.append(pvFilterParamsIdsEnd);
-        pvFilterParams = new StringBuilder(trimLastComa(pvFilterParams.toString()));
-        pvFilterParams.append(pvFilterParamsEnd);
-    }
+        brandParams.append(AppUtils.trimLastComa(brandParamsMid));
+        brandParams.append(brandParamsEnd);
 
-    private void setCategoryFilterIntent() {
-
-        intent = new Intent();
-        String catFilter;
-
-        if (filtersAdapter.getSelectedCategory() != null) {
-            catFilter = filtersAdapter.getSelectedCategory().getDisplayName();
-            intent.putExtra(FILTER_NAME, catFilter);
-        } else
-            Toast.makeText(this, "Select atleast one filter", Toast.LENGTH_SHORT).show();
+        return AppUtils.trimLastComa(sFilterNames);
     }
 
     private void setBrandsFiltersIntent() {
@@ -230,10 +201,61 @@ public class SubFiltersActivity extends AppCompatActivity {
             sFilterNames = setBrandParams(sFilterNames);
 
             intent.putExtra(SELECTED_FILTER_NAME, sFilterNames);
-            intent.putExtra(SELECTED_FILTER_ID, brandParams.toString());
+            intent.putExtra(BRAND_FILTER, brandParams.toString());
         } else
             Toast.makeText(this, "Select atleast one filter", Toast.LENGTH_SHORT).show();
     }
+
+
+    private void setOthersParams() {
+
+        for (int i = 0; i < selectedFilters.size(); i++) {
+            sFilterNames.append(selectedFilters.get(i).getDisplayName());
+            sFilterNames.append(",");
+
+            sFilterIds.append(selectedFilters.get(i).getProductVariationValueId());
+            sFilterIds.append(",");
+        }
+
+        sFilterNames = new StringBuffer(AppUtils.trimLastComa(sFilterNames.toString()));
+        sFilterIds = new StringBuffer(AppUtils.trimLastComa(sFilterIds.toString()));
+
+    }
+
+    void setPbFiltersParams() {
+
+        pvFilterParams.append(pvFilterParamsStart);
+        pvParentFilterId = String.valueOf(selectedFilters.get(0).getId());
+        pvFilterParams.append(pvParentFilterId);
+        pvFilterParams.append(pvFilterParamsIdsStart);
+
+        for (int i = 0; i < selectedFilters.size(); i++) {
+
+            sFilterNames.append(selectedFilters.get(i).getDisplayName());
+            sFilterNames.append(",");
+
+            pvFilterParamsIdsMid.append(selectedFilters.get(i).getProductVariationValueId());
+            pvFilterParamsIdsMid.append(",");
+        }
+
+        pvFilterParamsIdsMid = new StringBuilder(AppUtils.trimLastComa(pvFilterParamsIdsMid.toString()));
+        pvFilterParams.append(pvFilterParamsIdsMid);
+        pvFilterParams.append(pvFilterParamsIdsEnd);
+        pvFilterParams = new StringBuilder(AppUtils.trimLastComa(pvFilterParams.toString()));
+        pvFilterParams.append(pvFilterParamsEnd);
+    }
+
+    private void setCategoryFilterIntent() {
+
+        intent = new Intent();
+        String catFilter;
+
+        if (filtersAdapter.getSelectedCategory() != null) {
+            catFilter = filtersAdapter.getSelectedCategory().getDisplayName();
+            intent.putExtra(FILTER_NAME, catFilter);
+        }
+    }
+
 
     private void setOthersFilterIntent() {
         intent = new Intent();
@@ -252,44 +274,18 @@ public class SubFiltersActivity extends AppCompatActivity {
             //intent.putParcelableArrayListExtra("selected_filters", (ArrayList<? extends Parcelable>) selectedFilters);
 
             // for multiple filters
-            setOthersParams();
+            setPbFiltersParams();
+//            setOthersParams();
 
             intent.putExtra(FILTER_NAME, selectedFilters.get(0).getFilterName());
             intent.putExtra(SELECTED_FILTER_NAME, sFilterNames.toString());
-            intent.putExtra(SELECTED_FILTER_ID, sFilterIds.toString());
+            intent.putExtra(PV_FILTER_, pvFilterParams.toString());
 
         } else
             Toast.makeText(this, "Select atleast one filter", Toast.LENGTH_SHORT).show();
     }
 
-    private void setOthersParams() {
 
-        List<PvFilterCustomModel> pvFilterCustomModelList = new ArrayList<>();
-        List<Filter> subPvFilter = new ArrayList<>();
-        PvFilterCustomModel pvFilterCustomModel = new PvFilterCustomModel();
-
-        for (int i = 0; i < selectedFilters.size(); i++) {
-            sFilterNames.append(selectedFilters.get(i).getDisplayName());
-            sFilterNames.append(",");
-
-            sFilterIds.append(selectedFilters.get(i).getProductVariationValueId());
-            sFilterIds.append(",");
-
-            //     filterName = selectedFilters.get(i).getFilterName();
-        }
-
-        sFilterNames = new StringBuffer(trimLastComa(sFilterNames.toString()));
-        sFilterIds = new StringBuffer(trimLastComa(sFilterIds.toString()));
-
-    }
-
-    private String trimLastComa(String trimString) {
-
-        StringBuffer sb = new StringBuffer(trimString);
-        sb.replace(trimString.lastIndexOf(","), trimString.lastIndexOf(",") + 1, "");
-
-        return sb.toString();
-    }
 
     @Override
     public void onBackPressed() {
@@ -305,7 +301,6 @@ public class SubFiltersActivity extends AppCompatActivity {
                     intent.putExtra(FILTER_NAME, "not null");
                     intent.putExtra(PRICE_RANGE, "Any");
                 }
-
 
                 break;
             case "Category":

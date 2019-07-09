@@ -18,6 +18,7 @@ import com.lalaland.ecommerce.data.models.filters.CategoryFilter;
 import com.lalaland.ecommerce.data.models.filters.Filter;
 import com.lalaland.ecommerce.data.models.filters.ParentFilter;
 import com.lalaland.ecommerce.databinding.ActivityFilterBinding;
+import com.lalaland.ecommerce.helpers.AppUtils;
 import com.lalaland.ecommerce.viewModels.filter.FilterViewModel;
 
 import java.util.ArrayList;
@@ -26,12 +27,14 @@ import java.util.List;
 import java.util.Map;
 
 import static com.lalaland.ecommerce.helpers.AppConstants.ACTION_ID;
+import static com.lalaland.ecommerce.helpers.AppConstants.BRAND_FILTER;
 import static com.lalaland.ecommerce.helpers.AppConstants.CATEGORY_FILTER;
 import static com.lalaland.ecommerce.helpers.AppConstants.FILTER_ID;
 import static com.lalaland.ecommerce.helpers.AppConstants.FILTER_KEY;
 import static com.lalaland.ecommerce.helpers.AppConstants.FILTER_NAME;
 import static com.lalaland.ecommerce.helpers.AppConstants.PRICE_FILTER;
 import static com.lalaland.ecommerce.helpers.AppConstants.PRICE_RANGE;
+import static com.lalaland.ecommerce.helpers.AppConstants.PV_FILTER_;
 import static com.lalaland.ecommerce.helpers.AppConstants.SELECTED_FILTER_ID;
 import static com.lalaland.ecommerce.helpers.AppConstants.SELECTED_FILTER_NAME;
 import static com.lalaland.ecommerce.helpers.AppConstants.SUCCESS_CODE;
@@ -59,7 +62,7 @@ public class FilterActivity extends AppCompatActivity {
     String categoryFilterName;
     String brandFilterName;
     String pvFilters;
-    String pvFilterIds = "";
+    StringBuilder pvFilterIds = new StringBuilder();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -74,15 +77,37 @@ public class FilterActivity extends AppCompatActivity {
 
         intent = new Intent(this, SubFiltersActivity.class);
         resultantIntent = new Intent();
-
         filterViewModel = ViewModelProviders.of(this).get(FilterViewModel.class);
+
+        initResultantIntent();
         getFilters();
 
         activityFilterBinding.tvApply.setOnClickListener(v -> {
             setResultantIntent();
         });
 
+        activityFilterBinding.tvResetFilter.setOnClickListener(v -> {
+
+            parentFilterList.clear();
+            activityFilterBinding.pbLoading.setVisibility(View.VISIBLE);
+            parameter = new HashMap<>();
+
+            parameter.put(FILTER_ID, actionId);
+            parameter.put(FILTER_KEY, key);
+
+            initResultantIntent();
+            getFilters();
+        });
+
         activityFilterBinding.ivBtnBack.setOnClickListener(v -> onBackPressed());
+    }
+
+    private void initResultantIntent() {
+
+        resultantIntent.putExtra(PRICE_FILTER, "");
+        resultantIntent.putExtra(BRAND_FILTER, "");
+        resultantIntent.putExtra(CATEGORY_FILTER, "");
+        resultantIntent.putExtra(PV_FILTER_, "");
     }
 
     private void getFilters() {
@@ -94,13 +119,13 @@ public class FilterActivity extends AppCompatActivity {
                 if (filterDataContainer.getCode().equals(SUCCESS_CODE)) {
 
                     if (filterDataContainer.getData().getCategoryFilters() != null)
-                        categoryFilterList.addAll(filterDataContainer.getData().getCategoryFilters());
+                        categoryFilterList = filterDataContainer.getData().getCategoryFilters();
 
                     if (filterDataContainer.getData().getBrands() != null)
-                        brandList.addAll(filterDataContainer.getData().getBrands());
+                        brandList = filterDataContainer.getData().getBrands();
 
                     if (filterDataContainer.getData().getCategoryFilters() != null)
-                        filterList.addAll(filterDataContainer.getData().getFilters());
+                        filterList = filterDataContainer.getData().getFilters();
 
                     setParentFilter();
                     setParentAdapter();
@@ -296,7 +321,7 @@ public class FilterActivity extends AppCompatActivity {
                     parentFilterAdapter.notifyDataSetChanged();
                 }
 
-                resultantIntent.putExtra(PRICE_FILTER, priceRange);
+                resultantIntent.putExtra(PRICE_FILTER, priceFilter);
                 data.putExtra(SELECTED_FILTER_NAME, filterName);
 
                 resultantIntent.putExtra(SELECTED_FILTER_NAME, filterName);
@@ -313,7 +338,7 @@ public class FilterActivity extends AppCompatActivity {
                     parentFilterAdapter.notifyDataSetChanged();
                 }
 
-                resultantIntent.putExtra(SELECTED_FILTER_NAME, categoryFilterName);
+                resultantIntent.putExtra(SELECTED_FILTER_NAME, "Category");
                 resultantIntent.putExtra(CATEGORY_FILTER, String.valueOf(getCategoryFilterId(categoryFilterName)));
 
                 data.putExtra(SELECTED_FILTER_ID, String.valueOf(getCategoryFilterId(categoryFilterName)));
@@ -331,8 +356,8 @@ public class FilterActivity extends AppCompatActivity {
                 }
 
                 //   getSelectedBrandIds(brandFilterName);
-                resultantIntent.putExtra(SELECTED_FILTER_NAME, brandFilterName);
-                resultantIntent.putExtra("brand_filter", data.getStringExtra(SELECTED_FILTER_ID));
+                resultantIntent.putExtra(SELECTED_FILTER_NAME, "Brands");
+                resultantIntent.putExtra(BRAND_FILTER, data.getStringExtra(BRAND_FILTER));
                 setResult(RESULT_OK, resultantIntent);
 
                 break;
@@ -343,7 +368,9 @@ public class FilterActivity extends AppCompatActivity {
 
                     filterName = data.getStringExtra(FILTER_NAME);
                     pvFilters = data.getStringExtra(SELECTED_FILTER_NAME);
-                    pvFilterIds = data.getStringExtra(SELECTED_FILTER_ID);
+
+                    pvFilterIds.append(data.getStringExtra(PV_FILTER_));
+                    pvFilterIds.append(",");
 
                     Integer index = getParentFilterId(filterName);
 
@@ -353,14 +380,18 @@ public class FilterActivity extends AppCompatActivity {
                     }
                 }
 
-
                 resultantIntent.putExtra(SELECTED_FILTER_NAME, filterName);
-                resultantIntent.putExtra("pv_filter", pvFilterIds);
+                resultantIntent.putExtra(PV_FILTER_, pvFilterIds.toString());
                 setResult(RESULT_OK, resultantIntent);
                 break;
         }
 
         if (resultCode == RESULT_OK) {
+
+            if (!pvFilterIds.toString().isEmpty()) {
+                String pvFilters = AppUtils.trimLastComa(pvFilterIds.toString());
+                resultantIntent.putExtra(PV_FILTER_, pvFilters);
+            }
             finish();
         }
     }
@@ -368,6 +399,12 @@ public class FilterActivity extends AppCompatActivity {
     void setResultantIntent() {
 
         resultantIntent.putExtra(SELECTED_FILTER_NAME, "Multiple_Filters");
+
+        if (!pvFilterIds.toString().isEmpty()) {
+            String pvFilters = AppUtils.trimLastComa(pvFilterIds.toString());
+            resultantIntent.putExtra(PV_FILTER_, pvFilters);
+        }
+
         setResult(RESULT_OK, resultantIntent);
         finish();
     }
