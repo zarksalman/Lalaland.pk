@@ -22,7 +22,7 @@
             android:layout_height="wrap_content"
             android:background="@android:color/white"
             android:orientation="horizontal"
-            android:padding="@dimen/_8dp"
+            android:padding="@dimen/_16dp"
             android:visibility="visible"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
@@ -267,7 +267,7 @@
                     android:layout_margin="16dp"
                     android:checked="true"
                     android:text="@string/gender_male"
-                    android:textColor="@color/colorLightGray" />
+                    android:textColor="@color/colorDarkGray" />
 
                 <RadioButton
 
@@ -276,7 +276,7 @@
                     android:layout_height="wrap_content"
                     android:layout_margin="16dp"
                     android:text="@string/gender_female"
-                    android:textColor="@color/colorLightGray" />
+                    android:textColor="@color/colorDarkGray" />
             </RadioGroup>
 
         </LinearLayout>

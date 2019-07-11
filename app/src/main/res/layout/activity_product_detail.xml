@@ -456,12 +456,13 @@
                 android:layout_width="@dimen/_50dp"
                 android:layout_height="@dimen/_50dp"
                 android:layout_alignParentStart="true"
+                android:alpha=".40"
                 android:background="@drawable/back_arrow_bg_oval_corner_gray"
                 android:layout_marginStart="@dimen/_8dp"
                 android:padding="@dimen/_8dp"
                 android:scaleType="centerInside"
                 android:layout_centerVertical="true"
-                app:srcCompat="@drawable/back_arrow_icon" />
+                app:srcCompat="@drawable/back_arrow_detail" />
 
             <TextView
                 android:id="@+id/tv_app_name"
@@ -475,12 +476,34 @@
                 android:textSize="18sp"
                 android:visibility="gone" />
 
+            <FrameLayout
+                android:id="@+id/share_product_container"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentEnd="true"
+                android:layout_centerVertical="true">
+
+                <ImageView
+
+                    android:id="@+id/iv_share_product"
+                    android:layout_width="@dimen/_50dp"
+                    android:layout_height="@dimen/_50dp"
+                    android:layout_marginTop="@dimen/_8dp"
+                    android:alpha=".40"
+                    android:background="@drawable/back_arrow_bg_oval_corner_gray"
+                    android:clickable="true"
+                    android:focusable="true"
+                    android:scaleType="centerInside"
+                    app:srcCompat="@drawable/share_product_detail" />
+            </FrameLayout>
+
+
             <androidx.constraintlayout.widget.ConstraintLayout
                 android:id="@+id/cart_counter_container"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginEnd="@dimen/_4dp"
-                android:layout_alignParentEnd="true"
+                android:layout_toStartOf="@+id/share_product_container"
                 android:layout_centerVertical="true"
                 android:orientation="vertical"
                 android:padding="@dimen/_8dp">
@@ -494,13 +517,13 @@
                     android:background="@drawable/back_arrow_bg_oval_corner_gray"
                     android:clickable="true"
                     android:focusable="true"
-                    android:padding="4dp"
+                    android:layout_marginEnd="@dimen/_8dp"
+                    android:alpha=".40"
                     android:scaleType="centerInside"
-                    android:tint="@android:color/black"
                     app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
-                    app:srcCompat="@drawable/cart_counter_icon" />
+                    app:srcCompat="@drawable/cart_icon_white" />
 
                 <TextView
                     android:id="@+id/tv_counter"

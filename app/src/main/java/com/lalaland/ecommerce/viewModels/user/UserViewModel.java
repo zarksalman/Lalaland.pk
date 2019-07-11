@@ -8,10 +8,13 @@ import androidx.lifecycle.LiveData;
 
 import com.lalaland.ecommerce.data.models.logout.BasicResponse;
 import com.lalaland.ecommerce.data.models.updateUserData.UpdateUserDataContainer;
+import com.lalaland.ecommerce.data.models.uploadProfileImage.UploadProfileImageContainer;
 import com.lalaland.ecommerce.data.models.userAddressBook.AddressDataContainer;
 import com.lalaland.ecommerce.data.repository.UsersRepository;
 
 import java.util.Map;
+
+import okhttp3.MultipartBody;
 
 public class UserViewModel extends AndroidViewModel {
 
@@ -35,8 +38,16 @@ public class UserViewModel extends AndroidViewModel {
         return usersRepository.updateUserDetails(token, parameter);
     }
 
+    public LiveData<UploadProfileImageContainer> uploadProfileImage(String token, MultipartBody.Part file) {
+        return usersRepository.uploadProfileImage(token, file);
+    }
+
     public LiveData<BasicResponse> changePassword(String token, Map<String, String> parameter) {
         return usersRepository.changePassword(token,parameter);
+    }
+
+    public LiveData<BasicResponse> forgotPassword(Map<String, String> parameter) {
+        return usersRepository.forgotPassword(parameter);
     }
 
     public LiveData<AddressDataContainer> getAddresses(String token) {

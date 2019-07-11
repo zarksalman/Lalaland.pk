@@ -1,16 +1,24 @@
 package com.lalaland.ecommerce.helpers;
 
+import android.annotation.SuppressLint;
 import android.app.Activity;
+import android.content.ContentUris;
 import android.content.Context;
 import android.content.Intent;
 import android.content.pm.PackageInfo;
 import android.content.pm.PackageManager;
+import android.database.Cursor;
+import android.database.DatabaseUtils;
 import android.graphics.Paint;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.net.Uri;
-import android.net.wifi.WifiManager;
 import android.os.Build;
+import android.os.Environment;
+import android.provider.DocumentsContract;
+import android.provider.MediaStore;
+import android.provider.Settings;
+import android.util.Log;
 import android.view.View;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.TextView;
@@ -18,16 +26,21 @@ import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import java.io.File;
 import java.text.NumberFormat;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Locale;
 
+import static com.facebook.FacebookSdk.getApplicationContext;
+import static com.lalaland.ecommerce.BuildConfig.DEBUG;
 import static com.lalaland.ecommerce.helpers.AppConstants.DATE_FORMAT_TEXT;
+import static com.lalaland.ecommerce.helpers.AppConstants.TAG;
 
 public class AppUtils {
 
     public static Toast mToast;
+    public static final String AUTHORITY = "com.ianhanniballake.localstorage.documents";
 
     public static long getLongDate() {
         Calendar calendar = Calendar.getInstance();
@@ -67,6 +80,17 @@ public class AppUtils {
 
         sendIntent.putExtra(Intent.EXTRA_TEXT,
                 AppConstants.SHARE_CONTENT + "\n " + AppConstants.GOOGLE_PLAY_URL + AppConstants.mContext.getPackageName());
+        sendIntent.setType("text/plain");
+        return sendIntent;
+    }
+
+
+    public static Intent getProductShareIntent(String productUrl) {
+        Intent sendIntent = new Intent();
+        sendIntent.setAction(Intent.ACTION_SEND);
+        sendIntent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+
+        sendIntent.putExtra(Intent.EXTRA_TEXT, productUrl);
         sendIntent.setType("text/plain");
         return sendIntent;
     }
@@ -220,16 +244,20 @@ public class AppUtils {
 
     public static String getDeviceName() {
         String manufacturer = Build.MANUFACTURER;
+
+        return toLowerCase(manufacturer);
+    }
+
+    public static String getDeviceModel() {
+
         String model = Build.MODEL;
-        if (model.startsWith(manufacturer)) {
-            return toLowerCase(model);
-        }
-        return toLowerCase(manufacturer) + " " + model;
+
+        return toLowerCase(model);
     }
 
     public static String getDeviceOS() {
 
-        String operatingSystem = Build.VERSION.SDK_INT + ":" + Build.VERSION.RELEASE;
+        String operatingSystem = "sdk int:" + Build.VERSION.SDK_INT + " and Release version:" + Build.VERSION.RELEASE;
         return operatingSystem;
     }
 
@@ -240,7 +268,7 @@ public class AppUtils {
             PackageInfo pInfo = AppConstants.mContext.getPackageManager().getPackageInfo(AppConstants.mContext.getPackageName(), 0);
             String version = pInfo.versionName;
             int verCode = pInfo.versionCode;
-            return version + " " + verCode;
+            return "application version:" + version + " and application version number:" + verCode;
         } catch (PackageManager.NameNotFoundException e) {
             e.printStackTrace();
             return "";
@@ -249,10 +277,164 @@ public class AppUtils {
 
     public static String getDeviceId() {
 
-        WifiManager m_wm = (WifiManager) AppConstants.mContext.getSystemService(Context.WIFI_SERVICE);
-        String m_wlanMacAdd = m_wm.getConnectionInfo().getMacAddress();
+        @SuppressLint("HardwareIds")
+        String androidDeviceId = Settings.Secure.getString(getApplicationContext().getContentResolver(),
+                Settings.Secure.ANDROID_ID);
 
-        return m_wlanMacAdd;
+        return androidDeviceId;
     }
 
+    public static String createProductUrl(String str) {
+        str = str.replace(" ", "-");
+        str = str.toLowerCase();
+
+        return str;
+    }
+
+    public static File getFile(Context context, Uri uri) {
+        if (uri != null) {
+            String path = getPath(context, uri);
+            if (path != null && isLocal(path)) {
+                return new File(path);
+            }
+        }
+        return null;
+    }
+
+    public static String getPath(final Context context, final Uri uri) {
+
+        if (DEBUG)
+            Log.d(TAG + " File -",
+                    "Authority: " + uri.getAuthority() +
+                            ", Fragment: " + uri.getFragment() +
+                            ", Port: " + uri.getPort() +
+                            ", Query: " + uri.getQuery() +
+                            ", Scheme: " + uri.getScheme() +
+                            ", Host: " + uri.getHost() +
+                            ", Segments: " + uri.getPathSegments().toString()
+            );
+
+        final boolean isKitKat = Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT;
+
+        // DocumentProvider
+        if (isKitKat && DocumentsContract.isDocumentUri(context, uri)) {
+            // LocalStorageProvider
+            if (isLocalStorageDocument(uri)) {
+                // The path is the id
+                return DocumentsContract.getDocumentId(uri);
+            }
+            // ExternalStorageProvider
+            else if (isExternalStorageDocument(uri)) {
+                final String docId = DocumentsContract.getDocumentId(uri);
+                final String[] split = docId.split(":");
+                final String type = split[0];
+
+                if ("primary".equalsIgnoreCase(type)) {
+                    return Environment.getExternalStorageDirectory() + "/" + split[1];
+                }
+
+                // TODO handle non-primary volumes
+            }
+            // DownloadsProvider
+            else if (isDownloadsDocument(uri)) {
+
+                final String id = DocumentsContract.getDocumentId(uri);
+                final Uri contentUri = ContentUris.withAppendedId(
+                        Uri.parse("content://downloads/public_downloads"), Long.valueOf(id));
+
+                return getDataColumn(context, contentUri, null, null);
+            }
+            // MediaProvider
+            else if (isMediaDocument(uri)) {
+                final String docId = DocumentsContract.getDocumentId(uri);
+                final String[] split = docId.split(":");
+                final String type = split[0];
+
+                Uri contentUri = null;
+                if ("image".equals(type)) {
+                    contentUri = MediaStore.Images.Media.EXTERNAL_CONTENT_URI;
+                } else if ("video".equals(type)) {
+                    contentUri = MediaStore.Video.Media.EXTERNAL_CONTENT_URI;
+                } else if ("audio".equals(type)) {
+                    contentUri = MediaStore.Audio.Media.EXTERNAL_CONTENT_URI;
+                }
+
+                final String selection = "_id=?";
+                final String[] selectionArgs = new String[]{
+                        split[1]
+                };
+
+                return getDataColumn(context, contentUri, selection, selectionArgs);
+            }
+        }
+        // MediaStore (and general)
+        else if ("content".equalsIgnoreCase(uri.getScheme())) {
+
+            // Return the remote address
+            if (isGooglePhotosUri(uri))
+                return uri.getLastPathSegment();
+
+            return getDataColumn(context, uri, null, null);
+        }
+        // File
+        else if ("file".equalsIgnoreCase(uri.getScheme())) {
+            return uri.getPath();
+        }
+
+        return null;
+    }
+
+
+    public static boolean isExternalStorageDocument(Uri uri) {
+        return "com.android.externalstorage.documents".equals(uri.getAuthority());
+    }
+
+    public static boolean isDownloadsDocument(Uri uri) {
+        return "com.android.providers.downloads.documents".equals(uri.getAuthority());
+    }
+
+    public static boolean isMediaDocument(Uri uri) {
+        return "com.android.providers.media.documents".equals(uri.getAuthority());
+    }
+
+    public static boolean isGooglePhotosUri(Uri uri) {
+        return "com.google.android.apps.photos.content".equals(uri.getAuthority());
+    }
+
+    public static String getDataColumn(Context context, Uri uri, String selection,
+                                       String[] selectionArgs) {
+
+        Cursor cursor = null;
+        final String column = "_data";
+        final String[] projection = {
+                column
+        };
+
+        try {
+            cursor = AppConstants.mContext.getContentResolver().query(uri, projection, selection, selectionArgs,
+                    null);
+            if (cursor != null && cursor.moveToFirst()) {
+                if (DEBUG)
+                    DatabaseUtils.dumpCursor(cursor);
+
+                final int column_index = cursor.getColumnIndexOrThrow(column);
+                return cursor.getString(column_index);
+            }
+        } finally {
+            if (cursor != null)
+                cursor.close();
+        }
+        return null;
+    }
+
+    public static boolean isLocalStorageDocument(Uri uri) {
+        return AUTHORITY.equals(uri.getAuthority());
+    }
+
+    public static boolean isLocal(String url) {
+        if (url != null && !url.startsWith("http://") && !url.startsWith("https://")) {
+            return true;
+        }
+        return false;
+    }
 }

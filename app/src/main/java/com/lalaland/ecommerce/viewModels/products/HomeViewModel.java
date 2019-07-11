@@ -7,8 +7,7 @@ import androidx.paging.PagedList;
 import com.lalaland.ecommerce.data.models.home.HomeDataContainer;
 import com.lalaland.ecommerce.data.models.products.Product;
 import com.lalaland.ecommerce.data.models.products.ProductContainer;
-import com.lalaland.ecommerce.data.pagging.ProductDataSourceFactory;
-import com.lalaland.ecommerce.data.pagging.ProductsDataSource;
+
 import com.lalaland.ecommerce.data.repository.ProductsRepository;
 
 import java.util.Map;
@@ -17,9 +16,7 @@ public class HomeViewModel extends ViewModel {
 
     private ProductsRepository productsRepository;
 
-    public ProductDataSourceFactory productDataSourceFactory;
     public LiveData<PagedList<Product>> pagedListLiveData;
-    public LiveData<ProductsDataSource> liveDataSource;
 
     //    public HomeViewModel(@NonNull Application application)
     public HomeViewModel() {

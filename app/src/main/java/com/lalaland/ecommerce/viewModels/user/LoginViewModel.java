@@ -25,4 +25,9 @@ public class LoginViewModel extends AndroidViewModel {
     public LiveData<BasicResponse> logoutUser() {
         return UsersRepository.getInstance().logoutUser();
     }
+
+    public LiveData<BasicResponse> forgotPassword(Map<String, String> parameter) {
+        return UsersRepository.getInstance().forgotPassword(parameter);
+    }
+
 }

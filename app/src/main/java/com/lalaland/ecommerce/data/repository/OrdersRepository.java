@@ -23,13 +23,17 @@ import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 
+import static com.lalaland.ecommerce.helpers.AppConstants.CART_SESSION_TOKEN;
+import static com.lalaland.ecommerce.helpers.AppConstants.SIGNIN_TOKEN;
+
 public class OrdersRepository {
 
     private static OrdersRepository repository;
     private LalalandServiceApi lalalandServiceApi;
-    private AppPreference appPreference;
-    String recommendedCat;
-    private Map<String, String> userInfo = new HashMap<>();
+
+    private static AppPreference appPreference;
+    static String recommendedCat, token, cartSession;
+    static Map<String, String> userInfo = new HashMap<>();
 
     private MutableLiveData<BasicResponse> basicResponseMutableLiveData;
     private MutableLiveData<DeliveryChargesContainer> deliveryChargesContainerMutableLiveData;
@@ -41,24 +45,36 @@ public class OrdersRepository {
     private OrdersRepository() {
         lalalandServiceApi = RetrofitClient.getInstance().createClient();
         appPreference = AppPreference.getInstance(AppConstants.mContext);
-
-        userInfo.put("device-id", AppConstants.DEVICE_ID);
-        userInfo.put("app-version", AppConstants.APP_BUILD_VERSION);
-        userInfo.put("user-id", AppConstants.USER_ID);
-        userInfo.put("device-name", AppConstants.DEVICE_NAME);
-        userInfo.put("device-OS-version", AppConstants.DEVICE_OS);
     }
 
     public static OrdersRepository getInstance() {
         if (repository == null)
             repository = new OrdersRepository();
+
+
+        token = appPreference.getString(SIGNIN_TOKEN);
+        cartSession = appPreference.getString(CART_SESSION_TOKEN);
+
+        if (token.equals("token"))
+            token = "";
+
+        userInfo.put("device-id", AppConstants.DEVICE_ID);
+        userInfo.put("app-version", AppConstants.APP_BUILD_VERSION);
+        userInfo.put("user-id", AppConstants.USER_ID);
+        userInfo.put("device-name", AppConstants.DEVICE_NAME);
+        userInfo.put("device-model", AppConstants.DEVICE_MODEL);
+        userInfo.put("device-OS-version", AppConstants.DEVICE_OS);
+        userInfo.put("fcm-token", AppConstants.FCM_TOKEN);
+        userInfo.put("device-type", AppConstants.DEVICE_TYPE);
+        userInfo.put(SIGNIN_TOKEN, token);
+        userInfo.put(CART_SESSION_TOKEN, cartSession);
+
         return repository;
     }
 
 
     public LiveData<DeliveryChargesContainer> getDeliveryCharges(String token, String cityId) {
 
-        //userInfo.put("token", token);
         deliveryChargesContainerMutableLiveData = new MutableLiveData<>();
 
         lalalandServiceApi.getDeliveryCharges(userInfo, cityId).enqueue(new Callback<DeliveryChargesContainer>() {
@@ -79,12 +95,11 @@ public class OrdersRepository {
 
         return deliveryChargesContainerMutableLiveData;
     }
-
     public LiveData<DeliveryOptionDataContainer> getDeliveryOption(Map<String, String> parameter) {
 
         deliveryOptionDataContainerMutableLiveData = new MutableLiveData<>();
 
-        lalalandServiceApi.getDeliveryOption(parameter).enqueue(new Callback<DeliveryOptionDataContainer>() {
+        lalalandServiceApi.getDeliveryOption(userInfo, parameter).enqueue(new Callback<DeliveryOptionDataContainer>() {
             @Override
             public void onResponse(Call<DeliveryOptionDataContainer> call, Response<DeliveryOptionDataContainer> response) {
 
@@ -104,7 +119,8 @@ public class OrdersRepository {
     }
 
 
-    public LiveData<PlacingOrderDataContainer> confirmOrder(String header, Map<String, String> parameter) {
+/*
+    public LiveData<PlacingOrderDataContainer> confirmOrder(userInfo, Map<String, String> parameter) {
 
         orderDataContainerMutableLiveData = new MutableLiveData<>();
         lalalandServiceApi.confirmOrder(header, parameter).enqueue(new Callback<PlacingOrderDataContainer>() {
@@ -124,11 +140,12 @@ public class OrdersRepository {
 
         return orderDataContainerMutableLiveData;
     }
+*/
 
     public LiveData<OrderDataContainer> getMyOrders(String header, String status) {
 
         myOrderDataContainerMutableLiveData = new MutableLiveData<>();
-        lalalandServiceApi.getMyOrders(header, status).enqueue(new Callback<OrderDataContainer>() {
+        lalalandServiceApi.getMyOrders(userInfo, status).enqueue(new Callback<OrderDataContainer>() {
             @Override
             public void onResponse(Call<OrderDataContainer> call, Response<OrderDataContainer> response) {
 
@@ -147,12 +164,11 @@ public class OrdersRepository {
 
         return myOrderDataContainerMutableLiveData;
     }
-
     public LiveData<OrderDetailContainer> getMyOrdersProducts(String header, String orderId) {
 
         orderDetailContainerMutableLiveData = new MutableLiveData<>();
 
-        lalalandServiceApi.getMyOrdersProducts(header, orderId).enqueue(new Callback<OrderDetailContainer>() {
+        lalalandServiceApi.getMyOrdersProducts(userInfo, orderId).enqueue(new Callback<OrderDetailContainer>() {
             @Override
             public void onResponse(Call<OrderDetailContainer> call, Response<OrderDetailContainer> response) {
 

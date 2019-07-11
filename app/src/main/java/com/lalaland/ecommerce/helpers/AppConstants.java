@@ -15,6 +15,7 @@ import java.util.regex.Pattern;
 public class AppConstants {
 
     public static final String BASE_URL = "https://api.uat.lalaland.pk/api/";
+    public static final String BASE_URL_PRODUCT_SHARE = "https://www.lalaland.pk/";
     public static String ABOUT_US_URL = "";
     public static String PRIVACY_POLICY_URL = "";
     public static String RETURN_POLICY_URL = "";
@@ -78,7 +79,10 @@ public class AppConstants {
     public static String APP_BUILD_VERSION;
     public static String USER_ID;
     public static String DEVICE_NAME;
+    public static String DEVICE_MODEL;
     public static String DEVICE_OS;
+    public static String FCM_TOKEN = "";
+    public static String DEVICE_TYPE = "ANDROID";
 
 
     public static final String PRODUCT_STORAGE_BASE_URL = "https://api.uat.lalaland.pk/storage/products/";
@@ -86,7 +90,7 @@ public class AppConstants {
     public static final String BANNER_STORAGE_BASE_URL = "https://api.uat.lalaland.pk/storage/home_banners/";
     public static final String BRAND_FOCUS_STORAGE_BASE_URL = "https://api.uat.lalaland.pk/storage/featured_brands/";
     public static final String ACTION_STORAGE_BASE_URL = "https://api.uat.lalaland.pk/storage/mobile_actions/";
-    public static final String USER_STORAGE_BASE_URL = "https://api.uat.lalaland.pk/storage/user/";
+    public static final String USER_STORAGE_BASE_URL = "https://api.uat.lalaland.pk/storage/users/";
 
     public static final String FULL_NAME = "full_name";
     public static final String FIRST_NAME = "first_name";
@@ -142,6 +146,8 @@ public class AppConstants {
     public static final String ITEM_SOLD_OUT = "Items sold out";
 
     // now for testing purpose, in future save in db
+    public static String NAME = "name";
+    public static String AVATER = "avatar";
     public static String USER_NAME = "user_name";
     public static String USER_AVATAR = "user_avatar";
 

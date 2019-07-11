@@ -44,6 +44,7 @@ import java.util.List;
 import java.util.Map;
 
 import static com.lalaland.ecommerce.helpers.AppConstants.ADD_TO_CART;
+import static com.lalaland.ecommerce.helpers.AppConstants.BASE_URL_PRODUCT_SHARE;
 import static com.lalaland.ecommerce.helpers.AppConstants.CART_SESSION_TOKEN;
 import static com.lalaland.ecommerce.helpers.AppConstants.GENERAL_ERROR;
 import static com.lalaland.ecommerce.helpers.AppConstants.IS_WISH_LIST;
@@ -85,7 +86,7 @@ public class ProductDetailActivity extends AppCompatActivity implements ProductV
     private int isAddOrRemove;
     private BottomSheetDialog mBottomSheetDialog;
     private ProductVariationAdapter productVariationAdapter;
-    String merchantName;
+    String productShareUrl;
     Intent intent;
 
     @Override
@@ -126,6 +127,16 @@ public class ProductDetailActivity extends AppCompatActivity implements ProductV
             intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
             startActivity(intent);
             finish();
+        });
+
+        activityProductDetailBinding.ivShareProduct.setOnClickListener(v -> {
+            productShareUrl = BASE_URL_PRODUCT_SHARE;
+            productShareUrl = productShareUrl.concat(AppUtils.createProductUrl(mProductDetailDataContainer.getData().getCategoryName().getName()));
+            productShareUrl = productShareUrl.concat("/").concat(AppUtils.createProductUrl(productDetails.getBrandName()));
+            productShareUrl = productShareUrl.concat("/").concat(AppUtils.createProductUrl(productDetails.getName()));
+            productShareUrl = productShareUrl.concat("/").concat(AppUtils.createProductUrl(String.valueOf(productDetails.getId())));
+
+            startActivity(AppUtils.getProductShareIntent(productShareUrl));
         });
 
         activityProductDetailBinding.btnBack.setOnClickListener(v -> {

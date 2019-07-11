@@ -10,6 +10,11 @@ public class ProductDetailData {
     @SerializedName("recommended_cat")
     @Expose
     private String recommendedCat;
+
+    @SerializedName("categoryName")
+    @Expose
+    private CategoryName categoryName;
+
     @SerializedName("productDetails")
     @Expose
     private ProductDetails productDetails;
@@ -61,5 +66,13 @@ public class ProductDetailData {
 
     public void setFitAndSizing(List<FitAndSizing> fitAndSizing) {
         this.fitAndSizing = fitAndSizing;
+    }
+
+    public CategoryName getCategoryName() {
+        return categoryName;
+    }
+
+    public void setCategoryName(CategoryName categoryName) {
+        this.categoryName = categoryName;
     }
 }

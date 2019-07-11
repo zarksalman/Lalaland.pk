@@ -57,8 +57,11 @@
             android:layout_height="wrap_content"
             android:textColor="@android:color/black"
             android:textSize="14sp"
+            android:layout_marginEnd="@dimen/_4dp"
+            android:text="@{AppUtils.toString(brand.productsInBrand)}"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
+            tools:text="@tools:sample/us_zipcodes"
             app:layout_constraintTop_toTopOf="parent" />
 
         <ImageView

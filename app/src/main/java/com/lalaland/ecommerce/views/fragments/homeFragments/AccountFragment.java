@@ -23,6 +23,7 @@ import com.lalaland.ecommerce.helpers.AppPreference;
 import com.lalaland.ecommerce.helpers.AppUtils;
 import com.lalaland.ecommerce.viewModels.user.LoginViewModel;
 import com.lalaland.ecommerce.views.activities.AccountInformationActivity;
+import com.lalaland.ecommerce.views.activities.ChangeShippingAddress;
 import com.lalaland.ecommerce.views.activities.ContactUsActivity;
 import com.lalaland.ecommerce.views.activities.OrderListingActivity;
 import com.lalaland.ecommerce.views.activities.RegistrationActivity;
@@ -88,6 +89,7 @@ public class AccountFragment extends Fragment implements View.OnClickListener {
             fragmentAccountBinding.tvUserName.setText(userName);
             String avatarImagePath = USER_STORAGE_BASE_URL.concat(userAvatar);
 
+            fragmentAccountBinding.tvLoginLogout.setText("Logout");
             Glide.with(getContext())
                     .load(avatarImagePath)
                     .placeholder(R.drawable.placeholder_products)
@@ -197,15 +199,6 @@ public class AccountFragment extends Fragment implements View.OnClickListener {
                     startActivityForResult(new Intent(getContext(), AccountInformationActivity.class), 100);
                 break;
 
-/*            case R.id.contact_us:
-                startActivity(AppUtils.getOpenUrlIntent(AppConstants.ABOUT_US_URL));
-                break;*/
-
-/*            case R.id.tv_privacy_policy:
-                startActivity(AppUtils.getOpenUrlIntent(AppConstants.PRIVACY_POLICY_URL));
-                break;*/
-
-
             case R.id.tv_login_logout:
 
                 if (signInToken.isEmpty()) {
@@ -218,6 +211,10 @@ public class AccountFragment extends Fragment implements View.OnClickListener {
             case R.id.blog:
                 AppConstants.URL_TYPE = 1;
                 startActivity(new Intent(getContext(), WebViewActivity.class));
+                break;
+
+            case R.id.shipping_address:
+                startActivity(new Intent(getContext(), ChangeShippingAddress.class));
                 break;
 
             case R.id.refund:
@@ -250,11 +247,9 @@ public class AccountFragment extends Fragment implements View.OnClickListener {
 
     void startActivity() {
 
-        // start login activity if not login (token is empty)
-        // start listing activity is login (token is not empty)
-
         startActivity(intent);
     }
+
     void logoutUser() {
 
         fragmentAccountBinding.progressBar.setVisibility(View.VISIBLE);
@@ -265,7 +260,7 @@ public class AccountFragment extends Fragment implements View.OnClickListener {
 
                 logoutFacebookUser();
 
-                fragmentAccountBinding.tvLoginLogout.setText("Login");
+                fragmentAccountBinding.tvLoginLogout.setText(getString(R.string.login));
                 fragmentAccountBinding.tvUserName.setText("Login / Create Account");
 
                 signInToken = "";
@@ -292,6 +287,7 @@ public class AccountFragment extends Fragment implements View.OnClickListener {
         }
     }
 
+
     @Override
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
@@ -303,15 +299,12 @@ public class AccountFragment extends Fragment implements View.OnClickListener {
                 signInToken = appPreference.getString(SIGNIN_TOKEN);
                 userName = appPreference.getString(USER_NAME);
                 userAvatar = appPreference.getString(USER_AVATAR);
-
-                fragmentAccountBinding.tvUserName.setText(userName);
                 String avatarImagePath = USER_STORAGE_BASE_URL.concat(userAvatar);
 
-                userName = appPreference.getString(USER_NAME);
-                userAvatar = appPreference.getString(USER_AVATAR);
+                fragmentAccountBinding.tvUserName.setText(userName);
 
                 fragmentAccountBinding.tvUserName.setText(userName);
-                fragmentAccountBinding.tvLoginLogout.setText("Logout");
+                fragmentAccountBinding.tvLoginLogout.setText(getString(R.string.logout));
 
                 Glide.with(getContext())
                         .load(avatarImagePath)

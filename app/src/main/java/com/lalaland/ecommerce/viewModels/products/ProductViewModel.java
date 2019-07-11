@@ -18,7 +18,6 @@ import com.lalaland.ecommerce.data.models.productDetails.ProductDetailDataContai
 import com.lalaland.ecommerce.data.models.products.Product;
 import com.lalaland.ecommerce.data.models.products.ProductContainer;
 import com.lalaland.ecommerce.data.models.wishList.WishListContainer;
-import com.lalaland.ecommerce.data.pagging.ProductsDataSource;
 import com.lalaland.ecommerce.data.repository.ProductsRepository;
 
 import java.util.List;
@@ -29,20 +28,12 @@ public class ProductViewModel extends AndroidViewModel {
     private static ProductsRepository productsRepository;
     private MutableLiveData<BasicResponse> basicResponse;
     private LiveData<PagedList<Product>> productPageList;
-    private LiveData<ProductsDataSource> liveDataSource;
 
     public ProductViewModel(@NonNull Application application) {
         super(application);
 
         productsRepository = ProductsRepository.getInstance();
 
-       /* ProductDataSourceFactory productDataSourceFactory = new ProductDataSourceFactory();
-        liveDataSource = productDataSourceFactory.getItemsLiveDataSource();
-
-        PagedList.Config pagedListConfig =
-                (new PagedList.Config.Builder())
-                        .setEnablePlaceholders(false)
-                        .setPageSize(ProductDataSource.NUMBER_OF_PRODUCTS).build();*/
     }
 
     public LiveData<ProductContainer> getRangeProducts(Map<String, String> parameters) {

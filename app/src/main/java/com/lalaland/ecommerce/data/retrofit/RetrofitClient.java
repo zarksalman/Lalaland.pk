@@ -3,9 +3,12 @@ package com.lalaland.ecommerce.data.retrofit;
 import android.util.Log;
 
 import com.lalaland.ecommerce.helpers.AppConstants;
+import com.lalaland.ecommerce.helpers.AppPreference;
 import com.lalaland.ecommerce.helpers.AppUtils;
 
 import java.io.File;
+import java.util.HashMap;
+import java.util.Map;
 import java.util.concurrent.TimeUnit;
 
 import okhttp3.Cache;
@@ -19,6 +22,8 @@ import retrofit2.Retrofit;
 import retrofit2.converter.gson.GsonConverterFactory;
 
 import static com.lalaland.ecommerce.helpers.AppConstants.BASE_URL;
+import static com.lalaland.ecommerce.helpers.AppConstants.CART_SESSION_TOKEN;
+import static com.lalaland.ecommerce.helpers.AppConstants.SIGNIN_TOKEN;
 
 public class RetrofitClient {
 
@@ -28,16 +33,34 @@ public class RetrofitClient {
     private static final String TAG = "ServiceGenerator";
     private static final String HEADER_CACHE_CONTROL = "Cache-Control";
     private static final String HEADER_PRAGMA = "Pragma";
-    private static final long cacheSize = 5 * 1024 * 1024; // 5 MB
+    private static final long cacheSize = 10 * 1024 * 1024; // 5 MB
+    Map<String, String> userInfo = new HashMap<>();
+    String token, cartSession;
+
+    AppPreference appPreference;
 
     private RetrofitClient() {
+
+        appPreference = AppPreference.getInstance(AppConstants.mContext);
+
+
+
+       /* userInfo.put("device-id", AppConstants.DEVICE_ID);
+        userInfo.put("app-version", AppConstants.APP_BUILD_VERSION);
+        userInfo.put("user-id", AppConstants.USER_ID);
+        userInfo.put("device-name", AppConstants.DEVICE_NAME);
+        userInfo.put("device-OS-version", AppConstants.DEVICE_OS);
+        userInfo.put("fcm-token", AppConstants.FCM_TOKEN);
+        userInfo.put("device-type", AppConstants.DEVICE_TYPE);
+        userInfo.put(SIGNIN_TOKEN, token);
+        userInfo.put(CART_SESSION_TOKEN, cartSession);*/
 
         retrofit = new Retrofit.Builder()
                 .baseUrl(BASE_URL)
                 .client(okHttpClient())
-                .client(okHttpClient())
                 .addConverterFactory(GsonConverterFactory.create())
                 .build();
+
 
 
     }
@@ -77,17 +100,44 @@ public class RetrofitClient {
         return chain -> {
             Log.d(TAG, "network interceptor: called.");
 
+            token = appPreference.getString(SIGNIN_TOKEN);
+            cartSession = appPreference.getString(CART_SESSION_TOKEN);
+
             Response response = chain.proceed(chain.request());
 
             CacheControl cacheControl = new CacheControl.Builder()
                     .maxAge(1, TimeUnit.HOURS)
                     .build();
 
+            /*.addHeader(CART_SESSION_TOKEN, cartSession)
+            .addHeader(SIGNIN_TOKEN, token)
+            */
+
             return response.newBuilder()
                     .removeHeader(HEADER_PRAGMA)
                     .removeHeader(HEADER_CACHE_CONTROL)
                     .header(HEADER_CACHE_CONTROL, cacheControl.toString())
+                    /*                .header("device-id", AppConstants.DEVICE_ID)
+                                    .header("app-version", AppConstants.APP_BUILD_VERSION)
+                                    .header("user-id", AppConstants.USER_ID)
+                                    .header("device-name", AppConstants.DEVICE_NAME)
+                                    .header("device-model", AppConstants.DEVICE_MODEL)
+                                    .header("device-OS-version", AppConstants.DEVICE_OS)
+                                    .header("fcm-token", AppConstants.FCM_TOKEN)
+                                    .header("device-type", AppConstants.DEVICE_TYPE)*/
+
                     .build();
+
+
+/*            userInfo.put("app-version", AppConstants.APP_BUILD_VERSION);
+            userInfo.put("user-id", AppConstants.USER_ID);
+            userInfo.put("device-name", AppConstants.DEVICE_NAME);
+            userInfo.put("device-OS-version", AppConstants.DEVICE_OS);
+            userInfo.put("fcm-token", AppConstants.FCM_TOKEN);
+            userInfo.put("device-type", AppConstants.DEVICE_TYPE);
+            userInfo.put(SIGNIN_TOKEN, token);
+            userInfo.put(CART_SESSION_TOKEN, cartSession);*/
+
         };
     }
 

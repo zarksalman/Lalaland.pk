@@ -72,8 +72,19 @@
                         android:layout_height="wrap_content"
                         android:hint="@string/password"
                         android:inputType="textPassword" />
-
                 </com.google.android.material.textfield.TextInputLayout>
+
+                <TextView
+
+                    android:id="@+id/tv_forgot_password"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="end"
+                    android:padding="@dimen/_8dp"
+                    android:text="@string/forgot_password"
+                    android:textAlignment="textEnd"
+                    android:textColor="@color/colorDarkGray"
+                    android:textSize="14sp" />
 
                 <Button
 
@@ -82,6 +93,7 @@
                     android:layout_height="50dp"
                     android:background="@drawable/btn_bg_round_corner_accent"
                     android:text="@string/sign_in"
+                    android:layout_marginTop="@dimen/_16dp"
                     android:textColor="@android:color/white" />
 
                 <TextView

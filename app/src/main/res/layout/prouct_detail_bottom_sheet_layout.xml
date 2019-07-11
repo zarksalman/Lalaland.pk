@@ -116,6 +116,7 @@
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintTop_toTopOf="parent"
             android:padding="@dimen/_4dp"
+            android:alpha=".50"
             android:background="@drawable/back_arrow_bg_oval_corner_gray"
             app:srcCompat="@drawable/close_icon" />
 

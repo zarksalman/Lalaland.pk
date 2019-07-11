@@ -32,6 +32,10 @@ public class SelectCityActivity extends AppCompatActivity implements CityAdapter
 
         setAdapter();
 
+        activitySelectCityBinding.ivBackArrow.setOnClickListener(v -> {
+            onBackPressed();
+        });
+
         activitySelectCityBinding.svCity.setOnQueryTextListener(new androidx.appcompat.widget.SearchView.OnQueryTextListener() {
             @Override
             public boolean onQueryTextSubmit(String query) {
@@ -71,6 +75,12 @@ public class SelectCityActivity extends AppCompatActivity implements CityAdapter
         intent.putExtra("city_name", city.getCityName());
 
         setResult(RESULT_OK, intent);
+        finish();
+    }
+
+    @Override
+    public void onBackPressed() {
+        setResult(RESULT_CANCELED);
         finish();
     }
 }

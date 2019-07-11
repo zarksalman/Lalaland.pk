@@ -2,6 +2,7 @@ package com.lalaland.ecommerce.views.fragments.registrationFragments;
 
 
 import android.app.Activity;
+import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -17,6 +18,7 @@ import com.lalaland.ecommerce.databinding.FragmentSigninBinding;
 import com.lalaland.ecommerce.helpers.AppConstants;
 import com.lalaland.ecommerce.helpers.AppPreference;
 import com.lalaland.ecommerce.viewModels.user.LoginViewModel;
+import com.lalaland.ecommerce.views.activities.ResetPasswordActivity;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -88,6 +90,13 @@ public class SigninFragment extends BaseRegistrationFragment {
         });
 
         fragmentSigninBinding.btnSignIn.setOnClickListener(v -> signInWithForm());
+
+        fragmentSigninBinding.tvForgotPassword.setOnClickListener(v -> {
+
+            Intent intent = new Intent(getContext(), ResetPasswordActivity.class);
+            intent.putExtra("is_reset_password", "true");
+            startActivity(intent);
+        });
         return fragmentSigninBinding.getRoot();
     }
 

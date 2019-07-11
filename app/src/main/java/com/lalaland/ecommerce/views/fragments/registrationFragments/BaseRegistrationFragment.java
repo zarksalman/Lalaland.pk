@@ -3,11 +3,7 @@ package com.lalaland.ecommerce.views.fragments.registrationFragments;
 
 import android.app.Activity;
 import android.content.Intent;
-import android.content.pm.PackageInfo;
-import android.content.pm.PackageManager;
-import android.content.pm.Signature;
 import android.os.Bundle;
-import android.util.Base64;
 import android.util.Log;
 import android.view.View;
 import android.widget.Toast;
@@ -39,23 +35,25 @@ import com.lalaland.ecommerce.helpers.AppPreference;
 import com.lalaland.ecommerce.viewModels.user.LoginViewModel;
 import com.lalaland.ecommerce.viewModels.user.RegistrationViewModel;
 
-import java.security.MessageDigest;
-import java.security.NoSuchAlgorithmException;
 import java.util.Arrays;
 import java.util.HashMap;
 import java.util.Map;
 
 import static com.lalaland.ecommerce.helpers.AppConstants.ACCOUNT_CREATION_ERROR;
 import static com.lalaland.ecommerce.helpers.AppConstants.AUTHORIZATION_FAIL_CODE;
+import static com.lalaland.ecommerce.helpers.AppConstants.AVATER;
 import static com.lalaland.ecommerce.helpers.AppConstants.CART_SESSION_TOKEN;
 import static com.lalaland.ecommerce.helpers.AppConstants.DATE_OF_BIRTH;
 import static com.lalaland.ecommerce.helpers.AppConstants.FACEBOOK_SIGN_UP_IN;
 import static com.lalaland.ecommerce.helpers.AppConstants.FB_LOGIN_CANCLED;
 import static com.lalaland.ecommerce.helpers.AppConstants.GENDER;
+import static com.lalaland.ecommerce.helpers.AppConstants.GOOGLE_SIGN_UP_IN;
+import static com.lalaland.ecommerce.helpers.AppConstants.NAME;
 import static com.lalaland.ecommerce.helpers.AppConstants.PHONE_NUMBER;
 import static com.lalaland.ecommerce.helpers.AppConstants.SIGNIN_TOKEN;
 import static com.lalaland.ecommerce.helpers.AppConstants.SUCCESS_CODE;
 import static com.lalaland.ecommerce.helpers.AppConstants.TAG;
+import static com.lalaland.ecommerce.helpers.AppConstants.USER_AVATAR;
 import static com.lalaland.ecommerce.helpers.AppConstants.USER_NAME;
 import static com.lalaland.ecommerce.helpers.AppConstants.VALIDATION_FAIL_CODE;
 import static com.lalaland.ecommerce.helpers.AppConstants.WRONG_CREDENTIAL;
@@ -76,6 +74,8 @@ public class BaseRegistrationFragment extends Fragment {
     private AppPreference appPreference;
     GoogleSignInOptions gso;
     GoogleApiClient mGoogleApiClient;
+    GoogleSignInClient mGoogleSignInClient;
+    GoogleSignInAccount account;
 
     public BaseRegistrationFragment() {
         // Required empty public constructor
@@ -99,9 +99,12 @@ public class BaseRegistrationFragment extends Fragment {
 
         gso = new GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)
                 .requestScopes(new Scope(Scopes.DRIVE_APPFOLDER))
+                .requestScopes(new Scope(Scopes.PROFILE))
+                .requestScopes(new Scope(Scopes.PLUS_ME))
                 .requestIdToken(getString(R.string.client_id))
                 .requestServerAuthCode(getString(R.string.client_id))
                 .requestEmail()
+                .requestProfile()
                 .build();
 
         // Build GoogleAPIClient with the Google Sign-In API and the above options.
@@ -109,29 +112,53 @@ public class BaseRegistrationFragment extends Fragment {
                 .addApi(Auth.GOOGLE_SIGN_IN_API, gso)
                 .build();
 
-        GoogleSignInClient mGoogleSignInClient = GoogleSignIn.getClient(getContext(), gso);
+        mGoogleSignInClient = GoogleSignIn.getClient(getContext(), gso);
 
-
-        mGoogleSignInClient.signOut();
-        GoogleSignInAccount account = GoogleSignIn.getLastSignedInAccount(getContext());
+        account = GoogleSignIn.getLastSignedInAccount(getContext());
 
         // means user is login otherwise not login
         if (account == null) {
             Intent signInIntent = mGoogleSignInClient.getSignInIntent();
-//            Intent signInIntent = Auth.GoogleSignInApi.getSignInIntent(mGoogleApiClient);
+
             startActivityForResult(signInIntent, 201);
-
-            //   getAccessToken();
         }
-        //updateUI(account);
+    }
 
-
+    public void logoutGoogle() {
+        mGoogleSignInClient.signOut();
     }
 
     private void handleSignInResult(Task<GoogleSignInAccount> completedTask) {
         try {
 
             GoogleSignInAccount account = completedTask.getResult(ApiException.class);
+
+            Log.d(TAG, "account_info" + account.getDisplayName());
+            Log.d(TAG, "account_info" + account.getFamilyName());
+            Log.d(TAG, "account_info" + account.getEmail());
+            Log.d(TAG, "account_info" + account.getIdToken());
+            Log.d(TAG, "account_info" + account.getId());
+            Log.d(TAG, "account_info" + account.getPhotoUrl());
+
+            parameter.clear();
+
+            try {
+
+                parameter.put(EMAIL, account.getEmail());
+                parameter.put(NAME, account.getDisplayName());
+                parameter.put(AVATER, account.getPhotoUrl().toString());
+                parameter.put("google_id", account.getId());
+
+                mGoogleSignInClient.signOut();
+                signUpCallToApi(GOOGLE_SIGN_UP_IN);
+
+
+            } catch (Exception e) {
+                e.printStackTrace();
+                Toast.makeText(getContext(), e.getMessage(), Toast.LENGTH_SHORT).show();
+                return;
+            }
+
 
             Toast.makeText(getContext(), account.getServerAuthCode(), Toast.LENGTH_SHORT).show();
 
@@ -182,12 +209,6 @@ public class BaseRegistrationFragment extends Fragment {
             }
         });
 
-/*        if (AccessToken.getCurrentAccessToken() != null) {
-            fragmentSigninBinding.pbLoading.setVisibility(View.GONE);
-        }*/
-        //     getHashKeyFb();
-        Toast.makeText(getContext(), "Login With Facebook", Toast.LENGTH_SHORT).show();
-
     }
 
 
@@ -210,6 +231,8 @@ public class BaseRegistrationFragment extends Fragment {
                         AppPreference.getInstance(mContext).setString(PHONE_NUMBER, registrationContainer.getData().getUser().getPhone());
                         AppPreference.getInstance(mContext).setString(GENDER, registrationContainer.getData().getUser().getGender());
                         AppPreference.getInstance(mContext).setString(EMAIL, registrationContainer.getData().getUser().getEmail());
+                        AppPreference.getInstance(mContext).setString(USER_AVATAR, registrationContainer.getData().getUser().getAvatar().toString());
+
 
                         getActivity().setResult(Activity.RESULT_OK);
                         getActivity().finish();
@@ -226,40 +249,15 @@ public class BaseRegistrationFragment extends Fragment {
         });
     }
 
-    void getHashKeyFb() {
-
-        PackageInfo packageInfo = null;
-        try {
-            packageInfo = getContext().getPackageManager().getPackageInfo("com.lalaland.ecommer", PackageManager.GET_SIGNATURES);
-        } catch (PackageManager.NameNotFoundException e) {
-            e.printStackTrace();
-        }
-
-        for (Signature signature : packageInfo.signatures) {
-            MessageDigest messageDigest = null;
-            try {
-                messageDigest = MessageDigest.getInstance("SHA");
-                messageDigest.update(signature.toByteArray());
-                Log.d("signatures", Base64.encodeToString(messageDigest.digest(), Base64.DEFAULT));
-
-            } catch (NoSuchAlgorithmException e) {
-                e.printStackTrace();
-            }
-        }
-
-    }
-
 
     @Override
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
 
         if (requestCode == 201) {
-            // The Task returned from this call is always completed, no need to attach
-            // a listener.
-
 
             Task<GoogleSignInAccount> task = GoogleSignIn.getSignedInAccountFromIntent(data);
             handleSignInResult(task);
+
         } else
             callbackManager.onActivityResult(requestCode, resultCode, data);
         super.onActivityResult(requestCode, resultCode, data);
