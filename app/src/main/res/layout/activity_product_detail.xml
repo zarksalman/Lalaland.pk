@@ -447,14 +447,14 @@
             android:layout_height="wrap_content"
             android:layout_alignParentTop="true"
             android:layout_alignParentStart="true"
-            android:layout_margin="@dimen/_4dp"
+            android:padding="@dimen/_4dp"
             android:background="@android:color/transparent">
 
             <ImageView
 
                 android:id="@+id/btn_back"
-                android:layout_width="@dimen/_50dp"
-                android:layout_height="@dimen/_50dp"
+                android:layout_width="@dimen/_45dp"
+                android:layout_height="@dimen/_45dp"
                 android:layout_alignParentStart="true"
                 android:alpha=".40"
                 android:background="@drawable/back_arrow_bg_oval_corner_gray"
@@ -486,8 +486,8 @@
                 <ImageView
 
                     android:id="@+id/iv_share_product"
-                    android:layout_width="@dimen/_50dp"
-                    android:layout_height="@dimen/_50dp"
+                    android:layout_width="@dimen/_45dp"
+                    android:layout_height="@dimen/_45dp"
                     android:layout_marginTop="@dimen/_8dp"
                     android:alpha=".40"
                     android:background="@drawable/back_arrow_bg_oval_corner_gray"
@@ -512,8 +512,8 @@
                 <ImageView
 
                     android:id="@+id/iv_cart"
-                    android:layout_width="@dimen/_50dp"
-                    android:layout_height="@dimen/_50dp"
+                    android:layout_width="@dimen/_45dp"
+                    android:layout_height="@dimen/_45dp"
                     android:background="@drawable/back_arrow_bg_oval_corner_gray"
                     android:clickable="true"
                     android:focusable="true"

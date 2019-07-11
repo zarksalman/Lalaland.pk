@@ -10,6 +10,7 @@ import android.view.Window;
 import android.view.WindowManager;
 import android.widget.AbsListView;
 import android.widget.LinearLayout;
+import android.widget.TextView;
 
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
@@ -82,6 +83,8 @@ public class ActionProductListingActivity extends AppCompatActivity implements A
     Boolean isItemsNotFound = false;
     Boolean isFilterOrSort = false;
     int firstVisibleInListview;
+    int preSortFilter;
+    TextView preSort;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -278,7 +281,7 @@ public class ActionProductListingActivity extends AppCompatActivity implements A
             mBottomSheetDialog.show();
 
             sheetView.ivDownArrowIcon.setOnClickListener(v -> mBottomSheetDialog.hide());
-            //   sheetView = DataBindingUtil.inflate(getLayoutInflater(), R.layout.sort_filter_bottom_sheet_layout, null, false);
+
         } else // if bottom sheet is sort
         {
 
@@ -326,38 +329,42 @@ public class ActionProductListingActivity extends AppCompatActivity implements A
 
         activityProductListingBinding.rvProducts.setVisibility(View.GONE);
         activityProductListingBinding.pbLoadingActionProducts.setVisibility(View.VISIBLE);
-//        parameter.clear();
 
         switch (view.getId()) {
 
             case R.id.tv_best_match:
-
                 parameter.put(SORT_BY, "");
+                resetSortColors(R.id.tv_best_match);
                 break;
 
             case R.id.tv_ascending_alphabetically:
-
                 parameter.put(SORT_BY, "az");
+                resetSortColors(R.id.tv_ascending_alphabetically);
                 break;
 
             case R.id.tv_descending_alphabetically:
                 parameter.put(SORT_BY, "za");
+                resetSortColors(R.id.tv_descending_alphabetically);
                 break;
 
             case R.id.tv_newest:
                 parameter.put(SORT_BY, "newest");
+                resetSortColors(R.id.tv_newest);
                 break;
 
             case R.id.tv_oldest:
                 parameter.put(SORT_BY, "oldest");
+                resetSortColors(R.id.tv_oldest);
                 break;
 
             case R.id.tv_low_to_high:
                 parameter.put(SORT_BY, "price_asc");
+                resetSortColors(R.id.tv_low_to_high);
                 break;
 
             case R.id.tv_high_to_low:
                 parameter.put(SORT_BY, "price_desc");
+                resetSortColors(R.id.tv_high_to_low);
                 break;
         }
 
@@ -372,6 +379,54 @@ public class ActionProductListingActivity extends AppCompatActivity implements A
         isFilterOrSort = true;
         mBottomSheetDialog.hide();
 
+    }
+
+    private void resetSortColors(int sortId) {
+
+        sheetView.tvBestMatch.setTextColor(getResources().getColor(android.R.color.white));
+        sheetView.tvAscendingAlphabetically.setTextColor(getResources().getColor(android.R.color.white));
+        sheetView.tvDescendingAlphabetically.setTextColor(getResources().getColor(android.R.color.white));
+        sheetView.tvNewest.setTextColor(getResources().getColor(android.R.color.white));
+        sheetView.tvOldest.setTextColor(getResources().getColor(android.R.color.white));
+        sheetView.tvLowToHigh.setTextColor(getResources().getColor(android.R.color.white));
+        sheetView.tvHighToLow.setTextColor(getResources().getColor(android.R.color.white));
+
+        switch (sortId) {
+            case R.id.tv_best_match:
+                sheetView.tvBestMatch.setTextColor(getResources().getColor(R.color.colorAccent));
+                preSort = sheetView.tvBestMatch;
+                break;
+
+            case R.id.tv_ascending_alphabetically:
+                sheetView.tvAscendingAlphabetically.setTextColor(getResources().getColor(R.color.colorAccent));
+                preSort = sheetView.tvAscendingAlphabetically;
+                break;
+
+            case R.id.tv_descending_alphabetically:
+                sheetView.tvDescendingAlphabetically.setTextColor(getResources().getColor(R.color.colorAccent));
+                preSort = sheetView.tvDescendingAlphabetically;
+                break;
+
+            case R.id.tv_newest:
+                sheetView.tvNewest.setTextColor(getResources().getColor(R.color.colorAccent));
+                preSort = sheetView.tvNewest;
+                break;
+
+            case R.id.tv_oldest:
+                sheetView.tvOldest.setTextColor(getResources().getColor(R.color.colorAccent));
+                preSort = sheetView.tvOldest;
+                break;
+
+            case R.id.tv_low_to_high:
+                sheetView.tvLowToHigh.setTextColor(getResources().getColor(R.color.colorAccent));
+                preSort = sheetView.tvLowToHigh;
+                break;
+
+            case R.id.tv_high_to_low:
+                sheetView.tvHighToLow.setTextColor(getResources().getColor(R.color.colorAccent));
+                preSort = sheetView.tvHighToLow;
+                break;
+        }
     }
 
     private void setActionProducts() {

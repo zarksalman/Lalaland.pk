@@ -159,10 +159,6 @@ public class BaseRegistrationFragment extends Fragment {
                 return;
             }
 
-
-            Toast.makeText(getContext(), account.getServerAuthCode(), Toast.LENGTH_SHORT).show();
-
-
             // Signed in successfully, show authenticated UI.
             //updateUI(account);
         } catch (ApiException e) {

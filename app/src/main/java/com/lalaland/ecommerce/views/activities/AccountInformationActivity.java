@@ -123,7 +123,7 @@ public class AccountInformationActivity extends AppCompatActivity {
             startActivityForResult(intent, type);
 
         } else {
-            intent = new Intent(this, EditAccountInformationActivity.class);
+            intent = new Intent(this, ChangeShippingAddress.class);
             intent.putExtra("request_code", type);
             startActivityForResult(intent, type);
         }
@@ -142,11 +142,6 @@ public class AccountInformationActivity extends AppCompatActivity {
         } catch (Exception e) {
             e.printStackTrace();
         }
-
-     /*   Intent intent = new Intent();
-        intent.setType("image/*");
-        intent.setAction(Intent.ACTION_GET_CONTENT);
-        startActivityForResult(Intent.createChooser(intent, "Select Profile Image"), 200);*/
     }
 
     void uploadImage(Uri uri) {

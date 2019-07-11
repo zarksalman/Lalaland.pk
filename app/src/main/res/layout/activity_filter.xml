@@ -38,7 +38,7 @@
                 android:text="@string/filter"
                 android:layout_centerVertical="true"
                 android:textColor="@android:color/black"
-                android:textSize="18sp" />
+                android:textSize="16sp" />
 
             <TextView
 

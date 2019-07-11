@@ -49,6 +49,7 @@
                         android:id="@+id/iv_close_checkout_screen"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
+                        android:padding="@dimen/_8dp"
                         android:layout_gravity="center_vertical"
                         app:srcCompat="@drawable/back_arrow_icon" />
 
@@ -62,6 +63,7 @@
                         android:textAlignment="center"
                         android:textColor="@android:color/black"
                         android:textSize="16sp" />
+
                 </LinearLayout>
 
                 <LinearLayout
@@ -91,16 +93,24 @@
                             android:textColor="@android:color/black"
                             android:textSize="14sp" />
 
-                        <ImageView
-                            android:id="@+id/iv_display_picture"
-                            android:layout_width="@dimen/_70dp"
-                            android:layout_height="@dimen/_70dp"
+                        <androidx.cardview.widget.CardView
+
+                            android:id="@+id/iv_container"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
                             android:layout_alignParentEnd="true"
                             android:layout_centerVertical="true"
-                            android:background="@drawable/bg_circle_dp"
-                            android:scaleType="centerInside"
-                            tools:src="@drawable/placeholder_products" />
+                            app:cardCornerRadius="@dimen/_35dp">
 
+                            <ImageView
+
+                                android:id="@+id/iv_display_picture"
+                                android:layout_width="@dimen/_70dp"
+                                android:layout_height="@dimen/_70dp"
+                                android:scaleType="centerCrop"
+                                tools:src="@drawable/placeholder_products" />
+
+                        </androidx.cardview.widget.CardView>
 
                     </RelativeLayout>
 
@@ -380,7 +390,7 @@
                             android:layout_height="wrap_content"
                             android:layout_alignParentEnd="true"
                             android:layout_centerVertical="true"
-                            app:srcCompat="@drawable/shipping_address_icon" />
+                            app:srcCompat="@drawable/profile_address" />
                     </RelativeLayout>
 
                 </LinearLayout>

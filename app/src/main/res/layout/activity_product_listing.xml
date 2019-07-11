@@ -24,7 +24,7 @@
 
             android:id="@+id/m_toolbar_product_listing"
             android:layout_width="match_parent"
-            android:layout_height="50dp"
+            android:layout_height="wrap_content"
             android:background="@android:color/white"
             android:orientation="horizontal"
             android:weightSum="1"
@@ -36,7 +36,7 @@
 
                 android:id="@+id/iv_back_product_listing"
                 android:layout_width="0dp"
-                android:padding="@dimen/_12dp"
+                android:padding="@dimen/_16dp"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center_vertical"
                 android:layout_weight=".2"
@@ -47,14 +47,15 @@
 
                 android:id="@+id/tv_category_title"
                 android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
+                android:layout_height="match_parent"
                 android:layout_gravity="center_vertical"
                 android:layout_weight=".6"
                 android:text="Head Title"
+                android:gravity="center"
                 android:textAlignment="center"
                 android:fontFamily="@font/encodesansmedium"
                 android:textColor="@android:color/black"
-                android:textSize="18sp" />
+                android:textSize="16sp" />
 
             <ImageView
 
@@ -64,7 +65,7 @@
                 android:layout_gravity="center_vertical|end"
                 android:layout_weight=".2"
                 android:scaleType="fitCenter"
-                android:padding="@dimen/_12dp"
+                android:padding="@dimen/_16dp"
                 app:srcCompat="@drawable/search_icon" />
 
         </LinearLayout>

@@ -21,10 +21,10 @@
 
             android:id="@+id/top_bar"
             android:layout_width="match_parent"
-            android:layout_height="@dimen/_50dp"
+            android:layout_height="wrap_content"
             android:background="@android:color/white"
             android:orientation="horizontal"
-            android:padding="@dimen/_8dp"
+            android:padding="@dimen/_16dp"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent">
@@ -36,6 +36,7 @@
                 android:layout_height="wrap_content"
                 android:onClick="@{(view)->clickListener.cancel(view)}"
                 android:layout_gravity="center_vertical"
+                android:padding="@dimen/_8dp"
                 app:srcCompat="@drawable/close_icon" />
 
             <TextView

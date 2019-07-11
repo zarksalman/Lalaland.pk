@@ -80,7 +80,6 @@
             android:onClick="@{(view)->sortSheetListener.bottomSheetClick(view)}"
             android:padding="@dimen/_8dp"
             android:text="@string/best_match"
-            android:textColor="@color/colorAccent"
             android:textSize="16sp" />
 
         <TextView

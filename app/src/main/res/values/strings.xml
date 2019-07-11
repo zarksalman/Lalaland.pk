@@ -177,5 +177,7 @@
     <string name="reset_password_text">Enter your email to reset \nyour password</string>
     <string name="reset_password">Reset Password</string>
     <string name="enter_your_new_password">Enter your new password</string>
+    <string name="enter_your_password">Enter your password for </string>
+    <string name="new_address">+New Address</string>
 
 </resources>

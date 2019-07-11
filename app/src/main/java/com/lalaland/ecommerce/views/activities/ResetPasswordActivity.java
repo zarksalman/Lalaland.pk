@@ -16,13 +16,17 @@ import androidx.lifecycle.ViewModelProviders;
 import com.lalaland.ecommerce.R;
 import com.lalaland.ecommerce.databinding.ActivityResetPasswordBinding;
 import com.lalaland.ecommerce.helpers.AppConstants;
+import com.lalaland.ecommerce.helpers.AppPreference;
 import com.lalaland.ecommerce.viewModels.user.LoginViewModel;
 
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Set;
 
+import static com.lalaland.ecommerce.helpers.AppConstants.EMAIL;
 import static com.lalaland.ecommerce.helpers.AppConstants.PASSWORD;
+import static com.lalaland.ecommerce.helpers.AppConstants.RECOMMENDED_CAT_TOKEN;
+import static com.lalaland.ecommerce.helpers.AppConstants.RESET_PASSWORD_TOKEN;
 
 public class ResetPasswordActivity extends AppCompatActivity {
 
@@ -35,6 +39,12 @@ public class ResetPasswordActivity extends AppCompatActivity {
     AlertDialog.Builder dialogBuilder;
     String isResetEmail;
     Intent intent;
+    Uri uri;
+    String server;
+    String path;
+    String protocol;
+    Set<String> args;
+    Object[] keys;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -42,6 +52,7 @@ public class ResetPasswordActivity extends AppCompatActivity {
         activityResetPasswordBinding = DataBindingUtil.setContentView(this, R.layout.activity_reset_password);
 
         loginViewModel = ViewModelProviders.of(this).get(LoginViewModel.class);
+        recommendedCat = AppPreference.getInstance(this).getString(RECOMMENDED_CAT_TOKEN);
 
         intent = getIntent();
         isResetEmail = intent.getStringExtra("is_reset_password");
@@ -52,7 +63,11 @@ public class ResetPasswordActivity extends AppCompatActivity {
             activityResetPasswordBinding.emailContainer.setVisibility(View.VISIBLE);
         } else {
 
+            email = getResources().getString(R.string.enter_your_password);
             getParameters(intent);
+
+
+            activityResetPasswordBinding.tvResetPassword.setText(email);
             activityResetPasswordBinding.passwordContainer.setVisibility(View.VISIBLE);
         }
 
@@ -87,11 +102,31 @@ public class ResetPasswordActivity extends AppCompatActivity {
 
     private void getParameters(Intent intent) {
 
-        Uri uri = intent.getData();
-        String server = uri.getAuthority();
-        String path = uri.getPath();
-        String protocol = uri.getScheme();
-        Set<String> args = uri.getQueryParameterNames();
+        uri = intent.getData();
+
+        if (uri != null) {
+            /*server = uri.getAuthority();
+            path = uri.getPath();
+            protocol = uri.getScheme();
+            */
+
+            args = uri.getQueryParameterNames();
+            keys = args.toArray();
+
+            if (keys != null && keys.length > 0) {
+
+                token = uri.getQueryParameter(keys[0].toString());
+                email = email + " " + uri.getQueryParameter(keys[1].toString());
+
+                parameter.put(RESET_PASSWORD_TOKEN, token);
+                parameter.put(EMAIL, email);
+                parameter.put(RECOMMENDED_CAT_TOKEN, recommendedCat);
+
+            }
+        }
+
+
+
     }
 
     private void perpareDialogue() {

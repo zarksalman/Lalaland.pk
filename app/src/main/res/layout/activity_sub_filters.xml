@@ -5,6 +5,7 @@
         xmlns:tools="http://schemas.android.com/tools"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
+        android:background="@color/colorLightGray"
         tools:context=".views.activities.SubFiltersActivity">
 
         <RelativeLayout
@@ -12,7 +13,8 @@
             android:id="@+id/top_bar"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:background="@color/colorScreenBg"
+            android:padding="@dimen/_16dp"
+            android:background="@android:color/white"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent">
@@ -24,7 +26,7 @@
                 android:layout_height="wrap_content"
                 android:layout_alignParentStart="true"
                 android:layout_centerVertical="true"
-                android:padding="@dimen/_16dp"
+                android:padding="@dimen/_8dp"
                 android:src="@drawable/back_arrow_icon"
                 android:visibility="visible" />
 
@@ -36,7 +38,7 @@
                 android:text="@string/filter"
                 android:layout_centerVertical="true"
                 android:textColor="@android:color/black"
-                android:textSize="18sp" />
+                android:textSize="16sp" />
 
 
             <TextView
@@ -46,7 +48,7 @@
                 android:layout_height="wrap_content"
                 android:layout_alignParentEnd="true"
                 android:text="@string/apply"
-                android:padding="@dimen/_16dp"
+                android:padding="@dimen/_8dp"
                 android:textColor="@android:color/holo_blue_light"
                 android:textSize="16sp" />
         </RelativeLayout>

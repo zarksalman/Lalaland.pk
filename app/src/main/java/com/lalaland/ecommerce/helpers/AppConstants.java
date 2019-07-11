@@ -101,6 +101,7 @@ public class AppConstants {
     public static final String NEW_PASSWORD = "new_password";
     public static final String OLD_PASSWORD = "old_password";
     public static final String EMAIL = "email";
+    public static final String RESET_PASSWORD_TOKEN = "token";
 
     public static final String SIGN_IN = "SIGN IN";
     public static final String REGISTER = "REGISTER";

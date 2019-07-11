@@ -21,8 +21,8 @@
         <ImageView
 
             android:id="@+id/iv_empty_state"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+            android:layout_width="0dp"
+            android:layout_height="0dp"
             android:visibility="gone"
             android:src="@drawable/shipping_empty_state"
             app:layout_constraintTop_toTopOf="parent"
@@ -33,10 +33,10 @@
 
             android:id="@+id/top_bar"
             android:layout_width="0dp"
-            android:layout_height="@dimen/_50dp"
+            android:layout_height="wrap_content"
             android:background="@android:color/white"
             android:orientation="horizontal"
-            android:padding="@dimen/_8dp"
+            android:padding="@dimen/_16dp"
             android:visibility="visible"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
@@ -60,7 +60,7 @@
                 android:text="@string/select_shipping_address"
                 android:textAlignment="center"
                 android:textColor="@android:color/black"
-                android:textSize="18sp" />
+                android:textSize="16sp" />
         </LinearLayout>
 
         <androidx.recyclerview.widget.RecyclerView
@@ -73,7 +73,7 @@
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/top_bar" />
-
+        
         <FrameLayout
 
             android:id="@+id/bottom_bar"
@@ -92,7 +92,7 @@
                 android:layout_marginEnd="@dimen/_4dp"
                 android:background="@drawable/btn_bg_round_corner_accent"
                 android:fontFamily="@font/encodesansregular"
-                android:text="+New Address"
+                android:text="@string/new_address"
                 android:onClick="@{(view)->listener.addNewAddress(view)}"
                 android:textColor="@android:color/white"
                 android:textSize="16sp" />
