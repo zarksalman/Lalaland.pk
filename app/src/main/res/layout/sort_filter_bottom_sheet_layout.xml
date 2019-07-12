@@ -13,6 +13,7 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:padding="@dimen/_16dp"
+        android:background="@android:color/white"
         android:orientation="vertical">
 
         <RelativeLayout
@@ -38,6 +39,7 @@
                 android:layout_height="wrap_content"
                 android:layout_centerVertical="true"
                 android:layout_marginStart="@dimen/_8dp"
+                android:textColor="@color/colorDarkGray"
                 android:layout_toEndOf="@+id/iv_sort_icon"
                 android:fontFamily="@font/encodesansregular"
                 android:text="@string/sort"
@@ -57,13 +59,14 @@
         <ImageView
             android:layout_width="match_parent"
             android:layout_height="1dp"
-            android:background="@color/colorScreenBg" />
+            android:background="@color/colorDarkGray" />
 
         <TextView
 
             android:id="@+id/tv_choose"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:textColor="@color/colorDarkGray"
             android:layout_marginTop="@dimen/_8dp"
             android:fontFamily="@font/encodesansregular"
             android:padding="@dimen/_8dp"
@@ -77,6 +80,7 @@
             android:layout_height="wrap_content"
             android:layout_marginTop="@dimen/_8dp"
             android:fontFamily="@font/encodesansregular"
+            android:textColor="@color/colorAccent"
             android:onClick="@{(view)->sortSheetListener.bottomSheetClick(view)}"
             android:padding="@dimen/_8dp"
             android:text="@string/best_match"
@@ -92,6 +96,7 @@
             android:background="?android:attr/selectableItemBackground"
             android:clickable="true"
             android:focusable="true"
+            android:textColor="@color/colorDarkGray"
             android:onClick="@{(view)->sortSheetListener.bottomSheetClick(view)}"
             android:padding="@dimen/_8dp"
             android:text="@string/a_z"
@@ -106,6 +111,7 @@
             android:background="?android:attr/selectableItemBackground"
             android:clickable="true"
             android:focusable="true"
+            android:textColor="@color/colorDarkGray"
             android:onClick="@{(view)->sortSheetListener.bottomSheetClick(view)}"
             android:fontFamily="@font/encodesansregular"
             android:padding="@dimen/_8dp"
@@ -121,6 +127,7 @@
             android:fontFamily="@font/encodesansregular"
             android:background="?android:attr/selectableItemBackground"
             android:clickable="true"
+            android:textColor="@color/colorDarkGray"
             android:focusable="true"
             android:onClick="@{(view)->sortSheetListener.bottomSheetClick(view)}"
             android:padding="@dimen/_8dp"
@@ -136,6 +143,7 @@
             android:fontFamily="@font/encodesansregular"
             android:background="?android:attr/selectableItemBackground"
             android:clickable="true"
+            android:textColor="@color/colorDarkGray"
             android:focusable="true"
             android:onClick="@{(view)->sortSheetListener.bottomSheetClick(view)}"
             android:padding="@dimen/_8dp"
@@ -149,6 +157,7 @@
             android:layout_width="match_parent"
             android:layout_marginTop="@dimen/_8dp"
             android:layout_height="wrap_content"
+            android:textColor="@color/colorDarkGray"
             android:fontFamily="@font/encodesansregular"
             android:background="?android:attr/selectableItemBackground"
             android:clickable="true"
@@ -162,6 +171,7 @@
 
             android:id="@+id/tv_high_to_low"
             android:layout_width="match_parent"
+            android:textColor="@color/colorDarkGray"
             android:layout_height="wrap_content"
             android:layout_marginTop="@dimen/_8dp"
             android:fontFamily="@font/encodesansregular"

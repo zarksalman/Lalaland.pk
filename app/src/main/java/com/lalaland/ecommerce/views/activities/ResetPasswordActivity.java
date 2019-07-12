@@ -84,11 +84,11 @@ public class ResetPasswordActivity extends AppCompatActivity {
                 activityResetPasswordBinding.pbLoading.setVisibility(View.VISIBLE);
 
                 parameter.put(AppConstants.EMAIL, email);
-                loginViewModel.forgotPassword(parameter).observe(this, basicResponse -> {
+                loginViewModel.forgotPassword(parameter).observe(this, registrationContainer -> {
 
-                    if (basicResponse != null) {
+                    if (registrationContainer != null) {
 
-                        showAltersDialogue(basicResponse.getMsg());
+                        showAltersDialogue(registrationContainer.getMsg());
                     }
                 });
             }
@@ -103,12 +103,12 @@ public class ResetPasswordActivity extends AppCompatActivity {
                 parameter.put(RESET_PASSWORD, password);
                 parameter.put(CONFIRM_RESET_PASSWORD, confirmPassword);
 
-                loginViewModel.resetPassword(parameter).observe(this, basicResponse -> {
-                    if (basicResponse != null) {
+                loginViewModel.resetPassword(parameter).observe(this, registrationContainer -> {
+                    if (registrationContainer != null) {
 
-                        if (basicResponse.getCode().equals(SUCCESS_CODE)) {
+                        if (registrationContainer.getCode().equals(SUCCESS_CODE)) {
 
-                            Toast.makeText(this, basicResponse.getMsg(), Toast.LENGTH_SHORT).show();
+                            Toast.makeText(this, registrationContainer.getMsg(), Toast.LENGTH_SHORT).show();
                             Intent intent = new Intent(this, SplashActivity.class);
                             intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_CLEAR_TASK);
                             startActivity(intent);

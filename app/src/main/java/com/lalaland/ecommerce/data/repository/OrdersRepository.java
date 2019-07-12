@@ -51,7 +51,12 @@ public class OrdersRepository {
         if (repository == null)
             repository = new OrdersRepository();
 
+        return repository;
+    }
 
+    private void setUserInfo() {
+
+        userInfo.clear();
         token = appPreference.getString(SIGNIN_TOKEN);
         cartSession = appPreference.getString(CART_SESSION_TOKEN);
 
@@ -68,15 +73,12 @@ public class OrdersRepository {
         userInfo.put("device-type", AppConstants.DEVICE_TYPE);
         userInfo.put(SIGNIN_TOKEN, token);
         userInfo.put(CART_SESSION_TOKEN, cartSession);
-
-        return repository;
     }
-
 
     public LiveData<DeliveryChargesContainer> getDeliveryCharges(String token, String cityId) {
 
         deliveryChargesContainerMutableLiveData = new MutableLiveData<>();
-
+        setUserInfo();
         lalalandServiceApi.getDeliveryCharges(userInfo, cityId).enqueue(new Callback<DeliveryChargesContainer>() {
             @Override
             public void onResponse(Call<DeliveryChargesContainer> call, Response<DeliveryChargesContainer> response) {
@@ -98,6 +100,7 @@ public class OrdersRepository {
     public LiveData<DeliveryOptionDataContainer> getDeliveryOption(Map<String, String> parameter) {
 
         deliveryOptionDataContainerMutableLiveData = new MutableLiveData<>();
+        setUserInfo();
 
         lalalandServiceApi.getDeliveryOption(userInfo, parameter).enqueue(new Callback<DeliveryOptionDataContainer>() {
             @Override
@@ -118,33 +121,10 @@ public class OrdersRepository {
         return deliveryOptionDataContainerMutableLiveData;
     }
 
-
-/*
-    public LiveData<PlacingOrderDataContainer> confirmOrder(userInfo, Map<String, String> parameter) {
-
-        orderDataContainerMutableLiveData = new MutableLiveData<>();
-        lalalandServiceApi.confirmOrder(header, parameter).enqueue(new Callback<PlacingOrderDataContainer>() {
-            @Override
-            public void onResponse(Call<PlacingOrderDataContainer> call, Response<PlacingOrderDataContainer> response) {
-                if (response.isSuccessful()) {
-                    orderDataContainerMutableLiveData.postValue(response.body());
-                } else
-                    orderDataContainerMutableLiveData.postValue(null);
-            }
-
-            @Override
-            public void onFailure(Call<PlacingOrderDataContainer> call, Throwable t) {
-                orderDataContainerMutableLiveData.postValue(null);
-            }
-        });
-
-        return orderDataContainerMutableLiveData;
-    }
-*/
-
     public LiveData<OrderDataContainer> getMyOrders(String header, String status) {
 
         myOrderDataContainerMutableLiveData = new MutableLiveData<>();
+        setUserInfo();
         lalalandServiceApi.getMyOrders(userInfo, status).enqueue(new Callback<OrderDataContainer>() {
             @Override
             public void onResponse(Call<OrderDataContainer> call, Response<OrderDataContainer> response) {
@@ -167,6 +147,7 @@ public class OrdersRepository {
     public LiveData<OrderDetailContainer> getMyOrdersProducts(String header, String orderId) {
 
         orderDetailContainerMutableLiveData = new MutableLiveData<>();
+        setUserInfo();
 
         lalalandServiceApi.getMyOrdersProducts(userInfo, orderId).enqueue(new Callback<OrderDetailContainer>() {
             @Override

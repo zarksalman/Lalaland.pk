@@ -32,7 +32,6 @@ import static android.app.Activity.RESULT_OK;
 import static com.lalaland.ecommerce.helpers.AppConstants.GENERAL_ERROR;
 import static com.lalaland.ecommerce.helpers.AppConstants.IS_WISH_LIST;
 import static com.lalaland.ecommerce.helpers.AppConstants.PRODUCT_ID;
-import static com.lalaland.ecommerce.helpers.AppConstants.REMAINING_QUANTITY;
 import static com.lalaland.ecommerce.helpers.AppConstants.SIGNIN_TOKEN;
 import static com.lalaland.ecommerce.helpers.AppConstants.SUCCESS_CODE;
 import static com.lalaland.ecommerce.helpers.AppConstants.TAG;
@@ -155,7 +154,7 @@ public class WishFragment extends Fragment implements WishlistProductAdapter.Pro
                 if (basicResponse != null) {
 
                     int position = wishListProductList.indexOf(wishListProduct);
-                    wishListProductList.remove(position);
+                    wishListProductList.remove(wishListProduct);
                     wishlistProductAdapter.notifyItemRemoved(position);
                     
                     Toast.makeText(getContext(), basicResponse.getMsg(), Toast.LENGTH_SHORT).show();

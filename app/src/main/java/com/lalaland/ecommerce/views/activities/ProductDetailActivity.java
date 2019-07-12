@@ -298,7 +298,7 @@ public class ProductDetailActivity extends AppCompatActivity implements ProductV
 
         for (int i = 0; i < mProductVariation.size(); i++) {
 
-            if (AppUtils.toInteger(mProductVariation.get(i).getRemainingQuantity()) > 1) {
+            if (AppUtils.toInteger(mProductVariation.get(i).getRemainingQuantity()) > 0) {
 
                 // if user does not select any variation then first will be selected if quantity available
                 variation_id = mProductVariation.get(i).getId();

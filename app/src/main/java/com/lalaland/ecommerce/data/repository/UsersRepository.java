@@ -58,13 +58,18 @@ public class UsersRepository {
         if (usersRepository == null)
             usersRepository = new UsersRepository();
 
+        return usersRepository;
+    }
 
+    private void setUserInfo() {
+
+        userInfo.clear();
         token = appPreference.getString(SIGNIN_TOKEN);
         cartSession = appPreference.getString(CART_SESSION_TOKEN);
 
         if (token.equals("token"))
             token = "";
-        
+
         userInfo.put("device-id", AppConstants.DEVICE_ID);
         userInfo.put("app-version", AppConstants.APP_BUILD_VERSION);
         userInfo.put("user-id", AppConstants.USER_ID);
@@ -75,10 +80,7 @@ public class UsersRepository {
         userInfo.put("device-type", AppConstants.DEVICE_TYPE);
         userInfo.put(SIGNIN_TOKEN, token);
         userInfo.put(CART_SESSION_TOKEN, cartSession);
-
-        return usersRepository;
     }
-
 
     public LiveData<RegistrationContainer> registerUser(String cart_session, Map<String, String> parameters, int signUpType) {
 
@@ -102,9 +104,8 @@ public class UsersRepository {
 
         recommendedCat = appPreference.getString(RECOMMENDED_CAT_TOKEN);
         parameters.put(RECOMMENDED_CAT_TOKEN, recommendedCat);
-
         loginMutableLiveData = new MutableLiveData<>();
-
+        setUserInfo();
         lalalandServiceApi.loginUser(userInfo, parameters).enqueue(new Callback<LoginDataContainer>() {
             @Override
             public void onResponse(Call<LoginDataContainer> call, Response<LoginDataContainer> response) {
@@ -147,6 +148,7 @@ public class UsersRepository {
         basicResponseMutableLiveData = new MutableLiveData<>();
         // session token
         String token = appPreference.getString(SIGNIN_TOKEN);
+        setUserInfo();
 
         lalalandServiceApi.logoutUser(userInfo).enqueue(new Callback<BasicResponse>() {
 
@@ -179,6 +181,7 @@ public class UsersRepository {
     public LiveData<BasicResponse> changePassword(String token, Map<String, String> parameter) {
 
         basicResponseMutableLiveData = new MutableLiveData<>();
+        setUserInfo();
 
         lalalandServiceApi.changePassword(userInfo, parameter).enqueue(new Callback<BasicResponse>() {
 
@@ -201,6 +204,7 @@ public class UsersRepository {
     public LiveData<BasicResponse> forgotPassword(Map<String, String> parameter) {
 
         basicResponseMutableLiveData = new MutableLiveData<>();
+        setUserInfo();
 
         lalalandServiceApi.forgotPassword(userInfo, parameter).enqueue(new Callback<BasicResponse>() {
 
@@ -220,26 +224,39 @@ public class UsersRepository {
         return basicResponseMutableLiveData;
     }
 
-    public LiveData<BasicResponse> resetPassword(Map<String, String> parameter) {
+    public LiveData<RegistrationContainer> resetPassword(Map<String, String> parameter) {
 
-        basicResponseMutableLiveData = new MutableLiveData<>();
+        registrationContainerMutableLiveData = new MutableLiveData<>();
+        setUserInfo();
 
-        lalalandServiceApi.resetPassword(userInfo, parameter).enqueue(new Callback<BasicResponse>() {
+        lalalandServiceApi.resetPassword(userInfo, parameter).enqueue(new Callback<RegistrationContainer>() {
 
             @Override
-            public void onResponse(Call<BasicResponse> call, Response<BasicResponse> response) {
-                basicResponseMutableLiveData.postValue(response.body());
-                AppPreference.getInstance(AppConstants.mContext).setString(SIGNIN_TOKEN, SIGNIN_TOKEN);
-                checkResponseSource(response);
+            public void onResponse(Call<RegistrationContainer> call, Response<RegistrationContainer> response) {
+
+                if (response.isSuccessful()) {
+                    Headers headers = response.headers();
+                    appPreference.setString(SIGNIN_TOKEN, headers.get(SIGNIN_TOKEN));
+
+                    // if login successfully then discard cart session token
+                    appPreference.setString(CART_SESSION_TOKEN, "");
+
+                    recommendedCat = response.body().getData().getRecommendedCat();
+                    appPreference.setString(RECOMMENDED_CAT_TOKEN, recommendedCat);
+                    AppConstants.CART_COUNTER = response.body().getData().getCartCount();
+                    registrationContainerMutableLiveData.postValue(response.body());
+                }
+
+
             }
 
             @Override
-            public void onFailure(Call<BasicResponse> call, Throwable t) {
-                basicResponseMutableLiveData.postValue(null);
+            public void onFailure(Call<RegistrationContainer> call, Throwable t) {
+                registrationContainerMutableLiveData.postValue(null);
             }
         });
 
-        return basicResponseMutableLiveData;
+        return registrationContainerMutableLiveData;
     }
 
     public LiveData<RegistrationContainer> signUpForm(Map<String, String> parameters) {
@@ -271,8 +288,8 @@ public class UsersRepository {
 
         recommendedCat = appPreference.getString(RECOMMENDED_CAT_TOKEN);
         parameters.put(RECOMMENDED_CAT_TOKEN, recommendedCat);
-
         registrationContainerMutableLiveData = new MutableLiveData<>();
+        setUserInfo();
 
         lalalandServiceApi.registerFromFacebook(userInfo, parameters).enqueue(new Callback<RegistrationContainer>() {
             @Override
@@ -303,6 +320,7 @@ public class UsersRepository {
         parameters.put(RECOMMENDED_CAT_TOKEN, recommendedCat);
 
         registrationContainerMutableLiveData = new MutableLiveData<>();
+        setUserInfo();
 
         lalalandServiceApi.registerFromGoogle(userInfo, parameters).enqueue(new Callback<RegistrationContainer>() {
             @Override
@@ -334,6 +352,7 @@ public class UsersRepository {
     public LiveData<AddressDataContainer> addNewAddress(String token, Map<String, String> parameters) {
 
         addressDataContainerMutableLiveData = new MutableLiveData<>();
+        setUserInfo();
         lalalandServiceApi.addNewAddress(userInfo, parameters).enqueue(new Callback<AddressDataContainer>() {
             @Override
             public void onResponse(Call<AddressDataContainer> call, Response<AddressDataContainer> response) {
@@ -356,6 +375,7 @@ public class UsersRepository {
     public LiveData<AddressDataContainer> editAddress(String token, Map<String, String> parameters) {
 
         addressDataContainerMutableLiveData = new MutableLiveData<>();
+        setUserInfo();
         lalalandServiceApi.editAddress(userInfo, parameters).enqueue(new Callback<AddressDataContainer>() {
             @Override
             public void onResponse(Call<AddressDataContainer> call, Response<AddressDataContainer> response) {
@@ -379,6 +399,7 @@ public class UsersRepository {
     public LiveData<UpdateUserDataContainer> updateUserDetails(String token, Map<String, String> parameter) {
 
         updateUserDataContainerMutableLiveData = new MutableLiveData<>();
+        setUserInfo();
         lalalandServiceApi.updateUserDetails(userInfo, parameter).enqueue(new Callback<UpdateUserDataContainer>() {
             @Override
             public void onResponse(Call<UpdateUserDataContainer> call, Response<UpdateUserDataContainer> response) {
@@ -401,6 +422,7 @@ public class UsersRepository {
     public LiveData<UploadProfileImageContainer> uploadProfileImage(String token, MultipartBody.Part file) {
 
         uploadProfileImageContainerMutableLiveData = new MutableLiveData<>();
+        setUserInfo();
         lalalandServiceApi.uploadProfileImage(userInfo, file).enqueue(new Callback<UploadProfileImageContainer>() {
             @Override
             public void onResponse(Call<UploadProfileImageContainer> call, Response<UploadProfileImageContainer> response) {
@@ -423,6 +445,7 @@ public class UsersRepository {
     public LiveData<AddressDataContainer> getAddresses(String token) {
 
         addressDataContainerMutableLiveData = new MutableLiveData<>();
+        setUserInfo();
 
         lalalandServiceApi.getAddress(userInfo).enqueue(new Callback<AddressDataContainer>() {
             @Override

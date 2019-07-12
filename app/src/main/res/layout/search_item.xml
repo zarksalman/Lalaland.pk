@@ -64,8 +64,8 @@
         <ImageView
 
             android:id="@+id/iv_search_arrow"
-            android:layout_width="@dimen/_20dp"
-            android:layout_height="@dimen/_20dp"
+            android:layout_width="10dp"
+            android:layout_height="10dp"
             android:layout_margin="@dimen/_8dp"
             android:visibility="gone"
             android:src="@drawable/left_up_icon"

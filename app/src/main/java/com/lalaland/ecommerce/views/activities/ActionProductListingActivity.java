@@ -174,6 +174,7 @@ public class ActionProductListingActivity extends AppCompatActivity implements A
         filterViewModel = ViewModelProviders.of(this).get(FilterViewModel.class);
 
         setListeners();
+        setBottomSheet();
     }
 
 
@@ -207,9 +208,10 @@ public class ActionProductListingActivity extends AppCompatActivity implements A
 
                 if (tab.getPosition() == 0) {
 
-                    setBottomSheet(false);
+                    mBottomSheetDialog.show();
+
                 } else if (tab.getPosition() == 1) {
-                    setBottomSheet(true);
+                    setFilters();
                 }
             }
 
@@ -221,10 +223,9 @@ public class ActionProductListingActivity extends AppCompatActivity implements A
             @Override
             public void onTabReselected(TabLayout.Tab tab) {
                 if (tab.getPosition() == 0) {
-
-                    setBottomSheet(false);
+                    mBottomSheetDialog.show();
                 } else if (tab.getPosition() == 1) {
-                    setBottomSheet(true);
+                    setFilters();
                 }
             }
         });
@@ -289,64 +290,57 @@ public class ActionProductListingActivity extends AppCompatActivity implements A
         actionProductsAdapter.setData(actionProductsArrayList);
     }
 
-    public void setBottomSheet(boolean isFilter) {
+    public void setBottomSheet() {
 
-
-        if (!isFilter) // if bottom sheet is filter
-        {
             mBottomSheetDialog = new BottomSheetDialog(ActionProductListingActivity.this);
             sheetView = DataBindingUtil.inflate(getLayoutInflater(), R.layout.sort_filter_bottom_sheet_layout, null, false);
             sheetView.setSortSheetListener(this);
             mBottomSheetDialog.setContentView(sheetView.getRoot());
-            mBottomSheetDialog.show();
 
             sheetView.ivDownArrowIcon.setOnClickListener(v -> mBottomSheetDialog.hide());
 
-        } else // if bottom sheet is sort
-        {
+    }
 
-            intent = new Intent(this, FilterActivity.class);
-            intent.putExtra(ACTION_ID, action_id);
+    void setFilters() {
+        intent = new Intent(this, FilterActivity.class);
+        intent.putExtra(ACTION_ID, action_id);
 
-            switch (products_type) {
+        switch (products_type) {
 
-                // actions types
-                case SALE_PRODUCT:
+            // actions types
+            case SALE_PRODUCT:
 
-                    //              parameter.clear();
-                    intent.putExtra(FILTER_KEY, "sale");
-                    break;
+                //              parameter.clear();
+                intent.putExtra(FILTER_KEY, "sale");
+                break;
 
-                case NEW_ARRIVAL_PRODUCTS:
-                    intent.putExtra(FILTER_KEY, "category");
-                    break;
+            case NEW_ARRIVAL_PRODUCTS:
+                intent.putExtra(FILTER_KEY, "category");
+                break;
 
-                case CATEGORY_PRODUCTS:
-                    intent.putExtra(FILTER_KEY, "category");
-                    break;
+            case CATEGORY_PRODUCTS:
+                intent.putExtra(FILTER_KEY, "category");
+                break;
 
-                case CUSTOM_LIST_PRODUCTS:
-                    intent.putExtra(FILTER_KEY, "category");
-                    break;
+            case CUSTOM_LIST_PRODUCTS:
+                intent.putExtra(FILTER_KEY, "category");
+                break;
 
-                // category types
-                case PICK_OF_THE_WEEK_PRODUCTS:
-                    intent.putExtra(FILTER_KEY, "category");
-                    break;
+            // category types
+            case PICK_OF_THE_WEEK_PRODUCTS:
+                intent.putExtra(FILTER_KEY, "category");
+                break;
 
-                case BRANDS_IN_FOCUS_PRODUCTS:
-                    intent.putExtra(FILTER_KEY, "brand");
-                    break;
+            case BRANDS_IN_FOCUS_PRODUCTS:
+                intent.putExtra(FILTER_KEY, "brand");
+                break;
 
-                case SEARCH_RESULT_PRODUCTS:
-                    intent.putExtra(FILTER_KEY, "all");
-                    break;
-            }
-
-            startActivityForResult(intent, 200);
+            case SEARCH_RESULT_PRODUCTS:
+                intent.putExtra(FILTER_KEY, "all");
+                break;
         }
 
-
+        startActivityForResult(intent, 200);
     }
 
     public void bottomSheetClick(View view) {
@@ -414,13 +408,13 @@ public class ActionProductListingActivity extends AppCompatActivity implements A
 
     private void resetSortColors() {
 
-        sheetView.tvBestMatch.setTextColor(getResources().getColor(android.R.color.white));
-        sheetView.tvAscendingAlphabetically.setTextColor(getResources().getColor(android.R.color.white));
-        sheetView.tvDescendingAlphabetically.setTextColor(getResources().getColor(android.R.color.white));
-        sheetView.tvNewest.setTextColor(getResources().getColor(android.R.color.white));
-        sheetView.tvOldest.setTextColor(getResources().getColor(android.R.color.white));
-        sheetView.tvLowToHigh.setTextColor(getResources().getColor(android.R.color.white));
-        sheetView.tvHighToLow.setTextColor(getResources().getColor(android.R.color.white));
+        sheetView.tvBestMatch.setTextColor(getResources().getColor(R.color.colorDarkGray));
+        sheetView.tvAscendingAlphabetically.setTextColor(getResources().getColor(R.color.colorDarkGray));
+        sheetView.tvDescendingAlphabetically.setTextColor(getResources().getColor(R.color.colorDarkGray));
+        sheetView.tvNewest.setTextColor(getResources().getColor(R.color.colorDarkGray));
+        sheetView.tvOldest.setTextColor(getResources().getColor(R.color.colorDarkGray));
+        sheetView.tvLowToHigh.setTextColor(getResources().getColor(R.color.colorDarkGray));
+        sheetView.tvHighToLow.setTextColor(getResources().getColor(R.color.colorDarkGray));
     }
 
     private void setActionProducts() {

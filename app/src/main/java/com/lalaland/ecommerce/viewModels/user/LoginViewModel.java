@@ -8,6 +8,7 @@ import androidx.lifecycle.LiveData;
 
 import com.lalaland.ecommerce.data.models.login.LoginDataContainer;
 import com.lalaland.ecommerce.data.models.logout.BasicResponse;
+import com.lalaland.ecommerce.data.models.registration.RegistrationContainer;
 import com.lalaland.ecommerce.data.repository.UsersRepository;
 
 import java.util.Map;
@@ -33,7 +34,7 @@ public class LoginViewModel extends AndroidViewModel {
         return usersRepository.forgotPassword(parameter);
     }
 
-    public LiveData<BasicResponse> resetPassword(Map<String, String> parameter) {
+    public LiveData<RegistrationContainer> resetPassword(Map<String, String> parameter) {
         return usersRepository.resetPassword(parameter);
     }
 

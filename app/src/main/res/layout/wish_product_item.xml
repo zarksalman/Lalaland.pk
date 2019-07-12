@@ -103,6 +103,7 @@
             android:onClick="@{(view)->adapter.onProductClicked(view,product, true)}"
             app:layout_constraintTop_toTopOf="parent"
             android:scaleType="centerCrop"
+            android:padding="@dimen/_4dp"
             app:srcCompat="@drawable/trash"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent" />

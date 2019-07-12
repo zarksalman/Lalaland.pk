@@ -147,7 +147,7 @@ public interface LalalandServiceApi {
     //    Call<BasicResponse> changePassword(@Header("token") String token, @QueryMap Map<String, String> parameters);
 
     @POST("resetPassword")
-    Call<BasicResponse> resetPassword(@HeaderMap Map<String, String> userInfo, @QueryMap Map<String, String> parameters);
+    Call<RegistrationContainer> resetPassword(@HeaderMap Map<String, String> userInfo, @QueryMap Map<String, String> parameters);
     //    Call<BasicResponse> changePassword(@Header("token") String token, @QueryMap Map<String, String> parameters);
 
     @POST("globalSearch")

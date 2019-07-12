@@ -30,6 +30,7 @@
         android:layout_margin="@dimen/_8dp"
         android:background="@drawable/bg_round_corner_white"
         android:orientation="vertical"
+        android:onClick="@{(view)->adapter.onAddressClicked(view, user)}"
         android:padding="@dimen/_16dp"
         android:visibility="visible"
         app:layout_constraintEnd_toEndOf="parent"

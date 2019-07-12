@@ -205,9 +205,9 @@ public class CategoryFragment extends Fragment implements MajorCategoryAdapter.M
         // if same category do not clicked again
         if (categoryId != category.getId()) {
 
-            categoryId = category.getId();
-
             if (category.getName().equals("Brands")) {
+
+                categoryId = category.getId();
 
                 fragmentCategoryBinding.ivCategoryHeader.setVisibility(View.GONE);
                 fragmentCategoryBinding.rvSubCategoryBrand.setVisibility(View.VISIBLE);
@@ -223,6 +223,8 @@ public class CategoryFragment extends Fragment implements MajorCategoryAdapter.M
                 startActivity(intent);
 
             } else {
+
+                categoryId = category.getId();
 
                 fragmentCategoryBinding.subCategoryContainer.setVisibility(View.GONE);
                 fragmentCategoryBinding.rvSubCategoryBrand.setVisibility(View.GONE);

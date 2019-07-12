@@ -494,7 +494,7 @@
                     android:clickable="true"
                     android:focusable="true"
                     android:scaleType="centerInside"
-                    app:srcCompat="@drawable/share_product_detail" />
+                    app:srcCompat="@drawable/share_product_detail_white" />
             </FrameLayout>
 
 

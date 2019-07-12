@@ -116,14 +116,14 @@ public class AccountInformationActivity extends AppCompatActivity {
 
         Intent intent;
 
-        if (type == 0) {
+        if (type == 6) {
 
             intent = new Intent(this, ChangeShippingAddress.class);
             intent.putExtra("request_code", type);
             startActivityForResult(intent, type);
 
         } else {
-            intent = new Intent(this, ChangeShippingAddress.class);
+            intent = new Intent(this, EditAccountInformationActivity.class);
             intent.putExtra("request_code", type);
             startActivityForResult(intent, type);
         }
@@ -155,33 +155,6 @@ public class AccountInformationActivity extends AppCompatActivity {
                 imageFile);
 
         MultipartBody.Part file = MultipartBody.Part.createFormData("photo", imageFile.getName(), filePart);
-
-       /* RetrofitClient.getInstance().createClient().uploadProfileImage(token, file).enqueue(new Callback<UploadProfileImageContainer>() {
-            @Override
-            public void onResponse(Call<UploadProfileImageContainer> call, Response<UploadProfileImageContainer> response) {
-
-                if (response.isSuccessful()) {
-
-                    if (response.body() != null) {
-
-                        if (response.body().getCode().equals(SUCCESS_CODE)) {
-
-                            appPreference.setString(USER_AVATAR, response.body().getData().getAvatar());
-                            Toast.makeText(AccountInformationActivity.this, "Image Uploaded", Toast.LENGTH_SHORT).show();
-                        } else {
-
-                            Toast.makeText(AccountInformationActivity.this, response.body().getMsg(), Toast.LENGTH_SHORT).show();
-                        }
-                    }
-                }
-                activityAccountInformationBinding.pbLoading.setVisibility(View.GONE);
-            }
-
-            @Override
-            public void onFailure(Call<UploadProfileImageContainer> call, Throwable t) {
-                Log.d(AppConstants.TAG, t.getMessage());
-            }
-        });*/
 
         userViewModel.uploadProfileImage(token, file).observe(this, uploadProfileImageContainer -> {
 
