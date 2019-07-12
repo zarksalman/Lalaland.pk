@@ -25,6 +25,7 @@
             android:background="@android:color/white"
             android:orientation="horizontal"
             android:padding="@dimen/_16dp"
+            android:elevation="@dimen/_4dp"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent">
@@ -57,11 +58,13 @@
 
             android:id="@+id/sv_form"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
+            android:layout_height="0dp"
             android:background="@android:color/white"
             android:scrollbars="none"
+            android:fillViewport="true"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintBottom_toTopOf="@+id/bottom_btns"
             app:layout_constraintTop_toBottomOf="@+id/top_bar">
 
             <LinearLayout
@@ -161,58 +164,41 @@
                         android:focusableInTouchMode="false"
                         android:inputType="textPostalAddress" />
 
+                    <LinearLayout
+
+                        android:id="@+id/cb_default_container"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="@dimen/_8dp"
+                        android:background="@android:color/white"
+                        android:orientation="horizontal"
+                        android:padding="@dimen/_8dp"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toBottomOf="@+id/sv_form">
+
+                        <CheckBox
+
+                            android:id="@+id/cb_default"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="@string/default_address" />
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginStart="@dimen/_4dp"
+                            android:text="@string/default_address"
+                            android:textColor="@android:color/black"
+                            android:visibility="gone" />
+                    </LinearLayout>
+
                 </com.google.android.material.textfield.TextInputLayout>
+
+
             </LinearLayout>
 
         </ScrollView>
-
-
-        <LinearLayout
-
-            android:id="@+id/cb_default_container"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="@dimen/_8dp"
-            android:background="@android:color/white"
-            android:orientation="horizontal"
-            android:padding="@dimen/_8dp"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/sv_form">
-
-            <CheckBox
-
-                android:id="@+id/cb_default"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="@string/default_address" />
-
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginStart="@dimen/_4dp"
-                android:text="@string/default_address"
-                android:visibility="gone"
-                android:textColor="@android:color/black" />
-        </LinearLayout>
-
-        <FrameLayout
-
-            android:id="@+id/pb_loading"
-            android:layout_width="0dp"
-            android:layout_height="0dp"
-            android:background="@color/colorDimWhite"
-            android:visibility="gone"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent">
-
-            <ProgressBar
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_gravity="center" />
-        </FrameLayout>
 
         <LinearLayout
 
@@ -252,6 +238,16 @@
                 android:textColor="@android:color/white" />
         </LinearLayout>
 
+        <ProgressBar
+
+            android:id="@+id/pb_loading"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            android:visibility="gone"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
     </androidx.constraintlayout.widget.ConstraintLayout>
 
 </layout>

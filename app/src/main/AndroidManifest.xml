@@ -86,6 +86,7 @@
             android:screenOrientation="portrait" />
         <activity
             android:name=".views.activities.AddressCreationActivity"
+            android:windowSoftInputMode="stateVisible|adjustResize"
             android:screenOrientation="portrait" />
         <activity
             android:name=".views.activities.ShippingAddressActivity"

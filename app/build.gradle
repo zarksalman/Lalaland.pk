@@ -88,6 +88,7 @@ dependencies {
     // for debugging
     // implementation 'com.facebook.stetho:stetho:1.5.1'
 
-// native bottom navigation has not badge (counter)
-    implementation 'com.aurelhubert:ahbottomnavigation:2.3.4'
+    // image compression
+    implementation 'id.zelory:compressor:2.1.0'
+
 }

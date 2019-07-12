@@ -76,6 +76,11 @@ public class ChangeShippingAddress extends AppCompatActivity {
             @Override
             public void onAddressClicked(UserAddresses userAddresses) {
 
+                if (userAddresses.getIsPrimary() == 1) {
+                    setResult(RESULT_CANCELED);
+                    finish();
+                }
+
                 activityChangeShippingAddressBinding.pbLoading.setVisibility(View.VISIBLE);
                 String[] fullName;
 

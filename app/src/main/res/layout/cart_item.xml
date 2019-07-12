@@ -24,7 +24,6 @@
         android:id="@+id/cart_items_parent"
         android:layout_width="match_parent"
         android:layout_height="@dimen/_100dp"
-        android:layout_marginTop="@dimen/_8dp"
         android:background="@drawable/bg_round_corner_white"
         android:padding="@dimen/_8dp">
 

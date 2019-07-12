@@ -64,7 +64,7 @@
                 android:layout_centerVertical="true"
                 android:layout_marginTop="@dimen/_4dp"
                 android:fontFamily="@font/encodesansregular"
-                android:text="@string/default_address"
+                android:text="@string/user_default_address"
                 android:textColor="@color/colorDarkGray"
                 android:textSize="13sp"
                 android:visibility="@{user.isPrimary == 1 ? View.VISIBLE: View.GONE}"

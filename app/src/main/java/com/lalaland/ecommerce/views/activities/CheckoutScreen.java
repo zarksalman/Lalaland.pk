@@ -219,7 +219,18 @@ public class CheckoutScreen extends AppCompatActivity {
             startActivityForResult(intent, 201);
         });
 
+        activityCheckoutScreenBinding.paymentDetail.setOnClickListener(v -> {
+
+            Intent intent = new Intent(CheckoutScreen.this, ChangePaymentActivity.class);
+            intent.putExtra("total_bill", totalBill);
+            startActivityForResult(intent, 201);
+        });
+
         activityCheckoutScreenBinding.btnAddAddress.setOnClickListener(v -> {
+            startActivityForResult(new Intent(CheckoutScreen.this, ChangeShippingAddress.class), 202);
+        });
+
+        activityCheckoutScreenBinding.userDetail.setOnClickListener(p -> {
             startActivityForResult(new Intent(CheckoutScreen.this, ChangeShippingAddress.class), 202);
         });
         
@@ -291,6 +302,7 @@ public class CheckoutScreen extends AppCompatActivity {
         cartIMerchantAdapter.setData(cartListModelList);
 
         activityCheckoutScreenBinding.container.setVisibility(View.VISIBLE);
+        activityCheckoutScreenBinding.rvCartProducts.setVisibility(View.VISIBLE);
         activityCheckoutScreenBinding.pbLoading.setVisibility(View.GONE);
     }
 
@@ -517,6 +529,8 @@ public class CheckoutScreen extends AppCompatActivity {
                 CASH_TRANSFER_TYPE = 1;
 
             } else if (requestCode == 202) {
+
+                activityCheckoutScreenBinding.rvCartProducts.setVisibility(View.GONE);
                 isUserAddressExist();
             }
         }

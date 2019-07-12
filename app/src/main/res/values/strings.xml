@@ -180,5 +180,6 @@
     <string name="enter_your_password">Enter your new password for </string>
     <string name="new_address">+New Address</string>
     <string name="order_placed">Order Placed</string>
+    <string name="user_default_address">Default Address</string>
 
 </resources>

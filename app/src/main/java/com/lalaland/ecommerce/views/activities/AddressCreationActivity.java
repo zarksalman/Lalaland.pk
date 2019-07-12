@@ -127,11 +127,16 @@ public class AddressCreationActivity extends AppCompatActivity {
                 userViewModel.editAddress(token, parameter).observe(this, addressDataContainer -> {
 
                     if (addressDataContainer != null) {
-                        AppConstants.userAddresses = addressDataContainer.getData().getUserAddress().get(0);
-                        Toast.makeText(this, addressDataContainer.getMsg(), Toast.LENGTH_SHORT).show();
-                        setResult(RESULT_OK);
-                        finish();
+
+                        if (addressDataContainer.getCode().equals(SUCCESS_CODE)) {
+                            AppConstants.userAddresses = addressDataContainer.getData().getUserAddress().get(0);
+                            Toast.makeText(this, addressDataContainer.getMsg(), Toast.LENGTH_SHORT).show();
+                            setResult(RESULT_OK);
+                            finish();
+                        }
                     }
+
+                    activityAddressCreationBinding.pbLoading.setVisibility(View.GONE);
                 });
 
             } else {
@@ -169,11 +174,12 @@ public class AddressCreationActivity extends AppCompatActivity {
                         Log.d(AppConstants.TAG, GENERAL_ERROR);
                         Toast.makeText(this, GENERAL_ERROR, Toast.LENGTH_SHORT).show();
                     }
+
+                    activityAddressCreationBinding.pbLoading.setVisibility(View.GONE);
+
                 });
             }
         }
-
-        activityAddressCreationBinding.pbLoading.setVisibility(View.GONE);
     }
 
     private boolean validateNames(int type) {

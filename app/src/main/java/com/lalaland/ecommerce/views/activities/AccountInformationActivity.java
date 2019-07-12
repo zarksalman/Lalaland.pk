@@ -25,9 +25,11 @@ import com.lalaland.ecommerce.helpers.AppUtils;
 import com.lalaland.ecommerce.viewModels.user.UserViewModel;
 
 import java.io.File;
+import java.io.IOException;
 import java.util.HashMap;
 import java.util.Map;
 
+import id.zelory.compressor.Compressor;
 import okhttp3.MediaType;
 import okhttp3.MultipartBody;
 import okhttp3.RequestBody;
@@ -149,6 +151,24 @@ public class AccountInformationActivity extends AppCompatActivity {
         activityAccountInformationBinding.pbLoading.setVisibility(View.VISIBLE);
 
         File imageFile = AppUtils.getFile(this, uri);
+
+        try {
+            imageFile = new Compressor(this).compressToFile(imageFile);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
+/*
+        Bitmap bitmap = AppUtils.FileToBitmap(imageFile);
+        bitmap = AppUtils.getResizedBitmap(bitmap, 100);
+*/
+
+    /*    try {
+            imageFile = AppUtils.bitmapToFile(bitmap);
+        } catch (IOException e) {
+            Toast.makeText(this, "Could not upload image", Toast.LENGTH_SHORT).show();
+            e.printStackTrace();
+        }*/
 
         RequestBody filePart = RequestBody.create(
                 MediaType.parse(getContentResolver().getType(uri)),
