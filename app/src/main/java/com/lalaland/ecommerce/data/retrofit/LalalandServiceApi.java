@@ -62,6 +62,9 @@ public interface LalalandServiceApi {
     @POST("{action}")
     Call<ActionProductsContainer> getActionProducts(@HeaderMap Map<String, String> header, @Path("action") String action, @QueryMap Map<String, String> parameter);
 
+    @POST("searchResults")
+    Call<ActionProductsContainer> getSearchResult(@HeaderMap Map<String, String> header, @QueryMap Map<String, String> parameter);
+
     @POST("addToCart")
     Call<BasicResponse> addToCart(@HeaderMap Map<String, String> headers, @QueryMap Map<String, String> parameter);
 
@@ -143,8 +146,12 @@ public interface LalalandServiceApi {
     Call<BasicResponse> forgotPassword(@HeaderMap Map<String, String> userInfo, @QueryMap Map<String, String> parameters);
     //    Call<BasicResponse> changePassword(@Header("token") String token, @QueryMap Map<String, String> parameters);
 
+    @POST("resetPassword")
+    Call<BasicResponse> resetPassword(@HeaderMap Map<String, String> userInfo, @QueryMap Map<String, String> parameters);
+    //    Call<BasicResponse> changePassword(@Header("token") String token, @QueryMap Map<String, String> parameters);
+
     @POST("globalSearch")
-    Single<SearchDataContainer> globalRxSearch(@Query("qstr") String queryString);
+    Single<SearchDataContainer> globalRxSearch(@HeaderMap Map<String, String> userInfo, @Query("qstr") String queryString);
 
     @POST("globalSearch")
     Call<SearchDataContainer> globalSearch(@HeaderMap Map<String, String> header, @Query("qstr") String queryString);

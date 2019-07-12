@@ -7,6 +7,7 @@ import android.os.Bundle;
 import android.util.Patterns;
 import android.view.LayoutInflater;
 import android.view.View;
+import android.widget.Toast;
 
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
@@ -23,10 +24,13 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.Set;
 
+import static com.lalaland.ecommerce.helpers.AppConstants.CONFIRM_RESET_PASSWORD;
 import static com.lalaland.ecommerce.helpers.AppConstants.EMAIL;
 import static com.lalaland.ecommerce.helpers.AppConstants.PASSWORD;
 import static com.lalaland.ecommerce.helpers.AppConstants.RECOMMENDED_CAT_TOKEN;
+import static com.lalaland.ecommerce.helpers.AppConstants.RESET_PASSWORD;
 import static com.lalaland.ecommerce.helpers.AppConstants.RESET_PASSWORD_TOKEN;
+import static com.lalaland.ecommerce.helpers.AppConstants.SUCCESS_CODE;
 
 public class ResetPasswordActivity extends AppCompatActivity {
 
@@ -45,6 +49,8 @@ public class ResetPasswordActivity extends AppCompatActivity {
     String protocol;
     Set<String> args;
     Object[] keys;
+    String password;
+    String confirmPassword;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -63,7 +69,7 @@ public class ResetPasswordActivity extends AppCompatActivity {
             activityResetPasswordBinding.emailContainer.setVisibility(View.VISIBLE);
         } else {
 
-            email = getResources().getString(R.string.enter_your_password);
+
             getParameters(intent);
 
 
@@ -92,6 +98,26 @@ public class ResetPasswordActivity extends AppCompatActivity {
 
             if (validatePasswords()) {
 
+                activityResetPasswordBinding.pbLoading.setVisibility(View.VISIBLE);
+
+                parameter.put(RESET_PASSWORD, password);
+                parameter.put(CONFIRM_RESET_PASSWORD, confirmPassword);
+
+                loginViewModel.resetPassword(parameter).observe(this, basicResponse -> {
+                    if (basicResponse != null) {
+
+                        if (basicResponse.getCode().equals(SUCCESS_CODE)) {
+
+                            Toast.makeText(this, basicResponse.getMsg(), Toast.LENGTH_SHORT).show();
+                            Intent intent = new Intent(this, SplashActivity.class);
+                            intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_CLEAR_TASK);
+                            startActivity(intent);
+                            finish();
+                        }
+                    }
+
+                    activityResetPasswordBinding.pbLoading.setVisibility(View.GONE);
+                });
             }
         });
 
@@ -103,6 +129,7 @@ public class ResetPasswordActivity extends AppCompatActivity {
     private void getParameters(Intent intent) {
 
         uri = intent.getData();
+        String tempStr = getString(R.string.enter_your_password);
 
         if (uri != null) {
             /*server = uri.getAuthority();
@@ -116,12 +143,13 @@ public class ResetPasswordActivity extends AppCompatActivity {
             if (keys != null && keys.length > 0) {
 
                 token = uri.getQueryParameter(keys[0].toString());
-                email = email + " " + uri.getQueryParameter(keys[1].toString());
+                email = uri.getQueryParameter(keys[1].toString());
 
                 parameter.put(RESET_PASSWORD_TOKEN, token);
                 parameter.put(EMAIL, email);
                 parameter.put(RECOMMENDED_CAT_TOKEN, recommendedCat);
 
+                email = tempStr + " " + email;
             }
         }
 
@@ -149,11 +177,9 @@ public class ResetPasswordActivity extends AppCompatActivity {
                 .setTitle("Note")
                 .setMessage(msg)
 
-                .setPositiveButton(android.R.string.yes, new DialogInterface.OnClickListener() {
-                    public void onClick(DialogInterface dialog, int which) {
-                        dialog.dismiss();
-                        finish();
-                    }
+                .setPositiveButton(android.R.string.yes, (dialog, which) -> {
+                    dialog.dismiss();
+                    finish();
                 })
                 .show();
 
@@ -183,8 +209,8 @@ public class ResetPasswordActivity extends AppCompatActivity {
     private boolean validatePasswords() {
 
 
-        String password = activityResetPasswordBinding.etPassword.getText().toString().trim();
-        String confirmPassword = activityResetPasswordBinding.etConfirmPassword.getText().toString().trim();
+        password = activityResetPasswordBinding.etPassword.getText().toString().trim();
+        confirmPassword = activityResetPasswordBinding.etConfirmPassword.getText().toString().trim();
 
         if (!password.equals(confirmPassword)) {
             activityResetPasswordBinding.tiPassword.setError("Passwords are not same");

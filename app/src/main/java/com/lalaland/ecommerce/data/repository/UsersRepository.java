@@ -220,6 +220,28 @@ public class UsersRepository {
         return basicResponseMutableLiveData;
     }
 
+    public LiveData<BasicResponse> resetPassword(Map<String, String> parameter) {
+
+        basicResponseMutableLiveData = new MutableLiveData<>();
+
+        lalalandServiceApi.resetPassword(userInfo, parameter).enqueue(new Callback<BasicResponse>() {
+
+            @Override
+            public void onResponse(Call<BasicResponse> call, Response<BasicResponse> response) {
+                basicResponseMutableLiveData.postValue(response.body());
+                AppPreference.getInstance(AppConstants.mContext).setString(SIGNIN_TOKEN, SIGNIN_TOKEN);
+                checkResponseSource(response);
+            }
+
+            @Override
+            public void onFailure(Call<BasicResponse> call, Throwable t) {
+                basicResponseMutableLiveData.postValue(null);
+            }
+        });
+
+        return basicResponseMutableLiveData;
+    }
+
     public LiveData<RegistrationContainer> signUpForm(Map<String, String> parameters) {
 
         recommendedCat = appPreference.getString(RECOMMENDED_CAT_TOKEN);

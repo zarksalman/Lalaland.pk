@@ -32,6 +32,11 @@ public class SearchCategory {
     @Expose
     private Integer remainingQuantity;
 
+    @SerializedName("url_name")
+    @ColumnInfo(name = "url_name")
+    @Expose
+    private String urlName;
+
     public Integer getId() {
         return id;
     }
@@ -64,4 +69,11 @@ public class SearchCategory {
         this.remainingQuantity = remainingQuantity;
     }
 
+    public String getUrlName() {
+        return urlName;
+    }
+
+    public void setUrlName(String urlName) {
+        this.urlName = urlName;
+    }
 }

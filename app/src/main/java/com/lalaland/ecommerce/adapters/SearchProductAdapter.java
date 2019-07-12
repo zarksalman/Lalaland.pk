@@ -12,6 +12,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.lalaland.ecommerce.R;
 import com.lalaland.ecommerce.data.models.globalSearch.SearchCategory;
 import com.lalaland.ecommerce.databinding.SearchItemBinding;
+import com.lalaland.ecommerce.helpers.AppUtils;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -83,7 +84,7 @@ public class SearchProductAdapter extends RecyclerView.Adapter<SearchProductAdap
             else
                 mSearchItemBinding.ivSearchArrow.setVisibility(View.VISIBLE);
 
-            mSearchItemBinding.tvSearch.setText(search.getName());
+            mSearchItemBinding.tvSearch.setText(AppUtils.formatSearchUrl(search.getUrlName()));
 
             mSearchItemBinding.searchParent.setOnClickListener(v -> {
                 onSearchClicked(getAdapterPosition());

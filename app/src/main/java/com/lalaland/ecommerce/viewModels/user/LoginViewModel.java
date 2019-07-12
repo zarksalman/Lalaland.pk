@@ -14,20 +14,27 @@ import java.util.Map;
 
 public class LoginViewModel extends AndroidViewModel {
 
+    private UsersRepository usersRepository;
+
     public LoginViewModel(@NonNull Application application) {
         super(application);
+        usersRepository = UsersRepository.getInstance();
     }
 
     public LiveData<LoginDataContainer> loginUser(String cart_session, Map<String, String> parameter) {
-        return UsersRepository.getInstance().loginUser(cart_session, parameter);
+        return usersRepository.loginUser(cart_session, parameter);
     }
 
     public LiveData<BasicResponse> logoutUser() {
-        return UsersRepository.getInstance().logoutUser();
+        return usersRepository.logoutUser();
     }
 
     public LiveData<BasicResponse> forgotPassword(Map<String, String> parameter) {
-        return UsersRepository.getInstance().forgotPassword(parameter);
+        return usersRepository.forgotPassword(parameter);
+    }
+
+    public LiveData<BasicResponse> resetPassword(Map<String, String> parameter) {
+        return usersRepository.resetPassword(parameter);
     }
 
 }

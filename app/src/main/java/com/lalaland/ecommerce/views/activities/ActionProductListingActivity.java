@@ -51,6 +51,7 @@ import static com.lalaland.ecommerce.helpers.AppConstants.PRODUCT_ID;
 import static com.lalaland.ecommerce.helpers.AppConstants.PRODUCT_TYPE;
 import static com.lalaland.ecommerce.helpers.AppConstants.PV_FILTER_;
 import static com.lalaland.ecommerce.helpers.AppConstants.SALE_PRODUCT;
+import static com.lalaland.ecommerce.helpers.AppConstants.SEARCH_RESULT_PRODUCTS;
 import static com.lalaland.ecommerce.helpers.AppConstants.SELECTED_FILTER_NAME;
 import static com.lalaland.ecommerce.helpers.AppConstants.START_INDEX;
 import static com.lalaland.ecommerce.helpers.AppConstants.SUCCESS_CODE;
@@ -96,6 +97,7 @@ public class ActionProductListingActivity extends AppCompatActivity implements A
 
         if (getIntent().getExtras() != null) {
 
+
             products_type = getIntent().getStringExtra(PRODUCT_TYPE);
             category_name = getIntent().getStringExtra(ACTION_NAME);
 
@@ -106,6 +108,7 @@ public class ActionProductListingActivity extends AppCompatActivity implements A
             }
 
             activityProductListingBinding.tvCategoryTitle.setText(category_name);
+
             switch (products_type) {
                 // actions types
                 case SALE_PRODUCT:
@@ -150,6 +153,18 @@ public class ActionProductListingActivity extends AppCompatActivity implements A
                     action_id = getIntent().getStringExtra(ACTION_ID);
                     parameter.put(ID, action_id);
                     break;
+
+                case SEARCH_RESULT_PRODUCTS:
+
+                    action_name = "searchResults";
+                    action_id = getIntent().getStringExtra(ACTION_ID);
+                    String qstr = getIntent().getStringExtra("qstr");
+
+                    parameter.put(ID, action_id);
+                    parameter.put("qstr", qstr);
+
+                    break;
+
             }
 
             parameter.put(SORT_BY, sortBy);
@@ -167,7 +182,12 @@ public class ActionProductListingActivity extends AppCompatActivity implements A
         activityProductListingBinding.setProductListingListener(this);
 
         activityProductListingBinding.ivSearchProductListing.setOnClickListener(v -> {
-            startActivity(new Intent(this, GlobalSearchActivity.class));
+
+            // come from global search
+            if (products_type.equals(SEARCH_RESULT_PRODUCTS))
+                finish();
+            else
+                startActivity(new Intent(this, GlobalSearchActivity.class));
         });
 
 
@@ -317,6 +337,10 @@ public class ActionProductListingActivity extends AppCompatActivity implements A
                 case BRANDS_IN_FOCUS_PRODUCTS:
                     intent.putExtra(FILTER_KEY, "brand");
                     break;
+
+                case SEARCH_RESULT_PRODUCTS:
+                    intent.putExtra(FILTER_KEY, "all");
+                    break;
             }
 
             startActivityForResult(intent, 200);
@@ -334,37 +358,44 @@ public class ActionProductListingActivity extends AppCompatActivity implements A
 
             case R.id.tv_best_match:
                 parameter.put(SORT_BY, "");
-                resetSortColors(R.id.tv_best_match);
+                resetSortColors();
+                sheetView.tvBestMatch.setTextColor(getResources().getColor(R.color.colorAccent));
                 break;
 
             case R.id.tv_ascending_alphabetically:
                 parameter.put(SORT_BY, "az");
-                resetSortColors(R.id.tv_ascending_alphabetically);
+                resetSortColors();
+                sheetView.tvAscendingAlphabetically.setTextColor(getResources().getColor(R.color.colorAccent));
                 break;
 
             case R.id.tv_descending_alphabetically:
                 parameter.put(SORT_BY, "za");
-                resetSortColors(R.id.tv_descending_alphabetically);
+                resetSortColors();
+                sheetView.tvDescendingAlphabetically.setTextColor(getResources().getColor(R.color.colorAccent));
                 break;
 
             case R.id.tv_newest:
                 parameter.put(SORT_BY, "newest");
-                resetSortColors(R.id.tv_newest);
+                resetSortColors();
+                sheetView.tvNewest.setTextColor(getResources().getColor(R.color.colorAccent));
                 break;
 
             case R.id.tv_oldest:
                 parameter.put(SORT_BY, "oldest");
-                resetSortColors(R.id.tv_oldest);
+                resetSortColors();
+                sheetView.tvOldest.setTextColor(getResources().getColor(R.color.colorAccent));
                 break;
 
             case R.id.tv_low_to_high:
                 parameter.put(SORT_BY, "price_asc");
-                resetSortColors(R.id.tv_low_to_high);
+                resetSortColors();
+                sheetView.tvLowToHigh.setTextColor(getResources().getColor(R.color.colorAccent));
                 break;
 
             case R.id.tv_high_to_low:
                 parameter.put(SORT_BY, "price_desc");
-                resetSortColors(R.id.tv_high_to_low);
+                resetSortColors();
+                sheetView.tvHighToLow.setTextColor(getResources().getColor(R.color.colorAccent));
                 break;
         }
 
@@ -381,7 +412,7 @@ public class ActionProductListingActivity extends AppCompatActivity implements A
 
     }
 
-    private void resetSortColors(int sortId) {
+    private void resetSortColors() {
 
         sheetView.tvBestMatch.setTextColor(getResources().getColor(android.R.color.white));
         sheetView.tvAscendingAlphabetically.setTextColor(getResources().getColor(android.R.color.white));
@@ -390,43 +421,6 @@ public class ActionProductListingActivity extends AppCompatActivity implements A
         sheetView.tvOldest.setTextColor(getResources().getColor(android.R.color.white));
         sheetView.tvLowToHigh.setTextColor(getResources().getColor(android.R.color.white));
         sheetView.tvHighToLow.setTextColor(getResources().getColor(android.R.color.white));
-
-        switch (sortId) {
-            case R.id.tv_best_match:
-                sheetView.tvBestMatch.setTextColor(getResources().getColor(R.color.colorAccent));
-                preSort = sheetView.tvBestMatch;
-                break;
-
-            case R.id.tv_ascending_alphabetically:
-                sheetView.tvAscendingAlphabetically.setTextColor(getResources().getColor(R.color.colorAccent));
-                preSort = sheetView.tvAscendingAlphabetically;
-                break;
-
-            case R.id.tv_descending_alphabetically:
-                sheetView.tvDescendingAlphabetically.setTextColor(getResources().getColor(R.color.colorAccent));
-                preSort = sheetView.tvDescendingAlphabetically;
-                break;
-
-            case R.id.tv_newest:
-                sheetView.tvNewest.setTextColor(getResources().getColor(R.color.colorAccent));
-                preSort = sheetView.tvNewest;
-                break;
-
-            case R.id.tv_oldest:
-                sheetView.tvOldest.setTextColor(getResources().getColor(R.color.colorAccent));
-                preSort = sheetView.tvOldest;
-                break;
-
-            case R.id.tv_low_to_high:
-                sheetView.tvLowToHigh.setTextColor(getResources().getColor(R.color.colorAccent));
-                preSort = sheetView.tvLowToHigh;
-                break;
-
-            case R.id.tv_high_to_low:
-                sheetView.tvHighToLow.setTextColor(getResources().getColor(R.color.colorAccent));
-                preSort = sheetView.tvHighToLow;
-                break;
-        }
     }
 
     private void setActionProducts() {

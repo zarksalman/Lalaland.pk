@@ -212,6 +212,14 @@ public class AppUtils {
         return String.valueOf(str1).concat(" ").concat(String.valueOf(str2));
     }
 
+    public static String formatSearchUrl(String str) {
+
+        if (str != null && str.contains("-"))
+            return str.replace("-", " ");
+        else
+            return str;
+    }
+
     public static Integer toInteger(String quantity) {
 
         return Integer.parseInt(quantity);

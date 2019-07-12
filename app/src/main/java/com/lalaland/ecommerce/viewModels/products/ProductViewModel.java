@@ -47,6 +47,12 @@ public class ProductViewModel extends AndroidViewModel {
         return productsRepository.getActionProducts(action, parameter);
     }
 
+
+    public LiveData<ActionProductsContainer> getSearcResult(Map<String, String> parameter) {
+
+        return productsRepository.getSearcResult(parameter);
+    }
+
     public LiveData<ProductDetailDataContainer> getProductDetail(int product_id) {
         return productsRepository.getProductDetail(product_id);
     }

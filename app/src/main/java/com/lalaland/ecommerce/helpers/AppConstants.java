@@ -25,6 +25,7 @@ public class AppConstants {
     public static int URL_TYPE = 0;
 
     public static final String APP_NAME = "Lalaland";
+    public static final String APP_DATABASE = "lalaland_database";
     public static Context mContext;
     public static List<Category> staticCategoryList = new ArrayList<>();
     public static List<City> staticCitiesList = new ArrayList<>();
@@ -63,6 +64,7 @@ public class AppConstants {
     public static final String BRANDS_IN_FOCUS_PRODUCTS = "brands_in_focus";
     public static final String CATEGORY_PRODUCTS = "category";
     public static final String CUSTOM_LIST_PRODUCTS = "custom_list";
+    public static final String SEARCH_RESULT_PRODUCTS = "search_list";
 
     public static final String REMAINING_QUANTITY = "remaining_qty";
 
@@ -106,6 +108,8 @@ public class AppConstants {
     public static final String SIGN_IN = "SIGN IN";
     public static final String REGISTER = "REGISTER";
     public static final String RECOMMENDED_CAT_TOKEN = "recommended_cat";
+    public static final String RESET_PASSWORD= "password";
+    public static final String CONFIRM_RESET_PASSWORD = "confirm_password";
 
     public static final String SEARCHES = "searches";
 

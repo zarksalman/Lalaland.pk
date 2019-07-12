@@ -15,10 +15,11 @@ public class LalalandApplication extends Application {
     @Override
     public void onCreate() {
         super.onCreate();
+
         AppConstants.mContext = getApplicationContext();
+        FacebookSdk.sdkInitialize(AppConstants.mContext);
         LalalandDatabases.getInstance(AppConstants.mContext);
 
-        FacebookSdk.sdkInitialize(getApplicationContext());
         AppEventsLogger.activateApp(this);
         //    Stetho.initializeWithDefaults(this);
     }

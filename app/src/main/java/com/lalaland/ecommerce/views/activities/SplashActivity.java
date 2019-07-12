@@ -42,15 +42,6 @@ public class SplashActivity extends AppCompatActivity {
         headers.put("cart-session", appPreference.getString(AppConstants.CART_SESSION_TOKEN));
         headers.put("token", appPreference.getString(AppConstants.SIGNIN_TOKEN));
 
-        AppConstants.DEVICE_ID = AppUtils.getDeviceId();
-        AppConstants.APP_BUILD_VERSION = AppUtils.getBuildVersion();
-        AppConstants.DEVICE_NAME = AppUtils.getDeviceName();
-        AppConstants.DEVICE_MODEL = AppUtils.getDeviceModel();
-        AppConstants.DEVICE_OS = AppUtils.getDeviceOS();
-        AppConstants.DEVICE_TYPE = "ANDROID";
-        AppConstants.FCM_TOKEN = "";
-        AppConstants.USER_ID = "";
-
         Log.d(AppConstants.TAG, "user_info" + AppConstants.DEVICE_ID);
         Log.d(AppConstants.TAG, "user_info" + AppConstants.APP_BUILD_VERSION);
         Log.d(AppConstants.TAG, "user_info" + AppConstants.DEVICE_NAME);
@@ -67,6 +58,16 @@ public class SplashActivity extends AppCompatActivity {
                 fetchCategoryData();
             }
         });
+
+        AppConstants.DEVICE_ID = AppUtils.getDeviceId();
+        AppConstants.APP_BUILD_VERSION = AppUtils.getBuildVersion();
+        AppConstants.DEVICE_NAME = AppUtils.getDeviceName();
+        AppConstants.DEVICE_MODEL = AppUtils.getDeviceModel();
+        AppConstants.DEVICE_OS = AppUtils.getDeviceOS();
+        AppConstants.DEVICE_TYPE = "ANDROID";
+        AppConstants.FCM_TOKEN = "";
+        AppConstants.USER_ID = "";
+
         fetchCategoryData();
     }
 

@@ -12,7 +12,7 @@ import com.lalaland.ecommerce.data.dao.SearchCategoryDao;
 import com.lalaland.ecommerce.data.models.globalSearch.SearchCategory;
 import com.lalaland.ecommerce.helpers.AppPreference;
 
-import static com.lalaland.ecommerce.helpers.AppConstants.APP_NAME;
+import static com.lalaland.ecommerce.helpers.AppConstants.APP_DATABASE;
 
 @Database(entities = SearchCategory.class, version = 1)
 public abstract class LalalandDatabases extends RoomDatabase {
@@ -37,8 +37,9 @@ public abstract class LalalandDatabases extends RoomDatabase {
     public static LalalandDatabases getInstance(Context context) {
         if (INSTANCE == null) {
             appPreference = AppPreference.getInstance(context);
-            INSTANCE = Room.databaseBuilder(context.getApplicationContext(), LalalandDatabases.class, APP_NAME)
+            INSTANCE = Room.databaseBuilder(context.getApplicationContext(), LalalandDatabases.class, APP_DATABASE)
                     .addCallback(sRoomDatabaseCallback)
+                    .fallbackToDestructiveMigration()
                     .build();
         }
         return INSTANCE;

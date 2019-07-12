@@ -2,7 +2,10 @@ package com.lalaland.ecommerce.views.activities;
 
 import android.content.Context;
 import android.content.Intent;
+import android.graphics.drawable.Drawable;
 import android.os.Bundle;
+import android.text.Editable;
+import android.text.TextWatcher;
 import android.util.Log;
 import android.view.ActionMode;
 import android.view.Menu;
@@ -35,7 +38,9 @@ import com.lalaland.ecommerce.helpers.AppPreference;
 import com.lalaland.ecommerce.viewModels.products.ProductViewModel;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.concurrent.TimeUnit;
 
 import io.reactivex.Single;
@@ -48,8 +53,10 @@ import io.reactivex.subjects.PublishSubject;
 
 import static com.lalaland.ecommerce.helpers.AppConstants.ACTION_ID;
 import static com.lalaland.ecommerce.helpers.AppConstants.ACTION_NAME;
+import static com.lalaland.ecommerce.helpers.AppConstants.CART_SESSION_TOKEN;
 import static com.lalaland.ecommerce.helpers.AppConstants.PRODUCT_ID;
 import static com.lalaland.ecommerce.helpers.AppConstants.PRODUCT_TYPE;
+import static com.lalaland.ecommerce.helpers.AppConstants.SIGNIN_TOKEN;
 import static com.lalaland.ecommerce.helpers.AppConstants.SUCCESS_CODE;
 import static com.lalaland.ecommerce.helpers.AppConstants.VALIDATION_FAIL_CODE;
 
@@ -73,6 +80,9 @@ public class GlobalSearchActivity extends AppCompatActivity implements SearchPro
     private ImageView imageView;
     private CompositeDisposable disposable = new CompositeDisposable();
     private PublishSubject<String> publishSubject = PublishSubject.create();
+    Map<String, String> userInfo = new HashMap<>();
+    Drawable drawableRight;
+    boolean isSearchViewHasIcon = false;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -80,10 +90,10 @@ public class GlobalSearchActivity extends AppCompatActivity implements SearchPro
         activityGlobalSearchBinding = DataBindingUtil.setContentView(this, R.layout.activity_global_search);
 
         appPreference = AppPreference.getInstance(this);
-        //searches.append(appPreference.getString(SEARCHES));
 
         productViewModel = ViewModelProviders.of(this).get(ProductViewModel.class);
 
+        setUserInfo();
         // setting search bar text size
         LinearLayout linearLayout1 = (LinearLayout) activityGlobalSearchBinding.svGlobalSearch.getChildAt(0);
         LinearLayout linearLayout2 = (LinearLayout) linearLayout1.getChildAt(2);
@@ -117,61 +127,18 @@ public class GlobalSearchActivity extends AppCompatActivity implements SearchPro
             }
         });
 
-       /* activityGlobalSearchBinding.etGlobalSearch.setOnTouchListener(new View.OnTouchListener() {
-            @Override
-            public boolean onTouch(View v, MotionEvent event) {
-                final int DRAWABLE_LEFT = 0;
-                final int DRAWABLE_TOP = 1;
-                final int DRAWABLE_RIGHT = 2;
-                final int DRAWABLE_BOTTOM = 3;
-
-                if (event.getAction() == MotionEvent.ACTION_UP) {
-                    if (event.getRawX() >= (activityGlobalSearchBinding.etGlobalSearch.getRight() - activityGlobalSearchBinding.etGlobalSearch.getCompoundDrawables()[DRAWABLE_RIGHT].getBounds().width())) {
-                        // your action here
-                        activityGlobalSearchBinding.etGlobalSearch.setText("");
-
-                        return true;
-                    }
-                }
-                return false;
-            }
-        });
-*/
         DisposableObserver<SearchDataContainer> observer = getSearchObserver();
 
         disposable.add(
                 publishSubject
                         .debounce(300, TimeUnit.MILLISECONDS)
                         .distinctUntilChanged()
-                        .switchMapSingle(new Function<String, Single<SearchDataContainer>>() {
-                            @Override
-                            public Single<SearchDataContainer> apply(String s) throws Exception {
-                                return RetrofitRxJavaClient.getInstance().createClient().globalRxSearch(s)
-                                        .subscribeOn(Schedulers.io())
-                                        .observeOn(AndroidSchedulers.mainThread());
-                            }
-                        })
+                        .switchMapSingle((Function<String, Single<SearchDataContainer>>) s -> RetrofitRxJavaClient.getInstance().createClient().globalRxSearch(userInfo, s)
+                                .subscribeOn(Schedulers.io())
+                                .observeOn(AndroidSchedulers.mainThread()))
                         .subscribeWith(observer));
 
 
-           /*   .filter(textViewTextChangeEvent -> {
-            if (textViewTextChangeEvent.text().toString().isEmpty()) {
-
-                Drawable[] drawables = activityGlobalSearchBinding.etGlobalSearch.getCompoundDrawables();
-                if (drawables[2] != null) {
-                    drawables[2].mutate().setColorFilter(ContextCompat.getColor(this, android.R.color.transparent), PorterDuff.Mode.MULTIPLY);
-                }
-                return false;
-            } else {
-
-                Drawable[] drawables = activityGlobalSearchBinding.etGlobalSearch.getCompoundDrawables();
-                if (drawables[2] != null) {
-                    drawables[2].mutate().setColorFilter(ContextCompat.getColor(this, android.R.color.black), PorterDuff.Mode.MULTIPLY);
-                }
-
-                return true;
-            }
-        })*/
         // skipInitialValue() - skip for the first time when EditText empty
         disposable.add(
                 RxTextView.textChangeEvents(activityGlobalSearchBinding.etGlobalSearch)
@@ -195,6 +162,79 @@ public class GlobalSearchActivity extends AppCompatActivity implements SearchPro
         activityGlobalSearchBinding.ivBackArrow.setOnClickListener(v -> {
             onBackPressed();
         });
+
+        activityGlobalSearchBinding.etGlobalSearch.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+
+            }
+
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+
+                if (s.toString().isEmpty()) {
+                    activityGlobalSearchBinding.etGlobalSearch.setCompoundDrawablesWithIntrinsicBounds(null, null, null, null);
+                    activityGlobalSearchBinding.ivCross.setVisibility(View.GONE);
+                    isSearchViewHasIcon = false;
+                } else {
+
+                    activityGlobalSearchBinding.ivCross.setVisibility(View.VISIBLE);
+                }
+            }
+
+            @Override
+            public void afterTextChanged(Editable s) {
+
+            }
+        });
+
+
+        activityGlobalSearchBinding.ivCross.setOnClickListener(v -> {
+            activityGlobalSearchBinding.etGlobalSearch.setText("");
+        });
+
+        activityGlobalSearchBinding.ivSearch.setOnClickListener(v -> {
+
+            if (!activityGlobalSearchBinding.etGlobalSearch.getText().toString().isEmpty()) {
+                String qstr = activityGlobalSearchBinding.etGlobalSearch.getText().toString().trim();
+
+                intent = new Intent(this, ActionProductListingActivity.class);
+
+                intent.putExtra("qstr", qstr);
+                intent.putExtra(ACTION_ID, String.valueOf(0));
+                intent.putExtra(ACTION_NAME, "Search");
+                intent.putExtra(PRODUCT_TYPE, "search_list");
+                startActivity(intent);
+            }
+        });
+    }
+
+    private void setUserInfo() {
+
+        String token, cartSession;
+
+        token = appPreference.getString(SIGNIN_TOKEN);
+        cartSession = appPreference.getString(CART_SESSION_TOKEN);
+
+        if (token.equals(SIGNIN_TOKEN))
+            token = "";
+
+        if (cartSession.equals(CART_SESSION_TOKEN))
+            cartSession = "";
+
+        userInfo.put("device-id", AppConstants.DEVICE_ID);
+        userInfo.put("app-version", AppConstants.APP_BUILD_VERSION);
+        userInfo.put("user-id", AppConstants.USER_ID);
+        userInfo.put("device-name", AppConstants.DEVICE_NAME);
+        userInfo.put("device-model", AppConstants.DEVICE_MODEL);
+        userInfo.put("device-OS-version", AppConstants.DEVICE_OS);
+        userInfo.put("fcm-token", AppConstants.FCM_TOKEN);
+        userInfo.put("device-type", AppConstants.DEVICE_TYPE);
+
+
+        userInfo.put(SIGNIN_TOKEN, token);
+        userInfo.put(CART_SESSION_TOKEN, cartSession);
+
     }
 
     private void setSearchView() {
@@ -290,7 +330,7 @@ public class GlobalSearchActivity extends AppCompatActivity implements SearchPro
             searchCategory = new SearchCategory();
 
             searchCategory.setId(searchProduct.getId());
-            searchCategory.setName(searchProduct.getName());
+            searchCategory.setUrlName(searchProduct.getName());
             searchCategory.setRemainingQuantity(Integer.parseInt(searchProduct.getRemainingQuantity()));
             searchCategory.setParentId(-1); // -1 means it is not a category it is a product
             categoryList.add(searchCategory);
@@ -402,13 +442,9 @@ public class GlobalSearchActivity extends AppCompatActivity implements SearchPro
                         } else {
                             activityGlobalSearchBinding.emptyState.setVisibility(View.VISIBLE);
                         }
-
                     }
-
                 }
-
                 activityGlobalSearchBinding.pbLoading.setVisibility(View.GONE);
-
             }
 
             @Override
@@ -443,4 +479,5 @@ public class GlobalSearchActivity extends AppCompatActivity implements SearchPro
             }
         };
     }
+
 }

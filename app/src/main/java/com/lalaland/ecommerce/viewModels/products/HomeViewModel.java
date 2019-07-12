@@ -7,7 +7,6 @@ import androidx.paging.PagedList;
 import com.lalaland.ecommerce.data.models.home.HomeDataContainer;
 import com.lalaland.ecommerce.data.models.products.Product;
 import com.lalaland.ecommerce.data.models.products.ProductContainer;
-
 import com.lalaland.ecommerce.data.repository.ProductsRepository;
 
 import java.util.Map;

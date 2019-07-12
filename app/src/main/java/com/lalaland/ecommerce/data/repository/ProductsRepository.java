@@ -181,6 +181,30 @@ public class ProductsRepository {
 
         return productContainerMutableLiveData;
     }
+
+    public LiveData<ActionProductsContainer> getSearcResult(Map<String, String> parameter) {
+
+        actionProductsContainerMutableLiveData = new MutableLiveData<>();
+        lalalandServiceApi.getSearchResult(userInfo, parameter).enqueue(new Callback<ActionProductsContainer>() {
+            @Override
+            public void onResponse(Call<ActionProductsContainer> call, Response<ActionProductsContainer> response) {
+
+                if (response.isSuccessful()) {
+                    actionProductsContainerMutableLiveData.postValue(response.body());
+                } else {
+                    actionProductsContainerMutableLiveData.postValue(null);
+                }
+            }
+
+            @Override
+            public void onFailure(Call<ActionProductsContainer> call, Throwable t) {
+                actionProductsContainerMutableLiveData.postValue(null);
+            }
+        });
+
+        return actionProductsContainerMutableLiveData;
+    }
+
     public LiveData<ActionProductsContainer> getActionProducts(String action, Map<String, String> parameter) {
 
         actionProductsContainerMutableLiveData = new MutableLiveData<>();
@@ -203,6 +227,7 @@ public class ProductsRepository {
 
         return actionProductsContainerMutableLiveData;
     }
+
     public LiveData<ProductDetailDataContainer> getProductDetail(int productId) {
 
         recommendedCat = appPreference.getString(RECOMMENDED_CAT_TOKEN);

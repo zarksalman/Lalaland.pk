@@ -14,6 +14,8 @@ public class SearchData {
     @Expose
     private List<SearchCategory> category = null;
 
+
+
     public List<SearchProduct> getProduct() {
         return product;
     }
