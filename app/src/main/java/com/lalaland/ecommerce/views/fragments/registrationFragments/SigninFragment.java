@@ -17,6 +17,7 @@ import com.lalaland.ecommerce.R;
 import com.lalaland.ecommerce.databinding.FragmentSigninBinding;
 import com.lalaland.ecommerce.helpers.AppConstants;
 import com.lalaland.ecommerce.helpers.AppPreference;
+import com.lalaland.ecommerce.interfaces.LoadingLogin;
 import com.lalaland.ecommerce.viewModels.user.LoginViewModel;
 import com.lalaland.ecommerce.views.activities.ResetPasswordActivity;
 
@@ -38,7 +39,7 @@ import static com.lalaland.ecommerce.helpers.AppConstants.WRONG_CREDENTIAL;
 import static com.lalaland.ecommerce.helpers.AppConstants.user;
 
 
-public class SigninFragment extends BaseRegistrationFragment {
+public class SigninFragment extends BaseRegistrationFragment implements LoadingLogin {
 
     private FragmentSigninBinding fragmentSigninBinding;
     private LoginViewModel loginViewModel;
@@ -81,12 +82,12 @@ public class SigninFragment extends BaseRegistrationFragment {
         fragmentSigninBinding.btnFbSignIn.setOnClickListener(v -> {
 
             fragmentSigninBinding.pbLoadingSignin.setVisibility(View.VISIBLE);
-            signInOrSignUpWithFb(fragmentSigninBinding.btFacebookSignin);
+            signInOrSignUpWithFb(fragmentSigninBinding.btFacebookSignin, this);
         });
 
         fragmentSigninBinding.btnGoogleSignIn.setOnClickListener(v -> {
-           // fragmentSigninBinding.pbLoadingSignin.setVisibility(View.VISIBLE);
-            signInOrSignUpWithGoogle(fragmentSigninBinding.btGoogleSignin);
+            fragmentSigninBinding.pbLoadingSignin.setVisibility(View.VISIBLE);
+            signInOrSignUpWithGoogle(fragmentSigninBinding.btGoogleSignin, this);
         });
 
         fragmentSigninBinding.btnSignIn.setOnClickListener(v -> signInWithForm());
@@ -189,5 +190,14 @@ public class SigninFragment extends BaseRegistrationFragment {
 
     void showToast(String message) {
         Toast.makeText(getContext(), message, Toast.LENGTH_LONG).show();
+    }
+
+    @Override
+    public void checkLoading(boolean isLoadingStop) {
+        if (isLoadingStop)
+            fragmentSigninBinding.pbLoadingSignin.setVisibility(View.GONE);
+        else
+            fragmentSigninBinding.pbLoadingSignin.setVisibility(View.VISIBLE);
+
     }
 }

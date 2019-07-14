@@ -25,6 +25,7 @@ import com.lalaland.ecommerce.data.retrofit.LalalandServiceApi;
 import com.lalaland.ecommerce.data.retrofit.RetrofitClient;
 import com.lalaland.ecommerce.helpers.AppConstants;
 import com.lalaland.ecommerce.helpers.AppPreference;
+import com.lalaland.ecommerce.interfaces.NetworkInterface;
 
 import java.util.HashMap;
 import java.util.List;
@@ -66,13 +67,14 @@ public class ProductsRepository {
     private ProductsRepository() {
         lalalandServiceApi = RetrofitClient.getInstance().createClient();
         appPreference = AppPreference.getInstance(AppConstants.mContext);
-        searchCategoryDao = LalalandDatabases.getInstance(AppConstants.mContext).searchCategoryDao();
 
+        searchCategoryDao = LalalandDatabases.getInstance(AppConstants.mContext).searchCategoryDao();
     }
 
     public static ProductsRepository getInstance() {
-        if (repository == null)
+        if (repository == null) {
             repository = new ProductsRepository();
+        }
 
         return repository;
     }
@@ -98,7 +100,8 @@ public class ProductsRepository {
         userInfo.put(CART_SESSION_TOKEN, cartSession);
 
     }
-    public LiveData<CategoryContainer> getCategoryGeneralData(Map<String, String> headers) {
+
+    public LiveData<CategoryContainer> getCategoryGeneralData(NetworkInterface networkInterface) {
 
         cartContainerMutableLiveData = new MutableLiveData<>();
         setUserInfo();
@@ -107,14 +110,18 @@ public class ProductsRepository {
             public void onResponse(Call<CategoryContainer> call, Response<CategoryContainer> response) {
 
                 if (response.isSuccessful()) {
+                    networkInterface.onFailure(false);
                     categoryContainerMutableLiveData.postValue(response.body());
                 } else {
+
+                    networkInterface.onFailure(true);
                     categoryContainerMutableLiveData.postValue(null);
                 }
             }
 
             @Override
             public void onFailure(Call<CategoryContainer> call, Throwable t) {
+                networkInterface.onFailure(true);
                 categoryContainerMutableLiveData.postValue(null);
             }
         });
@@ -413,7 +420,8 @@ public class ProductsRepository {
         });
         return basicResponseMutableLiveData;
     }
-    public LiveData<PlacingOrderDataContainer> confirmOrder(String header, Map<String, String> parameter) {
+
+    public LiveData<PlacingOrderDataContainer> confirmOrder(Map<String, String> parameter, NetworkInterface networkInterface) {
 
         orderDataContainerMutableLiveData = new MutableLiveData<>();
         setUserInfo();
@@ -422,13 +430,17 @@ public class ProductsRepository {
             public void onResponse(Call<PlacingOrderDataContainer> call, Response<PlacingOrderDataContainer> response) {
                 if (response.isSuccessful()) {
                     orderDataContainerMutableLiveData.postValue(response.body());
-                } else
+                    networkInterface.onFailure(false);
+                } else {
                     orderDataContainerMutableLiveData.postValue(null);
+                    networkInterface.onFailure(true);
+                }
             }
 
             @Override
             public void onFailure(Call<PlacingOrderDataContainer> call, Throwable t) {
                 orderDataContainerMutableLiveData.postValue(null);
+                networkInterface.onFailure(true);
             }
         });
 

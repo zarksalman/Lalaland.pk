@@ -1,6 +1,7 @@
 package com.lalaland.ecommerce.viewModels.products;
 
 import android.app.Application;
+import android.net.Network;
 
 import androidx.annotation.NonNull;
 import androidx.lifecycle.AndroidViewModel;
@@ -19,6 +20,7 @@ import com.lalaland.ecommerce.data.models.products.Product;
 import com.lalaland.ecommerce.data.models.products.ProductContainer;
 import com.lalaland.ecommerce.data.models.wishList.WishListContainer;
 import com.lalaland.ecommerce.data.repository.ProductsRepository;
+import com.lalaland.ecommerce.interfaces.NetworkInterface;
 
 import java.util.List;
 import java.util.Map;
@@ -28,6 +30,7 @@ public class ProductViewModel extends AndroidViewModel {
     private static ProductsRepository productsRepository;
     private MutableLiveData<BasicResponse> basicResponse;
     private LiveData<PagedList<Product>> productPageList;
+    private NetworkInterface mNetworkInterface;
 
     public ProductViewModel(@NonNull Application application) {
         super(application);
@@ -85,8 +88,8 @@ public class ProductViewModel extends AndroidViewModel {
         return productsRepository.changeCartProductQuantity(parameter);
     }
 
-    public LiveData<PlacingOrderDataContainer> confirmOrder(String header, Map<String, String> parameter) {
-        return productsRepository.confirmOrder(header, parameter);
+    public LiveData<PlacingOrderDataContainer> confirmOrder(Map<String, String> parameter, NetworkInterface networkInterface) {
+        return productsRepository.confirmOrder(parameter, networkInterface);
     }
 
     public LiveData<WishListContainer> getWishListProducts(String token) {

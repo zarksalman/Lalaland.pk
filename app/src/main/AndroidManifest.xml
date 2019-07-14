@@ -56,46 +56,57 @@
         <activity
             android:name=".views.activities.FilterActivity"
             android:screenOrientation="portrait" />
+
         <activity
             android:name=".views.activities.GlobalSearchActivity"
             android:screenOrientation="portrait"
             android:windowSoftInputMode="adjustResize" />
+
         <activity
             android:name=".views.activities.OrderReceivedActivity"
             android:screenOrientation="portrait" />
+
         <activity
             android:name=".views.activities.OrderDetailActivity"
             android:label="@string/title_activity_order_detail"
             android:screenOrientation="portrait"
             android:theme="@style/AppTheme.NoActionBar.NoActionBar" />
+
         <activity
             android:name=".views.activities.OrderListingActivity"
             android:label="@string/title_activity_order_listing"
             android:screenOrientation="portrait"
             android:theme="@style/AppTheme.NoActionBar.NoActionBar" />
+
         <activity
             android:name=".views.activities.SelectCityActivity"
             android:label="@string/title_activity_select_city"
             android:screenOrientation="portrait"
             android:theme="@style/AppTheme.NoActionBar.NoActionBar" />
+
         <activity
             android:name=".views.activities.EditAccountInformationActivity"
             android:screenOrientation="portrait" />
+
         <activity
             android:name=".views.activities.AccountInformationActivity"
             android:screenOrientation="portrait" />
+
         <activity
             android:name=".views.activities.AddressCreationActivity"
             android:windowSoftInputMode="stateVisible|adjustResize"
             android:screenOrientation="portrait" />
+
         <activity
             android:name=".views.activities.ShippingAddressActivity"
             android:screenOrientation="portrait" />
+
         <activity
             android:name=".views.activities.CheckoutScreen"
             android:label="@string/title_activity_checkout_screen"
             android:screenOrientation="portrait"
             android:theme="@style/AppTheme.NoActionBar.NoActionBar" />
+
         <activity
             android:name=".views.activities.SplashActivity"
             android:screenOrientation="portrait"
@@ -105,19 +116,18 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+
         <activity
             android:name=".views.activities.ActionProductListingActivity"
             android:label="@string/title_activity_product_listing"
             android:screenOrientation="portrait"
             android:theme="@style/AppTheme.NoActionBar.NoActionBar" />
+
         <activity
             android:name=".views.activities.ProductDetailActivity"
             android:label="@string/title_activity_product_detail"
             android:screenOrientation="portrait"
             android:theme="@style/AppTheme.NoActionBar.NoActionBar" /> <!-- for facebook login -->
-        <meta-data
-            android:name="com.facebook.sdk.ApplicationId"
-            android:value="@string/facebook_app_id" />
 
         <!--
                 //from http://developers.facebook.com
@@ -127,17 +137,25 @@
                     android:configChanges="keyboard|keyboardHidden|screenLayout|screenSize|orientation"
                     android:label="@string/app_name"
                     android:screenOrientation="portrait"
-                    android:theme="@android:style/Theme.Translucent.NoTitleBar" />-->
+                    android:theme="@android:style/Theme.NoDisplay"
+                    tools:replace="android:theme.NoDisplay" />-->
 
         <activity
             android:name=".views.activities.RegistrationActivity"
             android:label="@string/title_activity_registration"
             android:screenOrientation="portrait"
             android:theme="@style/AppTheme.NoActionBar" />
+
         <activity
             android:name=".views.activities.MainActivity"
             android:label="@string/app_name"
             android:screenOrientation="portrait" />
+
+        <meta-data
+            android:name="com.facebook.sdk.ApplicationId"
+            android:value="@string/facebook_app_id" />
+
+
     </application>
 
 </manifest>

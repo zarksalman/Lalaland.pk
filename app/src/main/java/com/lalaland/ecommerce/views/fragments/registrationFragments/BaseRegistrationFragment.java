@@ -32,6 +32,7 @@ import com.google.android.gms.common.api.Scope;
 import com.google.android.gms.tasks.Task;
 import com.lalaland.ecommerce.R;
 import com.lalaland.ecommerce.helpers.AppPreference;
+import com.lalaland.ecommerce.interfaces.LoadingLogin;
 import com.lalaland.ecommerce.viewModels.user.LoginViewModel;
 import com.lalaland.ecommerce.viewModels.user.RegistrationViewModel;
 
@@ -76,6 +77,7 @@ public class BaseRegistrationFragment extends Fragment {
     GoogleApiClient mGoogleApiClient;
     GoogleSignInClient mGoogleSignInClient;
     GoogleSignInAccount account;
+    LoadingLogin mLoadingLogin;
 
     public BaseRegistrationFragment() {
         // Required empty public constructor
@@ -95,7 +97,10 @@ public class BaseRegistrationFragment extends Fragment {
         cart_session = appPreference.getString(CART_SESSION_TOKEN);
     }
 
-    public void signInOrSignUpWithGoogle(SignInButton signInButton) {
+
+    public void signInOrSignUpWithGoogle(SignInButton signInButton, LoadingLogin loadingLogin) {
+
+        mLoadingLogin = loadingLogin;
 
         gso = new GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)
                 .requestScopes(new Scope(Scopes.DRIVE_APPFOLDER))
@@ -119,7 +124,6 @@ public class BaseRegistrationFragment extends Fragment {
         // means user is login otherwise not login
         if (account == null) {
             Intent signInIntent = mGoogleSignInClient.getSignInIntent();
-
             startActivityForResult(signInIntent, 201);
         }
     }
@@ -130,6 +134,8 @@ public class BaseRegistrationFragment extends Fragment {
 
     private void handleSignInResult(Task<GoogleSignInAccount> completedTask) {
         try {
+
+            mLoadingLogin.checkLoading(false);
 
             GoogleSignInAccount account = completedTask.getResult(ApiException.class);
 
@@ -169,10 +175,12 @@ public class BaseRegistrationFragment extends Fragment {
         }
     }
 
-    public void signInOrSignUpWithFb(LoginButton loginButton) {
+    public void signInOrSignUpWithFb(LoginButton loginButton, LoadingLogin loadingLogin) {
 
+        mLoadingLogin = loadingLogin;
         callbackManager = CallbackManager.Factory.create();  //facebook registration callback
 
+        mLoadingLogin.checkLoading(false);
         loginButton.setFragment(this); // specially for fragments
         loginButton.performClick(); // depict as user click on facebook LoginButton but actually clicked on our button
 
@@ -186,6 +194,8 @@ public class BaseRegistrationFragment extends Fragment {
                 Log.d(EMAIL, loginResult.getAccessToken().getPermissions().toString());
 
                 parameter.put("fb_token", token); // token got from facebook
+
+                mLoadingLogin.checkLoading(true);
                 signUpCallToApi(FACEBOOK_SIGN_UP_IN);
             }
 
@@ -194,6 +204,7 @@ public class BaseRegistrationFragment extends Fragment {
                 if (getContext() != null) {
                     Toast.makeText(getContext(), FB_LOGIN_CANCLED, Toast.LENGTH_SHORT).show();
                 }
+                mLoadingLogin.checkLoading(true);
             }
 
             @Override
@@ -202,6 +213,9 @@ public class BaseRegistrationFragment extends Fragment {
                 if (getContext() != null) {
                     Toast.makeText(getContext(), errorMessage, Toast.LENGTH_SHORT).show();
                 }
+
+                mLoadingLogin.checkLoading(true);
+
             }
         });
 
@@ -209,7 +223,6 @@ public class BaseRegistrationFragment extends Fragment {
 
 
     private void signUpCallToApi(int signUpType) {
-
 
         registrationViewModel = ViewModelProviders.of(this).get(RegistrationViewModel.class);
 
@@ -242,6 +255,8 @@ public class BaseRegistrationFragment extends Fragment {
                 }
             } else
                 Toast.makeText(getContext(), ACCOUNT_CREATION_ERROR, Toast.LENGTH_LONG).show();
+
+            mLoadingLogin.checkLoading(true);
         });
     }
 
@@ -250,7 +265,6 @@ public class BaseRegistrationFragment extends Fragment {
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
 
         if (requestCode == 201) {
-
             Task<GoogleSignInAccount> task = GoogleSignIn.getSignedInAccountFromIntent(data);
             handleSignInResult(task);
 

@@ -11,7 +11,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
-import android.widget.Toast;
+import android.widget.ScrollView;
 
 import androidx.core.view.ViewCompat;
 import androidx.core.widget.NestedScrollView;
@@ -83,10 +83,6 @@ public class HomeFragment extends Fragment implements ActionAdapter.ActionClickL
     public static final int NUMBER_OF_ITEM = 20;
     private String recommended_cat;
 
-    View.OnClickListener btnClickListener = v -> {
-
-        Toast.makeText(getContext(), "TextView Clicked : " + v.getTag(), Toast.LENGTH_SHORT).show();
-    };
 
     public HomeFragment() {
         // Required empty public constructor
@@ -116,9 +112,10 @@ public class HomeFragment extends Fragment implements ActionAdapter.ActionClickL
         fragmentHomeBinding.containersParent.getLayoutParams().height = ((int) (display.getHeight() * 0.9));
 
         requestInitialProducts();
+
+        fragmentHomeBinding.containersParent.fullScroll(ScrollView.FOCUS_UP);
         return fragmentHomeBinding.getRoot();
     }
-
 
     void requestInitialProducts() {
 

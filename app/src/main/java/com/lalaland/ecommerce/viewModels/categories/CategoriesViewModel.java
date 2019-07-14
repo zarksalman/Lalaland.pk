@@ -12,6 +12,7 @@ import com.lalaland.ecommerce.data.models.categories.CategoriesContainer;
 import com.lalaland.ecommerce.data.models.logout.BasicResponse;
 import com.lalaland.ecommerce.data.models.products.Product;
 import com.lalaland.ecommerce.data.repository.ProductsRepository;
+import com.lalaland.ecommerce.interfaces.NetworkInterface;
 
 public class CategoriesViewModel extends AndroidViewModel {
 
@@ -19,6 +20,7 @@ public class CategoriesViewModel extends AndroidViewModel {
     private MutableLiveData<BasicResponse> basicResponse;
     private LiveData<PagedList<Product>> productPageList;
     private LiveData<CategoriesContainer> categoriesContainerLiveData;
+    private NetworkInterface mNetworkInterface;
 
     public CategoriesViewModel(@NonNull Application application) {
         super(application);

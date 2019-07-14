@@ -19,6 +19,7 @@ import androidx.lifecycle.ViewModelProviders;
 import com.lalaland.ecommerce.R;
 import com.lalaland.ecommerce.databinding.FragmentSignupBinding;
 import com.lalaland.ecommerce.helpers.AppPreference;
+import com.lalaland.ecommerce.interfaces.LoadingLogin;
 import com.lalaland.ecommerce.viewModels.user.RegistrationViewModel;
 
 import java.text.SimpleDateFormat;
@@ -41,7 +42,7 @@ import static com.lalaland.ecommerce.helpers.AppConstants.WRONG_CREDENTIAL;
 import static com.lalaland.ecommerce.helpers.AppUtils.isNetworkAvailable;
 
 
-public class SignupFragment extends BaseRegistrationFragment {
+public class SignupFragment extends BaseRegistrationFragment implements LoadingLogin {
 
     final Calendar dobCalender = Calendar.getInstance();
     private FragmentSignupBinding fragmentSignupBinding;
@@ -97,7 +98,7 @@ public class SignupFragment extends BaseRegistrationFragment {
     private void setClickListeners() {
 
         fragmentSignupBinding.btnSignUp.setOnClickListener(v -> sinUpWithForm());
-        fragmentSignupBinding.btnFbSignUp.setOnClickListener(v -> signInOrSignUpWithFb(fragmentSignupBinding.btFacebookSignup));
+        fragmentSignupBinding.btnFbSignUp.setOnClickListener(v -> signInOrSignUpWithFb(fragmentSignupBinding.btFacebookSignup, this));
         fragmentSignupBinding.etDateOfBirth.setOnClickListener(v -> showDatePickerDialogue());
 
         fragmentSignupBinding.rgGender.setOnCheckedChangeListener((group, checkedId) -> {
@@ -260,7 +261,7 @@ public class SignupFragment extends BaseRegistrationFragment {
 
 
     public void registerUserWithGoogle() {
-        Toast.makeText(getContext(), "Login With Google", Toast.LENGTH_SHORT).show();
+        signInOrSignUpWithGoogle(fragmentSignupBinding.btGoogleSignup, this);
     }
 
     private void signUpCallToApi(int signUpType) {
@@ -344,4 +345,11 @@ public class SignupFragment extends BaseRegistrationFragment {
     }
 
 
+    @Override
+    public void checkLoading(boolean isLoadingStop) {
+        if (isLoadingStop)
+            fragmentSignupBinding.pbLoading.setVisibility(View.GONE);
+        else
+            fragmentSignupBinding.pbLoading.setVisibility(View.VISIBLE);
+    }
 }

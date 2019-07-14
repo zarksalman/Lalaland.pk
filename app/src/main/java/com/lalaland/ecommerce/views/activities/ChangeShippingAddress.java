@@ -147,6 +147,7 @@ public class ChangeShippingAddress extends AppCompatActivity {
             if (requestCode == 1 || requestCode == 2) {
 
                 activityChangeShippingAddressBinding.rvAddress.setVisibility(View.GONE);
+                activityChangeShippingAddressBinding.ivEmptyState.setVisibility(View.GONE);
                 activityChangeShippingAddressBinding.pbLoading.setVisibility(View.VISIBLE);
                 getAddresses();
             }

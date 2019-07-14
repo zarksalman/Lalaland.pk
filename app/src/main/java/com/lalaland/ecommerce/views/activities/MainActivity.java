@@ -1,7 +1,6 @@
 package com.lalaland.ecommerce.views.activities;
 
 import android.app.AlertDialog;
-import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.LayoutInflater;
@@ -11,13 +10,13 @@ import android.widget.LinearLayout;
 
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.core.content.ContextCompat;
 import androidx.databinding.DataBindingUtil;
 import androidx.fragment.app.Fragment;
 
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.lalaland.ecommerce.R;
 import com.lalaland.ecommerce.databinding.ActivityMainBinding;
+import com.lalaland.ecommerce.databinding.ExitDialogueLayoutBinding;
 import com.lalaland.ecommerce.helpers.AppPreference;
 import com.lalaland.ecommerce.listeners.CloseAppListener;
 import com.lalaland.ecommerce.views.fragments.homeFragments.AccountFragment;
@@ -38,6 +37,7 @@ public class MainActivity extends AppCompatActivity implements CloseAppListener 
     private int selectedFragment = 1;
     String token;
     AlertDialog exitDialog;
+    ExitDialogueLayoutBinding exitDialogueLayoutBinding;
     List<Fragment> fragments = new ArrayList<>();
 
     private BottomNavigationView.OnNavigationItemSelectedListener mOnNavigationItemSelectedListener
@@ -188,7 +188,7 @@ public class MainActivity extends AppCompatActivity implements CloseAppListener 
 
         if (selectedFragment == 0) {
 
-            if (exitDialog != null) {
+/*            if (exitDialog != null) {
 
                 exitDialog.show();
                 exitDialog.getButton(DialogInterface.BUTTON_NEUTRAL).setTextColor(ContextCompat.getColor(this, R.color.colorPrimary));
@@ -197,7 +197,9 @@ public class MainActivity extends AppCompatActivity implements CloseAppListener 
                 exitDialog.getButton(DialogInterface.BUTTON_NEGATIVE).setTransformationMethod(null);
                 exitDialog.getButton(DialogInterface.BUTTON_POSITIVE).setTextColor(ContextCompat.getColor(this, R.color.colorPrimary));
                 exitDialog.getButton(DialogInterface.BUTTON_POSITIVE).setTransformationMethod(null);
-            }
+            }*/
+
+            exitDialog.show();
 
         } else {
 
@@ -254,7 +256,7 @@ public class MainActivity extends AppCompatActivity implements CloseAppListener 
 
     private void prepareExitDialog() {
 
-        View dialogView = LayoutInflater.from(this).inflate(R.layout.exit_dialogue_layout, null);
+/*        View dialogView = LayoutInflater.from(this).inflate(R.layout.exit_dialogue_layout, null);
 
         AlertDialog.Builder dialogBuilder = new AlertDialog.Builder(this);
         exitDialog = dialogBuilder.create();
@@ -267,7 +269,24 @@ public class MainActivity extends AppCompatActivity implements CloseAppListener 
 
         exitDialog.setButton(DialogInterface.BUTTON_POSITIVE, getText(R.string.yes), (dialog, which) -> {
             closeApp();
+        });*/
+
+        exitDialogueLayoutBinding = DataBindingUtil.inflate(LayoutInflater.from(this), R.layout.exit_dialogue_layout, null, false);
+        AlertDialog.Builder dialogBuilder = new AlertDialog.Builder(this);
+
+        exitDialog = dialogBuilder.create();
+        exitDialog.setCancelable(false);
+        exitDialog.setView(exitDialogueLayoutBinding.getRoot());
+
+        exitDialogueLayoutBinding.btnOk.setOnClickListener(v -> {
+            exitDialog.dismiss();
+            closeApp();
         });
+
+        exitDialogueLayoutBinding.btnCancel.setOnClickListener(v -> {
+            exitDialog.dismiss();
+        });
+
     }
 
     @Override

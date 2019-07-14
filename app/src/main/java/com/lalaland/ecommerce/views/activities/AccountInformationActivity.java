@@ -153,7 +153,7 @@ public class AccountInformationActivity extends AppCompatActivity {
         File imageFile = AppUtils.getFile(this, uri);
 
         try {
-            imageFile = new Compressor(this).compressToFile(imageFile);
+            imageFile = new Compressor(this).setQuality(100).compressToFile(imageFile);
         } catch (IOException e) {
             e.printStackTrace();
         }

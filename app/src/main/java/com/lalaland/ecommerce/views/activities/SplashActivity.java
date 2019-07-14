@@ -18,13 +18,14 @@ import com.lalaland.ecommerce.databinding.ActivitySplashBinding;
 import com.lalaland.ecommerce.helpers.AppConstants;
 import com.lalaland.ecommerce.helpers.AppPreference;
 import com.lalaland.ecommerce.helpers.AppUtils;
+import com.lalaland.ecommerce.interfaces.NetworkInterface;
 import com.lalaland.ecommerce.viewModels.products.CategoryViewModel;
 
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
 
-public class SplashActivity extends AppCompatActivity {
+public class SplashActivity extends AppCompatActivity implements NetworkInterface {
 
     ActivitySplashBinding activitySplashBinding;
     Map<String, String> headers = new HashMap<>();
@@ -77,7 +78,7 @@ public class SplashActivity extends AppCompatActivity {
         if (AppUtils.isNetworkAvailable()) {
             CategoryViewModel categoryViewModel = ViewModelProviders.of(this).get(CategoryViewModel.class);
 
-            categoryViewModel.getActionProducts(headers).observe(this, categoryContainer ->
+            categoryViewModel.getActionProducts(this).observe(this, categoryContainer ->
             {
                 if (categoryContainer != null) {
 
@@ -99,6 +100,8 @@ public class SplashActivity extends AppCompatActivity {
 
                         AppConstants.CART_COUNTER = categoryContainer.getData().getCartCount();
 
+                        activitySplashBinding.tvReload.setVisibility(View.GONE);
+
                         // remove Gift category
                         for (Category category : new ArrayList<>(AppConstants.staticCategoryList)) {
                             if (category.getName().equals("Gift"))
@@ -113,10 +116,22 @@ public class SplashActivity extends AppCompatActivity {
                             overridePendingTransition(R.anim.anim_slide_in_left, R.anim.anim_slide_out_left);
                         }, 500);
                     }
+                } else {
+                    activitySplashBinding.tvReload.setVisibility(View.VISIBLE);
                 }
 
             });
         } else
             activitySplashBinding.tvReload.setVisibility(View.VISIBLE);
+    }
+
+    @Override
+    public void onFailure(boolean isFailed) {
+
+        if (isFailed)
+            activitySplashBinding.tvReload.setVisibility(View.VISIBLE);
+        else
+            activitySplashBinding.tvReload.setVisibility(View.GONE);
+
     }
 }

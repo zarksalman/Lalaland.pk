@@ -24,12 +24,16 @@ import com.lalaland.ecommerce.data.models.cart.CartItem;
 import com.lalaland.ecommerce.data.models.cartListingModel.CartListModel;
 import com.lalaland.ecommerce.data.models.userAddressBook.UserAddresses;
 import com.lalaland.ecommerce.databinding.ActivityCheckoutScreenBinding;
+import com.lalaland.ecommerce.databinding.AddAddressDialogueBinding;
 import com.lalaland.ecommerce.databinding.DeleteOutOfStockDialogueBinding;
+import com.lalaland.ecommerce.databinding.PhoneNumberDialogueBinding;
 import com.lalaland.ecommerce.helpers.AppConstants;
 import com.lalaland.ecommerce.helpers.AppPreference;
 import com.lalaland.ecommerce.helpers.AppUtils;
+import com.lalaland.ecommerce.interfaces.NetworkInterface;
 import com.lalaland.ecommerce.viewModels.order.OrderViewModel;
 import com.lalaland.ecommerce.viewModels.products.ProductViewModel;
+import com.lalaland.ecommerce.viewModels.user.UserViewModel;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -37,15 +41,19 @@ import java.util.List;
 import java.util.Map;
 
 import static com.lalaland.ecommerce.helpers.AppConstants.CASH_TRANSFER_TYPE;
+import static com.lalaland.ecommerce.helpers.AppConstants.DATE_OF_BIRTH;
+import static com.lalaland.ecommerce.helpers.AppConstants.GENDER;
 import static com.lalaland.ecommerce.helpers.AppConstants.GENERAL_ERROR;
 import static com.lalaland.ecommerce.helpers.AppConstants.ORDER_TOTAL;
 import static com.lalaland.ecommerce.helpers.AppConstants.OUT_OF_STOCK_CODE;
 import static com.lalaland.ecommerce.helpers.AppConstants.PAYMENT_LOWEST_LIMIT;
+import static com.lalaland.ecommerce.helpers.AppConstants.PHONE_NUMBER;
 import static com.lalaland.ecommerce.helpers.AppConstants.SIGNIN_TOKEN;
 import static com.lalaland.ecommerce.helpers.AppConstants.SUCCESS_CODE;
+import static com.lalaland.ecommerce.helpers.AppConstants.USER_NAME;
 import static com.lalaland.ecommerce.helpers.AppConstants.VALIDATION_FAIL_CODE;
 
-public class CheckoutScreen extends AppCompatActivity {
+public class CheckoutScreen extends AppCompatActivity implements NetworkInterface {
 
     private ActivityCheckoutScreenBinding activityCheckoutScreenBinding;
     private UserAddresses userAddresses;
@@ -75,9 +83,12 @@ public class CheckoutScreen extends AppCompatActivity {
     String cartIdsStart = "cart_id[";
     String cartIdsEnd = "]";
 
-    AlertDialog alertDialog;
+    AlertDialog alertDialog, phoneNumberDialogue, addAddressDialogue;
     DeleteOutOfStockDialogueBinding outOfStockItemDialogueBinding;
+    PhoneNumberDialogueBinding phoneNumberDialogueBinding;
+    AddAddressDialogueBinding addAddressDialogueBinding;
     CartItemsAdapter cartItemsAdapter;
+    private String phoneNumber;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -96,11 +107,14 @@ public class CheckoutScreen extends AppCompatActivity {
 
         getMerchantList();
         addMerchantProductList();
+        prepareOutOfStockDialogue();
+        preparePhoneNumberDialogue();
+        prepareAddAddressDialogue();
         isUserAddressExist();
-        prepareDialogue();
+
     }
 
-    private void prepareDialogue() {
+    private void prepareOutOfStockDialogue() {
 
         outOfStockItemDialogueBinding = DataBindingUtil.inflate(LayoutInflater.from(this), R.layout.delete_out_of_stock_dialogue, null, false);
 
@@ -137,6 +151,91 @@ public class CheckoutScreen extends AppCompatActivity {
         outOfStockItemDialogueBinding.recyclerView.setLayoutManager(new LinearLayoutManager(this));
     }
 
+    private void preparePhoneNumberDialogue() {
+
+        phoneNumberDialogueBinding = DataBindingUtil.inflate(LayoutInflater.from(this), R.layout.phone_number_dialogue, null, false);
+        AlertDialog.Builder dialogBuilder = new AlertDialog.Builder(this);
+        phoneNumberDialogue = dialogBuilder.create();
+        phoneNumberDialogue.setCanceledOnTouchOutside(false);
+        phoneNumberDialogue.setView(phoneNumberDialogueBinding.getRoot());
+
+        phoneNumberDialogueBinding.btnSave.setOnClickListener(v -> {
+
+            if (validatePhoneNumber()) {
+
+                activityCheckoutScreenBinding.pbLoading.setVisibility(View.VISIBLE);
+
+                parameter.clear();
+                parameter.put(PHONE_NUMBER, phoneNumber);
+
+                UserViewModel userViewModel = ViewModelProviders.of(this).get(UserViewModel.class);
+                userViewModel.updateUserDetails(token, parameter).observe(this, updateUserDataContainer -> {
+
+                    if (updateUserDataContainer != null) {
+
+                        if (updateUserDataContainer.getCode().equals(SUCCESS_CODE)) {
+
+                            phoneNumberDialogue.dismiss();
+                            
+                            appPreference.setString(USER_NAME, updateUserDataContainer.getData().getUser().getName());
+                            appPreference.setString(PHONE_NUMBER, updateUserDataContainer.getData().getUser().getPhone());
+                            appPreference.setString(DATE_OF_BIRTH, updateUserDataContainer.getData().getUser().getDateOfBirth());
+                            appPreference.setString(GENDER, updateUserDataContainer.getData().getUser().getGender());
+
+                            AppConstants.userAddresses.setPhone(updateUserDataContainer.getData().getUser().getPhone());
+                            activityCheckoutScreenBinding.tvUserName.setText(appPreference.getString(PHONE_NUMBER));
+
+                            activityCheckoutScreenBinding.rvCartProducts.setVisibility(View.GONE);
+                            isUserAddressExist();
+                            activityCheckoutScreenBinding.rvCartProducts.setVisibility(View.VISIBLE);
+
+                            Toast.makeText(this, updateUserDataContainer.getMsg(), Toast.LENGTH_SHORT).show();
+
+
+                        } else if (updateUserDataContainer.getCode().equals(VALIDATION_FAIL_CODE)) {
+                            Toast.makeText(this, updateUserDataContainer.getMsg(), Toast.LENGTH_SHORT).show();
+                        } else {
+                            Toast.makeText(this, GENERAL_ERROR, Toast.LENGTH_SHORT).show();
+                        }
+                    } else {
+
+                        Toast.makeText(this, GENERAL_ERROR, Toast.LENGTH_SHORT).show();
+                    }
+
+                    activityCheckoutScreenBinding.pbLoading.setVisibility(View.VISIBLE);
+
+                });
+
+            }
+        });
+    }
+
+    private void prepareAddAddressDialogue() {
+
+        addAddressDialogueBinding = DataBindingUtil.inflate(LayoutInflater.from(this), R.layout.add_address_dialogue, null, false);
+        AlertDialog.Builder dialogBuilder = new AlertDialog.Builder(this);
+        addAddressDialogue = dialogBuilder.create();
+        addAddressDialogue.setCancelable(true);
+        addAddressDialogue.setView(addAddressDialogueBinding.getRoot());
+
+        addAddressDialogueBinding.btnOk.setOnClickListener(v -> {
+            addAddressDialogue.dismiss();
+            startActivityForResult(new Intent(CheckoutScreen.this, ChangeShippingAddress.class), 202);
+        });
+    }
+
+
+    private boolean validatePhoneNumber() {
+
+        phoneNumber = phoneNumberDialogueBinding.etContact.getText().toString().trim();
+
+        if (phoneNumber.length() == 11) {
+            return true;
+        }
+
+        Toast.makeText(this, "Phone number should be 11 digit (03**-*******)", Toast.LENGTH_SHORT).show();
+        return false;
+    }
     void setBill() {
         totalBill = getIntent().getStringExtra("total_bill");
         totalAmount = Double.parseDouble(totalBill);
@@ -151,7 +250,6 @@ public class CheckoutScreen extends AppCompatActivity {
             activityCheckoutScreenBinding.rgPaymentType.setOnCheckedChangeListener(null);
         }
     }
-
     private void getDeliveryCharges() {
 
         orderViewModel.getDeliveryCharges(token, String.valueOf(AppConstants.userAddresses.getCityId())).observe(this, deliveryChargesContainer -> {
@@ -165,7 +263,6 @@ public class CheckoutScreen extends AppCompatActivity {
             }
         });
     }
-
     private void setMerchantShippingRate(List<DeliveryChargesOfMerchantItem> deliveryChargesOfMerchantItems) {
 
         Double billWithoutShippingCharges;
@@ -189,7 +286,6 @@ public class CheckoutScreen extends AppCompatActivity {
             }
         }
     }
-
     private void setMerchantShippingRate() {
 
         for (int j = 0; j < cartListModelList.size(); j++) {
@@ -198,7 +294,6 @@ public class CheckoutScreen extends AppCompatActivity {
             cartListModelList.get(j).setTotalCharges(cartListModelList.get(j).getTotalAmount());
         }
     }
-
     void setListeners() {
 
         activityCheckoutScreenBinding.rgPaymentType.setOnCheckedChangeListener((group, checkedId) -> {
@@ -244,6 +339,8 @@ public class CheckoutScreen extends AppCompatActivity {
         userAddresses = AppConstants.userAddresses;
 
         if (userAddresses == null) {
+
+            addAddressDialogue.show();
             activityCheckoutScreenBinding.addUserAddress.setVisibility(View.VISIBLE);
             activityCheckoutScreenBinding.userDetail.setVisibility(View.GONE);
             isUserAddressNull = true;
@@ -266,6 +363,10 @@ public class CheckoutScreen extends AppCompatActivity {
             activityCheckoutScreenBinding.addUserAddress.setVisibility(View.GONE);
             activityCheckoutScreenBinding.userDetail.setVisibility(View.VISIBLE);
             isUserAddressNull = false;
+
+            if (userAddresses.getPhone() == null || userAddresses.getPhone().isEmpty()) {
+                phoneNumberDialogue.show();
+            }
 
             getDeliveryCharges();
         }
@@ -314,11 +415,16 @@ public class CheckoutScreen extends AppCompatActivity {
         }
 
         if (userAddresses.getPhone() == null || userAddresses.getPhone().isEmpty()) {
+            phoneNumberDialogue.show();
+            return;
+        }
+
+        /*if (userAddresses.getPhone() == null || userAddresses.getPhone().isEmpty()) {
             Intent intent = new Intent(this, AccountInformationActivity.class);
             startActivityForResult(intent, Integer.parseInt(SUCCESS_CODE));
             activityCheckoutScreenBinding.pbLoading.setVisibility(View.GONE);
             return;
-        }
+        }*/
 
         activityCheckoutScreenBinding.pbLoading.setVisibility(View.VISIBLE);
         parameter.clear();
@@ -333,7 +439,7 @@ public class CheckoutScreen extends AppCompatActivity {
         parameter.put("payment_gateway", String.valueOf(CASH_TRANSFER_TYPE));
 
 
-        productViewModel.confirmOrder(token, parameter).observe(this, orderDataContainer -> {
+        productViewModel.confirmOrder(parameter, this).observe(this, orderDataContainer -> {
 
             if (orderDataContainer != null) {
 
@@ -514,6 +620,7 @@ public class CheckoutScreen extends AppCompatActivity {
         super.onActivityResult(requestCode, resultCode, data);
 
         if (resultCode == Activity.RESULT_OK) {
+
             if (requestCode == Integer.parseInt(SUCCESS_CODE)) {
                 isUserAddressExist();
             } else if (requestCode == 1) {
@@ -533,8 +640,17 @@ public class CheckoutScreen extends AppCompatActivity {
                 activityCheckoutScreenBinding.rvCartProducts.setVisibility(View.GONE);
                 isUserAddressExist();
             }
+        } else {
+            activityCheckoutScreenBinding.rvCartProducts.setVisibility(View.GONE);
+            isUserAddressExist();
         }
     }
 
 
+    @Override
+    public void onFailure(boolean isFailed) {
+
+        if (isFailed)
+            activityCheckoutScreenBinding.pbLoading.setVisibility(View.GONE);
+    }
 }

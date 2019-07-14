@@ -48,8 +48,9 @@ public class OrdersRepository {
     }
 
     public static OrdersRepository getInstance() {
-        if (repository == null)
+        if (repository == null) {
             repository = new OrdersRepository();
+        }
 
         return repository;
     }
@@ -84,14 +85,13 @@ public class OrdersRepository {
             public void onResponse(Call<DeliveryChargesContainer> call, Response<DeliveryChargesContainer> response) {
 
                 if (response.isSuccessful()) {
-
                     deliveryChargesContainerMutableLiveData.postValue(response.body());
                 }
             }
 
             @Override
             public void onFailure(Call<DeliveryChargesContainer> call, Throwable t) {
-
+                deliveryChargesContainerMutableLiveData.postValue(null);
             }
         });
 
