@@ -37,8 +37,9 @@
                 android:layout_centerHorizontal="true"
                 android:text="@string/filter"
                 android:layout_centerVertical="true"
+                android:fontFamily="@font/encodesansregular"
                 android:textColor="@android:color/black"
-                android:textSize="16sp" />
+                android:textSize="18sp" />
 
             <TextView
 
@@ -80,6 +81,8 @@
             android:id="@+id/pb_loading"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:background="@drawable/bg_round_corner_pb"
+            android:padding="@dimen/_32dp"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"

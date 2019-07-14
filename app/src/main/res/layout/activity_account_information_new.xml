@@ -39,7 +39,6 @@
                     android:background="@android:color/white"
                     android:elevation="@dimen/_4dp"
                     android:orientation="horizontal"
-                    android:padding="@dimen/_16dp"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toTopOf="parent">
@@ -49,7 +48,7 @@
                         android:id="@+id/iv_close_checkout_screen"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:padding="@dimen/_8dp"
+                        android:padding="@dimen/_16dp"
                         android:layout_gravity="center_vertical"
                         app:srcCompat="@drawable/back_arrow_icon" />
 
@@ -57,12 +56,12 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_gravity="center_vertical"
-                        android:layout_marginStart="@dimen/_8dp"
+                        android:padding="@dimen/_16dp"
                         android:fontFamily="@font/encodesansregular"
                         android:text="@string/account_information"
                         android:textAlignment="center"
                         android:textColor="@android:color/black"
-                        android:textSize="16sp" />
+                        android:textSize="18sp" />
 
                 </LinearLayout>
 
@@ -402,6 +401,8 @@
             android:id="@+id/pb_loading"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:background="@drawable/bg_round_corner_pb"
+            android:padding="@dimen/_32dp"
             android:visibility="gone"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"

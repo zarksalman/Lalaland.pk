@@ -108,6 +108,10 @@ public class SignupFragment extends BaseRegistrationFragment implements LoadingL
                     Toast.makeText(getContext(), radioButton.getText(), Toast.LENGTH_SHORT).show();
                 }
         );
+
+        fragmentSignupBinding.btnGoogleSignUp.setOnClickListener(v -> {
+            registerUserWithGoogle();
+        });
     }
 
     private boolean validateEmail() {
@@ -261,6 +265,7 @@ public class SignupFragment extends BaseRegistrationFragment implements LoadingL
 
 
     public void registerUserWithGoogle() {
+        fragmentSignupBinding.pbLoading.setVisibility(View.VISIBLE);
         signInOrSignUpWithGoogle(fragmentSignupBinding.btGoogleSignup, this);
     }
 

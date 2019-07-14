@@ -24,7 +24,6 @@
             android:layout_height="wrap_content"
             android:background="@android:color/white"
             android:orientation="horizontal"
-            android:padding="@dimen/_16dp"
             android:elevation="@dimen/_4dp"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
@@ -37,7 +36,7 @@
                 android:layout_height="wrap_content"
                 android:onClick="@{(view)->clickListener.cancel(view)}"
                 android:layout_gravity="center_vertical"
-                android:padding="@dimen/_8dp"
+                android:padding="@dimen/_16dp"
                 app:srcCompat="@drawable/close_icon" />
 
             <TextView
@@ -46,12 +45,11 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center_vertical"
-                android:layout_marginStart="@dimen/_8dp"
+                android:padding="@dimen/_16dp"
                 android:text="@string/add_new_address"
                 android:textAlignment="center"
                 android:textColor="@android:color/black"
-                android:textSize="16sp"
-                android:textStyle="bold" />
+                android:textSize="18sp" />
         </LinearLayout>
 
         <ScrollView
@@ -244,6 +242,8 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             app:layout_constraintBottom_toBottomOf="parent"
+            android:background="@drawable/bg_round_corner_pb"
+            android:padding="@dimen/_32dp"
             app:layout_constraintEnd_toEndOf="parent"
             android:visibility="gone"
             app:layout_constraintStart_toStartOf="parent"

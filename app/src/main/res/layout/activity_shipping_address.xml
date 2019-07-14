@@ -15,7 +15,6 @@
             android:layout_height="wrap_content"
             android:background="@android:color/white"
             android:orientation="horizontal"
-            android:padding="@dimen/_8dp"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent">
@@ -24,15 +23,16 @@
 
                 android:id="@+id/iv_close_checkout_screen"
                 android:layout_width="wrap_content"
+                android:padding="@dimen/_16dp"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center_vertical"
-                android:src="@drawable/close_icon" />
+                app:srcCompat="@drawable/close_icon" />
 
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center_vertical"
-                android:layout_marginStart="@dimen/_8dp"
+                android:padding="@dimen/_16dp"
                 android:text="@string/select_shipping_address"
                 android:textAlignment="center"
                 android:textColor="@android:color/black"

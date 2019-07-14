@@ -25,7 +25,6 @@
             android:layout_width="0dp"
             android:layout_height="130dp"
             android:background="@color/colorAccent"
-            android:padding="@dimen/_16dp"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent">
@@ -37,17 +36,18 @@
                 android:layout_height="wrap_content"
                 android:layout_alignParentStart="true"
                 android:tint="@android:color/white"
-                android:padding="@dimen/_8dp"
+                android:padding="@dimen/_16dp"
                 app:srcCompat="@drawable/cross_icon" />
 
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginStart="@dimen/_8dp"
+                android:padding="@dimen/_8dp"
                 android:layout_toEndOf="@+id/btn_back"
                 android:text="@string/order_received"
                 android:textColor="@android:color/white"
-                android:textSize="20sp" />
+                android:textSize="18sp"
+                android:fontFamily="@font/encodesansregular"/>
 
             <TextView
                 android:layout_width="wrap_content"

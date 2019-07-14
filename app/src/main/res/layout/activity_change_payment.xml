@@ -31,7 +31,6 @@
             android:orientation="horizontal"
             android:layout_alignParentTop="true"
             android:layout_centerHorizontal="true"
-            android:padding="@dimen/_16dp"
             android:visibility="visible"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
@@ -43,7 +42,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center_vertical"
-                android:padding="@dimen/_8dp"
+                android:padding="@dimen/_16dp"
                 android:onClick="@{(view)->listener.onBackPressed()}"
                 app:srcCompat="@drawable/back_arrow_icon" />
 
@@ -51,7 +50,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center_vertical"
-                android:layout_marginStart="@dimen/_8dp"
+                android:padding="@dimen/_16dp"
                 android:fontFamily="@font/encodesansmedium"
                 android:text="@string/select_payment_method"
                 android:textAlignment="center"

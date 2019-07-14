@@ -23,7 +23,6 @@
             android:layout_height="wrap_content"
             android:background="@android:color/white"
             android:orientation="horizontal"
-            android:padding="@dimen/_8dp"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent">
@@ -32,6 +31,7 @@
 
                 android:id="@+id/iv_close_checkout_screen"
                 android:layout_width="wrap_content"
+                android:padding="@dimen/_16dp"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center_vertical"
                 app:srcCompat="@drawable/back_arrow_icon" />
@@ -40,12 +40,12 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center_vertical"
-                android:layout_marginStart="@dimen/_8dp"
+                android:fontFamily="@font/encodesansregular"
                 android:text="@string/account_information"
                 android:textAlignment="center"
                 android:textColor="@android:color/black"
-                android:textSize="16sp"
-                android:textStyle="bold" />
+                android:padding="@dimen/_16dp"
+                android:textSize="18sp" />
         </LinearLayout>
 
         <LinearLayout

@@ -16,7 +16,7 @@
         xmlns:tools="http://schemas.android.com/tools"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:background="@color/colorScreenBg"
+        android:background="@color/colorLightGray"
         android:orientation="vertical"
         tools:context="com.lalaland.ecommerce.views.fragments.registrationFragments.SignupFragment">
 
@@ -34,7 +34,7 @@
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:background="@color/colorScreenBg"
+                android:background="@color/colorLightGray"
                 android:orientation="vertical"
                 android:padding="16dp">
 
@@ -168,7 +168,6 @@
 
                 </com.google.android.material.textfield.TextInputLayout>
 
-
                 <com.google.android.material.textfield.TextInputLayout
 
                     android:id="@+id/ti_date_of_birth"
@@ -294,8 +293,7 @@
                         android:clickable="true"
                         android:elevation="4dp"
                         android:focusable="true"
-                        android:foreground="?attr/selectableItemBackground"
-                        android:onClick="@{()->clickListener.registerUserWithGoogle()}">
+                        android:foreground="?attr/selectableItemBackground">
 
                         <ImageView
                             android:layout_width="match_parent"
@@ -315,13 +313,11 @@
 
         </ScrollView>
 
-
         <FrameLayout
 
             android:id="@+id/pb_loading"
             android:layout_width="0dp"
             android:layout_height="0dp"
-            android:background="@color/colorDimWhite"
             android:visibility="gone"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
@@ -331,6 +327,8 @@
             <ProgressBar
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:background="@drawable/bg_round_corner_pb"
+                android:padding="@dimen/_32dp"
                 android:layout_gravity="center" />
         </FrameLayout>
     </androidx.constraintlayout.widget.ConstraintLayout>
