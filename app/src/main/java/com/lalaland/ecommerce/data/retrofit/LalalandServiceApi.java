@@ -26,6 +26,7 @@ import java.util.Map;
 
 import io.reactivex.Single;
 import okhttp3.MultipartBody;
+import okhttp3.RequestBody;
 import retrofit2.Call;
 import retrofit2.http.GET;
 import retrofit2.http.HeaderMap;
@@ -124,7 +125,7 @@ public interface LalalandServiceApi {
 
     @Multipart
     @POST("uploadProfileImage")
-    Call<UploadProfileImageContainer> uploadProfileImage(@HeaderMap Map<String, String> userInfo, @Part MultipartBody.Part image);
+    Call<UploadProfileImageContainer> uploadProfileImage(@HeaderMap Map<String, String> userInfo, @Part MultipartBody.Part avatar, @Part("avatar") RequestBody description);
 
     @POST("login")
     Call<LoginDataContainer> loginUser(@HeaderMap Map<String, String> userInfo, @QueryMap Map<String, String> parameters);

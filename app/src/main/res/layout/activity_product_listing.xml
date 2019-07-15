@@ -20,7 +20,7 @@
         android:background="@color/colorScreenBg"
         tools:context=".views.activities.ActionProductListingActivity">
 
-        <LinearLayout
+        <androidx.constraintlayout.widget.ConstraintLayout
 
             android:id="@+id/m_toolbar_product_listing"
             android:layout_width="match_parent"
@@ -35,40 +35,50 @@
             <ImageView
 
                 android:id="@+id/iv_back_product_listing"
-                android:layout_width="0dp"
+                android:layout_width="wrap_content"
                 android:padding="@dimen/_16dp"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center_vertical"
                 android:layout_weight=".2"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
                 android:onClick="@{()->productListingListener.onBackPressed()}"
                 app:srcCompat="@drawable/back_arrow_icon" />
 
             <TextView
 
                 android:id="@+id/tv_category_title"
-                android:layout_width="wrap_content"
-                android:layout_height="match_parent"
+                android:layout_width="0dp"
+                android:layout_height="0dp"
                 android:layout_gravity="center_vertical"
                 android:layout_weight=".6"
                 android:text="Head Title"
                 android:gravity="center"
+                android:textSize="16sp"
                 android:textAlignment="center"
                 android:fontFamily="@font/encodesansmedium"
                 android:textColor="@android:color/black"
-                android:textSize="18sp" />
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toStartOf="@+id/iv_search_product_listing"
+                app:layout_constraintStart_toEndOf="@+id/iv_back_product_listing"
+                app:layout_constraintTop_toTopOf="parent" />
 
             <ImageView
 
                 android:id="@+id/iv_search_product_listing"
-                android:layout_width="0dp"
+                android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center_vertical|end"
                 android:layout_weight=".2"
                 android:scaleType="fitCenter"
                 android:padding="@dimen/_16dp"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
                 app:srcCompat="@drawable/search_icon" />
 
-        </LinearLayout>
+        </androidx.constraintlayout.widget.ConstraintLayout>
 
         <ImageView
             android:layout_width="0dp"

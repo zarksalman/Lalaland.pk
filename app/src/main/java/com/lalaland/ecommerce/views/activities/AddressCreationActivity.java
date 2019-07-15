@@ -76,6 +76,9 @@ public class AddressCreationActivity extends AppCompatActivity {
 
             activityAddressCreationBinding.tvScreenTitle.setText(getResources().getString(R.string.edit_information));
         } else {
+
+            activityAddressCreationBinding.etFirstName.requestFocus();
+
             userAddresses = new UserAddresses();
         }
 
@@ -95,7 +98,6 @@ public class AddressCreationActivity extends AppCompatActivity {
     public void save(View view) {
 
 
-        activityAddressCreationBinding.pbLoading.setVisibility(View.VISIBLE);
 
         if (
                 validateNames(TYPE)
@@ -104,6 +106,8 @@ public class AddressCreationActivity extends AppCompatActivity {
                         && validateAddress(2)
                         && validateAddress(3)
                         && validateCity()) {
+
+            activityAddressCreationBinding.pbLoading.setVisibility(View.VISIBLE);
 
             is_primary = activityAddressCreationBinding.cbDefault.isChecked();
 

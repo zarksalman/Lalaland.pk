@@ -99,6 +99,7 @@
                     android:id="@+id/ti_email"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
+                    android:maxLength="11"
                     android:padding="4dp"
                     app:errorEnabled="true">
 
@@ -118,6 +119,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:padding="4dp"
+                    android:maxLength="11"
                     app:errorEnabled="true">
 
                     <com.google.android.material.textfield.TextInputEditText

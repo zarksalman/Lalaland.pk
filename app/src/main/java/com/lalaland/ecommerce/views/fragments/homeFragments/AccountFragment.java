@@ -14,6 +14,7 @@ import androidx.fragment.app.Fragment;
 import androidx.lifecycle.ViewModelProviders;
 
 import com.bumptech.glide.Glide;
+import com.bumptech.glide.load.engine.DiskCacheStrategy;
 import com.facebook.AccessToken;
 import com.facebook.login.LoginManager;
 import com.lalaland.ecommerce.R;
@@ -90,9 +91,12 @@ public class AccountFragment extends Fragment implements View.OnClickListener {
             String avatarImagePath = USER_STORAGE_BASE_URL.concat(userAvatar);
 
             fragmentAccountBinding.tvLoginLogout.setText("Logout");
+
             Glide.with(getContext())
                     .load(avatarImagePath)
                     .placeholder(R.drawable.placeholder_products)
+                    .diskCacheStrategy(DiskCacheStrategy.NONE)
+                    .skipMemoryCache(true)
                     .into(fragmentAccountBinding.ivDisplayPicture);
         }
 
@@ -194,9 +198,9 @@ public class AccountFragment extends Fragment implements View.OnClickListener {
 
             case R.id.tv_user_name:
                 if (signInToken.isEmpty())
-                    startActivityForResult(new Intent(getContext(), RegistrationActivity.class), 101);
+                    startActivityForResult(new Intent(getContext(), RegistrationActivity.class), 100);
                 else
-                    startActivityForResult(new Intent(getContext(), AccountInformationActivity.class), 100);
+                    startActivityForResult(new Intent(getContext(), AccountInformationActivity.class), 101);
                 break;
 
             case R.id.tv_login_logout:
@@ -309,6 +313,8 @@ public class AccountFragment extends Fragment implements View.OnClickListener {
                 Glide.with(getContext())
                         .load(avatarImagePath)
                         .placeholder(R.drawable.placeholder_products)
+                        .diskCacheStrategy(DiskCacheStrategy.NONE)
+                        .skipMemoryCache(true)
                         .into(fragmentAccountBinding.ivDisplayPicture);
 
                 intent = new Intent(getContext(), OrderListingActivity.class);

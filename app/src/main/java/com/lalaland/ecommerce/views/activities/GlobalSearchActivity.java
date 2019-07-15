@@ -8,13 +8,16 @@ import android.text.Editable;
 import android.text.TextWatcher;
 import android.util.Log;
 import android.view.ActionMode;
+import android.view.KeyEvent;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.view.inputmethod.EditorInfo;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.AutoCompleteTextView;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
@@ -194,19 +197,35 @@ public class GlobalSearchActivity extends AppCompatActivity implements SearchPro
         });
 
         activityGlobalSearchBinding.ivSearch.setOnClickListener(v -> {
+            callQstr();
+        });
 
-            if (!activityGlobalSearchBinding.etGlobalSearch.getText().toString().isEmpty()) {
-                String qstr = activityGlobalSearchBinding.etGlobalSearch.getText().toString().trim();
-
-                intent = new Intent(this, ActionProductListingActivity.class);
-
-                intent.putExtra("qstr", qstr);
-                intent.putExtra(ACTION_ID, String.valueOf(0));
-                intent.putExtra(ACTION_NAME, "Search");
-                intent.putExtra(PRODUCT_TYPE, "search_list");
-                startActivity(intent);
+        activityGlobalSearchBinding.etGlobalSearch.setOnEditorActionListener(new TextView.OnEditorActionListener() {
+            @Override
+            public boolean onEditorAction(TextView v, int actionId, KeyEvent event) {
+                if (actionId == EditorInfo.IME_ACTION_SEARCH) {
+                    callQstr();
+                    return true;
+                }
+                return false;
             }
         });
+    }
+
+    private void callQstr() {
+
+        if (!activityGlobalSearchBinding.etGlobalSearch.getText().toString().isEmpty()) {
+
+            String qstr = activityGlobalSearchBinding.etGlobalSearch.getText().toString().trim();
+
+            intent = new Intent(this, ActionProductListingActivity.class);
+
+            intent.putExtra("qstr", qstr);
+            intent.putExtra(ACTION_ID, String.valueOf(0));
+            intent.putExtra(ACTION_NAME, "Search");
+            intent.putExtra(PRODUCT_TYPE, "search_list");
+            startActivity(intent);
+        }
     }
 
     private void setUserInfo() {

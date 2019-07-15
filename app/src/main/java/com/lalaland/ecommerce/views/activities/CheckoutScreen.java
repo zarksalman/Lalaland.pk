@@ -40,6 +40,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import static com.lalaland.ecommerce.helpers.AppConstants.CART_COUNTER;
 import static com.lalaland.ecommerce.helpers.AppConstants.CASH_TRANSFER_TYPE;
 import static com.lalaland.ecommerce.helpers.AppConstants.DATE_OF_BIRTH;
 import static com.lalaland.ecommerce.helpers.AppConstants.GENDER;
@@ -449,6 +450,7 @@ public class CheckoutScreen extends AppCompatActivity implements NetworkInterfac
                     Intent intent = new Intent(this, OrderReceivedActivity.class);
                     intent.putExtra(ORDER_TOTAL, String.valueOf(totalBill));
                     CASH_TRANSFER_TYPE = 1;
+                    CART_COUNTER = 0;
                     intent.putParcelableArrayListExtra("recommended_products", (ArrayList<? extends Parcelable>) orderDataContainer.getData().getRecommendation());
                     intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
                     startActivity(intent);
@@ -621,9 +623,13 @@ public class CheckoutScreen extends AppCompatActivity implements NetworkInterfac
 
         if (resultCode == Activity.RESULT_OK) {
 
+            activityCheckoutScreenBinding.pbLoading.setVisibility(View.VISIBLE);
+
             if (requestCode == Integer.parseInt(SUCCESS_CODE)) {
+                activityCheckoutScreenBinding.rvCartProducts.setVisibility(View.GONE);
                 isUserAddressExist();
             } else if (requestCode == 1) {
+                activityCheckoutScreenBinding.rvCartProducts.setVisibility(View.GONE);
                 isUserAddressExist();
             } else if (requestCode == 201) {
 

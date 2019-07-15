@@ -80,8 +80,6 @@ public class SigninFragment extends BaseRegistrationFragment implements LoadingL
         cart_session = appPreference.getString(CART_SESSION_TOKEN);
 
         fragmentSigninBinding.btnFbSignIn.setOnClickListener(v -> {
-
-            fragmentSigninBinding.pbLoadingSignin.setVisibility(View.VISIBLE);
             signInOrSignUpWithFb(fragmentSigninBinding.btFacebookSignin, this);
         });
 

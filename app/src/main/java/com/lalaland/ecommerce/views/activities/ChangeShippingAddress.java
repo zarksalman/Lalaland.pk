@@ -58,11 +58,11 @@ public class ChangeShippingAddress extends AppCompatActivity {
                     addressesList = addressDataContainer.getData().getUserAddress();
                     setAdapter();
                     activityChangeShippingAddressBinding.rvAddress.setVisibility(View.VISIBLE);
-                    activityChangeShippingAddressBinding.pbLoading.setVisibility(View.GONE);
                 } else {
                     activityChangeShippingAddressBinding.ivEmptyState.setVisibility(View.VISIBLE);
                 }
-
+                
+                activityChangeShippingAddressBinding.pbLoading.setVisibility(View.GONE);
             }
         });
     }

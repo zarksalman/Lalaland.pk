@@ -39,6 +39,7 @@
                     android:fontFamily="@font/ubuntumedium"
                     android:text="@string/app_name"
                     android:textColor="@android:color/white"
+                    android:paddingStart="@dimen/_4dp"
                     android:textSize="18sp"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toTopOf="parent" />

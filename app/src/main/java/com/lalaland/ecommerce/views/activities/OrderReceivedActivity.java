@@ -27,6 +27,7 @@ public class OrderReceivedActivity extends AppCompatActivity {
     private ActivityOrderReceivedBinding activityOrderReceivedBinding;
     private List<Product> recommendedProductList = new ArrayList<>();
     private String totalBill;
+    Float textSize18, textSize16, textSize14;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -50,6 +51,7 @@ public class OrderReceivedActivity extends AppCompatActivity {
 
         setAdapter();
     }
+
 
     public void trackOrder(View view) {
 

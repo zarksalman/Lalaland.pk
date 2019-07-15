@@ -18,6 +18,7 @@ import androidx.databinding.DataBindingUtil;
 import androidx.lifecycle.ViewModelProviders;
 
 import com.bumptech.glide.Glide;
+import com.bumptech.glide.load.engine.DiskCacheStrategy;
 import com.lalaland.ecommerce.R;
 import com.lalaland.ecommerce.databinding.ActivityAccountInformationNewBinding;
 import com.lalaland.ecommerce.helpers.AppPreference;
@@ -158,23 +159,12 @@ public class AccountInformationActivity extends AppCompatActivity {
             e.printStackTrace();
         }
 
-/*
-        Bitmap bitmap = AppUtils.FileToBitmap(imageFile);
-        bitmap = AppUtils.getResizedBitmap(bitmap, 100);
-*/
-
-    /*    try {
-            imageFile = AppUtils.bitmapToFile(bitmap);
-        } catch (IOException e) {
-            Toast.makeText(this, "Could not upload image", Toast.LENGTH_SHORT).show();
-            e.printStackTrace();
-        }*/
-
+        // create RequestBody instance from file
         RequestBody filePart = RequestBody.create(
                 MediaType.parse(getContentResolver().getType(uri)),
                 imageFile);
 
-        MultipartBody.Part file = MultipartBody.Part.createFormData("photo", imageFile.getName(), filePart);
+        MultipartBody.Part file = MultipartBody.Part.createFormData("avatar", imageFile.getName(), filePart);
 
         userViewModel.uploadProfileImage(token, file).observe(this, uploadProfileImageContainer -> {
 
@@ -187,9 +177,13 @@ public class AccountInformationActivity extends AppCompatActivity {
                     String userAvatar = uploadProfileImageContainer.getData().getAvatar();
                     String avatarImagePath = USER_STORAGE_BASE_URL.concat(userAvatar);
 
+                    activityAccountInformationBinding.ivDisplayPicture.setImageDrawable(null);
+
                     Glide.with(this)
                             .load(avatarImagePath)
                             .placeholder(R.drawable.placeholder_products)
+                            .diskCacheStrategy(DiskCacheStrategy.NONE)
+                            .skipMemoryCache(true)
                             .into(activityAccountInformationBinding.ivDisplayPicture);
 
                     Toast.makeText(this, "Image Uploaded", Toast.LENGTH_SHORT).show();

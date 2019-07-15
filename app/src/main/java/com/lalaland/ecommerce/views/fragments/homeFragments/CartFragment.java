@@ -251,6 +251,7 @@ public class CartFragment extends Fragment implements View.OnClickListener, Cart
 
     void setSelectedCartItemList() {
 
+        selectedCartItemList.clear();
         for (CartItem cartItem : cartItemList) {
             if (cartItem.getCartStatus() == 3)
                 selectedCartItemList.add(cartItem);

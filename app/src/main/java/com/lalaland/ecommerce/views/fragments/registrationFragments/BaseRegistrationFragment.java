@@ -180,7 +180,6 @@ public class BaseRegistrationFragment extends Fragment {
         mLoadingLogin = loadingLogin;
         callbackManager = CallbackManager.Factory.create();  //facebook registration callback
 
-        mLoadingLogin.checkLoading(false);
         loginButton.setFragment(this); // specially for fragments
         loginButton.performClick(); // depict as user click on facebook LoginButton but actually clicked on our button
 
@@ -189,14 +188,16 @@ public class BaseRegistrationFragment extends Fragment {
         loginButton.registerCallback(callbackManager, new FacebookCallback<LoginResult>() {
             @Override
             public void onSuccess(LoginResult loginResult) {
+
+                loadingLogin.checkLoading(false);
                 String token = loginResult.getAccessToken().getToken();
                 Log.d("token", token);
                 Log.d(EMAIL, loginResult.getAccessToken().getPermissions().toString());
 
                 parameter.put("fb_token", token); // token got from facebook
 
-                mLoadingLogin.checkLoading(true);
                 signUpCallToApi(FACEBOOK_SIGN_UP_IN);
+
             }
 
             @Override

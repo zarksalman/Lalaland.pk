@@ -78,6 +78,7 @@ public class WishlistProductAdapter extends RecyclerView.Adapter<WishlistProduct
         }
 
         void bindHolder(WishListProduct wishListProduct) {
+
             mWishProductItemBinding.setProduct(wishListProduct);
             mWishProductItemBinding.setAdapter(WishlistProductAdapter.this);
             mWishProductItemBinding.executePendingBindings();

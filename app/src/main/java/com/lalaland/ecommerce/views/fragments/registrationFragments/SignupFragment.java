@@ -18,6 +18,7 @@ import androidx.lifecycle.ViewModelProviders;
 
 import com.lalaland.ecommerce.R;
 import com.lalaland.ecommerce.databinding.FragmentSignupBinding;
+import com.lalaland.ecommerce.helpers.AppConstants;
 import com.lalaland.ecommerce.helpers.AppPreference;
 import com.lalaland.ecommerce.interfaces.LoadingLogin;
 import com.lalaland.ecommerce.viewModels.user.RegistrationViewModel;
@@ -31,14 +32,20 @@ import static com.lalaland.ecommerce.helpers.AppConstants.ACCOUNT_CREATION_ERROR
 import static com.lalaland.ecommerce.helpers.AppConstants.AUTHORIZATION_FAIL_CODE;
 import static com.lalaland.ecommerce.helpers.AppConstants.CART_SESSION_TOKEN;
 import static com.lalaland.ecommerce.helpers.AppConstants.CONFIRM_TYPE;
+import static com.lalaland.ecommerce.helpers.AppConstants.DATE_OF_BIRTH;
 import static com.lalaland.ecommerce.helpers.AppConstants.FORM_SIGN_UP;
+import static com.lalaland.ecommerce.helpers.AppConstants.GENDER;
 import static com.lalaland.ecommerce.helpers.AppConstants.NO_NETWORK;
 import static com.lalaland.ecommerce.helpers.AppConstants.PASSWORD;
+import static com.lalaland.ecommerce.helpers.AppConstants.PHONE_NUMBER;
 import static com.lalaland.ecommerce.helpers.AppConstants.SIGNIN_TOKEN;
 import static com.lalaland.ecommerce.helpers.AppConstants.SUCCESS_CODE;
 import static com.lalaland.ecommerce.helpers.AppConstants.TYPE;
+import static com.lalaland.ecommerce.helpers.AppConstants.USER_AVATAR;
+import static com.lalaland.ecommerce.helpers.AppConstants.USER_NAME;
 import static com.lalaland.ecommerce.helpers.AppConstants.VALIDATION_FAIL_CODE;
 import static com.lalaland.ecommerce.helpers.AppConstants.WRONG_CREDENTIAL;
+import static com.lalaland.ecommerce.helpers.AppConstants.mContext;
 import static com.lalaland.ecommerce.helpers.AppUtils.isNetworkAvailable;
 
 
@@ -247,9 +254,6 @@ public class SignupFragment extends BaseRegistrationFragment implements LoadingL
                 && validateDob()) {
 
             fragmentSignupBinding.pbLoading.setVisibility(View.VISIBLE);
-            fragmentSignupBinding.btnSignUp.setOnClickListener(null);
-            fragmentSignupBinding.btnFbSignUp.setOnClickListener(null);
-            fragmentSignupBinding.btnGoogleSignUp.setOnClickListener(null);
 
             parameter.put("email", email);
             parameter.put("password", password);
@@ -279,6 +283,19 @@ public class SignupFragment extends BaseRegistrationFragment implements LoadingL
                     case SUCCESS_CODE:
                         Log.d("registerUser", registrationContainer.getData().getUser().getName() + ":" + registrationContainer.getData().getUser().getEmail());
                         Log.d("registerUser", AppPreference.getInstance(getContext()).getString(SIGNIN_TOKEN));
+
+                        AppPreference.getInstance(mContext).setString(USER_NAME, registrationContainer.getData().getUser().getName());
+                        AppPreference.getInstance(mContext).setString(DATE_OF_BIRTH, registrationContainer.getData().getUser().getDateOfBirth());
+                        AppPreference.getInstance(mContext).setString(PHONE_NUMBER, registrationContainer.getData().getUser().getPhone());
+                        AppPreference.getInstance(mContext).setString(GENDER, registrationContainer.getData().getUser().getGender());
+                        AppPreference.getInstance(mContext).setString(AppConstants.EMAIL, registrationContainer.getData().getUser().getEmail());
+
+                        if (registrationContainer.getData().getUser().getAvatar() != null)
+                            AppPreference.getInstance(mContext).setString(USER_AVATAR, registrationContainer.getData().getUser().getAvatar().toString());
+                        else
+                            AppPreference.getInstance(mContext).setString(USER_AVATAR, "");
+
+
                         getActivity().setResult(Activity.RESULT_OK);
                         getActivity().finish();
 
