@@ -7,8 +7,6 @@ import com.lalaland.ecommerce.helpers.AppPreference;
 import com.lalaland.ecommerce.helpers.AppUtils;
 
 import java.io.File;
-import java.util.HashMap;
-import java.util.Map;
 import java.util.concurrent.TimeUnit;
 
 import okhttp3.Cache;
@@ -33,8 +31,7 @@ public class RetrofitClient {
     private static final String TAG = "ServiceGenerator";
     private static final String HEADER_CACHE_CONTROL = "Cache-Control";
     private static final String HEADER_PRAGMA = "Pragma";
-    private static final long cacheSize = 10 * 1024 * 1024; // 5 MB
-    Map<String, String> userInfo = new HashMap<>();
+    private static final long cacheSize = 5 * 1024 * 1024; // 5MB
     String token, cartSession;
 
     AppPreference appPreference;
@@ -60,9 +57,6 @@ public class RetrofitClient {
                 .client(okHttpClient())
                 .addConverterFactory(GsonConverterFactory.create())
                 .build();
-
-
-
     }
 
     public static RetrofitClient getInstance() {
@@ -76,8 +70,8 @@ public class RetrofitClient {
     private OkHttpClient okHttpClient() {
         return new OkHttpClient.Builder()
                 .cache(cache())
-                .readTimeout(60, TimeUnit.SECONDS)
-                .connectTimeout(60, TimeUnit.SECONDS)
+                .readTimeout(30, TimeUnit.SECONDS)
+                .connectTimeout(30, TimeUnit.SECONDS)
                 .addInterceptor(httpLoggingInterceptor()) // used if network off OR on
                 .addNetworkInterceptor(networkInterceptor()) // only used when network is on
                 .addInterceptor(offlineInterceptor())

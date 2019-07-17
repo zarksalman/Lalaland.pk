@@ -213,6 +213,7 @@ public class ProductDetailActivity extends AppCompatActivity implements ProductV
     void setPrice() {
 
         StringBuilder price = new StringBuilder();
+        StringBuilder aPrice = new StringBuilder();
 
         Double maxSalePrice, maxActualPrice, minSalePrice, minActualPrice;
 
@@ -234,6 +235,30 @@ public class ProductDetailActivity extends AppCompatActivity implements ProductV
             price.append(minSalePrice);
             activityProductDetailBinding.tvProductPrice.setText(AppUtils.formatPriceString(price.toString()));
         }
+
+        if (maxActualPrice > minActualPrice) {
+
+            aPrice.append(minActualPrice);
+            aPrice.append("-");
+            aPrice.append(maxActualPrice);
+
+            activityProductDetailBinding.tvProductActualPrice.setText(AppUtils.formatPriceString(aPrice.toString()));
+            AppUtils.showSalePrice(activityProductDetailBinding.tvProductActualPrice);
+        } else {
+
+            aPrice.append(minActualPrice);
+            activityProductDetailBinding.tvProductActualPrice.setText(AppUtils.formatPriceString(aPrice.toString()));
+            AppUtils.showSalePrice(activityProductDetailBinding.tvProductActualPrice);
+        }
+
+        if (minActualPrice > minSalePrice) {
+            activityProductDetailBinding.tvProductActualPrice.setVisibility(View.VISIBLE);
+            AppUtils.showSalePrice(activityProductDetailBinding.tvProductActualPrice);
+        } else {
+            activityProductDetailBinding.tvProductActualPrice.setVisibility(View.GONE);
+
+        }
+
     }
 
     void setProductGeneralDescription(String generalDescription, String materialDescription) {
@@ -326,10 +351,10 @@ public class ProductDetailActivity extends AppCompatActivity implements ProductV
         parameter.put(QUANTITY, String.valueOf(quantity));
 
         hideBottomSheet();
+
         productViewModel.addToCart(headers, parameter).observe(this, basicResponse -> {
 
             if (basicResponse != null) {
-
                 if (basicResponse.getCode().equals(SUCCESS_CODE)) {
 
                     if (isBuyNow) {
@@ -361,50 +386,50 @@ public class ProductDetailActivity extends AppCompatActivity implements ProductV
 
     public void addRemoveToWishList(View view) {
 
-        activityProductDetailBinding.pbLoading.setVisibility(View.VISIBLE);
-
-
         if (loginToken.isEmpty()) {
             Toast.makeText(this, "Please login to add to wishlist", Toast.LENGTH_SHORT).show();
-            startActivityForResult(new Intent(this, RegistrationActivity.class), 100);
-            activityProductDetailBinding.pbLoading.setVisibility(View.GONE);
+            intent = new Intent(this, RegistrationActivity.class);
+            startActivityForResult(intent, 100);
             return;
-        }
+        } else {
 
-        if (isAddOrRemove == 1)
-            isAddOrRemove = 0;
-        else
-            isAddOrRemove = 1;
+            activityProductDetailBinding.pbLoading.setVisibility(View.VISIBLE);
 
-        parameter.clear();
+            if (isAddOrRemove == 1)
+                isAddOrRemove = 0;
+            else
+                isAddOrRemove = 1;
 
-        parameter.put(PRODUCT_ID, String.valueOf(product_id));
-        parameter.put(IS_WISH_LIST, String.valueOf(isAddOrRemove));
+            parameter.clear();
 
-        productViewModel.addRemoveToWishList(headers, parameter).observe(this, basicResponse -> {
+            parameter.put(PRODUCT_ID, String.valueOf(product_id));
+            parameter.put(IS_WISH_LIST, String.valueOf(isAddOrRemove));
 
-            if (basicResponse != null) {
-                if (basicResponse.getCode().equals(SUCCESS_CODE)) {
-                    Toast.makeText(this, basicResponse.getMsg(), Toast.LENGTH_SHORT).show();
+            productViewModel.addRemoveToWishList(headers, parameter).observe(this, basicResponse -> {
 
-                    if (isAddOrRemove == 1) {
-                        activityProductDetailBinding.btnAddToWish.setImageResource(R.drawable.wish_list_filled_icon);
-                        // activityProductDetailBinding.btnAddToWish.setBackground(getResources().getDrawable(R.drawable.bg_round_corner_white_accent));
+                if (basicResponse != null) {
+                    if (basicResponse.getCode().equals(SUCCESS_CODE)) {
+                        Toast.makeText(this, basicResponse.getMsg(), Toast.LENGTH_SHORT).show();
+
+                        if (isAddOrRemove == 1) {
+                            activityProductDetailBinding.btnAddToWish.setImageResource(R.drawable.wish_list_filled_icon);
+                            // activityProductDetailBinding.btnAddToWish.setBackground(getResources().getDrawable(R.drawable.bg_round_corner_white_accent));
+                        } else {
+                            activityProductDetailBinding.btnAddToWish.setImageResource(R.drawable.wish_list_icon);
+                            activityProductDetailBinding.btnAddToWish.setBackground(getResources().getDrawable(R.drawable.bg_round_corner_white));
+                        }
+                    } else if (basicResponse.getCode().equals(VALIDATION_FAIL_CODE)) {
+                        Toast.makeText(this, basicResponse.getMsg(), Toast.LENGTH_SHORT).show();
                     } else {
-                        activityProductDetailBinding.btnAddToWish.setImageResource(R.drawable.wish_list_icon);
-                        activityProductDetailBinding.btnAddToWish.setBackground(getResources().getDrawable(R.drawable.bg_round_corner_white));
+                        Toast.makeText(this, GENERAL_ERROR, Toast.LENGTH_SHORT).show();
                     }
-                } else if (basicResponse.getCode().equals(VALIDATION_FAIL_CODE)) {
-                    Toast.makeText(this, basicResponse.getMsg(), Toast.LENGTH_SHORT).show();
-                } else {
+
+                } else
                     Toast.makeText(this, GENERAL_ERROR, Toast.LENGTH_SHORT).show();
-                }
 
-            } else
-                Toast.makeText(this, GENERAL_ERROR, Toast.LENGTH_SHORT).show();
-
-            activityProductDetailBinding.pbLoading.setVisibility(View.GONE);
-        });
+                activityProductDetailBinding.pbLoading.setVisibility(View.GONE);
+            });
+        }
     }
 
     public void setBottomSheet(View view, boolean isBuyNow) {

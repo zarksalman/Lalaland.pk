@@ -13,6 +13,7 @@ import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.ViewModelProviders;
 
+import com.facebook.AccessToken;
 import com.facebook.CallbackManager;
 import com.facebook.FacebookCallback;
 import com.facebook.FacebookException;
@@ -179,6 +180,11 @@ public class BaseRegistrationFragment extends Fragment {
 
         mLoadingLogin = loadingLogin;
         callbackManager = CallbackManager.Factory.create();  //facebook registration callback
+
+        if (AccessToken.getCurrentAccessToken() != null) {
+            LoginManager.getInstance().logOut();
+            AccessToken.setCurrentAccessToken(null);
+        }
 
         loginButton.setFragment(this); // specially for fragments
         loginButton.performClick(); // depict as user click on facebook LoginButton but actually clicked on our button

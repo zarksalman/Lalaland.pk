@@ -43,15 +43,15 @@ public class EditAccountInformationActivity extends AppCompatActivity {
 
     final Calendar dobCalender = Calendar.getInstance();
     private AppPreference appPreference;
-
+    private Intent data;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         activityEditAccountInformationBinding = DataBindingUtil.setContentView(this, R.layout.activity_edit_account_information);
 
         appPreference = AppPreference.getInstance(this);
-        requestCode = getIntent().getIntExtra("request_code", -1);
-
+        data = getIntent();
+        requestCode = data.getIntExtra("request_code", -1);
         setListeners();
         if (requestCode != -1)
             setInfoVisibility(requestCode);
@@ -81,10 +81,27 @@ public class EditAccountInformationActivity extends AppCompatActivity {
         switch (visibilityCode) {
 
             case 1:
+
+                if (data != null) {
+
+                    first_name = data.getStringExtra(FIRST_NAME);
+                    last_name = data.getStringExtra(LAST_NAME);
+
+                    activityEditAccountInformationBinding.etFirstName.setText(first_name);
+                    activityEditAccountInformationBinding.etLastName.setText(last_name);
+
+                }
+
                 activityEditAccountInformationBinding.userNameContainer.setVisibility(View.VISIBLE);
                 break;
 
             case 2:
+
+                if (data != null) {
+                    phoneNumber = data.getStringExtra(PHONE_NUMBER);
+                    activityEditAccountInformationBinding.etContactNumber.setText(phoneNumber);
+                }
+
                 activityEditAccountInformationBinding.userPhoneContainer.setVisibility(View.VISIBLE);
                 break;
 
@@ -93,10 +110,26 @@ public class EditAccountInformationActivity extends AppCompatActivity {
                 break;
 
             case 4:
+                if (data != null) {
+                    gender = data.getStringExtra(GENDER);
+                    activityEditAccountInformationBinding.etContactNumber.setText(phoneNumber);
+
+                    if (gender.equals("male"))
+                        activityEditAccountInformationBinding.rbMale.setChecked(true);
+                    else
+                        activityEditAccountInformationBinding.rbFemale.setChecked(true);
+                }
+
                 activityEditAccountInformationBinding.userGenderContainer.setVisibility(View.VISIBLE);
                 break;
 
             case 5:
+
+                if (data != null) {
+                    dob = data.getStringExtra(DATE_OF_BIRTH);
+                    activityEditAccountInformationBinding.etDateOfBirth.setText(dob);
+                }
+
                 activityEditAccountInformationBinding.userDobContainer.setVisibility(View.VISIBLE);
                 break;
 
@@ -149,7 +182,7 @@ public class EditAccountInformationActivity extends AppCompatActivity {
 
     @Override
     public void onBackPressed() {
-        setResult(RESULT_CANCELED);
+        setResult(RESULT_OK, intent);
         finish();
     }
 

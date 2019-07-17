@@ -130,6 +130,7 @@
 
                     android:id="@+id/et_contact_number"
                     android:layout_width="match_parent"
+                    android:maxLength="11"
                     android:layout_height="wrap_content"
                     android:hint="@string/mobile_number"
                     android:inputType="numberDecimal" />

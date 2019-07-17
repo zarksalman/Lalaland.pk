@@ -9,7 +9,9 @@ import com.lalaland.ecommerce.data.models.login.User;
 import com.lalaland.ecommerce.data.models.userAddressBook.UserAddresses;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.regex.Pattern;
 
 public class AppConstants {
@@ -31,6 +33,10 @@ public class AppConstants {
     public static List<Category> staticCategoryList = new ArrayList<>();
     public static List<City> staticCitiesList = new ArrayList<>();
     public static List<CategoryBrand> staticCategoryBrandsList = new ArrayList<>();
+    public static Map<Integer, String> appliedFilter = new HashMap<>();
+    public static Map<String, String> appliedSubFilter = new HashMap<>();
+    public static String categorySubFilter = "All";
+
     public static List<String> testImagesUrl = new ArrayList<>();
     public static UserAddresses userAddresses;
     public static User user;
@@ -117,6 +123,7 @@ public class AppConstants {
     public static int CASH_TRANSFER_TYPE = 1;
     public static int LOAD_HOME_FRAGMENT_INDEX = 0;
     public static int CART_COUNTER = 0;
+    public static int FILTER_COUNTER = 0;
 
     public static final String START_INDEX = "start";
     public static final String LENGTH = "length";

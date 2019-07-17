@@ -9,6 +9,7 @@ import android.util.Patterns;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.WindowManager;
 import android.widget.DatePicker;
 import android.widget.RadioButton;
 import android.widget.Toast;
@@ -20,6 +21,7 @@ import com.lalaland.ecommerce.R;
 import com.lalaland.ecommerce.databinding.FragmentSignupBinding;
 import com.lalaland.ecommerce.helpers.AppConstants;
 import com.lalaland.ecommerce.helpers.AppPreference;
+import com.lalaland.ecommerce.helpers.AppUtils;
 import com.lalaland.ecommerce.interfaces.LoadingLogin;
 import com.lalaland.ecommerce.viewModels.user.RegistrationViewModel;
 
@@ -253,6 +255,8 @@ public class SignupFragment extends BaseRegistrationFragment implements LoadingL
                 && validatePasswords()
                 && validateDob()) {
 
+            AppUtils.hideKeyboard(getActivity());
+
             fragmentSignupBinding.pbLoading.setVisibility(View.VISIBLE);
 
             parameter.put("email", email);
@@ -369,9 +373,14 @@ public class SignupFragment extends BaseRegistrationFragment implements LoadingL
 
     @Override
     public void checkLoading(boolean isLoadingStop) {
-        if (isLoadingStop)
+        if (isLoadingStop) {
             fragmentSignupBinding.pbLoading.setVisibility(View.GONE);
-        else
+            getActivity().getWindow().clearFlags(WindowManager.LayoutParams.FLAG_NOT_TOUCHABLE);
+        } else {
+
+            getActivity().getWindow().setFlags(WindowManager.LayoutParams.FLAG_NOT_TOUCHABLE,
+                    WindowManager.LayoutParams.FLAG_NOT_TOUCHABLE);
             fragmentSignupBinding.pbLoading.setVisibility(View.VISIBLE);
+        }
     }
 }

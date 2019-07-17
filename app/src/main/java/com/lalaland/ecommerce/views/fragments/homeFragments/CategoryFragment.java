@@ -4,9 +4,13 @@ package com.lalaland.ecommerce.views.fragments.homeFragments;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
+import android.os.Handler;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.WindowManager;
+import android.widget.Toast;
 
 import androidx.databinding.DataBindingUtil;
 import androidx.fragment.app.Fragment;
@@ -27,7 +31,6 @@ import com.lalaland.ecommerce.data.models.category.CategoryBrand;
 import com.lalaland.ecommerce.databinding.FragmentCategoryBinding;
 import com.lalaland.ecommerce.helpers.AppConstants;
 import com.lalaland.ecommerce.viewModels.categories.CategoriesViewModel;
-import com.lalaland.ecommerce.viewModels.products.CategoryViewModel;
 import com.lalaland.ecommerce.views.activities.ActionProductListingActivity;
 
 import java.util.ArrayList;
@@ -40,13 +43,13 @@ import static com.lalaland.ecommerce.helpers.AppConstants.BRANDS_IN_FOCUS_PRODUC
 import static com.lalaland.ecommerce.helpers.AppConstants.CATEGORY_PRODUCTS;
 import static com.lalaland.ecommerce.helpers.AppConstants.PRODUCT_TYPE;
 import static com.lalaland.ecommerce.helpers.AppConstants.SUCCESS_CODE;
+import static com.lalaland.ecommerce.helpers.AppConstants.TAG;
 
 
 public class CategoryFragment extends Fragment implements MajorCategoryAdapter.MajorCategoryClickListener,
         CategoryAdapter.CategoryListener, CategorBrandAdapter.CategoryBrandListener {
 
     private FragmentCategoryBinding fragmentCategoryBinding;
-    private CategoryViewModel categoryViewModel;
     private List<Category> categoryList = new ArrayList<>();
     private List<CategoryHomeBanner> categoryHomeBanners = new ArrayList<>();
     private List<SubCategory> subCategories = new ArrayList<>();
@@ -56,7 +59,7 @@ public class CategoryFragment extends Fragment implements MajorCategoryAdapter.M
     private CategoryAdapter categoryAdapter;
     private CategorBrandAdapter categorBrandAdapter;
     private CategoriesViewModel categoriesViewModel;
-    private int categoryId, resumeCatId;
+    private int categoryId;
 
     public CategoryFragment() {
         // Required empty public constructor
@@ -83,35 +86,30 @@ public class CategoryFragment extends Fragment implements MajorCategoryAdapter.M
 
         setMajorCategoryList();
 
-        if (categoryList.size() > 0) {
-            getCategories(categoryList.get(0).getId());
+        if (AppConstants.staticCategoryList.size() > 0) {
+            setCategoryAdapter();
+            getCategories(AppConstants.staticCategoryList.get(0).getId());
             fragmentCategoryBinding.rvSubCategory.setVisibility(View.VISIBLE);
         }
 
-
         setBrandCategory();
-
-
         return fragmentCategoryBinding.getRoot();
-
     }
 
     @Override
     public void onStart() {
         super.onStart();
 
-        categoryViewModel = ViewModelProviders.of(this).get(CategoryViewModel.class);
-
         //setting viewpagger height because in scrollview wrap/match does not calculate their height correctly
         android.view.Display display = ((android.view.WindowManager) getContext().getSystemService(Context.WINDOW_SERVICE)).getDefaultDisplay();
         fragmentCategoryBinding.ivCategoryHeader.getLayoutParams().height = ((int) (display.getHeight() * 0.16));
-
     }
 
     @Override
     public void onResume() {
         super.onResume();
 
+        getCategories(categoryId);
     }
 
     private void setMajorCategoryList() {
@@ -147,37 +145,51 @@ public class CategoryFragment extends Fragment implements MajorCategoryAdapter.M
         String firstMajorCategoryId = String.valueOf(majorCategoryId);
         categoriesViewModel.getCategories(firstMajorCategoryId).observe(this, categoriesContainer -> {
 
-
             if (categoriesContainer != null) {
 
                 if (categoriesContainer.getCode().equals(SUCCESS_CODE)) {
 
                     if (categoriesContainer.getData().getSubCategories().size() > 0) {
 
-                        categoryHomeBanners = categoriesContainer.getData().getHomeBanner();
-                        subCategories = categoriesContainer.getData().getSubCategories();
-                        trimZeroSizeInnerCategories();
+                        new Handler().postDelayed(() -> {
 
-                        setCategoryAdapter();
+                            categoryHomeBanners = categoriesContainer.getData().getHomeBanner();
+                            subCategories = categoriesContainer.getData().getSubCategories();
 
-                        fragmentCategoryBinding.subCategoryContainer.setVisibility(View.VISIBLE);
-                        fragmentCategoryBinding.rvSubCategoryBrand.setVisibility(View.GONE);
-                        fragmentCategoryBinding.ivCategoryHeader.setVisibility(View.VISIBLE);
+                            Log.d(TAG, "major_cate_" + subCategories.size() + "_" + System.currentTimeMillis());
 
-                        categoryAdapter.setData(subCategories);
-                        categoryAdapter.notifyDataSetChanged();
+                            // trimZeroSizeInnerCategories();
+                            // setCategoryAdapter();
 
-                        String bannerImageUrl = BANNER_STORAGE_BASE_URL.concat(categoryHomeBanners.get(0).getBannerImage());
-                        Glide.with(getContext())
-                                .load(bannerImageUrl)
-                                .placeholder(R.drawable.placeholder_products)
-                                .into(fragmentCategoryBinding.ivCategoryHeader);
+                            fragmentCategoryBinding.subCategoryContainer.setVisibility(View.VISIBLE);
+                            fragmentCategoryBinding.rvSubCategoryBrand.setVisibility(View.GONE);
+                            fragmentCategoryBinding.ivCategoryHeader.setVisibility(View.VISIBLE);
 
+                            categoryAdapter.setData(subCategories);
+                            categoryAdapter.notifyDataSetChanged();
+
+                            String bannerImageUrl = BANNER_STORAGE_BASE_URL.concat(categoryHomeBanners.get(0).getBannerImage());
+
+                            Glide.with(AppConstants.mContext)
+                                    .load(bannerImageUrl)
+                                    .placeholder(R.drawable.placeholder_products)
+                                    .into(fragmentCategoryBinding.ivCategoryHeader);
+
+                            if (getActivity() != null)
+                                getActivity().getWindow().clearFlags(WindowManager.LayoutParams.FLAG_NOT_TOUCHABLE);
+
+                        }, 500);
+
+                    } else {
+                        Toast.makeText(getContext(), categoriesContainer.getMsg(), Toast.LENGTH_SHORT).show();
                     }
                 }
             }
 
-            fragmentCategoryBinding.pbLoading.setVisibility(View.GONE);
+            new Handler().postDelayed(() -> {
+
+                fragmentCategoryBinding.pbLoading.setVisibility(View.GONE);
+            }, 500);
         });
 
     }
@@ -185,7 +197,7 @@ public class CategoryFragment extends Fragment implements MajorCategoryAdapter.M
     private void trimZeroSizeInnerCategories() {
 
         List<SubCategory> subCategoryArrayList = new ArrayList<>();
-        subCategoryArrayList.addAll(subCategories);
+        subCategoryArrayList = subCategories;
 
         for (int i = 0; i < subCategories.size(); i++) {
 
@@ -205,6 +217,7 @@ public class CategoryFragment extends Fragment implements MajorCategoryAdapter.M
         // if same category do not clicked again
         if (categoryId != category.getId()) {
 
+
             if (category.getName().equals("Brands")) {
 
                 categoryId = category.getId();
@@ -220,20 +233,23 @@ public class CategoryFragment extends Fragment implements MajorCategoryAdapter.M
                 intent.putExtra(ACTION_NAME, category.getName());
                 intent.putExtra(ACTION_ID, String.valueOf(category.getId()));
                 intent.putExtra(PRODUCT_TYPE, category.getName());
+
+
                 startActivity(intent);
 
             } else {
 
-                categoryId = category.getId();
+                if (getActivity() != null)
+                    getActivity().getWindow().setFlags(WindowManager.LayoutParams.FLAG_NOT_TOUCHABLE,
+                        WindowManager.LayoutParams.FLAG_NOT_TOUCHABLE);
 
+                fragmentCategoryBinding.pbLoading.setVisibility(View.VISIBLE);
+                categoryId = category.getId();
                 fragmentCategoryBinding.subCategoryContainer.setVisibility(View.GONE);
                 fragmentCategoryBinding.rvSubCategoryBrand.setVisibility(View.GONE);
-                fragmentCategoryBinding.pbLoading.setVisibility(View.VISIBLE);
 
                 subCategories.clear();
                 categoryHomeBanners.clear();
-                resumeCatId = category.getId();
-
                 getCategories(categoryId);
             }
         }

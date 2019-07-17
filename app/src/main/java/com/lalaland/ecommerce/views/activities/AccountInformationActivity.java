@@ -58,6 +58,13 @@ public class AccountInformationActivity extends AppCompatActivity {
     private Map<String, String> parameter = new HashMap<>();
     private AppPreference appPreference;
     private String token;
+    private boolean isUserUpdatedProfile = false;
+    String[] fullNames;
+    String userName;
+    String phoneNumber;
+    String email;
+    String dateOfBirth;
+    String gender;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -73,7 +80,7 @@ public class AccountInformationActivity extends AppCompatActivity {
         //   isAllowedToUploadImage();
 
         activityAccountInformationBinding.ivCloseCheckoutScreen.setOnClickListener(v -> {
-            setResultForActivity(2);
+            onBackPressed();
         });
 
         initUI();
@@ -93,12 +100,13 @@ public class AccountInformationActivity extends AppCompatActivity {
 
     private void initUI() {
 
-        String userName = appPreference.getString(USER_NAME);
-        String phoneNumber = appPreference.getString(PHONE_NUMBER);
-        String email = appPreference.getString(EMAIL);
-        String dateOfBirth = appPreference.getString(DATE_OF_BIRTH);
-        String gender = appPreference.getString(GENDER);
+        userName = appPreference.getString(USER_NAME);
+        phoneNumber = appPreference.getString(PHONE_NUMBER);
+        email = appPreference.getString(EMAIL);
+        dateOfBirth = appPreference.getString(DATE_OF_BIRTH);
+        gender = appPreference.getString(GENDER);
 
+        fullNames = userName.split(" ");
         activityAccountInformationBinding.tvUserName.setText(userName);
         activityAccountInformationBinding.tvUserPhone.setText(phoneNumber);
         activityAccountInformationBinding.tvUserEmail.setText(email);
@@ -128,6 +136,27 @@ public class AccountInformationActivity extends AppCompatActivity {
         } else {
             intent = new Intent(this, EditAccountInformationActivity.class);
             intent.putExtra("request_code", type);
+
+            switch (type) {
+
+                case 1:
+                    intent.putExtra(FIRST_NAME, fullNames[0]);
+                    intent.putExtra(LAST_NAME, fullNames[1]);
+                    break;
+
+                case 2:
+                    intent.putExtra(PHONE_NUMBER, phoneNumber);
+                    break;
+
+                case 4:
+                    intent.putExtra(GENDER, gender);
+                    break;
+
+                case 5:
+                    intent.putExtra(DATE_OF_BIRTH, dateOfBirth);
+                    break;
+            }
+
             startActivityForResult(intent, type);
         }
 
@@ -198,11 +227,65 @@ public class AccountInformationActivity extends AppCompatActivity {
         });
     }
 
+    String getDataFromIntent(Intent intent, String key) {
+
+        if (intent != null)
+            return intent.getStringExtra(key);
+        else
+            return "";
+    }
+
+    private void changePassword() {
+
+        userViewModel.changePassword(token, parameter).observe(this, basicResponse -> {
+
+            if (basicResponse != null) {
+
+                if (basicResponse.getCode().equals(SUCCESS_CODE)) {
+
+                    Log.d("registerUser", basicResponse.getMsg());
+                    Toast.makeText(this, basicResponse.getMsg(), Toast.LENGTH_SHORT).show();
+                    setResultForActivity(1);
+
+                } else if (basicResponse.getCode().equals(VALIDATION_FAIL_CODE)) {
+                    Toast.makeText(this, basicResponse.getMsg(), Toast.LENGTH_SHORT).show();
+                }
+            } else
+                Toast.makeText(this, GENERAL_ERROR, Toast.LENGTH_SHORT).show();
+        });
+    }
+
+    private void updateUserDetails() {
+        userViewModel.updateUserDetails(token, parameter).observe(this, updateUserDataContainer -> {
+
+            if (updateUserDataContainer != null) {
+
+                if (updateUserDataContainer.getCode().equals(SUCCESS_CODE)) {
+
+                    appPreference.setString(USER_NAME, updateUserDataContainer.getData().getUser().getName());
+                    appPreference.setString(PHONE_NUMBER, updateUserDataContainer.getData().getUser().getPhone());
+                    appPreference.setString(DATE_OF_BIRTH, updateUserDataContainer.getData().getUser().getDateOfBirth());
+                    appPreference.setString(GENDER, updateUserDataContainer.getData().getUser().getGender());
+                    initUI();
+                    isUserUpdatedProfile = true;
+                    Toast.makeText(this, updateUserDataContainer.getMsg(), Toast.LENGTH_SHORT).show();
+
+
+                } else if (updateUserDataContainer.getCode().equals(VALIDATION_FAIL_CODE)) {
+                    Toast.makeText(this, updateUserDataContainer.getMsg(), Toast.LENGTH_SHORT).show();
+                } else
+                    Toast.makeText(this, GENERAL_ERROR, Toast.LENGTH_SHORT).show();
+            } else
+                Toast.makeText(this, GENERAL_ERROR, Toast.LENGTH_SHORT).show();
+        });
+    }
+
     @Override
     protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
 
         if (resultCode == RESULT_OK) {
+
             switch (requestCode) {
                 case 1:
 
@@ -265,64 +348,12 @@ public class AccountInformationActivity extends AppCompatActivity {
         }
     }
 
-    String getDataFromIntent(Intent intent, String key) {
-
-        if (intent != null)
-            return intent.getStringExtra(key);
-        else
-            return "";
-    }
-
-    private void changePassword() {
-
-        userViewModel.changePassword(token, parameter).observe(this, basicResponse -> {
-
-            if (basicResponse != null) {
-
-                if (basicResponse.getCode().equals(SUCCESS_CODE)) {
-
-                    Log.d("registerUser", basicResponse.getMsg());
-                    Toast.makeText(this, basicResponse.getMsg(), Toast.LENGTH_SHORT).show();
-                    setResultForActivity(1);
-
-                } else if (basicResponse.getCode().equals(VALIDATION_FAIL_CODE)) {
-                    Toast.makeText(this, basicResponse.getMsg(), Toast.LENGTH_SHORT).show();
-                }
-            } else
-                Toast.makeText(this, GENERAL_ERROR, Toast.LENGTH_SHORT).show();
-        });
-    }
-
-    private void updateUserDetails() {
-        userViewModel.updateUserDetails(token, parameter).observe(this, updateUserDataContainer -> {
-
-            if (updateUserDataContainer != null) {
-
-                if (updateUserDataContainer.getCode().equals(SUCCESS_CODE)) {
-
-                    appPreference.setString(USER_NAME, updateUserDataContainer.getData().getUser().getName());
-                    appPreference.setString(PHONE_NUMBER, updateUserDataContainer.getData().getUser().getPhone());
-                    appPreference.setString(DATE_OF_BIRTH, updateUserDataContainer.getData().getUser().getDateOfBirth());
-                    appPreference.setString(GENDER, updateUserDataContainer.getData().getUser().getGender());
-
-//                    AppConstants.userAddresses.setPhone(updateUserDataContainer.getData().getUser().getPhone());
-                    initUI();
-                    Toast.makeText(this, updateUserDataContainer.getMsg(), Toast.LENGTH_SHORT).show();
-
-                    setResultForActivity(1);
-
-                } else if (updateUserDataContainer.getCode().equals(VALIDATION_FAIL_CODE)) {
-                    Toast.makeText(this, updateUserDataContainer.getMsg(), Toast.LENGTH_SHORT).show();
-                } else
-                    Toast.makeText(this, GENERAL_ERROR, Toast.LENGTH_SHORT).show();
-            } else
-                Toast.makeText(this, GENERAL_ERROR, Toast.LENGTH_SHORT).show();
-        });
-    }
-
     @Override
     public void onBackPressed() {
-        setResultForActivity(2);
+        if (isUserUpdatedProfile)
+            setResultForActivity(1);
+        else
+            setResultForActivity(2);
     }
 
     void setResultForActivity(int resultType) {

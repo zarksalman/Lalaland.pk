@@ -8,6 +8,7 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.WindowManager;
 import android.widget.Toast;
 
 import androidx.databinding.DataBindingUtil;
@@ -17,6 +18,7 @@ import com.lalaland.ecommerce.R;
 import com.lalaland.ecommerce.databinding.FragmentSigninBinding;
 import com.lalaland.ecommerce.helpers.AppConstants;
 import com.lalaland.ecommerce.helpers.AppPreference;
+import com.lalaland.ecommerce.helpers.AppUtils;
 import com.lalaland.ecommerce.interfaces.LoadingLogin;
 import com.lalaland.ecommerce.viewModels.user.LoginViewModel;
 import com.lalaland.ecommerce.views.activities.ResetPasswordActivity;
@@ -102,6 +104,10 @@ public class SigninFragment extends BaseRegistrationFragment implements LoadingL
     void signInWithForm() {
 
         if (validateEmail() && validatePassword()) {
+
+            AppUtils.hideKeyboard(getActivity());
+            getActivity().getWindow().setFlags(WindowManager.LayoutParams.FLAG_NOT_TOUCHABLE,
+                    WindowManager.LayoutParams.FLAG_NOT_TOUCHABLE);
 
             fragmentSigninBinding.pbLoadingSignin.setVisibility(View.VISIBLE);
             parameter.put("email", emailOrNumber);
@@ -192,10 +198,18 @@ public class SigninFragment extends BaseRegistrationFragment implements LoadingL
 
     @Override
     public void checkLoading(boolean isLoadingStop) {
-        if (isLoadingStop)
+        if (isLoadingStop) {
             fragmentSigninBinding.pbLoadingSignin.setVisibility(View.GONE);
-        else
+            getActivity().getWindow().clearFlags(WindowManager.LayoutParams.FLAG_NOT_TOUCHABLE);
+
+        } else {
+
+            getActivity().getWindow().setFlags(WindowManager.LayoutParams.FLAG_NOT_TOUCHABLE,
+                    WindowManager.LayoutParams.FLAG_NOT_TOUCHABLE);
+
             fragmentSigninBinding.pbLoadingSignin.setVisibility(View.VISIBLE);
+        }
+
 
     }
 }

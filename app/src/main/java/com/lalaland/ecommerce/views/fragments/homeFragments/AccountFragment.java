@@ -76,7 +76,7 @@ public class AccountFragment extends Fragment implements View.OnClickListener {
 
             intent = new Intent(getContext(), RegistrationActivity.class);
 
-            Glide.with(getContext())
+            Glide.with(AppConstants.mContext)
                     .load(R.drawable.placeholder_products)
                     .into(fragmentAccountBinding.ivDisplayPicture);
 
@@ -92,7 +92,7 @@ public class AccountFragment extends Fragment implements View.OnClickListener {
 
             fragmentAccountBinding.tvLoginLogout.setText("Logout");
 
-            Glide.with(getContext())
+            Glide.with(AppConstants.mContext)
                     .load(avatarImagePath)
                     .placeholder(R.drawable.placeholder_products)
                     .diskCacheStrategy(DiskCacheStrategy.NONE)
@@ -145,38 +145,66 @@ public class AccountFragment extends Fragment implements View.OnClickListener {
         switch (id) {
 
             case R.id.iv_view_all:
-                intent.putExtra(ORDER_STATUS, "all orders");
-                startActivity();
+                if (signInToken.isEmpty()) {
+                    startActivityForResult(new Intent(getContext(), RegistrationActivity.class), 101);
+                } else {
+                    intent.putExtra(ORDER_STATUS, "all orders");
+                    startActivity();
+                }
                 break;
 
             case R.id.tv_view_all:
-                intent.putExtra(ORDER_STATUS, "all");
-                startActivity();
+                if (signInToken.isEmpty()) {
+                    startActivityForResult(new Intent(getContext(), RegistrationActivity.class), 101);
+                } else {
+                    intent.putExtra(ORDER_STATUS, "all");
+                    startActivity();
+                }
                 break;
 
             case R.id.new_order_container:
-                intent.putExtra(ORDER_STATUS, "new");
-                startActivity();
+                if (signInToken.isEmpty()) {
+                    startActivityForResult(new Intent(getContext(), RegistrationActivity.class), 101);
+                } else {
+                    intent.putExtra(ORDER_STATUS, "new");
+                    startActivity();
+                }
                 break;
 
             case R.id.confirmed_order_container:
-                intent.putExtra(ORDER_STATUS, "confirm");
-                startActivity();
+                if (signInToken.isEmpty()) {
+                    startActivityForResult(new Intent(getContext(), RegistrationActivity.class), 101);
+                } else {
+                    intent.putExtra(ORDER_STATUS, "confirm");
+                    startActivity();
+                }
                 break;
 
             case R.id.cancelled_order_container:
-                intent.putExtra(ORDER_STATUS, "cancel");
-                startActivity();
+                if (signInToken.isEmpty()) {
+                    startActivityForResult(new Intent(getContext(), RegistrationActivity.class), 101);
+                } else {
+                    intent.putExtra(ORDER_STATUS, "cancel");
+                    startActivity();
+                }
                 break;
 
             case R.id.in_transit_order_container:
-                intent.putExtra(ORDER_STATUS, "intransit");
-                startActivity();
+                if (signInToken.isEmpty()) {
+                    startActivityForResult(new Intent(getContext(), RegistrationActivity.class), 101);
+                } else {
+                    intent.putExtra(ORDER_STATUS, "intransit");
+                    startActivity();
+                }
                 break;
 
             case R.id.recieved_order_container:
-                intent.putExtra(ORDER_STATUS, "receive");
-                startActivity();
+                if (signInToken.isEmpty()) {
+                    startActivityForResult(new Intent(getContext(), RegistrationActivity.class), 101);
+                } else {
+                    intent.putExtra(ORDER_STATUS, "receive");
+                    startActivity();
+                }
                 break;
 
             case R.id.iv_setting:
@@ -218,7 +246,11 @@ public class AccountFragment extends Fragment implements View.OnClickListener {
                 break;
 
             case R.id.shipping_address:
-                startActivity(new Intent(getContext(), ChangeShippingAddress.class));
+                if (signInToken.isEmpty()) {
+                    startActivityForResult(new Intent(getContext(), RegistrationActivity.class), 100);
+                } else {
+                    startActivity(new Intent(getContext(), ChangeShippingAddress.class));
+                }
                 break;
 
             case R.id.refund:
@@ -269,7 +301,7 @@ public class AccountFragment extends Fragment implements View.OnClickListener {
 
                 signInToken = "";
 
-                Glide.with(getContext())
+                Glide.with(AppConstants.mContext)
                         .load(R.drawable.placeholder_products)
                         .into(fragmentAccountBinding.ivDisplayPicture);
 
@@ -307,10 +339,9 @@ public class AccountFragment extends Fragment implements View.OnClickListener {
 
                 fragmentAccountBinding.tvUserName.setText(userName);
 
-                fragmentAccountBinding.tvUserName.setText(userName);
                 fragmentAccountBinding.tvLoginLogout.setText(getString(R.string.logout));
 
-                Glide.with(getContext())
+                Glide.with(AppConstants.mContext)
                         .load(avatarImagePath)
                         .placeholder(R.drawable.placeholder_products)
                         .diskCacheStrategy(DiskCacheStrategy.NONE)

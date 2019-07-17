@@ -8,6 +8,8 @@ import com.google.gson.annotations.SerializedName;
 
 public class Filter implements Parcelable {
 
+    private boolean isSelected;
+
     @SerializedName("id")
     @Expose
     private Integer id;
@@ -64,6 +66,19 @@ public class Filter implements Parcelable {
         this.productVariationValueId = productVariationValueId;
     }
 
+
+    public boolean isSelected() {
+        return isSelected;
+    }
+
+    public void setSelected(boolean selected) {
+        isSelected = selected;
+    }
+
+
+    public Filter() {
+    }
+
     @Override
     public int describeContents() {
         return 0;
@@ -71,6 +86,7 @@ public class Filter implements Parcelable {
 
     @Override
     public void writeToParcel(Parcel dest, int flags) {
+        dest.writeByte(this.isSelected ? (byte) 1 : (byte) 0);
         dest.writeValue(this.id);
         dest.writeString(this.filterName);
         dest.writeString(this.displayName);
@@ -78,10 +94,8 @@ public class Filter implements Parcelable {
         dest.writeValue(this.productVariationValueId);
     }
 
-    public Filter() {
-    }
-
     protected Filter(Parcel in) {
+        this.isSelected = in.readByte() != 0;
         this.id = (Integer) in.readValue(Integer.class.getClassLoader());
         this.filterName = in.readString();
         this.displayName = in.readString();

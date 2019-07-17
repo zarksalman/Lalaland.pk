@@ -177,7 +177,7 @@
             android:id="@+id/tv_product_current_price"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="@{AppUtils.formatPriceString(cartItem.salePrice)}"
+            android:text="@{AppUtils.formatForCartPriceString(cartItem.salePrice, cartItem.itemQuantity)}"
             android:textColor="@color/colorDarkGray"
             app:layout_constraintEnd_toEndOf="parent"
             android:textSize="12sp"

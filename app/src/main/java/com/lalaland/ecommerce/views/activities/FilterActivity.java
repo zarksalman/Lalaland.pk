@@ -18,6 +18,7 @@ import com.lalaland.ecommerce.data.models.filters.CategoryFilter;
 import com.lalaland.ecommerce.data.models.filters.Filter;
 import com.lalaland.ecommerce.data.models.filters.ParentFilter;
 import com.lalaland.ecommerce.databinding.ActivityFilterBinding;
+import com.lalaland.ecommerce.helpers.AppConstants;
 import com.lalaland.ecommerce.helpers.AppUtils;
 import com.lalaland.ecommerce.viewModels.filter.FilterViewModel;
 
@@ -38,6 +39,7 @@ import static com.lalaland.ecommerce.helpers.AppConstants.PV_FILTER_;
 import static com.lalaland.ecommerce.helpers.AppConstants.SELECTED_FILTER_ID;
 import static com.lalaland.ecommerce.helpers.AppConstants.SELECTED_FILTER_NAME;
 import static com.lalaland.ecommerce.helpers.AppConstants.SUCCESS_CODE;
+import static com.lalaland.ecommerce.helpers.AppConstants.appliedFilter;
 
 public class FilterActivity extends AppCompatActivity {
 
@@ -53,6 +55,7 @@ public class FilterActivity extends AppCompatActivity {
     private Map<String, String> parameter = new HashMap<>();
     Intent intent;
     Intent resultantIntent;
+    static Intent filtersIntent;
 
     String priceFilter;
     String priceRange;
@@ -63,6 +66,9 @@ public class FilterActivity extends AppCompatActivity {
     String brandFilterName;
     String pvFilters;
     StringBuilder pvFilterIds = new StringBuilder();
+    private boolean isFiltersReset = false;
+    List<Filter> subFilterList;
+    Filter mSubFlter;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -89,12 +95,12 @@ public class FilterActivity extends AppCompatActivity {
         activityFilterBinding.tvResetFilter.setOnClickListener(v -> {
 
             parentFilterList.clear();
-            activityFilterBinding.pbLoading.setVisibility(View.VISIBLE);
             parameter = new HashMap<>();
-
             parameter.put(FILTER_ID, actionId);
             parameter.put(FILTER_KEY, key);
+            AppConstants.appliedFilter.clear();
 
+            isFiltersReset = true;
             initResultantIntent();
             getFilters();
         });
@@ -108,6 +114,8 @@ public class FilterActivity extends AppCompatActivity {
         resultantIntent.putExtra(BRAND_FILTER, "");
         resultantIntent.putExtra(CATEGORY_FILTER, "");
         resultantIntent.putExtra(PV_FILTER_, "");
+
+        filtersIntent = new Intent();
     }
 
     private void getFilters() {
@@ -175,12 +183,14 @@ public class FilterActivity extends AppCompatActivity {
 
     private void getSubFilters(String filterName, int requestCode) {
 
-        List<Filter> subFilterList = new ArrayList<>();
-        Filter mSubFlter = new Filter();
+        subFilterList = new ArrayList<>();
+        mSubFlter = new Filter();
+
+        Filter mFilter;
 
         if (filterName.equals("Category")) {
 
-            Filter mFilter = new Filter();
+            mFilter = new Filter();
             mFilter.setId(0);
             mFilter.setDisplayName("All");
             subFilterList.add(mFilter);
@@ -192,9 +202,26 @@ public class FilterActivity extends AppCompatActivity {
                 mSubFlter.setId(category.getId());
                 subFilterList.add(mSubFlter);
             }
+
+            /*if (appliedFilter.containsKey(1)) {
+
+                String[] categoryFilters = appliedFilter.get(1).split(",");
+
+                for (int i = 0; i < categoryFilters.length; i++) {
+                    for (int j = 0; j < subFilterList.size(); j++) {
+
+                        if (categoryFilters[i].equals(subFilterList.get(j).getDisplayName())) {
+                            subFilterList.get(j).setSelected(true);
+                        }
+
+
+                    }
+                }
+            }*/
+
         } else if (filterName.equals("Brands")) {
 
-            Filter mFilter = new Filter();
+            mFilter = new Filter();
             mFilter.setId(0);
             mFilter.setDisplayName("Any");
             subFilterList.add(mFilter);
@@ -209,7 +236,8 @@ public class FilterActivity extends AppCompatActivity {
         } else {
 
             if (filterName.equals(filterName)) {
-                Filter mFilter = new Filter();
+
+                mFilter = new Filter();
                 mFilter.setId(0);
                 mFilter.setDisplayName("Any");
                 mFilter.setFilterName(filterName);
@@ -236,20 +264,41 @@ public class FilterActivity extends AppCompatActivity {
         ParentFilter parentFilter = new ParentFilter();
         int iterator = 0;
 
-        parentFilter.setId(iterator);
-        parentFilter.setParentFilterName("Price");
-        parentFilter.setFilterSelected("Any");
-        parentFilterList.add(parentFilter);
+
+        if (appliedFilter.containsKey(iterator)) {
+
+            parentFilter.setId(iterator);
+            parentFilter.setParentFilterName("Price");
+            parentFilter.setFilterSelected(appliedFilter.get(iterator));
+            parentFilterList.add(parentFilter);
+        } else {
+
+            parentFilter.setId(iterator);
+            parentFilter.setParentFilterName("Price");
+            parentFilter.setFilterSelected("Any");
+            parentFilterList.add(parentFilter);
+        }
+
         iterator++;
 
         if (categoryFilterList.size() > 0) {
 
             parentFilter = new ParentFilter();
 
-            parentFilter.setId(iterator);
-            parentFilter.setParentFilterName("Category");
-            parentFilter.setFilterSelected("All");
-            parentFilterList.add(parentFilter);
+            if (appliedFilter.containsKey(iterator)) {
+
+                parentFilter.setId(iterator);
+                parentFilter.setParentFilterName("Category");
+                parentFilter.setFilterSelected(appliedFilter.get(iterator));
+                parentFilterList.add(parentFilter);
+
+            } else {
+                parentFilter.setId(iterator);
+                parentFilter.setParentFilterName("Category");
+                parentFilter.setFilterSelected("All");
+                parentFilterList.add(parentFilter);
+            }
+
             iterator++;
         }
 
@@ -257,10 +306,20 @@ public class FilterActivity extends AppCompatActivity {
 
             parentFilter = new ParentFilter();
 
-            parentFilter.setId(iterator);
-            parentFilter.setParentFilterName("Brands");
-            parentFilter.setFilterSelected("Any");
-            parentFilterList.add(parentFilter);
+            if (appliedFilter.containsKey(iterator)) {
+
+                parentFilter.setId(iterator);
+                parentFilter.setParentFilterName("Brands");
+                parentFilter.setFilterSelected(appliedFilter.get(iterator));
+                parentFilterList.add(parentFilter);
+
+            } else {
+                parentFilter.setId(iterator);
+                parentFilter.setParentFilterName("Brands");
+                parentFilter.setFilterSelected("Any");
+                parentFilterList.add(parentFilter);
+            }
+
             iterator++;
         }
 
@@ -273,7 +332,12 @@ public class FilterActivity extends AppCompatActivity {
 
                 parentFilter.setId(filter.getId());
                 parentFilter.setParentFilterName(filter.getFilterName());
-                parentFilter.setFilterSelected("Any");
+
+                if (appliedFilter.containsKey(iterator))
+                    parentFilter.setFilterSelected(appliedFilter.get(iterator));
+                else
+                    parentFilter.setFilterSelected("Any");
+
                 parentFilterList.add(parentFilter);
                 iterator++;
             }
@@ -317,6 +381,7 @@ public class FilterActivity extends AppCompatActivity {
 
                     if (!priceRange.equals("Any")) {
                         parentFilterList.get(0).setFilterSelected("PKR " + priceRange);
+                        appliedFilter.put(0, priceRange);
                     }
                     parentFilterAdapter.notifyDataSetChanged();
                 }
@@ -335,6 +400,8 @@ public class FilterActivity extends AppCompatActivity {
                 if (data.getStringExtra(FILTER_NAME) != null) {
                     categoryFilterName = data.getStringExtra(FILTER_NAME);
                     parentFilterList.get(1).setFilterSelected(categoryFilterName);
+                    appliedFilter.put(1, categoryFilterName);
+
                     parentFilterAdapter.notifyDataSetChanged();
                 }
 
@@ -351,7 +418,15 @@ public class FilterActivity extends AppCompatActivity {
 
                 if (data.getStringExtra(SELECTED_FILTER_NAME) != null) {
                     brandFilterName = data.getStringExtra(SELECTED_FILTER_NAME);
-                    parentFilterList.get(2).setFilterSelected(brandFilterName);
+
+                    if (categoryFilterList.size() > 0) {
+                        parentFilterList.get(2).setFilterSelected(brandFilterName);
+                        appliedFilter.put(2, brandFilterName);
+                    } else {
+                        parentFilterList.get(1).setFilterSelected(brandFilterName);
+                        appliedFilter.put(1, brandFilterName);
+                    }
+
                     parentFilterAdapter.notifyDataSetChanged();
                 }
 
@@ -376,6 +451,8 @@ public class FilterActivity extends AppCompatActivity {
 
                     if (index != null) {
                         parentFilterList.get(index).setFilterSelected(pvFilters);
+                        appliedFilter.put(index, pvFilters);
+
                         parentFilterAdapter.notifyDataSetChanged();
                     }
                 }
@@ -394,6 +471,12 @@ public class FilterActivity extends AppCompatActivity {
             }
             finish();
         }
+
+        setSubFiltersSelection();
+    }
+
+    private void setSubFiltersSelection() {
+
     }
 
     void setResultantIntent() {
@@ -411,7 +494,14 @@ public class FilterActivity extends AppCompatActivity {
 
     @Override
     public void onBackPressed() {
-        setResult(RESULT_CANCELED);
+
+        if (isFiltersReset) {
+            resultantIntent = new Intent();
+            resultantIntent.putExtra("reset_filters", "true");
+        }
+
+        setResult(RESULT_CANCELED, resultantIntent);
+        resultantIntent = new Intent();
         finish();
     }
 }

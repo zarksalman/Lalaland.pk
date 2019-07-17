@@ -85,9 +85,9 @@ public class MainActivity extends AppCompatActivity implements CloseAppListener 
                 if (selectedFragment == 2)
                     return false;
 
-                activityMainBinding.topBarSearch.setVisibility(View.GONE);
-                activityMainBinding.topBarWithoutSearch.setVisibility(View.VISIBLE);
                 activityMainBinding.topBar.setVisibility(View.VISIBLE);
+                activityMainBinding.topBarWithoutSearch.setVisibility(View.VISIBLE);
+                activityMainBinding.topBarSearch.setVisibility(View.GONE);
 
                 activityMainBinding.topBar.setBackgroundColor(getResources().getColor(android.R.color.white));
                 activityMainBinding.tvFragmentName.setText(getResources().getString(R.string.cart_items));
@@ -187,20 +187,7 @@ public class MainActivity extends AppCompatActivity implements CloseAppListener 
     private void showExitDialog() {
 
         if (selectedFragment == 0) {
-
-/*            if (exitDialog != null) {
-
-                exitDialog.show();
-                exitDialog.getButton(DialogInterface.BUTTON_NEUTRAL).setTextColor(ContextCompat.getColor(this, R.color.colorPrimary));
-                exitDialog.getButton(DialogInterface.BUTTON_NEUTRAL).setTransformationMethod(null);
-                exitDialog.getButton(DialogInterface.BUTTON_NEGATIVE).setTextColor(ContextCompat.getColor(this, android.R.color.darker_gray));
-                exitDialog.getButton(DialogInterface.BUTTON_NEGATIVE).setTransformationMethod(null);
-                exitDialog.getButton(DialogInterface.BUTTON_POSITIVE).setTextColor(ContextCompat.getColor(this, R.color.colorPrimary));
-                exitDialog.getButton(DialogInterface.BUTTON_POSITIVE).setTransformationMethod(null);
-            }*/
-
             exitDialog.show();
-
         } else {
 
             LOAD_HOME_FRAGMENT_INDEX = 0;
@@ -236,7 +223,6 @@ public class MainActivity extends AppCompatActivity implements CloseAppListener 
                 break;
 
             default:
-
                 activityMainBinding.navView.setSelectedItemId(R.id.navigation_home);
         }
     }
@@ -255,21 +241,6 @@ public class MainActivity extends AppCompatActivity implements CloseAppListener 
     }
 
     private void prepareExitDialog() {
-
-/*        View dialogView = LayoutInflater.from(this).inflate(R.layout.exit_dialogue_layout, null);
-
-        AlertDialog.Builder dialogBuilder = new AlertDialog.Builder(this);
-        exitDialog = dialogBuilder.create();
-        exitDialog.setCancelable(false);
-        exitDialog.setView(dialogView);
-
-        exitDialog.setButton(DialogInterface.BUTTON_NEGATIVE, getText(R.string.no), (dialog, which) -> {
-            dialog.dismiss();
-        });
-
-        exitDialog.setButton(DialogInterface.BUTTON_POSITIVE, getText(R.string.yes), (dialog, which) -> {
-            closeApp();
-        });*/
 
         exitDialogueLayoutBinding = DataBindingUtil.inflate(LayoutInflater.from(this), R.layout.exit_dialogue_layout, null, false);
         AlertDialog.Builder dialogBuilder = new AlertDialog.Builder(this);

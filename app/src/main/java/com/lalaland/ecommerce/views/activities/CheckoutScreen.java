@@ -221,7 +221,7 @@ public class CheckoutScreen extends AppCompatActivity implements NetworkInterfac
 
         addAddressDialogueBinding.btnOk.setOnClickListener(v -> {
             addAddressDialogue.dismiss();
-            startActivityForResult(new Intent(CheckoutScreen.this, ChangeShippingAddress.class), 202);
+            startActivityForResult(new Intent(CheckoutScreen.this, AddressCreationActivity.class), 202);
         });
     }
 
@@ -411,7 +411,7 @@ public class CheckoutScreen extends AppCompatActivity implements NetworkInterfac
     public void placeOrder() {
 
         if (isUserAddressNull) {
-            Toast.makeText(this, "Please add address to place order", Toast.LENGTH_SHORT).show();
+            addAddressDialogue.show();
             return;
         }
 
@@ -419,13 +419,6 @@ public class CheckoutScreen extends AppCompatActivity implements NetworkInterfac
             phoneNumberDialogue.show();
             return;
         }
-
-        /*if (userAddresses.getPhone() == null || userAddresses.getPhone().isEmpty()) {
-            Intent intent = new Intent(this, AccountInformationActivity.class);
-            startActivityForResult(intent, Integer.parseInt(SUCCESS_CODE));
-            activityCheckoutScreenBinding.pbLoading.setVisibility(View.GONE);
-            return;
-        }*/
 
         activityCheckoutScreenBinding.pbLoading.setVisibility(View.VISIBLE);
         parameter.clear();

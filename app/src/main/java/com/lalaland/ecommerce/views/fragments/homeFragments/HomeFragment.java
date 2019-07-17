@@ -3,6 +3,7 @@ package com.lalaland.ecommerce.views.fragments.homeFragments;
 
 import android.content.Context;
 import android.content.Intent;
+import android.os.Build;
 import android.os.Bundle;
 import android.os.Handler;
 import android.util.Log;
@@ -80,7 +81,7 @@ public class HomeFragment extends Fragment implements ActionAdapter.ActionClickL
     Boolean isLoading = false;
     public static int INITIAL_INDEX = 0;
     public static int END_INDEX = 30;
-    public static final int NUMBER_OF_ITEM = 20;
+    public static final int NUMBER_OF_ITEM = 30;
     private String recommended_cat;
 
 
@@ -178,10 +179,7 @@ public class HomeFragment extends Fragment implements ActionAdapter.ActionClickL
                 Log.d(TAG, "getProductItems" + productList.size());
                 isLoading = false;
             }
-
-            new Handler().postDelayed(() -> {
-                fragmentHomeBinding.pbProductLoad.setVisibility(View.GONE);
-            }, 0);
+            fragmentHomeBinding.pbProductLoad.setVisibility(View.GONE);
 
         });
     }
@@ -372,9 +370,16 @@ public class HomeFragment extends Fragment implements ActionAdapter.ActionClickL
         recommendationProductAdapter.setData(productList);
         fragmentHomeBinding.rvRecommendedProducts.setAdapter(recommendationProductAdapter);
         gridLayoutManager = new GridLayoutManager(getContext(), 2);
+
         fragmentHomeBinding.rvRecommendedProducts.setLayoutManager(gridLayoutManager);
         // just to remove lag from recommendation products adapter
-        ViewCompat.setNestedScrollingEnabled(fragmentHomeBinding.rvRecommendedProducts, false);
+
+        if (android.os.Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT_WATCH) {
+            fragmentHomeBinding.rvRecommendedProducts.setNestedScrollingEnabled(false);
+        } else {
+            ViewCompat.setNestedScrollingEnabled(fragmentHomeBinding.rvRecommendedProducts, false);
+        }
+
 
         // It takes almost 3 4 days just because, recyclerview is under nestedScrollView (onScrolled does not call)
         fragmentHomeBinding.containersParent.setOnScrollChangeListener((NestedScrollView.OnScrollChangeListener) (v, scrollX, scrollY, oldScrollX, oldScrollY) -> {

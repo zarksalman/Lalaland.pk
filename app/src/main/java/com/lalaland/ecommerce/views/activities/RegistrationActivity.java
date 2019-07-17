@@ -22,10 +22,7 @@ public class RegistrationActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-
-        /*requestWindowFeature(Window.FEATURE_NO_TITLE);
-        getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN, WindowManager.LayoutParams.FLAG_FULLSCREEN);
-*/
+        
         registrationBinding = DataBindingUtil.setContentView(this, R.layout.activity_registration);
         registrationBinding.setListener(this);
 
@@ -37,7 +34,14 @@ public class RegistrationActivity extends AppCompatActivity {
         registrationBinding.tlScreenRegistration.setupWithViewPager(registrationBinding.vpRegistration);
     }
 
+    @Override
+    public void onBackPressed() {
+        closeActivity();
+    }
+
     public void closeActivity() {
+
+        setResult(RESULT_CANCELED);
         finish();
 //        AppConstants.LOAD_HOME_FRAGMENT_INDEX = 5;
     }

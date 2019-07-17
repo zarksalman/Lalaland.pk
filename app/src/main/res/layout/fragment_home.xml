@@ -17,6 +17,7 @@
         <!--        android:isScrollContainer="true"
                 android:measureAllChildren="true"
                 -->
+
         <androidx.core.widget.NestedScrollView
 
             android:id="@+id/containers_parent"
@@ -193,7 +194,7 @@
                     <androidx.recyclerview.widget.RecyclerView
                         android:id="@+id/rv_recommended_products"
                         android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
+                        android:layout_height="match_parent"
                         android:scrollbars="none"
                         android:nestedScrollingEnabled="false"
                         tools:listitem="@layout/product_paged_item" />

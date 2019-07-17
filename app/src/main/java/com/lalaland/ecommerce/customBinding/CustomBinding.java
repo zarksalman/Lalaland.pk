@@ -27,6 +27,7 @@ public class CustomBinding {
                 .with(AppConstants.mContext)
                 .load(imageSrc)
                 .fitCenter()
+                .error(R.drawable.placeholder_products)
                 .placeholder(R.drawable.placeholder_products)
                 .into(imageView);
     }
@@ -34,11 +35,13 @@ public class CustomBinding {
     @BindingAdapter("setMediumImageFromServer")
     public static void setMediumImageFromServer(ImageView imageView, String imageName) {
 
+
         String imageSrc = PRODUCT_STORAGE_BASE_URL.concat(imageName);
         Glide
                 .with(AppConstants.mContext)
                 .load(imageSrc)
                 .fitCenter()
+                .error(R.drawable.placeholder_products)
                 .placeholder(R.drawable.placeholder_products)
                 .into(imageView);
     }
@@ -51,6 +54,7 @@ public class CustomBinding {
                 .with(imageView.getContext())
                 .load(imageSrc)
                 .placeholder(R.drawable.placeholder_products)
+                .error(R.drawable.placeholder_products)
                 .fitCenter()
                 .into(imageView);
     }
@@ -63,6 +67,7 @@ public class CustomBinding {
                 .with(imageView.getContext())
                 .load(imageSrc)
                 .fitCenter()
+                .error(R.drawable.placeholder_products)
                 .placeholder(R.drawable.placeholder_products)
                 .into(imageView);
     }
@@ -76,6 +81,7 @@ public class CustomBinding {
                 .with(imageView.getContext())
                 .load(imageSrc)
                 .centerCrop()
+                .error(R.drawable.placeholder_products)
                 .placeholder(R.drawable.placeholder_products)
                 .into(imageView);
     }
@@ -88,6 +94,7 @@ public class CustomBinding {
                 .with(imageView.getContext())
                 .load(imageSrc)
                 .placeholder(R.drawable.placeholder_products)
+                .error(R.drawable.placeholder_products)
                 .fitCenter()
                 .into(imageView);
     }

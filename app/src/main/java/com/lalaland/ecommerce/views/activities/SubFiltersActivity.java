@@ -29,7 +29,7 @@ public class SubFiltersActivity extends AppCompatActivity {
 
     private ActivitySubFiltersBinding activitySubFiltersBinding;
     private String parentFilterName;
-    private List<Filter> subFilterList = new ArrayList<>();
+    public List<Filter> subFilterList = new ArrayList<>();
     private List<Filter> selectedSubFilterList = new ArrayList<>();
     List<Filter> selectedFilters = new ArrayList<>();
     private String subFilterName;
@@ -183,6 +183,7 @@ public class SubFiltersActivity extends AppCompatActivity {
             brandParamsMid = brandParamsMid.concat(String.valueOf(selectedFilters.get(i).getId()));
             brandParamsMid = brandParamsMid.concat(",");
             sFilterNames = sFilterNames.concat(selectedFilters.get(i).getDisplayName()).concat(",");
+
         }
 
         brandParams.append(AppUtils.trimLastComa(brandParamsMid));
@@ -241,6 +242,7 @@ public class SubFiltersActivity extends AppCompatActivity {
         pvFilterParamsIdsMid = new StringBuilder(AppUtils.trimLastComa(pvFilterParamsIdsMid.toString()));
         pvFilterParams.append(pvFilterParamsIdsMid);
         pvFilterParams.append(pvFilterParamsIdsEnd);
+
         pvFilterParams = new StringBuilder(AppUtils.trimLastComa(pvFilterParams.toString()));
         pvFilterParams.append(pvFilterParamsEnd);
     }
@@ -263,19 +265,9 @@ public class SubFiltersActivity extends AppCompatActivity {
 
         if (filtersAdapter.getSelectedFilters() != null) {
             selectedFilters = filtersAdapter.getSelectedFilters();
-            /*
-
-            setPbFiltersParams();
-
-            intent.putExtra(PV_FILTER_, pvFilterParams.toString());
-            intent.putExtra(SELECTED_FILTER_NAME, selectedFilters.get(0).getFilterName());
-            intent.putExtra(FILTER_NAME, selectedFilters.get(0).getFilterName());*/
-
-            //intent.putParcelableArrayListExtra("selected_filters", (ArrayList<? extends Parcelable>) selectedFilters);
 
             // for multiple filters
             setPbFiltersParams();
-//            setOthersParams();
 
             intent.putExtra(FILTER_NAME, selectedFilters.get(0).getFilterName());
             intent.putExtra(SELECTED_FILTER_NAME, sFilterNames.toString());

@@ -26,6 +26,7 @@ import com.lalaland.ecommerce.adapters.ActionProductsAdapter;
 import com.lalaland.ecommerce.data.models.actionProducs.ActionProducts;
 import com.lalaland.ecommerce.databinding.ActivityProductListingBinding;
 import com.lalaland.ecommerce.databinding.SortFilterBottomSheetLayoutBinding;
+import com.lalaland.ecommerce.helpers.AppConstants;
 import com.lalaland.ecommerce.viewModels.filter.FilterViewModel;
 import com.lalaland.ecommerce.viewModels.products.ProductViewModel;
 
@@ -73,7 +74,7 @@ public class ActionProductListingActivity extends AppCompatActivity implements A
     GridLayoutManager gridLayoutManager;
     private boolean isScrolling;
     int start = 0, length = 30, size = 30;
-    String sortBy = "az";
+    String sortBy = "";
     Intent intent;
 
     String priceRange;
@@ -95,8 +96,9 @@ public class ActionProductListingActivity extends AppCompatActivity implements A
         getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN, WindowManager.LayoutParams.FLAG_FULLSCREEN);
         activityProductListingBinding = DataBindingUtil.setContentView(this, R.layout.activity_product_listing);
 
-        if (getIntent().getExtras() != null) {
+        AppConstants.appliedFilter.clear();
 
+        if (getIntent().getExtras() != null) {
 
             products_type = getIntent().getStringExtra(PRODUCT_TYPE);
             category_name = getIntent().getStringExtra(ACTION_NAME);
@@ -109,64 +111,7 @@ public class ActionProductListingActivity extends AppCompatActivity implements A
 
             activityProductListingBinding.tvCategoryTitle.setText(category_name);
 
-            switch (products_type) {
-                // actions types
-                case SALE_PRODUCT:
-
-                    parameter.clear();
-                    action_name = "sale";
-                    action_id = getIntent().getStringExtra(ACTION_ID);
-                    parameter.put(ID, action_id);
-
-                    break;
-
-                case NEW_ARRIVAL_PRODUCTS:
-                    action_name = "newArrivals";
-                    action_id = getIntent().getStringExtra(ACTION_ID);
-                    parameter.put(ID, action_id);
-
-                    break;
-
-                case CATEGORY_PRODUCTS:
-                    action_name = "categoryProducts";
-                    action_id = getIntent().getStringExtra(ACTION_ID);
-                    parameter.put(ID, action_id);
-
-                    break;
-
-                case CUSTOM_LIST_PRODUCTS:
-                    action_name = "customListProducts";
-                    action_id = getIntent().getStringExtra(ACTION_ID);
-                    parameter.put(ID, action_id);
-
-                    break;
-
-                // category types
-                case PICK_OF_THE_WEEK_PRODUCTS:
-
-                    action_name = "productsPicksOfTheWeek";
-                    parameter.put(ID, action_id);
-                    break;
-
-                case BRANDS_IN_FOCUS_PRODUCTS:
-                    action_name = "brand";
-                    action_id = getIntent().getStringExtra(ACTION_ID);
-                    parameter.put(ID, action_id);
-                    break;
-
-                case SEARCH_RESULT_PRODUCTS:
-
-                    action_name = "searchResults";
-                    action_id = getIntent().getStringExtra(ACTION_ID);
-                    String qstr = getIntent().getStringExtra("qstr");
-
-                    parameter.put(ID, action_id);
-                    parameter.put("qstr", qstr);
-
-                    break;
-
-            }
-
+            setParameters();
             parameter.put(SORT_BY, sortBy);
         }
 
@@ -175,6 +120,69 @@ public class ActionProductListingActivity extends AppCompatActivity implements A
 
         setListeners();
         setBottomSheet();
+    }
+
+    private void setParameters() {
+
+        switch (products_type) {
+            // actions types
+            case SALE_PRODUCT:
+
+                parameter.clear();
+                action_name = "sale";
+                action_id = getIntent().getStringExtra(ACTION_ID);
+                parameter.put(ID, action_id);
+
+                break;
+
+            case NEW_ARRIVAL_PRODUCTS:
+                action_name = "newArrivals";
+                action_id = getIntent().getStringExtra(ACTION_ID);
+                parameter.put(ID, action_id);
+
+                break;
+
+            case CATEGORY_PRODUCTS:
+                action_name = "categoryProducts";
+                action_id = getIntent().getStringExtra(ACTION_ID);
+                parameter.put(ID, action_id);
+
+                break;
+
+            case CUSTOM_LIST_PRODUCTS:
+                action_name = "customListProducts";
+                action_id = getIntent().getStringExtra(ACTION_ID);
+                parameter.put(ID, action_id);
+
+                break;
+
+            // category types
+            case PICK_OF_THE_WEEK_PRODUCTS:
+
+                action_name = "productsPicksOfTheWeek";
+                parameter.put(ID, action_id);
+                break;
+
+            case BRANDS_IN_FOCUS_PRODUCTS:
+                action_name = "brand";
+                action_id = getIntent().getStringExtra(ACTION_ID);
+                parameter.put(ID, action_id);
+                break;
+
+            case SEARCH_RESULT_PRODUCTS:
+
+                action_name = "searchResults";
+                action_id = getIntent().getStringExtra(ACTION_ID);
+                String qstr = getIntent().getStringExtra("qstr");
+
+                activityProductListingBinding.tvCategoryTitle.setText(qstr);
+
+                parameter.put(ID, action_id);
+                parameter.put("qstr", qstr);
+
+                break;
+        }
+
     }
 
 
@@ -511,6 +519,12 @@ public class ActionProductListingActivity extends AppCompatActivity implements A
                         setOtherFiltersParams(data, false);
                         break;
                 }
+            }
+        } else {
+
+            if (data != null && data.hasExtra("reset_filters")) {
+                setParameters();
+                setActionProducts();
             }
         }
     }

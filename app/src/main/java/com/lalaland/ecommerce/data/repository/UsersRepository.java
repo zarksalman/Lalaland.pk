@@ -269,18 +269,18 @@ public class UsersRepository {
         lalalandServiceApi.registerUser(userInfo, parameters).enqueue(new Callback<RegistrationContainer>() {
             @Override
             public void onResponse(Call<RegistrationContainer> call, Response<RegistrationContainer> response) {
-                registrationContainerMutableLiveData.postValue(response.body());
 
-                /*Headers headers = response.headers();
-                AppPreference.getInstance(AppConstants.mContext).setString(SIGNIN_TOKEN, headers.get(SIGNIN_TOKEN));
-                checkResponseSource(response);
-*/
-                // saving header response for different purposes like add to wish list etc
-                Headers headers = response.headers();
-                AppPreference.getInstance(AppConstants.mContext).setString(SIGNIN_TOKEN, headers.get(SIGNIN_TOKEN));
-                // if login successfully then discard cart session token
-                AppPreference.getInstance(AppConstants.mContext).setString(CART_SESSION_TOKEN, "");
-                checkResponseSource(response);
+                if (response.isSuccessful()) {
+                    registrationContainerMutableLiveData.postValue(response.body());
+
+                    // saving header response for different purposes like add to wish list etc
+                    Headers headers = response.headers();
+                    AppPreference.getInstance(AppConstants.mContext).setString(SIGNIN_TOKEN, headers.get(SIGNIN_TOKEN));
+                    // if login successfully then discard cart session token
+                    AppPreference.getInstance(AppConstants.mContext).setString(CART_SESSION_TOKEN, "");
+                    checkResponseSource(response);
+                } else
+                    registrationContainerMutableLiveData.postValue(null);
             }
 
             @Override
