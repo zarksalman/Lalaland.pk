@@ -343,6 +343,9 @@ public class CartFragment extends Fragment implements View.OnClickListener, Cart
                         fragmentCartBinding.tvEmptyState.setVisibility(View.VISIBLE);
                         AppConstants.CART_COUNTER = 0;
                     } else {
+
+                        AppConstants.CART_COUNTER--;
+
                         fragmentCartBinding.tvCartEmptyState.setVisibility(View.GONE);
                         fragmentCartBinding.tvEmptyState.setVisibility(View.GONE);
                     }

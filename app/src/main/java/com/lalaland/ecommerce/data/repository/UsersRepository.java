@@ -187,9 +187,11 @@ public class UsersRepository {
 
             @Override
             public void onResponse(Call<BasicResponse> call, Response<BasicResponse> response) {
-                basicResponseMutableLiveData.postValue(response.body());
-                AppPreference.getInstance(AppConstants.mContext).setString(SIGNIN_TOKEN, SIGNIN_TOKEN);
-                checkResponseSource(response);
+                if (response.isSuccessful()) {
+                    basicResponseMutableLiveData.postValue(response.body());
+                    checkResponseSource(response);
+                } else
+                    basicResponseMutableLiveData.postValue(null);
             }
 
             @Override

@@ -116,14 +116,18 @@ public class ProductDetailActivity extends AppCompatActivity implements ProductV
         });
 
         activityProductDetailBinding.cartCounterContainer.setOnClickListener(v -> {
+
             LOAD_HOME_FRAGMENT_INDEX = 2;
+            intent = new Intent(this, MainActivity.class);
             intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
             startActivity(intent);
             finish();
         });
 
         activityProductDetailBinding.ivCart.setOnClickListener(v -> {
+
             LOAD_HOME_FRAGMENT_INDEX = 2;
+            intent = new Intent(this, MainActivity.class);
             intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
             startActivity(intent);
             finish();
@@ -166,6 +170,8 @@ public class ProductDetailActivity extends AppCompatActivity implements ProductV
         headers.put(CART_SESSION_TOKEN, cartSessionToken);
 
         addDots();
+
+//        Double isWishList = (Double) productDetails.getIsWishListItem();
 
         if (productDetails.getIsWishListItem() != null) {
             activityProductDetailBinding.btnAddToWish.setImageResource(R.drawable.wish_list_filled_icon);
@@ -488,9 +494,18 @@ public class ProductDetailActivity extends AppCompatActivity implements ProductV
 
         prouctDetailBottomSheetLayoutBinding.btnAdd.setOnClickListener(v -> {
 
-            quantity++;
-            prouctDetailBottomSheetLayoutBinding.tvCount.setText(String.valueOf(quantity));
+            for (int i = 0; i < mProductVariation.size(); i++) {
+                if (variation_id == mProductVariation.get(i).getId()) {
 
+                    if (quantity < Integer.parseInt(mProductVariation.get(i).getRemainingQuantity())) {
+                        quantity++;
+                        prouctDetailBottomSheetLayoutBinding.tvCount.setText(String.valueOf(quantity));
+                        return;
+                    }
+                }
+            }
+
+            Toast.makeText(this, "Insufficient Stock", Toast.LENGTH_SHORT).show();
         });
     }
 

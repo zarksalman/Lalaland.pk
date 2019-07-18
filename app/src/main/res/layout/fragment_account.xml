@@ -225,30 +225,6 @@
                     </LinearLayout>
 
                     <LinearLayout
-                        android:id="@+id/recieved_order_container"
-                        android:layout_width="0dp"
-                        android:layout_height="wrap_content"
-                        android:layout_gravity="center"
-                        android:layout_margin="@dimen/_4dp"
-                        android:layout_weight=".2"
-                        android:gravity="center"
-                        android:orientation="vertical">
-
-                        <ImageView
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:src="@drawable/order_recieced_icon" />
-
-                        <TextView
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:fontFamily="@font/encodesansregular"
-                            android:text="@string/received"
-                            android:textColor="@color/colorDarkGray"
-                            android:textSize="12sp" />
-                    </LinearLayout>
-
-                    <LinearLayout
                         android:id="@+id/in_transit_order_container"
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
@@ -268,6 +244,30 @@
                             android:layout_height="wrap_content"
                             android:fontFamily="@font/encodesansregular"
                             android:text="@string/in_transit"
+                            android:textColor="@color/colorDarkGray"
+                            android:textSize="12sp" />
+                    </LinearLayout>
+
+                    <LinearLayout
+                        android:id="@+id/recieved_order_container"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center"
+                        android:layout_margin="@dimen/_4dp"
+                        android:layout_weight=".2"
+                        android:gravity="center"
+                        android:orientation="vertical">
+
+                        <ImageView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:src="@drawable/order_recieced_icon" />
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:fontFamily="@font/encodesansregular"
+                            android:text="@string/received"
                             android:textColor="@color/colorDarkGray"
                             android:textSize="12sp" />
                     </LinearLayout>
@@ -295,6 +295,7 @@
                             android:textColor="@color/colorDarkGray"
                             android:textSize="12sp" />
                     </LinearLayout>
+
 
                 </LinearLayout>
 

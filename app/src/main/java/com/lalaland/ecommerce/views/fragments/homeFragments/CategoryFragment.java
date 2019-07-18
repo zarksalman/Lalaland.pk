@@ -10,7 +10,6 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.WindowManager;
-import android.widget.Toast;
 
 import androidx.databinding.DataBindingUtil;
 import androidx.fragment.app.Fragment;
@@ -100,7 +99,7 @@ public class CategoryFragment extends Fragment implements MajorCategoryAdapter.M
     public void onStart() {
         super.onStart();
 
-        //setting viewpagger height because in scrollview wrap/match does not calculate their height correctly
+        //setting view pagger height because in scrollview wrap/match does not calculate their height correctly
         android.view.Display display = ((android.view.WindowManager) getContext().getSystemService(Context.WINDOW_SERVICE)).getDefaultDisplay();
         fragmentCategoryBinding.ivCategoryHeader.getLayoutParams().height = ((int) (display.getHeight() * 0.16));
     }
@@ -180,8 +179,6 @@ public class CategoryFragment extends Fragment implements MajorCategoryAdapter.M
 
                         }, 500);
 
-                    } else {
-                        Toast.makeText(getContext(), categoriesContainer.getMsg(), Toast.LENGTH_SHORT).show();
                     }
                 }
             }

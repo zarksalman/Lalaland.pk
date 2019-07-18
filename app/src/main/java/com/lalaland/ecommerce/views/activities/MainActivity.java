@@ -103,9 +103,9 @@ public class MainActivity extends AppCompatActivity implements CloseAppListener 
                 if (selectedFragment == 3)
                     return false;
 
+                activityMainBinding.topBar.setVisibility(View.VISIBLE);
                 activityMainBinding.topBarSearch.setVisibility(View.GONE);
                 activityMainBinding.topBarWithoutSearch.setVisibility(View.VISIBLE);
-                activityMainBinding.topBar.setVisibility(View.VISIBLE);
 
                 activityMainBinding.topBar.setBackgroundColor(getResources().getColor(android.R.color.white));
                 activityMainBinding.tvFragmentName.setText(getResources().getString(R.string.wish_items));

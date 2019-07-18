@@ -54,14 +54,18 @@ public class ChangeShippingAddress extends AppCompatActivity {
 
             if (addressDataContainer != null) {
 
-                if (addressDataContainer.getData().getUserAddress().size() > 0) {
-                    addressesList = addressDataContainer.getData().getUserAddress();
-                    setAdapter();
-                    activityChangeShippingAddressBinding.rvAddress.setVisibility(View.VISIBLE);
-                } else {
-                    activityChangeShippingAddressBinding.ivEmptyState.setVisibility(View.VISIBLE);
+                if(addressDataContainer.getData() != null)
+                {
+
+                    if (addressDataContainer.getData().getUserAddress().size() > 0) {
+                        addressesList = addressDataContainer.getData().getUserAddress();
+                        setAdapter();
+                        activityChangeShippingAddressBinding.rvAddress.setVisibility(View.VISIBLE);
+                    } else {
+                        activityChangeShippingAddressBinding.ivEmptyState.setVisibility(View.VISIBLE);
+                    }
                 }
-                
+
                 activityChangeShippingAddressBinding.pbLoading.setVisibility(View.GONE);
             }
         });

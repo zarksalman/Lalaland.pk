@@ -101,8 +101,8 @@ public class HomeFragment extends Fragment implements ActionAdapter.ActionClickL
     }
 
     @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container,
-                             Bundle savedInstanceState) {
+    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
+
         fragmentHomeBinding = DataBindingUtil.inflate(inflater, R.layout.fragment_home, container, false);
         homeViewModel = ViewModelProviders.of(this, new ProductViewModelFactory()).get(HomeViewModel.class);
 
@@ -136,7 +136,7 @@ public class HomeFragment extends Fragment implements ActionAdapter.ActionClickL
                 //recommendationList.addAll(homeDataContainer.getHomeData().getRecommendation());
                 featuredBrandList.addAll(homeDataContainer.getHomeData().getFeaturedBrands());
                 picksOfTheWeekList.addAll(homeDataContainer.getHomeData().getPicksOfTheWeek());
-                
+
                 setBannerSlider();
                 setActions();
                 setPickOfTheWeek();

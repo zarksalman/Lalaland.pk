@@ -459,6 +459,9 @@ public class GlobalSearchActivity extends AppCompatActivity implements SearchPro
                             searchCategories.clear();
                             saveSearchAdapter.notifyDataSetChanged();
                         } else {
+                            activityGlobalSearchBinding.rvSearchProducts.setVisibility(View.GONE);
+                            searchCategories.clear();
+                            saveSearchAdapter.notifyDataSetChanged();
                             activityGlobalSearchBinding.emptyState.setVisibility(View.VISIBLE);
                         }
                     }

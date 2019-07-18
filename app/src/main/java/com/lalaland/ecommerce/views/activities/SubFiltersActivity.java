@@ -83,7 +83,8 @@ public class SubFiltersActivity extends AppCompatActivity {
         activitySubFiltersBinding.tvApplySubFilter.setOnClickListener(v -> {
 
             if (subFilterName.equals("Price")) {
-                setPriceParams();
+                if (!setPriceParams())
+                    return;
             } else if (subFilterName.equals("Category")) {
                 setCategoryFilterIntent();
             } else if (subFilterName.equals("Brands")) {

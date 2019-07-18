@@ -205,6 +205,7 @@ public class AccountInformationActivity extends AppCompatActivity {
 
                     String userAvatar = uploadProfileImageContainer.getData().getAvatar();
                     String avatarImagePath = USER_STORAGE_BASE_URL.concat(userAvatar);
+                    isUserUpdatedProfile = true;
 
                     activityAccountInformationBinding.ivDisplayPicture.setImageDrawable(null);
 
@@ -245,7 +246,7 @@ public class AccountInformationActivity extends AppCompatActivity {
 
                     Log.d("registerUser", basicResponse.getMsg());
                     Toast.makeText(this, basicResponse.getMsg(), Toast.LENGTH_SHORT).show();
-                    setResultForActivity(1);
+                    isUserUpdatedProfile = true;
 
                 } else if (basicResponse.getCode().equals(VALIDATION_FAIL_CODE)) {
                     Toast.makeText(this, basicResponse.getMsg(), Toast.LENGTH_SHORT).show();
@@ -289,52 +290,64 @@ public class AccountInformationActivity extends AppCompatActivity {
             switch (requestCode) {
                 case 1:
 
-                    String first_name = getDataFromIntent(data, FIRST_NAME);
-                    String last_name = getDataFromIntent(data, LAST_NAME);
+                    if (data != null) {
+                        String first_name = getDataFromIntent(data, FIRST_NAME);
+                        String last_name = getDataFromIntent(data, LAST_NAME);
 
-                    parameter.clear();
-                    parameter.put(FIRST_NAME, first_name);
-                    parameter.put(LAST_NAME, last_name);
-                    updateUserDetails();
+                        parameter.clear();
+                        parameter.put(FIRST_NAME, first_name);
+                        parameter.put(LAST_NAME, last_name);
+                        updateUserDetails();
+                    }
+
                     break;
 
                 case 2:
 
-                    String phoneNumber = getDataFromIntent(data, PHONE_NUMBER);
+                    if (data != null) {
+                        String phoneNumber = getDataFromIntent(data, PHONE_NUMBER);
 
-                    parameter.clear();
-                    parameter.put(PHONE_NUMBER, phoneNumber);
-                    updateUserDetails();
+                        parameter.clear();
+                        parameter.put(PHONE_NUMBER, phoneNumber);
+                        updateUserDetails();
+                    }
                     break;
                 case 3:
 
-                    String oldPassword = getDataFromIntent(data, OLD_PASSWORD);
-                    String password = getDataFromIntent(data, NEW_PASSWORD);
+                    if (data != null) {
+                        String oldPassword = getDataFromIntent(data, OLD_PASSWORD);
+                        String password = getDataFromIntent(data, NEW_PASSWORD);
 
-                    parameter.clear();
-                    parameter.put(OLD_PASSWORD, oldPassword);
-                    parameter.put(NEW_PASSWORD, password);
+                        parameter.clear();
+                        parameter.put(OLD_PASSWORD, oldPassword);
+                        parameter.put(NEW_PASSWORD, password);
 
-                    changePassword();
+                        changePassword();
+                    }
+
                     break;
 
                 case 4:
 
-                    String gender = getDataFromIntent(data, GENDER);
+                    if (data != null) {
+                        String gender = getDataFromIntent(data, GENDER);
 
-                    parameter.clear();
-                    parameter.put(GENDER, gender);
-                    updateUserDetails();
+                        parameter.clear();
+                        parameter.put(GENDER, gender);
+                        updateUserDetails();
+                    }
 
                     break;
 
                 case 5:
 
-                    String dob = getDataFromIntent(data, DATE_OF_BIRTH);
+                    if (data != null) {
+                        String dob = getDataFromIntent(data, DATE_OF_BIRTH);
 
-                    parameter.clear();
-                    parameter.put(DATE_OF_BIRTH, dob);
-                    updateUserDetails();
+                        parameter.clear();
+                        parameter.put(DATE_OF_BIRTH, dob);
+                        updateUserDetails();
+                    }
                     break;
 
                 case 200:

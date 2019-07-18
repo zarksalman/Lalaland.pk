@@ -160,6 +160,7 @@ public class FiltersAdapter extends RecyclerView.Adapter<FiltersAdapter.FilterVi
 
                 mFilterItemBinding.getRoot().setOnClickListener(view -> {
                     mFilterItemBinding.ivFilter.setVisibility(View.VISIBLE);
+
                     if (checkedPosition != getAdapterPosition()) {
                         notifyItemChanged(checkedPosition);
                         checkedPosition = getAdapterPosition();
@@ -189,8 +190,11 @@ public class FiltersAdapter extends RecyclerView.Adapter<FiltersAdapter.FilterVi
                             notifyDataSetChanged();
                         }
                     } else {
-                        mFilterItemBinding.ivFilter.setVisibility(View.GONE);
-                        itemStateArray.put(getAdapterPosition(), false);
+
+                        if (getAdapterPosition() != 0) {
+                            mFilterItemBinding.ivFilter.setVisibility(View.GONE);
+                            itemStateArray.put(getAdapterPosition(), false);
+                        }
                     }
                 });
             }

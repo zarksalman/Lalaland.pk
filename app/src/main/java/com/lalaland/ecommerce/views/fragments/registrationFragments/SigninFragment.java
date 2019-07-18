@@ -105,9 +105,13 @@ public class SigninFragment extends BaseRegistrationFragment implements LoadingL
 
         if (validateEmail() && validatePassword()) {
 
-            AppUtils.hideKeyboard(getActivity());
-            getActivity().getWindow().setFlags(WindowManager.LayoutParams.FLAG_NOT_TOUCHABLE,
-                    WindowManager.LayoutParams.FLAG_NOT_TOUCHABLE);
+            if (getActivity() != null) {
+
+                AppUtils.hideKeyboard(getActivity());
+
+                getActivity().getWindow().setFlags(WindowManager.LayoutParams.FLAG_NOT_TOUCHABLE,
+                        WindowManager.LayoutParams.FLAG_NOT_TOUCHABLE);
+            }
 
             fragmentSigninBinding.pbLoadingSignin.setVisibility(View.VISIBLE);
             parameter.put("email", emailOrNumber);
@@ -184,6 +188,9 @@ public class SigninFragment extends BaseRegistrationFragment implements LoadingL
                 showToast(GENERAL_ERROR);
                 hideProgressBar();
             }
+
+            if (getActivity() != null)
+                getActivity().getWindow().clearFlags(WindowManager.LayoutParams.FLAG_NOT_TOUCHABLE);
 
         });
     }
