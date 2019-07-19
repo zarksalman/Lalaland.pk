@@ -8,6 +8,7 @@ import android.os.Parcelable;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
+import android.widget.ScrollView;
 import android.widget.Toast;
 
 import androidx.annotation.Nullable;
@@ -614,7 +615,10 @@ public class CheckoutScreen extends AppCompatActivity implements NetworkInterfac
     protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
 
+        activityCheckoutScreenBinding.container.fullScroll(ScrollView.FOCUS_UP);
+
         if (resultCode == Activity.RESULT_OK) {
+            
 
             activityCheckoutScreenBinding.pbLoading.setVisibility(View.VISIBLE);
 
@@ -628,11 +632,13 @@ public class CheckoutScreen extends AppCompatActivity implements NetworkInterfac
 
                 if (CASH_TRANSFER_TYPE == 1) {
                     activityCheckoutScreenBinding.tvPaymentType.setText(getResources().getString(R.string.cash_on_delivery));
+                    CASH_TRANSFER_TYPE = 1;
                 } else {
                     activityCheckoutScreenBinding.tvPaymentType.setText(getResources().getString(R.string.bank_transfer));
+                    CASH_TRANSFER_TYPE = 2;
                 }
 
-                CASH_TRANSFER_TYPE = 1;
+                activityCheckoutScreenBinding.pbLoading.setVisibility(View.GONE);
 
             } else if (requestCode == 202) {
 

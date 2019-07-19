@@ -150,13 +150,14 @@ public class FiltersAdapter extends RecyclerView.Adapter<FiltersAdapter.FilterVi
 
                 if (checkedPosition == -1) {
                     mFilterItemBinding.ivFilter.setVisibility(View.GONE);
-                } else {
-                    if (checkedPosition == getAdapterPosition()) {
-                        mFilterItemBinding.ivFilter.setVisibility(View.VISIBLE);
-                    } else {
-                        mFilterItemBinding.ivFilter.setVisibility(View.GONE);
-                    }
                 }
+
+                if (checkedPosition == getAdapterPosition()) {
+                    mFilterItemBinding.ivFilter.setVisibility(View.VISIBLE);
+                } else {
+                    mFilterItemBinding.ivFilter.setVisibility(View.GONE);
+                }
+
 
                 mFilterItemBinding.getRoot().setOnClickListener(view -> {
                     mFilterItemBinding.ivFilter.setVisibility(View.VISIBLE);
@@ -185,7 +186,6 @@ public class FiltersAdapter extends RecyclerView.Adapter<FiltersAdapter.FilterVi
                         } else {
                             mFilterItemBinding.ivFilter.setVisibility(View.VISIBLE);
                             itemStateArray.put(getAdapterPosition(), true);
-
                             itemStateArray.put(0, false);
                             notifyDataSetChanged();
                         }
@@ -194,6 +194,12 @@ public class FiltersAdapter extends RecyclerView.Adapter<FiltersAdapter.FilterVi
                         if (getAdapterPosition() != 0) {
                             mFilterItemBinding.ivFilter.setVisibility(View.GONE);
                             itemStateArray.put(getAdapterPosition(), false);
+
+                            if (getSelectedFilters().size() == 0) {
+                                itemStateArray.put(0, true);
+                                notifyDataSetChanged();
+                            }
+
                         }
                     }
                 });

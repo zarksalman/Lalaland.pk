@@ -36,7 +36,6 @@ import static com.lalaland.ecommerce.helpers.AppConstants.FILTER_NAME;
 import static com.lalaland.ecommerce.helpers.AppConstants.PRICE_FILTER;
 import static com.lalaland.ecommerce.helpers.AppConstants.PRICE_RANGE;
 import static com.lalaland.ecommerce.helpers.AppConstants.PV_FILTER_;
-import static com.lalaland.ecommerce.helpers.AppConstants.SELECTED_FILTER_ID;
 import static com.lalaland.ecommerce.helpers.AppConstants.SELECTED_FILTER_NAME;
 import static com.lalaland.ecommerce.helpers.AppConstants.SUCCESS_CODE;
 import static com.lalaland.ecommerce.helpers.AppConstants.appliedFilter;
@@ -94,15 +93,17 @@ public class FilterActivity extends AppCompatActivity {
 
         activityFilterBinding.tvResetFilter.setOnClickListener(v -> {
 
-            parentFilterList.clear();
-            parameter = new HashMap<>();
-            parameter.put(FILTER_ID, actionId);
-            parameter.put(FILTER_KEY, key);
-            AppConstants.appliedFilter.clear();
+            if (!isFiltersReset) {
+                parentFilterList.clear();
+                parameter = new HashMap<>();
+                parameter.put(FILTER_ID, actionId);
+                parameter.put(FILTER_KEY, key);
+                AppConstants.appliedFilter.clear();
 
-            isFiltersReset = true;
-            initResultantIntent();
-            getFilters();
+                isFiltersReset = true;
+                initResultantIntent();
+                getFilters();
+            }
         });
 
         activityFilterBinding.ivBtnBack.setOnClickListener(v -> onBackPressed());
@@ -371,6 +372,7 @@ public class FilterActivity extends AppCompatActivity {
     protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
 
+        isFiltersReset = false;
         switch (requestCode) {
             case 200: // pricing
 
@@ -406,10 +408,14 @@ public class FilterActivity extends AppCompatActivity {
                 }
 
                 resultantIntent.putExtra(SELECTED_FILTER_NAME, "Category");
-                resultantIntent.putExtra(CATEGORY_FILTER, String.valueOf(getCategoryFilterId(categoryFilterName)));
+                Integer categoryFilterId = getCategoryFilterId(categoryFilterName);
 
-                data.putExtra(SELECTED_FILTER_ID, String.valueOf(getCategoryFilterId(categoryFilterName)));
-                data.putExtra(SELECTED_FILTER_NAME, filterName);
+                if (categoryFilterId != null)
+                    resultantIntent.putExtra(CATEGORY_FILTER, String.valueOf(categoryFilterId));
+
+/*                data.putExtra(SELECTED_FILTER_ID, String.valueOf(getCategoryFilterId(categoryFilterName)));
+                data.putExtra(SELECTED_FILTER_NAME, filterName);*/
+
                 setResult(RESULT_OK, resultantIntent);
 
                 break;
@@ -448,7 +454,7 @@ public class FilterActivity extends AppCompatActivity {
                     pvFilterIds.append(",");
 
                     Integer index = getParentFilterId(filterName);
-
+                    
                     if (index != null) {
                         parentFilterList.get(index).setFilterSelected(pvFilters);
                         appliedFilter.put(index, pvFilters);

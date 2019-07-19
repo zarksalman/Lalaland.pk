@@ -300,12 +300,12 @@ public class ActionProductListingActivity extends AppCompatActivity implements A
 
     public void setBottomSheet() {
 
-            mBottomSheetDialog = new BottomSheetDialog(ActionProductListingActivity.this);
-            sheetView = DataBindingUtil.inflate(getLayoutInflater(), R.layout.sort_filter_bottom_sheet_layout, null, false);
-            sheetView.setSortSheetListener(this);
-            mBottomSheetDialog.setContentView(sheetView.getRoot());
+        mBottomSheetDialog = new BottomSheetDialog(ActionProductListingActivity.this);
+        sheetView = DataBindingUtil.inflate(getLayoutInflater(), R.layout.sort_filter_bottom_sheet_layout, null, false);
+        sheetView.setSortSheetListener(this);
+        mBottomSheetDialog.setContentView(sheetView.getRoot());
 
-            sheetView.ivDownArrowIcon.setOnClickListener(v -> mBottomSheetDialog.hide());
+        sheetView.ivDownArrowIcon.setOnClickListener(v -> mBottomSheetDialog.hide());
 
     }
 
@@ -475,7 +475,7 @@ public class ActionProductListingActivity extends AppCompatActivity implements A
 
     @Override
     public void onActionProductClicked(ActionProducts actionProducts) {
-        
+
         Intent intent = new Intent(this, ProductDetailActivity.class);
         intent.putExtra(PRODUCT_ID, actionProducts.getId());
         startActivity(intent);
@@ -548,6 +548,9 @@ public class ActionProductListingActivity extends AppCompatActivity implements A
       /*  List<Filter> selectedFilters = new ArrayList<>();
         selectedFilters = intent.getParcelableArrayListExtra("selected_filters");*/
 
+        if (data.getStringExtra(PV_FILTER_) == null)
+            return;
+
         String pvFilterParamsBase64;
         pvFilter = data.getStringExtra(PV_FILTER_);
         byte[] pvFilterBytes = pvFilter.getBytes(StandardCharsets.UTF_8);
@@ -565,6 +568,9 @@ public class ActionProductListingActivity extends AppCompatActivity implements A
     }
 
     private void setPriceParams(Intent data, Boolean isMultipleFilters) {
+
+        if (data.getStringExtra(PRICE_FILTER) == null)
+            return;
 
         priceRange = data.getStringExtra(PRICE_FILTER);
         String priceRangeBase64;
@@ -585,8 +591,12 @@ public class ActionProductListingActivity extends AppCompatActivity implements A
 
     private void setCategoryParams(Intent data, Boolean isMultipleFilters) {
 
+        if (data.getStringExtra(CATEGORY_FILTER) == null)
+            return;
+
         start = 0;
         String categoryId = data.getStringExtra(CATEGORY_FILTER);
+
         parameter.put(START_INDEX, String.valueOf(start));
         parameter.put(LENGTH, String.valueOf(length));
         parameter.put(CATEGORY_FILTER, categoryId);
@@ -601,6 +611,12 @@ public class ActionProductListingActivity extends AppCompatActivity implements A
 
         String brandParamsBase64;
         brandIds = data.getStringExtra(BRAND_FILTER);
+
+        // if any / all selected
+        if (brandIds.equals("[0]")) {
+            brandIds = "";
+        }
+
         byte[] brandIdsBytes = brandIds.getBytes(StandardCharsets.UTF_8);
         brandParamsBase64 = Base64.encodeToString(brandIdsBytes, Base64.DEFAULT);
 

@@ -303,8 +303,7 @@ public class ProductDetailActivity extends AppCompatActivity implements ProductV
 
                 if (productDetailDataContainer.getCode().equals(SUCCESS_CODE)) {
                     mProductDetailDataContainer = productDetailDataContainer;
-
-
+                    
                     mProductVariation = productDetailDataContainer.getData().getProductVariations();
                     mProductMultimedia.addAll(productDetailDataContainer.getData().getProductMultimedia());
                     mFitAndSizings.addAll(mProductDetailDataContainer.getData().getFitAndSizing());

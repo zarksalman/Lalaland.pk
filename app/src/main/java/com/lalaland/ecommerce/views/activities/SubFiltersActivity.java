@@ -181,8 +181,11 @@ public class SubFiltersActivity extends AppCompatActivity {
         brandParams.append(brandParamsStart);
 
         for (int i = 0; i < selectedFilters.size(); i++) {
+
+
             brandParamsMid = brandParamsMid.concat(String.valueOf(selectedFilters.get(i).getId()));
             brandParamsMid = brandParamsMid.concat(",");
+
             sFilterNames = sFilterNames.concat(selectedFilters.get(i).getDisplayName()).concat(",");
 
         }
@@ -261,18 +264,24 @@ public class SubFiltersActivity extends AppCompatActivity {
 
 
     private void setOthersFilterIntent() {
-        intent = new Intent();
 
 
         if (filtersAdapter.getSelectedFilters() != null) {
-            selectedFilters = filtersAdapter.getSelectedFilters();
 
-            // for multiple filters
-            setPbFiltersParams();
+            if (filtersAdapter.getSelectedFilters().size() > 0) {
 
-            intent.putExtra(FILTER_NAME, selectedFilters.get(0).getFilterName());
-            intent.putExtra(SELECTED_FILTER_NAME, sFilterNames.toString());
-            intent.putExtra(PV_FILTER_, pvFilterParams.toString());
+                intent = new Intent();
+
+                selectedFilters = filtersAdapter.getSelectedFilters();
+
+                // for multiple filters
+                setPbFiltersParams();
+
+                intent.putExtra(FILTER_NAME, selectedFilters.get(0).getFilterName());
+                intent.putExtra(SELECTED_FILTER_NAME, sFilterNames.toString());
+                intent.putExtra(PV_FILTER_, pvFilterParams.toString());
+
+            }
 
         } else
             Toast.makeText(this, "Select atleast one filter", Toast.LENGTH_SHORT).show();

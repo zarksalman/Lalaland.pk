@@ -147,12 +147,19 @@ public class EditAccountInformationActivity extends AppCompatActivity {
                 if (validateNames(TYPE) && validateNames(CONFIRM_TYPE)) {
                     intent.putExtra(FIRST_NAME, first_name);
                     intent.putExtra(LAST_NAME, last_name);
+                } else {
+                    intent = null;
+                    return;
                 }
                 break;
 
             case 2:
                 if (validatePhoneNumber()) {
                     intent.putExtra(PHONE_NUMBER, phoneNumber);
+
+                } else {
+                    intent = null;
+                    return;
                 }
                 break;
 
@@ -160,6 +167,10 @@ public class EditAccountInformationActivity extends AppCompatActivity {
                 if (validatePasswords()) {
                     intent.putExtra(OLD_PASSWORD, oldPassword);
                     intent.putExtra(NEW_PASSWORD, password);
+
+                } else {
+                    intent = null;
+                    return;
                 }
                 break;
 
@@ -169,8 +180,10 @@ public class EditAccountInformationActivity extends AppCompatActivity {
 
             case 5:
                 if (validateDob()) {
-
                     intent.putExtra(DATE_OF_BIRTH, dob);
+                } else {
+                    intent = null;
+                    return;
                 }
                 break;
 

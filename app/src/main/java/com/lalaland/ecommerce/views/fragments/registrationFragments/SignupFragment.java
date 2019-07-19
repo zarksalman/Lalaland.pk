@@ -114,7 +114,6 @@ public class SignupFragment extends BaseRegistrationFragment implements LoadingL
                     RadioButton radioButton = group.findViewById(checkedId);
 
                     gender = radioButton.getText().toString().toLowerCase();
-                    Toast.makeText(getContext(), radioButton.getText(), Toast.LENGTH_SHORT).show();
                 }
         );
 

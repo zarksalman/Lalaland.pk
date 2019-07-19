@@ -284,9 +284,12 @@ public class ProductsRepository {
                 if (response.isSuccessful()) {
                     basicResponseMutableLiveData.postValue(response.body());
 
-                    // saving header response for different purposes like add to wish list etc
-                    Headers headers = response.headers();
-                    AppPreference.getInstance(AppConstants.mContext).setString(CART_SESSION_TOKEN, headers.get(CART_SESSION_TOKEN));
+                    if (response.body().getCode().equals(SUCCESS_CODE))
+                    {
+                        // saving header response for different purposes like add to wish list etc
+                        Headers headers = response.headers();
+                        AppPreference.getInstance(AppConstants.mContext).setString(CART_SESSION_TOKEN, headers.get(CART_SESSION_TOKEN));
+                    }
 
                     if (response.body().getData() != null)
                         AppConstants.CART_COUNTER = response.body().getData().getCartCount();
