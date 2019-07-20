@@ -85,8 +85,6 @@ public class ActionProductListingActivity extends AppCompatActivity implements A
     Boolean isItemsNotFound = false;
     Boolean isFilterOrSort = false;
     int firstVisibleInListview;
-    int preSortFilter;
-    TextView preSort;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {

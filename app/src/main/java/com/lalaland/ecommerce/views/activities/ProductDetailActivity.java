@@ -297,13 +297,15 @@ public class ProductDetailActivity extends AppCompatActivity implements ProductV
 
     void getProductDetail() {
 
+        AppUtils.blockUi(this);
+
         productViewModel.getProductDetail(product_id).observe(this, productDetailDataContainer -> {
 
             if (productDetailDataContainer != null) {
 
                 if (productDetailDataContainer.getCode().equals(SUCCESS_CODE)) {
                     mProductDetailDataContainer = productDetailDataContainer;
-                    
+
                     mProductVariation = productDetailDataContainer.getData().getProductVariations();
                     mProductMultimedia.addAll(productDetailDataContainer.getData().getProductMultimedia());
                     mFitAndSizings.addAll(mProductDetailDataContainer.getData().getFitAndSizing());
@@ -321,6 +323,8 @@ public class ProductDetailActivity extends AppCompatActivity implements ProductV
                     activityProductDetailBinding.setListener(this);
                 }
             }
+
+            AppUtils.unBlockUi(this);
         });
     }
 
@@ -346,7 +350,9 @@ public class ProductDetailActivity extends AppCompatActivity implements ProductV
         if (variation_id == -1)
             return;
 
+        AppUtils.blockUi(this);
         activityProductDetailBinding.pbLoading.setVisibility(View.VISIBLE);
+
         quantity = Integer.parseInt(prouctDetailBottomSheetLayoutBinding.tvCount.getText().toString());
 
         parameter.clear();
@@ -385,6 +391,7 @@ public class ProductDetailActivity extends AppCompatActivity implements ProductV
             } else
                 Toast.makeText(this, GENERAL_ERROR, Toast.LENGTH_SHORT).show();
 
+            AppUtils.unBlockUi(this);
             activityProductDetailBinding.pbLoading.setVisibility(View.GONE);
         });
     }
@@ -398,6 +405,7 @@ public class ProductDetailActivity extends AppCompatActivity implements ProductV
             return;
         } else {
 
+            AppUtils.blockUi(this);
             activityProductDetailBinding.pbLoading.setVisibility(View.VISIBLE);
 
             if (isAddOrRemove == 1)
@@ -433,6 +441,10 @@ public class ProductDetailActivity extends AppCompatActivity implements ProductV
                     Toast.makeText(this, GENERAL_ERROR, Toast.LENGTH_SHORT).show();
 
                 activityProductDetailBinding.pbLoading.setVisibility(View.GONE);
+
+
+                AppUtils.unBlockUi(this);
+
             });
         }
     }
@@ -618,6 +630,8 @@ public class ProductDetailActivity extends AppCompatActivity implements ProductV
 
     private void getDeliveryOption(Intent intent) {
 
+        activityProductDetailBinding.pbLoading.setVisibility(View.VISIBLE);
+
         deliverOptionparameter.put("merchant_id", String.valueOf(productDetails.getMerchantId()));
         deliverOptionparameter.put("product_id", String.valueOf(productDetails.getId()));
         deliverOptionparameter.put("city_id", String.valueOf(intent.getStringExtra("city_id")));
@@ -626,7 +640,6 @@ public class ProductDetailActivity extends AppCompatActivity implements ProductV
 
             if (deliveryOptionDataContainer != null) {
 
-
                 String cityName = intent.getStringExtra("city_name");
                 String deliverCharges = String.valueOf(deliveryOptionDataContainer.getData().getToReturn().getAmount());
 
@@ -634,6 +647,8 @@ public class ProductDetailActivity extends AppCompatActivity implements ProductV
                 activityProductDetailBinding.tvCityName.setText(cityName);
                 activityProductDetailBinding.tvDeliveryCharges.setVisibility(View.VISIBLE);
             }
+
+            activityProductDetailBinding.pbLoading.setVisibility(View.GONE);
         });
     }
 }

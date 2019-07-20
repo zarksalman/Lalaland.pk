@@ -248,7 +248,6 @@ public class CartFragment extends Fragment implements View.OnClickListener, Cart
         }
     }
 
-
     void setSelectedCartItemList() {
 
         selectedCartItemList.clear();
@@ -264,6 +263,10 @@ public class CartFragment extends Fragment implements View.OnClickListener, Cart
 
     @Override
     public void addItemToList(int merchantId, int position) {
+
+
+        if (getActivity() != null)
+            AppUtils.blockUi(getActivity());
 
         // if response has not received of previous api
         if (isApiCalling)
@@ -305,11 +308,18 @@ public class CartFragment extends Fragment implements View.OnClickListener, Cart
 
             isApiCalling = false;
             fragmentCartBinding.pbLoading.setVisibility(View.GONE);
+
+            if (getActivity() != null)
+                AppUtils.unBlockUi(getActivity());
+
         });
     }
 
     @Override
     public void deleteFromCart(int merchantId, int position) {
+
+        if (getActivity() != null)
+            AppUtils.blockUi(getActivity());
 
         // if response has not received of previous api
         if (isApiCalling)
@@ -359,11 +369,18 @@ public class CartFragment extends Fragment implements View.OnClickListener, Cart
 
             isApiCalling = false;
             fragmentCartBinding.pbLoading.setVisibility(View.GONE);
+
+            if (getActivity() != null)
+                AppUtils.unBlockUi(getActivity());
+
         });
     }
 
     @Override
     public void changeNumberOfCount(int merchantId, int position, int quantity) {
+
+        if (getActivity() != null)
+            AppUtils.blockUi(getActivity());
 
         // if response has not received of previous api
         if (isApiCalling)
@@ -405,6 +422,10 @@ public class CartFragment extends Fragment implements View.OnClickListener, Cart
 
             isApiCalling = false;
             fragmentCartBinding.pbLoading.setVisibility(View.GONE);
+
+            if (getActivity() != null)
+                AppUtils.unBlockUi(getActivity());
+
         });
     }
 

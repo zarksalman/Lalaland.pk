@@ -148,9 +148,9 @@ public class FiltersAdapter extends RecyclerView.Adapter<FiltersAdapter.FilterVi
 
             if (filterName.equals("Category")) {
 
-                if (checkedPosition == -1) {
+/*                if (checkedPosition == -1) {
                     mFilterItemBinding.ivFilter.setVisibility(View.GONE);
-                }
+                }*/
 
                 if (checkedPosition == getAdapterPosition()) {
                     mFilterItemBinding.ivFilter.setVisibility(View.VISIBLE);
