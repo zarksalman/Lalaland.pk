@@ -32,6 +32,7 @@ import com.google.android.gms.common.api.GoogleApiClient;
 import com.google.android.gms.common.api.Scope;
 import com.google.android.gms.tasks.Task;
 import com.lalaland.ecommerce.R;
+import com.lalaland.ecommerce.helpers.AnalyticsManager;
 import com.lalaland.ecommerce.helpers.AppPreference;
 import com.lalaland.ecommerce.interfaces.LoadingLogin;
 import com.lalaland.ecommerce.viewModels.user.LoginViewModel;
@@ -79,6 +80,7 @@ public class BaseRegistrationFragment extends Fragment {
     GoogleSignInClient mGoogleSignInClient;
     GoogleSignInAccount account;
     LoadingLogin mLoadingLogin;
+    private Bundle bundle = new Bundle();
 
     public BaseRegistrationFragment() {
         // Required empty public constructor
@@ -248,6 +250,14 @@ public class BaseRegistrationFragment extends Fragment {
                         AppPreference.getInstance(mContext).setString(GENDER, registrationContainer.getData().getUser().getGender());
                         AppPreference.getInstance(mContext).setString(EMAIL, registrationContainer.getData().getUser().getEmail());
                         AppPreference.getInstance(mContext).setString(USER_AVATAR, registrationContainer.getData().getUser().getAvatar().toString());
+
+                        AnalyticsManager.getInstance().sendFacebookAnalytics("login_signup", bundle);
+
+                        if (signUpType == GOOGLE_SIGN_UP_IN) {
+                            AnalyticsManager.getInstance().sendAnalytics("fb_login_success", bundle);
+                        } else {
+                            AnalyticsManager.getInstance().sendAnalytics("google_login_success", bundle);
+                        }
 
 
                         getActivity().setResult(Activity.RESULT_OK);

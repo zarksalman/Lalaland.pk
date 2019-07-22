@@ -4,7 +4,6 @@ package com.lalaland.ecommerce.views.fragments.homeFragments;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
-import android.os.Handler;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -150,8 +149,6 @@ public class CategoryFragment extends Fragment implements MajorCategoryAdapter.M
 
                     if (categoriesContainer.getData().getSubCategories().size() > 0) {
 
-                        new Handler().postDelayed(() -> {
-
                             categoryHomeBanners = categoriesContainer.getData().getHomeBanner();
                             subCategories = categoriesContainer.getData().getSubCategories();
 
@@ -173,20 +170,15 @@ public class CategoryFragment extends Fragment implements MajorCategoryAdapter.M
                                     .load(bannerImageUrl)
                                     .placeholder(R.drawable.placeholder_products)
                                     .into(fragmentCategoryBinding.ivCategoryHeader);
-
-                            if (getActivity() != null)
-                                getActivity().getWindow().clearFlags(WindowManager.LayoutParams.FLAG_NOT_TOUCHABLE);
-
-                        }, 500);
-
                     }
                 }
             }
 
-            new Handler().postDelayed(() -> {
+            if (getActivity() != null)
+                getActivity().getWindow().clearFlags(WindowManager.LayoutParams.FLAG_NOT_TOUCHABLE);
 
-                fragmentCategoryBinding.pbLoading.setVisibility(View.GONE);
-            }, 500);
+            fragmentCategoryBinding.pbLoading.setVisibility(View.GONE);
+
         });
 
     }

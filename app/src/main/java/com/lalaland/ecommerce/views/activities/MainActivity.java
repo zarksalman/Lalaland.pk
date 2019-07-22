@@ -160,6 +160,9 @@ public class MainActivity extends AppCompatActivity implements CloseAppListener 
         autoComplete.setTextSize(13);
 
         //  addItemsToBottomNavigation();
+
+
+
     }
 
     void setListeners() {

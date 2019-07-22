@@ -31,7 +31,7 @@ public class RetrofitClient {
     private static final String TAG = "ServiceGenerator";
     private static final String HEADER_CACHE_CONTROL = "Cache-Control";
     private static final String HEADER_PRAGMA = "Pragma";
-    private static final long cacheSize = 5 * 1024 * 1024; // 5MB
+    private static final long cacheSize = 10 * 1024 * 1024; // 10MB
     String token, cartSession;
 
     AppPreference appPreference;

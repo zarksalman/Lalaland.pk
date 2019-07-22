@@ -3,11 +3,12 @@ apply plugin: 'com.android.application'
 android {
     compileSdkVersion 28
     defaultConfig {
-        applicationId "com.lalaland.ecommerce"
+        applicationId "com.lalaland.onlineshoppingapp"
         minSdkVersion 19
         targetSdkVersion 28
-        versionCode 6
-        versionName "1.9"
+        versionCode 1
+        versionName "1.0"
+        multiDexEnabled true
 
         dataBinding {
             enabled = true
@@ -61,6 +62,10 @@ dependencies {
     implementation "androidx.room:room-runtime:$room_version"
     annotationProcessor "androidx.room:room-compiler:$room_version"
 
+    //firebase and facebook analytics
+    implementation 'com.google.firebase:firebase-core:17.0.1'
+    implementation 'com.facebook.android:facebook-android-sdk:4.33.0'
+
     // network calls
     implementation 'com.squareup.retrofit2:retrofit:2.5.0'
 
@@ -91,5 +96,9 @@ dependencies {
 
     // image compression
     implementation 'id.zelory:compressor:2.1.0'
+
+    // permissions
+    implementation 'pub.devrel:easypermissions:3.0.0'
+
 
 }

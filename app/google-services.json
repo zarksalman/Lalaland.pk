@@ -15,6 +15,22 @@
       },
       "oauth_client": [
         {
+          "client_id": "122765248262-elc1td5jue6ngg1gvn543kgfscctmnpn.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.lalaland.ecommerce",
+            "certificate_hash": "bf3ceec85d70b109ba04d71aef6173607602ac88"
+          }
+        },
+        {
+          "client_id": "122765248262-6n4knohpbldpkuc3bu11i5oovu2lhvg5.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.lalaland.ecommerce",
+            "certificate_hash": "4d776f566d7a30dff193e78fb25de6c9cd9902e4"
+          }
+        },
+        {
           "client_id": "122765248262-6butbqiml9qp0nf49cjvv44889g4vp7l.apps.googleusercontent.com",
           "client_type": 3
         }
@@ -32,10 +48,46 @@
               "client_type": 3
             },
             {
-              "client_id": "122765248262-beil3upd402lpr8uuth29edbbta6737v.apps.googleusercontent.com",
+              "client_id": "122765248262-8dhdhls0mr42omggeh3gp77cj5mrhp6k.apps.googleusercontent.com",
               "client_type": 2,
               "ios_info": {
-                "bundle_id": "com.sazman.lalaland"
+                "bundle_id": "com.lalaland.onlineshoppingap"
+              }
+            }
+          ]
+        }
+      }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:122765248262:android:96140564e93b91d4",
+        "android_client_info": {
+          "package_name": "com.lalaland.onlineshoppingapp"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "122765248262-6butbqiml9qp0nf49cjvv44889g4vp7l.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyA3Ev3wVIOagUvq-fDNWz5lxNyO2DnchTI"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "122765248262-03m7dmonpdot2a59ertdtovcgkja4sq5.apps.googleusercontent.com",
+              "client_type": 3
+            },
+            {
+              "client_id": "122765248262-8dhdhls0mr42omggeh3gp77cj5mrhp6k.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "com.lalaland.onlineshoppingap"
               }
             }
           ]

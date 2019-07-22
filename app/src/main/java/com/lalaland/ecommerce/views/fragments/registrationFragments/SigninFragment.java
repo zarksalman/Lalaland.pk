@@ -16,6 +16,7 @@ import androidx.lifecycle.ViewModelProviders;
 
 import com.lalaland.ecommerce.R;
 import com.lalaland.ecommerce.databinding.FragmentSigninBinding;
+import com.lalaland.ecommerce.helpers.AnalyticsManager;
 import com.lalaland.ecommerce.helpers.AppConstants;
 import com.lalaland.ecommerce.helpers.AppPreference;
 import com.lalaland.ecommerce.helpers.AppUtils;
@@ -158,6 +159,12 @@ public class SigninFragment extends BaseRegistrationFragment implements LoadingL
                     case SUCCESS_CODE:
                         Log.d("registerUser", login.getData().getUser().getName() + ":" + login.getData().getUser().getEmail());
                         Log.d("registerUser", AppPreference.getInstance(getContext()).getString(SIGNIN_TOKEN));
+
+                        Bundle bundle = new Bundle();
+                        AnalyticsManager.getInstance().sendAnalytics("login_success", bundle);
+                        AnalyticsManager.getInstance().sendAnalytics("login_signup", bundle);
+                        AnalyticsManager.getInstance().sendFacebookAnalytics("login_success", bundle);
+                        AnalyticsManager.getInstance().sendFacebookAnalytics("login_signup", bundle);
 
                         AppConstants.user = login.getData().getUser();
 

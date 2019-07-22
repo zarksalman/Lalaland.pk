@@ -19,6 +19,7 @@ import androidx.lifecycle.ViewModelProviders;
 
 import com.lalaland.ecommerce.R;
 import com.lalaland.ecommerce.databinding.FragmentSignupBinding;
+import com.lalaland.ecommerce.helpers.AnalyticsManager;
 import com.lalaland.ecommerce.helpers.AppConstants;
 import com.lalaland.ecommerce.helpers.AppPreference;
 import com.lalaland.ecommerce.helpers.AppUtils;
@@ -70,6 +71,7 @@ public class SignupFragment extends BaseRegistrationFragment implements LoadingL
 
     private String token, cart_session;
     private AppPreference appPreference;
+    private Bundle bundle = new Bundle();
 
     public SignupFragment() {
         // Required empty public constructor
@@ -292,6 +294,13 @@ public class SignupFragment extends BaseRegistrationFragment implements LoadingL
                         AppPreference.getInstance(mContext).setString(PHONE_NUMBER, registrationContainer.getData().getUser().getPhone());
                         AppPreference.getInstance(mContext).setString(GENDER, registrationContainer.getData().getUser().getGender());
                         AppPreference.getInstance(mContext).setString(AppConstants.EMAIL, registrationContainer.getData().getUser().getEmail());
+
+                        AnalyticsManager.getInstance().sendAnalytics("sign_up", bundle);
+                        AnalyticsManager.getInstance().sendAnalytics("login_signup", bundle);
+
+                        AnalyticsManager.getInstance().sendFacebookAnalytics("Complete Registration", bundle);
+                        AnalyticsManager.getInstance().sendFacebookAnalytics("login_signup", bundle);
+
 
                         if (registrationContainer.getData().getUser().getAvatar() != null)
                             AppPreference.getInstance(mContext).setString(USER_AVATAR, registrationContainer.getData().getUser().getAvatar().toString());

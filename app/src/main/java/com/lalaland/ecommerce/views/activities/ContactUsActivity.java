@@ -1,6 +1,7 @@
 package com.lalaland.ecommerce.views.activities;
 
 import android.content.Intent;
+import android.content.pm.PackageManager;
 import android.net.Uri;
 import android.os.Bundle;
 
@@ -15,6 +16,8 @@ public class ContactUsActivity extends AppCompatActivity {
 
     ActivityContactUsBinding activityContactUsBinding;
     Intent intent;
+    String FACEBOOK_URL = "https://www.facebook.com/lalaland.pk";
+    String FACEBOOK_PAGE_ID = "2096149290642572";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -44,12 +47,10 @@ public class ContactUsActivity extends AppCompatActivity {
 
     private void startFbApplication() {
 
-        try {
-            intent = new Intent(Intent.ACTION_VIEW, Uri.parse("fb://profile/2096149290642572"));
+        //  intent = new Intent(Intent.ACTION_VIEW, Uri.parse("fb://profile/2096149290642572"));
+        intent = new Intent(Intent.ACTION_VIEW, Uri.parse(getFacebookPageURL()));
             startActivity(intent);
-        } catch (Exception e) {
-            startActivity(AppUtils.getOpenUrlIntent("https://www.facebook.com/lalaland.pk/"));
-        }
+
     }
 
     private void startInstaApplication() {
@@ -68,7 +69,7 @@ public class ContactUsActivity extends AppCompatActivity {
             intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
             startActivity(intent);
         } catch (Exception e) {
-            startActivity(AppUtils.getOpenUrlIntent("https://twitter.com/lalalandpk"));
+            startActivity(AppUtils.getOpenUrlIntent("https://twitter.com/lalalandpk/"));
         }
 
     }
@@ -82,4 +83,27 @@ public class ContactUsActivity extends AppCompatActivity {
         }
     }
 
+    //method to get the right URL to use in the intent
+    public String getFacebookPageURL() {
+        PackageManager packageManager = getPackageManager();
+        try {
+            int versionCode = packageManager.getPackageInfo("com.facebook.katana", 0).versionCode;
+            if (versionCode >= 3002850) { //newer versions of fb app
+                return "fb://facewebmodal/f?href=" + FACEBOOK_URL;
+            } else { //older versions of fb app
+                return "fb://page/" + FACEBOOK_PAGE_ID;
+            }
+        } catch (PackageManager.NameNotFoundException e) {
+            return FACEBOOK_URL; //normal web url
+        }
+    }
+
+    public Intent getOpenFacebookIntent() {
+        try {
+            getPackageManager().getPackageInfo("com.facebook.katana", 0);
+            return new Intent(Intent.ACTION_VIEW, Uri.parse("fb://page/2096149290642572"));
+        } catch (Exception e) {
+            return new Intent(Intent.ACTION_VIEW,Uri.parse("https://www.facebook.com/lalaland.pk"));
+        }
+    }
 }

@@ -21,6 +21,7 @@ import com.lalaland.ecommerce.data.models.DeliveryChargesData.DeliveryChargesOfM
 import com.lalaland.ecommerce.data.models.cart.CartItem;
 import com.lalaland.ecommerce.data.models.cartListingModel.CartListModel;
 import com.lalaland.ecommerce.databinding.FragmentCartBinding;
+import com.lalaland.ecommerce.helpers.AnalyticsManager;
 import com.lalaland.ecommerce.helpers.AppConstants;
 import com.lalaland.ecommerce.helpers.AppPreference;
 import com.lalaland.ecommerce.helpers.AppUtils;
@@ -71,6 +72,7 @@ public class CartFragment extends Fragment implements View.OnClickListener, Cart
     Double perItemBill;
     boolean isApiCalling = false;
     String[] cartIds = new String[2];
+    private Bundle bundle = new Bundle();
 
     public CartFragment() {
         // Required empty public constructor
@@ -444,6 +446,12 @@ public class CartFragment extends Fragment implements View.OnClickListener, Cart
                     if (token != null && !token.isEmpty()) {
 
                         if (!selectedCartItemList.isEmpty()) {
+
+
+                            bundle.putString("price", String.valueOf(totalBill));
+                            AnalyticsManager.getInstance().sendAnalytics("begin_checkout", bundle);
+                            AnalyticsManager.getInstance().sendFacebookAnalytics("Initiated Checkout", bundle);
+
                             intent = new Intent(getContext(), CheckoutScreen.class);
                             intent.putExtra("total_bill", String.valueOf(totalBill));
                             intent.putParcelableArrayListExtra("ready_cart_items", (ArrayList<? extends Parcelable>) selectedCartItemList);
@@ -453,6 +461,11 @@ public class CartFragment extends Fragment implements View.OnClickListener, Cart
                             return;
                         }
                     } else {
+
+                        bundle.putString("price", String.valueOf(totalBill));
+                        AnalyticsManager.getInstance().sendAnalytics("initiate_checkout_not_logged_in", bundle);
+                        AnalyticsManager.getInstance().sendFacebookAnalytics("initiate_checkout_not_logged_in", bundle);
+
                         intent = new Intent(getContext(), RegistrationActivity.class);
                         startActivityForResult(intent, 100);
                     }

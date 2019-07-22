@@ -32,6 +32,7 @@ import com.lalaland.ecommerce.data.models.productDetails.ProductMultimedium;
 import com.lalaland.ecommerce.data.models.productDetails.ProductVariation;
 import com.lalaland.ecommerce.databinding.ActivityProductDetailBinding;
 import com.lalaland.ecommerce.databinding.ProuctDetailBottomSheetLayoutBinding;
+import com.lalaland.ecommerce.helpers.AnalyticsManager;
 import com.lalaland.ecommerce.helpers.AppConstants;
 import com.lalaland.ecommerce.helpers.AppPreference;
 import com.lalaland.ecommerce.helpers.AppUtils;
@@ -88,6 +89,9 @@ public class ProductDetailActivity extends AppCompatActivity implements ProductV
     private ProductVariationAdapter productVariationAdapter;
     String productShareUrl;
     Intent intent;
+    StringBuilder price = new StringBuilder();
+    StringBuilder aPrice = new StringBuilder();
+    Bundle bundle = new Bundle();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -146,6 +150,7 @@ public class ProductDetailActivity extends AppCompatActivity implements ProductV
         activityProductDetailBinding.btnBack.setOnClickListener(v -> {
             onBackPressed();
         });
+
     }
 
     void loadProductDetail() {
@@ -218,8 +223,6 @@ public class ProductDetailActivity extends AppCompatActivity implements ProductV
 
     void setPrice() {
 
-        StringBuilder price = new StringBuilder();
-        StringBuilder aPrice = new StringBuilder();
 
         Double maxSalePrice, maxActualPrice, minSalePrice, minActualPrice;
 
@@ -315,6 +318,14 @@ public class ProductDetailActivity extends AppCompatActivity implements ProductV
                     initBottomSheet();
                     loadProductDetail();
 
+                    bundle.putString("id", String.valueOf(product_id));
+                    bundle.putString("variation_id", String.valueOf(mProductVariation.get(getFirstSelectedVariationIndex()).getId()));
+                    bundle.putString("price", mProductVariation.get(getFirstSelectedVariationIndex()).getSalePrice());
+                    bundle.putString("brand_name", productDetails.getBrandName());
+
+                    AnalyticsManager.getInstance().sendAnalytics("view_item", bundle);
+                    AnalyticsManager.getInstance().sendFacebookAnalytics("Content View", bundle);
+
                     if (variation_id == -1) {
                         prouctDetailBottomSheetLayoutBinding.btnDone.setText("Sold Out");
                         prouctDetailBottomSheetLayoutBinding.btnDone.setBackground(getResources().getDrawable(R.drawable.bg_round_corner_gray));
@@ -363,10 +374,14 @@ public class ProductDetailActivity extends AppCompatActivity implements ProductV
 
         hideBottomSheet();
 
+
         productViewModel.addToCart(headers, parameter).observe(this, basicResponse -> {
 
             if (basicResponse != null) {
                 if (basicResponse.getCode().equals(SUCCESS_CODE)) {
+
+                    AnalyticsManager.getInstance().sendAnalytics("add_to_cart", bundle);
+                    AnalyticsManager.getInstance().sendFacebookAnalytics("Add to Cart", bundle);
 
                     if (isBuyNow) {
 
@@ -425,9 +440,17 @@ public class ProductDetailActivity extends AppCompatActivity implements ProductV
                         Toast.makeText(this, basicResponse.getMsg(), Toast.LENGTH_SHORT).show();
 
                         if (isAddOrRemove == 1) {
+
+                            AnalyticsManager.getInstance().sendAnalytics("add_to_wish_list", bundle);
+                            AnalyticsManager.getInstance().sendFacebookAnalytics("Add to Wishlist", bundle);
+
                             activityProductDetailBinding.btnAddToWish.setImageResource(R.drawable.wish_list_filled_icon);
                             // activityProductDetailBinding.btnAddToWish.setBackground(getResources().getDrawable(R.drawable.bg_round_corner_white_accent));
                         } else {
+
+                            AnalyticsManager.getInstance().sendAnalytics("remove_from_wishlist", bundle);
+                            AnalyticsManager.getInstance().sendFacebookAnalytics("remove_from_wishlist", bundle);
+
                             activityProductDetailBinding.btnAddToWish.setImageResource(R.drawable.wish_list_icon);
                             activityProductDetailBinding.btnAddToWish.setBackground(getResources().getDrawable(R.drawable.bg_round_corner_white));
                         }
@@ -600,10 +623,13 @@ public class ProductDetailActivity extends AppCompatActivity implements ProductV
     public void onProductVariationClicked(ProductVariation productVariation) {
 
         if (AppUtils.toInteger(productVariation.getRemainingQuantity()) > 0) {
+
+            bundle.putString("variation_id", String.valueOf(productVariation.getId()));
+            bundle.putString("price", String.valueOf(productVariation.getSalePrice()));
+
             variation_id = productVariation.getId();
             prouctDetailBottomSheetLayoutBinding.tvProductSalePrice.setText(AppUtils.formatPriceString(productVariation.getSalePrice()));
             prouctDetailBottomSheetLayoutBinding.tvProductActualPrice.setText(AppUtils.formatPriceString(productVariation.getActualPrice()));
-            //prouctDetailBottomSheetLayoutBinding.tvProductPrice.setText(AppUtils.formatPriceString(productVariation.getSalePrice()));
         }
 
         Log.d(AppConstants.TAG, "onProductVariationClicked:" + variation_id);

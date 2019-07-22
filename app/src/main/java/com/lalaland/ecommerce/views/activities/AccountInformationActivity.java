@@ -11,6 +11,7 @@ import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.app.ActivityCompat;
 import androidx.core.content.ContextCompat;
@@ -140,8 +141,25 @@ public class AccountInformationActivity extends AppCompatActivity {
             switch (type) {
 
                 case 1:
-                    intent.putExtra(FIRST_NAME, fullNames[0]);
-                    intent.putExtra(LAST_NAME, fullNames[1]);
+
+                    switch (fullNames.length) {
+
+                        case 2:
+                            intent.putExtra(FIRST_NAME, fullNames[0]);
+                            intent.putExtra(LAST_NAME, fullNames[1]);
+                            break;
+
+                        case 3:
+                            intent.putExtra(FIRST_NAME, fullNames[0] + fullNames[1]);
+                            intent.putExtra(LAST_NAME, fullNames[2]);
+                            break;
+
+                        case 4:
+                            intent.putExtra(FIRST_NAME, fullNames[0] + fullNames[1]);
+                            intent.putExtra(LAST_NAME, fullNames[2] + fullNames[3]);
+                            break;
+                    }
+
                     break;
 
                 case 2:
@@ -391,9 +409,26 @@ public class AccountInformationActivity extends AppCompatActivity {
                     Intent galleryIntent = new Intent(Intent.ACTION_PICK, android.provider.MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
                     startActivityForResult(galleryIntent, 200);
                 } else {
+
+                    showAltersDialogue("You need to give access to upload image");
                     //do something like displaying a message that he didn`t allow the app to access gallery and you wont be able to let him select from gallery
                 }
                 break;
         }
+    }
+
+    private void showAltersDialogue(String msg) {
+
+        new AlertDialog.Builder(this)
+                .setTitle("Note")
+                .setMessage(msg)
+                .setPositiveButton(android.R.string.ok, (dialog, which) -> {
+                    startActivity(new Intent(android.provider.Settings.ACTION_APPLICATION_DETAILS_SETTINGS, Uri.parse("package:" + getPackageName())));
+                })
+                .setNegativeButton(android.R.string.cancel, (dialog, which) -> {
+                    dialog.dismiss();
+                })
+                .show();
+
     }
 }

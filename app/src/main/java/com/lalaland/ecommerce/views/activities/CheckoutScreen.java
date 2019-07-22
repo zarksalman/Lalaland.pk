@@ -28,6 +28,7 @@ import com.lalaland.ecommerce.databinding.ActivityCheckoutScreenBinding;
 import com.lalaland.ecommerce.databinding.AddAddressDialogueBinding;
 import com.lalaland.ecommerce.databinding.DeleteOutOfStockDialogueBinding;
 import com.lalaland.ecommerce.databinding.PhoneNumberDialogueBinding;
+import com.lalaland.ecommerce.helpers.AnalyticsManager;
 import com.lalaland.ecommerce.helpers.AppConstants;
 import com.lalaland.ecommerce.helpers.AppPreference;
 import com.lalaland.ecommerce.helpers.AppUtils;
@@ -91,6 +92,7 @@ public class CheckoutScreen extends AppCompatActivity implements NetworkInterfac
     AddAddressDialogueBinding addAddressDialogueBinding;
     CartItemsAdapter cartItemsAdapter;
     private String phoneNumber;
+    private Bundle bundle = new Bundle();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -441,6 +443,10 @@ public class CheckoutScreen extends AppCompatActivity implements NetworkInterfac
                 if (orderDataContainer.getCode().equals(SUCCESS_CODE)) {
                     Toast.makeText(this, orderDataContainer.getMsg(), Toast.LENGTH_SHORT).show();
 
+                    bundle.putString("price", String.valueOf(totalBill));
+                    AnalyticsManager.getInstance().sendAnalytics("confirm_order", bundle);
+                    AnalyticsManager.getInstance().sendFacebookAnalytics("confirm_order", bundle);
+
                     Intent intent = new Intent(this, OrderReceivedActivity.class);
                     intent.putExtra(ORDER_TOTAL, String.valueOf(totalBill));
                     CASH_TRANSFER_TYPE = 1;
@@ -618,7 +624,6 @@ public class CheckoutScreen extends AppCompatActivity implements NetworkInterfac
         activityCheckoutScreenBinding.container.fullScroll(ScrollView.FOCUS_UP);
 
         if (resultCode == Activity.RESULT_OK) {
-            
 
             activityCheckoutScreenBinding.pbLoading.setVisibility(View.VISIBLE);
 

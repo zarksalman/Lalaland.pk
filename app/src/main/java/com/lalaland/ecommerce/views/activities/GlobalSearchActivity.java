@@ -1,6 +1,5 @@
 package com.lalaland.ecommerce.views.activities;
 
-import android.content.Context;
 import android.content.Intent;
 import android.graphics.drawable.Drawable;
 import android.os.Bundle;
@@ -13,7 +12,6 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.inputmethod.EditorInfo;
-import android.view.inputmethod.InputMethodManager;
 import android.widget.AutoCompleteTextView;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
@@ -36,6 +34,7 @@ import com.lalaland.ecommerce.data.models.globalSearch.SearchDataContainer;
 import com.lalaland.ecommerce.data.models.globalSearch.SearchProduct;
 import com.lalaland.ecommerce.data.retrofit.RetrofitRxJavaClient;
 import com.lalaland.ecommerce.databinding.ActivityGlobalSearchBinding;
+import com.lalaland.ecommerce.helpers.AnalyticsManager;
 import com.lalaland.ecommerce.helpers.AppConstants;
 import com.lalaland.ecommerce.helpers.AppPreference;
 import com.lalaland.ecommerce.viewModels.products.ProductViewModel;
@@ -304,41 +303,6 @@ public class GlobalSearchActivity extends AppCompatActivity implements SearchPro
         searchProductAdapter.setData(searchCategories);
     }
 
-    private void callToApi(String queryString) {
-
-        activityGlobalSearchBinding.recentSearches.setVisibility(View.GONE);
-        activityGlobalSearchBinding.emptyState.setVisibility(View.GONE);
-
-        productViewModel.searchItems(queryString).observe(this, searchDataContainer -> {
-
-            if (searchDataContainer.getCode().equals(SUCCESS_CODE)) {
-                searchProducts.clear();
-                searchCategories.clear();
-
-                searchProducts.addAll(searchDataContainer.getData().getProduct());
-                searchCategories.addAll(searchDataContainer.getData().getCategory());
-
-                createModelsForAdapter();
-
-                if (searchCategories.size() > 0) {
-
-                    activityGlobalSearchBinding.emptyState.setVisibility(View.GONE);
-                    activityGlobalSearchBinding.rvSearchProducts.setVisibility(View.VISIBLE);
-
-                } else {
-                    Toast.makeText(this, "Items Not Found", Toast.LENGTH_SHORT).show();
-                    searchCategories.clear();
-                }
-
-                searchProductAdapter.setData(searchCategories);
-                searchProductAdapter.notifyDataSetChanged();
-            }
-
-            activityGlobalSearchBinding.pbLoading.setVisibility(View.GONE);
-
-        });
-    }
-
     private void createModelsForAdapter() {
 
         List<SearchCategory> categoryList = new ArrayList<>();
@@ -403,16 +367,6 @@ public class GlobalSearchActivity extends AppCompatActivity implements SearchPro
     @Override
     public void onBackPressed() {
         finish();
-    }
-
-    void closeKeyboard() {
-        View view = this.getCurrentFocus();
-
-        if (view != null) {
-
-            InputMethodManager inputMethodManager = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
-            inputMethodManager.hideSoftInputFromWindow(view.getWindowToken(), 0);
-        }
     }
 
     private DisposableObserver<SearchDataContainer> getSearchObserver() {
@@ -486,6 +440,11 @@ public class GlobalSearchActivity extends AppCompatActivity implements SearchPro
             @Override
             public void onNext(TextViewTextChangeEvent textViewTextChangeEvent) {
                 Log.d(AppConstants.TAG, "Search query: " + textViewTextChangeEvent.text());
+
+                Bundle bundle = new Bundle();
+                bundle.putString("searchString", textViewTextChangeEvent.toString());
+                AnalyticsManager.getInstance().sendAnalytics("search", bundle);
+                AnalyticsManager.getInstance().sendFacebookAnalytics("Search", bundle);
 
                 publishSubject.onNext(textViewTextChangeEvent.text().toString());
             }
