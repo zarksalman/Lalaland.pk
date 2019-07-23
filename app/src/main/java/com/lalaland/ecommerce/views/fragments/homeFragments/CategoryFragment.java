@@ -90,7 +90,12 @@ public class CategoryFragment extends Fragment implements MajorCategoryAdapter.M
             fragmentCategoryBinding.rvSubCategory.setVisibility(View.VISIBLE);
         }
 
+ /*       //setting view pagger height because in scrollview wrap/match does not calculate their height correctly
+        android.view.Display display = ((android.view.WindowManager) getContext().getSystemService(Context.WINDOW_SERVICE)).getDefaultDisplay();
+        fragmentCategoryBinding.ivCategoryHeader.getLayoutParams().height = ((int) (display.getHeight() * 0.16));
+*/
         setBrandCategory();
+
         return fragmentCategoryBinding.getRoot();
     }
 
@@ -98,16 +103,11 @@ public class CategoryFragment extends Fragment implements MajorCategoryAdapter.M
     public void onStart() {
         super.onStart();
 
-        //setting view pagger height because in scrollview wrap/match does not calculate their height correctly
-        android.view.Display display = ((android.view.WindowManager) getContext().getSystemService(Context.WINDOW_SERVICE)).getDefaultDisplay();
-        fragmentCategoryBinding.ivCategoryHeader.getLayoutParams().height = ((int) (display.getHeight() * 0.16));
     }
 
     @Override
     public void onResume() {
         super.onResume();
-
-        getCategories(categoryId);
     }
 
     private void setMajorCategoryList() {
@@ -149,6 +149,8 @@ public class CategoryFragment extends Fragment implements MajorCategoryAdapter.M
 
                     if (categoriesContainer.getData().getSubCategories().size() > 0) {
 
+                        categoryHomeBanners.clear();
+                        subCategories.clear();
                             categoryHomeBanners = categoriesContainer.getData().getHomeBanner();
                             subCategories = categoriesContainer.getData().getSubCategories();
 

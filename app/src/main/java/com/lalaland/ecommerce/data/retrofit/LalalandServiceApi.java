@@ -20,6 +20,7 @@ import com.lalaland.ecommerce.data.models.registration.RegistrationContainer;
 import com.lalaland.ecommerce.data.models.updateUserData.UpdateUserDataContainer;
 import com.lalaland.ecommerce.data.models.uploadProfileImage.UploadProfileImageContainer;
 import com.lalaland.ecommerce.data.models.userAddressBook.AddressDataContainer;
+import com.lalaland.ecommerce.data.models.voucher.VoucherDataContainer;
 import com.lalaland.ecommerce.data.models.wishList.WishListContainer;
 
 import java.util.Map;
@@ -162,4 +163,13 @@ public interface LalalandServiceApi {
 
     @POST("categoryProducts")
     Call<ActionProductsContainer> applyFilter(@HeaderMap Map<String, String> header, @QueryMap Map<String, String> parameters);
+
+
+    //*********************************************** Second build starts here****************************************
+
+
+    @POST("checkVoucherIsValid")
+    Call<VoucherDataContainer> isVoucherValid(@HeaderMap Map<String, String> header, @QueryMap Map<String, String> parameters);
+
+
 }

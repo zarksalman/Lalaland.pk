@@ -85,10 +85,6 @@
     <string name="in_transit">In Transit</string>
     <string name="cancelled">Cancelled</string>
     <string name="new_order">New</string>
-    <string name="setting">Setting</string>
-    <string name="abut_us">About Us</string>
-    <string name="privacy_policy">Privacy Policy</string>
-    <string name="return_policy">Return policy</string>
     <string name="terms_and_conditions">Terms and Conditions</string>
     <string name="faq">FAQ</string>
     <string name="logout">Logout</string>
@@ -106,7 +102,6 @@
     <string name="order_detail">Order Detail</string>
     <string name="order_received">Order Received</string>
     <string name="order_placed_successful"> You order has been placed successfully</string>
-    <string name="wait_for_payment"> Wait For Your Payment</string>
     <string name="total_amount">Total Amount</string>
     <string name="track_order">Track Order</string>
     <string name="continue_shopping">Continue Shopping</string>
@@ -155,12 +150,8 @@
     <string name="your_order_amount_is_exceeding_pkr_40_000_so_you_can_not_select_cash_on_delivery">Your order amount is exceeding PKR 40,000 so you can not select CASH ON DELIVERY</string>
     <string name="exit_info">Do you really want to close application ?</string>
 
-    <string name="exit_application">Exit Application</string>
-
     <string name="yes">Yes</string>
-    <string name="no">No</string>
     <string name="out_of_stock">The following items are no longer in stock</string>
-    <string name="dispute">Dispute</string>
     <string name="app_suggestions">App Suggestions</string>
     <string name="contact_us">Contact Us</string>
     <string name="return_refund"><![CDATA[Return & Refund]]></string>

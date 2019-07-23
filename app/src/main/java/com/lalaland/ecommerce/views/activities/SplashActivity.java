@@ -3,6 +3,7 @@ package com.lalaland.ecommerce.views.activities;
 import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
+import android.util.Base64;
 import android.util.Log;
 import android.view.View;
 import android.view.Window;
@@ -38,6 +39,10 @@ public class SplashActivity extends AppCompatActivity implements NetworkInterfac
         requestWindowFeature(Window.FEATURE_NO_TITLE);
         getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN, WindowManager.LayoutParams.FLAG_FULLSCREEN);
         activitySplashBinding = DataBindingUtil.setContentView(this, R.layout.activity_splash);
+
+        //AppUtils.printHashKey(this);
+
+      //  hashFromSHA1("73:BF:E3:18:F2:D5:4E:56:A8:65:3B:D5:B3:66:7A:B1:15:1E:7A:18");
 
         appPreference = AppPreference.getInstance(this);
         headers.put("cart-session", appPreference.getString(AppConstants.CART_SESSION_TOKEN));
@@ -132,6 +137,16 @@ public class SplashActivity extends AppCompatActivity implements NetworkInterfac
             activitySplashBinding.tvReload.setVisibility(View.VISIBLE);
         else
             activitySplashBinding.tvReload.setVisibility(View.GONE);
+    }
 
+    public void hashFromSHA1(String sha1) {
+        String[] arr = sha1.split(":");
+        byte[] byteArr = new  byte[arr.length];
+
+        for (int i = 0; i< arr.length; i++) {
+            byteArr[i] = Integer.decode("0x" + arr[i]).byteValue();
+        }
+
+        Log.d("hashKey", Base64.encodeToString(byteArr, Base64.NO_WRAP));
     }
 }

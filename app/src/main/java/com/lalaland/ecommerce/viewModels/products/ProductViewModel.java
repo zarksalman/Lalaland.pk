@@ -1,7 +1,6 @@
 package com.lalaland.ecommerce.viewModels.products;
 
 import android.app.Application;
-import android.net.Network;
 
 import androidx.annotation.NonNull;
 import androidx.lifecycle.AndroidViewModel;
@@ -18,6 +17,7 @@ import com.lalaland.ecommerce.data.models.order.newOrderPlacing.PlacingOrderData
 import com.lalaland.ecommerce.data.models.productDetails.ProductDetailDataContainer;
 import com.lalaland.ecommerce.data.models.products.Product;
 import com.lalaland.ecommerce.data.models.products.ProductContainer;
+import com.lalaland.ecommerce.data.models.voucher.VoucherDataContainer;
 import com.lalaland.ecommerce.data.models.wishList.WishListContainer;
 import com.lalaland.ecommerce.data.repository.ProductsRepository;
 import com.lalaland.ecommerce.interfaces.NetworkInterface;
@@ -114,5 +114,12 @@ public class ProductViewModel extends AndroidViewModel {
 
     public void insertSearch(SearchCategory searchCategory) {
         productsRepository.insertSearch(searchCategory);
+    }
+
+    // ************************************* Second build starts here ***********************************************
+
+    public LiveData<VoucherDataContainer> isVoucherValid(Map<String, String> parameters) {
+
+        return productsRepository.isVoucherValid(parameters);
     }
 }

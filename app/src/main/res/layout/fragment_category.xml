@@ -71,7 +71,7 @@
 
                     android:id="@+id/rv_sub_category"
                     android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
+                    android:layout_height="match_parent"
                     android:layout_marginTop="@dimen/_4dp"
                     android:visibility="visible"
                     app:layout_constraintBottom_toBottomOf="parent"
@@ -84,8 +84,7 @@
 
                     android:id="@+id/rv_sub_category_brand"
                     android:layout_width="0dp"
-                    android:layout_height="0dp"
-                    android:layout_marginTop="@dimen/_4dp"
+                    android:layout_height="match_parent"
                     android:visibility="gone"
                     app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintEnd_toEndOf="parent"

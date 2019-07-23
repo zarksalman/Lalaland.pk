@@ -10,7 +10,6 @@ import android.view.Window;
 import android.view.WindowManager;
 import android.widget.AbsListView;
 import android.widget.LinearLayout;
-import android.widget.TextView;
 
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
@@ -280,7 +279,6 @@ public class ActionProductListingActivity extends AppCompatActivity implements A
                 }
             }
         });
-
 
         setActionProducts();
     }

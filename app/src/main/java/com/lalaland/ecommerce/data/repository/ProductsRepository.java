@@ -20,6 +20,7 @@ import com.lalaland.ecommerce.data.models.logout.BasicResponse;
 import com.lalaland.ecommerce.data.models.order.newOrderPlacing.PlacingOrderDataContainer;
 import com.lalaland.ecommerce.data.models.productDetails.ProductDetailDataContainer;
 import com.lalaland.ecommerce.data.models.products.ProductContainer;
+import com.lalaland.ecommerce.data.models.voucher.VoucherDataContainer;
 import com.lalaland.ecommerce.data.models.wishList.WishListContainer;
 import com.lalaland.ecommerce.data.retrofit.LalalandServiceApi;
 import com.lalaland.ecommerce.data.retrofit.RetrofitClient;
@@ -62,6 +63,7 @@ public class ProductsRepository {
     private MutableLiveData<CategoriesContainer> categoriesContainerMutableLiveData = new MutableLiveData<>();
     private MutableLiveData<SearchDataContainer> searchDataContainerMutableLiveData = new MutableLiveData<>();
     private MutableLiveData<FilterDataContainer> filterDataContainerMutableLiveData = new MutableLiveData<>();
+    private MutableLiveData<VoucherDataContainer> voucherDataContainerMutableLiveData = new MutableLiveData<>();
     private SearchCategoryDao searchCategoryDao;
 
     private ProductsRepository() {
@@ -352,6 +354,7 @@ public class ProductsRepository {
 
         return cartContainerMutableLiveData;
     }
+
     public LiveData<BasicResponse> addToReadyCartList(Map<String, String> header, Map<String, String> parameter) {
 
         basicResponseMutableLiveData = new MutableLiveData<>();
@@ -377,6 +380,7 @@ public class ProductsRepository {
         });
         return basicResponseMutableLiveData;
     }
+
     public LiveData<BasicResponse> deleteCartItem(Map<String, String> header, Map<String, String> parameter) {
 
         basicResponseMutableLiveData = new MutableLiveData<>();
@@ -576,6 +580,26 @@ public class ProductsRepository {
             }
         });
         return filterActionProductsContainerMutableLiveData;
+    }
+
+    public LiveData<VoucherDataContainer> isVoucherValid(Map<String, String> parameters) {
+
+        setUserInfo();
+        voucherDataContainerMutableLiveData = new MutableLiveData<>();
+
+        lalalandServiceApi.isVoucherValid(userInfo, parameters).enqueue(new Callback<VoucherDataContainer>() {
+            @Override
+            public void onResponse(Call<VoucherDataContainer> call, Response<VoucherDataContainer> response) {
+                voucherDataContainerMutableLiveData.postValue(response.isSuccessful() ? response.body() : null);
+            }
+
+            @Override
+            public void onFailure(Call<VoucherDataContainer> call, Throwable t) {
+                voucherDataContainerMutableLiveData.postValue(null);
+            }
+        });
+
+        return voucherDataContainerMutableLiveData;
     }
 
     public void insertSearch(SearchCategory searchCategory) {
