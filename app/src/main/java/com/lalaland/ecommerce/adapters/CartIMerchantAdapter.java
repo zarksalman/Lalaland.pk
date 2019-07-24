@@ -52,8 +52,14 @@ public class CartIMerchantAdapter extends RecyclerView.Adapter<CartIMerchantAdap
         cartMerchantItemBinding.rvCartProducts.setAdapter(cartItemsAdapter);
         cartItemsAdapter.setData(cartListModel.getCartItemList());
 
+        //this adapter is using for cart items listing and in checkout screen item listing
         if (mContext.getClass().getSimpleName().equals("CheckoutScreen")) {
             cartMerchantItemBinding.priceDetailContainer.setVisibility(View.VISIBLE);
+
+            cartMerchantItemBinding.priceDetailContainer.setOnClickListener(v -> {
+                mMerchantItemClickListener.applyVoucher(position);
+            });
+
         } else {
             cartMerchantItemBinding.priceDetailContainer.setVisibility(View.GONE);
         }
@@ -70,19 +76,11 @@ public class CartIMerchantAdapter extends RecyclerView.Adapter<CartIMerchantAdap
         return mCartListModelList.size();
     }
 
-
     public void setData(List<CartListModel> cartListModels) {
 
         mCartListModelList = cartListModels;
         notifyDataSetChanged();
     }
-
-    public void updateData(List<CartListModel> newCartListModels) {
-
-        mCartListModelList = newCartListModels;
-        notifyDataSetChanged();
-    }
-    
 
     @Override
     public void addItemToList(int merchantId, int position) {
@@ -98,27 +96,7 @@ public class CartIMerchantAdapter extends RecyclerView.Adapter<CartIMerchantAdap
     @Override
     public void changeNumberOfCount(int merchantId, int position, int quantity) {
 
-        Integer index = getMerchantIndex(merchantId);
-
-       /* mCartListModelList.get(index).getCartItemList().get(position).setItemQuantity(quantity);
-        cartItemsAdapter.notifyItemChanged(mCartListModelList.get(index).getCartItemList().get(position).getItemQuantity());
-       */
         mMerchantItemClickListener.changeNumberOfCount(merchantId, position, quantity);
-    }
-
-    Integer getMerchantIndex(Integer merchantId) {
-
-        for (int i = 0; i < mCartListModelList.size(); i++) {
-            if (merchantId == mCartListModelList.get(i).getMerchantId())
-                return i;
-        }
-
-        return 0;
-    }
-
-    public void notifyDataSetChange() {
-        notifyDataSetChanged();
-        cartItemsAdapter.notifyDataSetChanged();
     }
 
     class MerchantItemViewHolder extends RecyclerView.ViewHolder {
@@ -146,5 +124,7 @@ public class CartIMerchantAdapter extends RecyclerView.Adapter<CartIMerchantAdap
         void deleteFromCart(int merchantId, int position);
 
         void changeNumberOfCount(int merchantId, int position, int quantity);
+
+        void applyVoucher(int merchantId);
     }
 }

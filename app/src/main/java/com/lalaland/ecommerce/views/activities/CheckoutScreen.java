@@ -28,6 +28,7 @@ import com.lalaland.ecommerce.databinding.ActivityCheckoutScreenBinding;
 import com.lalaland.ecommerce.databinding.AddAddressDialogueBinding;
 import com.lalaland.ecommerce.databinding.DeleteOutOfStockDialogueBinding;
 import com.lalaland.ecommerce.databinding.PhoneNumberDialogueBinding;
+import com.lalaland.ecommerce.databinding.VouhcerDialogueBinding;
 import com.lalaland.ecommerce.helpers.AnalyticsManager;
 import com.lalaland.ecommerce.helpers.AppConstants;
 import com.lalaland.ecommerce.helpers.AppPreference;
@@ -67,9 +68,9 @@ public class CheckoutScreen extends AppCompatActivity implements NetworkInterfac
     private List<CartItem> cartItemList = new ArrayList<>();
 
     private List<CartListModel> cartListModelList = new ArrayList<>();
+    private CartListModel cartListModel;
     private List<DeliveryChargesOfMerchantItem> merchantItems = new ArrayList<>();
     private CartIMerchantAdapter cartIMerchantAdapter;
-    private List<CartItem> selectedCartItemList = new ArrayList<>();
     private List<CartItem> mCartProducts;
 
     private Map<String, String> parameter = new HashMap<>();
@@ -86,13 +87,19 @@ public class CheckoutScreen extends AppCompatActivity implements NetworkInterfac
     String cartIdsStart = "cart_id[";
     String cartIdsEnd = "]";
 
-    AlertDialog alertDialog, phoneNumberDialogue, addAddressDialogue;
+    AlertDialog alertDialog, phoneNumberDialogue, addAddressDialogue, voucherDialogue;
     DeleteOutOfStockDialogueBinding outOfStockItemDialogueBinding;
     PhoneNumberDialogueBinding phoneNumberDialogueBinding;
+    VouhcerDialogueBinding vouhcerDialogueBinding;
     AddAddressDialogueBinding addAddressDialogueBinding;
+
     CartItemsAdapter cartItemsAdapter;
     private String phoneNumber;
     private Bundle bundle = new Bundle();
+    String disTotal, tCharges, discount = "-";
+    Double discountedTotal, totalCharges, discountedBill, billBeforeDiscount;
+    boolean isCouponApplied = false;
+    int mMerchantIndex;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -114,6 +121,7 @@ public class CheckoutScreen extends AppCompatActivity implements NetworkInterfac
         prepareOutOfStockDialogue();
         preparePhoneNumberDialogue();
         prepareAddAddressDialogue();
+        prepareVoucherCodeDialogue();
         isUserAddressExist();
 
     }
@@ -214,6 +222,25 @@ public class CheckoutScreen extends AppCompatActivity implements NetworkInterfac
         });
     }
 
+    private void prepareVoucherCodeDialogue() {
+
+        vouhcerDialogueBinding = DataBindingUtil.inflate(LayoutInflater.from(this), R.layout.vouhcer_dialogue, null, false);
+        AlertDialog.Builder dialogBuilder = new AlertDialog.Builder(this);
+        voucherDialogue = dialogBuilder.create();
+        voucherDialogue.setCanceledOnTouchOutside(true);
+        voucherDialogue.setView(vouhcerDialogueBinding.getRoot());
+
+        vouhcerDialogueBinding.btnApply.setOnClickListener(v -> {
+
+            if (!vouhcerDialogueBinding.etVoucher.getText().toString().trim().isEmpty()) {
+
+                String coupon = vouhcerDialogueBinding.etVoucher.getText().toString();
+                applyMyVoucher(mMerchantIndex, coupon);
+            } else
+                Toast.makeText(this, "Voucher code could not be empty", Toast.LENGTH_SHORT).show();
+        });
+    }
+
     private void prepareAddAddressDialogue() {
 
         addAddressDialogueBinding = DataBindingUtil.inflate(LayoutInflater.from(this), R.layout.add_address_dialogue, null, false);
@@ -240,6 +267,7 @@ public class CheckoutScreen extends AppCompatActivity implements NetworkInterfac
         Toast.makeText(this, "Phone number should be 11 digit (03**-*******)", Toast.LENGTH_SHORT).show();
         return false;
     }
+
     void setBill() {
         totalBill = getIntent().getStringExtra("total_bill");
         totalAmount = Double.parseDouble(totalBill);
@@ -254,6 +282,7 @@ public class CheckoutScreen extends AppCompatActivity implements NetworkInterfac
             activityCheckoutScreenBinding.rgPaymentType.setOnCheckedChangeListener(null);
         }
     }
+
     private void getDeliveryCharges() {
 
         orderViewModel.getDeliveryCharges(token, String.valueOf(AppConstants.userAddresses.getCityId())).observe(this, deliveryChargesContainer -> {
@@ -267,6 +296,7 @@ public class CheckoutScreen extends AppCompatActivity implements NetworkInterfac
             }
         });
     }
+
     private void setMerchantShippingRate(List<DeliveryChargesOfMerchantItem> deliveryChargesOfMerchantItems) {
 
         Double billWithoutShippingCharges;
@@ -290,6 +320,7 @@ public class CheckoutScreen extends AppCompatActivity implements NetworkInterfac
             }
         }
     }
+
     private void setMerchantShippingRate() {
 
         for (int j = 0; j < cartListModelList.size(); j++) {
@@ -298,6 +329,7 @@ public class CheckoutScreen extends AppCompatActivity implements NetworkInterfac
             cartListModelList.get(j).setTotalCharges(cartListModelList.get(j).getTotalAmount());
         }
     }
+
     void setListeners() {
 
         activityCheckoutScreenBinding.rgPaymentType.setOnCheckedChangeListener((group, checkedId) -> {
@@ -385,6 +417,7 @@ public class CheckoutScreen extends AppCompatActivity implements NetworkInterfac
     void setCartAdapter() {
 
         cartIMerchantAdapter = new CartIMerchantAdapter(this, new CartIMerchantAdapter.MerchantItemClickListener() {
+
             @Override
             public void addItemToList(int merchantId, int position) {
 
@@ -398,6 +431,22 @@ public class CheckoutScreen extends AppCompatActivity implements NetworkInterfac
             @Override
             public void changeNumberOfCount(int merchantId, int position, int quantity) {
 
+            }
+
+            @Override
+            public void applyVoucher(int merchantIndex) {
+
+                if (isCouponApplied) {
+                    Toast.makeText(CheckoutScreen.this, "Coupon applied", Toast.LENGTH_SHORT).show();
+                } else {
+
+                    vouhcerDialogueBinding.etVoucher.requestFocus();
+                    voucherDialogue.show();
+                    mMerchantIndex = merchantIndex;
+                }
+
+
+                //applyMyVoucher(merchantIndex);
             }
         });
 
@@ -470,6 +519,85 @@ public class CheckoutScreen extends AppCompatActivity implements NetworkInterfac
 
 
             activityCheckoutScreenBinding.pbLoading.setVisibility(View.GONE);
+        });
+    }
+
+    public void applyMyVoucher(int merchantIndex, String coupon) {
+
+        if (isCouponApplied) {
+            Toast.makeText(this, "Coupon applied", Toast.LENGTH_SHORT).show();
+            return;
+        }
+
+        activityCheckoutScreenBinding.pbLoading.setVisibility(View.VISIBLE);
+        AppUtils.hideKeyboard(this);
+        AppUtils.blockUi(this);
+
+        cartListModel = cartListModelList.get(merchantIndex);
+
+        discount = "-";
+//        Integer merchantId = 62;
+        // coupon = "LL123";
+        Integer merchantId = cartListModel.getMerchantId();
+
+        String mId = String.valueOf(merchantId);
+
+        parameter.clear();
+        parameter.put("voucher_code", coupon);
+        parameter.put("merchant_id", mId);
+        parameter.put("sub_total", cartListModel.getTotalAmount());
+
+        productViewModel.isVoucherValid(parameter).observe(this, voucherDataContainer -> {
+
+            if (voucherDataContainer != null) {
+
+                Toast.makeText(this, voucherDataContainer.getMsg(), Toast.LENGTH_SHORT).show();
+
+                if (voucherDataContainer.getCode().equals(SUCCESS_CODE)) {
+
+                    voucherDialogue.dismiss();
+                    vouhcerDialogueBinding.tvErrorMessage.setVisibility(View.GONE);
+
+                    discountedTotal = voucherDataContainer.getData().getDiscountedTotal();
+
+                    discount = discount + voucherDataContainer.getData().getDiscountAmount();
+                    discountedBill = Double.parseDouble(voucherDataContainer.getData().getDiscountAmount());
+                    billBeforeDiscount = Double.parseDouble(totalBill);
+
+                    discountedBill = Math.abs(billBeforeDiscount - discountedBill);
+
+                    totalCharges = discountedTotal + Double.parseDouble(cartListModel.getMerchantShippingRate());
+                    disTotal = String.valueOf(discountedTotal);
+                    tCharges = String.valueOf(totalCharges);
+
+                    totalAmount = discountedBill;
+                    totalBill = String.valueOf(totalAmount);
+
+                    activityCheckoutScreenBinding.tvTotalBalance.setText(AppUtils.formatPriceString(totalBill));
+
+                    if (totalAmount >= PAYMENT_LOWEST_LIMIT) {
+                        activityCheckoutScreenBinding.tvPaymentType.setText(getResources().getString(R.string.bank_transfer));
+                        activityCheckoutScreenBinding.rbBankTransfer.setChecked(true);
+                        activityCheckoutScreenBinding.rgPaymentType.setOnCheckedChangeListener(null);
+                    }
+
+                    cartListModelList.get(merchantIndex).setTotalCharges(tCharges);
+                    cartListModelList.get(merchantIndex).setDiscountApplied(true);
+                    cartListModelList.get(merchantIndex).setDiscount(discount);
+                    cartListModelList.get(merchantIndex).setCoupon(coupon);
+
+                    cartIMerchantAdapter.notifyDataSetChanged();
+                    isCouponApplied = true;
+                } else if (voucherDataContainer.getCode().equals(VALIDATION_FAIL_CODE)) {
+                    vouhcerDialogueBinding.tvErrorMessage.setText(voucherDataContainer.getMsg());
+                    vouhcerDialogueBinding.tvErrorMessage.setVisibility(View.VISIBLE);
+
+                }
+            }
+
+            activityCheckoutScreenBinding.pbLoading.setVisibility(View.GONE);
+            AppUtils.unBlockUi(this);
+
         });
     }
 
@@ -610,6 +738,8 @@ public class CheckoutScreen extends AppCompatActivity implements NetworkInterfac
             cartListModel.setMerchantId(merchantItems.get(i).getMerchantId());
             cartListModel.setMerchantName(merchantItems.get(i).getMerchantName());
             cartListModel.setTotalAmount(String.valueOf(totalMerchant));
+            cartListModel.setDiscountApplied(false);
+            cartListModel.setDiscount("0");
 
             cartListModel.setCartItemList(tempCartItem);
             cartListModelList.add(cartListModel);

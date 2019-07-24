@@ -447,6 +447,7 @@
             android:background="@drawable/bg_round_corner_pb"
             android:padding="@dimen/_32dp"
             android:visibility="visible"
+            android:elevation="@dimen/_2dp"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"

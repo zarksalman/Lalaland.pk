@@ -246,6 +246,9 @@ public class CartFragment extends Fragment implements View.OnClickListener, Cart
             cartListModel.setMerchantShippingRate("0.0");
             cartListModel.setTotalCharges("0.0");
             cartListModel.setCartItemList(tempCartItem);
+            cartListModel.setDiscountApplied(false);
+            cartListModel.setDiscount("0");
+            cartListModel.setCoupon("");
             cartListModelList.add(cartListModel);
         }
     }
@@ -429,6 +432,11 @@ public class CartFragment extends Fragment implements View.OnClickListener, Cart
                 AppUtils.unBlockUi(getActivity());
 
         });
+    }
+
+    @Override
+    public void applyVoucher(int merchantId) {
+        // it is for checkout screen only
     }
 
     @Override

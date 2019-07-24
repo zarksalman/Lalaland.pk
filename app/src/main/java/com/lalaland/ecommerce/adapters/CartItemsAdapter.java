@@ -55,20 +55,7 @@ public class CartItemsAdapter extends RecyclerView.Adapter<CartItemsAdapter.Cart
             lp.topMargin = 0;
             cartItemBinding.cartItemsParent.setLayoutParams(lp);
         }
-
-        // for testing now
-        // for checkout and out of stock product listing
-      /*  if (mAdapterType == 2) {
-            cartItemBinding.ivDeleteItem.setVisibility(View.GONE);
-            cartItemBinding.cbAddToList.setVisibility(View.GONE);
-            cartItemBinding.counterContainer.setVisibility(View.GONE);
-            cartItemBinding.tvQuantityDetail.setVisibility(View.VISIBLE);
-            cartItemBinding.tvQuantityTitle.setVisibility(View.VISIBLE);
-            ConstraintLayout.LayoutParams lp = new ConstraintLayout.LayoutParams(ConstraintLayout.LayoutParams.MATCH_PARENT, ConstraintLayout.LayoutParams.WRAP_CONTENT);
-            lp.topMargin = 0;
-            cartItemBinding.cartItemsParent.setLayoutParams(lp);
-        }*/
-
+        
         return new CartItemViewHolder(cartItemBinding);
     }
 

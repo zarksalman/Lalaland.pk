@@ -177,5 +177,7 @@
     <string name="add_number">Add Mobile Number</string>
     <string name="mobile_number_03">Mobile Number (03*********)</string>
     <string name="you_need_to_add_new_address_to_place_nthe_new_order">You need to add new address to place the new order</string>
+    <string name="discount">Discount</string>
+    <string name="enter_voucher_code">Enter Voucher Code</string>
 
 </resources>

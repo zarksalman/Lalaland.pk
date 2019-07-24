@@ -319,8 +319,13 @@ public class ProductDetailActivity extends AppCompatActivity implements ProductV
                     loadProductDetail();
 
                     bundle.putString("id", String.valueOf(product_id));
-                    bundle.putString("variation_id", String.valueOf(mProductVariation.get(getFirstSelectedVariationIndex()).getId()));
-                    bundle.putString("price", mProductVariation.get(getFirstSelectedVariationIndex()).getSalePrice());
+
+                    if (getFirstSelectedVariationIndex() != -1) {
+                        bundle.putString("variation_id", String.valueOf(mProductVariation.get(getFirstSelectedVariationIndex()).getId()));
+                    }
+
+                    bundle.putString("price", productDetails.getMinSalePrice());
+
                     bundle.putString("brand_name", productDetails.getBrandName());
 
                     AnalyticsManager.getInstance().sendAnalytics("view_item", bundle);

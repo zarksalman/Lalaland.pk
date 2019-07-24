@@ -215,7 +215,7 @@ public class GlobalSearchActivity extends AppCompatActivity implements SearchPro
 
         if (!activityGlobalSearchBinding.etGlobalSearch.getText().toString().isEmpty()) {
 
-            String qstr = activityGlobalSearchBinding.etGlobalSearch.getText().toString().trim();
+            String qstr = activityGlobalSearchBinding.etGlobalSearch.getText().toString();
 
             intent = new Intent(this, ActionProductListingActivity.class);
 

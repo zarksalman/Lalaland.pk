@@ -7,25 +7,25 @@ public class VoucherData {
 
 @SerializedName("discounted_total")
 @Expose
-private Integer discountedTotal;
+private Double discountedTotal;
 @SerializedName("discount_amount")
 @Expose
 private String discountAmount;
 
-public Integer getDiscountedTotal() {
-return discountedTotal;
-}
+    public Double getDiscountedTotal() {
+        return discountedTotal;
+    }
 
-public void setDiscountedTotal(Integer discountedTotal) {
-this.discountedTotal = discountedTotal;
-}
+    public void setDiscountedTotal(Double discountedTotal) {
+        this.discountedTotal = discountedTotal;
+    }
 
-public String getDiscountAmount() {
-return discountAmount;
-}
+    public String getDiscountAmount() {
+        return discountAmount;
+    }
 
-public void setDiscountAmount(String discountAmount) {
-this.discountAmount = discountAmount;
-}
+    public void setDiscountAmount(String discountAmount) {
+        this.discountAmount = discountAmount;
+    }
 
 }

@@ -139,14 +139,23 @@ public class AppUtils {
 
         String[] prices = price.split("-");
 
-        prices[0] = NumberFormat.getNumberInstance(Locale.US).format(Double.parseDouble(prices[0]));
+        if (!prices[0].isEmpty()) {
 
-        if (prices.length > 1) {
+            prices[0] = NumberFormat.getNumberInstance(Locale.US).format(Double.parseDouble(prices[0]));
+
+            if (prices.length > 1) {
+                prices[1] = NumberFormat.getNumberInstance(Locale.US).format(Double.parseDouble(prices[1]));
+                return "PKR " + prices[0] + "-" + prices[1];
+            } else {
+                return "PKR " + prices[0];
+            }
+        } else {
+            
+            // for minus values
             prices[1] = NumberFormat.getNumberInstance(Locale.US).format(Double.parseDouble(prices[1]));
             return "PKR " + prices[0] + "-" + prices[1];
-        } else {
-            return "PKR " + prices[0];
         }
+
     }
 
     public static String formatForCartPriceString(String price, Integer count) {

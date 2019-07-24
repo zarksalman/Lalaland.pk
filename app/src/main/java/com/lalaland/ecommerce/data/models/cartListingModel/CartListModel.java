@@ -13,6 +13,34 @@ public class CartListModel {
     private int merchantId;
     private String totalAmount;
     private String totalCharges;
+    private String discount;
+    private String coupon;
+
+    public String getCoupon() {
+        return coupon;
+    }
+
+    public void setCoupon(String coupon) {
+        this.coupon = coupon;
+    }
+
+    private boolean isDiscountApplied;
+
+    public String getDiscount() {
+        return discount;
+    }
+
+    public void setDiscount(String discount) {
+        this.discount = discount;
+    }
+
+    public boolean isDiscountApplied() {
+        return isDiscountApplied;
+    }
+
+    public void setDiscountApplied(boolean discountApplied) {
+        isDiscountApplied = discountApplied;
+    }
 
     public String getTotalCharges() {
         return totalCharges;
