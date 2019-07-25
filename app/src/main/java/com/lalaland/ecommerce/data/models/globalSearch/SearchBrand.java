@@ -3,18 +3,21 @@ package com.lalaland.ecommerce.data.models.globalSearch;
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
 
-public class SearchProduct {
+public class SearchBrand {
 
     @SerializedName("id")
     @Expose
     private Integer id;
+    @SerializedName("brand_url_name")
+    @Expose
+    private String brandUrlName;
     @SerializedName("name")
     @Expose
     private String name;
 
-   /* @SerializedName("remaining_quantity")
+   /* @SerializedName("total_products")
     @Expose
-    private String remainingQuantity;*/
+    private Integer totalProducts;*/
 
     public Integer getId() {
         return id;
@@ -22,6 +25,14 @@ public class SearchProduct {
 
     public void setId(Integer id) {
         this.id = id;
+    }
+
+    public String getBrandUrlName() {
+        return brandUrlName;
+    }
+
+    public void setBrandUrlName(String brandUrlName) {
+        this.brandUrlName = brandUrlName;
     }
 
     public String getName() {
@@ -32,12 +43,12 @@ public class SearchProduct {
         this.name = name;
     }
 
-/*    public String getRemainingQuantity() {
-        return remainingQuantity;
+/*    public Integer getTotalProducts() {
+        return totalProducts;
     }
 
-    public void setRemainingQuantity(String remainingQuantity) {
-        this.remainingQuantity = remainingQuantity;
+    public void setTotalProducts(Integer totalProducts) {
+        this.totalProducts = totalProducts;
     }*/
 
 }

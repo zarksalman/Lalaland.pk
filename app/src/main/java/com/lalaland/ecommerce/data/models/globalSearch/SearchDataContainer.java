@@ -5,6 +5,7 @@ import com.google.gson.annotations.SerializedName;
 
 public class SearchDataContainer {
 
+
     @SerializedName("code")
     @Expose
     private String code;

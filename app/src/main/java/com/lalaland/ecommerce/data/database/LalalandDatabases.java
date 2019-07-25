@@ -14,7 +14,7 @@ import com.lalaland.ecommerce.helpers.AppPreference;
 
 import static com.lalaland.ecommerce.helpers.AppConstants.APP_DATABASE;
 
-@Database(entities = SearchCategory.class, version = 1)
+@Database(entities = SearchCategory.class, version = 2)
 public abstract class LalalandDatabases extends RoomDatabase {
 
     private static LalalandDatabases INSTANCE;

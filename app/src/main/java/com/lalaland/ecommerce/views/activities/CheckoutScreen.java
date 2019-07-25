@@ -48,6 +48,7 @@ import static com.lalaland.ecommerce.helpers.AppConstants.CASH_TRANSFER_TYPE;
 import static com.lalaland.ecommerce.helpers.AppConstants.DATE_OF_BIRTH;
 import static com.lalaland.ecommerce.helpers.AppConstants.GENDER;
 import static com.lalaland.ecommerce.helpers.AppConstants.GENERAL_ERROR;
+import static com.lalaland.ecommerce.helpers.AppConstants.IS_COUPON_APPLIED;
 import static com.lalaland.ecommerce.helpers.AppConstants.ORDER_TOTAL;
 import static com.lalaland.ecommerce.helpers.AppConstants.OUT_OF_STOCK_CODE;
 import static com.lalaland.ecommerce.helpers.AppConstants.PAYMENT_LOWEST_LIMIT;
@@ -56,6 +57,7 @@ import static com.lalaland.ecommerce.helpers.AppConstants.SIGNIN_TOKEN;
 import static com.lalaland.ecommerce.helpers.AppConstants.SUCCESS_CODE;
 import static com.lalaland.ecommerce.helpers.AppConstants.USER_NAME;
 import static com.lalaland.ecommerce.helpers.AppConstants.VALIDATION_FAIL_CODE;
+import static com.lalaland.ecommerce.helpers.AppConstants.VOUCHER_FAIL_CODE;
 
 public class CheckoutScreen extends AppCompatActivity implements NetworkInterface {
 
@@ -98,8 +100,8 @@ public class CheckoutScreen extends AppCompatActivity implements NetworkInterfac
     private Bundle bundle = new Bundle();
     String disTotal, tCharges, discount = "-";
     Double discountedTotal, totalCharges, discountedBill, billBeforeDiscount;
-    boolean isCouponApplied = false;
     int mMerchantIndex;
+    String mId, mCoupon;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -366,8 +368,14 @@ public class CheckoutScreen extends AppCompatActivity implements NetworkInterfac
         });
         
         activityCheckoutScreenBinding.ivCloseCheckoutScreen.setOnClickListener(v -> {
-            finish();
         });
+    }
+
+    @Override
+    public void onBackPressed() {
+
+        IS_COUPON_APPLIED = false;
+        finish();
     }
 
     void isUserAddressExist() {
@@ -436,7 +444,7 @@ public class CheckoutScreen extends AppCompatActivity implements NetworkInterfac
             @Override
             public void applyVoucher(int merchantIndex) {
 
-                if (isCouponApplied) {
+                if (IS_COUPON_APPLIED) {
                     Toast.makeText(CheckoutScreen.this, "Coupon applied", Toast.LENGTH_SHORT).show();
                 } else {
 
@@ -484,6 +492,10 @@ public class CheckoutScreen extends AppCompatActivity implements NetworkInterfac
         parameter.put("shipping_method", String.valueOf(0));
         parameter.put("payment_gateway", String.valueOf(CASH_TRANSFER_TYPE));
 
+        if (IS_COUPON_APPLIED) {
+            parameter.put("verified_coupon ", mCoupon);
+            parameter.put("verified_coupon_for_merchant_id", mId);
+        }
 
         productViewModel.confirmOrder(parameter, this).observe(this, orderDataContainer -> {
 
@@ -524,7 +536,7 @@ public class CheckoutScreen extends AppCompatActivity implements NetworkInterfac
 
     public void applyMyVoucher(int merchantIndex, String coupon) {
 
-        if (isCouponApplied) {
+        if (IS_COUPON_APPLIED) {
             Toast.makeText(this, "Coupon applied", Toast.LENGTH_SHORT).show();
             return;
         }
@@ -538,12 +550,13 @@ public class CheckoutScreen extends AppCompatActivity implements NetworkInterfac
         discount = "-";
 //        Integer merchantId = 62;
         // coupon = "LL123";
-        Integer merchantId = cartListModel.getMerchantId();
 
-        String mId = String.valueOf(merchantId);
+        Integer merchantId = cartListModel.getMerchantId();
+        mId = String.valueOf(merchantId);
+        mCoupon = coupon;
 
         parameter.clear();
-        parameter.put("voucher_code", coupon);
+        parameter.put("voucher_code", mCoupon);
         parameter.put("merchant_id", mId);
         parameter.put("sub_total", cartListModel.getTotalAmount());
 
@@ -587,11 +600,10 @@ public class CheckoutScreen extends AppCompatActivity implements NetworkInterfac
                     cartListModelList.get(merchantIndex).setCoupon(coupon);
 
                     cartIMerchantAdapter.notifyDataSetChanged();
-                    isCouponApplied = true;
-                } else if (voucherDataContainer.getCode().equals(VALIDATION_FAIL_CODE)) {
+                    IS_COUPON_APPLIED = true;
+                } else if (voucherDataContainer.getCode().equals(VOUCHER_FAIL_CODE)) {
                     vouhcerDialogueBinding.tvErrorMessage.setText(voucherDataContainer.getMsg());
                     vouhcerDialogueBinding.tvErrorMessage.setVisibility(View.VISIBLE);
-
                 }
             }
 

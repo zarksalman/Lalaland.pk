@@ -17,25 +17,20 @@ public class SearchCategory {
     private Integer id;
 
     @SerializedName("name")
-    @ColumnInfo(name = "name")
     @Expose
     private String name;
 
+    @SerializedName("url_name")
+    @Expose
+    private String urlName;
 
     @SerializedName("parent_id")
-    @ColumnInfo(name = "parent_id")
     @Expose
     private Integer parentId;
 
-    @SerializedName("remaining_quantity")
-    @ColumnInfo(name = "remaining_quantity")
+/*    @SerializedName("total_products")
     @Expose
-    private Integer remainingQuantity;
-
-    @SerializedName("url_name")
-    @ColumnInfo(name = "url_name")
-    @Expose
-    private String urlName;
+    private Integer totalProducts;*/
 
     public Integer getId() {
         return id;
@@ -53,6 +48,14 @@ public class SearchCategory {
         this.name = name;
     }
 
+    public String getUrlName() {
+        return urlName;
+    }
+
+    public void setUrlName(String urlName) {
+        this.urlName = urlName;
+    }
+
     public Integer getParentId() {
         return parentId;
     }
@@ -61,19 +64,12 @@ public class SearchCategory {
         this.parentId = parentId;
     }
 
-    public Integer getRemainingQuantity() {
-        return remainingQuantity;
+/*    public Integer getTotalProducts() {
+        return totalProducts;
     }
 
-    public void setRemainingQuantity(Integer remainingQuantity) {
-        this.remainingQuantity = remainingQuantity;
-    }
+    public void setTotalProducts(Integer totalProducts) {
+        this.totalProducts = totalProducts;
+    }*/
 
-    public String getUrlName() {
-        return urlName;
-    }
-
-    public void setUrlName(String urlName) {
-        this.urlName = urlName;
-    }
 }

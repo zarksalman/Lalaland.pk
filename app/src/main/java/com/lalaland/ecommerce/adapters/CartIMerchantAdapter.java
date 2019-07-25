@@ -16,6 +16,8 @@ import com.lalaland.ecommerce.databinding.CartMerchantItemBinding;
 
 import java.util.List;
 
+import static com.lalaland.ecommerce.helpers.AppConstants.IS_COUPON_APPLIED;
+
 
 public class CartIMerchantAdapter extends RecyclerView.Adapter<CartIMerchantAdapter.MerchantItemViewHolder> implements CartItemsAdapter.CartClickListener {
 
@@ -110,6 +112,17 @@ public class CartIMerchantAdapter extends RecyclerView.Adapter<CartIMerchantAdap
         }
 
         void bindHolder(CartListModel cartListModel) {
+
+            // checking if a coupon applied or not
+            if (IS_COUPON_APPLIED) {
+                if (cartListModel.isDiscountApplied()) {
+                    mCartMerchantItemBinding.tvApplyCouponTitle.setTextColor(mContext.getResources().getColor(R.color.colorGreen));
+                } else {
+                    mCartMerchantItemBinding.tvApplyCouponTitle.setTextColor(mContext.getResources().getColor(R.color.colorMediumGray));
+                }
+
+            }
+
 
             mCartMerchantItemBinding.setCartListItem(cartListModel);
             mCartMerchantItemBinding.setAdapter(CartIMerchantAdapter.this);

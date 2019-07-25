@@ -139,6 +139,9 @@ public class AppConstants {
     public static final String VALIDATION_FAIL_CODE = "400";
     public static final String AUTHORIZATION_FAIL_CODE = "401";
     public static final String OUT_OF_STOCK_CODE = "403";
+    public static final String VOUCHER_FAIL_CODE = "403";
+    public static boolean IS_COUPON_APPLIED = false;
+
 
     // Toast Strings
     public static final String SUCCESS_MESSAGE = "Success";

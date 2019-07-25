@@ -29,12 +29,12 @@ import com.jakewharton.rxbinding2.widget.TextViewTextChangeEvent;
 import com.lalaland.ecommerce.R;
 import com.lalaland.ecommerce.adapters.SearchAdapter;
 import com.lalaland.ecommerce.adapters.SearchProductAdapter;
+import com.lalaland.ecommerce.data.models.globalSearch.SearchBrand;
 import com.lalaland.ecommerce.data.models.globalSearch.SearchCategory;
 import com.lalaland.ecommerce.data.models.globalSearch.SearchDataContainer;
 import com.lalaland.ecommerce.data.models.globalSearch.SearchProduct;
 import com.lalaland.ecommerce.data.retrofit.RetrofitRxJavaClient;
 import com.lalaland.ecommerce.databinding.ActivityGlobalSearchBinding;
-import com.lalaland.ecommerce.helpers.AnalyticsManager;
 import com.lalaland.ecommerce.helpers.AppConstants;
 import com.lalaland.ecommerce.helpers.AppPreference;
 import com.lalaland.ecommerce.viewModels.products.ProductViewModel;
@@ -75,6 +75,7 @@ public class GlobalSearchActivity extends AppCompatActivity implements SearchPro
     private ProductViewModel productViewModel;
     private List<SearchProduct> searchProducts = new ArrayList<>();
     private List<SearchCategory> searchCategories = new ArrayList<>();
+    private List<SearchBrand> searchBrands = new ArrayList<>();
     private List<SearchCategory> savedSearchCategories = new ArrayList<>();
     private boolean isHistory = true;
     private boolean isReponseReceive = false;
@@ -314,9 +315,25 @@ public class GlobalSearchActivity extends AppCompatActivity implements SearchPro
 
             searchCategory.setId(searchProduct.getId());
             searchCategory.setUrlName(searchProduct.getName());
-            searchCategory.setRemainingQuantity(Integer.parseInt(searchProduct.getRemainingQuantity()));
+
+            //    searchCategory.setTotalProducts(Integer.parseInt(searchProduct.getRemainingQuantity()));
+
             searchCategory.setParentId(-1); // -1 means it is not a category it is a product
             categoryList.add(searchCategory);
+        }
+
+        for (SearchBrand searchBrand : searchBrands) {
+
+            searchCategory = new SearchCategory();
+
+            searchCategory.setId(searchBrand.getId());
+            searchCategory.setUrlName(searchBrand.getName());
+
+            //  searchCategory.setTotalProducts(searchBrand.getTotalProducts());
+
+            searchCategory.setParentId(-1); // -1 means it is not a category it is a product
+            categoryList.add(searchCategory);
+
         }
 
         searchCategories.addAll(categoryList);
@@ -378,14 +395,18 @@ public class GlobalSearchActivity extends AppCompatActivity implements SearchPro
 
                     if (searchDataContainer.getCode().equals(SUCCESS_CODE)) {
 
-                        if (searchDataContainer.getData().getCategory().size() > 0 || searchDataContainer.getData().getProduct().size() > 0) {
+                        //if (searchDataContainer.getData().getCategory().size() > 0 || searchDataContainer.getData().getProduct().size() > 0 || searchDataContainer.getData().getBrands().size() > 0)
+                        {
                             searchProducts.clear();
                             searchCategories.clear();
 
+/*
                             searchProducts.addAll(searchDataContainer.getData().getProduct());
                             searchCategories.addAll(searchDataContainer.getData().getCategory());
+                            searchBrands.addAll(searchDataContainer.getData().getBrands());
 
                             createModelsForAdapter();
+*/
 
                             if (searchCategories.size() > 0) {
 
@@ -399,12 +420,13 @@ public class GlobalSearchActivity extends AppCompatActivity implements SearchPro
 
                             searchProductAdapter.setData(searchCategories);
                             searchProductAdapter.notifyDataSetChanged();
-                        } else {
+                        }/* else {
 
                             searchProducts.clear();
                             searchCategories.clear();
                             searchProductAdapter.notifyDataSetChanged();
-                        }
+                        }*/
+
                     } else if (searchDataContainer.getCode().equals(VALIDATION_FAIL_CODE)) {
 
                         if (savedSearchCategories.size() > 0) {
@@ -439,14 +461,12 @@ public class GlobalSearchActivity extends AppCompatActivity implements SearchPro
         return new DisposableObserver<TextViewTextChangeEvent>() {
             @Override
             public void onNext(TextViewTextChangeEvent textViewTextChangeEvent) {
-                Log.d(AppConstants.TAG, "Search query: " + textViewTextChangeEvent.text());
+                publishSubject.onNext(textViewTextChangeEvent.text().toString());
 
-                Bundle bundle = new Bundle();
+/*                Bundle bundle = new Bundle();
                 bundle.putString("searchString", textViewTextChangeEvent.toString());
                 AnalyticsManager.getInstance().sendAnalytics("search", bundle);
-                AnalyticsManager.getInstance().sendFacebookAnalytics("Search", bundle);
-
-                publishSubject.onNext(textViewTextChangeEvent.text().toString());
+                AnalyticsManager.getInstance().sendFacebookAnalytics("Search", bundle);*/
             }
 
             @Override
@@ -461,4 +481,10 @@ public class GlobalSearchActivity extends AppCompatActivity implements SearchPro
         };
     }
 
+    @Override
+    protected void onDestroy() {
+
+        disposable.clear();
+        super.onDestroy();
+    }
 }
