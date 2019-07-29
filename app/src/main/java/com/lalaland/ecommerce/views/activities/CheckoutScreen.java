@@ -368,6 +368,7 @@ public class CheckoutScreen extends AppCompatActivity implements NetworkInterfac
         });
         
         activityCheckoutScreenBinding.ivCloseCheckoutScreen.setOnClickListener(v -> {
+            onBackPressed();
         });
     }
 
@@ -482,7 +483,7 @@ public class CheckoutScreen extends AppCompatActivity implements NetworkInterfac
 
         activityCheckoutScreenBinding.pbLoading.setVisibility(View.VISIBLE);
         parameter.clear();
-        parameter.put("name", userAddresses.getUserName());
+        parameter.put("name", userAddresses.getUserNameAddress());
         parameter.put("phone_no", userAddresses.getPhone());
         parameter.put("email", userAddresses.getEmail());
         parameter.put("city_id", String.valueOf(userAddresses.getCityId()));
@@ -512,6 +513,7 @@ public class CheckoutScreen extends AppCompatActivity implements NetworkInterfac
                     intent.putExtra(ORDER_TOTAL, String.valueOf(totalBill));
                     CASH_TRANSFER_TYPE = 1;
                     CART_COUNTER = 0;
+                    IS_COUPON_APPLIED = false;
                     intent.putParcelableArrayListExtra("recommended_products", (ArrayList<? extends Parcelable>) orderDataContainer.getData().getRecommendation());
                     intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
                     startActivity(intent);

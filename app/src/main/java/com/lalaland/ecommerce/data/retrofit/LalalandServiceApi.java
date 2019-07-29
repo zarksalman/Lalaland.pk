@@ -167,9 +167,7 @@ public interface LalalandServiceApi {
 
     //*********************************************** Second build starts here****************************************
 
-
     @POST("checkVoucherIsValid")
     Call<VoucherDataContainer> isVoucherValid(@HeaderMap Map<String, String> header, @QueryMap Map<String, String> parameters);
-
-
+    
 }

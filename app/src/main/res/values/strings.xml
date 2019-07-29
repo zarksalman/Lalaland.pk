@@ -5,8 +5,8 @@
 
     <string name="category">Category</string>
     <string name="cart">Cart</string>
-    <string name="wish">Wish</string>
-    <string name="wish_items">Wish List</string>
+    <string name="wish">Wishlist</string>
+    <string name="wish_items">Wishlist</string>
     <string name="account">Account</string>
 
     <string name="title_activity_registration">Registration</string>
@@ -101,11 +101,11 @@
     <string name="order_merchant_format">Merchant: %1$s </string>
     <string name="order_detail">Order Detail</string>
     <string name="order_received">Order Received</string>
-    <string name="order_placed_successful"> You order has been placed successfully</string>
+    <string name="order_placed_successful"> Your order has been placed successfully</string>
     <string name="total_amount">Total Amount</string>
     <string name="track_order">Track Order</string>
     <string name="continue_shopping">Continue Shopping</string>
-    <string name="your_order_will_be_deliver_within_5_to_7_working_days">your order will be deliver within 5 to 7 working days</string>
+    <string name="your_order_will_be_deliver_within_5_to_7_working_days">Your order will be deliver within 5 to 7 working days</string>
     <string name="search_lalaland">Search lalaland</string>
     <string name="find_your_next_favourite_thing">Find your next favourite thing</string>
     <string name="search_history">Search History</string>
@@ -137,8 +137,8 @@
     <string name="total_charges">Total Charges</string>
     <string name="order_summary">Order Summary</string>
     <string name="select_city">Select City</string>
-    <string name="no_item_found_in_your_list">No item found in your list</string>
-    <string name="no_item_found_in_your_cart">No item found in your cart</string>
+    <string name="no_item_found_in_your_list">No items found in your list</string>
+    <string name="no_item_found_in_your_cart">No items found in your cart</string>
     <string name="payment_method">Payment Method</string>
     <string name="change">change</string>
     <string name="title_activity_change_payment">ChangePaymentActivity</string>

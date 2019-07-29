@@ -15,7 +15,6 @@ import com.lalaland.ecommerce.adapters.MyOrderAdapter;
 import com.lalaland.ecommerce.data.models.order.myOrders.Order;
 import com.lalaland.ecommerce.databinding.ActivityOrderListingBinding;
 import com.lalaland.ecommerce.helpers.AppPreference;
-import com.lalaland.ecommerce.helpers.AppUtils;
 import com.lalaland.ecommerce.viewModels.order.OrderViewModel;
 
 import java.util.ArrayList;
@@ -48,8 +47,45 @@ public class OrderListingActivity extends AppCompatActivity implements MyOrderAd
         if (getIntent().getExtras() != null) {
 
             orderListType = getIntent().getStringExtra(ORDER_STATUS);
+            String title;
 
-            activityOrderListingBinding.tvTitle.setText(AppUtils.toLowerCase(orderListType.concat(" ")).concat("Orders"));
+            switch (orderListType) {
+                case "all orders":
+                    title = "All Orders";
+                    break;
+
+                case "all":
+                    title = "All Orders";
+                    break;
+
+                case "new":
+                    title = "New Orders";
+                    break;
+
+                case "confirm":
+                    title = "Confirmed Orders";
+                    break;
+
+                case "cancel":
+                    title = "Cancelled Orders";
+                    break;
+
+                case "receive":
+                    title = "Received Orders";
+                    break;
+
+
+                case "intransit":
+                    title = "Orders in Transit";
+                    break;
+
+                default:
+                    title = "All Orders";
+            }
+
+            activityOrderListingBinding.tvTitle.setText(title);
+
+            // activityOrderListingBinding.tvTitle.setText(AppUtils.toLowerCase(orderListType.concat(" ")).concat("Orders"));
             loginToken = AppPreference.getInstance(this).getString(SIGNIN_TOKEN);
 
             setInitialValues();

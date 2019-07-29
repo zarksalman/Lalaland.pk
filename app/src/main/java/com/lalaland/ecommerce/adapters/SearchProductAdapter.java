@@ -55,16 +55,17 @@ public class SearchProductAdapter extends RecyclerView.Adapter<SearchProductAdap
 
     public void setData(List<SearchCategory> searchProducts) {
 
+        mSearches.clear();
         mSearches = searchProducts;
         notifyDataSetChanged();
     }
 
     public void onSearchClicked(int position) {
-        mSearchListener.onSearchProductClicked(position, mIsHistory);
+        mSearchListener.onSearchProductClicked(mSearches.get(position).getParentId(), position, mIsHistory);
     }
 
     public void onSearchDelete(int position) {
-        mSearchListener.onSearchProductDelete(position, mIsHistory);
+        mSearchListener.onSearchProductDelete(mSearches.get(position).getParentId(), position, mIsHistory);
     }
 
     class SearchProductViewHolder extends RecyclerView.ViewHolder {
@@ -106,8 +107,8 @@ public class SearchProductAdapter extends RecyclerView.Adapter<SearchProductAdap
     }
 
     public interface SearchListener {
-        void onSearchProductClicked(int position, boolean isHistory);
+        void onSearchProductClicked(int parentId, int position, boolean isHistory);
 
-        void onSearchProductDelete(int position, boolean isHistory);
+        void onSearchProductDelete(int parentId, int position, boolean isHistory);
     }
 }

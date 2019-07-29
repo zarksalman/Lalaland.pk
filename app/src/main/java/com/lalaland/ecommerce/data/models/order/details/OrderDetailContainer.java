@@ -5,38 +5,41 @@ import com.google.gson.annotations.SerializedName;
 
 public class OrderDetailContainer {
 
-@SerializedName("code")
-@Expose
-private String code;
-@SerializedName("msg")
-@Expose
-private String msg;
-@SerializedName("data")
-@Expose
-private OrderDetailData data;
+    @SerializedName("code")
+    @Expose
+    private String code;
+    @SerializedName("msg")
+    @Expose
+    private String msg;
 
-public String getCode() {
-return code;
-}
+    @SerializedName("data")
+    @Expose
+    private OrderDetailData data;
 
-public void setCode(String code) {
-this.code = code;
-}
 
-public String getMsg() {
-return msg;
-}
 
-public void setMsg(String msg) {
-this.msg = msg;
-}
+    public String getCode() {
+        return code;
+    }
 
-public OrderDetailData getData() {
-return data;
-}
+    public void setCode(String code) {
+        this.code = code;
+    }
 
-public void setData(OrderDetailData data) {
-this.data = data;
-}
+    public String getMsg() {
+        return msg;
+    }
+
+    public void setMsg(String msg) {
+        this.msg = msg;
+    }
+
+    public OrderDetailData getData() {
+        return data;
+    }
+
+    public void setData(OrderDetailData data) {
+        this.data = data;
+    }
 
 }

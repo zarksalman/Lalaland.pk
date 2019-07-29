@@ -1,6 +1,7 @@
 package com.lalaland.ecommerce.views.activities;
 
 import android.os.Bundle;
+import android.view.View;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.databinding.DataBindingUtil;
@@ -31,7 +32,7 @@ import static com.lalaland.ecommerce.helpers.AppConstants.USER_NAME;
 public class OrderDetailActivity extends AppCompatActivity {
 
     private ActivityOrderDetailBinding activityOrderDetailBinding;
-    private String orderId, orderDate, orderMerchant, orderAddress, orderTotal, token;
+    private String orderId, orderDate, orderMerchant, orderAddress, orderTotal, orderTotal1, token, discountAmount, shippingCharges;
     private OrderViewModel orderViewModel;
     private List<OrderProduct> orderProductList = new ArrayList<>();
     private MyOrderProductsAdapter myOrderProductsAdapter;
@@ -58,13 +59,12 @@ public class OrderDetailActivity extends AppCompatActivity {
             onBackPressed();
         });
 
-        setInitValues();
+        //  setInitValues();
         setAdapter();
         getOrderProducts();
     }
 
     private void setInitValues() {
-
         activityOrderDetailBinding.tvUserName.setText(appPreference.getString(USER_NAME));
         activityOrderDetailBinding.tvUserPhone.setText(appPreference.getString(PHONE_NUMBER));
         activityOrderDetailBinding.tvUserAddress.setText(orderAddress);
@@ -92,10 +92,33 @@ public class OrderDetailActivity extends AppCompatActivity {
             if (orderDetailContainer != null) {
 
                 if (orderDetailContainer.getCode().equals(SUCCESS_CODE)) {
+
                     orderProductList.addAll(orderDetailContainer.getData().getOrderProducts());
                     myOrderProductsAdapter.notifyItemRangeInserted(0, orderProductList.size());
+
+                    if (orderDetailContainer.getData().getDiscountAmount() != null) {
+                        discountAmount = orderDetailContainer.getData().getDiscountAmount();
+                        activityOrderDetailBinding.tvMerchantDiscount.setText(discountAmount);
+                        activityOrderDetailBinding.discountRow.setVisibility(View.VISIBLE);
+                    }
+
+
+                    if (orderDetailContainer.getData().getOrderTotal() != null) {
+                        orderTotal1 = orderDetailContainer.getData().getOrderTotal();
+                        activityOrderDetailBinding.tvMerchantOrderTotal.setText(orderTotal1);
+                    }
+
+                    if (orderDetailContainer.getData().getShippingCharges() != null) {
+                        shippingCharges = orderDetailContainer.getData().getShippingCharges();
+                        activityOrderDetailBinding.tvMerchantDeliveryCharges.setText(shippingCharges);
+                    }
+
+                    setInitValues();
+                    activityOrderDetailBinding.nsvParent.setVisibility(View.VISIBLE);
                 }
             }
+
+            activityOrderDetailBinding.pbLoading.setVisibility(View.GONE);
         });
     }
 

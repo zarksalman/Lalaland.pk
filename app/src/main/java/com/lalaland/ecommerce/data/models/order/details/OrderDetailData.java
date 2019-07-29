@@ -7,16 +7,51 @@ import java.util.List;
 
 public class OrderDetailData {
 
-@SerializedName("order_products")
-@Expose
-private List<OrderProduct> orderProducts = null;
+    @SerializedName("order_products")
+    @Expose
+    private List<OrderProduct> orderProducts = null;
 
-public List<OrderProduct> getOrderProducts() {
-return orderProducts;
-}
+    @SerializedName("discount_amount")
+    @Expose
+    private String discountAmount;
 
-public void setOrderProducts(List<OrderProduct> orderProducts) {
-this.orderProducts = orderProducts;
-}
+    @SerializedName("shipping_charges")
+    @Expose
+    private String shippingCharges;
 
+    @SerializedName("order_total")
+    @Expose
+    private String orderTotal;
+
+    public List<OrderProduct> getOrderProducts() {
+        return orderProducts;
+    }
+
+    public void setOrderProducts(List<OrderProduct> orderProducts) {
+        this.orderProducts = orderProducts;
+    }
+
+    public String getDiscountAmount() {
+        return discountAmount;
+    }
+
+    public void setDiscountAmount(String discountAmount) {
+        this.discountAmount = discountAmount;
+    }
+
+    public String getShippingCharges() {
+        return shippingCharges;
+    }
+
+    public void setShippingCharges(String shippingCharges) {
+        this.shippingCharges = shippingCharges;
+    }
+
+    public String getOrderTotal() {
+        return orderTotal;
+    }
+
+    public void setOrderTotal(String orderTotal) {
+        this.orderTotal = orderTotal;
+    }
 }

@@ -38,7 +38,7 @@ public class AppConstants {
     public static String categorySubFilter = "All";
 
     public static List<String> testImagesUrl = new ArrayList<>();
-    public static UserAddresses userAddresses;
+    public static UserAddresses userAddresses, setUserAddresses;
     public static User user;
     // -------------------------------------------------------------------------------------------
     public static final Double PAYMENT_LOWEST_LIMIT = 40000.00;

@@ -46,108 +46,278 @@
 
         </RelativeLayout>
 
-        <LinearLayout
-            android:id="@+id/user_address_container"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:background="@android:color/white"
-            android:orientation="vertical"
-            android:padding="@dimen/_16dp"
+        <androidx.core.widget.NestedScrollView
+
+            android:id="@+id/nsv_parent"
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:visibility="visible"
+            app:layout_constraintBottom_toTopOf="@+id/bottom_bar"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/top_bar">
 
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="@string/shipping_address"
-                android:textSize="16sp" />
+            <androidx.constraintlayout.widget.ConstraintLayout
 
-            <TextView
-
-                android:id="@+id/tv_user_name"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:textColor="@android:color/black"
-                tools:text="@tools:sample/full_names" />
-
-            <TextView
-
-                android:id="@+id/tv_user_phone"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:textColor="@android:color/black"
-                tools:text="@tools:sample/us_phones" />
-
-            <TextView
-
-                android:id="@+id/tv_user_address"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:textColor="@android:color/black"
-                tools:text="@tools:sample/avatars" />
-        </LinearLayout>
-
-        <LinearLayout
-            android:id="@+id/user_order_container"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="@dimen/_4dp"
-            android:background="@android:color/white"
-            android:orientation="vertical"
-            android:padding="@dimen/_16dp"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/user_address_container">
-
-
-            <TextView
-
-                android:id="@+id/tv_order_id"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="@string/order_id_format"
-                android:textColor="@android:color/black"
-                tools:text="@tools:sample/full_names" />
-
-            <TextView
-
-                android:id="@+id/tv_order_date"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:textColor="@android:color/black"
-                tools:text="@tools:sample/us_phones" />
-
-            <TextView
-
-                android:id="@+id/tv_order_merchant"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:textColor="@android:color/black"
-                tools:text="@tools:sample/avatars" />
-
-        </LinearLayout>
-
-        <LinearLayout
-            android:layout_width="0dp"
-            android:layout_height="0dp"
-            android:layout_marginTop="@dimen/_4dp"
-            android:background="@android:color/white"
-            android:orientation="vertical"
-            android:padding="@dimen/_8dp"
-            app:layout_constraintBottom_toTopOf="@+id/bottom_bar"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/user_order_container">
-
-            <androidx.recyclerview.widget.RecyclerView
-                android:id="@+id/rv_order_products"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:layout_gravity="center"
-                tools:listitem="@layout/order_product_item" />
+                app:layout_constraintBottom_toTopOf="@+id/bottom_bar"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/top_bar">
 
-        </LinearLayout>
+                <LinearLayout
+                    android:id="@+id/user_address_container"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:background="@android:color/white"
+                    android:orientation="vertical"
+                    android:padding="@dimen/_16dp"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent">
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="@string/shipping_address"
+                        android:textSize="16sp" />
+
+                    <TextView
+
+                        android:id="@+id/tv_user_name"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:textColor="@android:color/black"
+                        tools:text="@tools:sample/full_names" />
+
+                    <TextView
+
+                        android:id="@+id/tv_user_phone"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:textColor="@android:color/black"
+                        tools:text="@tools:sample/us_phones" />
+
+                    <TextView
+
+                        android:id="@+id/tv_user_address"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:textColor="@android:color/black"
+                        tools:text="@tools:sample/avatars" />
+                </LinearLayout>
+
+                <LinearLayout
+                    android:id="@+id/user_order_container"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/_4dp"
+                    android:background="@android:color/white"
+                    android:orientation="vertical"
+                    android:padding="@dimen/_16dp"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/user_address_container">
+
+
+                    <TextView
+
+                        android:id="@+id/tv_order_id"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="@string/order_id_format"
+                        android:textColor="@android:color/black"
+                        tools:text="@tools:sample/full_names" />
+
+                    <TextView
+
+                        android:id="@+id/tv_order_date"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:textColor="@android:color/black"
+                        tools:text="@tools:sample/us_phones" />
+
+                    <TextView
+
+                        android:id="@+id/tv_order_merchant"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:textColor="@android:color/black"
+                        tools:text="@tools:sample/avatars" />
+
+                </LinearLayout>
+
+                <LinearLayout
+                    android:id="@+id/rv_order_products_container"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical"
+                    app:layout_constraintBottom_toTopOf="@+id/price_detail_container"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/user_order_container">
+
+                    <androidx.recyclerview.widget.RecyclerView
+                        android:id="@+id/rv_order_products"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="@dimen/_4dp"
+                        android:background="@android:color/white"
+                        android:nestedScrollingEnabled="false"
+                        android:padding="2dp" />
+                </LinearLayout>
+
+                <LinearLayout
+                    android:id="@+id/price_detail_container"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/_4dp"
+                    android:background="@drawable/bg_round_corner_white"
+                    android:orientation="vertical"
+                    android:padding="@dimen/_16dp"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/rv_order_products_container">
+
+
+                    <TextView
+
+                        android:id="@+id/tv_price_detail"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="start"
+                        android:fontFamily="@font/encodesansregular"
+                        android:text="@string/price_detail"
+                        android:textSize="12sp" />
+
+                    <ImageView
+                        android:layout_width="match_parent"
+                        android:layout_height="1dp"
+                        android:layout_marginTop="@dimen/_4dp"
+                        android:background="@color/colorLightGray" />
+
+                    <RelativeLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="@dimen/_8dp">
+
+                        <TextView
+
+                            android:id="@+id/tv_merchant_order_total_title"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_alignParentStart="true"
+                            android:fontFamily="@font/encodesansregular"
+                            android:text="@string/order_total"
+                            android:textSize="12sp" />
+
+                        <TextView
+
+                            android:id="@+id/tv_merchant_order_total"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_alignParentEnd="true"
+                            android:fontFamily="@font/encodesansregular"
+                            android:textSize="12sp" />
+
+                    </RelativeLayout>
+
+                    <RelativeLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="@dimen/_8dp">
+
+                        <TextView
+
+                            android:id="@+id/tv_merchant_delivery_charges_title"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_alignParentStart="true"
+                            android:fontFamily="@font/encodesansregular"
+                            android:text="@string/delivery_charges"
+                            android:textSize="12sp" />
+
+                        <TextView
+
+                            android:id="@+id/tv_merchant_delivery_charges"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_alignParentEnd="true"
+                            android:fontFamily="@font/encodesansregular"
+                            android:textSize="12sp" />
+
+                    </RelativeLayout>
+
+                    <RelativeLayout
+
+                        android:id="@+id/discount_row"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="@dimen/_8dp"
+                        android:visibility="gone">
+
+                        <TextView
+
+                            android:id="@+id/tv_merchant_discount_title"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_alignParentStart="true"
+                            android:fontFamily="@font/encodesansregular"
+                            android:text="@string/discount"
+                            android:textColor="@color/colorAccent"
+                            android:textSize="12sp" />
+
+                        <TextView
+
+                            android:id="@+id/tv_merchant_discount"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_alignParentEnd="true"
+                            android:fontFamily="@font/encodesansregular"
+                            android:textColor="@color/colorAccent"
+                            android:textSize="12sp"
+                            tools:text="@tools:sample/us_zipcodes" />
+
+                    </RelativeLayout>
+
+                    <ImageView
+                        android:layout_width="match_parent"
+                        android:layout_height="1dp"
+                        android:layout_marginTop="@dimen/_4dp"
+                        android:background="@color/colorLightGray" />
+
+                    <RelativeLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="@dimen/_8dp">
+
+                        <TextView
+
+                            android:id="@+id/tv_merchant_total_title"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_alignParentStart="true"
+                            android:fontFamily="@font/encodesansregular"
+                            android:text="@string/total_charges"
+                            android:textColor="@android:color/black"
+                            android:textSize="12sp" />
+
+                        <TextView
+
+                            android:id="@+id/tv_merchant_total"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_alignParentEnd="true"
+                            android:fontFamily="@font/encodesansregular"
+                            android:textColor="@android:color/black"
+                            android:textSize="12sp" />
+
+                    </RelativeLayout>
+                </LinearLayout>
+
+            </androidx.constraintlayout.widget.ConstraintLayout>
+        </androidx.core.widget.NestedScrollView>
 
         <RelativeLayout
             android:id="@+id/bottom_bar"
@@ -183,5 +353,19 @@
                 tools:text="@tools:sample/us_zipcodes" />
 
         </RelativeLayout>
+
+        <ProgressBar
+
+            android:id="@+id/pb_loading"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerInParent="true"
+            android:background="@drawable/bg_round_corner_pb"
+            android:padding="@dimen/_32dp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
     </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>

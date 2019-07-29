@@ -24,6 +24,8 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import static com.lalaland.ecommerce.helpers.AppConstants.SUCCESS_CODE;
+
 public class ChangeShippingAddress extends AppCompatActivity {
 
     ActivityChangeShippingAddressBinding activityChangeShippingAddressBinding;
@@ -80,12 +82,23 @@ public class ChangeShippingAddress extends AppCompatActivity {
             @Override
             public void onAddressClicked(UserAddresses userAddresses) {
 
+                AppConstants.userAddresses = userAddresses;
+
+                setResult(RESULT_OK);
+                finish();
+
+            }
+
+            @Override
+            public void onSetDefaultAddressClicked(UserAddresses userAddresses) {
+
                 if (userAddresses.getIsPrimary() == 1) {
                     setResult(RESULT_CANCELED);
                     finish();
                 }
 
                 activityChangeShippingAddressBinding.pbLoading.setVisibility(View.VISIBLE);
+
                 String[] fullName;
 
                 fullName = userAddresses.getUserNameAddress().split(" ");
@@ -105,18 +118,23 @@ public class ChangeShippingAddress extends AppCompatActivity {
 
                     if (addressDataContainer != null) {
 
-                        for (int i = 0; i < addressDataContainer.getData().getUserAddress().size(); i++) {
+                        if (addressDataContainer.getCode().equals(SUCCESS_CODE)) {
 
-                            if (addressDataContainer.getData().getUserAddress().get(i).getIsPrimary() == 1) {
-                                AppConstants.userAddresses = addressDataContainer.getData().getUserAddress().get(i);
+                            for (int i = 0; i < addressDataContainer.getData().getUserAddress().size(); i++) {
 
-                                setResult(RESULT_OK);
-                                finish();
-
-                                break;
+                                if (addressDataContainer.getData().getUserAddress().get(i).getIsPrimary() == 1) {
+                                    AppConstants.userAddresses = addressDataContainer.getData().getUserAddress().get(i);
+                                }
                             }
+
+                            //  addressesList = addressDataContainer.getData().getUserAddress();
+                            getAddresses();
+                            //  setAdapter();
                         }
                     }
+
+                    activityChangeShippingAddressBinding.pbLoading.setVisibility(View.GONE);
+
                 });
 
             }

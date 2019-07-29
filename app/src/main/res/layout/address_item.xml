@@ -121,7 +121,7 @@
                 android:layout_centerVertical="true"
                 android:layout_marginTop="@dimen/_8dp"
                 android:background="@drawable/bg_round_corner_transparent_accent"
-                android:onClick="@{(view)->adapter.onAddressClicked(view, user)}"
+                android:onClick="@{(view)->adapter.onSetDefaultAddressClicked(view, user)}"
                 android:gravity="center"
                 android:textColor="@color/colorAccent"
                 android:text="@string/make_this_default"

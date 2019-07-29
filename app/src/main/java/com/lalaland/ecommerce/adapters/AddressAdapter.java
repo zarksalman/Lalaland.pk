@@ -57,6 +57,10 @@ public class AddressAdapter extends RecyclerView.Adapter<AddressAdapter.AddressV
         notifyDataSetChanged();
     }
 
+    public void onSetDefaultAddressClicked(View view, UserAddresses userAddresses) {
+        mAddressListener.onSetDefaultAddressClicked(userAddresses);
+    }
+
     public void onAddressClicked(View view, UserAddresses userAddresses) {
         mAddressListener.onAddressClicked(userAddresses);
     }
@@ -84,6 +88,8 @@ public class AddressAdapter extends RecyclerView.Adapter<AddressAdapter.AddressV
 
     public interface AddressListener {
         void onAddressClicked(UserAddresses userAddresses);
+
+        void onSetDefaultAddressClicked(UserAddresses userAddresses);
 
         void onEditAddressClicked(UserAddresses userAddresses);
     }

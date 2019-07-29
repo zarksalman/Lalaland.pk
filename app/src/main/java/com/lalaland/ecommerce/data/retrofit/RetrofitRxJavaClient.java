@@ -33,10 +33,6 @@ public class RetrofitRxJavaClient {
 
     private RetrofitRxJavaClient() {
 
-/*
-                        .client(okHttpClient())
-*/
-
         retrofit = new Retrofit.Builder()
                 .baseUrl(BASE_URL)
                 .client(okHttpClient())
