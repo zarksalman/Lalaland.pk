@@ -38,24 +38,12 @@ public class SplashActivity extends AppCompatActivity implements NetworkInterfac
 
         requestWindowFeature(Window.FEATURE_NO_TITLE);
         getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN, WindowManager.LayoutParams.FLAG_FULLSCREEN);
+
         activitySplashBinding = DataBindingUtil.setContentView(this, R.layout.activity_splash);
-
-        //AppUtils.printHashKey(this);
-
-      //  hashFromSHA1("73:BF:E3:18:F2:D5:4E:56:A8:65:3B:D5:B3:66:7A:B1:15:1E:7A:18");
 
         appPreference = AppPreference.getInstance(this);
         headers.put("cart-session", appPreference.getString(AppConstants.CART_SESSION_TOKEN));
         headers.put("token", appPreference.getString(AppConstants.SIGNIN_TOKEN));
-
-        Log.d(AppConstants.TAG, "user_info" + AppConstants.DEVICE_ID);
-        Log.d(AppConstants.TAG, "user_info" + AppConstants.APP_BUILD_VERSION);
-        Log.d(AppConstants.TAG, "user_info" + AppConstants.DEVICE_NAME);
-        Log.d(AppConstants.TAG, "user_info" + AppConstants.DEVICE_MODEL);
-        Log.d(AppConstants.TAG, "user_info" + AppConstants.DEVICE_OS);
-        Log.d(AppConstants.TAG, "user_info" + AppConstants.DEVICE_TYPE);
-        Log.d(AppConstants.TAG, "user_info" + AppConstants.FCM_TOKEN);
-        Log.d(AppConstants.TAG, "user_info" + AppConstants.USER_ID);
 
         activitySplashBinding.tvReload.setOnClickListener(v -> {
 

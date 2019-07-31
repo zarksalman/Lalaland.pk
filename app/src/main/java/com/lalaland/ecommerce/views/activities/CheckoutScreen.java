@@ -494,7 +494,7 @@ public class CheckoutScreen extends AppCompatActivity implements NetworkInterfac
         parameter.put("payment_gateway", String.valueOf(CASH_TRANSFER_TYPE));
 
         if (IS_COUPON_APPLIED) {
-            parameter.put("verified_coupon ", mCoupon);
+            parameter.put("verified_coupon", mCoupon);
             parameter.put("verified_coupon_for_merchant_id", mId);
         }
 

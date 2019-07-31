@@ -1,6 +1,7 @@
 <resources>
     <string name="main_app_name">Lalaland</string>
     <string name="app_name">lalaland</string>
+    <string name="my_app_name">Lalaland</string>
     <string name="title_home">Home</string>
 
     <string name="category">Category</string>

@@ -187,6 +187,12 @@ public class ActionProductListingActivity extends AppCompatActivity implements A
 
         activityProductListingBinding.setProductListingListener(this);
 
+        activityProductListingBinding.btnScrollUp.setOnClickListener(v -> {
+
+            gridLayoutManager.scrollToPositionWithOffset(0, 0);
+            activityProductListingBinding.rvProducts.stopScroll();
+        });
+
         activityProductListingBinding.ivSearchProductListing.setOnClickListener(v -> {
 
             // come from global search
@@ -257,6 +263,12 @@ public class ActionProductListingActivity extends AppCompatActivity implements A
                 int currentItems = gridLayoutManager.getChildCount();
                 int totalItems = gridLayoutManager.getItemCount();
                 int scrollOutItems = gridLayoutManager.findFirstVisibleItemPosition();
+
+                if (scrollOutItems > 6) {
+                    activityProductListingBinding.btnScrollUp.setVisibility(View.VISIBLE);
+                } else {
+                    activityProductListingBinding.btnScrollUp.setVisibility(View.GONE);
+                }
 
                 if (isScrolling && (currentItems + scrollOutItems == totalItems)) {
 

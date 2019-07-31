@@ -27,9 +27,9 @@
         android:orientation="vertical"
         android:gravity="center"
         android:weightSum="1"
-        android:layout_height="@dimen/_150dp"
+        android:layout_height="@dimen/_160dp"
         android:onClick="@{()->adapter.onInnerCategoryClicked(innerCategory)}"
-        android:padding="@dimen/_4dp">
+        android:padding="@dimen/_2dp">
 
         <androidx.constraintlayout.widget.Guideline
             android:id="@+id/gl_top"
@@ -59,13 +59,12 @@
             android:layout_height="0dp"
             android:ellipsize="end"
             android:fontFamily="@font/encodesansregular"
-            android:maxLength="15"
             android:gravity="center"
             android:maxLines="2"
             android:text="@{innerCategory.name}"
             android:textAlignment="center"
             android:textColor="@android:color/black"
-            android:textSize="11sp"
+            android:textSize="12sp"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="@+id/iv_inner_cat"
             app:layout_constraintHorizontal_bias="0.5"

@@ -83,7 +83,7 @@ public class HomeFragment extends Fragment implements ActionAdapter.ActionClickL
     public static int END_INDEX = 30;
     public static final int NUMBER_OF_ITEM = 30;
     private String recommended_cat;
-
+    private List<ImageView> dots = new ArrayList<>();
 
     public HomeFragment() {
         // Required empty public constructor
@@ -114,6 +114,10 @@ public class HomeFragment extends Fragment implements ActionAdapter.ActionClickL
 
         requestInitialProducts();
 
+        fragmentHomeBinding.btnScrollUp.setOnClickListener(v -> {
+            fragmentHomeBinding.containersParent.fullScroll(ScrollView.FOCUS_UP);
+        });
+
         fragmentHomeBinding.containersParent.fullScroll(ScrollView.FOCUS_UP);
         return fragmentHomeBinding.getRoot();
     }
@@ -139,11 +143,10 @@ public class HomeFragment extends Fragment implements ActionAdapter.ActionClickL
 
                 setBannerSlider();
                 setActions();
-                setPickOfTheWeek();
-                setFeaturedBrands();
                 setRecommendationProducts();
 
-                // setRecommendationProducts();
+                setPickOfTheWeek();
+                setFeaturedBrands();
 
                 new Handler().postDelayed(() -> {
 
@@ -189,15 +192,14 @@ public class HomeFragment extends Fragment implements ActionAdapter.ActionClickL
         for (int i = 0; i < bannerList.size(); i++) {
 
             String bannerImageUrl = BANNER_STORAGE_BASE_URL.concat(bannerList.get(i).getBannerImage());
-
-//            AppConstants.testImagesUrl.add(bannerImageUrl); // for testing
-
             ImageView imageView = new ImageView(getContext());
+
+            imageView.setAdjustViewBounds(true);
 
             Glide
                     .with(getContext())
                     .load(bannerImageUrl)
-                    .centerCrop()
+                    .centerInside()
                     .into(imageView);
 
             fragmentHomeBinding.vfSlider.addView(imageView);
@@ -388,6 +390,11 @@ public class HomeFragment extends Fragment implements ActionAdapter.ActionClickL
                         scrollY > oldScrollY) {
                     //code to fetch more data for endless scrolling
 
+
+                    if (v.getChildCount() > 10) {
+                        fragmentHomeBinding.btnScrollUp.setVisibility(View.VISIBLE);
+                    }
+
                     if (!isLoading) {
 
                         fragmentHomeBinding.pbProductLoad.setVisibility(View.VISIBLE);
@@ -405,6 +412,12 @@ public class HomeFragment extends Fragment implements ActionAdapter.ActionClickL
                         getProductItems();
                     }
 
+                }
+
+                if (scrollY > 5000) {
+                    fragmentHomeBinding.btnScrollUp.setVisibility(View.VISIBLE);
+                } else {
+                    fragmentHomeBinding.btnScrollUp.setVisibility(View.GONE);
                 }
             }
         });
@@ -424,6 +437,4 @@ public class HomeFragment extends Fragment implements ActionAdapter.ActionClickL
         intent.putExtra(PRODUCT_ID, product.getId());
         startActivity(intent);
     }
-
-
 }

@@ -1,15 +1,17 @@
 package com.lalaland.ecommerce.views.fragments.homeFragments;
 
 
-import android.content.Context;
 import android.content.Intent;
+import android.os.Build;
 import android.os.Bundle;
-import android.util.Log;
+import android.os.Handler;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.WindowManager;
+import android.widget.ScrollView;
 
+import androidx.core.view.ViewCompat;
 import androidx.databinding.DataBindingUtil;
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.ViewModelProviders;
@@ -41,7 +43,6 @@ import static com.lalaland.ecommerce.helpers.AppConstants.BRANDS_IN_FOCUS_PRODUC
 import static com.lalaland.ecommerce.helpers.AppConstants.CATEGORY_PRODUCTS;
 import static com.lalaland.ecommerce.helpers.AppConstants.PRODUCT_TYPE;
 import static com.lalaland.ecommerce.helpers.AppConstants.SUCCESS_CODE;
-import static com.lalaland.ecommerce.helpers.AppConstants.TAG;
 
 
 public class CategoryFragment extends Fragment implements MajorCategoryAdapter.MajorCategoryClickListener,
@@ -90,6 +91,15 @@ public class CategoryFragment extends Fragment implements MajorCategoryAdapter.M
             fragmentCategoryBinding.rvSubCategory.setVisibility(View.VISIBLE);
         }
 
+        if (android.os.Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT_WATCH) {
+            fragmentCategoryBinding.rvSubCategory.setNestedScrollingEnabled(false);
+            fragmentCategoryBinding.rvSubCategoryBrand.setNestedScrollingEnabled(false);
+        } else {
+            ViewCompat.setNestedScrollingEnabled(fragmentCategoryBinding.rvSubCategory, false);
+            ViewCompat.setNestedScrollingEnabled(fragmentCategoryBinding.rvSubCategoryBrand, false);
+        }
+
+
  /*       //setting view pagger height because in scrollview wrap/match does not calculate their height correctly
         android.view.Display display = ((android.view.WindowManager) getContext().getSystemService(Context.WINDOW_SERVICE)).getDefaultDisplay();
         fragmentCategoryBinding.ivCategoryHeader.getLayoutParams().height = ((int) (display.getHeight() * 0.16));
@@ -108,6 +118,12 @@ public class CategoryFragment extends Fragment implements MajorCategoryAdapter.M
     @Override
     public void onResume() {
         super.onResume();
+
+    }
+
+    @Override
+    public void onPause() {
+        super.onPause();
     }
 
     private void setMajorCategoryList() {
@@ -133,8 +149,11 @@ public class CategoryFragment extends Fragment implements MajorCategoryAdapter.M
         categorBrandAdapter = new CategorBrandAdapter(getContext(), this);
         fragmentCategoryBinding.rvSubCategoryBrand.setHasFixedSize(true);
         fragmentCategoryBinding.rvSubCategoryBrand.setAdapter(categorBrandAdapter);
-        fragmentCategoryBinding.rvSubCategoryBrand.setLayoutManager(new LinearLayoutManager(getContext()));
+        LinearLayoutManager linearLayoutManager = new LinearLayoutManager(getContext());
+        fragmentCategoryBinding.rvSubCategoryBrand.setLayoutManager(linearLayoutManager);
+        linearLayoutManager.scrollToPositionWithOffset(0, 0);
         categorBrandAdapter.setData(AppConstants.staticCategoryBrandsList);
+
 
     }
 
@@ -151,13 +170,11 @@ public class CategoryFragment extends Fragment implements MajorCategoryAdapter.M
 
                         categoryHomeBanners.clear();
                         subCategories.clear();
-                            categoryHomeBanners = categoriesContainer.getData().getHomeBanner();
-                            subCategories = categoriesContainer.getData().getSubCategories();
+                        categoryHomeBanners = categoriesContainer.getData().getHomeBanner();
+                        subCategories = categoriesContainer.getData().getSubCategories();
 
-                            Log.d(TAG, "major_cate_" + subCategories.size() + "_" + System.currentTimeMillis());
 
-                            // trimZeroSizeInnerCategories();
-                            // setCategoryAdapter();
+                        new Handler().postDelayed(() -> {
 
                             fragmentCategoryBinding.subCategoryContainer.setVisibility(View.VISIBLE);
                             fragmentCategoryBinding.rvSubCategoryBrand.setVisibility(View.GONE);
@@ -166,12 +183,15 @@ public class CategoryFragment extends Fragment implements MajorCategoryAdapter.M
                             categoryAdapter.setData(subCategories);
                             categoryAdapter.notifyDataSetChanged();
 
-                            String bannerImageUrl = BANNER_STORAGE_BASE_URL.concat(categoryHomeBanners.get(0).getBannerImage());
+                        }, 250);
 
-                            Glide.with(AppConstants.mContext)
-                                    .load(bannerImageUrl)
-                                    .placeholder(R.drawable.placeholder_products)
-                                    .into(fragmentCategoryBinding.ivCategoryHeader);
+
+                        String bannerImageUrl = BANNER_STORAGE_BASE_URL.concat(categoryHomeBanners.get(0).getBannerImage());
+
+                        Glide.with(AppConstants.mContext)
+                                .load(bannerImageUrl)
+                                .placeholder(R.drawable.placeholder_products)
+                                .into(fragmentCategoryBinding.ivCategoryHeader);
                     }
                 }
             }
@@ -208,17 +228,27 @@ public class CategoryFragment extends Fragment implements MajorCategoryAdapter.M
         // if same category do not clicked again
         if (categoryId != category.getId()) {
 
-
             if (category.getName().equals("Brands")) {
 
                 categoryId = category.getId();
 
+                setBrandCategory();
                 fragmentCategoryBinding.ivCategoryHeader.setVisibility(View.GONE);
                 fragmentCategoryBinding.rvSubCategoryBrand.setVisibility(View.VISIBLE);
                 fragmentCategoryBinding.subCategoryContainer.setVisibility(View.VISIBLE);
                 fragmentCategoryBinding.pbLoading.setVisibility(View.GONE);
 
             } else if (category.getName().equals("Sale")) {
+
+                fragmentCategoryBinding.subCategoryContainer.setSmoothScrollingEnabled(true);
+                fragmentCategoryBinding.subCategoryContainer.post(new Runnable() {
+                    @Override
+                    public void run() {
+                        fragmentCategoryBinding.subCategoryContainer.fullScroll(ScrollView.FOCUS_UP);
+                        //scrollView.scrollTo(0,0);
+                    }
+                });
+
                 Intent intent;
                 intent = new Intent(getContext(), ActionProductListingActivity.class);
                 intent.putExtra(ACTION_NAME, category.getName());
@@ -230,9 +260,18 @@ public class CategoryFragment extends Fragment implements MajorCategoryAdapter.M
 
             } else {
 
+                fragmentCategoryBinding.subCategoryContainer.setSmoothScrollingEnabled(true);
+                fragmentCategoryBinding.subCategoryContainer.post(new Runnable() {
+                    @Override
+                    public void run() {
+                        fragmentCategoryBinding.subCategoryContainer.fullScroll(ScrollView.FOCUS_UP);
+                        //scrollView.scrollTo(0,0);
+                    }
+                });
+
                 if (getActivity() != null)
                     getActivity().getWindow().setFlags(WindowManager.LayoutParams.FLAG_NOT_TOUCHABLE,
-                        WindowManager.LayoutParams.FLAG_NOT_TOUCHABLE);
+                            WindowManager.LayoutParams.FLAG_NOT_TOUCHABLE);
 
                 fragmentCategoryBinding.pbLoading.setVisibility(View.VISIBLE);
                 categoryId = category.getId();
