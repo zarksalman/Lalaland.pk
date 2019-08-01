@@ -1,5 +1,4 @@
 <resources>
-    <string name="main_app_name">Lalaland</string>
     <string name="app_name">lalaland</string>
     <string name="my_app_name">Lalaland</string>
     <string name="title_home">Home</string>
@@ -181,5 +180,8 @@
     <string name="discount">Discount</string>
     <string name="enter_voucher_code">Enter Voucher Code</string>
     <string name="confirm_order">Confirm Order</string>
+    <string name="title_activity_introduction_screen">IntroductionScreenActivity</string>
+    <string name="skip">Skip</string>
+    <string name="next">Next</string>
 
 </resources>

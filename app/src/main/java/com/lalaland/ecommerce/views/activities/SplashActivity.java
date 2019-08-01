@@ -26,6 +26,8 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
 
+import static com.lalaland.ecommerce.helpers.AppConstants.IS_FIRST_TIME;
+
 public class SplashActivity extends AppCompatActivity implements NetworkInterface {
 
     ActivitySplashBinding activitySplashBinding;
@@ -104,7 +106,13 @@ public class SplashActivity extends AppCompatActivity implements NetworkInterfac
 
                         new Handler().postDelayed(() -> {
 
-                            startActivity(new Intent(SplashActivity.this, MainActivity.class));
+                            if (!appPreference.getBoolean(IS_FIRST_TIME)) {
+
+                                // appPreference.setBoolean(IS_FIRST_TIME, false);
+                                startActivity(new Intent(SplashActivity.this, IntroductionScreenActivity.class));
+                            } else
+                                startActivity(new Intent(SplashActivity.this, MainActivity.class));
+
                             finish();
                             overridePendingTransition(R.anim.anim_slide_in_left, R.anim.anim_slide_out_left);
                         }, 500);

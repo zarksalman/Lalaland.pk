@@ -74,7 +74,7 @@ public class ActionProductListingActivity extends AppCompatActivity implements A
     private boolean isScrolling;
     int start = 0, length = 30, size = 30;
     String sortBy = "";
-    Intent intent;
+    Intent intent, intentData;
 
     String priceRange;
     String brandIds;
@@ -93,9 +93,33 @@ public class ActionProductListingActivity extends AppCompatActivity implements A
         getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN, WindowManager.LayoutParams.FLAG_FULLSCREEN);
         activityProductListingBinding = DataBindingUtil.setContentView(this, R.layout.activity_product_listing);
 
-        AppConstants.appliedFilter.clear();
 
-        if (getIntent().getExtras() != null) {
+        productViewModel = ViewModelProviders.of(this).get(ProductViewModel.class);
+        filterViewModel = ViewModelProviders.of(this).get(FilterViewModel.class);
+
+        AppConstants.appliedFilter.clear();
+        intentData = getIntent();
+        initProductListing();
+
+        activityProductListingBinding.swipeContainer.setOnRefreshListener(() -> {
+
+            actionProductsArrayList.clear();
+            actionProductsAdapter.notifyDataSetChanged();
+
+            start = 0;
+            size = 30;
+//            parameter.clear();
+
+            // initProductListing();
+
+            parameter.put(START_INDEX, String.valueOf(start));
+            setActionProducts();
+        });
+    }
+
+    void initProductListing() {
+        
+        if (intentData.getExtras() != null) {
 
             products_type = getIntent().getStringExtra(PRODUCT_TYPE);
             category_name = getIntent().getStringExtra(ACTION_NAME);
@@ -112,11 +136,9 @@ public class ActionProductListingActivity extends AppCompatActivity implements A
             parameter.put(SORT_BY, sortBy);
         }
 
-        productViewModel = ViewModelProviders.of(this).get(ProductViewModel.class);
-        filterViewModel = ViewModelProviders.of(this).get(FilterViewModel.class);
-
         setListeners();
         setBottomSheet();
+
     }
 
     private void setParameters() {
@@ -478,6 +500,8 @@ public class ActionProductListingActivity extends AppCompatActivity implements A
             activityProductListingBinding.pbLoadingActionProducts.setVisibility(View.GONE);
             activityProductListingBinding.pbLoadingProducts.setVisibility(View.GONE);
 
+            activityProductListingBinding.swipeContainer.setRefreshing(false);
+
         });
     }
 
@@ -539,10 +563,7 @@ public class ActionProductListingActivity extends AppCompatActivity implements A
 
     private void setMultipleFilterParams(Intent data) {
 
-        //if (data.getStringExtra(PRICE_FILTER) != null)
-        {
-            setPriceParams(data, true);
-        }
+        setPriceParams(data, true);
         setCategoryParams(data, true);
         setBrandParams(data, true);
         setOtherFiltersParams(data, true);

@@ -88,7 +88,8 @@ public class FilterActivity extends AppCompatActivity {
         getFilters();
 
         activityFilterBinding.tvApply.setOnClickListener(v -> {
-            setResultantIntent();
+            if (appliedFilter.size() > 0)
+                setResultantIntent();
         });
 
         activityFilterBinding.tvResetFilter.setOnClickListener(v -> {

@@ -10,237 +10,242 @@
             type="com.lalaland.ecommerce.views.fragments.homeFragments.HomeFragment" />
     </data>
 
-    <androidx.coordinatorlayout.widget.CoordinatorLayout
+    <androidx.swiperefreshlayout.widget.SwipeRefreshLayout
+        android:id="@+id/swipeContainer"
         android:layout_width="match_parent"
         android:layout_height="match_parent">
 
-        <!--        android:isScrollContainer="true"
-                android:measureAllChildren="true"
-                -->
-
-        <androidx.core.widget.NestedScrollView
-
-            android:id="@+id/containers_parent"
+        <androidx.coordinatorlayout.widget.CoordinatorLayout
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:scrollbars="vertical"
-            android:visibility="gone">
+            android:layout_height="match_parent">
 
-            <androidx.constraintlayout.widget.ConstraintLayout
+            <!--        android:isScrollContainer="true"
+                    android:measureAllChildren="true"
+                    -->
 
+            <androidx.core.widget.NestedScrollView
+
+                android:id="@+id/containers_parent"
                 android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:layout_marginBottom="@dimen/_8dp"
-                android:background="@color/colorLightGray">
+                android:layout_height="wrap_content"
+                android:scrollbars="vertical"
+                android:visibility="gone">
 
-                <ViewFlipper
-                    android:id="@+id/vf_slider"
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:minHeight="@dimen/_150dp"
-                    android:visibility="visible"
-                    app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toTopOf="parent" />
+                <androidx.constraintlayout.widget.ConstraintLayout
 
-                <LinearLayout
-                    android:id="@+id/rv_action_container"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:background="@android:color/white"
-                    android:gravity="center_horizontal"
-                    android:orientation="horizontal"
-                    android:padding="@dimen/_8dp"
-                    android:weightSum="100"
-                    app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@+id/vf_slider" />
-
-                <!--Picks of the week-->
-                <RelativeLayout
-
-                    android:id="@+id/pick_of_week_container"
                     android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="@dimen/_8dp"
-                    android:background="@android:color/white"
-                    android:padding="@dimen/_8dp"
-                    android:visibility="visible"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintTop_toBottomOf="@+id/rv_action_container">
+                    android:layout_height="match_parent"
+                    android:layout_marginBottom="@dimen/_8dp"
+                    android:background="@color/colorLightGray">
 
-                    <TextView
-
-                        android:id="@+id/pick_of_week_title"
-                        android:layout_width="wrap_content"
+                    <ViewFlipper
+                        android:id="@+id/vf_slider"
+                        android:layout_width="0dp"
                         android:layout_height="wrap_content"
-                        android:layout_alignTop="@+id/iv_pick_of_week_show_all"
-                        android:layout_alignBottom="@+id/iv_pick_of_week_show_all"
-                        android:layout_alignParentStart="true"
-                        android:layout_marginStart="@dimen/_8dp"
-                        android:fontFamily="@font/encodesansregular"
-                        android:textColor="@android:color/black"
-                        android:onClick="@{(view)->homeListener.showAllProductsWeekProducts(view)}"
-                        android:text="@string/picks_of_the_week"
-                        android:textSize="16sp" />
-
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_alignTop="@+id/iv_pick_of_week_show_all"
-                        android:layout_alignBottom="@+id/iv_pick_of_week_show_all"
-                        android:layout_toStartOf="@+id/iv_pick_of_week_show_all"
-                        android:fontFamily="@font/encodesansregular"
-                        android:textSize="16sp"
-                        android:onClick="@{(view)->homeListener.showAllProductsWeekProducts(view)}"
-                        android:text="@string/view_all"
-                        android:textColor="@android:color/black" />
-
-                    <ImageView
-
-                        android:id="@+id/iv_pick_of_week_show_all"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_alignParentTop="true"
-                        android:layout_alignParentEnd="true"
-                        android:onClick="@{(view)->homeListener.showAllProductsWeekProducts(view)}"
-                        app:srcCompat="@drawable/right_icon_black" />
+                        android:minHeight="@dimen/_200dp"
+                        android:visibility="visible"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toTopOf="parent" />
 
                     <LinearLayout
-                        android:id="@+id/rv_picks_of_week_container"
-                        android:layout_width="match_parent"
+                        android:id="@+id/rv_action_container"
+                        android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:layout_below="@+id/iv_pick_of_week_show_all"
-                        android:layout_centerHorizontal="true"
+                        android:background="@android:color/white"
+                        android:gravity="center_horizontal"
                         android:orientation="horizontal"
-                        android:weightSum="100" />
+                        android:padding="@dimen/_8dp"
+                        android:weightSum="100"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toBottomOf="@+id/vf_slider" />
 
-                </RelativeLayout>
+                    <!--Picks of the week-->
+                    <RelativeLayout
 
-                <!--Brands in focus-->
-                <RelativeLayout
-
-                    android:id="@+id/brands_in_focus_container"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="@dimen/_8dp"
-                    android:background="@color/colorBrandsFocus"
-                    android:padding="@dimen/_8dp"
-                    android:visibility="visible"
-                    app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@+id/pick_of_week_container">
-
-                    <ImageView
-                        android:layout_width="200dp"
-                        android:layout_height="100dp"
-                        android:layout_alignParentTop="true"
-                        android:layout_alignParentEnd="true"
-                        android:scaleType="centerCrop"
-                        android:src="@drawable/brands_in_focus_bg" />
-
-                    <TextView
-
-                        android:id="@+id/tv_brands_in_focus_title"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_alignParentStart="true"
-                        android:layout_alignParentTop="true"
-                        android:layout_marginStart="@dimen/_8dp"
-                        android:fontFamily="@font/encodesansregular"
-                        android:gravity="center"
-                        android:text="@string/brands_in_focus"
-                        android:textColor="@android:color/white"
-                        android:textSize="16sp" />
-
-                    <androidx.recyclerview.widget.RecyclerView
-
-                        android:id="@+id/rv_brands_in_focus"
-                        android:layout_width="wrap_content"
-                        android:layout_below="@+id/tv_brands_in_focus_title"
-                        android:layout_height="wrap_content"
-                        android:layout_centerHorizontal="true" />
-
-
-
-                </RelativeLayout>
-
-                <!--Recommendation Products-->
-                <LinearLayout
-
-                    android:id="@+id/recommendation_container"
-                    android:layout_width="0dp"
-                    android:layout_height="match_parent"
-                    android:padding="@dimen/_8dp"
-                    android:descendantFocusability="blocksDescendants"
-                    android:orientation="vertical"
-                    app:layout_constraintBottom_toTopOf="@+id/pb_product_load"
-                    app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@+id/brands_in_focus_container">
-
-                    <TextView
-
-                        android:id="@+id/tv_recommendation_title"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_marginStart="@dimen/_8dp"
-                        android:fontFamily="@font/encodesansregular"
-                        android:textSize="16sp"
-                        android:text="@string/recommendations"
-                        android:textAppearance="@style/TextAppearance.AppCompat.Medium"
-                        android:textColor="@android:color/black" />
-
-                    <androidx.recyclerview.widget.RecyclerView
-                        android:id="@+id/rv_recommended_products"
+                        android:id="@+id/pick_of_week_container"
                         android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="@dimen/_8dp"
+                        android:background="@android:color/white"
+                        android:padding="@dimen/_8dp"
+                        android:visibility="visible"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toBottomOf="@+id/rv_action_container">
+
+                        <TextView
+
+                            android:id="@+id/pick_of_week_title"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_alignTop="@+id/iv_pick_of_week_show_all"
+                            android:layout_alignBottom="@+id/iv_pick_of_week_show_all"
+                            android:layout_alignParentStart="true"
+                            android:layout_marginStart="@dimen/_8dp"
+                            android:fontFamily="@font/encodesansregular"
+                            android:onClick="@{(view)->homeListener.showAllProductsWeekProducts(view)}"
+                            android:text="@string/picks_of_the_week"
+                            android:textColor="@android:color/black"
+                            android:textSize="16sp" />
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_alignTop="@+id/iv_pick_of_week_show_all"
+                            android:layout_alignBottom="@+id/iv_pick_of_week_show_all"
+                            android:layout_toStartOf="@+id/iv_pick_of_week_show_all"
+                            android:fontFamily="@font/encodesansregular"
+                            android:onClick="@{(view)->homeListener.showAllProductsWeekProducts(view)}"
+                            android:text="@string/view_all"
+                            android:textColor="@android:color/black"
+                            android:textSize="16sp" />
+
+                        <ImageView
+
+                            android:id="@+id/iv_pick_of_week_show_all"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_alignParentTop="true"
+                            android:layout_alignParentEnd="true"
+                            android:onClick="@{(view)->homeListener.showAllProductsWeekProducts(view)}"
+                            app:srcCompat="@drawable/right_icon_black" />
+
+                        <LinearLayout
+                            android:id="@+id/rv_picks_of_week_container"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_below="@+id/iv_pick_of_week_show_all"
+                            android:layout_centerHorizontal="true"
+                            android:orientation="horizontal"
+                            android:weightSum="100" />
+
+                    </RelativeLayout>
+
+                    <!--Brands in focus-->
+                    <RelativeLayout
+
+                        android:id="@+id/brands_in_focus_container"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="@dimen/_8dp"
+                        android:background="@color/colorBrandsFocus"
+                        android:padding="@dimen/_8dp"
+                        android:visibility="visible"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toBottomOf="@+id/pick_of_week_container">
+
+                        <ImageView
+                            android:layout_width="200dp"
+                            android:layout_height="100dp"
+                            android:layout_alignParentTop="true"
+                            android:layout_alignParentEnd="true"
+                            android:scaleType="centerCrop"
+                            android:src="@drawable/brands_in_focus_bg" />
+
+                        <TextView
+
+                            android:id="@+id/tv_brands_in_focus_title"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_alignParentStart="true"
+                            android:layout_alignParentTop="true"
+                            android:layout_marginStart="@dimen/_8dp"
+                            android:fontFamily="@font/encodesansregular"
+                            android:gravity="center"
+                            android:text="@string/brands_in_focus"
+                            android:textColor="@android:color/white"
+                            android:textSize="16sp" />
+
+                        <androidx.recyclerview.widget.RecyclerView
+
+                            android:id="@+id/rv_brands_in_focus"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_below="@+id/tv_brands_in_focus_title"
+                            android:layout_centerHorizontal="true" />
+
+
+                    </RelativeLayout>
+
+                    <!--Recommendation Products-->
+                    <LinearLayout
+
+                        android:id="@+id/recommendation_container"
+                        android:layout_width="0dp"
                         android:layout_height="match_parent"
-                        android:scrollbars="none"
-                        tools:listitem="@layout/product_paged_item" />
+                        android:descendantFocusability="blocksDescendants"
+                        android:orientation="vertical"
+                        android:padding="@dimen/_8dp"
+                        app:layout_constraintBottom_toTopOf="@+id/pb_product_load"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toBottomOf="@+id/brands_in_focus_container">
 
-                </LinearLayout>
+                        <TextView
 
-                <ProgressBar
+                            android:id="@+id/tv_recommendation_title"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginStart="@dimen/_8dp"
+                            android:fontFamily="@font/encodesansregular"
+                            android:text="@string/recommendations"
+                            android:textAppearance="@style/TextAppearance.AppCompat.Medium"
+                            android:textColor="@android:color/black"
+                            android:textSize="16sp" />
 
-                    android:id="@+id/pb_product_load"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_gravity="center_horizontal"
-                    android:layout_margin="@dimen/_50dp"
-                    android:visibility="visible"
-                    app:layout_constraintBottom_toBottomOf="parent"
-                    app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintStart_toStartOf="parent" />
+                        <androidx.recyclerview.widget.RecyclerView
+                            android:id="@+id/rv_recommended_products"
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent"
+                            android:scrollbars="none"
+                            tools:listitem="@layout/product_paged_item" />
 
-            </androidx.constraintlayout.widget.ConstraintLayout>
+                    </LinearLayout>
 
-        </androidx.core.widget.NestedScrollView>
+                    <ProgressBar
 
-        <ProgressBar
+                        android:id="@+id/pb_product_load"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center_horizontal"
+                        android:layout_margin="@dimen/_50dp"
+                        android:visibility="visible"
+                        app:layout_constraintBottom_toBottomOf="parent"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintStart_toStartOf="parent" />
 
-            android:id="@+id/pb_loading"
-            android:layout_width="wrap_content"
-            android:layout_gravity="center"
-            android:background="@drawable/bg_round_corner_pb"
-            android:padding="@dimen/_32dp"
-            android:layout_height="wrap_content"
-            android:layout_centerInParent="true" />
+                </androidx.constraintlayout.widget.ConstraintLayout>
+
+            </androidx.core.widget.NestedScrollView>
+
+            <ProgressBar
+
+                android:id="@+id/pb_loading"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerInParent="true"
+                android:layout_gravity="center"
+                android:background="@drawable/bg_round_corner_pb"
+                android:padding="@dimen/_32dp" />
 
 
-        <ImageButton
+            <ImageButton
 
-            android:id="@+id/btn_scroll_up"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_gravity="end|bottom"
-            android:layout_margin="@dimen/_16dp"
-            android:visibility="gone"
-            android:background="@drawable/scroll_up_bg_round_corner"
-            android:padding="@dimen/_8dp"
-            android:src="@drawable/arrow_up_icon" />
+                android:id="@+id/btn_scroll_up"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="end|bottom"
+                android:layout_margin="@dimen/_16dp"
+                android:background="@drawable/scroll_up_bg_round_corner"
+                android:padding="@dimen/_8dp"
+                android:src="@drawable/arrow_up_icon"
+                android:visibility="gone" />
 
-    </androidx.coordinatorlayout.widget.CoordinatorLayout>
+        </androidx.coordinatorlayout.widget.CoordinatorLayout>
+    </androidx.swiperefreshlayout.widget.SwipeRefreshLayout>
 
 
 </layout>

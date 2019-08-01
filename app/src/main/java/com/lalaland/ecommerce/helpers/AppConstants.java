@@ -26,6 +26,7 @@ public class AppConstants {
     public static String FAQ_URL = "";
     public static String BLOGS = "blog";
     public static int URL_TYPE = 0;
+    public static String IS_FIRST_TIME = "is_first_time";
 
     public static final String APP_NAME = "Lalaland";
     public static final String APP_DATABASE = "lalaland_database";

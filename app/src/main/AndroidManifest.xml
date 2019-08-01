@@ -11,137 +11,117 @@
     <application
         android:name=".LalalandApplication"
         android:allowBackup="true"
+        android:hardwareAccelerated="true"
         android:icon="@mipmap/ic_launcher"
         android:label="@string/my_app_name"
         android:largeHeap="true"
-        android:hardwareAccelerated="true"
         android:theme="@style/AppTheme.NoActionBar">
-
+        <activity
+            android:name=".views.activities.IntroductionScreenActivity"
+            android:label="@string/title_activity_introduction_screen"
+            android:theme="@style/AppTheme.NoActionBar.NoActionBar"></activity>
         <activity
             android:name=".views.activities.ResetPasswordActivity"
             android:exported="true"
-            android:screenOrientation="portrait"
             android:label="@string/title_activity_reset_password"
+            android:screenOrientation="portrait"
             android:theme="@style/AppTheme.NoActionBar.NoActionBar">
             <intent-filter android:label="DeepLink">
-
                 <action android:name="android.intent.action.VIEW" />
 
                 <category android:name="android.intent.category.BROWSABLE" />
                 <category android:name="android.intent.category.DEFAULT" />
 
                 <data android:scheme="lalaland" />
-
             </intent-filter>
-
         </activity>
-
         <activity
             android:name=".views.activities.ContactUsActivity"
             android:screenOrientation="portrait" />
-
         <activity
             android:name=".views.activities.WebViewActivity"
             android:screenOrientation="portrait" />
-
         <activity
             android:name=".views.activities.ChangeShippingAddress"
             android:label="@string/title_activity_change_shipping_address"
             android:screenOrientation="portrait"
             android:theme="@style/AppTheme.NoActionBar.NoActionBar" />
-
         <activity
             android:name=".views.activities.ChangePaymentActivity"
             android:label="@string/title_activity_change_payment"
             android:screenOrientation="portrait"
             android:theme="@style/AppTheme.NoActionBar.NoActionBar" />
-
         <activity
             android:name=".views.activities.SubFiltersActivity"
             android:screenOrientation="portrait" />
-
         <activity
             android:name=".views.activities.FilterActivity"
             android:screenOrientation="portrait" />
-
         <activity
             android:name=".views.activities.GlobalSearchActivity"
             android:screenOrientation="portrait"
             android:windowSoftInputMode="adjustResize" />
-
         <activity
             android:name=".views.activities.OrderReceivedActivity"
             android:screenOrientation="portrait" />
-
         <activity
             android:name=".views.activities.OrderDetailActivity"
             android:label="@string/title_activity_order_detail"
             android:screenOrientation="portrait"
             android:theme="@style/AppTheme.NoActionBar.NoActionBar" />
-
         <activity
             android:name=".views.activities.OrderListingActivity"
             android:label="@string/title_activity_order_listing"
             android:screenOrientation="portrait"
             android:theme="@style/AppTheme.NoActionBar.NoActionBar" />
-
         <activity
             android:name=".views.activities.SelectCityActivity"
             android:label="@string/title_activity_select_city"
             android:screenOrientation="portrait"
             android:theme="@style/AppTheme.NoActionBar.NoActionBar" />
-
         <activity
             android:name=".views.activities.EditAccountInformationActivity"
             android:screenOrientation="portrait" />
-
         <activity
             android:name=".views.activities.AccountInformationActivity"
             android:screenOrientation="portrait" />
-
         <activity
             android:name=".views.activities.AddressCreationActivity"
-            android:windowSoftInputMode="adjustResize"
-            android:screenOrientation="portrait" />
-
+            android:screenOrientation="portrait"
+            android:windowSoftInputMode="adjustResize" />
         <activity
             android:name=".views.activities.ShippingAddressActivity"
             android:screenOrientation="portrait" />
-
         <activity
             android:name=".views.activities.CheckoutScreen"
             android:label="@string/title_activity_checkout_screen"
             android:screenOrientation="portrait"
             android:theme="@style/AppTheme.NoActionBar.NoActionBar" />
-
         <activity
             android:name=".views.activities.SplashActivity"
             android:screenOrientation="portrait"
             android:theme="@style/AppTheme.NoActionBar.NoActionBar">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
+
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-
         <activity
             android:name=".views.activities.ActionProductListingActivity"
             android:label="@string/title_activity_product_listing"
             android:screenOrientation="portrait"
             android:theme="@style/AppTheme.NoActionBar.NoActionBar" />
-
         <activity
             android:name=".views.activities.ProductDetailActivity"
             android:label="@string/title_activity_product_detail"
             android:screenOrientation="portrait"
             android:theme="@style/AppTheme.NoActionBar.NoActionBar" /> <!-- for facebook login -->
-
         <activity
             android:name=".views.activities.RegistrationActivity"
             android:label="@string/title_activity_registration"
             android:screenOrientation="portrait"
             android:theme="@style/AppTheme.NoActionBar" />
-
         <activity
             android:name=".views.activities.MainActivity"
             android:label="@string/app_name"
@@ -158,11 +138,9 @@
             android:name="com.facebook.FacebookActivity"
             android:configChanges="keyboard|keyboardHidden|screenLayout|screenSize|orientation"
             android:label="@string/app_name" />
-
         <activity
             android:name="com.facebook.CustomTabActivity"
             android:exported="true">
-
             <intent-filter>
                 <action android:name="android.intent.action.VIEW" />
 
@@ -172,8 +150,6 @@
                 <data android:scheme="@string/facebook_app_scheme" />
             </intent-filter>
         </activity>
-
-
     </application>
 
 </manifest>

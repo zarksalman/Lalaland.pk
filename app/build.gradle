@@ -7,7 +7,7 @@ android {
         minSdkVersion 19
         targetSdkVersion 28
         versionCode 2
-        versionName "1.1"
+        versionName "1.1.1"
         multiDexEnabled true
 
         dataBinding {
@@ -18,6 +18,7 @@ android {
         release {
             //debuggable true
             minifyEnabled false
+            shrinkResources false
             proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
         }
     }
@@ -97,7 +98,7 @@ dependencies {
     // image compression
     implementation 'id.zelory:compressor:2.1.0'
 
-    // permissions
-    implementation 'pub.devrel:easypermissions:3.0.0'
+    /*// permissions
+    implementation 'pub.devrel:easypermissions:3.0.0'*/
 
 }

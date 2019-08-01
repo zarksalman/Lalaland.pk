@@ -13,173 +13,180 @@
             type="com.lalaland.ecommerce.views.activities.ActionProductListingActivity" />
     </data>
 
-    <androidx.constraintlayout.widget.ConstraintLayout
+    <androidx.swiperefreshlayout.widget.SwipeRefreshLayout
 
+        android:id="@+id/swipeContainer"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:background="@color/colorScreenBg"
-        tools:context=".views.activities.ActionProductListingActivity">
+        android:layout_height="match_parent">
 
         <androidx.constraintlayout.widget.ConstraintLayout
 
-            android:id="@+id/m_toolbar_product_listing"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:background="@android:color/white"
-            android:orientation="horizontal"
-            android:weightSum="1"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent">
+            android:layout_height="match_parent"
+            android:background="@color/colorScreenBg"
+            tools:context=".views.activities.ActionProductListingActivity">
+
+            <androidx.constraintlayout.widget.ConstraintLayout
+
+                android:id="@+id/m_toolbar_product_listing"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@android:color/white"
+                android:orientation="horizontal"
+                android:weightSum="1"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent">
+
+                <ImageView
+
+                    android:id="@+id/iv_back_product_listing"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center_vertical"
+                    android:layout_weight=".2"
+                    android:onClick="@{()->productListingListener.onBackPressed()}"
+                    android:padding="@dimen/_16dp"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent"
+                    app:srcCompat="@drawable/back_arrow_icon" />
+
+                <TextView
+
+                    android:id="@+id/tv_category_title"
+                    android:layout_width="0dp"
+                    android:layout_height="0dp"
+                    android:layout_gravity="center_vertical"
+                    android:layout_weight=".6"
+                    android:fontFamily="@font/encodesansmedium"
+                    android:gravity="center"
+                    android:text="Head Title"
+                    android:textAlignment="center"
+                    android:textColor="@android:color/black"
+                    android:textSize="16sp"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintEnd_toStartOf="@+id/iv_search_product_listing"
+                    app:layout_constraintStart_toEndOf="@+id/iv_back_product_listing"
+                    app:layout_constraintTop_toTopOf="parent" />
+
+                <ImageView
+
+                    android:id="@+id/iv_search_product_listing"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center_vertical|end"
+                    android:layout_weight=".2"
+                    android:padding="@dimen/_16dp"
+                    android:scaleType="fitCenter"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintTop_toTopOf="parent"
+                    app:srcCompat="@drawable/search_icon" />
+
+            </androidx.constraintlayout.widget.ConstraintLayout>
 
             <ImageView
+                android:layout_width="0dp"
+                android:layout_height="0.5dp"
+                android:background="@color/colorDarkGray"
+                app:layout_constraintBottom_toTopOf="@+id/tl_sort_filter"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent" />
 
-                android:id="@+id/iv_back_product_listing"
-                android:layout_width="wrap_content"
-                android:padding="@dimen/_16dp"
+            <com.google.android.material.tabs.TabLayout
+
+                android:id="@+id/tl_sort_filter"
+                android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:layout_gravity="center_vertical"
-                android:layout_weight=".2"
-                app:layout_constraintBottom_toBottomOf="parent"
+                android:background="@android:color/white"
+                android:elevation="4dp"
+                android:outlineProvider="bounds"
+                app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="parent"
-                android:onClick="@{()->productListingListener.onBackPressed()}"
-                app:srcCompat="@drawable/back_arrow_icon" />
+                app:layout_constraintTop_toBottomOf="@+id/m_toolbar_product_listing"
+                app:tabIndicator="@color/colorLightRed"
+                app:tabIndicatorHeight="0dp"
+                app:tabInlineLabel="true"
+                app:tabSelectedTextColor="@android:color/black"
+                app:tabTextAppearance="@style/tab_text"
+                app:tabTextColor="@android:color/black">
 
-            <TextView
+                <com.google.android.material.tabs.TabItem
+                    android:id="@+id/ti_sort"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:icon="@drawable/sorting_icon"
+                    android:text="@string/sort_by" />
 
-                android:id="@+id/tv_category_title"
+                <com.google.android.material.tabs.TabItem
+                    android:id="@+id/ti_filter"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:icon="@drawable/filter_icon"
+                    android:text="@string/filter_by" />
+            </com.google.android.material.tabs.TabLayout>
+
+            <androidx.recyclerview.widget.RecyclerView
+
+                android:id="@+id/rv_products"
                 android:layout_width="0dp"
                 android:layout_height="0dp"
-                android:layout_gravity="center_vertical"
-                android:layout_weight=".6"
-                android:text="Head Title"
-                android:gravity="center"
-                android:textSize="16sp"
-                android:textAlignment="center"
-                android:fontFamily="@font/encodesansmedium"
-                android:textColor="@android:color/black"
+                android:layout_margin="@dimen/_8dp"
+                app:layout_constraintBottom_toTopOf="@+id/pb_loading_products"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/tl_sort_filter" />
+
+            <ProgressBar
+
+                android:id="@+id/pb_loading_products"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_margin="@dimen/_8dp"
+                android:background="@android:color/transparent"
+                android:visibility="gone"
                 app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintEnd_toStartOf="@+id/iv_search_product_listing"
-                app:layout_constraintStart_toEndOf="@+id/iv_back_product_listing"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent" />
+
+            <ProgressBar
+
+                android:id="@+id/pb_loading_action_products"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:background="@drawable/bg_round_corner_pb"
+                android:padding="@dimen/_32dp"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent" />
 
             <ImageView
 
-                android:id="@+id/iv_search_product_listing"
+                android:id="@+id/iv_empty_state"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_gravity="center_vertical|end"
-                android:layout_weight=".2"
                 android:scaleType="fitCenter"
-                android:padding="@dimen/_16dp"
+                android:src="@drawable/search_empty_state"
+                android:visibility="gone"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintTop_toTopOf="parent"
-                app:srcCompat="@drawable/search_icon" />
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
 
+            <ImageButton
+
+                android:id="@+id/btn_scroll_up"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_margin="@dimen/_16dp"
+                android:background="@drawable/scroll_up_bg_round_corner"
+                android:padding="@dimen/_8dp"
+                android:src="@drawable/arrow_up_icon"
+                android:visibility="gone"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent" />
         </androidx.constraintlayout.widget.ConstraintLayout>
-
-        <ImageView
-            android:layout_width="0dp"
-            android:layout_height="0.5dp"
-           android:background="@color/colorDarkGray"
-            app:layout_constraintBottom_toTopOf="@+id/tl_sort_filter"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent" />
-
-        <com.google.android.material.tabs.TabLayout
-
-            android:id="@+id/tl_sort_filter"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:background="@android:color/white"
-            android:elevation="4dp"
-            android:outlineProvider="bounds"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/m_toolbar_product_listing"
-            app:tabIndicator="@color/colorLightRed"
-            app:tabIndicatorHeight="0dp"
-            app:tabInlineLabel="true"
-            app:tabTextAppearance="@style/tab_text"
-            app:tabSelectedTextColor="@android:color/black"
-            app:tabTextColor="@android:color/black">
-
-            <com.google.android.material.tabs.TabItem
-                android:id="@+id/ti_sort"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:icon="@drawable/sorting_icon"
-                android:text="@string/sort_by" />
-
-            <com.google.android.material.tabs.TabItem
-                android:id="@+id/ti_filter"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:icon="@drawable/filter_icon"
-                android:text="@string/filter_by" />
-        </com.google.android.material.tabs.TabLayout>
-
-        <androidx.recyclerview.widget.RecyclerView
-
-            android:id="@+id/rv_products"
-            android:layout_width="0dp"
-            android:layout_height="0dp"
-            android:layout_margin="@dimen/_8dp"
-            app:layout_constraintBottom_toTopOf="@+id/pb_loading_products"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/tl_sort_filter" />
-
-        <ProgressBar
-
-            android:id="@+id/pb_loading_products"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_margin="@dimen/_8dp"
-            android:background="@android:color/transparent"
-            android:visibility="gone"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent" />
-
-        <ProgressBar
-
-            android:id="@+id/pb_loading_action_products"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:background="@drawable/bg_round_corner_pb"
-            android:padding="@dimen/_32dp"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
-
-        <ImageView
-
-            android:id="@+id/iv_empty_state"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:scaleType="fitCenter"
-            android:visibility="gone"
-            android:src="@drawable/search_empty_state"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
-
-        <ImageButton
-
-            android:id="@+id/btn_scroll_up"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_margin="@dimen/_16dp"
-            android:background="@drawable/scroll_up_bg_round_corner"
-            android:padding="@dimen/_8dp"
-            android:src="@drawable/arrow_up_icon"
-            android:visibility="gone"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toEndOf="parent" />
-    </androidx.constraintlayout.widget.ConstraintLayout>
+    </androidx.swiperefreshlayout.widget.SwipeRefreshLayout>
 </layout>

@@ -4,92 +4,98 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:animateLayoutChanges="true">
 
-    <androidx.constraintlayout.widget.ConstraintLayout
-
-        xmlns:tools="http://schemas.android.com/tools"
+    <androidx.swiperefreshlayout.widget.SwipeRefreshLayout
+        android:id="@+id/swipeContainer"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:background="@color/colorLightGray"
-        tools:context="com.lalaland.ecommerce.views.fragments.homeFragments.WishFragment">
+        android:layout_height="match_parent">
 
-        <androidx.recyclerview.widget.RecyclerView
+        <androidx.constraintlayout.widget.ConstraintLayout
 
-            android:id="@+id/rv_wishlist"
-            android:layout_width="0dp"
-            android:layout_height="0dp"
-            android:layout_margin="@dimen/_8dp"
-            android:visibility="gone"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
-
-
-        <ImageView
-
-            android:id="@+id/iv_empty_state"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:scaleType="fitCenter"
-            android:src="@drawable/wishlist_empty_state"
-            android:visibility="gone"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
-
-        <TextView
-            android:id="@+id/tv_empty_state"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_margin="@dimen/_16dp"
-            android:text="@string/no_item_found_in_your_list"
-            android:textColor="@color/colorDarkGray"
-            android:textSize="14sp"
-            android:visibility="gone"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/iv_empty_state" />
-
-        <LinearLayout
-
-            android:id="@+id/login_container"
+            xmlns:tools="http://schemas.android.com/tools"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="vertical"
-            android:visibility="gone"
-            app:layout_constraintTop_toBottomOf="@id/tv_empty_state">
+            android:layout_height="match_parent"
+            android:background="@color/colorLightGray"
+            tools:context="com.lalaland.ecommerce.views.fragments.homeFragments.WishFragment">
 
-            <Button
-                android:id="@+id/btn_login"
-                android:layout_width="match_parent"
+            <androidx.recyclerview.widget.RecyclerView
+
+                android:id="@+id/rv_wishlist"
+                android:layout_width="0dp"
+                android:layout_height="0dp"
+                android:layout_margin="@dimen/_8dp"
+                android:visibility="gone"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+
+
+            <ImageView
+
+                android:id="@+id/iv_empty_state"
+                android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_margin="@dimen/_16dp"
-                android:background="@drawable/btn_bg_round_corner_accent"
-                android:text="@string/sign_in"
-                android:textColor="@android:color/white"
-                android:visibility="visible" />
+                android:scaleType="fitCenter"
+                android:src="@drawable/wishlist_empty_state"
+                android:visibility="gone"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
 
             <TextView
+                android:id="@+id/tv_empty_state"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_margin="@dimen/_16dp"
+                android:text="@string/no_item_found_in_your_list"
+                android:textColor="@color/colorDarkGray"
+                android:textSize="14sp"
+                android:visibility="gone"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/iv_empty_state" />
+
+            <LinearLayout
+
+                android:id="@+id/login_container"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="@string/login_to_view_wishlist_items"
-                android:textAlignment="center"
-                android:textColor="@color/colorDarkGray"
-                android:textSize="14sp" />
-        </LinearLayout>
+                android:orientation="vertical"
+                android:visibility="gone"
+                app:layout_constraintTop_toBottomOf="@id/tv_empty_state">
 
-        <ProgressBar
+                <Button
+                    android:id="@+id/btn_login"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_margin="@dimen/_16dp"
+                    android:background="@drawable/btn_bg_round_corner_accent"
+                    android:text="@string/sign_in"
+                    android:textColor="@android:color/white"
+                    android:visibility="visible" />
 
-            android:id="@+id/pb_loading"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:visibility="gone"
-            android:background="@drawable/bg_round_corner_pb"
-            android:padding="@dimen/_32dp"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
-    </androidx.constraintlayout.widget.ConstraintLayout>
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="@string/login_to_view_wishlist_items"
+                    android:textAlignment="center"
+                    android:textColor="@color/colorDarkGray"
+                    android:textSize="14sp" />
+            </LinearLayout>
+
+            <ProgressBar
+
+                android:id="@+id/pb_loading"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:background="@drawable/bg_round_corner_pb"
+                android:padding="@dimen/_32dp"
+                android:visibility="gone"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+        </androidx.constraintlayout.widget.ConstraintLayout>
+    </androidx.swiperefreshlayout.widget.SwipeRefreshLayout>
 </layout>

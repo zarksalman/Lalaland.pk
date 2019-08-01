@@ -83,13 +83,9 @@ public class CategoryFragment extends Fragment implements MajorCategoryAdapter.M
         fragmentCategoryBinding = DataBindingUtil.inflate(inflater, R.layout.fragment_category, container, false);
         categoriesViewModel = ViewModelProviders.of(this).get(CategoriesViewModel.class);
 
-        setMajorCategoryList();
+        iniFragment();
 
-        if (AppConstants.staticCategoryList.size() > 0) {
-            setCategoryAdapter();
-            getCategories(AppConstants.staticCategoryList.get(0).getId());
-            fragmentCategoryBinding.rvSubCategory.setVisibility(View.VISIBLE);
-        }
+
 
         if (android.os.Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT_WATCH) {
             fragmentCategoryBinding.rvSubCategory.setNestedScrollingEnabled(false);
@@ -104,9 +100,23 @@ public class CategoryFragment extends Fragment implements MajorCategoryAdapter.M
         android.view.Display display = ((android.view.WindowManager) getContext().getSystemService(Context.WINDOW_SERVICE)).getDefaultDisplay();
         fragmentCategoryBinding.ivCategoryHeader.getLayoutParams().height = ((int) (display.getHeight() * 0.16));
 */
-        setBrandCategory();
+
+       // fragmentCategoryBinding.swipeContainer.setOnRefreshListener(this::iniFragment);
 
         return fragmentCategoryBinding.getRoot();
+    }
+
+    void iniFragment() {
+
+        setMajorCategoryList();
+        setBrandCategory();
+
+        if (AppConstants.staticCategoryList.size() > 0) {
+            setCategoryAdapter();
+            getCategories(AppConstants.staticCategoryList.get(0).getId());
+            fragmentCategoryBinding.rvSubCategory.setVisibility(View.VISIBLE);
+        }
+
     }
 
     @Override
@@ -153,8 +163,6 @@ public class CategoryFragment extends Fragment implements MajorCategoryAdapter.M
         fragmentCategoryBinding.rvSubCategoryBrand.setLayoutManager(linearLayoutManager);
         linearLayoutManager.scrollToPositionWithOffset(0, 0);
         categorBrandAdapter.setData(AppConstants.staticCategoryBrandsList);
-
-
     }
 
     private void getCategories(int majorCategoryId) {
@@ -172,7 +180,6 @@ public class CategoryFragment extends Fragment implements MajorCategoryAdapter.M
                         subCategories.clear();
                         categoryHomeBanners = categoriesContainer.getData().getHomeBanner();
                         subCategories = categoriesContainer.getData().getSubCategories();
-
 
                         new Handler().postDelayed(() -> {
 

@@ -20,6 +20,7 @@ import androidx.databinding.DataBindingUtil;
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.ViewModelProviders;
 import androidx.recyclerview.widget.GridLayoutManager;
+import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 
 import com.bumptech.glide.Glide;
 import com.lalaland.ecommerce.R;
@@ -118,6 +119,15 @@ public class HomeFragment extends Fragment implements ActionAdapter.ActionClickL
             fragmentHomeBinding.containersParent.fullScroll(ScrollView.FOCUS_UP);
         });
 
+        fragmentHomeBinding.swipeContainer.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
+            @Override
+            public void onRefresh() {
+                productList.clear();
+                recommendationProductAdapter.notifyDataSetChanged();
+                requestInitialProducts();
+            }
+        });
+
         fragmentHomeBinding.containersParent.fullScroll(ScrollView.FOCUS_UP);
         return fragmentHomeBinding.getRoot();
     }
@@ -136,9 +146,9 @@ public class HomeFragment extends Fragment implements ActionAdapter.ActionClickL
 
                 bannerList.addAll(homeDataContainer.getHomeData().getHomeBanners());
                 actionsList.addAll(homeDataContainer.getHomeData().getactions());
+                picksOfTheWeekList.addAll(homeDataContainer.getHomeData().getPicksOfTheWeek());
 
                 //recommendationList.addAll(homeDataContainer.getHomeData().getRecommendation());
-                picksOfTheWeekList.addAll(homeDataContainer.getHomeData().getPicksOfTheWeek());
 
                 // featuredBrandList.addAll(homeDataContainer.getHomeData().getFeaturedBrands());
 
@@ -166,9 +176,9 @@ public class HomeFragment extends Fragment implements ActionAdapter.ActionClickL
 
 
             }
+
+            fragmentHomeBinding.swipeContainer.setRefreshing(false);
         });
-
-
 
     }
 
@@ -208,7 +218,7 @@ public class HomeFragment extends Fragment implements ActionAdapter.ActionClickL
             Glide
                     .with(getContext())
                     .load(bannerImageUrl)
-                    .centerInside()
+                    .fitCenter()
                     .into(imageView);
 
             fragmentHomeBinding.vfSlider.addView(imageView);
@@ -225,7 +235,8 @@ public class HomeFragment extends Fragment implements ActionAdapter.ActionClickL
     private void setActions() {
 
 
-        //   fragmentHomeBinding.rvActionContainer.removeAllViews();
+        if (fragmentHomeBinding.rvActionContainer.getChildCount() > 0)
+            fragmentHomeBinding.rvActionContainer.removeAllViews();
 
         Integer weight = (100 / actionsList.size());
 //        Integer weight = 1;
@@ -293,6 +304,9 @@ public class HomeFragment extends Fragment implements ActionAdapter.ActionClickL
     }
 
     private void setPickOfTheWeek() {
+
+        if (fragmentHomeBinding.rvPicksOfWeekContainer.getChildCount() > 0)
+            fragmentHomeBinding.rvPicksOfWeekContainer.removeAllViews();
 
         Integer weight = (100 / picksOfTheWeekList.size());
 

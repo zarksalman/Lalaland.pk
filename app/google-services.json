@@ -67,6 +67,14 @@
       },
       "oauth_client": [
         {
+          "client_id": "122765248262-1r44oaf4q4qjdhhpfjtitck952gacjlm.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.lalaland.onlineshoppingapp",
+            "certificate_hash": "73bfe318f2d54e56a8653bd5b3667ab1151e7a18"
+          }
+        },
+        {
           "client_id": "122765248262-6butbqiml9qp0nf49cjvv44889g4vp7l.apps.googleusercontent.com",
           "client_type": 3
         }

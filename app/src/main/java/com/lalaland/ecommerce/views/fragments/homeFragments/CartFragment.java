@@ -105,6 +105,7 @@ public class CartFragment extends Fragment implements View.OnClickListener, Cart
 
         getCartItems();
 
+        fragmentCartBinding.swipeContainer.setOnRefreshListener(this::getCartItems);
         return fragmentCartBinding.getRoot();
     }
 
@@ -162,6 +163,7 @@ public class CartFragment extends Fragment implements View.OnClickListener, Cart
                 }
 
                 fragmentCartBinding.pbLoading.setVisibility(View.GONE);
+                fragmentCartBinding.swipeContainer.setRefreshing(false);
             });
         } else {
 
@@ -172,7 +174,8 @@ public class CartFragment extends Fragment implements View.OnClickListener, Cart
                 if (cartContainer != null) {
 
                     if (cartContainer.getCode().equals(SUCCESS_CODE)) {
-                        cartItemList.addAll(cartContainer.getData().getCartItems());
+
+                        cartItemList = cartContainer.getData().getCartItems();
                         AppConstants.userAddresses = cartContainer.getData().getUserAddresses();
 
                         getMerchantList();
@@ -186,6 +189,8 @@ public class CartFragment extends Fragment implements View.OnClickListener, Cart
                 }
 
                 fragmentCartBinding.pbLoading.setVisibility(View.GONE);
+
+                fragmentCartBinding.swipeContainer.setRefreshing(false);
             });
         }
     }
@@ -273,9 +278,6 @@ public class CartFragment extends Fragment implements View.OnClickListener, Cart
         if (getActivity() != null)
             AppUtils.blockUi(getActivity());
 
-        // if response has not received of previous api
-        if (isApiCalling)
-            return;
 
         Integer merchantIndex = getMerchantModelIndex(merchantId);
         fragmentCartBinding.pbLoading.setVisibility(View.VISIBLE);
@@ -296,7 +298,6 @@ public class CartFragment extends Fragment implements View.OnClickListener, Cart
 
         productViewModel.addToReadyCartList(headers, parameter).observe(this, basicResponse ->
         {
-            isApiCalling = true;
 
             if (basicResponse != null) {
                 if (basicResponse.getCode().equals(SUCCESS_CODE)) {
@@ -311,7 +312,6 @@ public class CartFragment extends Fragment implements View.OnClickListener, Cart
             } else
                 Toast.makeText(getContext(), GENERAL_ERROR, Toast.LENGTH_SHORT).show();
 
-            isApiCalling = false;
             fragmentCartBinding.pbLoading.setVisibility(View.GONE);
 
             if (getActivity() != null)

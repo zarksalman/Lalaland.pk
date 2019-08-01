@@ -75,6 +75,14 @@ public class WishFragment extends Fragment implements WishlistProductAdapter.Pro
             startActivityForResult(new Intent(getContext(), RegistrationActivity.class), 100);
         });
 
+        fragmentWishBinding.swipeContainer.setOnRefreshListener(() -> {
+
+            if (!token.isEmpty()) {
+                getWishListProducts();
+            } else {
+                fragmentWishBinding.swipeContainer.setRefreshing(false);
+            }
+        });
         productViewModel = ViewModelProviders.of(this).get(ProductViewModel.class);
         return fragmentWishBinding.getRoot();
     }
@@ -102,7 +110,7 @@ public class WishFragment extends Fragment implements WishlistProductAdapter.Pro
 
                 if (wishListContainer.getCode().equals(SUCCESS_CODE)) {
 
-                    wishListProductList.addAll(wishListContainer.getData().getWishListProducts());
+                    wishListProductList = wishListContainer.getData().getWishListProducts();
 
                     if (wishListProductList.size() > 0) {
                         fragmentWishBinding.rvWishlist.setVisibility(View.VISIBLE);
@@ -114,10 +122,13 @@ public class WishFragment extends Fragment implements WishlistProductAdapter.Pro
                         fragmentWishBinding.rvWishlist.setVisibility(View.GONE);
                         fragmentWishBinding.pbLoading.setVisibility(View.GONE);
                     }
+
                     Log.d(TAG, "getWishListProducts:" + wishListContainer.getData().getWishListProducts().size());
                 }
             } else
                 Toast.makeText(getContext(), GENERAL_ERROR, Toast.LENGTH_SHORT).show();
+            
+            fragmentWishBinding.swipeContainer.setRefreshing(false);
         });
     }
 
