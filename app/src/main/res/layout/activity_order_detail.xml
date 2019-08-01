@@ -51,7 +51,7 @@
             android:id="@+id/nsv_parent"
             android:layout_width="match_parent"
             android:layout_height="0dp"
-            android:visibility="visible"
+            android:visibility="gone"
             app:layout_constraintBottom_toTopOf="@+id/bottom_bar"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
@@ -73,6 +73,7 @@
                     android:background="@android:color/white"
                     android:orientation="vertical"
                     android:padding="@dimen/_16dp"
+                    android:visibility="visible"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toTopOf="parent">
@@ -115,6 +116,7 @@
                     android:layout_marginTop="@dimen/_4dp"
                     android:background="@android:color/white"
                     android:orientation="vertical"
+                    android:visibility="visible"
                     android:padding="@dimen/_16dp"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
@@ -176,6 +178,7 @@
                     android:background="@drawable/bg_round_corner_white"
                     android:orientation="vertical"
                     android:padding="@dimen/_16dp"
+                    android:visibility="visible"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toBottomOf="@+id/rv_order_products_container">

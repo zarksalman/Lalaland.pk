@@ -137,7 +137,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginEnd="8dp"
-            android:text="@{order.grandTotal}"
+            android:text="@{AppUtils.formatPriceString(order.grandTotal)}"
             android:textSize="14sp"
             app:layout_constraintBottom_toBottomOf="@+id/tv_order_total_title"
             app:layout_constraintEnd_toEndOf="@+id/iv_show_all"

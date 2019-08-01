@@ -10,18 +10,18 @@ public class OrderDetailData {
     @SerializedName("order_products")
     @Expose
     private List<OrderProduct> orderProducts = null;
-
     @SerializedName("discount_amount")
     @Expose
     private String discountAmount;
-
     @SerializedName("shipping_charges")
     @Expose
     private String shippingCharges;
-
     @SerializedName("order_total")
     @Expose
     private String orderTotal;
+    @SerializedName("grand_total")
+    @Expose
+    private String grandTotal;
 
     public List<OrderProduct> getOrderProducts() {
         return orderProducts;
@@ -54,4 +54,13 @@ public class OrderDetailData {
     public void setOrderTotal(String orderTotal) {
         this.orderTotal = orderTotal;
     }
+
+    public String getGrandTotal() {
+        return grandTotal;
+    }
+
+    public void setGrandTotal(String grandTotal) {
+        this.grandTotal = grandTotal;
+    }
+
 }

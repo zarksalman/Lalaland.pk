@@ -311,7 +311,7 @@ public class AppUtils {
             PackageInfo pInfo = AppConstants.mContext.getPackageManager().getPackageInfo(AppConstants.mContext.getPackageName(), 0);
             String version = pInfo.versionName;
             int verCode = pInfo.versionCode;
-            return "application version:" + version + " and application version number:" + verCode;
+            return version;
         } catch (PackageManager.NameNotFoundException e) {
             e.printStackTrace();
             return "";

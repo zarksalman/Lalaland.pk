@@ -78,7 +78,20 @@ public class MyOrderAdapter extends RecyclerView.Adapter<MyOrderAdapter.MyOrderV
             mOrderItemBinding.tvOrderMerchant.setText(order.getMerchantName());
             mOrderItemBinding.tvOrderTotal.setText(order.getGrandTotal());*/
 
-               mOrderItemBinding.setOrder(order);
+            Double discountAmount = Double.parseDouble(order.getDiscountAmount());
+            Double orderTotal = Double.parseDouble(order.getOrderTotal());
+            Double diffAmount = orderTotal - discountAmount;
+            String orderBill;
+
+            if (diffAmount <= 0) {
+                diffAmount = 0.0;
+            }
+
+            diffAmount += Double.parseDouble(order.getShippingCharges());
+            orderBill = String.valueOf(diffAmount);
+            order.setGrandTotal(orderBill);
+
+            mOrderItemBinding.setOrder(order);
             mOrderItemBinding.setAdapter(MyOrderAdapter.this);
             mOrderItemBinding.executePendingBindings();
         }

@@ -432,7 +432,7 @@
                 android:layout_height="match_parent"
                 android:layout_weight=".5"
                 android:background="@color/colorAccent"
-                android:text="@string/checkout"
+                android:text="@string/confirm_order"
                 android:onClick="@{()->clickListener.placeOrder()}"
                 android:textColor="@android:color/white"
                 android:textSize="14sp" />

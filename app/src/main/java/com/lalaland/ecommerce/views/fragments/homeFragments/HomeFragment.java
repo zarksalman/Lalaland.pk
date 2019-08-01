@@ -138,8 +138,17 @@ public class HomeFragment extends Fragment implements ActionAdapter.ActionClickL
                 actionsList.addAll(homeDataContainer.getHomeData().getactions());
 
                 //recommendationList.addAll(homeDataContainer.getHomeData().getRecommendation());
-                featuredBrandList.addAll(homeDataContainer.getHomeData().getFeaturedBrands());
                 picksOfTheWeekList.addAll(homeDataContainer.getHomeData().getPicksOfTheWeek());
+
+                // featuredBrandList.addAll(homeDataContainer.getHomeData().getFeaturedBrands());
+
+                if (homeDataContainer.getHomeData().getFeaturedBrands().size() > 4) {
+
+                    for (int i = 0; i < 4; i++) {
+                        featuredBrandList.add(homeDataContainer.getHomeData().getFeaturedBrands().get(i));
+                    }
+                } else
+                    featuredBrandList.addAll(homeDataContainer.getHomeData().getFeaturedBrands());
 
                 setBannerSlider();
                 setActions();

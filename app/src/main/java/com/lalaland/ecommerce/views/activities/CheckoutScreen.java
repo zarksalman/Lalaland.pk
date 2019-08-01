@@ -543,9 +543,9 @@ public class CheckoutScreen extends AppCompatActivity implements NetworkInterfac
             return;
         }
 
-        activityCheckoutScreenBinding.pbLoading.setVisibility(View.VISIBLE);
-        AppUtils.hideKeyboard(this);
+        vouhcerDialogueBinding.pbLoading.setVisibility(View.VISIBLE);
         AppUtils.blockUi(this);
+        AppUtils.hideKeyboard(this);
 
         cartListModel = cartListModelList.get(merchantIndex);
 
@@ -609,7 +609,7 @@ public class CheckoutScreen extends AppCompatActivity implements NetworkInterfac
                 }
             }
 
-            activityCheckoutScreenBinding.pbLoading.setVisibility(View.GONE);
+            vouhcerDialogueBinding.pbLoading.setVisibility(View.GONE);
             AppUtils.unBlockUi(this);
 
         });

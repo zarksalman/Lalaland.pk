@@ -93,25 +93,40 @@ public class OrderDetailActivity extends AppCompatActivity {
 
                 if (orderDetailContainer.getCode().equals(SUCCESS_CODE)) {
 
+                    String orderBill, disAmount = "-";
+                    Double orderTotal = Double.parseDouble(orderDetailContainer.getData().getOrderTotal());
+                    Double discountAmount = Double.parseDouble(orderDetailContainer.getData().getDiscountAmount());
+                    disAmount = disAmount + discountAmount;
+
+                    shippingCharges = orderDetailContainer.getData().getShippingCharges();
+                    Double diffAmount = orderTotal - discountAmount;
+
+
+                    if (diffAmount <= 0)
+                        diffAmount = 0.0;
+
+                    diffAmount += Double.parseDouble(shippingCharges);
+                    orderBill = String.valueOf(diffAmount);
+
                     orderProductList.addAll(orderDetailContainer.getData().getOrderProducts());
                     myOrderProductsAdapter.notifyItemRangeInserted(0, orderProductList.size());
 
-                    if (orderDetailContainer.getData().getDiscountAmount() != null) {
-                        discountAmount = orderDetailContainer.getData().getDiscountAmount();
-                        activityOrderDetailBinding.tvMerchantDiscount.setText(discountAmount);
+/*                    discountAmount = orderDetailContainer.getData().getDiscountAmount();
+                    activityOrderDetailBinding.tvMerchantDiscount.setText(discountAmount);
+                    activityOrderDetailBinding.discountRow.setVisibility(View.VISIBLE);*/
+
+                    activityOrderDetailBinding.tvOrderTotal.setText(AppUtils.formatPriceString(orderBill));
+                    activityOrderDetailBinding.tvMerchantOrderTotal.setText(AppUtils.formatPriceString(String.valueOf(orderTotal)));
+                    activityOrderDetailBinding.tvMerchantDeliveryCharges.setText(AppUtils.formatPriceString(shippingCharges));
+                    disAmount = AppUtils.formatPriceString(disAmount);
+
+                    activityOrderDetailBinding.tvMerchantDiscount.setText(disAmount);
+                    activityOrderDetailBinding.tvMerchantTotal.setText(AppUtils.formatPriceString(orderBill));
+
+
+                    if (discountAmount > 0)
                         activityOrderDetailBinding.discountRow.setVisibility(View.VISIBLE);
-                    }
 
-
-                    if (orderDetailContainer.getData().getOrderTotal() != null) {
-                        orderTotal1 = orderDetailContainer.getData().getOrderTotal();
-                        activityOrderDetailBinding.tvMerchantOrderTotal.setText(orderTotal1);
-                    }
-
-                    if (orderDetailContainer.getData().getShippingCharges() != null) {
-                        shippingCharges = orderDetailContainer.getData().getShippingCharges();
-                        activityOrderDetailBinding.tvMerchantDeliveryCharges.setText(shippingCharges);
-                    }
 
                     setInitValues();
                     activityOrderDetailBinding.nsvParent.setVisibility(View.VISIBLE);
