@@ -105,14 +105,14 @@ public class SplashActivity extends AppCompatActivity implements NetworkInterfac
 
 
                         new Handler().postDelayed(() -> {
-
+                            Intent intent = null;
                             if (!appPreference.getBoolean(IS_FIRST_TIME)) {
+                                intent = new Intent(SplashActivity.this, IntroductionScreenActivity.class);
+                            } else {
+                                intent = new Intent(SplashActivity.this, MainActivity.class);
+                            }
 
-                                // appPreference.setBoolean(IS_FIRST_TIME, false);
-                                startActivity(new Intent(SplashActivity.this, IntroductionScreenActivity.class));
-                            } else
-                                startActivity(new Intent(SplashActivity.this, MainActivity.class));
-
+                            startActivity(intent);
                             finish();
                             overridePendingTransition(R.anim.anim_slide_in_left, R.anim.anim_slide_out_left);
                         }, 500);

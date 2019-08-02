@@ -7,10 +7,13 @@ import androidx.multidex.MultiDex;
 
 import com.facebook.FacebookSdk;
 import com.facebook.appevents.AppEventsLogger;
+import com.lalaland.ecommerce.Receivers.ConnectivityReceiver;
 import com.lalaland.ecommerce.data.database.LalalandDatabases;
 import com.lalaland.ecommerce.helpers.AppConstants;
 
 public class LalalandApplication extends Application {
+
+    private static LalalandApplication mInstance;
 
     @Override
     public void onCreate() {
@@ -28,5 +31,13 @@ public class LalalandApplication extends Application {
     protected void attachBaseContext(Context base) {
         super.attachBaseContext(base);
         MultiDex.install(this);
+    }
+
+    public static synchronized LalalandApplication getInstance() {
+        return mInstance;
+    }
+
+    public void setConnectivityListener(ConnectivityReceiver.ConnectivityReceiverListener listener) {
+        ConnectivityReceiver.connectivityReceiverListener = listener;
     }
 }

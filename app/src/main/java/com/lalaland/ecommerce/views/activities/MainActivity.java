@@ -266,6 +266,6 @@ public class MainActivity extends AppCompatActivity implements CloseAppListener 
     @Override
     public void closeApp() {
         finish();
-        android.os.Process.killProcess(android.os.Process.myPid());
+        //  android.os.Process.killProcess(android.os.Process.myPid());
     }
 }

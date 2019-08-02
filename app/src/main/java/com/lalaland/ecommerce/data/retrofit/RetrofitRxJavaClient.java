@@ -48,6 +48,16 @@ public class RetrofitRxJavaClient {
         if (retrofitClient == null) {
             retrofitClient = new RetrofitRxJavaClient();
         }
+
+        AppConstants.DEVICE_ID = AppUtils.getDeviceId();
+        AppConstants.APP_BUILD_VERSION = AppUtils.getBuildVersion();
+        AppConstants.DEVICE_NAME = AppUtils.getDeviceName();
+        AppConstants.DEVICE_MODEL = AppUtils.getDeviceModel();
+        AppConstants.DEVICE_OS = AppUtils.getDeviceOS();
+        AppConstants.DEVICE_TYPE = "ANDROID";
+        AppConstants.FCM_TOKEN = "";
+        AppConstants.USER_ID = "";
+
         return retrofitClient;
     }
 

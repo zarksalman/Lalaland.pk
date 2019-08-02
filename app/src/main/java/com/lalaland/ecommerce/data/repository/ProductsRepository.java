@@ -105,7 +105,7 @@ public class ProductsRepository {
 
     public LiveData<CategoryContainer> getCategoryGeneralData(NetworkInterface networkInterface) {
 
-        cartContainerMutableLiveData = new MutableLiveData<>();
+        categoryContainerMutableLiveData = new MutableLiveData<>();
         setUserInfo();
         lalalandServiceApi.getCategoryGeneralData(userInfo).enqueue(new Callback<CategoryContainer>() {
             @Override

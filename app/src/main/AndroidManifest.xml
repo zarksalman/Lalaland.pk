@@ -16,10 +16,20 @@
         android:label="@string/my_app_name"
         android:largeHeap="true"
         android:theme="@style/AppTheme.NoActionBar">
+
+        <receiver
+            android:name=".Receivers.ConnectivityReceiver"
+            android:enabled="true">
+            <intent-filter>
+                <action android:name="android.net.conn.CONNECTIVITY_CHANGE" />
+            </intent-filter>
+        </receiver>
+
         <activity
             android:name=".views.activities.IntroductionScreenActivity"
             android:label="@string/title_activity_introduction_screen"
-            android:theme="@style/AppTheme.NoActionBar.NoActionBar"></activity>
+            android:screenOrientation="portrait"
+            android:theme="@style/AppTheme.NoActionBar.NoActionBar" />
         <activity
             android:name=".views.activities.ResetPasswordActivity"
             android:exported="true"
@@ -127,9 +137,6 @@
             android:label="@string/app_name"
             android:screenOrientation="portrait" />
 
-        <meta-data
-            android:name="com.facebook.sdk.ApplicationId"
-            android:value="@string/facebook_app_id" />
         <meta-data
             android:name="com.facebook.sdk.ApplicationId"
             android:value="@string/facebook_app_id" />
