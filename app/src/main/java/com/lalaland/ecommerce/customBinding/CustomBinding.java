@@ -36,14 +36,19 @@ public class CustomBinding {
     public static void setMediumImageFromServer(ImageView imageView, String imageName) {
 
 
-        String imageSrc = PRODUCT_STORAGE_BASE_URL.concat(imageName);
-        Glide
-                .with(AppConstants.mContext)
-                .load(imageSrc)
-                .fitCenter()
-                .error(R.drawable.placeholder_products)
-                .placeholder(R.drawable.placeholder_products)
-                .into(imageView);
+        try {
+
+            String imageSrc = PRODUCT_STORAGE_BASE_URL.concat(imageName);
+            Glide
+                    .with(AppConstants.mContext)
+                    .load(imageSrc)
+                    .fitCenter()
+                    .error(R.drawable.placeholder_products)
+                    .placeholder(R.drawable.placeholder_products)
+                    .into(imageView);
+        } catch (OutOfMemoryError outOfMemoryError) {
+            outOfMemoryError.printStackTrace();
+        }
     }
 
     @BindingAdapter("setActionImage")
@@ -62,14 +67,19 @@ public class CustomBinding {
     @BindingAdapter("setWeekProductImage")
     public static void setWeekProductImageFromServer(ImageView imageView, String imageName) {
 
-        String imageSrc = PRODUCT_STORAGE_BASE_URL.concat("medium/").concat(imageName);
-        Glide
-                .with(imageView.getContext())
-                .load(imageSrc)
-                .fitCenter()
-                .error(R.drawable.placeholder_products)
-                .placeholder(R.drawable.placeholder_products)
-                .into(imageView);
+        try {
+
+            String imageSrc = PRODUCT_STORAGE_BASE_URL.concat("medium/").concat(imageName);
+            Glide
+                    .with(imageView.getContext())
+                    .load(imageSrc)
+                    .centerInside()
+                    .error(R.drawable.placeholder_products)
+                    .placeholder(R.drawable.placeholder_products)
+                    .into(imageView);
+        } catch (OutOfMemoryError outOfMemoryError) {
+            outOfMemoryError.printStackTrace();
+        }
     }
 
 

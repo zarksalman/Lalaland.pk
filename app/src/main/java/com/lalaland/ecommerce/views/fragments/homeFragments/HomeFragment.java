@@ -1,24 +1,22 @@
 package com.lalaland.ecommerce.views.fragments.homeFragments;
 
 
-import android.content.Context;
 import android.content.Intent;
 import android.os.Build;
 import android.os.Bundle;
-import android.os.Handler;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
-import android.widget.ScrollView;
+import android.widget.ProgressBar;
 
 import androidx.core.view.ViewCompat;
 import androidx.core.widget.NestedScrollView;
 import androidx.databinding.DataBindingUtil;
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.ViewModelProviders;
+import androidx.recyclerview.widget.DefaultItemAnimator;
 import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 
@@ -36,6 +34,7 @@ import com.lalaland.ecommerce.data.models.home.PicksOfTheWeek;
 import com.lalaland.ecommerce.data.models.products.Product;
 import com.lalaland.ecommerce.databinding.ActionLayoutBinding;
 import com.lalaland.ecommerce.databinding.FragmentHomeBinding;
+import com.lalaland.ecommerce.databinding.FragmentHomeNewBinding;
 import com.lalaland.ecommerce.databinding.PickOfWeekItemBinding;
 import com.lalaland.ecommerce.helpers.AppPreference;
 import com.lalaland.ecommerce.viewModels.products.HomeViewModel;
@@ -69,6 +68,7 @@ public class HomeFragment extends Fragment implements ActionAdapter.ActionClickL
     private HomeViewModel homeViewModel;
 
     private FragmentHomeBinding fragmentHomeBinding;
+    private FragmentHomeNewBinding fragmentHomeNewBinding;
     private List<Actions> actionsList = new ArrayList<>();
     private List<HomeBanner> bannerList = new ArrayList<>();
     private List<PicksOfTheWeek> picksOfTheWeekList = new ArrayList<>();
@@ -85,6 +85,12 @@ public class HomeFragment extends Fragment implements ActionAdapter.ActionClickL
     public static final int NUMBER_OF_ITEM = 30;
     private String recommended_cat;
     private List<ImageView> dots = new ArrayList<>();
+
+    //******************************* new home page *******************************
+    private ProgressBar progressBar;
+
+    private boolean isScrolling = false;
+    int firstVisibleInListview;
 
     public HomeFragment() {
         // Required empty public constructor
@@ -104,22 +110,27 @@ public class HomeFragment extends Fragment implements ActionAdapter.ActionClickL
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
 
-        fragmentHomeBinding = DataBindingUtil.inflate(inflater, R.layout.fragment_home, container, false);
+        fragmentHomeNewBinding = DataBindingUtil.inflate(inflater, R.layout.fragment_home_new, container, false);
         homeViewModel = ViewModelProviders.of(this, new ProductViewModelFactory()).get(HomeViewModel.class);
 
-        fragmentHomeBinding.setHomeListener(this);
+        fragmentHomeNewBinding.setHomeListener(this);
+        fragmentHomeNewBinding.pickOfWeekContainerParent.setHomeListener(this);
+
         recommended_cat = AppPreference.getInstance(getContext()).getString(RECOMMENDED_CAT_TOKEN);
 
+        iniUi();
+/*
         android.view.Display display = ((android.view.WindowManager) getContext().getSystemService(Context.WINDOW_SERVICE)).getDefaultDisplay();
         fragmentHomeBinding.containersParent.getLayoutParams().height = ((int) (display.getHeight() * 0.9));
+*/
 
         requestInitialProducts();
 
-        fragmentHomeBinding.btnScrollUp.setOnClickListener(v -> {
+    /*    fragmentHomeBinding.btnScrollUp.setOnClickListener(v -> {
             fragmentHomeBinding.containersParent.fullScroll(ScrollView.FOCUS_UP);
-        });
+        });*/
 
-        fragmentHomeBinding.swipeContainer.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
+        fragmentHomeNewBinding.swipeContainer.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
             @Override
             public void onRefresh() {
                 productList.clear();
@@ -128,8 +139,14 @@ public class HomeFragment extends Fragment implements ActionAdapter.ActionClickL
             }
         });
 
-        fragmentHomeBinding.containersParent.fullScroll(ScrollView.FOCUS_UP);
-        return fragmentHomeBinding.getRoot();
+//        fragmentHomeBinding.containersParent.fullScroll(ScrollView.FOCUS_UP);
+        return fragmentHomeNewBinding.getRoot();
+    }
+
+    private void iniUi() {
+
+        progressBar = new ProgressBar(getContext());
+
     }
 
     void requestInitialProducts() {
@@ -167,17 +184,17 @@ public class HomeFragment extends Fragment implements ActionAdapter.ActionClickL
                 setPickOfTheWeek();
                 setFeaturedBrands();
 
-                new Handler().postDelayed(() -> {
+           /*     new Handler().postDelayed(() -> {
 
                     fragmentHomeBinding.containersParent.setVisibility(View.VISIBLE);
                     fragmentHomeBinding.pbLoading.setVisibility(View.GONE);
 
-                }, 2000);
+                }, 2000);*/
 
 
             }
 
-            fragmentHomeBinding.swipeContainer.setRefreshing(false);
+            fragmentHomeNewBinding.swipeContainer.setRefreshing(false);
         });
 
     }
@@ -190,18 +207,13 @@ public class HomeFragment extends Fragment implements ActionAdapter.ActionClickL
 
             if (productContainer != null && productContainer.getProductData().getProducts().size() > 0) {
 
-                int startPosition;
-
-                startPosition = productList.size();
-
                 productList.addAll(productContainer.getProductData().getProducts());
                 recommendationProductAdapter.notifyDataSetChanged();
-                // recommendationProductAdapter.notifyItemRangeInserted(startPosition, productList.size());
 
-                Log.d(TAG, "getProductItems" + productList.size());
                 isLoading = false;
             }
-            fragmentHomeBinding.pbProductLoad.setVisibility(View.GONE);
+
+            fragmentHomeNewBinding.pbProductLoad.setVisibility(View.GONE);
 
         });
     }
@@ -221,25 +233,32 @@ public class HomeFragment extends Fragment implements ActionAdapter.ActionClickL
                     .fitCenter()
                     .into(imageView);
 
-            fragmentHomeBinding.vfSlider.addView(imageView);
+            /*fragmentHomeBinding.vfSlider.addView(imageView);
             fragmentHomeBinding.vfSlider.setFlipInterval(4000);
             fragmentHomeBinding.vfSlider.setAutoStart(true);
 
             fragmentHomeBinding.vfSlider.setInAnimation(getContext(), android.R.anim.slide_in_left);
             fragmentHomeBinding.vfSlider.setOutAnimation(getContext(), android.R.anim.slide_out_right);
+            */
+
+            fragmentHomeNewBinding.vfSlider.addView(imageView);
+            fragmentHomeNewBinding.vfSlider.setFlipInterval(4000);
+            fragmentHomeNewBinding.vfSlider.setAutoStart(true);
+
+            fragmentHomeNewBinding.vfSlider.setInAnimation(getContext(), android.R.anim.slide_in_left);
+            fragmentHomeNewBinding.vfSlider.setOutAnimation(getContext(), android.R.anim.slide_out_right);
         }
 
-        fragmentHomeBinding.vfSlider.startFlipping();
+        fragmentHomeNewBinding.vfSlider.startFlipping();
     }
 
     private void setActions() {
 
 
-        if (fragmentHomeBinding.rvActionContainer.getChildCount() > 0)
-            fragmentHomeBinding.rvActionContainer.removeAllViews();
+        if (fragmentHomeNewBinding.rvActionContainer.getChildCount() > 0)
+            fragmentHomeNewBinding.rvActionContainer.removeAllViews();
 
         Integer weight = (100 / actionsList.size());
-//        Integer weight = 1;
 
         for (Integer i = 0; i < actionsList.size(); i++) {
 
@@ -255,28 +274,15 @@ public class HomeFragment extends Fragment implements ActionAdapter.ActionClickL
                     weight
             );
 
-            //  layout.actionParent.setLayoutParams(param);
-
             layout.setAction(actionsList.get(i));
 
             layout.actionParent.setClickable(true);
-            layout.ivAction.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-//                    Toast.makeText(getContext(), v.getTag(R.string.tag).toString(), Toast.LENGTH_SHORT).show();
-                    onActionClicked(Integer.parseInt(v.getTag(R.string.action_tag).toString()));
-                }
-            });
+            layout.ivAction.setOnClickListener(v -> onActionClicked(Integer.parseInt(v.getTag(R.string.action_tag).toString())));
 
-            fragmentHomeBinding.rvActionContainer.addView(layout.getRoot(), param);
+            fragmentHomeNewBinding.rvActionContainer.addView(layout.getRoot(), param);
 
 
         }
-        /*
-         ActionAdapter actionAdapter = new ActionAdapter(getContext(), this);
-        fragmentHomeBinding.rvActions.setAdapter(actionAdapter);
-        fragmentHomeBinding.rvActions.setLayoutManager(new LinearLayoutManager(getContext(), LinearLayoutManager.HORIZONTAL, false));
-        actionAdapter.setData(actionsList);*/
     }
 
     @Override
@@ -305,12 +311,12 @@ public class HomeFragment extends Fragment implements ActionAdapter.ActionClickL
 
     private void setPickOfTheWeek() {
 
-        if (fragmentHomeBinding.rvPicksOfWeekContainer.getChildCount() > 0)
-            fragmentHomeBinding.rvPicksOfWeekContainer.removeAllViews();
+        if (fragmentHomeNewBinding.pickOfWeekContainerParent.rvPicksOfWeekContainer.getChildCount() > 0)
+            fragmentHomeNewBinding.pickOfWeekContainerParent.rvPicksOfWeekContainer.removeAllViews();
 
-        Integer weight = (100 / picksOfTheWeekList.size());
+        Integer weight = (100 / 3);
 
-        for (int i = 0; i < picksOfTheWeekList.size(); i++) {
+        for (int i = 0; i < 3; i++) {
 
             PickOfWeekItemBinding layout = DataBindingUtil.inflate(getLayoutInflater(), R.layout.pick_of_week_item, null, false);
             layout.ivAction.setTag(R.string.pick_of_week_tag, i);
@@ -324,29 +330,14 @@ public class HomeFragment extends Fragment implements ActionAdapter.ActionClickL
                     weight
             );
 
-            //  layout.actionParent.setLayoutParams(param);
-
             layout.setPicks(picksOfTheWeekList.get(i));
-
-            layout.ivAction.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    onWeekProductClicked(Integer.parseInt(v.getTag(R.string.pick_of_week_tag).toString()));
-                }
-            });
-
-            fragmentHomeBinding.rvPicksOfWeekContainer.addView(layout.getRoot(), param);
-
+            layout.ivAction.setOnClickListener(v -> onWeekProductClicked(Integer.parseInt(v.getTag(R.string.pick_of_week_tag).toString())));
+            fragmentHomeNewBinding.pickOfWeekContainerParent.rvPicksOfWeekContainer.addView(layout.getRoot(), param);
 
         }
-
-/*        PickOfWeekAdapter pickOfWeekAdapter = new PickOfWeekAdapter(getContext(), this);
-        fragmentHomeBinding.rvPicksOfWeek.setAdapter(pickOfWeekAdapter);
-        fragmentHomeBinding.rvPicksOfWeek.setLayoutManager(new LinearLayoutManager(getContext(), LinearLayoutManager.HORIZONTAL, false));
-        pickOfWeekAdapter.setData(picksOfTheWeekList);*/
     }
 
-    public void showAllProductsWeekProducts(View view) {
+    public void showAllProductsWeekProducts() {
 
         Intent intent = new Intent(getContext(), ActionProductListingActivity.class);
         intent.putExtra(ACTION_NAME, getResources().getString(R.string.picks_of_the_week));
@@ -373,8 +364,8 @@ public class HomeFragment extends Fragment implements ActionAdapter.ActionClickL
     private void setFeaturedBrands() {
 
         BrandsFocusAdapter brandsFocusAdapter = new BrandsFocusAdapter(getContext(), this);
-        fragmentHomeBinding.rvBrandsInFocus.setAdapter(brandsFocusAdapter);
-        fragmentHomeBinding.rvBrandsInFocus.setLayoutManager(new GridLayoutManager(getContext(), 2));
+        fragmentHomeNewBinding.brandsInFocusContainerParent.rvBrandsInFocus.setAdapter(brandsFocusAdapter);
+        fragmentHomeNewBinding.brandsInFocusContainerParent.rvBrandsInFocus.setLayoutManager(new GridLayoutManager(getContext(), 2));
         brandsFocusAdapter.setData(featuredBrandList);
     }
 
@@ -393,21 +384,23 @@ public class HomeFragment extends Fragment implements ActionAdapter.ActionClickL
 
         recommendationProductAdapter = new ProductAdapter(getContext(), this);
         recommendationProductAdapter.setData(productList);
-        fragmentHomeBinding.rvRecommendedProducts.setAdapter(recommendationProductAdapter);
+        fragmentHomeNewBinding.recommendationContainerParent.rvRecommendedProducts.setAdapter(recommendationProductAdapter);
         gridLayoutManager = new GridLayoutManager(getContext(), 2);
+        fragmentHomeNewBinding.recommendationContainerParent.rvRecommendedProducts.setLayoutManager(gridLayoutManager);
+        fragmentHomeNewBinding.recommendationContainerParent.rvRecommendedProducts.setItemAnimator(new DefaultItemAnimator());
 
-        fragmentHomeBinding.rvRecommendedProducts.setLayoutManager(gridLayoutManager);
+        //fragmentHomeNewBinding.recommendationContainerParent.rvRecommendedProducts.addItemDecoration(new SpacesItemDecoration((int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, 5, getContext().getResources().getDisplayMetrics())));
+
         // just to remove lag from recommendation products adapter
 
         if (android.os.Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT_WATCH) {
-            fragmentHomeBinding.rvRecommendedProducts.setNestedScrollingEnabled(false);
+            fragmentHomeNewBinding.recommendationContainerParent.rvRecommendedProducts.setNestedScrollingEnabled(false);
         } else {
-            ViewCompat.setNestedScrollingEnabled(fragmentHomeBinding.rvRecommendedProducts, false);
+            ViewCompat.setNestedScrollingEnabled(fragmentHomeNewBinding.recommendationContainerParent.rvRecommendedProducts, false);
         }
 
-
         // It takes almost 3 4 days just because, recyclerview is under nestedScrollView (onScrolled does not call)
-        fragmentHomeBinding.containersParent.setOnScrollChangeListener((NestedScrollView.OnScrollChangeListener) (v, scrollX, scrollY, oldScrollX, oldScrollY) -> {
+        fragmentHomeNewBinding.containersParent.setOnScrollChangeListener((NestedScrollView.OnScrollChangeListener) (v, scrollX, scrollY, oldScrollX, oldScrollY) -> {
             if (v.getChildAt(v.getChildCount() - 1) != null) {
                 if ((scrollY >= (v.getChildAt(v.getChildCount() - 1).getMeasuredHeight() - v.getMeasuredHeight())) &&
                         scrollY > oldScrollY) {
@@ -415,13 +408,14 @@ public class HomeFragment extends Fragment implements ActionAdapter.ActionClickL
 
 
                     if (v.getChildCount() > 10) {
-                        fragmentHomeBinding.btnScrollUp.setVisibility(View.VISIBLE);
+                        //          fragmentHomeBinding.btnScrollUp.setVisibility(View.VISIBLE);
                     }
 
                     if (!isLoading) {
 
-                        fragmentHomeBinding.pbProductLoad.setVisibility(View.VISIBLE);
+                        //             fragmentHomeBinding.pbProductLoad.setVisibility(View.VISIBLE);
 
+                        fragmentHomeNewBinding.pbProductLoad.setVisibility(View.VISIBLE);
                         isLoading = true;
 
                         parameters.clear();
@@ -437,11 +431,11 @@ public class HomeFragment extends Fragment implements ActionAdapter.ActionClickL
 
                 }
 
-                if (scrollY > 5000) {
+/*                if (scrollY > 5000) {
                     fragmentHomeBinding.btnScrollUp.setVisibility(View.VISIBLE);
                 } else {
                     fragmentHomeBinding.btnScrollUp.setVisibility(View.GONE);
-                }
+                }*/
             }
         });
 
@@ -460,4 +454,10 @@ public class HomeFragment extends Fragment implements ActionAdapter.ActionClickL
         intent.putExtra(PRODUCT_ID, product.getId());
         startActivity(intent);
     }
+
+    void showProgressBar(int visibility) {
+
+    }
+
+
 }

@@ -85,7 +85,7 @@
                             android:layout_alignParentStart="true"
                             android:layout_marginStart="@dimen/_8dp"
                             android:fontFamily="@font/encodesansregular"
-                            android:onClick="@{(view)->homeListener.showAllProductsWeekProducts(view)}"
+                            android:onClick="@{()->homeListener.showAllProductsWeekProducts()}"
                             android:text="@string/picks_of_the_week"
                             android:textColor="@android:color/black"
                             android:textSize="16sp" />
@@ -97,7 +97,7 @@
                             android:layout_alignBottom="@+id/iv_pick_of_week_show_all"
                             android:layout_toStartOf="@+id/iv_pick_of_week_show_all"
                             android:fontFamily="@font/encodesansregular"
-                            android:onClick="@{(view)->homeListener.showAllProductsWeekProducts(view)}"
+                            android:onClick="@{()->homeListener.showAllProductsWeekProducts()}"
                             android:text="@string/view_all"
                             android:textColor="@android:color/black"
                             android:textSize="16sp" />
@@ -109,7 +109,7 @@
                             android:layout_height="wrap_content"
                             android:layout_alignParentTop="true"
                             android:layout_alignParentEnd="true"
-                            android:onClick="@{(view)->homeListener.showAllProductsWeekProducts(view)}"
+                            android:onClick="@{()->homeListener.showAllProductsWeekProducts()}"
                             app:srcCompat="@drawable/right_icon_black" />
 
                         <LinearLayout

@@ -1,0 +1,47 @@
+<!--Brands in focus-->
+<layout>
+
+    <RelativeLayout
+
+        xmlns:android="http://schemas.android.com/apk/res/android"
+        android:id="@+id/brands_in_focus_container"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/_8dp"
+        android:background="@color/colorBrandsFocus"
+        android:padding="@dimen/_8dp"
+        android:visibility="visible">
+
+        <ImageView
+            android:layout_width="200dp"
+            android:layout_height="100dp"
+            android:layout_alignParentTop="true"
+            android:layout_alignParentEnd="true"
+            android:scaleType="centerCrop"
+            android:src="@drawable/brands_in_focus_bg" />
+
+        <TextView
+
+            android:id="@+id/tv_brands_in_focus_title"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentStart="true"
+            android:layout_alignParentTop="true"
+            android:layout_marginStart="@dimen/_8dp"
+            android:fontFamily="@font/encodesansregular"
+            android:gravity="center"
+            android:text="@string/brands_in_focus"
+            android:textColor="@android:color/white"
+            android:textSize="16sp" />
+
+        <androidx.recyclerview.widget.RecyclerView
+
+            android:id="@+id/rv_brands_in_focus"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/tv_brands_in_focus_title"
+            android:layout_centerHorizontal="true" />
+
+
+    </RelativeLayout>
+</layout>

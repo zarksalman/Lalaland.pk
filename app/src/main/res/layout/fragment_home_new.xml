@@ -1,0 +1,96 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <data>
+
+        <variable
+            name="homeListener"
+            type="com.lalaland.ecommerce.views.fragments.homeFragments.HomeFragment" />
+    </data>
+
+    <androidx.swiperefreshlayout.widget.SwipeRefreshLayout
+
+        android:id="@+id/swipeContainer"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <androidx.core.widget.NestedScrollView
+
+            android:id="@+id/containers_parent"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:background="@color/colorDarkGray"
+            android:overScrollMode="never"
+            android:visibility="visible">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@color/colorGreen"
+                android:orientation="vertical"
+                app:layout_behavior="@string/appbar_scrolling_view_behavior">
+
+                <!--image slider-->
+                <ViewFlipper
+                    android:id="@+id/vf_slider"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:minHeight="@dimen/_200dp"
+                    android:visibility="visible"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent" />
+
+                <!--actions list-->
+                <LinearLayout
+                    android:id="@+id/rv_action_container"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:background="@android:color/white"
+                    android:gravity="center_horizontal"
+                    android:orientation="horizontal"
+                    android:padding="@dimen/_8dp"
+                    android:visibility="visible"
+                    android:weightSum="100"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/vf_slider" />
+
+                <include
+
+                    android:id="@+id/pick_of_week_container_parent"
+                    layout="@layout/pick_of_the_week_layout"
+                    android:visibility="visible"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/rv_action_container" />
+
+                <include
+
+                    android:id="@+id/brands_in_focus_container_parent"
+                    layout="@layout/brands_in_focus_layout"
+                    android:visibility="visible"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/pick_of_week_container_parent" />
+
+                <include
+
+                    android:id="@+id/recommendation_container_parent"
+                    layout="@layout/reccomendation_products_layout"
+                    app:layout_constraintBottom_toTopOf="@+id/pb_product_load"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/brands_in_focus_container" />
+
+                <ProgressBar
+
+                    android:id="@+id/pb_product_load"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:padding="@dimen/_32dp" />
+            </LinearLayout>
+        </androidx.core.widget.NestedScrollView>
+    </androidx.swiperefreshlayout.widget.SwipeRefreshLayout>
+</layout>
