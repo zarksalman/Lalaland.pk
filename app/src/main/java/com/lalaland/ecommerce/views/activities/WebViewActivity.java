@@ -16,6 +16,7 @@ import com.lalaland.ecommerce.databinding.ActivityWebViewBinding;
 
 import static com.lalaland.ecommerce.helpers.AppConstants.BLOGS;
 import static com.lalaland.ecommerce.helpers.AppConstants.FAQ_URL;
+import static com.lalaland.ecommerce.helpers.AppConstants.PRODUCT_TYPE;
 import static com.lalaland.ecommerce.helpers.AppConstants.RETURN_POLICY_URL;
 import static com.lalaland.ecommerce.helpers.AppConstants.TERMS_AND_CONDITIONS_URL;
 import static com.lalaland.ecommerce.helpers.AppConstants.URL_TYPE;
@@ -59,6 +60,16 @@ public class WebViewActivity extends AppCompatActivity {
             case 4:
                 loadWebView(FAQ_URL);
                 break;
+
+            default:
+                String url;
+
+                if (getIntent().getExtras() != null) {
+                    url = getIntent().getStringExtra(PRODUCT_TYPE);
+                    loadWebView(url);
+                }
+
+
         }
     }
 

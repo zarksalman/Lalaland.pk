@@ -15,6 +15,7 @@ import androidx.lifecycle.ViewModelProviders;
 
 import com.lalaland.ecommerce.R;
 import com.lalaland.ecommerce.data.models.category.Category;
+import com.lalaland.ecommerce.data.models.category.CategoryData;
 import com.lalaland.ecommerce.databinding.ActivitySplashBinding;
 import com.lalaland.ecommerce.helpers.AppConstants;
 import com.lalaland.ecommerce.helpers.AppPreference;
@@ -86,12 +87,8 @@ public class SplashActivity extends AppCompatActivity implements NetworkInterfac
                         AppConstants.staticCitiesList = categoryContainer.getData().getCities();
                         AppConstants.staticCategoryBrandsList = categoryContainer.getData().getBrands();
 
-                        AppConstants.ABOUT_US_URL = categoryContainer.getData().getAboutUs();
-                        AppConstants.PRIVACY_POLICY_URL = categoryContainer.getData().getPrivacy();
-                        AppConstants.RETURN_POLICY_URL = categoryContainer.getData().getReturns();
-                        AppConstants.TERMS_AND_CONDITIONS_URL = categoryContainer.getData().getTerms();
-                        AppConstants.FAQ_URL = categoryContainer.getData().getFaq();
-                        AppConstants.BLOGS = categoryContainer.getData().getBlogs();
+                        initUrls(categoryContainer.getData());
+
 
                         AppConstants.CART_COUNTER = categoryContainer.getData().getCartCount();
 
@@ -124,6 +121,35 @@ public class SplashActivity extends AppCompatActivity implements NetworkInterfac
             });
         } else
             activitySplashBinding.tvReload.setVisibility(View.VISIBLE);
+    }
+
+    private void initUrls(CategoryData data) {
+
+        AppConstants.ABOUT_US_URL = data.getAboutUs();
+        AppConstants.PRIVACY_POLICY_URL = data.getPrivacy();
+        AppConstants.RETURN_POLICY_URL = data.getReturns();
+        AppConstants.TERMS_AND_CONDITIONS_URL = data.getTerms();
+        AppConstants.FAQ_URL = data.getFaq();
+        AppConstants.BLOGS = data.getBlogs();
+
+        AppConstants.PRODUCT_STORAGE_BASE_URL = data.getProductsUrl();
+        AppConstants.MEDIUM_PRODUCT_STORAGE_BASE_URL= data.getProductsMediumUrl();
+        AppConstants.SMALL_PRODUCT_STORAGE_BASE_URL = data.getProductsSmallUrl();
+        AppConstants.THUMBNAIL_PRODUCT_STORAGE_BASE_URL = data.getProductsThumbUrl();
+
+        AppConstants.BRAND_STORAGE_BASE_URL= data.getBrandsUrl();
+
+        AppConstants.BRAND_FOCUS_STORAGE_BASE_URL = data.getFeaturedBrandsUrl();
+        AppConstants.CATEGORY_FOCUS_STORAGE_BASE_URL = data.getFeaturedCategoriesUrl();
+
+        AppConstants.ACTION_STORAGE_BASE_URL = data.getMobileActionsUrl();
+
+        AppConstants.CUSTOM_PRODUCT_URL = data.getCustomProductsUrl();
+
+        AppConstants.USER_STORAGE_BASE_URL = data.getUsersUrl();
+
+        AppConstants.BANNER_STORAGE_BASE_URL = data.getHomeBannersUrl();
+
     }
 
     @Override

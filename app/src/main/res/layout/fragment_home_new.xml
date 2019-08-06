@@ -24,10 +24,10 @@
             android:overScrollMode="never"
             android:visibility="visible">
 
-            <LinearLayout
+            <RelativeLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:background="@color/colorGreen"
+                android:background="@color/colorMediumGray"
                 android:orientation="vertical"
                 app:layout_behavior="@string/appbar_scrolling_view_behavior">
 
@@ -38,6 +38,8 @@
                     android:layout_height="wrap_content"
                     android:minHeight="@dimen/_200dp"
                     android:visibility="visible"
+                    android:layout_alignParentTop="true"
+                    android:layout_centerHorizontal="true"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toTopOf="parent" />
@@ -51,46 +53,87 @@
                     android:gravity="center_horizontal"
                     android:orientation="horizontal"
                     android:padding="@dimen/_8dp"
+                    android:layout_below="@+id/vf_slider"
+                    android:layout_centerHorizontal="true"
                     android:visibility="visible"
                     android:weightSum="100"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toBottomOf="@+id/vf_slider" />
 
+                <!--pick of the week-->
                 <include
 
                     android:id="@+id/pick_of_week_container_parent"
                     layout="@layout/pick_of_the_week_layout"
                     android:visibility="visible"
-                    app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@+id/rv_action_container" />
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@+id/rv_action_container"
+                    android:layout_centerHorizontal="true"
+                    android:layout_marginTop="@dimen/_8dp" />
 
+                <!--brands in focus-->
                 <include
 
                     android:id="@+id/brands_in_focus_container_parent"
                     layout="@layout/brands_in_focus_layout"
                     android:visibility="visible"
-                    app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@+id/pick_of_week_container_parent" />
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@+id/pick_of_week_container_parent"
+                    android:layout_centerHorizontal="true" />
 
+                <!--Get the look-->
+                <include
+
+                    android:id="@+id/get_the_looks_container_parent"
+                    layout="@layout/get_the_look_layout"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@+id/brands_in_focus_container_parent"
+                    android:background="@color/colorDarkGray" />
+
+                <!--category in focus-->
+                <include
+
+                    android:id="@+id/category_in_focus_container_parent"
+                    layout="@layout/category_in_focus_layout"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@+id/get_the_looks_container_parent"
+                    android:visibility="visible" />
+
+                <!--Blogs-->
+                <include
+
+                    android:id="@+id/blogs_container_parent"
+                    layout="@layout/blog_post_layout"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@+id/category_in_focus_container_parent"
+                    android:visibility="visible" />
+
+                <!--recommended products-->
                 <include
 
                     android:id="@+id/recommendation_container_parent"
                     layout="@layout/reccomendation_products_layout"
-                    app:layout_constraintBottom_toTopOf="@+id/pb_product_load"
-                    app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@+id/brands_in_focus_container" />
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@+id/blogs_container_parent"
+                    android:layout_centerHorizontal="true" />
 
                 <ProgressBar
 
                     android:id="@+id/pb_product_load"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
+                    android:layout_alignParentBottom="true"
+                    android:layout_centerHorizontal="true"
                     android:padding="@dimen/_32dp" />
-            </LinearLayout>
+
+            </RelativeLayout>
         </androidx.core.widget.NestedScrollView>
     </androidx.swiperefreshlayout.widget.SwipeRefreshLayout>
 </layout>

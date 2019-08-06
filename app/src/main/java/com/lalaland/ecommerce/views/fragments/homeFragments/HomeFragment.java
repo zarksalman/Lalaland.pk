@@ -18,17 +18,24 @@ import androidx.fragment.app.Fragment;
 import androidx.lifecycle.ViewModelProviders;
 import androidx.recyclerview.widget.DefaultItemAnimator;
 import androidx.recyclerview.widget.GridLayoutManager;
-import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 
 import com.bumptech.glide.Glide;
 import com.lalaland.ecommerce.R;
 import com.lalaland.ecommerce.adapters.ActionAdapter;
+import com.lalaland.ecommerce.adapters.BlogPostsAdapter;
 import com.lalaland.ecommerce.adapters.BrandsFocusAdapter;
+import com.lalaland.ecommerce.adapters.FeatureCategoryAdapter;
+import com.lalaland.ecommerce.adapters.GetTheLooksAdapter;
 import com.lalaland.ecommerce.adapters.PickOfWeekAdapter;
 import com.lalaland.ecommerce.adapters.ProductAdapter;
 import com.lalaland.ecommerce.adapters.ProductPagedListAdapter;
 import com.lalaland.ecommerce.data.models.home.Actions;
+import com.lalaland.ecommerce.data.models.home.BlogPost;
+import com.lalaland.ecommerce.data.models.home.CustomProductsFive;
 import com.lalaland.ecommerce.data.models.home.FeaturedBrand;
+import com.lalaland.ecommerce.data.models.home.FeaturedCategory;
 import com.lalaland.ecommerce.data.models.home.HomeBanner;
 import com.lalaland.ecommerce.data.models.home.PicksOfTheWeek;
 import com.lalaland.ecommerce.data.models.products.Product;
@@ -41,6 +48,7 @@ import com.lalaland.ecommerce.viewModels.products.HomeViewModel;
 import com.lalaland.ecommerce.viewModels.products.ProductViewModelFactory;
 import com.lalaland.ecommerce.views.activities.ActionProductListingActivity;
 import com.lalaland.ecommerce.views.activities.ProductDetailActivity;
+import com.lalaland.ecommerce.views.activities.WebViewActivity;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -50,6 +58,7 @@ import java.util.Map;
 import static com.lalaland.ecommerce.helpers.AppConstants.ACTION_ID;
 import static com.lalaland.ecommerce.helpers.AppConstants.ACTION_NAME;
 import static com.lalaland.ecommerce.helpers.AppConstants.BANNER_STORAGE_BASE_URL;
+import static com.lalaland.ecommerce.helpers.AppConstants.BLOG_URL;
 import static com.lalaland.ecommerce.helpers.AppConstants.BRANDS_IN_FOCUS_PRODUCTS;
 import static com.lalaland.ecommerce.helpers.AppConstants.LENGTH;
 import static com.lalaland.ecommerce.helpers.AppConstants.PICK_OF_THE_WEEK_PRODUCTS;
@@ -73,10 +82,14 @@ public class HomeFragment extends Fragment implements ActionAdapter.ActionClickL
     private List<HomeBanner> bannerList = new ArrayList<>();
     private List<PicksOfTheWeek> picksOfTheWeekList = new ArrayList<>();
     private List<FeaturedBrand> featuredBrandList = new ArrayList<>();
+    private List<CustomProductsFive> customProductsFives = new ArrayList<>();
+    private List<FeaturedCategory> featuredCategories = new ArrayList<>();
+    private List<BlogPost> blogPosts = new ArrayList<>();
     private List<Product> productList = new ArrayList<>();
 
     private Map<String, String> parameters = new HashMap<>();
     private ProductAdapter recommendationProductAdapter;
+    private GetTheLooksAdapter getTheLooksAdapter;
     private GridLayoutManager gridLayoutManager;
 
     Boolean isLoading = false;
@@ -130,14 +143,6 @@ public class HomeFragment extends Fragment implements ActionAdapter.ActionClickL
             fragmentHomeBinding.containersParent.fullScroll(ScrollView.FOCUS_UP);
         });*/
 
-        fragmentHomeNewBinding.swipeContainer.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
-            @Override
-            public void onRefresh() {
-                productList.clear();
-                recommendationProductAdapter.notifyDataSetChanged();
-                requestInitialProducts();
-            }
-        });
 
 //        fragmentHomeBinding.containersParent.fullScroll(ScrollView.FOCUS_UP);
         return fragmentHomeNewBinding.getRoot();
@@ -159,43 +164,74 @@ public class HomeFragment extends Fragment implements ActionAdapter.ActionClickL
                 actionsList = new ArrayList<>();
                 featuredBrandList = new ArrayList<>();
                 picksOfTheWeekList = new ArrayList<>();
-
+                customProductsFives = new ArrayList<>();
+                featuredCategories = new ArrayList<>();
+                blogPosts = new ArrayList<>();
 
                 bannerList.addAll(homeDataContainer.getHomeData().getHomeBanners());
-                actionsList.addAll(homeDataContainer.getHomeData().getactions());
+                actionsList.addAll(homeDataContainer.getHomeData().getActions());
                 picksOfTheWeekList.addAll(homeDataContainer.getHomeData().getPicksOfTheWeek());
-
-                //recommendationList.addAll(homeDataContainer.getHomeData().getRecommendation());
-
-                // featuredBrandList.addAll(homeDataContainer.getHomeData().getFeaturedBrands());
-
-                if (homeDataContainer.getHomeData().getFeaturedBrands().size() > 4) {
-
-                    for (int i = 0; i < 4; i++) {
-                        featuredBrandList.add(homeDataContainer.getHomeData().getFeaturedBrands().get(i));
-                    }
-                } else
-                    featuredBrandList.addAll(homeDataContainer.getHomeData().getFeaturedBrands());
+                customProductsFives.addAll(homeDataContainer.getHomeData().getCustomProductsFive());
+                featuredBrandList.addAll(homeDataContainer.getHomeData().getFeaturedBrands());
+                featuredCategories.addAll(homeDataContainer.getHomeData().getFeaturedCategories());
+                blogPosts.addAll(homeDataContainer.getHomeData().getBlogPosts());
 
                 setBannerSlider();
                 setActions();
-                setRecommendationProducts();
+                setGetTheLook();
+                setFeatureCategory();
+                setBlogPost();
 
+                setRecommendationProducts();
                 setPickOfTheWeek();
                 setFeaturedBrands();
 
-           /*     new Handler().postDelayed(() -> {
-
-                    fragmentHomeBinding.containersParent.setVisibility(View.VISIBLE);
-                    fragmentHomeBinding.pbLoading.setVisibility(View.GONE);
-
-                }, 2000);*/
-
-
             }
+
+            fragmentHomeNewBinding.swipeContainer.setOnRefreshListener(() -> {
+                productList.clear();
+                recommendationProductAdapter.notifyDataSetChanged();
+                requestInitialProducts();
+            });
 
             fragmentHomeNewBinding.swipeContainer.setRefreshing(false);
         });
+
+    }
+
+    private void setBlogPost() {
+
+        BlogPostsAdapter blogPostsAdapter = new BlogPostsAdapter(getContext(), blogPost -> {
+            //Log.d(TAG, "setGetTheLook:" + blogPost.getPostName());
+            Intent intent = new Intent(getContext(), WebViewActivity.class);
+            intent.putExtra(BLOG_URL, blogPost.getThumbnail());
+            startActivity(new Intent(getContext(), WebViewActivity.class));
+        });
+
+        fragmentHomeNewBinding.blogsContainerParent.rvBlogs.setAdapter(blogPostsAdapter);
+        fragmentHomeNewBinding.blogsContainerParent.rvBlogs.setLayoutManager(new LinearLayoutManager(getContext(), RecyclerView.HORIZONTAL, false));
+        fragmentHomeNewBinding.blogsContainerParent.rvBlogs.setHasFixedSize(true);
+        blogPostsAdapter.setData(blogPosts);
+
+
+    }
+
+    private void setGetTheLook() {
+
+        getTheLooksAdapter = new GetTheLooksAdapter(getContext(), customProductsFive -> {
+
+            Intent intent = new Intent(getContext(), ActionProductListingActivity.class);
+
+            intent.putExtra(ACTION_NAME, customProductsFive.getName());
+            intent.putExtra(ACTION_ID, String.valueOf(customProductsFive.getActionId()));
+            intent.putExtra(PRODUCT_TYPE, customProductsFive.getActionName());
+            startActivity(intent);
+        });
+
+        fragmentHomeNewBinding.getTheLooksContainerParent.rvGetTheLooks.setAdapter(getTheLooksAdapter);
+        fragmentHomeNewBinding.getTheLooksContainerParent.rvGetTheLooks.setLayoutManager(new LinearLayoutManager(getContext(), RecyclerView.HORIZONTAL, false));
+        fragmentHomeNewBinding.getTheLooksContainerParent.rvGetTheLooks.setHasFixedSize(true);
+        getTheLooksAdapter.setData(customProductsFives);
 
     }
 
@@ -314,7 +350,7 @@ public class HomeFragment extends Fragment implements ActionAdapter.ActionClickL
         if (fragmentHomeNewBinding.pickOfWeekContainerParent.rvPicksOfWeekContainer.getChildCount() > 0)
             fragmentHomeNewBinding.pickOfWeekContainerParent.rvPicksOfWeekContainer.removeAllViews();
 
-        Integer weight = (100 / 3);
+        Integer weight = (90 / 3);
 
         for (int i = 0; i < 3; i++) {
 
@@ -365,7 +401,8 @@ public class HomeFragment extends Fragment implements ActionAdapter.ActionClickL
 
         BrandsFocusAdapter brandsFocusAdapter = new BrandsFocusAdapter(getContext(), this);
         fragmentHomeNewBinding.brandsInFocusContainerParent.rvBrandsInFocus.setAdapter(brandsFocusAdapter);
-        fragmentHomeNewBinding.brandsInFocusContainerParent.rvBrandsInFocus.setLayoutManager(new GridLayoutManager(getContext(), 2));
+        fragmentHomeNewBinding.brandsInFocusContainerParent.rvBrandsInFocus.setLayoutManager(new LinearLayoutManager(getContext(), RecyclerView.HORIZONTAL, false));
+        fragmentHomeNewBinding.brandsInFocusContainerParent.rvBrandsInFocus.setHasFixedSize(true);
         brandsFocusAdapter.setData(featuredBrandList);
     }
 
@@ -444,6 +481,24 @@ public class HomeFragment extends Fragment implements ActionAdapter.ActionClickL
         parameters.put(LENGTH, String.valueOf(END_INDEX)); // multiple of 3 due to 3 products are listing in a row
         getProductItems();
 
+    }
+
+    void setFeatureCategory() {
+
+        FeatureCategoryAdapter featureCategoryAdapter = new FeatureCategoryAdapter(getContext(), featuredCategory -> {
+
+            Intent intent = new Intent(getContext(), ActionProductListingActivity.class);
+
+            intent.putExtra(ACTION_NAME, featuredCategory.getName());
+            intent.putExtra(ACTION_ID, String.valueOf(featuredCategory.getId()));
+            intent.putExtra(PRODUCT_TYPE, "category");
+            startActivity(intent);
+        });
+
+        fragmentHomeNewBinding.categoryInFocusContainerParent.rvCategoryInFocus.setAdapter(featureCategoryAdapter);
+        fragmentHomeNewBinding.categoryInFocusContainerParent.rvCategoryInFocus.setLayoutManager(new LinearLayoutManager(getContext(), RecyclerView.HORIZONTAL, false));
+        fragmentHomeNewBinding.categoryInFocusContainerParent.rvCategoryInFocus.setHasFixedSize(true);
+        featureCategoryAdapter.setData(featuredCategories);
     }
 
 

@@ -1,0 +1,85 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <data>
+
+        <import type="com.lalaland.ecommerce.helpers.AppUtils" />
+
+        <import type="android.view.View" />
+
+        <variable
+            name="blogPost"
+            type="com.lalaland.ecommerce.data.models.home.BlogPost" />
+
+        <variable
+            name="adapter"
+            type="com.lalaland.ecommerce.adapters.BlogPostsAdapter" />
+
+    </data>
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_margin="@dimen/_8dp"
+        android:background="@drawable/recommended_products_bg"
+        android:onClick="@{(view)->adapter.onBlogPostClicked(view,blogPost)}"
+        android:padding="@dimen/_8dp">
+
+        <ImageView
+
+            android:id="@+id/iv_product"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            app:layout_constraintDimensionRatio="1:1"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:setBlogsImage="@{blogPost.thumbnail}"
+            tools:src="@drawable/placeholder_products" />
+
+        <TextView
+
+            android:id="@+id/tv_brand_name"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/_4dp"
+            android:ellipsize="end"
+            android:fontFamily="@font/encodesansregular"
+            android:maxLength="15"
+            android:maxLines="1"
+            android:text="@{blogPost.postName}"
+            android:textColor="@android:color/black"
+            android:textSize="13sp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/iv_product"
+            tools:text="@tools:sample/full_names" />
+
+        <TextView
+
+            android:id="@+id/tv_view_all"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Read More"
+            android:textColor="@android:color/black"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/tv_brand_name"
+            tools:text="@tools:sample/lorem" />
+
+        <ImageView
+            android:layout_width="10dp"
+            android:layout_height="10dp"
+            android:rotation="270"
+            app:layout_constraintBottom_toBottomOf="@+id/tv_view_all"
+            app:layout_constraintStart_toEndOf="@+id/tv_view_all"
+            app:layout_constraintTop_toTopOf="@+id/tv_view_all"
+            app:srcCompat="@drawable/arrow_down_icon" />
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+</layout>

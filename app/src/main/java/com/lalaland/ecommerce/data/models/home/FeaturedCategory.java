@@ -2,10 +2,8 @@ package com.lalaland.ecommerce.data.models.home;
 
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
-import com.google.gson.annotations.Expose;
-import com.google.gson.annotations.SerializedName;
 
-public class FeaturedBrand {
+public class FeaturedCategory {
 
     @SerializedName("id")
     @Expose
@@ -16,6 +14,9 @@ public class FeaturedBrand {
     @SerializedName("image")
     @Expose
     private String image;
+    @SerializedName("description")
+    @Expose
+    private String description;
 
     public Integer getId() {
         return id;
@@ -41,4 +42,11 @@ public class FeaturedBrand {
         this.image = image;
     }
 
+    public String getDescription() {
+        return description;
+    }
+
+    public void setDescription(String description) {
+        this.description = description;
+    }
 }

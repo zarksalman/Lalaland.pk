@@ -24,14 +24,9 @@
         android:id="@+id/action_parent"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:gravity="center"
         android:onClick="@{(view)->adapter.pickOfWeekClicked(view, picks)}"
         android:orientation="vertical"
-        android:padding="@dimen/_4dp"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent">
+        android:padding="@dimen/_4dp">
 
         <FrameLayout
             android:layout_width="wrap_content"
@@ -47,38 +42,57 @@
                 app:setWeekProductImage="@{picks.primaryImage}" />
         </FrameLayout>
 
-
         <TextView
 
-            android:id="@+id/tv_action_sale_price"
-            android:layout_width="match_parent"
+            android:id="@+id/tv_brand_name"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="@dimen/_4dp"
             android:fontFamily="@font/encodesansregular"
-            android:gravity="center"
-            android:text="@{AppUtils.formatPriceString(picks.salePrice)}"
-            android:textAlignment="center"
+            android:text="@{picks.brandName}"
             android:textAppearance="@style/TextAppearance.AppCompat.Small"
-            android:textColor="@android:color/holo_red_dark"
+            android:textColor="@android:color/black"
             android:textSize="12sp"
             tools:text="@tools:sample/full_names" />
 
 
-        <TextView
-
-            android:id="@+id/tv_action_actual_price"
+        <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="@dimen/_4dp"
-            android:fontFamily="@font/encodesansregular"
-            android:gravity="center"
-            android:text="@{AppUtils.formatPriceString(picks.actualPrice)}"
-            android:textAlignment="center"
-            android:textAppearance="@style/TextAppearance.AppCompat.Small"
-            android:textColor="@android:color/black"
-            android:textSize="11sp"
-            android:visibility="@{AppUtils.isPriceEqual(picks.salePrice ,picks.actualPrice)? View.GONE : View.VISIBLE}"
-            app:setStrike="@{picks.actualPrice}"
-            tools:text="@tools:sample/full_names" />
+            android:orientation="horizontal">
+
+            <TextView
+
+                android:id="@+id/tv_action_sale_price"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/_4dp"
+                android:fontFamily="@font/encodesansregular"
+                android:text="@{AppUtils.formatPriceString(picks.salePrice)}"
+                android:textAlignment="center"
+                android:textAppearance="@style/TextAppearance.AppCompat.Small"
+                android:textColor="@color/colorAccent"
+                android:textSize="12sp"
+                tools:text="@tools:sample/full_names" />
+
+            <TextView
+
+                android:id="@+id/tv_action_actual_price"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="@dimen/_4dp"
+                android:layout_marginTop="@dimen/_4dp"
+                android:fontFamily="@font/encodesansregular"
+                android:gravity="center"
+                android:text="@{AppUtils.formatPriceString(picks.actualPrice)}"
+                android:textAppearance="@style/TextAppearance.AppCompat.Small"
+                android:textColor="@android:color/black"
+                android:textSize="10sp"
+                android:visibility="@{AppUtils.isPriceEqual(picks.salePrice ,picks.actualPrice)? View.GONE : View.VISIBLE}"
+                app:setStrike="@{picks.actualPrice}"
+                tools:text="@tools:sample/full_names" />
+
+        </LinearLayout>
+
     </LinearLayout>
 </layout>

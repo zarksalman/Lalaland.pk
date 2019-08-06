@@ -183,5 +183,6 @@
     <string name="title_activity_introduction_screen">IntroductionScreenActivity</string>
     <string name="skip">Skip</string>
     <string name="next">Next</string>
+    <string name="category_in_focus">CATEGORY IN FOCUS</string>
 
 </resources>

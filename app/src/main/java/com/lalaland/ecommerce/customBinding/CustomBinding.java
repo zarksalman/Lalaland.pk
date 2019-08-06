@@ -12,9 +12,11 @@ import com.bumptech.glide.Glide;
 import com.lalaland.ecommerce.R;
 import com.lalaland.ecommerce.helpers.AppConstants;
 
-import static com.lalaland.ecommerce.helpers.AppConstants.ACTION_STORAGE_BASE_URL;
 import static com.lalaland.ecommerce.helpers.AppConstants.BRAND_FOCUS_STORAGE_BASE_URL;
 import static com.lalaland.ecommerce.helpers.AppConstants.CATEGORY_BRAND_STORAGE_BASE_URL;
+import static com.lalaland.ecommerce.helpers.AppConstants.CATEGORY_FOCUS_STORAGE_BASE_URL;
+import static com.lalaland.ecommerce.helpers.AppConstants.CUSTOM_PRODUCT_URL;
+import static com.lalaland.ecommerce.helpers.AppConstants.MEDIUM_PRODUCT_STORAGE_BASE_URL;
 import static com.lalaland.ecommerce.helpers.AppConstants.PRODUCT_STORAGE_BASE_URL;
 
 public class CustomBinding {
@@ -54,10 +56,10 @@ public class CustomBinding {
     @BindingAdapter("setActionImage")
     public static void setActionImageFromServer(ImageView imageView, String imageName) {
 
-        String imageSrc = ACTION_STORAGE_BASE_URL.concat(imageName);
+        // String imageSrc = ACTION_STORAGE_BASE_URL.concat(imageName);
         Glide
                 .with(imageView.getContext())
-                .load(imageSrc)
+                .load(imageName)
                 .placeholder(R.drawable.placeholder_products)
                 .error(R.drawable.placeholder_products)
                 .fitCenter()
@@ -69,11 +71,11 @@ public class CustomBinding {
 
         try {
 
-            String imageSrc = PRODUCT_STORAGE_BASE_URL.concat("medium/").concat(imageName);
+            String imageSrc = MEDIUM_PRODUCT_STORAGE_BASE_URL.concat(imageName);
             Glide
                     .with(imageView.getContext())
                     .load(imageSrc)
-                    .centerInside()
+                    .fitCenter()
                     .error(R.drawable.placeholder_products)
                     .placeholder(R.drawable.placeholder_products)
                     .into(imageView);
@@ -90,7 +92,20 @@ public class CustomBinding {
         Glide
                 .with(imageView.getContext())
                 .load(imageSrc)
-                .centerCrop()
+                .centerInside()
+                .error(R.drawable.placeholder_products)
+                .placeholder(R.drawable.placeholder_products)
+                .into(imageView);
+    }
+
+    @BindingAdapter("setGetTheLookImage")
+    public static void setGetTheLookImage(ImageView imageView, String imageName) {
+
+        String imageSrc = CUSTOM_PRODUCT_URL.concat(imageName);
+        Glide
+                .with(imageView.getContext())
+                .load(imageSrc)
+                .centerInside()
                 .error(R.drawable.placeholder_products)
                 .placeholder(R.drawable.placeholder_products)
                 .into(imageView);
@@ -106,6 +121,32 @@ public class CustomBinding {
                 .placeholder(R.drawable.placeholder_products)
                 .error(R.drawable.placeholder_products)
                 .fitCenter()
+                .into(imageView);
+    }
+
+    @BindingAdapter("setFeatureCategoryImage")
+    public static void setFeatureCategoryImage(ImageView imageView, String imageName) {
+
+        String imageSrc = CATEGORY_FOCUS_STORAGE_BASE_URL.concat(imageName);
+        Glide
+                .with(AppConstants.mContext)
+                .load(imageSrc)
+                .centerInside()
+                .error(R.drawable.placeholder_products)
+                .placeholder(R.drawable.placeholder_products)
+                .into(imageView);
+    }
+
+    @BindingAdapter("setBlogsImage")
+    public static void setBlogsImage(ImageView imageView, String imageName) {
+
+        // String imageSrc = ACTION_STORAGE_BASE_URL.concat(imageName);
+        Glide
+                .with(imageView.getContext())
+                .load(imageName)
+                .placeholder(R.drawable.placeholder_products)
+                .error(R.drawable.placeholder_products)
+                .centerInside()
                 .into(imageView);
     }
 
