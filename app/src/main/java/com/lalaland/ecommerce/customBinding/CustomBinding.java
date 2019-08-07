@@ -12,6 +12,7 @@ import com.bumptech.glide.Glide;
 import com.lalaland.ecommerce.R;
 import com.lalaland.ecommerce.helpers.AppConstants;
 
+import static com.lalaland.ecommerce.helpers.AppConstants.ADVERTISEMENT_URL;
 import static com.lalaland.ecommerce.helpers.AppConstants.BRAND_FOCUS_STORAGE_BASE_URL;
 import static com.lalaland.ecommerce.helpers.AppConstants.CATEGORY_BRAND_STORAGE_BASE_URL;
 import static com.lalaland.ecommerce.helpers.AppConstants.CATEGORY_FOCUS_STORAGE_BASE_URL;
@@ -92,7 +93,7 @@ public class CustomBinding {
         Glide
                 .with(imageView.getContext())
                 .load(imageSrc)
-                .centerInside()
+                .fitCenter()
                 .error(R.drawable.placeholder_products)
                 .placeholder(R.drawable.placeholder_products)
                 .into(imageView);
@@ -144,6 +145,19 @@ public class CustomBinding {
         Glide
                 .with(imageView.getContext())
                 .load(imageName)
+                .placeholder(R.drawable.placeholder_products)
+                .error(R.drawable.placeholder_products)
+                .centerInside()
+                .into(imageView);
+    }
+
+    @BindingAdapter("setAdvertisementImage")
+    public static void setAdvertisementImage(ImageView imageView, String imageName) {
+
+        String imageSrc = ADVERTISEMENT_URL.concat(imageName);
+        Glide
+                .with(imageView.getContext())
+                .load(imageSrc)
                 .placeholder(R.drawable.placeholder_products)
                 .error(R.drawable.placeholder_products)
                 .centerInside()

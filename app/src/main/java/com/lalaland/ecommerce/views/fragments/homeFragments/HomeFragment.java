@@ -10,6 +10,7 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.ProgressBar;
+import android.widget.ScrollView;
 
 import androidx.core.view.ViewCompat;
 import androidx.core.widget.NestedScrollView;
@@ -32,6 +33,7 @@ import com.lalaland.ecommerce.adapters.PickOfWeekAdapter;
 import com.lalaland.ecommerce.adapters.ProductAdapter;
 import com.lalaland.ecommerce.adapters.ProductPagedListAdapter;
 import com.lalaland.ecommerce.data.models.home.Actions;
+import com.lalaland.ecommerce.data.models.home.Advertisement;
 import com.lalaland.ecommerce.data.models.home.BlogPost;
 import com.lalaland.ecommerce.data.models.home.CustomProductsFive;
 import com.lalaland.ecommerce.data.models.home.FeaturedBrand;
@@ -43,6 +45,7 @@ import com.lalaland.ecommerce.databinding.ActionLayoutBinding;
 import com.lalaland.ecommerce.databinding.FragmentHomeBinding;
 import com.lalaland.ecommerce.databinding.FragmentHomeNewBinding;
 import com.lalaland.ecommerce.databinding.PickOfWeekItemBinding;
+import com.lalaland.ecommerce.helpers.AppConstants;
 import com.lalaland.ecommerce.helpers.AppPreference;
 import com.lalaland.ecommerce.viewModels.products.HomeViewModel;
 import com.lalaland.ecommerce.viewModels.products.ProductViewModelFactory;
@@ -85,6 +88,7 @@ public class HomeFragment extends Fragment implements ActionAdapter.ActionClickL
     private List<CustomProductsFive> customProductsFives = new ArrayList<>();
     private List<FeaturedCategory> featuredCategories = new ArrayList<>();
     private List<BlogPost> blogPosts = new ArrayList<>();
+    private Advertisement advertisement;
     private List<Product> productList = new ArrayList<>();
 
     private Map<String, String> parameters = new HashMap<>();
@@ -139,9 +143,9 @@ public class HomeFragment extends Fragment implements ActionAdapter.ActionClickL
 
         requestInitialProducts();
 
-    /*    fragmentHomeBinding.btnScrollUp.setOnClickListener(v -> {
-            fragmentHomeBinding.containersParent.fullScroll(ScrollView.FOCUS_UP);
-        });*/
+        fragmentHomeNewBinding.btnScrollUp.setOnClickListener(v -> {
+            fragmentHomeNewBinding.containersParent.fullScroll(ScrollView.FOCUS_UP);
+        });
 
 
 //        fragmentHomeBinding.containersParent.fullScroll(ScrollView.FOCUS_UP);
@@ -175,12 +179,14 @@ public class HomeFragment extends Fragment implements ActionAdapter.ActionClickL
                 featuredBrandList.addAll(homeDataContainer.getHomeData().getFeaturedBrands());
                 featuredCategories.addAll(homeDataContainer.getHomeData().getFeaturedCategories());
                 blogPosts.addAll(homeDataContainer.getHomeData().getBlogPosts());
+                advertisement = homeDataContainer.getHomeData().getAdvertisement();
 
                 setBannerSlider();
                 setActions();
                 setGetTheLook();
                 setFeatureCategory();
                 setBlogPost();
+                setAdvertisement();
 
                 setRecommendationProducts();
                 setPickOfTheWeek();
@@ -199,21 +205,42 @@ public class HomeFragment extends Fragment implements ActionAdapter.ActionClickL
 
     }
 
+    private void setAdvertisement() {
+
+        String url = AppConstants.ADVERTISEMENT_URL + advertisement.getImage();
+        Glide
+                .with(getContext())
+                .load(url)
+                .into(fragmentHomeNewBinding.advertisementContainerParent.ivAdvertisement);
+
+        fragmentHomeNewBinding.advertisementContainerParent.ivAdvertisement.setOnClickListener(v -> {
+
+            Intent intent = new Intent(getContext(), ActionProductListingActivity.class);
+            intent.putExtra(ACTION_NAME, advertisement.getName());
+            intent.putExtra(ACTION_ID, String.valueOf(advertisement.getActionId()));
+            intent.putExtra(PRODUCT_TYPE, advertisement.getActionName());
+            startActivity(intent);
+
+        });
+
+        // fragmentHomeNewBinding.advertisementContainerParent.setAdvertisement(advertisement);
+    }
+
     private void setBlogPost() {
 
         BlogPostsAdapter blogPostsAdapter = new BlogPostsAdapter(getContext(), blogPost -> {
-            //Log.d(TAG, "setGetTheLook:" + blogPost.getPostName());
+
+            AppConstants.URL_TYPE = 0;
+            String url = AppConstants.BLOG_URLS + blogPost.getId() + "/" + AppConstants.APP_NAME;
             Intent intent = new Intent(getContext(), WebViewActivity.class);
-            intent.putExtra(BLOG_URL, blogPost.getThumbnail());
-            startActivity(new Intent(getContext(), WebViewActivity.class));
+            intent.putExtra(BLOG_URL, url);
+            startActivity(intent);
         });
 
         fragmentHomeNewBinding.blogsContainerParent.rvBlogs.setAdapter(blogPostsAdapter);
         fragmentHomeNewBinding.blogsContainerParent.rvBlogs.setLayoutManager(new LinearLayoutManager(getContext(), RecyclerView.HORIZONTAL, false));
         fragmentHomeNewBinding.blogsContainerParent.rvBlogs.setHasFixedSize(true);
         blogPostsAdapter.setData(blogPosts);
-
-
     }
 
     private void setGetTheLook() {
@@ -249,12 +276,17 @@ public class HomeFragment extends Fragment implements ActionAdapter.ActionClickL
                 isLoading = false;
             }
 
+            fragmentHomeNewBinding.containersParent.setVisibility(View.VISIBLE);
             fragmentHomeNewBinding.pbProductLoad.setVisibility(View.GONE);
+            fragmentHomeNewBinding.pbLoading.setVisibility(View.GONE);
 
         });
     }
 
     private void setBannerSlider() {
+
+        if (fragmentHomeNewBinding.vfSlider.getChildCount() > 0)
+            fragmentHomeNewBinding.vfSlider.removeAllViews();
 
         for (int i = 0; i < bannerList.size(); i++) {
 
@@ -445,12 +477,10 @@ public class HomeFragment extends Fragment implements ActionAdapter.ActionClickL
 
 
                     if (v.getChildCount() > 10) {
-                        //          fragmentHomeBinding.btnScrollUp.setVisibility(View.VISIBLE);
+                        fragmentHomeNewBinding.btnScrollUp.setVisibility(View.VISIBLE);
                     }
 
                     if (!isLoading) {
-
-                        //             fragmentHomeBinding.pbProductLoad.setVisibility(View.VISIBLE);
 
                         fragmentHomeNewBinding.pbProductLoad.setVisibility(View.VISIBLE);
                         isLoading = true;
@@ -468,11 +498,11 @@ public class HomeFragment extends Fragment implements ActionAdapter.ActionClickL
 
                 }
 
-/*                if (scrollY > 5000) {
-                    fragmentHomeBinding.btnScrollUp.setVisibility(View.VISIBLE);
+                if (scrollY > 5000) {
+                    fragmentHomeNewBinding.btnScrollUp.setVisibility(View.VISIBLE);
                 } else {
-                    fragmentHomeBinding.btnScrollUp.setVisibility(View.GONE);
-                }*/
+                    fragmentHomeNewBinding.btnScrollUp.setVisibility(View.GONE);
+                }
             }
         });
 

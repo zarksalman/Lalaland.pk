@@ -1,9 +1,12 @@
 package com.lalaland.ecommerce.adapters;
 
 import android.content.Context;
+import android.graphics.Point;
+import android.view.Display;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.WindowManager;
 
 import androidx.annotation.NonNull;
 import androidx.databinding.DataBindingUtil;
@@ -23,12 +26,13 @@ public class BrandsFocusAdapter extends RecyclerView.Adapter<BrandsFocusAdapter.
     private OldBrandsFocusItemBinding brandsFocusItemBinding;
     private LayoutInflater inflater;
     private FeatureBrandClickListener mFeatureBrandClickListener;
+    float width = 0;
 
     public BrandsFocusAdapter(Context context, FeatureBrandClickListener featureBrandClickListener) {
         mContext = context;
         mFeatureBrandClickListener = featureBrandClickListener;
         inflater = LayoutInflater.from(context);
-
+        width = getScreenWidth();
     }
 
     @NonNull
@@ -36,6 +40,9 @@ public class BrandsFocusAdapter extends RecyclerView.Adapter<BrandsFocusAdapter.
     public BrandsFocusViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
 
         brandsFocusItemBinding = DataBindingUtil.inflate(inflater, R.layout.old_brands_focus_item, parent, false);
+
+        brandsFocusItemBinding.oldBrandParent.getLayoutParams().width = (int) (width / 1.5);
+//        mInnerCategoryItemBinding.ivInnerCat.getLayoutParams().height = (int) (getScreenWidth());
         return new BrandsFocusViewHolder(brandsFocusItemBinding);
     }
 
@@ -58,6 +65,16 @@ public class BrandsFocusAdapter extends RecyclerView.Adapter<BrandsFocusAdapter.
 
         mFeaturedBrandList = featuredBrandList;
         notifyDataSetChanged();
+    }
+
+    public int getScreenWidth() {
+
+        WindowManager wm = (WindowManager) mContext.getSystemService(Context.WINDOW_SERVICE);
+        Display display = wm.getDefaultDisplay();
+        Point size = new Point();
+        display.getSize(size);
+
+        return size.x;
     }
 
     class BrandsFocusViewHolder extends RecyclerView.ViewHolder {

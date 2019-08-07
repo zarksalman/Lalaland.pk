@@ -26,6 +26,7 @@ import static com.lalaland.ecommerce.helpers.AppConstants.GENERAL_ERROR;
 import static com.lalaland.ecommerce.helpers.AppConstants.SIGNIN_TOKEN;
 import static com.lalaland.ecommerce.helpers.AppConstants.SUCCESS_CODE;
 import static com.lalaland.ecommerce.helpers.AppConstants.TYPE;
+import static com.lalaland.ecommerce.helpers.AppConstants.USER_NAME;
 import static com.lalaland.ecommerce.helpers.AppConstants.VALIDATION_FAIL_CODE;
 
 public class AddressCreationActivity extends AppCompatActivity {
@@ -78,8 +79,15 @@ public class AddressCreationActivity extends AppCompatActivity {
         } else {
 
             activityAddressCreationBinding.etFirstName.requestFocus();
-
             userAddresses = new UserAddresses();
+
+
+            String mName = appPreference.getString(USER_NAME);
+            String[] mNames = mName.split(" ");
+
+            activityAddressCreationBinding.etLastName.setText(mNames[1]);
+            activityAddressCreationBinding.etFirstName.setText(mNames[0]);
+
         }
 
         activityAddressCreationBinding.setClickListener(this);
@@ -96,8 +104,6 @@ public class AddressCreationActivity extends AppCompatActivity {
     }
 
     public void save(View view) {
-
-
 
         if (
                 validateNames(TYPE)

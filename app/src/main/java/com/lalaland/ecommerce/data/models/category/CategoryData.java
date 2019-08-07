@@ -6,7 +6,6 @@ import com.google.gson.annotations.SerializedName;
 import java.util.List;
 
 public class CategoryData {
-
     @SerializedName("cartCount")
     @Expose
     private Integer cartCount;
@@ -31,6 +30,9 @@ public class CategoryData {
     @SerializedName("home_banners_url")
     @Expose
     private String homeBannersUrl;
+    @SerializedName("advertisement_url")
+    @Expose
+    private String advertisementUrl;
     @SerializedName("featured_brands_url")
     @Expose
     private String featuredBrandsUrl;
@@ -139,6 +141,14 @@ public class CategoryData {
 
     public void setHomeBannersUrl(String homeBannersUrl) {
         this.homeBannersUrl = homeBannersUrl;
+    }
+
+    public String getAdvertisementUrl() {
+        return advertisementUrl;
+    }
+
+    public void setAdvertisementUrl(String advertisementUrl) {
+        this.advertisementUrl = advertisementUrl;
     }
 
     public String getFeaturedBrandsUrl() {
@@ -260,4 +270,5 @@ public class CategoryData {
     public void setFaq(String faq) {
         this.faq = faq;
     }
+
 }

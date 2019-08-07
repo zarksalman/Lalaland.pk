@@ -37,10 +37,9 @@
         <androidx.recyclerview.widget.RecyclerView
 
             android:id="@+id/rv_brands_in_focus"
-            android:layout_width="wrap_content"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_below="@+id/tv_brands_in_focus_title"
-            android:layout_centerHorizontal="true" />
+            android:layout_below="@+id/tv_brands_in_focus_title" />
 
 
     </RelativeLayout>

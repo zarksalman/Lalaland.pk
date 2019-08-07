@@ -150,6 +150,9 @@ public class SplashActivity extends AppCompatActivity implements NetworkInterfac
 
         AppConstants.BANNER_STORAGE_BASE_URL = data.getHomeBannersUrl();
 
+        AppConstants.BLOG_URLS = data.getBlogUrl();
+
+        AppConstants.ADVERTISEMENT_URL = data.getAdvertisementUrl();
     }
 
     @Override

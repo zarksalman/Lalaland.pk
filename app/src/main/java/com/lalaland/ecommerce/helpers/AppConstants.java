@@ -110,6 +110,9 @@ public class AppConstants {
     public static String USER_STORAGE_BASE_URL;
     public static String CUSTOM_PRODUCT_URL;
 
+    public static String BLOG_URLS;
+    public static String ADVERTISEMENT_URL;
+
 
     public static final String FULL_NAME = "full_name";
     public static final String FIRST_NAME = "first_name";
