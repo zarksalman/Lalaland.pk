@@ -1,9 +1,12 @@
 package com.lalaland.ecommerce.adapters;
 
 import android.content.Context;
+import android.graphics.Point;
+import android.view.Display;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.WindowManager;
 
 import androidx.annotation.NonNull;
 import androidx.databinding.DataBindingUtil;
@@ -23,11 +26,13 @@ public class FeatureCategoryAdapter extends RecyclerView.Adapter<FeatureCategory
     private FeatureCategoryItemBinding productItemBinding;
     private LayoutInflater inflater;
     private FeatureCategoryListener mFeatureCategory;
+    float width = 0;
 
     public FeatureCategoryAdapter(Context context, FeatureCategoryListener featureCategoryListener) {
         mContext = context;
         inflater = LayoutInflater.from(context);
         mFeatureCategory = featureCategoryListener;
+        width = getScreenWidth();
     }
 
     @NonNull
@@ -35,6 +40,7 @@ public class FeatureCategoryAdapter extends RecyclerView.Adapter<FeatureCategory
     public ProductViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
 
         productItemBinding = DataBindingUtil.inflate(inflater, R.layout.feature_category_item, parent, false);
+        productItemBinding.featureParent.getLayoutParams().width = (int) (width / 1.5);
         return new ProductViewHolder(productItemBinding);
     }
 
@@ -61,6 +67,16 @@ public class FeatureCategoryAdapter extends RecyclerView.Adapter<FeatureCategory
 
     public void onFeatureCategoryClicked(View view, FeaturedCategory featuredCategory) {
         mFeatureCategory.onFeatureCategoryClicked(featuredCategory);
+    }
+
+    public int getScreenWidth() {
+
+        WindowManager wm = (WindowManager) mContext.getSystemService(Context.WINDOW_SERVICE);
+        Display display = wm.getDefaultDisplay();
+        Point size = new Point();
+        display.getSize(size);
+
+        return size.x;
     }
 
     class ProductViewHolder extends RecyclerView.ViewHolder {

@@ -132,7 +132,7 @@ public class CustomBinding {
         Glide
                 .with(AppConstants.mContext)
                 .load(imageSrc)
-                .centerInside()
+                .fitCenter()
                 .error(R.drawable.placeholder_products)
                 .placeholder(R.drawable.placeholder_products)
                 .into(imageView);

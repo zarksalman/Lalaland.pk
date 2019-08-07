@@ -7,6 +7,7 @@
         android:animateLayoutChanges="true"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
+        android:background="@android:color/white"
         tools:context=".views.activities.SplashActivity">
 
         <androidx.constraintlayout.widget.Guideline
@@ -21,7 +22,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:orientation="horizontal"
-            app:layout_constraintGuide_percent=".75" />
+            app:layout_constraintGuide_percent=".9" />
 
 
         <ImageView
@@ -29,9 +30,9 @@
             android:id="@+id/iv_splash_img"
             android:layout_width="0dp"
             android:layout_height="0dp"
-            android:scaleType="centerCrop"
-            android:src="@drawable/splash_screen"
-            app:layout_constraintBottom_toBottomOf="@+id/gl_bottom"
+            android:scaleType="centerInside"
+            android:src="@drawable/splash_icon"
+            app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
@@ -42,6 +43,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="@string/lalaland"
+            android:visibility="gone"
             android:textColor="@color/colorPrimaryDark"
             android:fontFamily="@font/ubuntumedium"
             android:textSize="32sp"
@@ -51,16 +53,18 @@
             app:layout_constraintTop_toBottomOf="@+id/gl_top"
             app:layout_constraintVertical_bias="0" />
 
-        <TextView
+        <ImageView
 
-            android:id="@+id/tv_gurantee"
-            android:layout_width="wrap_content"
+            android:id="@+id/iv_tag_line"
+            android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:text="@string/authenticity_guaranteed"
-            android:fontFamily="@font/encodesansregular"
-            android:textSize="14sp"
+            android:src="@drawable/splash_tag_line"
+            android:visibility="visible"
+            android:scaleType="centerInside"
+            android:layout_margin="@dimen/_16dp"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintBottom_toTopOf="@+id/tv_reload"
             app:layout_constraintTop_toBottomOf="@+id/tv_app_name" />
 
         <TextView
@@ -71,6 +75,7 @@
             android:textAlignment="center"
             android:textColor="@android:color/holo_blue_light"
             android:textSize="18sp"
+            android:padding="@dimen/_16dp"
             android:background="?attr/selectableItemBackground"
             android:clickable="true"
             android:focusable="true"

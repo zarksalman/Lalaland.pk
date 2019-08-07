@@ -25,6 +25,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_margin="@dimen/_8dp"
+        android:id="@+id/feature_parent"
         android:background="@drawable/recommended_products_bg"
         android:onClick="@{(view)->adapter.onFeatureCategoryClicked(view,featureCategory)}"
         android:padding="@dimen/_8dp">
