@@ -1,9 +1,12 @@
 package com.lalaland.ecommerce.adapters;
 
 import android.content.Context;
+import android.graphics.Point;
+import android.view.Display;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.WindowManager;
 
 import androidx.annotation.NonNull;
 import androidx.databinding.DataBindingUtil;
@@ -11,9 +14,7 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.lalaland.ecommerce.R;
 import com.lalaland.ecommerce.data.models.home.BlogPost;
-import com.lalaland.ecommerce.data.models.home.FeaturedCategory;
 import com.lalaland.ecommerce.databinding.BlogPostItemBinding;
-import com.lalaland.ecommerce.databinding.FeatureCategoryItemBinding;
 
 import java.util.List;
 
@@ -25,11 +26,13 @@ public class BlogPostsAdapter extends RecyclerView.Adapter<BlogPostsAdapter.Prod
     private BlogPostItemBinding blogPostItemBinding;
     private LayoutInflater inflater;
     private BlogPostListener mBlogPostListener;
+    float width = 0;
 
     public BlogPostsAdapter(Context context, BlogPostListener blogPostListener) {
         mContext = context;
         inflater = LayoutInflater.from(context);
         mBlogPostListener = blogPostListener;
+        width = getScreenWidth();
     }
 
     @NonNull
@@ -37,6 +40,7 @@ public class BlogPostsAdapter extends RecyclerView.Adapter<BlogPostsAdapter.Prod
     public ProductViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
 
         blogPostItemBinding = DataBindingUtil.inflate(inflater, R.layout.blog_post_item, parent, false);
+        blogPostItemBinding.blogParent.getLayoutParams().width = (int) (width / 1.5);
         return new ProductViewHolder(blogPostItemBinding);
     }
 
@@ -65,6 +69,15 @@ public class BlogPostsAdapter extends RecyclerView.Adapter<BlogPostsAdapter.Prod
         mBlogPostListener.onBlogPostClicked(blogPost);
     }
 
+    public int getScreenWidth() {
+
+        WindowManager wm = (WindowManager) mContext.getSystemService(Context.WINDOW_SERVICE);
+        Display display = wm.getDefaultDisplay();
+        Point size = new Point();
+        display.getSize(size);
+
+        return size.x;
+    }
     class ProductViewHolder extends RecyclerView.ViewHolder {
 
         BlogPostItemBinding mBlogPostItemBinding;

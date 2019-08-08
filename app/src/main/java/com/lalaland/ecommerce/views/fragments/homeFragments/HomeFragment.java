@@ -436,6 +436,8 @@ public class HomeFragment extends Fragment implements ActionAdapter.ActionClickL
         fragmentHomeNewBinding.brandsInFocusContainerParent.rvBrandsInFocus.setLayoutManager(new LinearLayoutManager(getContext(), RecyclerView.HORIZONTAL, false));
         fragmentHomeNewBinding.brandsInFocusContainerParent.rvBrandsInFocus.setHasFixedSize(true);
         brandsFocusAdapter.setData(featuredBrandList);
+
+
     }
 
     @Override
@@ -463,8 +465,16 @@ public class HomeFragment extends Fragment implements ActionAdapter.ActionClickL
         // just to remove lag from recommendation products adapter
 
         if (android.os.Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT_WATCH) {
+            fragmentHomeNewBinding.brandsInFocusContainerParent.rvBrandsInFocus.setNestedScrollingEnabled(false);
+            fragmentHomeNewBinding.getTheLooksContainerParent.rvGetTheLooks.setNestedScrollingEnabled(false);
+            fragmentHomeNewBinding.blogsContainerParent.rvBlogs.setNestedScrollingEnabled(false);
             fragmentHomeNewBinding.recommendationContainerParent.rvRecommendedProducts.setNestedScrollingEnabled(false);
+
         } else {
+
+            ViewCompat.setNestedScrollingEnabled(fragmentHomeNewBinding.brandsInFocusContainerParent.rvBrandsInFocus, false);
+            ViewCompat.setNestedScrollingEnabled(fragmentHomeNewBinding.getTheLooksContainerParent.rvGetTheLooks, false);
+            ViewCompat.setNestedScrollingEnabled(fragmentHomeNewBinding.blogsContainerParent.rvBlogs, false);
             ViewCompat.setNestedScrollingEnabled(fragmentHomeNewBinding.recommendationContainerParent.rvRecommendedProducts, false);
         }
 

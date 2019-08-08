@@ -202,7 +202,6 @@ public class EditAccountInformationActivity extends AppCompatActivity {
     public void showDatePickerDialogue() {
 
         DatePickerDialog.OnDateSetListener date = (view, year, monthOfYear, dayOfMonth) -> {
-            // TODO Auto-generated method stub
             dobCalender.set(Calendar.YEAR, year);
             dobCalender.set(Calendar.MONTH, monthOfYear);
             dobCalender.set(Calendar.DAY_OF_MONTH, dayOfMonth);

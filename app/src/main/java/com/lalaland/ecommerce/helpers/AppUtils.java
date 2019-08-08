@@ -394,7 +394,6 @@ public class AppUtils {
                     return Environment.getExternalStorageDirectory() + "/" + split[1];
                 }
 
-                // TODO handle non-primary volumes
             }
             // DownloadsProvider
             else if (isDownloadsDocument(uri)) {
@@ -561,9 +560,9 @@ public class AppUtils {
     }
 
 
-    public static void getStaticsFromPreferences(Context context) {
+    public static void getStaticsFromPreferences() {
 
-        AppPreference appPreference = AppPreference.getInstance(context);
+        AppPreference appPreference = AppPreference.getInstance(AppConstants.mContext);
 
         ABOUT_US_URL = appPreference.getString(ABOUT_US_URL);
         RETURN_POLICY_URL = appPreference.getString(RETURN_POLICY_URL);

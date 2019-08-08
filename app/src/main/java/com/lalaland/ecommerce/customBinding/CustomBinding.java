@@ -14,7 +14,7 @@ import com.lalaland.ecommerce.helpers.AppConstants;
 
 import static com.lalaland.ecommerce.helpers.AppConstants.ADVERTISEMENT_URL;
 import static com.lalaland.ecommerce.helpers.AppConstants.BRAND_FOCUS_STORAGE_BASE_URL;
-import static com.lalaland.ecommerce.helpers.AppConstants.CATEGORY_BRAND_STORAGE_BASE_URL;
+import static com.lalaland.ecommerce.helpers.AppConstants.BRAND_STORAGE_BASE_URL;
 import static com.lalaland.ecommerce.helpers.AppConstants.CATEGORY_FOCUS_STORAGE_BASE_URL;
 import static com.lalaland.ecommerce.helpers.AppConstants.CUSTOM_PRODUCT_URL;
 import static com.lalaland.ecommerce.helpers.AppConstants.MEDIUM_PRODUCT_STORAGE_BASE_URL;
@@ -115,7 +115,7 @@ public class CustomBinding {
     @BindingAdapter("setCategoryBrandImage")
     public static void setCategoryBrandImage(ImageView imageView, String logoUrl) {
 
-        String imageSrc = CATEGORY_BRAND_STORAGE_BASE_URL.concat(logoUrl);
+        String imageSrc = BRAND_STORAGE_BASE_URL.concat(logoUrl);
         Glide
                 .with(imageView.getContext())
                 .load(imageSrc)
@@ -147,7 +147,7 @@ public class CustomBinding {
                 .load(imageName)
                 .placeholder(R.drawable.placeholder_products)
                 .error(R.drawable.placeholder_products)
-                .centerInside()
+                .fitCenter()
                 .into(imageView);
     }
 

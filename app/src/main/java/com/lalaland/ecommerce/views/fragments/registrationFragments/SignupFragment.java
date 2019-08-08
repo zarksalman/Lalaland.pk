@@ -335,7 +335,6 @@ public class SignupFragment extends BaseRegistrationFragment implements LoadingL
             @Override
             public void onDateSet(DatePicker view, int year, int monthOfYear,
                                   int dayOfMonth) {
-                // TODO Auto-generated method stub
                 dobCalender.set(Calendar.YEAR, year);
                 dobCalender.set(Calendar.MONTH, monthOfYear);
                 dobCalender.set(Calendar.DAY_OF_MONTH, dayOfMonth);

@@ -19,22 +19,21 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent">
 
+            <!--            android:overScrollMode="never"-->
+
             <androidx.core.widget.NestedScrollView
-
-
                 android:id="@+id/containers_parent"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:background="@color/colorDarkGray"
-                android:overScrollMode="never"
+
                 android:visibility="gone">
 
                 <RelativeLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:background="@color/colorMediumGray"
-                    android:orientation="vertical"
-                    app:layout_behavior="@string/appbar_scrolling_view_behavior">
+                    android:orientation="vertical">
 
                     <!--image slider-->
                     <com.lalaland.ecommerce.views.customViews.AViewFlipper

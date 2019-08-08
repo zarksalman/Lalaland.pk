@@ -1,5 +1,6 @@
 package com.lalaland.ecommerce.data.retrofit;
 
+import android.content.Context;
 import android.util.Log;
 
 import com.lalaland.ecommerce.helpers.AppConstants;
@@ -40,18 +41,6 @@ public class RetrofitClient {
 
         appPreference = AppPreference.getInstance(AppConstants.mContext);
 
-
-
-       /* userInfo.put("device-id", AppConstants.DEVICE_ID);
-        userInfo.put("app-version", AppConstants.APP_BUILD_VERSION);
-        userInfo.put("user-id", AppConstants.USER_ID);
-        userInfo.put("device-name", AppConstants.DEVICE_NAME);
-        userInfo.put("device-OS-version", AppConstants.DEVICE_OS);
-        userInfo.put("fcm-token", AppConstants.FCM_TOKEN);
-        userInfo.put("device-type", AppConstants.DEVICE_TYPE);
-        userInfo.put(SIGNIN_TOKEN, token);
-        userInfo.put(CART_SESSION_TOKEN, cartSession);*/
-
         retrofit = new Retrofit.Builder()
                 .baseUrl(BASE_URL)
                 .client(okHttpClient())
@@ -73,6 +62,8 @@ public class RetrofitClient {
         AppConstants.DEVICE_TYPE = "ANDROID";
         AppConstants.FCM_TOKEN = "";
         AppConstants.USER_ID = "";
+
+        AppUtils.getStaticsFromPreferences();
 
         return retrofitClient;
     }

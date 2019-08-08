@@ -57,8 +57,7 @@ public class RetrofitRxJavaClient {
         AppConstants.DEVICE_TYPE = "ANDROID";
         AppConstants.FCM_TOKEN = "";
         AppConstants.USER_ID = "";
-
-        // AppUtils.getStaticsFromPreferences(AppConstants.mContext);
+        AppUtils.getStaticsFromPreferences();
 
         return retrofitClient;
     }

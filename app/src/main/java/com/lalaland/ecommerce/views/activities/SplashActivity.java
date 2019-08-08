@@ -159,7 +159,7 @@ public class SplashActivity extends AppCompatActivity implements NetworkInterfac
 
         BRAND_FOCUS_STORAGE_BASE_URL = data.getFeaturedBrandsUrl();
         CATEGORY_FOCUS_STORAGE_BASE_URL = data.getFeaturedCategoriesUrl();
-
+        
         ACTION_STORAGE_BASE_URL = data.getMobileActionsUrl();
 
         CUSTOM_PRODUCT_URL = data.getCustomProductsUrl();

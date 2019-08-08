@@ -68,7 +68,6 @@
             android:layout_height="wrap_content"
             android:ellipsize="end"
             android:fontFamily="@font/encodesanslight"
-            android:maxLength="20"
             android:maxLines="1"
             android:text="@{featureCategory.description}"
             android:textColor="@android:color/black"
