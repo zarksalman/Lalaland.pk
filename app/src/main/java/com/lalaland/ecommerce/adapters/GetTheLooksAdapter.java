@@ -1,9 +1,12 @@
 package com.lalaland.ecommerce.adapters;
 
 import android.content.Context;
+import android.graphics.Point;
+import android.view.Display;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.WindowManager;
 
 import androidx.annotation.NonNull;
 import androidx.databinding.DataBindingUtil;
@@ -11,7 +14,6 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.lalaland.ecommerce.R;
 import com.lalaland.ecommerce.data.models.home.CustomProductsFive;
-import com.lalaland.ecommerce.data.models.home.FeaturedBrand;
 import com.lalaland.ecommerce.databinding.GetTheLookItemBinding;
 
 import java.util.List;
@@ -24,11 +26,13 @@ public class GetTheLooksAdapter extends RecyclerView.Adapter<GetTheLooksAdapter.
     private GetTheLookItemBinding getTheLookItemBinding;
     private LayoutInflater inflater;
     private GetTheLooksClickListener mGetTheLooksClickListener;
+    float width = 0;
 
     public GetTheLooksAdapter(Context context, GetTheLooksClickListener getTheLooksClickListener) {
         mContext = context;
         mGetTheLooksClickListener = getTheLooksClickListener;
         inflater = LayoutInflater.from(context);
+        width = getScreenWidth();
 
     }
 
@@ -37,6 +41,7 @@ public class GetTheLooksAdapter extends RecyclerView.Adapter<GetTheLooksAdapter.
     public BrandsFocusViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
 
         getTheLookItemBinding = DataBindingUtil.inflate(inflater, R.layout.get_the_look_item, parent, false);
+        getTheLookItemBinding.getTheLooksParent.getLayoutParams().width = (int) (width / 1.4);
         return new BrandsFocusViewHolder(getTheLookItemBinding);
     }
 
@@ -53,6 +58,16 @@ public class GetTheLooksAdapter extends RecyclerView.Adapter<GetTheLooksAdapter.
 
     public void getTheLooksClicked(View view, CustomProductsFive customProductsFive) {
         mGetTheLooksClickListener.onGetTheLookClicked(customProductsFive);
+    }
+
+    public int getScreenWidth() {
+
+        WindowManager wm = (WindowManager) mContext.getSystemService(Context.WINDOW_SERVICE);
+        Display display = wm.getDefaultDisplay();
+        Point size = new Point();
+        display.getSize(size);
+
+        return size.x;
     }
 
     public void setData(List<CustomProductsFive> customProductsFives) {

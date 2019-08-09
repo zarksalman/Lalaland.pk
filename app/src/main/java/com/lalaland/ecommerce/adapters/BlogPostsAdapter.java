@@ -40,7 +40,7 @@ public class BlogPostsAdapter extends RecyclerView.Adapter<BlogPostsAdapter.Prod
     public ProductViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
 
         blogPostItemBinding = DataBindingUtil.inflate(inflater, R.layout.blog_post_item, parent, false);
-        blogPostItemBinding.blogParent.getLayoutParams().width = (int) (width / 1.5);
+        blogPostItemBinding.blogParent.getLayoutParams().width = (int) (width / 1.4);
         return new ProductViewHolder(blogPostItemBinding);
     }
 
@@ -78,6 +78,7 @@ public class BlogPostsAdapter extends RecyclerView.Adapter<BlogPostsAdapter.Prod
 
         return size.x;
     }
+
     class ProductViewHolder extends RecyclerView.ViewHolder {
 
         BlogPostItemBinding mBlogPostItemBinding;

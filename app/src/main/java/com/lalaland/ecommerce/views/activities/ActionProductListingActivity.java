@@ -268,6 +268,7 @@ public class ActionProductListingActivity extends AppCompatActivity implements A
 
         setAdapter();
 
+        
         firstVisibleInListview = gridLayoutManager.findFirstVisibleItemPosition();
         activityProductListingBinding.rvProducts.addOnScrollListener(new RecyclerView.OnScrollListener() {
             @Override

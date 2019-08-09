@@ -20,13 +20,15 @@
 
     </data>
 
+    <!--
+        android:background="@drawable/recommended_products_bg"
+    -->
+
     <androidx.constraintlayout.widget.ConstraintLayout
 
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_margin="@dimen/_8dp"
         android:id="@+id/blog_parent"
-        android:background="@drawable/recommended_products_bg"
         android:onClick="@{(view)->adapter.onBlogPostClicked(view,blogPost)}"
         android:padding="@dimen/_8dp">
 
