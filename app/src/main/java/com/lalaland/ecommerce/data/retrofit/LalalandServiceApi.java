@@ -48,7 +48,7 @@ public interface LalalandServiceApi {
     Call<CategoryContainer> getCategoryGeneralData(@HeaderMap Map<String, String> headers);
 
     @POST("home")
-    Call<HomeDataContainer> getHomeData(@HeaderMap Map<String, String> header, @Query("recommended_cat") String recommendedCategory);
+    Call<HomeDataContainer> getHomeData(@HeaderMap Map<String, String> header, @QueryMap Map<String, String> parameters);
 
     @POST("products")
     Call<ProductContainer> getRangeProducts(@HeaderMap Map<String, String> header, @QueryMap Map<String, String> parameters);

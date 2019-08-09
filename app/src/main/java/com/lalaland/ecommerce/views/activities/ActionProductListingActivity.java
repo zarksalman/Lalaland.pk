@@ -268,7 +268,7 @@ public class ActionProductListingActivity extends AppCompatActivity implements A
 
         setAdapter();
 
-        
+
         firstVisibleInListview = gridLayoutManager.findFirstVisibleItemPosition();
         activityProductListingBinding.rvProducts.addOnScrollListener(new RecyclerView.OnScrollListener() {
             @Override
@@ -354,7 +354,7 @@ public class ActionProductListingActivity extends AppCompatActivity implements A
                 break;
 
             case NEW_ARRIVAL_PRODUCTS:
-                intent.putExtra(FILTER_KEY, "category");
+                intent.putExtra(FILTER_KEY, NEW_ARRIVAL_PRODUCTS);
                 break;
 
             case CATEGORY_PRODUCTS:
@@ -362,7 +362,7 @@ public class ActionProductListingActivity extends AppCompatActivity implements A
                 break;
 
             case CUSTOM_LIST_PRODUCTS:
-                intent.putExtra(FILTER_KEY, "category");
+                intent.putExtra(FILTER_KEY, CUSTOM_LIST_PRODUCTS);
                 break;
 
             // category types

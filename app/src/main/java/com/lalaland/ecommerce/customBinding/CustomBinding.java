@@ -77,8 +77,8 @@ public class CustomBinding {
                     .with(imageView.getContext())
                     .load(imageSrc)
                     .fitCenter()
-                    .error(R.drawable.placeholder_products)
-                    .placeholder(R.drawable.placeholder_products)
+                    .placeholder(R.drawable.placeholder_products_pick_of_week)
+                    .error(R.drawable.placeholder_products_pick_of_week)
                     .into(imageView);
         } catch (OutOfMemoryError outOfMemoryError) {
             outOfMemoryError.printStackTrace();

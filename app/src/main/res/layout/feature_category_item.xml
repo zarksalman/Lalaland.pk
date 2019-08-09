@@ -40,7 +40,7 @@
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
             app:setFeatureCategoryImage="@{featureCategory.image}"
-            tools:src="@drawable/placeholder_products" />
+            tools:src="@drawable/placeholder_products_bigger_images" />
 
         <TextView
 

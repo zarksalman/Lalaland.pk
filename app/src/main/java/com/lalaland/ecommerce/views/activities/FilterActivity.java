@@ -4,6 +4,7 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.os.Parcelable;
 import android.view.View;
+import android.widget.Toast;
 
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
@@ -33,6 +34,7 @@ import static com.lalaland.ecommerce.helpers.AppConstants.CATEGORY_FILTER;
 import static com.lalaland.ecommerce.helpers.AppConstants.FILTER_ID;
 import static com.lalaland.ecommerce.helpers.AppConstants.FILTER_KEY;
 import static com.lalaland.ecommerce.helpers.AppConstants.FILTER_NAME;
+import static com.lalaland.ecommerce.helpers.AppConstants.GENERAL_ERROR;
 import static com.lalaland.ecommerce.helpers.AppConstants.PRICE_FILTER;
 import static com.lalaland.ecommerce.helpers.AppConstants.PRICE_RANGE;
 import static com.lalaland.ecommerce.helpers.AppConstants.PV_FILTER_;
@@ -139,10 +141,14 @@ public class FilterActivity extends AppCompatActivity {
 
                     setParentFilter();
                     setParentAdapter();
-
-                    activityFilterBinding.pbLoading.setVisibility(View.GONE);
+                } else {
+                    Toast.makeText(this, filterDataContainer.getMsg(), Toast.LENGTH_SHORT).show();
                 }
-            }
+            } else
+                Toast.makeText(this, GENERAL_ERROR, Toast.LENGTH_SHORT).show();
+
+            activityFilterBinding.pbLoading.setVisibility(View.GONE);
+
         });
     }
 

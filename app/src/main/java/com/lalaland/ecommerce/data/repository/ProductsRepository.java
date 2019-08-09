@@ -136,7 +136,12 @@ public class ProductsRepository {
         homeDataContainerMutableLiveData = new MutableLiveData<>();
         setUserInfo();
 
-        lalalandServiceApi.getHomeData(userInfo, recommendedCat).enqueue(new Callback<HomeDataContainer>() {
+        // temporary fix for action images
+        Map<String, String> homeParameter = new HashMap<>();
+        homeParameter.put("recommended_cat", recommendedCat);
+        homeParameter.put("version", "v2");
+
+        lalalandServiceApi.getHomeData(userInfo, homeParameter).enqueue(new Callback<HomeDataContainer>() {
             @Override
             public void onResponse(Call<HomeDataContainer> call, Response<HomeDataContainer> response) {
 

@@ -92,6 +92,7 @@ public class HomeFragment extends Fragment implements ActionAdapter.ActionClickL
     private List<Product> productList = new ArrayList<>();
 
     private Map<String, String> parameters = new HashMap<>();
+    private Map<String, String> homeParameter = new HashMap<>();
     private ProductAdapter recommendationProductAdapter;
     private GetTheLooksAdapter getTheLooksAdapter;
     private GridLayoutManager gridLayoutManager;
@@ -211,6 +212,8 @@ public class HomeFragment extends Fragment implements ActionAdapter.ActionClickL
         Glide
                 .with(getContext())
                 .load(url)
+                .placeholder(R.drawable.placeholder_products)
+                .error(R.drawable.placeholder_products)
                 .into(fragmentHomeNewBinding.advertisementContainerParent.ivAdvertisement);
 
         fragmentHomeNewBinding.advertisementContainerParent.ivAdvertisement.setOnClickListener(v -> {
@@ -460,10 +463,50 @@ public class HomeFragment extends Fragment implements ActionAdapter.ActionClickL
         fragmentHomeNewBinding.recommendationContainerParent.rvRecommendedProducts.setLayoutManager(gridLayoutManager);
         fragmentHomeNewBinding.recommendationContainerParent.rvRecommendedProducts.setItemAnimator(new DefaultItemAnimator());
 
+/*
+        PaginationScrollListener paginationScrollListener = new PaginationScrollListener(gridLayoutManager) {
+            @Override
+            protected void loadMoreItems() {
+
+                if (!isLoading) {
+                    Log.d(TAG, "loadMoreItems:");
+
+                    fragmentHomeNewBinding.pbProductLoad.setVisibility(View.VISIBLE);
+                    isLoading = true;
+
+                    parameters.clear();
+                    INITIAL_INDEX = END_INDEX;
+                    INITIAL_INDEX++; // starting from end+1
+                    END_INDEX += NUMBER_OF_ITEM;
+
+                    parameters.put(START_INDEX, String.valueOf(INITIAL_INDEX));
+                    parameters.put(LENGTH, String.valueOf(NUMBER_OF_ITEM));
+
+                    getProductItems();
+                }
+            }
+
+            @Override
+            public int getTotalPageCount() {
+                return recommendationProductAdapter.getItemCount();
+            }
+
+            @Override
+            public boolean isLastPage() {
+                return false;
+            }
+
+            @Override
+            public boolean isLoading() {
+                return isLoading;
+            }
+        };
+        fragmentHomeNewBinding.recommendationContainerParent.rvRecommendedProducts.addOnScrollListener(paginationScrollListener);
+*/
+
         //fragmentHomeNewBinding.recommendationContainerParent.rvRecommendedProducts.addItemDecoration(new SpacesItemDecoration((int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, 5, getContext().getResources().getDisplayMetrics())));
 
         // just to remove lag from recommendation products adapter
-
         if (android.os.Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT_WATCH) {
             fragmentHomeNewBinding.brandsInFocusContainerParent.rvBrandsInFocus.setNestedScrollingEnabled(false);
             fragmentHomeNewBinding.getTheLooksContainerParent.rvGetTheLooks.setNestedScrollingEnabled(false);

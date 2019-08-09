@@ -44,16 +44,16 @@
         <TextView
 
             android:id="@+id/tv_brand_name"
-            android:layout_width="wrap_content"
+            android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:layout_marginTop="@dimen/_4dp"
+            android:layout_marginTop="@dimen/_2dp"
             android:ellipsize="end"
             android:fontFamily="@font/encodesansregular"
-            android:maxLength="15"
             android:maxLines="1"
             android:text="@{product.brandName}"
             android:textColor="@android:color/black"
-            android:textSize="13sp"
+            android:textSize="12sp"
+            app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/iv_product"
             tools:text="@tools:sample/full_names" />
@@ -61,15 +61,15 @@
         <TextView
 
             android:id="@+id/tv_product_name"
-            android:layout_width="wrap_content"
+            android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:ellipsize="end"
             android:fontFamily="@font/encodesansregular"
-            android:maxLength="20"
             android:maxLines="1"
             android:text="@{product.name}"
             android:textColor="@android:color/black"
             android:textSize="11sp"
+            app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/tv_brand_name"
             tools:text="@tools:sample/lorem/random" />
@@ -82,7 +82,7 @@
             android:fontFamily="@font/encodesansregular"
             android:text="@{AppUtils.formatPriceString(product.salePrice)}"
             android:textColor="@{product.salePrice == product.actualPrice? @android:color/black : @android:color/holo_red_dark}"
-            android:textSize="12sp"
+            android:textSize="11sp"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/tv_product_name"
             tools:text="@tools:sample/us_zipcodes" />
@@ -95,12 +95,13 @@
             android:fontFamily="@font/encodesansregular"
             android:text="@{AppUtils.formatPriceString(product.actualPrice)}"
             android:textColor="@android:color/black"
-            android:textSize="12sp"
+            android:textSize="11sp"
             android:visibility="@{AppUtils.isPriceEqual(product.salePrice,product.actualPrice) ? View.GONE : View.VISIBLE}"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/tv_product_sale_price"
             app:layout_constraintVertical_bias="0"
             tools:text="@tools:sample/us_zipcodes" />
+
     </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>
