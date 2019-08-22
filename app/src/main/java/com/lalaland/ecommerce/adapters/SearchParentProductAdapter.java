@@ -74,6 +74,7 @@ public class SearchParentProductAdapter extends RecyclerView.Adapter<SearchParen
 
     @Override
     public void onSearchProductDelete(int parentId, int position, boolean isHistory) {
+        
         mSearchListener.onSearchParentProductDelete(parentId, position, mIsHistory);
     }
 

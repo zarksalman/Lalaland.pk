@@ -9,7 +9,6 @@
         android:layout_height="wrap_content"
         android:layout_marginTop="@dimen/_8dp"
         android:background="@color/colorBrandsFocus"
-        android:padding="@dimen/_8dp"
         android:visibility="visible">
 
         <ImageView
@@ -28,6 +27,7 @@
             android:layout_alignParentStart="true"
             android:layout_alignParentTop="true"
             android:layout_marginStart="@dimen/_8dp"
+            android:layout_marginTop="@dimen/_4dp"
             android:fontFamily="@font/encodesansregular"
             android:gravity="center"
             android:text="@string/brands_in_focus"

@@ -26,11 +26,13 @@
         android:layout_height="wrap_content"
         android:onClick="@{(view)->adapter.pickOfWeekClicked(view, picks)}"
         android:orientation="vertical"
+        android:gravity="center"
         android:padding="@dimen/_4dp">
 
         <FrameLayout
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_gravity="center_horizontal"
             android:background="@drawable/pick_of_the_week_bg">
 
             <ImageView
@@ -44,7 +46,7 @@
         <TextView
 
             android:id="@+id/tv_brand_name"
-            android:layout_width="wrap_content"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="@dimen/_4dp"
             android:fontFamily="@font/encodesansregular"
@@ -68,7 +70,6 @@
                 android:layout_marginTop="@dimen/_4dp"
                 android:fontFamily="@font/encodesansregular"
                 android:text="@{AppUtils.formatPriceString(picks.salePrice)}"
-                android:textAlignment="center"
                 android:textAppearance="@style/TextAppearance.AppCompat.Small"
                 android:textColor="@color/colorAccent"
                 android:textSize="12sp"
@@ -82,7 +83,6 @@
                 android:layout_marginStart="@dimen/_4dp"
                 android:layout_marginTop="@dimen/_4dp"
                 android:fontFamily="@font/encodesansregular"
-                android:gravity="center"
                 android:text="@{AppUtils.formatPriceString(picks.actualPrice)}"
                 android:textAppearance="@style/TextAppearance.AppCompat.Small"
                 android:textColor="@android:color/black"

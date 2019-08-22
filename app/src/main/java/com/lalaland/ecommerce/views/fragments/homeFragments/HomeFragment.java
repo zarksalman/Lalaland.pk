@@ -1,9 +1,13 @@
 package com.lalaland.ecommerce.views.fragments.homeFragments;
 
 
+import android.content.Context;
 import android.content.Intent;
+import android.content.res.Resources;
+import android.graphics.drawable.Drawable;
 import android.os.Build;
 import android.os.Bundle;
+import android.os.Handler;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -21,10 +25,12 @@ import androidx.recyclerview.widget.DefaultItemAnimator;
 import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
+import androidx.viewpager.widget.ViewPager;
 
 import com.bumptech.glide.Glide;
 import com.lalaland.ecommerce.R;
 import com.lalaland.ecommerce.adapters.ActionAdapter;
+import com.lalaland.ecommerce.adapters.BannerImageAdapter;
 import com.lalaland.ecommerce.adapters.BlogPostsAdapter;
 import com.lalaland.ecommerce.adapters.BrandsFocusAdapter;
 import com.lalaland.ecommerce.adapters.FeatureCategoryAdapter;
@@ -57,10 +63,11 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Timer;
+import java.util.TimerTask;
 
 import static com.lalaland.ecommerce.helpers.AppConstants.ACTION_ID;
 import static com.lalaland.ecommerce.helpers.AppConstants.ACTION_NAME;
-import static com.lalaland.ecommerce.helpers.AppConstants.BANNER_STORAGE_BASE_URL;
 import static com.lalaland.ecommerce.helpers.AppConstants.BLOG_URL;
 import static com.lalaland.ecommerce.helpers.AppConstants.BRANDS_IN_FOCUS_PRODUCTS;
 import static com.lalaland.ecommerce.helpers.AppConstants.LENGTH;
@@ -103,6 +110,7 @@ public class HomeFragment extends Fragment implements ActionAdapter.ActionClickL
     public static final int NUMBER_OF_ITEM = 30;
     private String recommended_cat;
     private List<ImageView> dots = new ArrayList<>();
+    int currentPage = 0;
 
     //******************************* new home page *******************************
     private ProgressBar progressBar;
@@ -193,13 +201,16 @@ public class HomeFragment extends Fragment implements ActionAdapter.ActionClickL
                 setPickOfTheWeek();
                 setFeaturedBrands();
 
+                setupAutoPager();
+
+                fragmentHomeNewBinding.swipeContainer.setOnRefreshListener(() -> {
+                    productList.clear();
+                    recommendationProductAdapter.notifyDataSetChanged();
+                    requestInitialProducts();
+                });
             }
 
-            fragmentHomeNewBinding.swipeContainer.setOnRefreshListener(() -> {
-                productList.clear();
-                recommendationProductAdapter.notifyDataSetChanged();
-                requestInitialProducts();
-            });
+
 
             fragmentHomeNewBinding.swipeContainer.setRefreshing(false);
         });
@@ -288,6 +299,36 @@ public class HomeFragment extends Fragment implements ActionAdapter.ActionClickL
 
     private void setBannerSlider() {
 
+        if (fragmentHomeNewBinding.dots.getChildCount() > 0)
+            fragmentHomeNewBinding.dots.removeAllViews();
+
+        BannerImageAdapter bannerImageAdapter = new BannerImageAdapter(getContext(), bannerList);
+        fragmentHomeNewBinding.vpImages.setAdapter(bannerImageAdapter);
+
+
+        //setting viewpagger height because in scrollview wrap/match does not calculate their height correctly
+        android.view.Display display = ((android.view.WindowManager) getContext().getSystemService(Context.WINDOW_SERVICE)).getDefaultDisplay();
+        fragmentHomeNewBinding.vpImages.getLayoutParams().height = ((int) (display.getHeight() * 0.35));
+        fragmentHomeNewBinding.vpImages.getLayoutParams().width = ((int) (display.getWidth() * 1.0));
+
+        currentPage = 0;
+        addDots();
+
+
+     /*   SliderAdapterExample adapter = new SliderAdapterExample(getContext(), bannerList);
+
+        fragmentHomeNewBinding.imageSlider.setSliderAdapter(adapter);
+
+       fragmentHomeNewBinding.imageSlider.setIndicatorAnimation(IndicatorAnimations.FILL); //set indicator animation by using SliderLayout.IndicatorAnimations. :WORM or THIN_WORM or COLOR or DROP or FILL or NONE or SCALE or SCALE_DOWN or SLIDE and SWAP!!
+       fragmentHomeNewBinding.imageSlider.setSliderTransformAnimation(SliderAnimations.SIMPLETRANSFORMATION);
+       fragmentHomeNewBinding.imageSlider.setAutoCycleDirection(SliderView.AUTO_CYCLE_DIRECTION_RIGHT);
+       fragmentHomeNewBinding.imageSlider.setIndicatorSelectedColor(getResources().getColor(R.color.colorPrimary));
+       fragmentHomeNewBinding.imageSlider.setIndicatorUnselectedColor(Color.GRAY);
+       fragmentHomeNewBinding.imageSlider.setScrollTimeInSec(1); //set scroll delay in seconds :
+       fragmentHomeNewBinding.imageSlider.startAutoCycle();*/
+
+
+        /*
         if (fragmentHomeNewBinding.vfSlider.getChildCount() > 0)
             fragmentHomeNewBinding.vfSlider.removeAllViews();
 
@@ -304,23 +345,16 @@ public class HomeFragment extends Fragment implements ActionAdapter.ActionClickL
                     .fitCenter()
                     .into(imageView);
 
-            /*fragmentHomeBinding.vfSlider.addView(imageView);
-            fragmentHomeBinding.vfSlider.setFlipInterval(4000);
-            fragmentHomeBinding.vfSlider.setAutoStart(true);
-
-            fragmentHomeBinding.vfSlider.setInAnimation(getContext(), android.R.anim.slide_in_left);
-            fragmentHomeBinding.vfSlider.setOutAnimation(getContext(), android.R.anim.slide_out_right);
-            */
-
             fragmentHomeNewBinding.vfSlider.addView(imageView);
             fragmentHomeNewBinding.vfSlider.setFlipInterval(4000);
             fragmentHomeNewBinding.vfSlider.setAutoStart(true);
 
             fragmentHomeNewBinding.vfSlider.setInAnimation(getContext(), android.R.anim.slide_in_left);
-            fragmentHomeNewBinding.vfSlider.setOutAnimation(getContext(), android.R.anim.slide_out_right);
+            fragmentHomeNewBinding.vfSlider.setInAnimation(getContext(), R.anim.anim_slide_in_left_slider);
+            fragmentHomeNewBinding.vfSlider.setOutAnimation(getContext(), R.anim.anim_slide_out_left_slider);
         }
 
-        fragmentHomeNewBinding.vfSlider.startFlipping();
+        fragmentHomeNewBinding.vfSlider.startFlipping();*/
     }
 
     private void setActions() {
@@ -463,49 +497,6 @@ public class HomeFragment extends Fragment implements ActionAdapter.ActionClickL
         fragmentHomeNewBinding.recommendationContainerParent.rvRecommendedProducts.setLayoutManager(gridLayoutManager);
         fragmentHomeNewBinding.recommendationContainerParent.rvRecommendedProducts.setItemAnimator(new DefaultItemAnimator());
 
-/*
-        PaginationScrollListener paginationScrollListener = new PaginationScrollListener(gridLayoutManager) {
-            @Override
-            protected void loadMoreItems() {
-
-                if (!isLoading) {
-                    Log.d(TAG, "loadMoreItems:");
-
-                    fragmentHomeNewBinding.pbProductLoad.setVisibility(View.VISIBLE);
-                    isLoading = true;
-
-                    parameters.clear();
-                    INITIAL_INDEX = END_INDEX;
-                    INITIAL_INDEX++; // starting from end+1
-                    END_INDEX += NUMBER_OF_ITEM;
-
-                    parameters.put(START_INDEX, String.valueOf(INITIAL_INDEX));
-                    parameters.put(LENGTH, String.valueOf(NUMBER_OF_ITEM));
-
-                    getProductItems();
-                }
-            }
-
-            @Override
-            public int getTotalPageCount() {
-                return recommendationProductAdapter.getItemCount();
-            }
-
-            @Override
-            public boolean isLastPage() {
-                return false;
-            }
-
-            @Override
-            public boolean isLoading() {
-                return isLoading;
-            }
-        };
-        fragmentHomeNewBinding.recommendationContainerParent.rvRecommendedProducts.addOnScrollListener(paginationScrollListener);
-*/
-
-        //fragmentHomeNewBinding.recommendationContainerParent.rvRecommendedProducts.addItemDecoration(new SpacesItemDecoration((int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, 5, getContext().getResources().getDisplayMetrics())));
-
         // just to remove lag from recommendation products adapter
         if (android.os.Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT_WATCH) {
             fragmentHomeNewBinding.brandsInFocusContainerParent.rvBrandsInFocus.setNestedScrollingEnabled(false);
@@ -593,9 +584,90 @@ public class HomeFragment extends Fragment implements ActionAdapter.ActionClickL
         startActivity(intent);
     }
 
-    void showProgressBar(int visibility) {
+    public void addDots() {
 
+
+/*        if (fragmentHomeNewBinding.dots.getChildCount() > 0)
+            fragmentHomeNewBinding.dots.removeAllViews();*/
+
+        dots.clear();
+
+        if (bannerList.size() < 2) {
+            fragmentHomeNewBinding.dots.setVisibility(View.GONE);
+            return;
+        }
+
+        for (int i = 0; i <= bannerList.size() - 1; i++) {
+            ImageView dot = new ImageView(getContext());
+            dot.setImageDrawable(getResources().getDrawable(R.drawable.empty_intro_circle));
+
+            LinearLayout.LayoutParams params = new LinearLayout.LayoutParams(
+                    LinearLayout.LayoutParams.WRAP_CONTENT,
+                    LinearLayout.LayoutParams.WRAP_CONTENT
+            );
+
+
+            fragmentHomeNewBinding.dots.addView(dot, params);
+            dots.add(dot);
+        }
+
+        selectDot(0);
+
+        fragmentHomeNewBinding.vpImages.addOnPageChangeListener(new ViewPager.OnPageChangeListener() {
+            @Override
+            public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {
+            }
+
+            @Override
+            public void onPageSelected(int position) {
+
+                currentPage = position;
+                selectDot(position);
+            }
+
+            @Override
+            public void onPageScrollStateChanged(int state) {
+            }
+        });
     }
 
+    public void selectDot(int idx) {
+
+        if (getContext() == null)
+            return;
+
+        Resources res = getResources();
+        for (int i = 0; i <= bannerList.size() - 1; i++) {
+            int drawableId = (i == idx) ? (R.drawable.filled_circle) : (R.drawable.empty_intro_circle);
+            Drawable drawable = res.getDrawable(drawableId);
+            dots.get(i).setImageDrawable(drawable);
+        }
+    }
+
+
+    private void setupAutoPager() {
+        final Handler handler = new Handler();
+
+        final Runnable update = () -> {
+
+            fragmentHomeNewBinding.vpImages.setCurrentItem(currentPage, true);
+            if (currentPage == bannerList.size()) {
+                currentPage = 0;
+            } else {
+
+                ++currentPage;
+            }
+        };
+
+
+        Timer timer = new Timer();
+        timer.schedule(new TimerTask() {
+
+            @Override
+            public void run() {
+                handler.post(update);
+            }
+        }, 1000, 3500);
+    }
 
 }

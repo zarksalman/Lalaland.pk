@@ -97,7 +97,7 @@
             android:text="@{AppUtils.formatPriceString(recommendation.actualPrice)}"
             android:textColor="@android:color/black"
             android:textSize="12sp"
-            android:visibility="@{recommendation.salePrice == recommendation.actualPrice ? View.GONE : View.VISIBLE}"
+            android:visibility="@{recommendation.salePrice == recommendation.actualPrice ? View.INVISIBLE : View.VISIBLE}"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintBottom_toBottomOf="parent"

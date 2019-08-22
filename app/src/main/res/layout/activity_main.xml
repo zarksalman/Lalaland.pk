@@ -19,7 +19,7 @@
             android:layout_height="wrap_content"
             android:background="@android:color/white"
             android:orientation="vertical"
-            android:padding="@dimen/_16dp"
+            android:padding="@dimen/_4dp"
             android:visibility="visible"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
@@ -29,7 +29,7 @@
                 android:id="@+id/top_bar_search"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:visibility="gone"
+                android:visibility="visible"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent">
@@ -41,15 +41,16 @@
                     android:fontFamily="@font/ubuntumedium"
                     android:text="@string/app_name"
                     android:textColor="@android:color/white"
-                    android:paddingStart="@dimen/_4dp"
+                    android:padding="@dimen/_4dp"
                     android:textSize="18sp"
                     app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toTopOf="parent" />
+                    app:layout_constraintBottom_toBottomOf="@+id/et_global_search"
+                    app:layout_constraintTop_toTopOf="@+id/et_global_search" />
 
                 <androidx.appcompat.widget.SearchView
 
                     android:id="@+id/sv_items"
-                    android:layout_width="match_parent"
+                    android:layout_width="0dp"
                     android:layout_height="40dp"
                     android:layout_gravity="center_vertical"
                     android:layout_marginTop="@dimen/_8dp"
@@ -60,19 +61,19 @@
                     app:iconifiedByDefault="false"
                     android:textSize="15sp"
                     app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@+id/tv_app_name"
+                    app:layout_constraintStart_toEndOf="@+id/tv_app_name"
+                    app:layout_constraintTop_toTopOf="parent"
                     app:queryHint="Search for Everything" />
 
                 <EditText
 
                     android:id="@+id/et_global_search"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
+                    android:layout_width="0dp"
+                    android:layout_height="40dp"
                     android:layout_marginStart="@dimen/_4dp"
-                    android:layout_marginTop="@dimen/_8dp"
+                    android:padding="@dimen/_8dp"
                     android:layout_marginEnd="@dimen/_4dp"
-                    android:layout_marginBottom="@dimen/_8dp"
+                    android:scrollHorizontally="true"
                     android:background="@drawable/search_bar_bg_round_cornors"
                     android:cursorVisible="false"
                     android:drawableStart="@drawable/searchview_icon"
@@ -82,12 +83,10 @@
                     android:imeOptions="actionSearch"
                     android:inputType="text"
                     android:maxLines="1"
-                    android:padding="@dimen/_8dp"
-                    android:scrollHorizontally="true"
                     android:textSize="12sp"
                     app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@+id/tv_app_name" />
+                    app:layout_constraintStart_toEndOf="@id/tv_app_name"
+                    app:layout_constraintTop_toTopOf="parent" />
 
                 <ImageView
 

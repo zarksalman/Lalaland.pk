@@ -132,7 +132,7 @@
             android:layout_marginTop="@dimen/_16dp"
             android:scaleType="fitCenter"
             android:src="@drawable/out_of_stock"
-            android:visibility="@{AppUtils.toInteger(product.quantity) > 0 ? View.GONE: View.VISIBLE}" />
+            android:visibility="@{AppUtils.toInteger(product.quantity) > 0 ? View.INVISIBLE: View.VISIBLE}" />
 
         <RelativeLayout
             android:layout_width="wrap_content"
@@ -142,7 +142,7 @@
             android:layout_marginTop="@dimen/_16dp"
             android:layout_marginEnd="@dimen/_8dp"
             android:scaleType="fitCenter"
-            android:visibility="@{AppUtils.isPriceEqual(product.salePrice,product.actualPrice) ? View.GONE : View.VISIBLE}">
+            android:visibility="@{AppUtils.isPriceEqual(product.salePrice,product.actualPrice) ? View.INVISIBLE : View.VISIBLE}">
 
             <ImageView
 

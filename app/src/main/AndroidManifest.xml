@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
     package="com.lalaland.ecommerce">
 
     <uses-permission android:name="android.permission.INTERNET" />
@@ -8,12 +9,16 @@
     <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
     <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
 
+
+<!--
+    android:label="@string/my_app_name"
+-->
+
     <application
         android:name=".LalalandApplication"
         android:allowBackup="true"
         android:hardwareAccelerated="true"
         android:icon="@mipmap/ic_launcher"
-        android:label="@string/my_app_name"
         android:largeHeap="true"
         android:theme="@style/AppTheme.NoActionBar">
 

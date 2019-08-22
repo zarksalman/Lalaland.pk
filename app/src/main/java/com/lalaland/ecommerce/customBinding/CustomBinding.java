@@ -61,8 +61,8 @@ public class CustomBinding {
         Glide
                 .with(imageView.getContext())
                 .load(imageName)
-                .placeholder(R.drawable.placeholder_products)
-                .error(R.drawable.placeholder_products)
+                .placeholder(R.drawable.placeholder_products_pick_of_week)
+                .error(R.drawable.placeholder_products_pick_of_week)
                 .fitCenter()
                 .into(imageView);
     }
@@ -106,7 +106,7 @@ public class CustomBinding {
         Glide
                 .with(imageView.getContext())
                 .load(imageSrc)
-                .centerInside()
+                .fitCenter()
                 .error(R.drawable.placeholder_products)
                 .placeholder(R.drawable.placeholder_products)
                 .into(imageView);
@@ -119,8 +119,8 @@ public class CustomBinding {
         Glide
                 .with(imageView.getContext())
                 .load(imageSrc)
-                .placeholder(R.drawable.placeholder_products)
-                .error(R.drawable.placeholder_products)
+                .placeholder(R.drawable.placeholder_products_bigger_images)
+                .error(R.drawable.placeholder_products_bigger_images)
                 .fitCenter()
                 .into(imageView);
     }

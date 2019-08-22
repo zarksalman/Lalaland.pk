@@ -26,7 +26,6 @@
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:background="@color/colorDarkGray"
-
                 android:visibility="gone">
 
                 <RelativeLayout
@@ -43,17 +42,80 @@
                         android:layout_alignParentTop="true"
                         android:layout_centerHorizontal="true"
                         android:minHeight="@dimen/_200dp"
-                        android:visibility="visible"
+                        android:visibility="gone"
                         app:layout_constraintEnd_toEndOf="parent"
                         app:layout_constraintStart_toStartOf="parent"
                         app:layout_constraintTop_toTopOf="parent" />
+
+                    <com.smarteist.autoimageslider.SliderView
+                        android:id="@+id/imageSlider"
+                        android:layout_width="match_parent"
+                        android:layout_height="250dp"
+                        android:minHeight="@dimen/_200dp"
+                        android:visibility="gone"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toTopOf="parent"
+                        app:sliderAnimationDuration="600"
+                        app:sliderAutoCycleDirection="left"
+                        app:sliderAutoCycleEnabled="true"
+                        app:sliderCircularHandlerEnabled="true"
+                        app:sliderIndicatorAnimationDuration="600"
+                        app:sliderIndicatorGravity="center_horizontal|bottom"
+                        app:sliderIndicatorMargin="15dp"
+                        app:sliderIndicatorOrientation="horizontal"
+                        app:sliderIndicatorPadding="3dp"
+                        app:sliderIndicatorRadius="2dp"
+                        app:sliderIndicatorSelectedColor="#5A5A5A"
+                        app:sliderIndicatorUnselectedColor="#FFF"
+                        app:sliderScrollTimeInSec="1"
+                        app:sliderStartAutoCycle="true" />
+
+                    <androidx.constraintlayout.widget.ConstraintLayout
+
+                        android:id="@+id/slider_container"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toTopOf="parent">
+
+                        <androidx.viewpager.widget.ViewPager
+
+                            android:id="@+id/vp_images"
+                            android:layout_width="0dp"
+                            android:layout_height="250dp"
+                            android:layout_alignParentTop="true"
+                            android:layout_centerHorizontal="true"
+                            android:visibility="visible"
+                            app:layout_constraintEnd_toEndOf="parent"
+                            app:layout_constraintStart_toStartOf="parent"
+                            app:layout_constraintTop_toTopOf="parent" />
+
+                        <LinearLayout
+
+                            android:id="@+id/dots"
+                            android:layout_width="match_parent"
+                            android:layout_height="@dimen/_20dp"
+                            android:layout_below="@+id/vp_images"
+                            android:layout_centerHorizontal="true"
+                            android:layout_marginBottom="@dimen/_4dp"
+                            android:gravity="center"
+                            android:orientation="horizontal"
+                            android:padding="@dimen/_5dp"
+                            app:layout_constraintBottom_toBottomOf="@+id/vp_images"
+                            app:layout_constraintEnd_toEndOf="parent"
+                            app:layout_constraintStart_toStartOf="parent" />
+
+                    </androidx.constraintlayout.widget.ConstraintLayout>
+
 
                     <!--actions list-->
                     <LinearLayout
                         android:id="@+id/rv_action_container"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:layout_below="@+id/vf_slider"
+                        android:layout_below="@+id/slider_container"
                         android:layout_centerHorizontal="true"
                         android:background="@android:color/white"
                         android:gravity="center_horizontal"
@@ -63,7 +125,7 @@
                         android:weightSum="100"
                         app:layout_constraintEnd_toEndOf="parent"
                         app:layout_constraintStart_toStartOf="parent"
-                        app:layout_constraintTop_toBottomOf="@+id/vf_slider" />
+                        app:layout_constraintTop_toBottomOf="@+id/imageSlider" />
 
                     <!--pick of the week-->
                     <include
@@ -74,6 +136,7 @@
                         android:layout_height="wrap_content"
                         android:layout_below="@+id/rv_action_container"
                         android:layout_centerHorizontal="true"
+                        android:gravity="center_horizontal"
                         android:layout_marginTop="@dimen/_8dp"
                         android:visibility="visible" />
 
@@ -125,6 +188,7 @@
                         layout="@layout/advertisement_layout"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
+                        android:background="@android:color/white"
                         android:layout_below="@+id/blogs_container_parent"
                         android:visibility="visible" />
 

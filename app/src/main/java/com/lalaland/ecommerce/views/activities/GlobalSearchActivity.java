@@ -5,7 +5,6 @@ import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.ActionMode;
-import android.view.KeyEvent;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -13,7 +12,6 @@ import android.view.inputmethod.EditorInfo;
 import android.widget.AutoCompleteTextView;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
-import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
@@ -176,8 +174,10 @@ public class GlobalSearchActivity extends AppCompatActivity implements SearchPro
 
             // if search string is empty then show previous searches if any available in db
             if (savedSearchCategories.size() > 0) {
+
                 activityGlobalSearchBinding.recentSearches.setVisibility(View.VISIBLE);
                 activityGlobalSearchBinding.emptyState.setVisibility(View.GONE);
+                activityGlobalSearchBinding.rvSearchProducts.setVisibility(View.GONE);
             } else {
                 activityGlobalSearchBinding.recentSearches.setVisibility(View.GONE);
                 activityGlobalSearchBinding.emptyState.setVisibility(View.VISIBLE);
@@ -189,15 +189,12 @@ public class GlobalSearchActivity extends AppCompatActivity implements SearchPro
             callQstr();
         });
 
-        activityGlobalSearchBinding.etGlobalSearch.setOnEditorActionListener(new TextView.OnEditorActionListener() {
-            @Override
-            public boolean onEditorAction(TextView v, int actionId, KeyEvent event) {
-                if (actionId == EditorInfo.IME_ACTION_SEARCH) {
-                    callQstr();
-                    return true;
-                }
-                return false;
+        activityGlobalSearchBinding.etGlobalSearch.setOnEditorActionListener((v, actionId, event) -> {
+            if (actionId == EditorInfo.IME_ACTION_SEARCH) {
+                callQstr();
+                return true;
             }
+            return false;
         });
     }
 
@@ -501,54 +498,66 @@ public class GlobalSearchActivity extends AppCompatActivity implements SearchPro
         this.isHistory = isHistory;
         SearchCategory searchCategory;
 
-        if (isHistory) {
-            searchCategory = savedSearchCategories.get(position);
-        } else {
-
             /*
             1- brands (-2)
             2- categories (xxx)
             3- products (-1)
              */
-            if (parentId == -1) {
+        if (parentId == -1) {
 
-                if (searchParentCategories.size() == 3)
+
+            if (isHistory) {
+                searchCategory = savedSearchCategories.get(position);
+            } else {
+
+                searchCategory = searchParentCategories.get(searchParentCategories.size() - 1).getSearchCategories().get(position);
+
+/*                if (searchParentCategories.size() == 3)
                     searchCategory = searchParentCategories.get(2).getSearchCategories().get(position);
-                else
+                else if (searchParentCategories.size() == 2)
                     searchCategory = searchParentCategories.get(1).getSearchCategories().get(position);
+                else
+                    searchCategory = searchParentCategories.get(0).getSearchCategories().get(position);*/
+            }
 
-                intent = new Intent(this, ProductDetailActivity.class);
-                intent.putExtra(PRODUCT_ID, searchCategory.getId());
+            intent = new Intent(this, ProductDetailActivity.class);
+            intent.putExtra(PRODUCT_ID, searchCategory.getId());
 
-            } else if (parentId == -2) {
+        } else if (parentId == -2) {
 
+            if (isHistory)
+                searchCategory = savedSearchCategories.get(position);
+            else
                 searchCategory = searchParentCategories.get(0).getSearchCategories().get(position);
 
+            String urlName = searchCategory.getUrlName();
+            urlName = AppUtils.formatSearchUrl(urlName);
 
-                String urlName = searchCategory.getUrlName();
-                urlName = AppUtils.formatSearchUrl(urlName);
+            intent = new Intent(this, ActionProductListingActivity.class);
+            intent.putExtra(ACTION_NAME, urlName);
+            intent.putExtra(PRODUCT_TYPE, BRANDS_IN_FOCUS_PRODUCTS);
+            intent.putExtra(ACTION_ID, String.valueOf(searchCategory.getId()));
+        } else {
 
-                intent = new Intent(this, ActionProductListingActivity.class);
-                intent.putExtra(ACTION_NAME, urlName);
-                intent.putExtra(PRODUCT_TYPE, BRANDS_IN_FOCUS_PRODUCTS);
-                intent.putExtra(ACTION_ID, String.valueOf(searchCategory.getId()));
-            } else {
+            if (isHistory)
+                searchCategory = savedSearchCategories.get(position);
+            else {
 
                 if (searchParentCategories.size() == 3)
                     searchCategory = searchParentCategories.get(1).getSearchCategories().get(position);
                 else {
                     searchCategory = searchParentCategories.get(0).getSearchCategories().get(position);
                 }
-
-                String urlName = searchCategory.getUrlName();
-
-                urlName = AppUtils.formatSearchUrl(urlName);
-                intent = new Intent(this, ActionProductListingActivity.class);
-
-                intent.putExtra(ACTION_NAME, urlName);
-                intent.putExtra(PRODUCT_TYPE, "category");
-                intent.putExtra(ACTION_ID, String.valueOf(searchCategory.getId()));
             }
+
+            String urlName = searchCategory.getUrlName();
+
+            urlName = AppUtils.formatSearchUrl(urlName);
+            intent = new Intent(this, ActionProductListingActivity.class);
+
+            intent.putExtra(ACTION_NAME, urlName);
+            intent.putExtra(PRODUCT_TYPE, "category");
+            intent.putExtra(ACTION_ID, String.valueOf(searchCategory.getId()));
         }
 
         productViewModel.insertSearch(searchCategory);

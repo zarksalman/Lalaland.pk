@@ -65,6 +65,8 @@ public class SearchProductAdapter extends RecyclerView.Adapter<SearchProductAdap
     }
 
     public void onSearchDelete(int position) {
+
+/*        if (position != )*/
         mSearchListener.onSearchProductDelete(mSearches.get(position).getParentId(), position, mIsHistory);
     }
 

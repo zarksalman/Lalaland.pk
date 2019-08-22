@@ -125,6 +125,7 @@
                 android:text="@{AppUtils.formatPriceString(actionProduct.actualPrice)}"
                 android:textColor="@color/colorDarkGray"
                 android:textSize="12sp"
+                app:layout_goneMarginBottom="@dimen/_2dp"
                 android:visibility="@{AppUtils.isPriceEqual(actionProduct.salePrice,actionProduct.actualPrice) ? View.GONE : View.VISIBLE}"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
