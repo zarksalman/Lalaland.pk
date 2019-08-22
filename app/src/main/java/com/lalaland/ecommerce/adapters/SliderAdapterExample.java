@@ -1,22 +1,6 @@
 package com.lalaland.ecommerce.adapters;
 
-import android.content.Context;
-import android.util.Log;
-import android.view.LayoutInflater;
-import android.view.View;
-import android.view.ViewGroup;
-import android.widget.ImageView;
-
-import com.bumptech.glide.Glide;
-import com.lalaland.ecommerce.R;
-import com.lalaland.ecommerce.data.models.home.HomeBanner;
-import com.smarteist.autoimageslider.SliderViewAdapter;
-
-import java.util.List;
-
-import static com.lalaland.ecommerce.helpers.AppConstants.BANNER_STORAGE_BASE_URL;
-
-public class SliderAdapterExample extends SliderViewAdapter<SliderAdapterExample.SliderAdapterVH> {
+public class SliderAdapterExample {/*extends SliderViewAdapter<SliderAdapterExample.SliderAdapterVH> {
 
     private Context context;
     private List<HomeBanner> img;
@@ -61,5 +45,5 @@ public class SliderAdapterExample extends SliderViewAdapter<SliderAdapterExample
 
             this.itemView = itemView;
         }
-    }
+    }*/
 }

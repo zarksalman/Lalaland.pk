@@ -47,30 +47,6 @@
                         app:layout_constraintStart_toStartOf="parent"
                         app:layout_constraintTop_toTopOf="parent" />
 
-                    <com.smarteist.autoimageslider.SliderView
-                        android:id="@+id/imageSlider"
-                        android:layout_width="match_parent"
-                        android:layout_height="250dp"
-                        android:minHeight="@dimen/_200dp"
-                        android:visibility="gone"
-                        app:layout_constraintEnd_toEndOf="parent"
-                        app:layout_constraintStart_toStartOf="parent"
-                        app:layout_constraintTop_toTopOf="parent"
-                        app:sliderAnimationDuration="600"
-                        app:sliderAutoCycleDirection="left"
-                        app:sliderAutoCycleEnabled="true"
-                        app:sliderCircularHandlerEnabled="true"
-                        app:sliderIndicatorAnimationDuration="600"
-                        app:sliderIndicatorGravity="center_horizontal|bottom"
-                        app:sliderIndicatorMargin="15dp"
-                        app:sliderIndicatorOrientation="horizontal"
-                        app:sliderIndicatorPadding="3dp"
-                        app:sliderIndicatorRadius="2dp"
-                        app:sliderIndicatorSelectedColor="#5A5A5A"
-                        app:sliderIndicatorUnselectedColor="#FFF"
-                        app:sliderScrollTimeInSec="1"
-                        app:sliderStartAutoCycle="true" />
-
                     <androidx.constraintlayout.widget.ConstraintLayout
 
                         android:id="@+id/slider_container"
@@ -125,7 +101,7 @@
                         android:weightSum="100"
                         app:layout_constraintEnd_toEndOf="parent"
                         app:layout_constraintStart_toStartOf="parent"
-                        app:layout_constraintTop_toBottomOf="@+id/imageSlider" />
+                        app:layout_constraintTop_toBottomOf="@+id/slider_container" />
 
                     <!--pick of the week-->
                     <include

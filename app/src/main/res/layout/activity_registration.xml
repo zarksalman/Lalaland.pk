@@ -80,7 +80,7 @@
             app:layout_constraintBottom_toTopOf="@+id/btn_back"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/tl_screen_registration" />
+            app:layout_constraintTop_toBottomOf="@+id/tl_screen_registration" />
 
         <Button
 

@@ -139,7 +139,7 @@
                 android:id="@+id/sv_global_search"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_below="@id/logo_container"
+                android:layout_below="@+id/logo_container"
                 android:visibility="gone"
                 android:layout_margin="@dimen/_8dp"
                 android:background="@drawable/search_bar_bg_round_cornors"

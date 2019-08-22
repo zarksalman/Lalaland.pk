@@ -85,7 +85,7 @@
                     android:maxLines="1"
                     android:textSize="12sp"
                     app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintStart_toEndOf="@id/tv_app_name"
+                    app:layout_constraintStart_toEndOf="@+id/tv_app_name"
                     app:layout_constraintTop_toTopOf="parent" />
 
                 <ImageView

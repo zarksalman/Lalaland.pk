@@ -6,8 +6,8 @@ android {
         applicationId "com.lalaland.onlineshoppingapp"
         minSdkVersion 19
         targetSdkVersion 28
-        versionCode 3
-        versionName "1.1.1"
+        versionCode 4
+        versionName "1.1.2"
         multiDexEnabled true
 
         dataBinding {
@@ -99,6 +99,6 @@ dependencies {
     implementation 'id.zelory:compressor:2.1.0'
 
     // image slider
-    implementation 'com.github.smarteist:autoimageslider:1.3.2'
+//    implementation 'com.github.smarteist:autoimageslider:1.3.2'
 
 }

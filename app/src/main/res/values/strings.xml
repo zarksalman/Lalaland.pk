@@ -73,7 +73,6 @@
     <string name="material_and_care"><![CDATA[MATERIAL & CARE]]></string>
     <string name="all">All</string>
     <string name="lalaland">lalaland</string>
-    <string name="authenticity_guaranteed">Authenticity Guaranteed</string>
     <string name="size">Size:</string>
     <string name="size_without_colon">Size</string>
     <string name="quantity">Quantity</string>
@@ -122,6 +121,7 @@
 
     <string name="action_tag">1</string>
     <string name="pick_of_week_tag">2</string>
+    <string name="banner_circle_tag">3</string>
     <string name="login_to_view_wishlist_items">Login to view wishlist items</string>
     <string name="delivery_option">Delivery Options</string>
     <string name="city_name">City Name</string>
@@ -185,6 +185,5 @@
     <string name="next">Next</string>
     <string name="category_in_focus">CATEGORY IN FOCUS</string>
     <string name="address">Address</string>
-    <string name="one_stop_fashion_and_lifestyle_online">ONE-STOP FASHION AND LIFESTYLE ONLINE</string>
 
 </resources>

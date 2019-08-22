@@ -48,7 +48,6 @@ import com.lalaland.ecommerce.data.models.home.HomeBanner;
 import com.lalaland.ecommerce.data.models.home.PicksOfTheWeek;
 import com.lalaland.ecommerce.data.models.products.Product;
 import com.lalaland.ecommerce.databinding.ActionLayoutBinding;
-import com.lalaland.ecommerce.databinding.FragmentHomeBinding;
 import com.lalaland.ecommerce.databinding.FragmentHomeNewBinding;
 import com.lalaland.ecommerce.databinding.PickOfWeekItemBinding;
 import com.lalaland.ecommerce.helpers.AppConstants;
@@ -86,7 +85,6 @@ public class HomeFragment extends Fragment implements ActionAdapter.ActionClickL
 
     private HomeViewModel homeViewModel;
 
-    private FragmentHomeBinding fragmentHomeBinding;
     private FragmentHomeNewBinding fragmentHomeNewBinding;
     private List<Actions> actionsList = new ArrayList<>();
     private List<HomeBanner> bannerList = new ArrayList<>();
@@ -608,6 +606,14 @@ public class HomeFragment extends Fragment implements ActionAdapter.ActionClickL
 
 
             fragmentHomeNewBinding.dots.addView(dot, params);
+
+            dot.setTag(R.string.banner_circle_tag, i);
+
+            dot.setOnClickListener(v -> {
+
+                onBannerCircleClicked(Integer.parseInt(v.getTag(R.string.banner_circle_tag).toString()));
+            });
+
             dots.add(dot);
         }
 
@@ -629,6 +635,11 @@ public class HomeFragment extends Fragment implements ActionAdapter.ActionClickL
             public void onPageScrollStateChanged(int state) {
             }
         });
+    }
+
+    private void onBannerCircleClicked(int parseInt) {
+        currentPage = parseInt;
+        fragmentHomeNewBinding.vpImages.setCurrentItem(parseInt);
     }
 
     public void selectDot(int idx) {

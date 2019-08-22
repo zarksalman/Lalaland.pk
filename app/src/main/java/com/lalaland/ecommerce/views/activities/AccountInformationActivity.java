@@ -120,6 +120,8 @@ public class AccountInformationActivity extends AppCompatActivity {
 
         Glide.with(this)
                 .load(avatarImagePath)
+                .diskCacheStrategy(DiskCacheStrategy.NONE)
+                .skipMemoryCache(true)
                 .placeholder(R.drawable.placeholder_products)
                 .into(activityAccountInformationBinding.ivDisplayPicture);
     }
