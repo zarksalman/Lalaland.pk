@@ -238,11 +238,25 @@ public class ProductDetailActivity extends AppCompatActivity implements ProductV
             price.append("-");
             price.append(maxSalePrice);
 
-            activityProductDetailBinding.tvProductPrice.setText(AppUtils.formatPriceString(price.toString()));
+            try {
+                activityProductDetailBinding.tvProductPrice.setText(AppUtils.formatPriceString(price.toString()));
+            } catch (NumberFormatException e) {
+
+                activityProductDetailBinding.tvProductPrice.setText(price.toString());
+                e.printStackTrace();
+            }
+
         } else {
 
             price.append(minSalePrice);
-            activityProductDetailBinding.tvProductPrice.setText(AppUtils.formatPriceString(price.toString()));
+
+            try {
+                activityProductDetailBinding.tvProductPrice.setText(AppUtils.formatPriceString(price.toString()));
+            } catch (NumberFormatException e) {
+
+                activityProductDetailBinding.tvProductPrice.setText(price.toString());
+                e.printStackTrace();
+            }
         }
 
         if (maxActualPrice > minActualPrice) {

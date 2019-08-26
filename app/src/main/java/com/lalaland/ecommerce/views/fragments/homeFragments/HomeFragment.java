@@ -306,7 +306,7 @@ public class HomeFragment extends Fragment implements ActionAdapter.ActionClickL
 
         //setting viewpagger height because in scrollview wrap/match does not calculate their height correctly
         android.view.Display display = ((android.view.WindowManager) getContext().getSystemService(Context.WINDOW_SERVICE)).getDefaultDisplay();
-        fragmentHomeNewBinding.vpImages.getLayoutParams().height = ((int) (display.getHeight() * 0.35));
+        fragmentHomeNewBinding.vpImages.getLayoutParams().height = ((int) (display.getWidth() * 0.6));
         fragmentHomeNewBinding.vpImages.getLayoutParams().width = ((int) (display.getWidth() * 1.0));
 
         currentPage = 0;
@@ -597,7 +597,7 @@ public class HomeFragment extends Fragment implements ActionAdapter.ActionClickL
 
         for (int i = 0; i <= bannerList.size() - 1; i++) {
             ImageView dot = new ImageView(getContext());
-            dot.setImageDrawable(getResources().getDrawable(R.drawable.empty_intro_circle));
+            dot.setImageDrawable(getResources().getDrawable(R.drawable.empty_circle));
 
             LinearLayout.LayoutParams params = new LinearLayout.LayoutParams(
                     LinearLayout.LayoutParams.WRAP_CONTENT,
@@ -649,7 +649,7 @@ public class HomeFragment extends Fragment implements ActionAdapter.ActionClickL
 
         Resources res = getResources();
         for (int i = 0; i <= bannerList.size() - 1; i++) {
-            int drawableId = (i == idx) ? (R.drawable.filled_circle) : (R.drawable.empty_intro_circle);
+            int drawableId = (i == idx) ? (R.drawable.filled_circle) : (R.drawable.empty_circle);
             Drawable drawable = res.getDrawable(drawableId);
             dots.get(i).setImageDrawable(drawable);
         }
@@ -681,4 +681,21 @@ public class HomeFragment extends Fragment implements ActionAdapter.ActionClickL
         }, 1000, 3500);
     }
 
+  /*  @Override
+    protected void onMeasure(int widthMeasureSpec, int heightMeasureSpec) {
+
+        int height = 0;
+        for(int i = 0; i < productMultimedia.size(); i++) {
+            View child = productMultimedia(i);
+            child.measure(widthMeasureSpec, View.MeasureSpec.makeMeasureSpec(0, View.MeasureSpec.UNSPECIFIED));
+            int h = child.getMeasuredHeight();
+            if(h > height) height = h;
+        }
+
+        if (height != 0) {
+            heightMeasureSpec = MeasureSpec.makeMeasureSpec(height, MeasureSpec.EXACTLY);
+        }
+
+        super.onMeasure(widthMeasureSpec, heightMeasureSpec);
+    }*/
 }

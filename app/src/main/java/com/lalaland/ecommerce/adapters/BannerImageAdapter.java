@@ -20,8 +20,6 @@ import com.lalaland.ecommerce.helpers.AppConstants;
 import java.util.ArrayList;
 import java.util.List;
 
-import static com.lalaland.ecommerce.helpers.AppConstants.TAG;
-
 public class BannerImageAdapter extends PagerAdapter {
 
 
@@ -69,9 +67,11 @@ public class BannerImageAdapter extends PagerAdapter {
         Glide
                 .with(context)
                 .load(imgUrl)
-                .placeholder(R.drawable.placeholder_products)
-                .error(R.drawable.placeholder_products)
+                .fitCenter()
+                .placeholder(R.drawable.placeholder_products_bigger_images)
+                .error(R.drawable.placeholder_products_bigger_images)
                 .into(productImageItemBinding.ivSlider);
+
 
         container.addView(productImageItemBinding.getRoot());
         return productImageItemBinding.getRoot();

@@ -14,7 +14,6 @@
             android:id="@+id/iv_slider"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:scaleType="fitCenter"
             app:layout_constraintDimensionRatio="5:3"
             android:src="@drawable/placeholder_products"
             app:layout_constraintEnd_toEndOf="parent"
