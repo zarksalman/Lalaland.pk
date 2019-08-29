@@ -30,7 +30,9 @@ import com.lalaland.ecommerce.data.models.category.Category;
 import com.lalaland.ecommerce.data.models.category.CategoryBrand;
 import com.lalaland.ecommerce.databinding.FragmentCategoryBinding;
 import com.lalaland.ecommerce.helpers.AppConstants;
+import com.lalaland.ecommerce.interfaces.NetworkInterface;
 import com.lalaland.ecommerce.viewModels.categories.CategoriesViewModel;
+import com.lalaland.ecommerce.viewModels.products.CategoryViewModel;
 import com.lalaland.ecommerce.views.activities.ActionProductListingActivity;
 
 import java.util.ArrayList;
@@ -46,7 +48,7 @@ import static com.lalaland.ecommerce.helpers.AppConstants.SUCCESS_CODE;
 
 
 public class CategoryFragment extends Fragment implements MajorCategoryAdapter.MajorCategoryClickListener,
-        CategoryAdapter.CategoryListener, CategorBrandAdapter.CategoryBrandListener {
+        CategoryAdapter.CategoryListener, CategorBrandAdapter.CategoryBrandListener, NetworkInterface {
 
     private FragmentCategoryBinding fragmentCategoryBinding;
     private List<Category> categoryList = new ArrayList<>();
@@ -115,6 +117,36 @@ public class CategoryFragment extends Fragment implements MajorCategoryAdapter.M
             setCategoryAdapter();
             getCategories(AppConstants.staticCategoryList.get(0).getId());
             fragmentCategoryBinding.rvSubCategory.setVisibility(View.VISIBLE);
+        } else {
+
+
+            CategoryViewModel categoryViewModel = ViewModelProviders.of(this).get(CategoryViewModel.class);
+
+            categoryViewModel.getActionProducts(this).observe(this, categoryContainer -> {
+
+                if (categoryContainer != null) {
+
+                    if (categoryContainer.getCode().equals(SUCCESS_CODE)) {
+
+                        AppConstants.staticCategoryList = new ArrayList<>();
+                        AppConstants.staticCitiesList = new ArrayList<>();
+                        AppConstants.staticCategoryBrandsList = new ArrayList<>();
+
+                        AppConstants.staticCategoryList = categoryContainer.getData().getCategories();
+                        AppConstants.staticCitiesList = categoryContainer.getData().getCities();
+                        AppConstants.staticCategoryBrandsList = categoryContainer.getData().getBrands();
+
+
+                        // remove Gift category
+                        for (Category category : new ArrayList<>(AppConstants.staticCategoryList)) {
+                            if (category.getName().equals("Gift"))
+                                AppConstants.staticCategoryList.remove(category);
+                        }
+
+                        iniFragment();
+                    }
+                }
+            });
         }
 
     }
@@ -321,5 +353,10 @@ public class CategoryFragment extends Fragment implements MajorCategoryAdapter.M
         intent.putExtra(ACTION_ID, String.valueOf(categoryBrand.getId()));
         intent.putExtra(PRODUCT_TYPE, BRANDS_IN_FOCUS_PRODUCTS);
         startActivity(intent);
+    }
+
+    @Override
+    public void onFailure(boolean isFailed) {
+
     }
 }

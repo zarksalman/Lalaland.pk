@@ -17,16 +17,25 @@ import java.util.regex.Pattern;
 public class AppConstants {
 
     public static final String BASE_URL = "https://api.lalaland.pk/api/";
-    //    public static final String BASE_URL = "https://api.uat.lalaland.pk/api/";
+    //        public static final String BASE_URL = "https://api.uat.lalaland.pk/api/";
     public static final String BASE_URL_PRODUCT_SHARE = "https://www.lalaland.pk/";
+
     public static String ABOUT_US_URL = "";
     public static String PRIVACY_POLICY_URL = "";
     public static String RETURN_POLICY_URL = "";
     public static String TERMS_AND_CONDITIONS_URL = "";
     public static String FAQ_URL = "";
     public static String BLOGS = "blog";
+
     public static int URL_TYPE = 0;
     public static String IS_FIRST_TIME = "is_first_time";
+
+    public static final String ABOUT_US_URL_KEY = "about_us_url_key";
+    public static final String PRIVACY_POLICY_URL_KEY = "privacy_policy_url_key";
+    public static final String RETURN_POLICY_URL_KEY = "return_url_key";
+    public static final String TERMS_AND_CONDITIONS_URL_KEY = "term_url_key";
+    public static final String FAQ_URL_KEY = "faq_url_key";
+    public static final String BLOGS_URL_KEY = "blogs_url_key";
 
     public static final String APP_NAME = "Lalaland";
     public static final String APP_DATABASE = "lalaland_database";
@@ -105,14 +114,32 @@ public class AppConstants {
     public static String CATEGORY_FOCUS_STORAGE_BASE_URL;
 
     public static String CATEGORY_BRAND_STORAGE_BASE_URL;
-    public static String BANNER_STORAGE_BASE_URL;
-    public static String ACTION_STORAGE_BASE_URL;
-    public static String USER_STORAGE_BASE_URL;
-    public static String CUSTOM_PRODUCT_URL;
+    public static String BANNER_STORAGE_BASE_URL = "";
+    public static String ACTION_STORAGE_BASE_URL = "";
+    public static String USER_STORAGE_BASE_URL = "";
+    public static String CUSTOM_PRODUCT_URL = "";
 
-    public static String BLOG_URLS;
-    public static String ADVERTISEMENT_URL;
+    public static String PRODUCT_STORAGE_BASE_URL_KEY = "product_storage_base_url_key";
+    public static String MEDIUM_PRODUCT_STORAGE_BASE_URL_KEY = "medium_storage_base_url_key";
+    public static String SMALL_PRODUCT_STORAGE_BASE_URL_KEY = "small_storage_base_url_key";
+    public static String THUMBNAIL_PRODUCT_STORAGE_BASE_URL_KEY = "thumbnail_storage_base_url_key";
+    public static String BRAND_STORAGE_BASE_URL_KEY = "brand_storage_base_url_key";
+    public static String BRAND_FOCUS_STORAGE_BASE_URL_KEY = "brand_focus_storage_base_url_key";
+    public static String CATEGORY_FOCUS_STORAGE_BASE_URL_KEY = "category_storage_base_url_key";
 
+    public static String CATEGORY_BRAND_STORAGE_BASE_URL_KEY = "category_brand_storage_base_url_key";
+    public static String BANNER_STORAGE_BASE_URL_KEY = "banner_storage_base_url_key";
+    public static String ACTION_STORAGE_BASE_URL_KEY = "action_storage_base_url_key";
+    public static String USER_STORAGE_BASE_URL_KEY = "user_storage_base_url_key";
+    public static String CUSTOM_PRODUCT_URL_KEY = "custom_product_storage_base_url_key";
+    public static final String LOAD_HOME_FRAGMENT_INDEX_KEY = "load_fragment_key";
+
+
+    public static String BLOG_URLS = "";
+    public static String ADVERTISEMENT_URL = "";
+
+    public static String BLOG_URLS_KEY = "blogs_url_key";
+    public static String ADVERTISEMENT_URL_KEY = "advertisement_url_key";
 
     public static final String FULL_NAME = "full_name";
     public static final String FIRST_NAME = "first_name";

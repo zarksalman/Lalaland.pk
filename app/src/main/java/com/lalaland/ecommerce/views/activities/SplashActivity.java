@@ -28,24 +28,44 @@ import java.util.HashMap;
 import java.util.Map;
 
 import static com.lalaland.ecommerce.helpers.AppConstants.ABOUT_US_URL;
+import static com.lalaland.ecommerce.helpers.AppConstants.ABOUT_US_URL_KEY;
 import static com.lalaland.ecommerce.helpers.AppConstants.ACTION_STORAGE_BASE_URL;
+import static com.lalaland.ecommerce.helpers.AppConstants.ACTION_STORAGE_BASE_URL_KEY;
 import static com.lalaland.ecommerce.helpers.AppConstants.ADVERTISEMENT_URL;
+import static com.lalaland.ecommerce.helpers.AppConstants.ADVERTISEMENT_URL_KEY;
 import static com.lalaland.ecommerce.helpers.AppConstants.BANNER_STORAGE_BASE_URL;
+import static com.lalaland.ecommerce.helpers.AppConstants.BANNER_STORAGE_BASE_URL_KEY;
 import static com.lalaland.ecommerce.helpers.AppConstants.BLOGS;
+import static com.lalaland.ecommerce.helpers.AppConstants.BLOGS_URL_KEY;
 import static com.lalaland.ecommerce.helpers.AppConstants.BLOG_URLS;
+import static com.lalaland.ecommerce.helpers.AppConstants.BLOG_URLS_KEY;
 import static com.lalaland.ecommerce.helpers.AppConstants.BRAND_FOCUS_STORAGE_BASE_URL;
+import static com.lalaland.ecommerce.helpers.AppConstants.BRAND_FOCUS_STORAGE_BASE_URL_KEY;
 import static com.lalaland.ecommerce.helpers.AppConstants.BRAND_STORAGE_BASE_URL;
+import static com.lalaland.ecommerce.helpers.AppConstants.BRAND_STORAGE_BASE_URL_KEY;
 import static com.lalaland.ecommerce.helpers.AppConstants.CATEGORY_FOCUS_STORAGE_BASE_URL;
+import static com.lalaland.ecommerce.helpers.AppConstants.CATEGORY_FOCUS_STORAGE_BASE_URL_KEY;
 import static com.lalaland.ecommerce.helpers.AppConstants.CUSTOM_PRODUCT_URL;
+import static com.lalaland.ecommerce.helpers.AppConstants.CUSTOM_PRODUCT_URL_KEY;
 import static com.lalaland.ecommerce.helpers.AppConstants.FAQ_URL;
+import static com.lalaland.ecommerce.helpers.AppConstants.FAQ_URL_KEY;
 import static com.lalaland.ecommerce.helpers.AppConstants.IS_FIRST_TIME;
 import static com.lalaland.ecommerce.helpers.AppConstants.MEDIUM_PRODUCT_STORAGE_BASE_URL;
+import static com.lalaland.ecommerce.helpers.AppConstants.MEDIUM_PRODUCT_STORAGE_BASE_URL_KEY;
+import static com.lalaland.ecommerce.helpers.AppConstants.PRIVACY_POLICY_URL;
+import static com.lalaland.ecommerce.helpers.AppConstants.PRIVACY_POLICY_URL_KEY;
 import static com.lalaland.ecommerce.helpers.AppConstants.PRODUCT_STORAGE_BASE_URL;
+import static com.lalaland.ecommerce.helpers.AppConstants.PRODUCT_STORAGE_BASE_URL_KEY;
 import static com.lalaland.ecommerce.helpers.AppConstants.RETURN_POLICY_URL;
+import static com.lalaland.ecommerce.helpers.AppConstants.RETURN_POLICY_URL_KEY;
 import static com.lalaland.ecommerce.helpers.AppConstants.SMALL_PRODUCT_STORAGE_BASE_URL;
+import static com.lalaland.ecommerce.helpers.AppConstants.SMALL_PRODUCT_STORAGE_BASE_URL_KEY;
 import static com.lalaland.ecommerce.helpers.AppConstants.TERMS_AND_CONDITIONS_URL;
+import static com.lalaland.ecommerce.helpers.AppConstants.TERMS_AND_CONDITIONS_URL_KEY;
 import static com.lalaland.ecommerce.helpers.AppConstants.THUMBNAIL_PRODUCT_STORAGE_BASE_URL;
+import static com.lalaland.ecommerce.helpers.AppConstants.THUMBNAIL_PRODUCT_STORAGE_BASE_URL_KEY;
 import static com.lalaland.ecommerce.helpers.AppConstants.USER_STORAGE_BASE_URL;
+import static com.lalaland.ecommerce.helpers.AppConstants.USER_STORAGE_BASE_URL_KEY;
 
 public class SplashActivity extends AppCompatActivity implements NetworkInterface {
 
@@ -143,7 +163,7 @@ public class SplashActivity extends AppCompatActivity implements NetworkInterfac
 
     private void initUrls(CategoryData data) {
 
-        AppConstants.ABOUT_US_URL = data.getAboutUs();
+        ABOUT_US_URL = data.getAboutUs();
         AppConstants.PRIVACY_POLICY_URL = data.getPrivacy();
         AppConstants.RETURN_POLICY_URL = data.getReturns();
         AppConstants.TERMS_AND_CONDITIONS_URL = data.getTerms();
@@ -177,27 +197,30 @@ public class SplashActivity extends AppCompatActivity implements NetworkInterfac
 
     private void saveInPreferences() {
 
-        appPreference.setString(ABOUT_US_URL, ABOUT_US_URL);
-        appPreference.setString(RETURN_POLICY_URL, RETURN_POLICY_URL);
-        appPreference.setString(TERMS_AND_CONDITIONS_URL, TERMS_AND_CONDITIONS_URL);
-        appPreference.setString(FAQ_URL, FAQ_URL);
-        appPreference.setString(BLOGS, BLOGS);
+        appPreference.setString(ABOUT_US_URL_KEY, ABOUT_US_URL);
+        appPreference.setString(PRIVACY_POLICY_URL_KEY, PRIVACY_POLICY_URL);
+        appPreference.setString(RETURN_POLICY_URL_KEY, RETURN_POLICY_URL);
+        appPreference.setString(TERMS_AND_CONDITIONS_URL_KEY, TERMS_AND_CONDITIONS_URL);
+        appPreference.setString(FAQ_URL_KEY, FAQ_URL);
+        appPreference.setString(BLOGS_URL_KEY, BLOGS);
 
-        appPreference.setString(PRODUCT_STORAGE_BASE_URL, PRODUCT_STORAGE_BASE_URL);
-        appPreference.setString(MEDIUM_PRODUCT_STORAGE_BASE_URL, MEDIUM_PRODUCT_STORAGE_BASE_URL);
-        appPreference.setString(SMALL_PRODUCT_STORAGE_BASE_URL, SMALL_PRODUCT_STORAGE_BASE_URL);
-        appPreference.setString(THUMBNAIL_PRODUCT_STORAGE_BASE_URL, THUMBNAIL_PRODUCT_STORAGE_BASE_URL);
+        appPreference.setString(PRODUCT_STORAGE_BASE_URL_KEY, PRODUCT_STORAGE_BASE_URL);
+        appPreference.setString(MEDIUM_PRODUCT_STORAGE_BASE_URL_KEY, MEDIUM_PRODUCT_STORAGE_BASE_URL);
+        appPreference.setString(SMALL_PRODUCT_STORAGE_BASE_URL_KEY, SMALL_PRODUCT_STORAGE_BASE_URL);
+        appPreference.setString(THUMBNAIL_PRODUCT_STORAGE_BASE_URL_KEY, THUMBNAIL_PRODUCT_STORAGE_BASE_URL);
 
-        appPreference.setString(BRAND_STORAGE_BASE_URL, BRAND_STORAGE_BASE_URL);
-        appPreference.setString(BRAND_FOCUS_STORAGE_BASE_URL, BRAND_FOCUS_STORAGE_BASE_URL);
-        appPreference.setString(CATEGORY_FOCUS_STORAGE_BASE_URL, CATEGORY_FOCUS_STORAGE_BASE_URL);
-        appPreference.setString(ACTION_STORAGE_BASE_URL, ACTION_STORAGE_BASE_URL);
+        appPreference.setString(BRAND_STORAGE_BASE_URL_KEY, BRAND_STORAGE_BASE_URL);
+        appPreference.setString(BRAND_FOCUS_STORAGE_BASE_URL_KEY, BRAND_FOCUS_STORAGE_BASE_URL);
+        appPreference.setString(CATEGORY_FOCUS_STORAGE_BASE_URL_KEY, CATEGORY_FOCUS_STORAGE_BASE_URL);
+        appPreference.setString(ACTION_STORAGE_BASE_URL_KEY, ACTION_STORAGE_BASE_URL);
 
-        appPreference.setString(CUSTOM_PRODUCT_URL, CUSTOM_PRODUCT_URL);
-        appPreference.setString(USER_STORAGE_BASE_URL, USER_STORAGE_BASE_URL);
-        appPreference.setString(BANNER_STORAGE_BASE_URL, BANNER_STORAGE_BASE_URL);
-        appPreference.setString(BLOG_URLS, BLOG_URLS);
-        appPreference.setString(ADVERTISEMENT_URL, ADVERTISEMENT_URL);
+        appPreference.setString(CUSTOM_PRODUCT_URL_KEY, CUSTOM_PRODUCT_URL);
+        appPreference.setString(USER_STORAGE_BASE_URL_KEY, USER_STORAGE_BASE_URL);
+        appPreference.setString(BANNER_STORAGE_BASE_URL_KEY, BANNER_STORAGE_BASE_URL);
+        appPreference.setString(BLOG_URLS_KEY, BLOG_URLS);
+        appPreference.setString(ADVERTISEMENT_URL_KEY, ADVERTISEMENT_URL);
+
+        appPreference.setString(ADVERTISEMENT_URL_KEY, ADVERTISEMENT_URL);
 
     }
 

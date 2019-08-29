@@ -15,6 +15,7 @@ import com.lalaland.ecommerce.data.retrofit.LalalandServiceApi;
 import com.lalaland.ecommerce.data.retrofit.RetrofitClient;
 import com.lalaland.ecommerce.helpers.AppConstants;
 import com.lalaland.ecommerce.helpers.AppPreference;
+import com.lalaland.ecommerce.helpers.AppUtils;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -56,6 +57,10 @@ public class OrdersRepository {
     }
 
     private void setUserInfo() {
+
+        if (AppConstants.BANNER_STORAGE_BASE_URL.isEmpty()) {
+            AppUtils.getStaticsFromPreferences();
+        }
 
         userInfo.clear();
         token = appPreference.getString(SIGNIN_TOKEN);

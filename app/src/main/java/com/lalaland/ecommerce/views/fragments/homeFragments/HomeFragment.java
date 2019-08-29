@@ -135,6 +135,7 @@ public class HomeFragment extends Fragment implements ActionAdapter.ActionClickL
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
 
         fragmentHomeNewBinding = DataBindingUtil.inflate(inflater, R.layout.fragment_home_new, container, false);
+
         homeViewModel = ViewModelProviders.of(this, new ProductViewModelFactory()).get(HomeViewModel.class);
 
         fragmentHomeNewBinding.setHomeListener(this);
@@ -166,6 +167,7 @@ public class HomeFragment extends Fragment implements ActionAdapter.ActionClickL
     }
 
     void requestInitialProducts() {
+
 
         homeViewModel.getHomeData().observe(this, homeDataContainer -> {
 

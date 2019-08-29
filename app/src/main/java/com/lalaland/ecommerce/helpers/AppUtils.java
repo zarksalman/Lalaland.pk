@@ -45,25 +45,43 @@ import java.util.Locale;
 import static com.facebook.FacebookSdk.getApplicationContext;
 import static com.lalaland.ecommerce.BuildConfig.DEBUG;
 import static com.lalaland.ecommerce.helpers.AppConstants.ABOUT_US_URL;
+import static com.lalaland.ecommerce.helpers.AppConstants.ABOUT_US_URL_KEY;
 import static com.lalaland.ecommerce.helpers.AppConstants.ACTION_STORAGE_BASE_URL;
+import static com.lalaland.ecommerce.helpers.AppConstants.ACTION_STORAGE_BASE_URL_KEY;
 import static com.lalaland.ecommerce.helpers.AppConstants.ADVERTISEMENT_URL;
+import static com.lalaland.ecommerce.helpers.AppConstants.ADVERTISEMENT_URL_KEY;
 import static com.lalaland.ecommerce.helpers.AppConstants.BANNER_STORAGE_BASE_URL;
+import static com.lalaland.ecommerce.helpers.AppConstants.BANNER_STORAGE_BASE_URL_KEY;
 import static com.lalaland.ecommerce.helpers.AppConstants.BLOGS;
+import static com.lalaland.ecommerce.helpers.AppConstants.BLOGS_URL_KEY;
 import static com.lalaland.ecommerce.helpers.AppConstants.BLOG_URLS;
+import static com.lalaland.ecommerce.helpers.AppConstants.BLOG_URLS_KEY;
 import static com.lalaland.ecommerce.helpers.AppConstants.BRAND_FOCUS_STORAGE_BASE_URL;
+import static com.lalaland.ecommerce.helpers.AppConstants.BRAND_FOCUS_STORAGE_BASE_URL_KEY;
 import static com.lalaland.ecommerce.helpers.AppConstants.BRAND_STORAGE_BASE_URL;
+import static com.lalaland.ecommerce.helpers.AppConstants.BRAND_STORAGE_BASE_URL_KEY;
 import static com.lalaland.ecommerce.helpers.AppConstants.CATEGORY_FOCUS_STORAGE_BASE_URL;
+import static com.lalaland.ecommerce.helpers.AppConstants.CATEGORY_FOCUS_STORAGE_BASE_URL_KEY;
 import static com.lalaland.ecommerce.helpers.AppConstants.CUSTOM_PRODUCT_URL;
+import static com.lalaland.ecommerce.helpers.AppConstants.CUSTOM_PRODUCT_URL_KEY;
 import static com.lalaland.ecommerce.helpers.AppConstants.DATE_FORMAT_TEXT;
 import static com.lalaland.ecommerce.helpers.AppConstants.FAQ_URL;
+import static com.lalaland.ecommerce.helpers.AppConstants.FAQ_URL_KEY;
 import static com.lalaland.ecommerce.helpers.AppConstants.MEDIUM_PRODUCT_STORAGE_BASE_URL;
+import static com.lalaland.ecommerce.helpers.AppConstants.MEDIUM_PRODUCT_STORAGE_BASE_URL_KEY;
 import static com.lalaland.ecommerce.helpers.AppConstants.PRODUCT_STORAGE_BASE_URL;
+import static com.lalaland.ecommerce.helpers.AppConstants.PRODUCT_STORAGE_BASE_URL_KEY;
 import static com.lalaland.ecommerce.helpers.AppConstants.RETURN_POLICY_URL;
+import static com.lalaland.ecommerce.helpers.AppConstants.RETURN_POLICY_URL_KEY;
 import static com.lalaland.ecommerce.helpers.AppConstants.SMALL_PRODUCT_STORAGE_BASE_URL;
+import static com.lalaland.ecommerce.helpers.AppConstants.SMALL_PRODUCT_STORAGE_BASE_URL_KEY;
 import static com.lalaland.ecommerce.helpers.AppConstants.TAG;
 import static com.lalaland.ecommerce.helpers.AppConstants.TERMS_AND_CONDITIONS_URL;
+import static com.lalaland.ecommerce.helpers.AppConstants.TERMS_AND_CONDITIONS_URL_KEY;
 import static com.lalaland.ecommerce.helpers.AppConstants.THUMBNAIL_PRODUCT_STORAGE_BASE_URL;
+import static com.lalaland.ecommerce.helpers.AppConstants.THUMBNAIL_PRODUCT_STORAGE_BASE_URL_KEY;
 import static com.lalaland.ecommerce.helpers.AppConstants.USER_STORAGE_BASE_URL;
+import static com.lalaland.ecommerce.helpers.AppConstants.USER_STORAGE_BASE_URL_KEY;
 
 public class AppUtils {
 
@@ -564,26 +582,29 @@ public class AppUtils {
 
         AppPreference appPreference = AppPreference.getInstance(AppConstants.mContext);
 
-        ABOUT_US_URL = appPreference.getString(ABOUT_US_URL);
-        RETURN_POLICY_URL = appPreference.getString(RETURN_POLICY_URL);
-        TERMS_AND_CONDITIONS_URL = appPreference.getString(TERMS_AND_CONDITIONS_URL);
-        FAQ_URL = appPreference.getString(FAQ_URL);
-        BLOGS = appPreference.getString(BLOGS);
+        ABOUT_US_URL = appPreference.getString(ABOUT_US_URL_KEY);
+        RETURN_POLICY_URL = appPreference.getString(RETURN_POLICY_URL_KEY);
+        TERMS_AND_CONDITIONS_URL = appPreference.getString(TERMS_AND_CONDITIONS_URL_KEY);
+        FAQ_URL = appPreference.getString(FAQ_URL_KEY);
+        BLOGS = appPreference.getString(BLOGS_URL_KEY);
 
-        PRODUCT_STORAGE_BASE_URL = appPreference.getString(PRODUCT_STORAGE_BASE_URL);
-        MEDIUM_PRODUCT_STORAGE_BASE_URL = appPreference.getString(MEDIUM_PRODUCT_STORAGE_BASE_URL);
-        SMALL_PRODUCT_STORAGE_BASE_URL = appPreference.getString(SMALL_PRODUCT_STORAGE_BASE_URL);
-        THUMBNAIL_PRODUCT_STORAGE_BASE_URL = appPreference.getString(THUMBNAIL_PRODUCT_STORAGE_BASE_URL);
+        PRODUCT_STORAGE_BASE_URL = appPreference.getString(PRODUCT_STORAGE_BASE_URL_KEY);
+        MEDIUM_PRODUCT_STORAGE_BASE_URL = appPreference.getString(MEDIUM_PRODUCT_STORAGE_BASE_URL_KEY);
+        SMALL_PRODUCT_STORAGE_BASE_URL = appPreference.getString(SMALL_PRODUCT_STORAGE_BASE_URL_KEY);
+        THUMBNAIL_PRODUCT_STORAGE_BASE_URL = appPreference.getString(THUMBNAIL_PRODUCT_STORAGE_BASE_URL_KEY);
 
-        BRAND_STORAGE_BASE_URL = appPreference.getString(BRAND_STORAGE_BASE_URL);
-        BRAND_FOCUS_STORAGE_BASE_URL = appPreference.getString(BRAND_FOCUS_STORAGE_BASE_URL);
-        CATEGORY_FOCUS_STORAGE_BASE_URL = appPreference.getString(CATEGORY_FOCUS_STORAGE_BASE_URL);
-        ACTION_STORAGE_BASE_URL = appPreference.getString(ACTION_STORAGE_BASE_URL);
+        BRAND_STORAGE_BASE_URL = appPreference.getString(BRAND_STORAGE_BASE_URL_KEY);
+        BRAND_FOCUS_STORAGE_BASE_URL = appPreference.getString(BRAND_FOCUS_STORAGE_BASE_URL_KEY);
+        CATEGORY_FOCUS_STORAGE_BASE_URL = appPreference.getString(CATEGORY_FOCUS_STORAGE_BASE_URL_KEY);
+        ACTION_STORAGE_BASE_URL = appPreference.getString(ACTION_STORAGE_BASE_URL_KEY);
 
-        CUSTOM_PRODUCT_URL = appPreference.getString(CUSTOM_PRODUCT_URL);
-        USER_STORAGE_BASE_URL = appPreference.getString(USER_STORAGE_BASE_URL);
-        BANNER_STORAGE_BASE_URL = appPreference.getString(BANNER_STORAGE_BASE_URL);
-        BLOG_URLS = appPreference.getString(BLOG_URLS);
-        ADVERTISEMENT_URL = appPreference.getString(ADVERTISEMENT_URL);
+        CUSTOM_PRODUCT_URL = appPreference.getString(CUSTOM_PRODUCT_URL_KEY);
+        USER_STORAGE_BASE_URL = appPreference.getString(USER_STORAGE_BASE_URL_KEY);
+        BANNER_STORAGE_BASE_URL = appPreference.getString(BANNER_STORAGE_BASE_URL_KEY);
+        BLOG_URLS = appPreference.getString(BLOG_URLS_KEY);
+        ADVERTISEMENT_URL = appPreference.getString(ADVERTISEMENT_URL_KEY);
+
+        AppConstants.LOAD_HOME_FRAGMENT_INDEX = 0;
+
     }
 }

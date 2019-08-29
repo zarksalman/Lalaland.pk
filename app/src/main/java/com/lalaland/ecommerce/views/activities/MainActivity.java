@@ -29,6 +29,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import static com.lalaland.ecommerce.helpers.AppConstants.LOAD_HOME_FRAGMENT_INDEX;
+import static com.lalaland.ecommerce.helpers.AppConstants.LOAD_HOME_FRAGMENT_INDEX_KEY;
 import static com.lalaland.ecommerce.helpers.AppConstants.SIGNIN_TOKEN;
 
 public class MainActivity extends AppCompatActivity implements CloseAppListener {
@@ -177,6 +178,7 @@ public class MainActivity extends AppCompatActivity implements CloseAppListener 
     void replaceFragment(Fragment fragment, int index) {
 
         selectedFragment = index;
+        appPreference.setInt(LOAD_HOME_FRAGMENT_INDEX_KEY, selectedFragment);
         activityMainBinding.tvNetwork.setVisibility(View.GONE);
         getSupportFragmentManager().beginTransaction().replace(R.id.fragment_host, fragment, "fragment_" + index).commit();
     }

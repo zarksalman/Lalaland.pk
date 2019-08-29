@@ -1,6 +1,5 @@
 package com.lalaland.ecommerce.data.retrofit;
 
-import android.content.Context;
 import android.util.Log;
 
 import com.lalaland.ecommerce.helpers.AppConstants;
@@ -62,8 +61,6 @@ public class RetrofitClient {
         AppConstants.DEVICE_TYPE = "ANDROID";
         AppConstants.FCM_TOKEN = "";
         AppConstants.USER_ID = "";
-
-        AppUtils.getStaticsFromPreferences();
 
         return retrofitClient;
     }
