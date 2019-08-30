@@ -4,6 +4,7 @@ import android.app.DatePickerDialog;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
+import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.databinding.DataBindingUtil;
@@ -38,8 +39,8 @@ public class EditAccountInformationActivity extends AppCompatActivity {
     private String first_name = "";
     private String last_name = "";
     private String phoneNumber = "";
-    private String gender = "male";
-    private String dob = "dob";
+    private String gender = "";
+    private String dob = "";
 
     final Calendar dobCalender = Calendar.getInstance();
     private AppPreference appPreference;
@@ -116,8 +117,12 @@ public class EditAccountInformationActivity extends AppCompatActivity {
 
                     if (gender.equals("male"))
                         activityEditAccountInformationBinding.rbMale.setChecked(true);
-                    else
+                    else if (gender.equals("female"))
                         activityEditAccountInformationBinding.rbFemale.setChecked(true);
+                    else {
+                        activityEditAccountInformationBinding.rbMale.setChecked(false);
+                        activityEditAccountInformationBinding.rbFemale.setChecked(false);
+                    }
                 }
 
                 activityEditAccountInformationBinding.userGenderContainer.setVisibility(View.VISIBLE);
@@ -175,7 +180,13 @@ public class EditAccountInformationActivity extends AppCompatActivity {
                 break;
 
             case 4:
-                intent.putExtra(GENDER, gender);
+
+                if (gender.isEmpty()) {
+                    Toast.makeText(this, "Gender could not be empty", Toast.LENGTH_SHORT).show();
+                    intent = null;
+                    return;
+                } else
+                    intent.putExtra(GENDER, gender);
                 break;
 
             case 5:

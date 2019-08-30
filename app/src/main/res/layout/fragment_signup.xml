@@ -203,8 +203,7 @@
                         android:id="@+id/rb_male"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:layout_margin="16dp"
-                        android:checked="true"
+                        android:layout_margin="8dp"
                         android:text="@string/gender_male"
                         android:textColor="@color/colorDarkGray" />
 
@@ -213,8 +212,18 @@
                         android:id="@+id/rb_female"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:layout_margin="16dp"
+                        android:layout_margin="8dp"
                         android:text="@string/gender_female"
+                        android:textColor="@color/colorDarkGray" />
+
+                    <RadioButton
+
+                        android:id="@+id/rb_not_specified"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_margin="8dp"
+                        android:visibility="gone"
+                        android:text="@string/gender_not"
                         android:textColor="@color/colorDarkGray" />
                 </RadioGroup>
 

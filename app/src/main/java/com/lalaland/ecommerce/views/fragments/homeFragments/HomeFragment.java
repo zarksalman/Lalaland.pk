@@ -168,7 +168,6 @@ public class HomeFragment extends Fragment implements ActionAdapter.ActionClickL
 
     void requestInitialProducts() {
 
-
         homeViewModel.getHomeData().observe(this, homeDataContainer -> {
 
             if (homeDataContainer != null && homeDataContainer.getCode().equals(SUCCESS_CODE)) {

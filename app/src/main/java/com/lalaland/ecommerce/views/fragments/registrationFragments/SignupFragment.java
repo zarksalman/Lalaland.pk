@@ -66,8 +66,8 @@ public class SignupFragment extends BaseRegistrationFragment implements LoadingL
     private String first_name = "";
     private String last_name = "";
     private String phoneNumber = "";
-    private String gender = "male";
-    private String dob = "dob";
+    private String gender = "";
+    private String dob = "";
 
     private String token, cart_session;
     private AppPreference appPreference;
@@ -116,6 +116,9 @@ public class SignupFragment extends BaseRegistrationFragment implements LoadingL
                     RadioButton radioButton = group.findViewById(checkedId);
 
                     gender = radioButton.getText().toString().toLowerCase();
+
+/*            if (gender.equals(getString(R.string.gender_not)))
+                gender = "";*/
                 }
         );
 
@@ -253,8 +256,7 @@ public class SignupFragment extends BaseRegistrationFragment implements LoadingL
                 && validateNames(CONFIRM_TYPE)
                 && validatePhoneNumber()
                 && validateEmail()
-                && validatePasswords()
-                && validateDob()) {
+                && validatePasswords()) {
 
             AppUtils.hideKeyboard(getActivity());
 
@@ -327,7 +329,7 @@ public class SignupFragment extends BaseRegistrationFragment implements LoadingL
             }
         });
     }
-    
+
     private void showDatePickerDialogue() {
 
         DatePickerDialog.OnDateSetListener date = new DatePickerDialog.OnDateSetListener() {

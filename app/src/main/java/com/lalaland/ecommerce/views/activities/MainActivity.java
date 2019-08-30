@@ -3,6 +3,7 @@ package com.lalaland.ecommerce.views.activities;
 import android.app.AlertDialog;
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.AutoCompleteTextView;
@@ -17,6 +18,7 @@ import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.lalaland.ecommerce.R;
 import com.lalaland.ecommerce.databinding.ActivityMainBinding;
 import com.lalaland.ecommerce.databinding.ExitDialogueLayoutBinding;
+import com.lalaland.ecommerce.helpers.AppConstants;
 import com.lalaland.ecommerce.helpers.AppPreference;
 import com.lalaland.ecommerce.listeners.CloseAppListener;
 import com.lalaland.ecommerce.views.fragments.homeFragments.AccountFragment;
@@ -28,6 +30,7 @@ import com.lalaland.ecommerce.views.fragments.homeFragments.WishFragment;
 import java.util.ArrayList;
 import java.util.List;
 
+import static com.lalaland.ecommerce.helpers.AppConstants.BANNER_STORAGE_BASE_URL;
 import static com.lalaland.ecommerce.helpers.AppConstants.LOAD_HOME_FRAGMENT_INDEX;
 import static com.lalaland.ecommerce.helpers.AppConstants.LOAD_HOME_FRAGMENT_INDEX_KEY;
 import static com.lalaland.ecommerce.helpers.AppConstants.SIGNIN_TOKEN;
@@ -35,7 +38,7 @@ import static com.lalaland.ecommerce.helpers.AppConstants.SIGNIN_TOKEN;
 public class MainActivity extends AppCompatActivity implements CloseAppListener {
     private ActivityMainBinding activityMainBinding;
     private AppPreference appPreference;
-    private int selectedFragment = 1;
+    private int selectedFragment = -1;
     String token;
     AlertDialog exitDialog;
     ExitDialogueLayoutBinding exitDialogueLayoutBinding;
@@ -160,10 +163,19 @@ public class MainActivity extends AppCompatActivity implements CloseAppListener 
         AutoCompleteTextView autoComplete = (AutoCompleteTextView) linearLayout3.getChildAt(0);
         autoComplete.setTextSize(13);
 
+        Log.d("restart", "onCreate: " + LOAD_HOME_FRAGMENT_INDEX);
+
         //  addItemsToBottomNavigation();
 
 
 
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+
+        Log.d(AppConstants.TAG, "onResume:");
     }
 
     void setListeners() {
@@ -200,6 +212,10 @@ public class MainActivity extends AppCompatActivity implements CloseAppListener 
         }
     }
     void loadInitialFragment() {
+
+        // if activity is coming from bg and lost its static variable's content
+        if (BANNER_STORAGE_BASE_URL.isEmpty())
+            LOAD_HOME_FRAGMENT_INDEX = appPreference.getInt(LOAD_HOME_FRAGMENT_INDEX_KEY);
 
         switch (LOAD_HOME_FRAGMENT_INDEX) {
 

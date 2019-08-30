@@ -67,6 +67,7 @@ import static com.lalaland.ecommerce.helpers.AppConstants.CUSTOM_PRODUCT_URL_KEY
 import static com.lalaland.ecommerce.helpers.AppConstants.DATE_FORMAT_TEXT;
 import static com.lalaland.ecommerce.helpers.AppConstants.FAQ_URL;
 import static com.lalaland.ecommerce.helpers.AppConstants.FAQ_URL_KEY;
+import static com.lalaland.ecommerce.helpers.AppConstants.LOAD_HOME_FRAGMENT_INDEX_KEY;
 import static com.lalaland.ecommerce.helpers.AppConstants.MEDIUM_PRODUCT_STORAGE_BASE_URL;
 import static com.lalaland.ecommerce.helpers.AppConstants.MEDIUM_PRODUCT_STORAGE_BASE_URL_KEY;
 import static com.lalaland.ecommerce.helpers.AppConstants.PRODUCT_STORAGE_BASE_URL;
@@ -604,7 +605,7 @@ public class AppUtils {
         BLOG_URLS = appPreference.getString(BLOG_URLS_KEY);
         ADVERTISEMENT_URL = appPreference.getString(ADVERTISEMENT_URL_KEY);
 
-        AppConstants.LOAD_HOME_FRAGMENT_INDEX = 0;
+        AppConstants.LOAD_HOME_FRAGMENT_INDEX = appPreference.getInt(LOAD_HOME_FRAGMENT_INDEX_KEY);
 
     }
 }
