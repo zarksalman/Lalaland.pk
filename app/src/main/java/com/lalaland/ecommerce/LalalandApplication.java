@@ -5,6 +5,7 @@ import android.content.Context;
 
 import androidx.multidex.MultiDex;
 
+import com.crashlytics.android.Crashlytics;
 import com.facebook.FacebookSdk;
 import com.facebook.appevents.AppEventsLogger;
 import com.lalaland.ecommerce.Receivers.ConnectivityReceiver;
@@ -24,6 +25,7 @@ public class LalalandApplication extends Application {
         LalalandDatabases.getInstance(AppConstants.mContext);
 
         AppEventsLogger.activateApp(this);
+
         //    Stetho.initializeWithDefaults(this);
     }
 
