@@ -2,8 +2,8 @@ package com.lalaland.ecommerce.views.activities;
 
 import android.app.AlertDialog;
 import android.content.Intent;
+import android.net.Uri;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.AutoCompleteTextView;
@@ -18,7 +18,6 @@ import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.lalaland.ecommerce.R;
 import com.lalaland.ecommerce.databinding.ActivityMainBinding;
 import com.lalaland.ecommerce.databinding.ExitDialogueLayoutBinding;
-import com.lalaland.ecommerce.helpers.AppConstants;
 import com.lalaland.ecommerce.helpers.AppPreference;
 import com.lalaland.ecommerce.listeners.CloseAppListener;
 import com.lalaland.ecommerce.views.fragments.homeFragments.AccountFragment;
@@ -29,10 +28,12 @@ import com.lalaland.ecommerce.views.fragments.homeFragments.WishFragment;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Set;
 
 import static com.lalaland.ecommerce.helpers.AppConstants.BANNER_STORAGE_BASE_URL;
 import static com.lalaland.ecommerce.helpers.AppConstants.LOAD_HOME_FRAGMENT_INDEX;
 import static com.lalaland.ecommerce.helpers.AppConstants.LOAD_HOME_FRAGMENT_INDEX_KEY;
+import static com.lalaland.ecommerce.helpers.AppConstants.PRODUCT_ID;
 import static com.lalaland.ecommerce.helpers.AppConstants.SIGNIN_TOKEN;
 
 public class MainActivity extends AppCompatActivity implements CloseAppListener {
@@ -152,6 +153,7 @@ public class MainActivity extends AppCompatActivity implements CloseAppListener 
         fragments.add(WishFragment.newInstance());
         fragments.add(AccountFragment.newInstance());
 
+
         setListeners();
         loadInitialFragment();  // load first fragment
         prepareExitDialog();
@@ -163,22 +165,12 @@ public class MainActivity extends AppCompatActivity implements CloseAppListener 
         AutoCompleteTextView autoComplete = (AutoCompleteTextView) linearLayout3.getChildAt(0);
         autoComplete.setTextSize(13);
 
-        Log.d("restart", "onCreate: " + LOAD_HOME_FRAGMENT_INDEX);
-
-        //  addItemsToBottomNavigation();
-
-
-
+        getParameters(getIntent());
     }
 
-    @Override
-    protected void onResume() {
-        super.onResume();
-
-        Log.d(AppConstants.TAG, "onResume:");
-    }
 
     void setListeners() {
+
         activityMainBinding.navView.setOnNavigationItemSelectedListener(mOnNavigationItemSelectedListener);
 
         activityMainBinding.ivSvItemFg.setOnClickListener(v -> {
@@ -197,7 +189,6 @@ public class MainActivity extends AppCompatActivity implements CloseAppListener 
 
     @Override
     public void onBackPressed() {
-
         showExitDialog();
     }
 
@@ -220,29 +211,21 @@ public class MainActivity extends AppCompatActivity implements CloseAppListener 
         switch (LOAD_HOME_FRAGMENT_INDEX) {
 
             case 0:
-
                 activityMainBinding.navView.setSelectedItemId(R.id.navigation_home);
-
                 break;
             case 1:
-
                 selectedFragment = 0;
                 activityMainBinding.navView.setSelectedItemId(R.id.navigation_category);
                 break;
             case 2:
-
                 activityMainBinding.navView.setSelectedItemId(R.id.navigation_cart);
                 break;
-
             case 3:
-
                 activityMainBinding.navView.setSelectedItemId(R.id.navigation_wish);
                 break;
             case 4:
-
                 activityMainBinding.navView.setSelectedItemId(R.id.navigation_account);
                 break;
-
             default:
                 activityMainBinding.navView.setSelectedItemId(R.id.navigation_home);
         }
@@ -254,7 +237,6 @@ public class MainActivity extends AppCompatActivity implements CloseAppListener 
 
         if (resultCode == RESULT_OK) {
             if (requestCode == 100) {
-
                 LOAD_HOME_FRAGMENT_INDEX = 2;
                 loadInitialFragment();
             }
@@ -284,6 +266,34 @@ public class MainActivity extends AppCompatActivity implements CloseAppListener 
     @Override
     public void closeApp() {
         finish();
-        //  android.os.Process.killProcess(android.os.Process.myPid());
     }
+
+    private void getParameters(Intent intent) {
+
+        Uri uri = intent.getData();
+
+        if (uri != null) {
+            /*server = uri.getAuthority();
+            path = uri.getPath();
+            protocol = uri.getScheme();
+            */
+
+            Set<String> args;
+            Object[] keys;
+
+            args = uri.getQueryParameterNames();
+            keys = args.toArray();
+
+            if (keys != null && keys.length > 0) {
+                String productId = uri.getQueryParameter(keys[0].toString());
+
+                Intent mIntent = new Intent(this, ProductDetailActivity.class);
+                mIntent.putExtra(PRODUCT_ID, Integer.parseInt(productId));
+                startActivity(mIntent);
+            }
+        }
+
+
+    }
+
 }

@@ -71,8 +71,6 @@ public class ResetPasswordActivity extends AppCompatActivity {
 
 
             getParameters(intent);
-
-
             activityResetPasswordBinding.tvResetPassword.setText(email);
             activityResetPasswordBinding.passwordContainer.setVisibility(View.VISIBLE);
         }

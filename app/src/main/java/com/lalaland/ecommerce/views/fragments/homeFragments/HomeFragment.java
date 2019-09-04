@@ -13,7 +13,6 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
-import android.widget.ProgressBar;
 import android.widget.ScrollView;
 
 import androidx.core.view.ViewCompat;
@@ -29,13 +28,11 @@ import androidx.viewpager.widget.ViewPager;
 
 import com.bumptech.glide.Glide;
 import com.lalaland.ecommerce.R;
-import com.lalaland.ecommerce.adapters.ActionAdapter;
 import com.lalaland.ecommerce.adapters.BannerImageAdapter;
 import com.lalaland.ecommerce.adapters.BlogPostsAdapter;
 import com.lalaland.ecommerce.adapters.BrandsFocusAdapter;
 import com.lalaland.ecommerce.adapters.FeatureCategoryAdapter;
 import com.lalaland.ecommerce.adapters.GetTheLooksAdapter;
-import com.lalaland.ecommerce.adapters.PickOfWeekAdapter;
 import com.lalaland.ecommerce.adapters.ProductAdapter;
 import com.lalaland.ecommerce.adapters.ProductPagedListAdapter;
 import com.lalaland.ecommerce.data.models.home.Actions;
@@ -77,11 +74,9 @@ import static com.lalaland.ecommerce.helpers.AppConstants.RECOMMENDED_CAT_TOKEN;
 import static com.lalaland.ecommerce.helpers.AppConstants.START_INDEX;
 import static com.lalaland.ecommerce.helpers.AppConstants.SUCCESS_CODE;
 
-public class HomeFragment extends Fragment implements ActionAdapter.ActionClickListener, PickOfWeekAdapter.WeekProductClickListener,
-        BrandsFocusAdapter.FeatureBrandClickListener, ProductPagedListAdapter.ProductListener, ProductAdapter.ProductListener {
+public class HomeFragment extends Fragment implements BrandsFocusAdapter.FeatureBrandClickListener, ProductPagedListAdapter.ProductListener, ProductAdapter.ProductListener {
 
     public static final String TAG = HomeFragment.class.getSimpleName();
-    private static final int TAG_IV = 1;
 
     private HomeViewModel homeViewModel;
 
@@ -97,7 +92,6 @@ public class HomeFragment extends Fragment implements ActionAdapter.ActionClickL
     private List<Product> productList = new ArrayList<>();
 
     private Map<String, String> parameters = new HashMap<>();
-    private Map<String, String> homeParameter = new HashMap<>();
     private ProductAdapter recommendationProductAdapter;
     private GetTheLooksAdapter getTheLooksAdapter;
     private GridLayoutManager gridLayoutManager;
@@ -111,10 +105,6 @@ public class HomeFragment extends Fragment implements ActionAdapter.ActionClickL
     int currentPage = 0;
 
     //******************************* new home page *******************************
-    private ProgressBar progressBar;
-
-    private boolean isScrolling = false;
-    int firstVisibleInListview;
 
     public HomeFragment() {
         // Required empty public constructor
@@ -143,29 +133,16 @@ public class HomeFragment extends Fragment implements ActionAdapter.ActionClickL
 
         recommended_cat = AppPreference.getInstance(getContext()).getString(RECOMMENDED_CAT_TOKEN);
 
-        iniUi();
-/*
-        android.view.Display display = ((android.view.WindowManager) getContext().getSystemService(Context.WINDOW_SERVICE)).getDefaultDisplay();
-        fragmentHomeBinding.containersParent.getLayoutParams().height = ((int) (display.getHeight() * 0.9));
-*/
-
         requestInitialProducts();
 
         fragmentHomeNewBinding.btnScrollUp.setOnClickListener(v -> {
             fragmentHomeNewBinding.containersParent.fullScroll(ScrollView.FOCUS_UP);
         });
 
-
-//        fragmentHomeBinding.containersParent.fullScroll(ScrollView.FOCUS_UP);
         return fragmentHomeNewBinding.getRoot();
     }
 
-    private void iniUi() {
-
-        progressBar = new ProgressBar(getContext());
-
-    }
-
+    // Getting home banners, pick of the weeks, brands in focus, custom listing (get the looks), category in focus, blogs, advertisement
     void requestInitialProducts() {
 
         homeViewModel.getHomeData().observe(this, homeDataContainer -> {
@@ -216,65 +193,7 @@ public class HomeFragment extends Fragment implements ActionAdapter.ActionClickL
 
     }
 
-    private void setAdvertisement() {
-
-        String url = AppConstants.ADVERTISEMENT_URL + advertisement.getImage();
-        Glide
-                .with(getContext())
-                .load(url)
-                .placeholder(R.drawable.placeholder_products)
-                .error(R.drawable.placeholder_products)
-                .into(fragmentHomeNewBinding.advertisementContainerParent.ivAdvertisement);
-
-        fragmentHomeNewBinding.advertisementContainerParent.ivAdvertisement.setOnClickListener(v -> {
-
-            Intent intent = new Intent(getContext(), ActionProductListingActivity.class);
-            intent.putExtra(ACTION_NAME, advertisement.getName());
-            intent.putExtra(ACTION_ID, String.valueOf(advertisement.getActionId()));
-            intent.putExtra(PRODUCT_TYPE, advertisement.getActionName());
-            startActivity(intent);
-
-        });
-
-        // fragmentHomeNewBinding.advertisementContainerParent.setAdvertisement(advertisement);
-    }
-
-    private void setBlogPost() {
-
-        BlogPostsAdapter blogPostsAdapter = new BlogPostsAdapter(getContext(), blogPost -> {
-
-            AppConstants.URL_TYPE = 0;
-            String url = AppConstants.BLOG_URLS + blogPost.getId() + "/" + AppConstants.APP_NAME;
-            Intent intent = new Intent(getContext(), WebViewActivity.class);
-            intent.putExtra(BLOG_URL, url);
-            startActivity(intent);
-        });
-
-        fragmentHomeNewBinding.blogsContainerParent.rvBlogs.setAdapter(blogPostsAdapter);
-        fragmentHomeNewBinding.blogsContainerParent.rvBlogs.setLayoutManager(new LinearLayoutManager(getContext(), RecyclerView.HORIZONTAL, false));
-        fragmentHomeNewBinding.blogsContainerParent.rvBlogs.setHasFixedSize(true);
-        blogPostsAdapter.setData(blogPosts);
-    }
-
-    private void setGetTheLook() {
-
-        getTheLooksAdapter = new GetTheLooksAdapter(getContext(), customProductsFive -> {
-
-            Intent intent = new Intent(getContext(), ActionProductListingActivity.class);
-
-            intent.putExtra(ACTION_NAME, customProductsFive.getName());
-            intent.putExtra(ACTION_ID, String.valueOf(customProductsFive.getActionId()));
-            intent.putExtra(PRODUCT_TYPE, customProductsFive.getActionName());
-            startActivity(intent);
-        });
-
-        fragmentHomeNewBinding.getTheLooksContainerParent.rvGetTheLooks.setAdapter(getTheLooksAdapter);
-        fragmentHomeNewBinding.getTheLooksContainerParent.rvGetTheLooks.setLayoutManager(new LinearLayoutManager(getContext(), RecyclerView.HORIZONTAL, false));
-        fragmentHomeNewBinding.getTheLooksContainerParent.rvGetTheLooks.setHasFixedSize(true);
-        getTheLooksAdapter.setData(customProductsFives);
-
-    }
-
+    // Getting recommended products
     void getProductItems() {
 
         parameters.put(RECOMMENDED_CAT_TOKEN, recommended_cat);
@@ -295,6 +214,9 @@ public class HomeFragment extends Fragment implements ActionAdapter.ActionClickL
 
         });
     }
+
+
+    //******************************************* Slider starts here **************************************************
 
     private void setBannerSlider() {
 
@@ -356,8 +278,132 @@ public class HomeFragment extends Fragment implements ActionAdapter.ActionClickL
         fragmentHomeNewBinding.vfSlider.startFlipping();*/
     }
 
-    private void setActions() {
+    private void addDots() {
 
+        dots.clear();
+
+        if (bannerList.size() < 2) {
+            fragmentHomeNewBinding.dots.setVisibility(View.GONE);
+            return;
+        }
+
+        for (int i = 0; i <= bannerList.size() - 1; i++) {
+            ImageView dot = new ImageView(getContext());
+            dot.setImageDrawable(getResources().getDrawable(R.drawable.empty_circle));
+
+            LinearLayout.LayoutParams params = new LinearLayout.LayoutParams(
+                    LinearLayout.LayoutParams.WRAP_CONTENT,
+                    LinearLayout.LayoutParams.WRAP_CONTENT
+            );
+
+
+            fragmentHomeNewBinding.dots.addView(dot, params);
+
+            dot.setTag(R.string.banner_circle_tag, i);
+
+            dot.setOnClickListener(v -> {
+
+                onBannerCircleClicked(Integer.parseInt(v.getTag(R.string.banner_circle_tag).toString()));
+            });
+
+            dots.add(dot);
+        }
+
+        selectDot(0);
+
+        fragmentHomeNewBinding.vpImages.addOnPageChangeListener(new ViewPager.OnPageChangeListener() {
+            @Override
+            public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {
+            }
+
+            @Override
+            public void onPageSelected(int position) {
+
+                currentPage = position;
+                selectDot(position);
+            }
+
+            @Override
+            public void onPageScrollStateChanged(int state) {
+            }
+        });
+    }
+
+    private void onBannerCircleClicked(int parseInt) {
+        currentPage = parseInt;
+        fragmentHomeNewBinding.vpImages.setCurrentItem(parseInt);
+    }
+
+    private void selectDot(int idx) {
+
+        if (getContext() == null)
+            return;
+
+        Resources res = getResources();
+        for (int i = 0; i <= bannerList.size() - 1; i++) {
+            int drawableId = (i == idx) ? (R.drawable.filled_circle) : (R.drawable.empty_circle);
+            Drawable drawable = res.getDrawable(drawableId);
+            dots.get(i).setImageDrawable(drawable);
+        }
+    }
+
+    private void setupAutoPager() {
+        final Handler handler = new Handler();
+
+        final Runnable update = () -> {
+
+            fragmentHomeNewBinding.vpImages.setCurrentItem(currentPage, true);
+            if (currentPage == bannerList.size()) {
+                currentPage = 0;
+            } else {
+
+                ++currentPage;
+            }
+        };
+
+
+        Timer timer = new Timer();
+        timer.schedule(new TimerTask() {
+
+            @Override
+            public void run() {
+                handler.post(update);
+            }
+        }, 1000, 3500);
+    }
+
+    private void setAdvertisement() {
+
+        String url = AppConstants.ADVERTISEMENT_URL + advertisement.getImage();
+        Glide
+                .with(getContext())
+                .load(url)
+                .placeholder(R.drawable.placeholder_products)
+                .error(R.drawable.placeholder_products)
+                .into(fragmentHomeNewBinding.advertisementContainerParent.ivAdvertisement);
+
+        fragmentHomeNewBinding.advertisementContainerParent.ivAdvertisement.setOnClickListener(v -> {
+
+            Intent intent = new Intent(getContext(), ActionProductListingActivity.class);
+            intent.putExtra(ACTION_NAME, advertisement.getName());
+            intent.putExtra(ACTION_ID, String.valueOf(advertisement.getActionId()));
+            intent.putExtra(PRODUCT_TYPE, advertisement.getActionName());
+            startActivity(intent);
+
+        });
+
+    }
+
+    //******************************************* Slider ends here **************************************************
+
+    //******************************************* Action starts here **************************************************
+
+    /*
+     *   Action adapter code is also available
+     *   to stop scrolling that's why this is implemented
+     */
+
+    private void setActions() {
 
         if (fragmentHomeNewBinding.rvActionContainer.getChildCount() > 0)
             fragmentHomeNewBinding.rvActionContainer.removeAllViews();
@@ -389,18 +435,6 @@ public class HomeFragment extends Fragment implements ActionAdapter.ActionClickL
         }
     }
 
-    @Override
-    public void onActionClicked(Actions actions) {
-
-        Intent intent = new Intent(getContext(), ActionProductListingActivity.class);
-
-        intent.putExtra(ACTION_NAME, actions.getName());
-        intent.putExtra(ACTION_ID, String.valueOf(actions.getActionId()));
-        intent.putExtra(PRODUCT_TYPE, actions.getActionName());
-
-        startActivity(intent);
-    }
-
     private void onActionClicked(Integer index) {
 
         Actions actions = actionsList.get(index);
@@ -412,6 +446,15 @@ public class HomeFragment extends Fragment implements ActionAdapter.ActionClickL
 
         startActivity(intent);
     }
+
+    //******************************************* Action starts here **************************************************
+
+    //******************************************* Pick of the wee starts here **************************************************
+
+    /*
+     *   Action adapter code is also available
+     *   to stop scrolling that's why this is implemented
+     */
 
     private void setPickOfTheWeek() {
 
@@ -449,14 +492,6 @@ public class HomeFragment extends Fragment implements ActionAdapter.ActionClickL
         startActivity(intent);
     }
 
-    @Override
-    public void onWeekProductClicked(PicksOfTheWeek picksOfTheWeek) {
-
-        Intent intent = new Intent(getContext(), ProductDetailActivity.class);
-        intent.putExtra(PRODUCT_ID, picksOfTheWeek.getId());
-        startActivity(intent);
-    }
-
     public void onWeekProductClicked(Integer index) {
 
         PicksOfTheWeek picksOfTheWeek = picksOfTheWeekList.get(index);
@@ -464,6 +499,10 @@ public class HomeFragment extends Fragment implements ActionAdapter.ActionClickL
         intent.putExtra(PRODUCT_ID, picksOfTheWeek.getId());
         startActivity(intent);
     }
+
+    //******************************************* pick of the week ends here **************************************************
+
+    //******************************************* brands in focus starts here **************************************************
 
     private void setFeaturedBrands() {
 
@@ -486,6 +525,76 @@ public class HomeFragment extends Fragment implements ActionAdapter.ActionClickL
         intent.putExtra(PRODUCT_TYPE, BRANDS_IN_FOCUS_PRODUCTS);
         startActivity(intent);
     }
+
+    //******************************************* brands in focus ends here **************************************************
+
+    //******************************************* custom listing ( get the looks ) starts here **************************************************
+
+    private void setGetTheLook() {
+
+        getTheLooksAdapter = new GetTheLooksAdapter(getContext(), customProductsFive -> {
+
+            Intent intent = new Intent(getContext(), ActionProductListingActivity.class);
+
+            intent.putExtra(ACTION_NAME, customProductsFive.getName());
+            intent.putExtra(ACTION_ID, String.valueOf(customProductsFive.getActionId()));
+            intent.putExtra(PRODUCT_TYPE, customProductsFive.getActionName());
+            startActivity(intent);
+        });
+
+        fragmentHomeNewBinding.getTheLooksContainerParent.rvGetTheLooks.setAdapter(getTheLooksAdapter);
+        fragmentHomeNewBinding.getTheLooksContainerParent.rvGetTheLooks.setLayoutManager(new LinearLayoutManager(getContext(), RecyclerView.HORIZONTAL, false));
+        fragmentHomeNewBinding.getTheLooksContainerParent.rvGetTheLooks.setHasFixedSize(true);
+        getTheLooksAdapter.setData(customProductsFives);
+
+    }
+
+    //******************************************* custom listing ( get the looks ) ends here **************************************************
+
+    //******************************************* Category in focus starts here **************************************************
+
+    void setFeatureCategory() {
+
+        FeatureCategoryAdapter featureCategoryAdapter = new FeatureCategoryAdapter(getContext(), featuredCategory -> {
+
+            Intent intent = new Intent(getContext(), ActionProductListingActivity.class);
+
+            intent.putExtra(ACTION_NAME, featuredCategory.getName());
+            intent.putExtra(ACTION_ID, String.valueOf(featuredCategory.getId()));
+            intent.putExtra(PRODUCT_TYPE, "category");
+            startActivity(intent);
+        });
+
+        fragmentHomeNewBinding.categoryInFocusContainerParent.rvCategoryInFocus.setAdapter(featureCategoryAdapter);
+        fragmentHomeNewBinding.categoryInFocusContainerParent.rvCategoryInFocus.setLayoutManager(new LinearLayoutManager(getContext(), RecyclerView.HORIZONTAL, false));
+        fragmentHomeNewBinding.categoryInFocusContainerParent.rvCategoryInFocus.setHasFixedSize(true);
+        featureCategoryAdapter.setData(featuredCategories);
+    }
+
+    //******************************************* Category in focus ends here **************************************************
+
+    //******************************************* Blogs starts here **************************************************
+
+    private void setBlogPost() {
+
+        BlogPostsAdapter blogPostsAdapter = new BlogPostsAdapter(getContext(), blogPost -> {
+
+            AppConstants.URL_TYPE = 0;
+            String url = AppConstants.BLOG_URLS + blogPost.getId() + "/" + AppConstants.APP_NAME;
+            Intent intent = new Intent(getContext(), WebViewActivity.class);
+            intent.putExtra(BLOG_URL, url);
+            startActivity(intent);
+        });
+
+        fragmentHomeNewBinding.blogsContainerParent.rvBlogs.setAdapter(blogPostsAdapter);
+        fragmentHomeNewBinding.blogsContainerParent.rvBlogs.setLayoutManager(new LinearLayoutManager(getContext(), RecyclerView.HORIZONTAL, false));
+        fragmentHomeNewBinding.blogsContainerParent.rvBlogs.setHasFixedSize(true);
+        blogPostsAdapter.setData(blogPosts);
+    }
+
+    //******************************************* Blogs ends here **************************************************
+
+    //******************************************* Recommended products starts here **************************************************
 
     void setRecommendationProducts() {
 
@@ -556,25 +665,6 @@ public class HomeFragment extends Fragment implements ActionAdapter.ActionClickL
 
     }
 
-    void setFeatureCategory() {
-
-        FeatureCategoryAdapter featureCategoryAdapter = new FeatureCategoryAdapter(getContext(), featuredCategory -> {
-
-            Intent intent = new Intent(getContext(), ActionProductListingActivity.class);
-
-            intent.putExtra(ACTION_NAME, featuredCategory.getName());
-            intent.putExtra(ACTION_ID, String.valueOf(featuredCategory.getId()));
-            intent.putExtra(PRODUCT_TYPE, "category");
-            startActivity(intent);
-        });
-
-        fragmentHomeNewBinding.categoryInFocusContainerParent.rvCategoryInFocus.setAdapter(featureCategoryAdapter);
-        fragmentHomeNewBinding.categoryInFocusContainerParent.rvCategoryInFocus.setLayoutManager(new LinearLayoutManager(getContext(), RecyclerView.HORIZONTAL, false));
-        fragmentHomeNewBinding.categoryInFocusContainerParent.rvCategoryInFocus.setHasFixedSize(true);
-        featureCategoryAdapter.setData(featuredCategories);
-    }
-
-
     @Override
     public void onProductProductClicked(Product product) {
 
@@ -583,120 +673,6 @@ public class HomeFragment extends Fragment implements ActionAdapter.ActionClickL
         startActivity(intent);
     }
 
-    public void addDots() {
+    //******************************************* Recommended products ends here **************************************************
 
-
-/*        if (fragmentHomeNewBinding.dots.getChildCount() > 0)
-            fragmentHomeNewBinding.dots.removeAllViews();*/
-
-        dots.clear();
-
-        if (bannerList.size() < 2) {
-            fragmentHomeNewBinding.dots.setVisibility(View.GONE);
-            return;
-        }
-
-        for (int i = 0; i <= bannerList.size() - 1; i++) {
-            ImageView dot = new ImageView(getContext());
-            dot.setImageDrawable(getResources().getDrawable(R.drawable.empty_circle));
-
-            LinearLayout.LayoutParams params = new LinearLayout.LayoutParams(
-                    LinearLayout.LayoutParams.WRAP_CONTENT,
-                    LinearLayout.LayoutParams.WRAP_CONTENT
-            );
-
-
-            fragmentHomeNewBinding.dots.addView(dot, params);
-
-            dot.setTag(R.string.banner_circle_tag, i);
-
-            dot.setOnClickListener(v -> {
-
-                onBannerCircleClicked(Integer.parseInt(v.getTag(R.string.banner_circle_tag).toString()));
-            });
-
-            dots.add(dot);
-        }
-
-        selectDot(0);
-
-        fragmentHomeNewBinding.vpImages.addOnPageChangeListener(new ViewPager.OnPageChangeListener() {
-            @Override
-            public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {
-            }
-
-            @Override
-            public void onPageSelected(int position) {
-
-                currentPage = position;
-                selectDot(position);
-            }
-
-            @Override
-            public void onPageScrollStateChanged(int state) {
-            }
-        });
-    }
-
-    private void onBannerCircleClicked(int parseInt) {
-        currentPage = parseInt;
-        fragmentHomeNewBinding.vpImages.setCurrentItem(parseInt);
-    }
-
-    public void selectDot(int idx) {
-
-        if (getContext() == null)
-            return;
-
-        Resources res = getResources();
-        for (int i = 0; i <= bannerList.size() - 1; i++) {
-            int drawableId = (i == idx) ? (R.drawable.filled_circle) : (R.drawable.empty_circle);
-            Drawable drawable = res.getDrawable(drawableId);
-            dots.get(i).setImageDrawable(drawable);
-        }
-    }
-
-
-    private void setupAutoPager() {
-        final Handler handler = new Handler();
-
-        final Runnable update = () -> {
-
-            fragmentHomeNewBinding.vpImages.setCurrentItem(currentPage, true);
-            if (currentPage == bannerList.size()) {
-                currentPage = 0;
-            } else {
-
-                ++currentPage;
-            }
-        };
-
-
-        Timer timer = new Timer();
-        timer.schedule(new TimerTask() {
-
-            @Override
-            public void run() {
-                handler.post(update);
-            }
-        }, 1000, 3500);
-    }
-
-  /*  @Override
-    protected void onMeasure(int widthMeasureSpec, int heightMeasureSpec) {
-
-        int height = 0;
-        for(int i = 0; i < productMultimedia.size(); i++) {
-            View child = productMultimedia(i);
-            child.measure(widthMeasureSpec, View.MeasureSpec.makeMeasureSpec(0, View.MeasureSpec.UNSPECIFIED));
-            int h = child.getMeasuredHeight();
-            if(h > height) height = h;
-        }
-
-        if (height != 0) {
-            heightMeasureSpec = MeasureSpec.makeMeasureSpec(height, MeasureSpec.EXACTLY);
-        }
-
-        super.onMeasure(widthMeasureSpec, heightMeasureSpec);
-    }*/
 }

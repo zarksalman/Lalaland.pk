@@ -87,23 +87,14 @@ public class CategoryFragment extends Fragment implements MajorCategoryAdapter.M
 
         iniFragment();
 
-
-
-        if (android.os.Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT_WATCH) {
+        //******************************************* To stop nested scrolling because recyclerview is under scrollviews *****************************
+        if (android.os.Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT) {
             fragmentCategoryBinding.rvSubCategory.setNestedScrollingEnabled(false);
             fragmentCategoryBinding.rvSubCategoryBrand.setNestedScrollingEnabled(false);
         } else {
             ViewCompat.setNestedScrollingEnabled(fragmentCategoryBinding.rvSubCategory, false);
             ViewCompat.setNestedScrollingEnabled(fragmentCategoryBinding.rvSubCategoryBrand, false);
         }
-
-
- /*       //setting view pagger height because in scrollview wrap/match does not calculate their height correctly
-        android.view.Display display = ((android.view.WindowManager) getContext().getSystemService(Context.WINDOW_SERVICE)).getDefaultDisplay();
-        fragmentCategoryBinding.ivCategoryHeader.getLayoutParams().height = ((int) (display.getHeight() * 0.16));
-*/
-
-       // fragmentCategoryBinding.swipeContainer.setOnRefreshListener(this::iniFragment);
 
         return fragmentCategoryBinding.getRoot();
     }
@@ -151,22 +142,7 @@ public class CategoryFragment extends Fragment implements MajorCategoryAdapter.M
 
     }
 
-    @Override
-    public void onStart() {
-        super.onStart();
-
-    }
-
-    @Override
-    public void onResume() {
-        super.onResume();
-
-    }
-
-    @Override
-    public void onPause() {
-        super.onPause();
-    }
+    //******************************************* Major categories ( left side )starts here **************************************************
 
     private void setMajorCategoryList() {
 
@@ -177,87 +153,6 @@ public class CategoryFragment extends Fragment implements MajorCategoryAdapter.M
         fragmentCategoryBinding.rvCategory.setAdapter(majorCategoryAdapter);
         fragmentCategoryBinding.rvCategory.setHasFixedSize(true);
         majorCategoryAdapter.setData(categoryList);
-    }
-
-    private void setCategoryAdapter() {
-
-        categoryAdapter = new CategoryAdapter(getContext(), this);
-        fragmentCategoryBinding.rvSubCategory.setAdapter(categoryAdapter);
-        fragmentCategoryBinding.rvSubCategory.setLayoutManager(new LinearLayoutManager(getContext()));
-    }
-
-    private void setBrandCategory() {
-
-        categorBrandAdapter = new CategorBrandAdapter(getContext(), this);
-        fragmentCategoryBinding.rvSubCategoryBrand.setHasFixedSize(true);
-        fragmentCategoryBinding.rvSubCategoryBrand.setAdapter(categorBrandAdapter);
-        LinearLayoutManager linearLayoutManager = new LinearLayoutManager(getContext());
-        fragmentCategoryBinding.rvSubCategoryBrand.setLayoutManager(linearLayoutManager);
-        linearLayoutManager.scrollToPositionWithOffset(0, 0);
-        categorBrandAdapter.setData(AppConstants.staticCategoryBrandsList);
-    }
-
-    private void getCategories(int majorCategoryId) {
-
-        String firstMajorCategoryId = String.valueOf(majorCategoryId);
-        categoriesViewModel.getCategories(firstMajorCategoryId).observe(this, categoriesContainer -> {
-
-            if (categoriesContainer != null) {
-
-                if (categoriesContainer.getCode().equals(SUCCESS_CODE)) {
-
-                    if (categoriesContainer.getData().getSubCategories().size() > 0) {
-
-                        categoryHomeBanners.clear();
-                        subCategories.clear();
-                        categoryHomeBanners = categoriesContainer.getData().getHomeBanner();
-                        subCategories = categoriesContainer.getData().getSubCategories();
-
-                        new Handler().postDelayed(() -> {
-
-                            fragmentCategoryBinding.subCategoryContainer.setVisibility(View.VISIBLE);
-                            fragmentCategoryBinding.rvSubCategoryBrand.setVisibility(View.GONE);
-                            fragmentCategoryBinding.ivCategoryHeader.setVisibility(View.VISIBLE);
-
-                            categoryAdapter.setData(subCategories);
-                            categoryAdapter.notifyDataSetChanged();
-
-                        }, 250);
-
-
-                        String bannerImageUrl = BANNER_STORAGE_BASE_URL.concat(categoryHomeBanners.get(0).getBannerImage());
-
-                        Glide.with(AppConstants.mContext)
-                                .load(bannerImageUrl)
-                                .placeholder(R.drawable.placeholder_products)
-                                .into(fragmentCategoryBinding.ivCategoryHeader);
-                    }
-                }
-            }
-
-            if (getActivity() != null)
-                getActivity().getWindow().clearFlags(WindowManager.LayoutParams.FLAG_NOT_TOUCHABLE);
-
-            fragmentCategoryBinding.pbLoading.setVisibility(View.GONE);
-
-        });
-
-    }
-
-    private void trimZeroSizeInnerCategories() {
-
-        List<SubCategory> subCategoryArrayList = new ArrayList<>();
-        subCategoryArrayList = subCategories;
-
-        for (int i = 0; i < subCategories.size(); i++) {
-
-            if (subCategories.get(i).getInnerCategories().size() <= 0) {
-                subCategoryArrayList.remove(subCategories.get(i));
-            }
-        }
-
-        subCategories.clear();
-        subCategories.addAll(subCategoryArrayList);
     }
 
     @Override
@@ -324,9 +219,97 @@ public class CategoryFragment extends Fragment implements MajorCategoryAdapter.M
         }
     }
 
+    //******************************************* Major categories ( left side ) ends here **************************************************
+
+    //******************************************* Brands ( left side ) starts here **************************************************
+
+    private void setBrandCategory() {
+
+        categorBrandAdapter = new CategorBrandAdapter(getContext(), this);
+        fragmentCategoryBinding.rvSubCategoryBrand.setHasFixedSize(true);
+        fragmentCategoryBinding.rvSubCategoryBrand.setAdapter(categorBrandAdapter);
+        LinearLayoutManager linearLayoutManager = new LinearLayoutManager(getContext());
+        fragmentCategoryBinding.rvSubCategoryBrand.setLayoutManager(linearLayoutManager);
+        linearLayoutManager.scrollToPositionWithOffset(0, 0);
+        categorBrandAdapter.setData(AppConstants.staticCategoryBrandsList);
+    }
+
+    @Override
+    public void onCategoryBrandClicked(CategoryBrand categoryBrand) {
+
+        Intent intent = new Intent(getContext(), ActionProductListingActivity.class);
+        intent.putExtra(ACTION_NAME, categoryBrand.getName());
+        intent.putExtra(ACTION_ID, String.valueOf(categoryBrand.getId()));
+        intent.putExtra(PRODUCT_TYPE, BRANDS_IN_FOCUS_PRODUCTS);
+        startActivity(intent);
+    }
+
+    //******************************************* Brands ( left side ) ends here **************************************************
+
+    //*******************************************  Categories and inner categories starts here **************************************************
+
+    /*
+     * Nested recyclerview implemented here
+     * inner click listener is also implemented here
+     */
+
+    private void setCategoryAdapter() {
+
+        categoryAdapter = new CategoryAdapter(getContext(), this);
+        fragmentCategoryBinding.rvSubCategory.setAdapter(categoryAdapter);
+        fragmentCategoryBinding.rvSubCategory.setLayoutManager(new LinearLayoutManager(getContext()));
+    }
+
+    private void getCategories(int majorCategoryId) {
+
+        String firstMajorCategoryId = String.valueOf(majorCategoryId);
+        categoriesViewModel.getCategories(firstMajorCategoryId).observe(this, categoriesContainer -> {
+
+            if (categoriesContainer != null) {
+
+                if (categoriesContainer.getCode().equals(SUCCESS_CODE)) {
+
+                    if (categoriesContainer.getData().getSubCategories().size() > 0) {
+
+                        categoryHomeBanners.clear();
+                        subCategories.clear();
+                        categoryHomeBanners = categoriesContainer.getData().getHomeBanner();
+                        subCategories = categoriesContainer.getData().getSubCategories();
+
+                        new Handler().postDelayed(() -> {
+
+                            fragmentCategoryBinding.subCategoryContainer.setVisibility(View.VISIBLE);
+                            fragmentCategoryBinding.rvSubCategoryBrand.setVisibility(View.GONE);
+                            fragmentCategoryBinding.ivCategoryHeader.setVisibility(View.VISIBLE);
+
+                            categoryAdapter.setData(subCategories);
+                            categoryAdapter.notifyDataSetChanged();
+
+                        }, 250);
+
+
+                        String bannerImageUrl = BANNER_STORAGE_BASE_URL.concat(categoryHomeBanners.get(0).getBannerImage());
+
+                        Glide.with(AppConstants.mContext)
+                                .load(bannerImageUrl)
+                                .placeholder(R.drawable.placeholder_products)
+                                .into(fragmentCategoryBinding.ivCategoryHeader);
+                    }
+                }
+            }
+
+            if (getActivity() != null)
+                getActivity().getWindow().clearFlags(WindowManager.LayoutParams.FLAG_NOT_TOUCHABLE);
+
+            fragmentCategoryBinding.pbLoading.setVisibility(View.GONE);
+
+        });
+
+    }
+
+
     @Override
     public void onCategoryClicked(SubCategory subCategory) {
-
         loadCategoryProducts(subCategory.getId(), subCategory.getName());
     }
 
@@ -345,15 +328,29 @@ public class CategoryFragment extends Fragment implements MajorCategoryAdapter.M
         startActivity(intent);
     }
 
-    @Override
-    public void onCategoryBrandClicked(CategoryBrand categoryBrand) {
+    //******************************************* If any category has not inner category then remove from list **************************************************
 
-        Intent intent = new Intent(getContext(), ActionProductListingActivity.class);
-        intent.putExtra(ACTION_NAME, categoryBrand.getName());
-        intent.putExtra(ACTION_ID, String.valueOf(categoryBrand.getId()));
-        intent.putExtra(PRODUCT_TYPE, BRANDS_IN_FOCUS_PRODUCTS);
-        startActivity(intent);
+    private void trimZeroSizeInnerCategories() {
+
+        List<SubCategory> subCategoryArrayList = new ArrayList<>();
+        subCategoryArrayList = subCategories;
+
+        for (int i = 0; i < subCategories.size(); i++) {
+
+            if (subCategories.get(i).getInnerCategories().size() <= 0) {
+                subCategoryArrayList.remove(subCategories.get(i));
+            }
+        }
+
+        subCategories.clear();
+        subCategories.addAll(subCategoryArrayList);
     }
+
+    //***********************************************************************************************************************************************************
+
+    //*******************************************  Categories and inner categories ends here **************************************************
+
+    //******************************************* If network is not available **************************************************
 
     @Override
     public void onFailure(boolean isFailed) {

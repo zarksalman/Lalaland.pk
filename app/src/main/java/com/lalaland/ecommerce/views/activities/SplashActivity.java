@@ -1,6 +1,7 @@
 package com.lalaland.ecommerce.views.activities;
 
 import android.content.Intent;
+import android.net.Uri;
 import android.os.Bundle;
 import android.os.Handler;
 import android.util.Base64;
@@ -80,6 +81,7 @@ public class SplashActivity extends AppCompatActivity implements NetworkInterfac
         requestWindowFeature(Window.FEATURE_NO_TITLE);
         getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN, WindowManager.LayoutParams.FLAG_FULLSCREEN);
 
+
         activitySplashBinding = DataBindingUtil.setContentView(this, R.layout.activity_splash);
 
         appPreference = AppPreference.getInstance(this);
@@ -141,10 +143,17 @@ public class SplashActivity extends AppCompatActivity implements NetworkInterfac
 
                         new Handler().postDelayed(() -> {
                             Intent intent;
-                            if (!appPreference.getBoolean(IS_FIRST_TIME)) {
-                                intent = new Intent(SplashActivity.this, IntroductionScreenActivity.class);
-                            } else {
+                            // if app is open from deep link
+                            if (isOpenByDeepLink(getIntent())) {
                                 intent = new Intent(SplashActivity.this, MainActivity.class);
+                                intent.setData(getIntent().getData());
+                            } else {
+
+                                if (!appPreference.getBoolean(IS_FIRST_TIME)) {
+                                    intent = new Intent(SplashActivity.this, IntroductionScreenActivity.class);
+                                } else {
+                                    intent = new Intent(SplashActivity.this, MainActivity.class);
+                                }
                             }
 
                             startActivity(intent);
@@ -152,6 +161,8 @@ public class SplashActivity extends AppCompatActivity implements NetworkInterfac
                             overridePendingTransition(R.anim.anim_slide_in_left, R.anim.anim_slide_out_left);
                         }, 500);
                     }
+
+
                 } else {
                     activitySplashBinding.tvReload.setVisibility(View.VISIBLE);
                 }
@@ -243,4 +254,16 @@ public class SplashActivity extends AppCompatActivity implements NetworkInterfac
 
         Log.d("hashKey", Base64.encodeToString(byteArr, Base64.NO_WRAP));
     }
+
+    private boolean isOpenByDeepLink(Intent intent) {
+
+        Uri uri = intent.getData();
+
+        if (uri != null) {
+            return true;
+        }
+
+        return false;
+    }
+
 }

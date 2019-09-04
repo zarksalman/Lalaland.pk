@@ -88,10 +88,11 @@ public class ProductDetailActivity extends AppCompatActivity implements ProductV
     private BottomSheetDialog mBottomSheetDialog;
     private ProductVariationAdapter productVariationAdapter;
     String productShareUrl;
-    Intent intent;
+    Intent intent, dataIntent;
     StringBuilder price = new StringBuilder();
     StringBuilder aPrice = new StringBuilder();
     Bundle bundle = new Bundle();
+    String isDeeplink = "";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -104,6 +105,7 @@ public class ProductDetailActivity extends AppCompatActivity implements ProductV
         orderViewModel = ViewModelProviders.of(this).get(OrderViewModel.class);
 
         product_id = getIntent().getIntExtra(PRODUCT_ID, 0);
+
         Log.d(AppConstants.TAG, "product_id" + product_id);
         activityProductDetailBinding.svProductDetail.setVisibility(View.GONE);
         activityProductDetailBinding.pbLoading.setVisibility(View.VISIBLE);

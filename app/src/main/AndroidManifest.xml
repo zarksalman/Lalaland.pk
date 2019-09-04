@@ -8,10 +8,6 @@
     <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
     <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
 
-
-<!--
--->
-
     <application
         android:label="@string/my_app_name"
         android:name=".LalalandApplication"
@@ -40,13 +36,19 @@
             android:label="@string/title_activity_reset_password"
             android:screenOrientation="portrait"
             android:theme="@style/AppTheme.NoActionBar.NoActionBar">
-            <intent-filter android:label="DeepLink">
+            <intent-filter
+                android:autoVerify="true"
+                android:label="@string/my_app_name">
                 <action android:name="android.intent.action.VIEW" />
 
                 <category android:name="android.intent.category.BROWSABLE" />
                 <category android:name="android.intent.category.DEFAULT" />
 
-                <data android:scheme="lalaland" />
+                <data
+                    android:host="controller"
+                    android:path="/ResetPassword"
+                    android:scheme="lalaland" />
+
             </intent-filter>
         </activity>
         <activity
@@ -117,9 +119,22 @@
             android:theme="@style/AppTheme.NoActionBar.NoActionBar">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
-
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
+
+            <intent-filter android:autoVerify="true">
+
+                <action android:name="android.intent.action.VIEW" />
+
+                <category android:name="android.intent.category.BROWSABLE" />
+                <category android:name="android.intent.category.DEFAULT" />
+
+                <data
+                    android:host="controller"
+                    android:path="/productDetail"
+                    android:scheme="lalaland" />
+            </intent-filter>
+
         </activity>
         <activity
             android:name=".views.activities.ActionProductListingActivity"
@@ -130,7 +145,10 @@
             android:name=".views.activities.ProductDetailActivity"
             android:label="@string/title_activity_product_detail"
             android:screenOrientation="portrait"
-            android:theme="@style/AppTheme.NoActionBar.NoActionBar" /> <!-- for facebook login -->
+            android:theme="@style/AppTheme.NoActionBar.NoActionBar">
+
+        </activity>
+
         <activity
             android:name=".views.activities.RegistrationActivity"
             android:label="@string/title_activity_registration"

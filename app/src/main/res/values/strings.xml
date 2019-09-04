@@ -167,7 +167,7 @@
     <string name="my_photo">My Photo</string>
     <string name="login">Login</string>
     <string name="forgot_password">Forgot Password ?</string>
-    <string name="title_activity_reset_password">ResetPasswordActivity</string>
+    <string name="title_activity_reset_password">Reset Password</string>
     <string name="reset_password_text">Enter your email to reset \nyour password</string>
     <string name="reset_password">Reset Password</string>
     <string name="enter_your_new_password">Enter your new password</string>
