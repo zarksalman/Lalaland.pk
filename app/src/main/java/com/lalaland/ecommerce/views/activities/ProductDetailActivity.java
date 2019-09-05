@@ -92,7 +92,7 @@ public class ProductDetailActivity extends AppCompatActivity implements ProductV
     StringBuilder price = new StringBuilder();
     StringBuilder aPrice = new StringBuilder();
     Bundle bundle = new Bundle();
-    String isDeeplink = "";
+    boolean isDeeplink;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -106,11 +106,12 @@ public class ProductDetailActivity extends AppCompatActivity implements ProductV
 
         product_id = getIntent().getIntExtra(PRODUCT_ID, 0);
 
-        Log.d(AppConstants.TAG, "product_id" + product_id);
         activityProductDetailBinding.svProductDetail.setVisibility(View.GONE);
         activityProductDetailBinding.pbLoading.setVisibility(View.VISIBLE);
 
         intent = new Intent(this, MainActivity.class);
+
+        isDeeplink = appPreference.getBoolean("is_deep_link");
 
         loginToken = appPreference.getString(SIGNIN_TOKEN);
         cartSessionToken = appPreference.getString(CART_SESSION_TOKEN);
@@ -615,8 +616,14 @@ public class ProductDetailActivity extends AppCompatActivity implements ProductV
     @Override
     public void onBackPressed() {
 
-        // if user comes from order receive activity, user has finish all activities
-        if (isLastActivity()) {
+        /* if user comes from order receive activity, user has finish all activities
+         * or if user came from deep link to see products multiple times
+         */
+
+        if (isLastActivity() || isDeeplink) {
+
+            isDeeplink = false;
+            appPreference.setBoolean("is_deep_link", isDeeplink);
             AppConstants.LOAD_HOME_FRAGMENT_INDEX = 0;
             intent = new Intent(this, MainActivity.class);
             intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);

@@ -260,9 +260,11 @@ public class SplashActivity extends AppCompatActivity implements NetworkInterfac
         Uri uri = intent.getData();
 
         if (uri != null) {
+          appPreference.setBoolean("is_deep_link", true);
             return true;
         }
 
+        appPreference.setBoolean("is_deep_link", false);
         return false;
     }
 
