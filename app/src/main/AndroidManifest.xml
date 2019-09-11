@@ -134,6 +134,13 @@
                     android:host="controller"
                     android:path="/productDetail"
                     android:scheme="lalaland" />
+
+                <data
+                    android:host="controller"
+                    android:path="/ProductListing"
+                    android:scheme="lalaland" />
+
+
             </intent-filter>
 
         </activity>

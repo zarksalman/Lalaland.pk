@@ -150,7 +150,6 @@ public class AppUtils {
         return new Intent(Intent.ACTION_VIEW, Uri.parse(url));
     }
 
-
     public static boolean isNetworkAvailable() {
         ConnectivityManager connectivityManager = (ConnectivityManager) AppConstants.mContext.getSystemService(Context.CONNECTIVITY_SERVICE);
         if (connectivityManager != null) {
@@ -178,19 +177,32 @@ public class AppUtils {
 
         if (!prices[0].isEmpty()) {
 
-            prices[0] = NumberFormat.getNumberInstance(Locale.US).format(Double.parseDouble(prices[0]));
+            try {
 
-            if (prices.length > 1) {
+                prices[0] = NumberFormat.getNumberInstance(Locale.US).format(Double.parseDouble(prices[0]));
+
+                if (prices.length > 1) {
+                    prices[1] = NumberFormat.getNumberInstance(Locale.US).format(Double.parseDouble(prices[1]));
+                    return "PKR " + prices[0] + "-" + prices[1];
+                } else {
+                    return "PKR " + prices[0];
+                }
+            } catch (NumberFormatException e) {
+
+                e.printStackTrace();
+                return "PKR " + price;
+            }
+
+        } else {
+
+            try {
+                // for minus values
                 prices[1] = NumberFormat.getNumberInstance(Locale.US).format(Double.parseDouble(prices[1]));
                 return "PKR " + prices[0] + "-" + prices[1];
-            } else {
-                return "PKR " + prices[0];
+            } catch (NumberFormatException e) {
+                e.printStackTrace();
+                return "PKR " + price;
             }
-        } else {
-            
-            // for minus values
-            prices[1] = NumberFormat.getNumberInstance(Locale.US).format(Double.parseDouble(prices[1]));
-            return "PKR " + prices[0] + "-" + prices[1];
         }
 
     }
@@ -202,15 +214,24 @@ public class AppUtils {
         Double itemPrice = Double.parseDouble(prices[0]);
         Double itemTotalPrice = itemPrice * count;
 
-        prices[0] = NumberFormat.getNumberInstance(Locale.US).format(itemTotalPrice);
+        try {
 
-        if (prices.length > 1) {
-            prices[1] = NumberFormat.getNumberInstance(Locale.US).format(Double.parseDouble(prices[1]));
-            return "PKR " + prices[0] + "-" + prices[1];
-        } else {
-            return "PKR " + prices[0];
+            prices[0] = NumberFormat.getNumberInstance(Locale.US).format(itemTotalPrice);
+
+            if (prices.length > 1) {
+                prices[1] = NumberFormat.getNumberInstance(Locale.US).format(Double.parseDouble(prices[1]));
+                return "PKR " + prices[0] + "-" + prices[1];
+            } else {
+                return "PKR " + prices[0];
+            }
+        } catch (NumberFormatException e) {
+
+            e.printStackTrace();
+
+            return "PKR " + itemTotalPrice;
         }
     }
+
     public static String formatName(String str) {
 
         return "Name: " + str;

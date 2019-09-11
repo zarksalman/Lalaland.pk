@@ -277,7 +277,7 @@ public class UsersRepository {
             @Override
             public void onResponse(Call<RegistrationContainer> call, Response<RegistrationContainer> response) {
 
-                if (response.isSuccessful()) {
+                if (response.isSuccessful() && response.body().getCode().equals(SUCCESS_CODE)) {
                     registrationContainerMutableLiveData.postValue(response.body());
 
                     // saving header response for different purposes like add to wish list etc
@@ -309,14 +309,18 @@ public class UsersRepository {
         lalalandServiceApi.registerFromFacebook(userInfo, parameters).enqueue(new Callback<RegistrationContainer>() {
             @Override
             public void onResponse(Call<RegistrationContainer> call, Response<RegistrationContainer> response) {
-                registrationContainerMutableLiveData.postValue(response.body());
 
-                // saving header response for different purposes like add to wish list etc
-                Headers headers = response.headers();
-                AppPreference.getInstance(AppConstants.mContext).setString(SIGNIN_TOKEN, headers.get(SIGNIN_TOKEN));
-                // if login successfully then discard cart session token
-                AppPreference.getInstance(AppConstants.mContext).setString(CART_SESSION_TOKEN, "");
-                AppConstants.CART_COUNTER = response.body().getData().getCartCount();
+                if (response.isSuccessful() && response.body().getCode().equals(SUCCESS_CODE)) {
+                    registrationContainerMutableLiveData.postValue(response.body());
+
+                    // saving header response for different purposes like add to wish list etc
+                    Headers headers = response.headers();
+                    AppPreference.getInstance(AppConstants.mContext).setString(SIGNIN_TOKEN, headers.get(SIGNIN_TOKEN));
+                    // if login successfully then discard cart session token
+                    AppPreference.getInstance(AppConstants.mContext).setString(CART_SESSION_TOKEN, "");
+                    AppConstants.CART_COUNTER = response.body().getData().getCartCount();
+                }
+
                 checkResponseSource(response);
             }
 
@@ -341,7 +345,7 @@ public class UsersRepository {
             @Override
             public void onResponse(Call<RegistrationContainer> call, Response<RegistrationContainer> response) {
 
-                if (response.isSuccessful()) {
+                if (response.isSuccessful() && response.body().getData().equals(SUCCESS_CODE)) {
                     registrationContainerMutableLiveData.postValue(response.body());
 
                     // saving header response for different purposes like add to wish list etc
@@ -441,7 +445,7 @@ public class UsersRepository {
         lalalandServiceApi.uploadProfileImage(userInfo, file, file.body()).enqueue(new Callback<UploadProfileImageContainer>() {
             @Override
             public void onResponse(Call<UploadProfileImageContainer> call, Response<UploadProfileImageContainer> response) {
-                if (response.isSuccessful()) {
+                if (response.isSuccessful() && response.body().getData().equals(SUCCESS_CODE)) {
                     uploadProfileImageContainerMutableLiveData.postValue(response.body());
                 } else {
                     uploadProfileImageContainerMutableLiveData.postValue(null);

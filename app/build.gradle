@@ -35,23 +35,21 @@ android {
 
 dependencies {
     implementation fileTree(dir: 'libs', include: ['*.jar'])
-    implementation 'androidx.appcompat:appcompat:1.0.2'
+    implementation 'androidx.appcompat:appcompat:1.1.0'
     implementation 'com.google.android.material:material:1.0.0'
     implementation 'androidx.constraintlayout:constraintlayout:1.1.3'
-    implementation 'androidx.vectordrawable:vectordrawable:1.0.1'
+    implementation 'androidx.vectordrawable:vectordrawable:1.1.0'
     implementation 'androidx.multidex:multidex:2.0.1'
 
     // ********************* First Party ***********************
     // view model and live data
-    implementation 'androidx.lifecycle:lifecycle-extensions:2.0.0'
+    implementation 'androidx.lifecycle:lifecycle-extensions:2.1.0'
     implementation 'androidx.legacy:legacy-support-v4:1.0.0'
-    annotationProcessor 'androidx.lifecycle:lifecycle-compiler:2.0.0'
-    implementation 'androidx.lifecycle:lifecycle-livedata:2.0.0'
+    annotationProcessor 'androidx.lifecycle:lifecycle-compiler:2.1.0'
+    implementation 'androidx.lifecycle:lifecycle-livedata:2.1.0'
 
     // rxjava related libraries
     implementation 'com.squareup.retrofit2:adapter-rxjava2:2.4.0'
-//    implementation 'com.squareup.retrofit2:adapter-rxjava:2.4.0'
-//    implementation 'com.squareup.retrofit2:adapter-rxjava2:2.4.0'
     implementation 'io.reactivex.rxjava2:rxjava:2.2.7'
     implementation 'io.reactivex.rxjava2:rxandroid:2.1.1'
     implementation "com.jakewharton.rxbinding2:rxbinding:2.0.0"
@@ -100,9 +98,5 @@ dependencies {
 
     // image compression
     implementation 'id.zelory:compressor:2.1.0'
-
-    // image slider
-//    implementation 'com.github.smarteist:autoimageslider:1.3.2'
-
 }
 apply plugin: 'com.google.gms.google-services'

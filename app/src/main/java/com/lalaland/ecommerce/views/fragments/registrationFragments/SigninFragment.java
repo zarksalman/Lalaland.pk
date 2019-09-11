@@ -38,7 +38,6 @@ import static com.lalaland.ecommerce.helpers.AppConstants.SUCCESS_CODE;
 import static com.lalaland.ecommerce.helpers.AppConstants.USER_AVATAR;
 import static com.lalaland.ecommerce.helpers.AppConstants.USER_NAME;
 import static com.lalaland.ecommerce.helpers.AppConstants.VALIDATION_FAIL_CODE;
-import static com.lalaland.ecommerce.helpers.AppConstants.WRONG_CREDENTIAL;
 import static com.lalaland.ecommerce.helpers.AppConstants.user;
 
 
@@ -188,7 +187,7 @@ public class SigninFragment extends BaseRegistrationFragment implements LoadingL
                         break;
                     case AUTHORIZATION_FAIL_CODE:
                         hideProgressBar();
-                        showToast(WRONG_CREDENTIAL);
+                        showToast(login.getMsg());
                         break;
                 }
             } else {
