@@ -234,48 +234,7 @@ public class HomeFragment extends Fragment implements BrandsFocusAdapter.Feature
 
         currentPage = 0;
         addDots();
-
-
-     /*   SliderAdapterExample adapter = new SliderAdapterExample(getContext(), bannerList);
-
-        fragmentHomeNewBinding.imageSlider.setSliderAdapter(adapter);
-
-       fragmentHomeNewBinding.imageSlider.setIndicatorAnimation(IndicatorAnimations.FILL); //set indicator animation by using SliderLayout.IndicatorAnimations. :WORM or THIN_WORM or COLOR or DROP or FILL or NONE or SCALE or SCALE_DOWN or SLIDE and SWAP!!
-       fragmentHomeNewBinding.imageSlider.setSliderTransformAnimation(SliderAnimations.SIMPLETRANSFORMATION);
-       fragmentHomeNewBinding.imageSlider.setAutoCycleDirection(SliderView.AUTO_CYCLE_DIRECTION_RIGHT);
-       fragmentHomeNewBinding.imageSlider.setIndicatorSelectedColor(getResources().getColor(R.color.colorPrimary));
-       fragmentHomeNewBinding.imageSlider.setIndicatorUnselectedColor(Color.GRAY);
-       fragmentHomeNewBinding.imageSlider.setScrollTimeInSec(1); //set scroll delay in seconds :
-       fragmentHomeNewBinding.imageSlider.startAutoCycle();*/
-
-
-        /*
-        if (fragmentHomeNewBinding.vfSlider.getChildCount() > 0)
-            fragmentHomeNewBinding.vfSlider.removeAllViews();
-
-        for (int i = 0; i < bannerList.size(); i++) {
-
-            String bannerImageUrl = BANNER_STORAGE_BASE_URL.concat(bannerList.get(i).getBannerImage());
-            ImageView imageView = new ImageView(getContext());
-
-            imageView.setAdjustViewBounds(true);
-
-            Glide
-                    .with(getContext())
-                    .load(bannerImageUrl)
-                    .fitCenter()
-                    .into(imageView);
-
-            fragmentHomeNewBinding.vfSlider.addView(imageView);
-            fragmentHomeNewBinding.vfSlider.setFlipInterval(4000);
-            fragmentHomeNewBinding.vfSlider.setAutoStart(true);
-
-            fragmentHomeNewBinding.vfSlider.setInAnimation(getContext(), android.R.anim.slide_in_left);
-            fragmentHomeNewBinding.vfSlider.setInAnimation(getContext(), R.anim.anim_slide_in_left_slider);
-            fragmentHomeNewBinding.vfSlider.setOutAnimation(getContext(), R.anim.anim_slide_out_left_slider);
-        }
-
-        fragmentHomeNewBinding.vfSlider.startFlipping();*/
+        
     }
 
     private void addDots() {

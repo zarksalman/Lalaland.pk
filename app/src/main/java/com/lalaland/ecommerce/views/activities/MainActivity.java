@@ -30,10 +30,13 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Set;
 
+import static com.lalaland.ecommerce.helpers.AppConstants.ACTION_ID;
+import static com.lalaland.ecommerce.helpers.AppConstants.ACTION_NAME;
 import static com.lalaland.ecommerce.helpers.AppConstants.BANNER_STORAGE_BASE_URL;
 import static com.lalaland.ecommerce.helpers.AppConstants.LOAD_HOME_FRAGMENT_INDEX;
 import static com.lalaland.ecommerce.helpers.AppConstants.LOAD_HOME_FRAGMENT_INDEX_KEY;
 import static com.lalaland.ecommerce.helpers.AppConstants.PRODUCT_ID;
+import static com.lalaland.ecommerce.helpers.AppConstants.PRODUCT_TYPE;
 import static com.lalaland.ecommerce.helpers.AppConstants.SIGNIN_TOKEN;
 
 public class MainActivity extends AppCompatActivity implements CloseAppListener {
@@ -285,11 +288,33 @@ public class MainActivity extends AppCompatActivity implements CloseAppListener 
             keys = args.toArray();
 
             if (keys != null && keys.length > 0) {
-                String productId = uri.getQueryParameter(keys[0].toString());
 
-                Intent mIntent = new Intent(this, ProductDetailActivity.class);
-                mIntent.putExtra(PRODUCT_ID, Integer.parseInt(productId));
-                startActivity(mIntent);
+
+                if (uri.toString().contains("productDetail")) {
+
+                    String productId = uri.getQueryParameter(keys[0].toString());
+
+                    Intent mIntent;
+                    mIntent = new Intent(this, ProductDetailActivity.class);
+                    mIntent.putExtra(PRODUCT_ID, Integer.parseInt(productId));
+                    startActivity(mIntent);
+
+                } else if (uri.toString().contains("ProductListing")) {
+
+                    String title = uri.getQueryParameter(keys[0].toString());
+                    String actionId = uri.getQueryParameter(keys[1].toString());
+                    String actionName = uri.getQueryParameter(keys[2].toString());
+
+                    Intent mIntent;
+                    mIntent = new Intent(this, ActionProductListingActivity.class);
+
+                    mIntent.putExtra(ACTION_NAME, title);
+                    mIntent.putExtra(ACTION_ID, actionId);
+                    mIntent.putExtra(PRODUCT_TYPE, actionName);
+                    startActivity(mIntent);
+                }
+
+
             }
         }
 

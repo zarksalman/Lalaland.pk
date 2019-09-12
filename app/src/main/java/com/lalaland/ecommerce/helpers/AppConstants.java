@@ -180,6 +180,7 @@ public class AppConstants {
     public static final String AUTHORIZATION_FAIL_CODE = "401";
     public static final String OUT_OF_STOCK_CODE = "403";
     public static final String VOUCHER_FAIL_CODE = "403";
+    public static final String UPDATE_APP = "403";
     public static boolean IS_COUPON_APPLIED = false;
 
 

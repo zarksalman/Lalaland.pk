@@ -26,6 +26,7 @@ import com.lalaland.ecommerce.data.models.actionProducs.ActionProducts;
 import com.lalaland.ecommerce.databinding.ActivityProductListingBinding;
 import com.lalaland.ecommerce.databinding.SortFilterBottomSheetLayoutBinding;
 import com.lalaland.ecommerce.helpers.AppConstants;
+import com.lalaland.ecommerce.helpers.AppPreference;
 import com.lalaland.ecommerce.viewModels.filter.FilterViewModel;
 import com.lalaland.ecommerce.viewModels.products.ProductViewModel;
 
@@ -516,6 +517,15 @@ public class ActionProductListingActivity extends AppCompatActivity implements A
 
     @Override
     public void onBackPressed() {
+
+        // if user coming from deep linking
+        if (AppPreference.getInstance(this).getBoolean("is_deep_link")) {
+
+            AppPreference.getInstance(this).setBoolean("is_deep_link", false);
+            Intent intent = new Intent(this, MainActivity.class);
+            intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
+            startActivity(intent);
+        }
         finish();
     }
 
@@ -659,6 +669,5 @@ public class ActionProductListingActivity extends AppCompatActivity implements A
             setActionProducts();
             isFilterOrSort = true;
         }
-
     }
 }

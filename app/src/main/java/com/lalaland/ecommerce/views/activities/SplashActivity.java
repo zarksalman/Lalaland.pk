@@ -14,6 +14,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.databinding.DataBindingUtil;
 import androidx.lifecycle.ViewModelProviders;
 
+import com.google.android.material.snackbar.Snackbar;
 import com.lalaland.ecommerce.R;
 import com.lalaland.ecommerce.data.models.category.Category;
 import com.lalaland.ecommerce.data.models.category.CategoryData;
@@ -65,6 +66,7 @@ import static com.lalaland.ecommerce.helpers.AppConstants.TERMS_AND_CONDITIONS_U
 import static com.lalaland.ecommerce.helpers.AppConstants.TERMS_AND_CONDITIONS_URL_KEY;
 import static com.lalaland.ecommerce.helpers.AppConstants.THUMBNAIL_PRODUCT_STORAGE_BASE_URL;
 import static com.lalaland.ecommerce.helpers.AppConstants.THUMBNAIL_PRODUCT_STORAGE_BASE_URL_KEY;
+import static com.lalaland.ecommerce.helpers.AppConstants.UPDATE_APP;
 import static com.lalaland.ecommerce.helpers.AppConstants.USER_STORAGE_BASE_URL;
 import static com.lalaland.ecommerce.helpers.AppConstants.USER_STORAGE_BASE_URL_KEY;
 
@@ -160,6 +162,20 @@ public class SplashActivity extends AppCompatActivity implements NetworkInterfac
                             finish();
                             overridePendingTransition(R.anim.anim_slide_in_left, R.anim.anim_slide_out_left);
                         }, 500);
+                    } else if (categoryContainer.getCode().equals(UPDATE_APP)) {
+
+                        //Toast.makeText(this, categoryContainer.getMsg(), Toast.LENGTH_SHORT).show();
+
+                        Snackbar.make(activitySplashBinding.ivSplashImg, categoryContainer.getMsg(), Snackbar.LENGTH_INDEFINITE);
+
+                        Snackbar snackbar = Snackbar
+                                .make(activitySplashBinding.ivSplashImg, categoryContainer.getMsg(), Snackbar.LENGTH_INDEFINITE)
+                                .setAction("Update Now", view -> {
+                                    startActivity(AppUtils.getLikeUsIntent());
+                                    finish();
+                                });
+
+                        snackbar.show();
                     }
 
 
