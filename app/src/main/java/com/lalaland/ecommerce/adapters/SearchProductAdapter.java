@@ -87,7 +87,7 @@ public class SearchProductAdapter extends RecyclerView.Adapter<SearchProductAdap
             else
                 mSearchItemBinding.ivSearchArrow.setVisibility(View.VISIBLE);
 
-            mSearchItemBinding.tvSearch.setText(AppUtils.formatSearchUrl(search.getUrlName()));
+            mSearchItemBinding.tvSearch.setText(AppUtils.formatSearchUrlRemoveSlash(search.getUrlName()));
 
             mSearchItemBinding.searchParent.setOnClickListener(v -> {
                 onSearchClicked(getAdapterPosition());

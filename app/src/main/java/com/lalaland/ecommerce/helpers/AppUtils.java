@@ -307,8 +307,16 @@ public class AppUtils {
 
     public static String formatSearchUrl(String str) {
 
-        if (str != null && str.contains("-"))
+        if (str != null && (str.contains("-")))
             return str.replace("-", " ");
+        else
+            return str;
+    }
+
+    public static String formatSearchUrlRemoveSlash(String str) {
+
+        if (str != null && str.contains("/"))
+            return str.replace("/", " ").replace("-", " ");
         else
             return str;
     }

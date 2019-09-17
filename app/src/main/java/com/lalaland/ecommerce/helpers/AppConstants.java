@@ -16,7 +16,7 @@ import java.util.regex.Pattern;
 
 public class AppConstants {
 
-        public static final String BASE_URL = "https://api.lalaland.pk/api/";
+    public static final String BASE_URL = "https://api.lalaland.pk/api/";
 //    public static final String BASE_URL = "https://api.uat.lalaland.pk/api/";
     public static final String BASE_URL_PRODUCT_SHARE = "https://www.lalaland.pk/";
 
