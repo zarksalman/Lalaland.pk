@@ -16,8 +16,8 @@ import java.util.regex.Pattern;
 
 public class AppConstants {
 
-    public static final String BASE_URL = "https://api.lalaland.pk/api/";
-//    public static final String BASE_URL = "https://api.uat.lalaland.pk/api/";
+//    public static final String BASE_URL = "https://api.lalaland.pk/api/";
+    public static final String BASE_URL = "https://api.uat.lalaland.pk/api/";
     public static final String BASE_URL_PRODUCT_SHARE = "https://www.lalaland.pk/";
 
     public static String ABOUT_US_URL = "";
@@ -185,22 +185,22 @@ public class AppConstants {
 
 
     // Toast Strings
-    public static final String SUCCESS_MESSAGE = "Success";
     public static final String NO_NETWORK = "No network available";
     public static final String FB_LOGIN_CANCLED = "Login Cancel";
-    public static final String WRONG_CREDENTIAL = "Account information or password is incorrect. Please try later";
-    public static final String ACCOUNT_CREATION_ERROR = "Could not register at this time, please try again";
     public static final String GENERAL_ERROR = "Something went wrong please try again";
-    public static final String SERVER_ERROR = "PLEASE LOGIN FIRST ";
     public static final String ADD_TO_CART = "Successfully added to cart";
     public static final String ITEM_SOLD = "This item is sold out";
-    public static final String ADD_TO_WISH_LIST = "Successfully added to wish list";
-    public static final String NO_ITEM_IN_LIST = "No such item is in list.";
-    public static final String REMOVE_FROM_WISH_LIST = "Successfully remove from wish list";
     public static final String ADD_TO_READY_PRODUCT = "Added to list";
     public static final String REMOVE_FROM_READY_PRODUCT = "Remove from list";
     public static final String REMOVED_FROM_CART = "Removed from cart";
     public static final String ITEM_SOLD_OUT = "Insufficient Stock";
+    public static final String SUCCESS_MESSAGE = "Success";
+    public static final String WRONG_CREDENTIAL = "Account information or password is incorrect. Please try later";
+    public static final String ACCOUNT_CREATION_ERROR = "Could not register at this time, please try again";
+    public static final String SERVER_ERROR = "PLEASE LOGIN FIRST ";
+    public static final String ADD_TO_WISH_LIST = "Successfully added to wish list";
+    public static final String NO_ITEM_IN_LIST = "No such item is in list.";
+    public static final String REMOVE_FROM_WISH_LIST = "Successfully remove from wish list";
 
     // now for testing purpose, in future save in db
     public static String NAME = "name";

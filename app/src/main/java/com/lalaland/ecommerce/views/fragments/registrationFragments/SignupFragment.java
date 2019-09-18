@@ -31,7 +31,6 @@ import java.util.Calendar;
 import java.util.HashMap;
 import java.util.Map;
 
-import static com.lalaland.ecommerce.helpers.AppConstants.ACCOUNT_CREATION_ERROR;
 import static com.lalaland.ecommerce.helpers.AppConstants.AUTHORIZATION_FAIL_CODE;
 import static com.lalaland.ecommerce.helpers.AppConstants.CART_SESSION_TOKEN;
 import static com.lalaland.ecommerce.helpers.AppConstants.CONFIRM_TYPE;
@@ -47,7 +46,6 @@ import static com.lalaland.ecommerce.helpers.AppConstants.TYPE;
 import static com.lalaland.ecommerce.helpers.AppConstants.USER_AVATAR;
 import static com.lalaland.ecommerce.helpers.AppConstants.USER_NAME;
 import static com.lalaland.ecommerce.helpers.AppConstants.VALIDATION_FAIL_CODE;
-import static com.lalaland.ecommerce.helpers.AppConstants.WRONG_CREDENTIAL;
 import static com.lalaland.ecommerce.helpers.AppConstants.mContext;
 import static com.lalaland.ecommerce.helpers.AppUtils.isNetworkAvailable;
 
@@ -320,12 +318,11 @@ public class SignupFragment extends BaseRegistrationFragment implements LoadingL
                         break;
                     case AUTHORIZATION_FAIL_CODE:
                         hideProgressBar();
-                        showToast(WRONG_CREDENTIAL);
+                        showToast(registrationContainer.getMsg());
                         break;
                 }
             } else {
                 hideProgressBar();
-                showToast(ACCOUNT_CREATION_ERROR);
             }
         });
     }

@@ -42,7 +42,6 @@ import java.util.Arrays;
 import java.util.HashMap;
 import java.util.Map;
 
-import static com.lalaland.ecommerce.helpers.AppConstants.ACCOUNT_CREATION_ERROR;
 import static com.lalaland.ecommerce.helpers.AppConstants.AUTHORIZATION_FAIL_CODE;
 import static com.lalaland.ecommerce.helpers.AppConstants.AVATER;
 import static com.lalaland.ecommerce.helpers.AppConstants.CART_SESSION_TOKEN;
@@ -59,7 +58,6 @@ import static com.lalaland.ecommerce.helpers.AppConstants.TAG;
 import static com.lalaland.ecommerce.helpers.AppConstants.USER_AVATAR;
 import static com.lalaland.ecommerce.helpers.AppConstants.USER_NAME;
 import static com.lalaland.ecommerce.helpers.AppConstants.VALIDATION_FAIL_CODE;
-import static com.lalaland.ecommerce.helpers.AppConstants.WRONG_CREDENTIAL;
 import static com.lalaland.ecommerce.helpers.AppConstants.mContext;
 
 public class BaseRegistrationFragment extends Fragment {
@@ -267,12 +265,10 @@ public class BaseRegistrationFragment extends Fragment {
                         Toast.makeText(getContext(), registrationContainer.getMsg(), Toast.LENGTH_SHORT).show();
                         break;
                     case AUTHORIZATION_FAIL_CODE:
-                        Toast.makeText(getContext(), WRONG_CREDENTIAL, Toast.LENGTH_SHORT).show();
+                        Toast.makeText(getContext(), registrationContainer.getMsg(), Toast.LENGTH_SHORT).show();
                         break;
                 }
-            } else
-                Toast.makeText(getContext(), ACCOUNT_CREATION_ERROR, Toast.LENGTH_LONG).show();
-
+            }
             mLoadingLogin.checkLoading(true);
         });
     }

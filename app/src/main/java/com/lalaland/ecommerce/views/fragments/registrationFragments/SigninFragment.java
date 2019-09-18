@@ -43,16 +43,14 @@ import static com.lalaland.ecommerce.helpers.AppConstants.user;
 
 public class SigninFragment extends BaseRegistrationFragment implements LoadingLogin {
 
+    Map<String, String> parameter = new HashMap<>();
+    AppPreference appPreference;
     private FragmentSigninBinding fragmentSigninBinding;
     private LoginViewModel loginViewModel;
-
     private String emailOrNumber = "";
     private String password = "";
     private String token = "";
     private String cart_session = "";
-
-    Map<String, String> parameter = new HashMap<>();
-    AppPreference appPreference;
 
     public SigninFragment() {
         // Required empty public constructor
@@ -176,7 +174,7 @@ public class SigninFragment extends BaseRegistrationFragment implements LoadingL
                             appPreference.setString(USER_AVATAR, user.getAvatar().toString());
                         else
                             appPreference.setString(USER_AVATAR, "");
-                        
+
                         getActivity().setResult(Activity.RESULT_OK);
                         getActivity().finish();
 

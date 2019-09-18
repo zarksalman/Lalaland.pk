@@ -277,15 +277,18 @@ public class UsersRepository {
             @Override
             public void onResponse(Call<RegistrationContainer> call, Response<RegistrationContainer> response) {
 
-                if (response.isSuccessful() && response.body().getCode().equals(SUCCESS_CODE)) {
+                if (response.isSuccessful()) {
                     registrationContainerMutableLiveData.postValue(response.body());
 
-                    // saving header response for different purposes like add to wish list etc
-                    Headers headers = response.headers();
-                    AppPreference.getInstance(AppConstants.mContext).setString(SIGNIN_TOKEN, headers.get(SIGNIN_TOKEN));
-                    // if login successfully then discard cart session token
-                    AppPreference.getInstance(AppConstants.mContext).setString(CART_SESSION_TOKEN, "");
-                    checkResponseSource(response);
+                    if (response.body().getCode().equals(SUCCESS_CODE)) {
+                        // saving header response for different purposes like add to wish list etc
+                        Headers headers = response.headers();
+                        AppPreference.getInstance(AppConstants.mContext).setString(SIGNIN_TOKEN, headers.get(SIGNIN_TOKEN));
+                        // if login successfully then discard cart session token
+                        AppPreference.getInstance(AppConstants.mContext).setString(CART_SESSION_TOKEN, "");
+                        checkResponseSource(response);
+                    }
+
                 } else
                     registrationContainerMutableLiveData.postValue(null);
             }
@@ -310,16 +313,19 @@ public class UsersRepository {
             @Override
             public void onResponse(Call<RegistrationContainer> call, Response<RegistrationContainer> response) {
 
-                if (response.isSuccessful() && response.body().getCode().equals(SUCCESS_CODE)) {
+                if (response.isSuccessful()) {
                     registrationContainerMutableLiveData.postValue(response.body());
 
-                    // saving header response for different purposes like add to wish list etc
-                    Headers headers = response.headers();
-                    AppPreference.getInstance(AppConstants.mContext).setString(SIGNIN_TOKEN, headers.get(SIGNIN_TOKEN));
-                    // if login successfully then discard cart session token
-                    AppPreference.getInstance(AppConstants.mContext).setString(CART_SESSION_TOKEN, "");
-                    AppConstants.CART_COUNTER = response.body().getData().getCartCount();
-                }
+                    if (response.body().getCode().equals(SUCCESS_CODE)) {
+                        // saving header response for different purposes like add to wish list etc
+                        Headers headers = response.headers();
+                        AppPreference.getInstance(AppConstants.mContext).setString(SIGNIN_TOKEN, headers.get(SIGNIN_TOKEN));
+                        // if login successfully then discard cart session token
+                        AppPreference.getInstance(AppConstants.mContext).setString(CART_SESSION_TOKEN, "");
+                        AppConstants.CART_COUNTER = response.body().getData().getCartCount();
+                    }
+                } else
+                    registrationContainerMutableLiveData.postValue(null);
 
                 checkResponseSource(response);
             }
@@ -345,18 +351,22 @@ public class UsersRepository {
             @Override
             public void onResponse(Call<RegistrationContainer> call, Response<RegistrationContainer> response) {
 
-                if (response.isSuccessful() && response.body().getData().equals(SUCCESS_CODE)) {
+                if (response.isSuccessful()) {
                     registrationContainerMutableLiveData.postValue(response.body());
 
-                    // saving header response for different purposes like add to wish list etc
-                    Headers headers = response.headers();
-                    AppPreference.getInstance(AppConstants.mContext).setString(SIGNIN_TOKEN, headers.get(SIGNIN_TOKEN));
-                    // if login successfully then discard cart session token
-                    AppPreference.getInstance(AppConstants.mContext).setString(CART_SESSION_TOKEN, "");
-                    AppConstants.CART_COUNTER = response.body().getData().getCartCount();
-                    checkResponseSource(response);
-
+                    if (response.body().getData().equals(SUCCESS_CODE)) {
+                        // saving header response for different purposes like add to wish list etc
+                        Headers headers = response.headers();
+                        AppPreference.getInstance(AppConstants.mContext).setString(SIGNIN_TOKEN, headers.get(SIGNIN_TOKEN));
+                        // if login successfully then discard cart session token
+                        AppPreference.getInstance(AppConstants.mContext).setString(CART_SESSION_TOKEN, "");
+                        AppConstants.CART_COUNTER = response.body().getData().getCartCount();
+                        checkResponseSource(response);
+                    }
                 }
+                else
+                    registrationContainerMutableLiveData.postValue(null);
+
             }
 
             @Override
