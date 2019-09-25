@@ -33,6 +33,7 @@ public class BannerImageAdapter extends PagerAdapter {
     public BannerImageAdapter(Context context, List<HomeBanner> mProductMultimedia) {
         this.context = context;
         productMultimedia = mProductMultimedia;
+        
     }
 
     @Override
@@ -56,7 +57,6 @@ public class BannerImageAdapter extends PagerAdapter {
         productImageItemBinding = DataBindingUtil.inflate(layoutInflater, R.layout.slider_item, container, false);
 
         String imgUrl = AppConstants.BANNER_STORAGE_BASE_URL.concat(productMultimedia.get(position).getBannerImage());
-        Log.d("imgUrl", imgUrl);
 /*
         Glide.with(context)
                 .load(imgUrl)

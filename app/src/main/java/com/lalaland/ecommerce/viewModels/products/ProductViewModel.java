@@ -14,6 +14,7 @@ import com.lalaland.ecommerce.data.models.globalSearch.SearchCategory;
 import com.lalaland.ecommerce.data.models.globalSearch.SearchDataContainer;
 import com.lalaland.ecommerce.data.models.logout.BasicResponse;
 import com.lalaland.ecommerce.data.models.order.newOrderPlacing.PlacingOrderDataContainer;
+import com.lalaland.ecommerce.data.models.otp.OtpDataContainer;
 import com.lalaland.ecommerce.data.models.productDetails.ProductDetailDataContainer;
 import com.lalaland.ecommerce.data.models.products.Product;
 import com.lalaland.ecommerce.data.models.products.ProductContainer;
@@ -86,6 +87,10 @@ public class ProductViewModel extends AndroidViewModel {
 
     public LiveData<BasicResponse> changeCartProductQuantity(Map<String, String> parameter) {
         return productsRepository.changeCartProductQuantity(parameter);
+    }
+
+    public LiveData<OtpDataContainer> generateOtpToConfirmOrder() {
+        return productsRepository.generateOtpToConfirmOrder();
     }
 
     public LiveData<PlacingOrderDataContainer> confirmOrder(Map<String, String> parameter, NetworkInterface networkInterface) {

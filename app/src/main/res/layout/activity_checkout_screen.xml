@@ -433,7 +433,7 @@
                 android:layout_weight=".5"
                 android:background="@color/colorAccent"
                 android:text="@string/confirm_order"
-                android:onClick="@{()->clickListener.placeOrder()}"
+                android:onClick="@{()->clickListener.getOtp()}"
                 android:textColor="@android:color/white"
                 android:textSize="14sp" />
 

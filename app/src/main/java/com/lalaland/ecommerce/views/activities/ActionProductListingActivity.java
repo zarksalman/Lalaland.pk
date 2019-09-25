@@ -27,6 +27,7 @@ import com.lalaland.ecommerce.databinding.ActivityProductListingBinding;
 import com.lalaland.ecommerce.databinding.SortFilterBottomSheetLayoutBinding;
 import com.lalaland.ecommerce.helpers.AppConstants;
 import com.lalaland.ecommerce.helpers.AppPreference;
+import com.lalaland.ecommerce.helpers.AppUtils;
 import com.lalaland.ecommerce.viewModels.filter.FilterViewModel;
 import com.lalaland.ecommerce.viewModels.products.ProductViewModel;
 
@@ -131,7 +132,7 @@ public class ActionProductListingActivity extends AppCompatActivity implements A
                 products_type = products_type.toLowerCase();
             }
 
-            activityProductListingBinding.tvCategoryTitle.setText(category_name);
+            activityProductListingBinding.tvCategoryTitle.setText(AppUtils.formatSearchUrlRemoveSlash(category_name));
 
             setParameters();
             parameter.put(SORT_BY, sortBy);

@@ -14,6 +14,7 @@ import com.lalaland.ecommerce.data.models.logout.BasicResponse;
 import com.lalaland.ecommerce.data.models.order.details.OrderDetailContainer;
 import com.lalaland.ecommerce.data.models.order.myOrders.OrderDataContainer;
 import com.lalaland.ecommerce.data.models.order.newOrderPlacing.PlacingOrderDataContainer;
+import com.lalaland.ecommerce.data.models.otp.OtpDataContainer;
 import com.lalaland.ecommerce.data.models.productDetails.ProductDetailDataContainer;
 import com.lalaland.ecommerce.data.models.products.ProductContainer;
 import com.lalaland.ecommerce.data.models.registration.RegistrationContainer;
@@ -100,6 +101,10 @@ public interface LalalandServiceApi {
 
     @POST("changeCartProductQuantity")
     Call<BasicResponse> changeCartProductQuantity(@HeaderMap Map<String, String> header, @QueryMap Map<String, String> parameter);
+
+
+    @POST("generateOtpToConfirmOrder")
+    Call<OtpDataContainer> generateOtpToConfirmOrder(@HeaderMap Map<String, String> header);
 
     @POST("confirmOrder")
     Call<PlacingOrderDataContainer> confirmOrder(@HeaderMap Map<String, String> header, @QueryMap Map<String, String> parameter);

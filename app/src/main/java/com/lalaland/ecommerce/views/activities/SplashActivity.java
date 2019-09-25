@@ -15,6 +15,7 @@ import androidx.databinding.DataBindingUtil;
 import androidx.lifecycle.ViewModelProviders;
 
 import com.google.android.material.snackbar.Snackbar;
+import com.google.firebase.messaging.FirebaseMessaging;
 import com.lalaland.ecommerce.R;
 import com.lalaland.ecommerce.data.models.category.Category;
 import com.lalaland.ecommerce.data.models.category.CategoryData;
@@ -83,8 +84,8 @@ public class SplashActivity extends AppCompatActivity implements NetworkInterfac
         requestWindowFeature(Window.FEATURE_NO_TITLE);
         getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN, WindowManager.LayoutParams.FLAG_FULLSCREEN);
 
-
         activitySplashBinding = DataBindingUtil.setContentView(this, R.layout.activity_splash);
+
 
         appPreference = AppPreference.getInstance(this);
         headers.put("cart-session", appPreference.getString(AppConstants.CART_SESSION_TOKEN));

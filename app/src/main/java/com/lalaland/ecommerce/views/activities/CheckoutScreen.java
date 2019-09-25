@@ -3,8 +3,15 @@ package com.lalaland.ecommerce.views.activities;
 import android.app.Activity;
 import android.app.AlertDialog;
 import android.content.Intent;
+import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
+import android.os.CountDownTimer;
 import android.os.Parcelable;
+import android.text.Editable;
+import android.text.SpannableString;
+import android.text.Spanned;
+import android.text.TextWatcher;
+import android.text.style.ForegroundColorSpan;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -27,6 +34,7 @@ import com.lalaland.ecommerce.data.models.userAddressBook.UserAddresses;
 import com.lalaland.ecommerce.databinding.ActivityCheckoutScreenBinding;
 import com.lalaland.ecommerce.databinding.AddAddressDialogueBinding;
 import com.lalaland.ecommerce.databinding.DeleteOutOfStockDialogueBinding;
+import com.lalaland.ecommerce.databinding.OtpDialogueBinding;
 import com.lalaland.ecommerce.databinding.PhoneNumberDialogueBinding;
 import com.lalaland.ecommerce.databinding.VouhcerDialogueBinding;
 import com.lalaland.ecommerce.helpers.AnalyticsManager;
@@ -89,11 +97,12 @@ public class CheckoutScreen extends AppCompatActivity implements NetworkInterfac
     String cartIdsStart = "cart_id[";
     String cartIdsEnd = "]";
 
-    AlertDialog alertDialog, phoneNumberDialogue, addAddressDialogue, voucherDialogue;
+    AlertDialog alertDialog, phoneNumberDialogue, addAddressDialogue, voucherDialogue, otpDialogue;
     DeleteOutOfStockDialogueBinding outOfStockItemDialogueBinding;
     PhoneNumberDialogueBinding phoneNumberDialogueBinding;
     VouhcerDialogueBinding vouhcerDialogueBinding;
     AddAddressDialogueBinding addAddressDialogueBinding;
+    OtpDialogueBinding otpDialogueBinding;
 
     CartItemsAdapter cartItemsAdapter;
     private String phoneNumber;
@@ -102,6 +111,8 @@ public class CheckoutScreen extends AppCompatActivity implements NetworkInterfac
     Double discountedTotal, totalCharges, discountedBill, billBeforeDiscount;
     int mMerchantIndex;
     String mId, mCoupon;
+    String userOtpCode = "";
+    StringBuilder otpCode = new StringBuilder();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -124,6 +135,7 @@ public class CheckoutScreen extends AppCompatActivity implements NetworkInterfac
         preparePhoneNumberDialogue();
         prepareAddAddressDialogue();
         prepareVoucherCodeDialogue();
+        prepareOTPDialogue();
         isUserAddressExist();
 
     }
@@ -243,6 +255,193 @@ public class CheckoutScreen extends AppCompatActivity implements NetworkInterfac
         });
     }
 
+    private void prepareOTPDialogue() {
+
+        otpDialogueBinding = DataBindingUtil.inflate(LayoutInflater.from(this), R.layout.otp_dialogue, null, false);
+        AlertDialog.Builder dialogBuilder = new AlertDialog.Builder(this);
+        otpDialogue = dialogBuilder.create();
+        otpDialogue.getWindow().setBackgroundDrawable(new ColorDrawable(android.graphics.Color.TRANSPARENT));
+
+        otpDialogue.setCanceledOnTouchOutside(true);
+        otpDialogue.setView(otpDialogueBinding.getRoot());
+
+        otpDialogueBinding.btnApply.setOnClickListener(v -> {
+
+            if (!otpDialogueBinding.etPin1.getText().toString().trim().isEmpty()) {
+
+                String pin = vouhcerDialogueBinding.etVoucher.getText().toString();
+
+            } else
+                Toast.makeText(this, "PIN could not be empty", Toast.LENGTH_SHORT).show();
+        });
+
+        changeFocusEdittext();
+    }
+
+    private void startCounter() {
+
+        otpDialogueBinding.tvOtpNotReceive.setOnClickListener(null);
+
+        SpannableString spannableString = new SpannableString(getString(R.string.otp_not_receivedd_clicable));
+        ForegroundColorSpan foregroundColorSpanRed = new ForegroundColorSpan(getResources().getColor(R.color.colorPrimary));
+        ForegroundColorSpan foregroundColorSpanGray = new ForegroundColorSpan(getResources().getColor(R.color.colorLightGray));
+        spannableString.setSpan(foregroundColorSpanGray, 29, 35, Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
+
+        new CountDownTimer(60000, 1000) {
+
+            public void onTick(long millisUntilFinished) {
+                otpDialogueBinding.tvOtpNotReceive.setText(getString(R.string.otp_not_receivedd, (millisUntilFinished / 1000)));
+            }
+
+            public void onFinish() {
+
+                spannableString.setSpan(foregroundColorSpanRed, 29, 35, Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
+                otpDialogueBinding.tvOtpNotReceive.setText(spannableString);
+
+                otpDialogueBinding.tvOtpNotReceive.setOnClickListener(v -> {
+                    Toast.makeText(CheckoutScreen.this, "Resend pin", Toast.LENGTH_SHORT).show();
+                });
+
+            }
+
+        }.start();
+
+        otpDialogueBinding.btnApply.setOnClickListener(v -> {
+            placeOrder();
+        });
+    }
+
+    private void changeFocusEdittext() {
+
+        otpDialogueBinding.etPin1.requestFocus();
+
+        otpDialogueBinding.etPin1.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+
+            }
+
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+
+                if (s.length() == 1) {
+                    otpDialogueBinding.etPin2.requestFocus();
+                }
+            }
+
+            @Override
+            public void afterTextChanged(Editable s) {
+
+            }
+        });
+
+        otpDialogueBinding.etPin2.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+
+            }
+
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+
+                if (s.length() == 0)
+                    otpDialogueBinding.etPin1.requestFocus();
+                else if (s.length() == 1) {
+                    otpDialogueBinding.etPin3.requestFocus();
+                }
+            }
+
+            @Override
+            public void afterTextChanged(Editable s) {
+
+            }
+        });
+
+        otpDialogueBinding.etPin3.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+
+            }
+
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+
+                if (s.length() == 0)
+                    otpDialogueBinding.etPin2.requestFocus();
+                else if (s.length() == 1) {
+                    otpDialogueBinding.etPin4.requestFocus();
+                }
+            }
+
+            @Override
+            public void afterTextChanged(Editable s) {
+
+            }
+        });
+
+        otpDialogueBinding.etPin4.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+
+            }
+
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+
+                if (s.length() == 0)
+                    otpDialogueBinding.etPin3.requestFocus();
+                else if (s.length() == 1) {
+                    otpDialogueBinding.etPin5.requestFocus();
+                }
+            }
+
+            @Override
+            public void afterTextChanged(Editable s) {
+
+            }
+        });
+
+        otpDialogueBinding.etPin5.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+
+            }
+
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+
+                if (s.length() == 0)
+                    otpDialogueBinding.etPin4.requestFocus();
+                else if (s.length() == 1) {
+                    otpDialogueBinding.etPin6.requestFocus();
+                }
+            }
+
+            @Override
+            public void afterTextChanged(Editable s) {
+
+            }
+        });
+
+        otpDialogueBinding.etPin6.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+
+            }
+
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+
+                if (s.length() == 0)
+                    otpDialogueBinding.etPin5.requestFocus();
+            }
+
+            @Override
+            public void afterTextChanged(Editable s) {
+
+            }
+        });
+    }
     private void prepareAddAddressDialogue() {
 
         addAddressDialogueBinding = DataBindingUtil.inflate(LayoutInflater.from(this), R.layout.add_address_dialogue, null, false);
@@ -469,6 +668,24 @@ public class CheckoutScreen extends AppCompatActivity implements NetworkInterfac
         activityCheckoutScreenBinding.pbLoading.setVisibility(View.GONE);
     }
 
+    public void getOtp() {
+
+        activityCheckoutScreenBinding.pbLoading.setVisibility(View.VISIBLE);
+
+        otpDialogue.show();
+        startCounter();
+
+        productViewModel.generateOtpToConfirmOrder().observe(this, otpDataContainer -> {
+
+            activityCheckoutScreenBinding.pbLoading.setVisibility(View.GONE);
+
+            if (otpDataContainer.getCode().equals(SUCCESS_CODE)) {
+                userOtpCode = String.valueOf(otpDataContainer.getData().getUserOtpId());
+            }
+        });
+        //prepareOTPDialogue();
+    }
+
     public void placeOrder() {
 
         if (isUserAddressNull) {
@@ -478,6 +695,13 @@ public class CheckoutScreen extends AppCompatActivity implements NetworkInterfac
 
         if (userAddresses.getPhone() == null || userAddresses.getPhone().isEmpty()) {
             phoneNumberDialogue.show();
+            return;
+        }
+
+        getOtpCode();
+
+        if (otpCode.toString().length() != 6) {
+            Toast.makeText(this, "You need to enter complete PIN", Toast.LENGTH_SHORT).show();
             return;
         }
 
@@ -492,6 +716,9 @@ public class CheckoutScreen extends AppCompatActivity implements NetworkInterfac
 
         parameter.put("shipping_method", String.valueOf(0));
         parameter.put("payment_gateway", String.valueOf(CASH_TRANSFER_TYPE));
+
+        parameter.put("user_otp_id", userOtpCode);
+        parameter.put("otp", otpCode.toString());
 
         if (IS_COUPON_APPLIED) {
             parameter.put("verified_coupon", mCoupon);
@@ -534,6 +761,17 @@ public class CheckoutScreen extends AppCompatActivity implements NetworkInterfac
 
             activityCheckoutScreenBinding.pbLoading.setVisibility(View.GONE);
         });
+    }
+
+    private void getOtpCode() {
+
+        otpCode.append(otpDialogueBinding.etPin1.getText().toString());
+        otpCode.append(otpDialogueBinding.etPin2.getText().toString());
+        otpCode.append(otpDialogueBinding.etPin3.getText().toString());
+        otpCode.append(otpDialogueBinding.etPin4.getText().toString());
+        otpCode.append(otpDialogueBinding.etPin5.getText().toString());
+        otpCode.append(otpDialogueBinding.etPin6.getText().toString());
+
     }
 
     public void applyMyVoucher(int merchantIndex, String coupon) {

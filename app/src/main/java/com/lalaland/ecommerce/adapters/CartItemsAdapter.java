@@ -123,6 +123,16 @@ public class CartItemsAdapter extends RecyclerView.Adapter<CartItemsAdapter.Cart
             mCartItemBinding.executePendingBindings();
 
             if (mAdapterType == 1) {
+
+                if (cartItem.getCartStatus() == 1 && cartItem.getRemainingQuantity().equals("0")) {
+                    mCartItemBinding.cbAddToList.setEnabled(false);
+                    mCartItemBinding.tvOos.setVisibility(View.VISIBLE);
+                } else {
+                    mCartItemBinding.cbAddToList.setEnabled(true);
+                    mCartItemBinding.tvOos.setVisibility(View.GONE);
+                }
+
+
                 if (cartItem.getCartStatus() == 1)
                     mCartItemBinding.cbAddToList.setChecked(false);
                 else if (cartItem.getCartStatus() == 3)

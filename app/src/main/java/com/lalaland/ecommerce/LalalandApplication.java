@@ -5,9 +5,9 @@ import android.content.Context;
 
 import androidx.multidex.MultiDex;
 
-import com.crashlytics.android.Crashlytics;
 import com.facebook.FacebookSdk;
 import com.facebook.appevents.AppEventsLogger;
+import com.google.firebase.messaging.FirebaseMessaging;
 import com.lalaland.ecommerce.Receivers.ConnectivityReceiver;
 import com.lalaland.ecommerce.data.database.LalalandDatabases;
 import com.lalaland.ecommerce.helpers.AppConstants;
@@ -23,8 +23,24 @@ public class LalalandApplication extends Application {
         AppConstants.mContext = getApplicationContext();
         FacebookSdk.sdkInitialize(AppConstants.mContext);
         LalalandDatabases.getInstance(AppConstants.mContext);
-
         AppEventsLogger.activateApp(this);
+
+        // init cloud messaging for firebase
+        FirebaseMessaging.getInstance().setAutoInitEnabled(true);
+
+        /*
+        *
+        * For Specific top initialization
+        * *
+               FirebaseMessaging.getInstance().subscribeToTopic("general")
+                .addOnCompleteListener(task -> {
+*//*                    String msg = "Success";
+                    if (!task.isSuccessful()) {
+                        msg = "Failed";
+                    }
+
+                    Toast.makeText(SplashActivity.this, msg, Toast.LENGTH_SHORT).show();*//*
+                });*/
 
         //    Stetho.initializeWithDefaults(this);
     }

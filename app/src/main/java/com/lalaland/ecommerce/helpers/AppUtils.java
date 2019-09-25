@@ -607,6 +607,11 @@ public class AppUtils {
         }
     }
 
+    public static boolean compareCartItemStatus(String str1) {
+
+        return str1.equals("1");
+    }
+
 
     public static void getStaticsFromPreferences() {
 

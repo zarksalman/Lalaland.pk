@@ -7,15 +7,23 @@
     <uses-permission android:name="android.permission.READ_PHONE_STATE" />
     <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
     <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
+    <uses-permission android:name="android.permission.INTERNET" />
+    <uses-permission android:name="com.google.android.c2dm.permission.RECEIVE" />
 
     <application
-        android:label="@string/my_app_name"
         android:name=".LalalandApplication"
         android:allowBackup="true"
         android:hardwareAccelerated="true"
         android:icon="@mipmap/ic_launcher"
+        android:label="@string/my_app_name"
         android:largeHeap="true"
         android:theme="@style/AppTheme.NoActionBar">
+
+        <service android:name=".services.MyMessagingService">
+            <intent-filter>
+                <action android:name="com.google.firebase.MESSAGING_EVENT" />
+            </intent-filter>
+        </service>
 
         <receiver
             android:name=".Receivers.ConnectivityReceiver"
@@ -48,7 +56,6 @@
                     android:host="controller"
                     android:path="/ResetPassword"
                     android:scheme="lalaland" />
-
             </intent-filter>
         </activity>
         <activity
@@ -115,16 +122,15 @@
             android:theme="@style/AppTheme.NoActionBar.NoActionBar" />
         <activity
             android:name=".views.activities.SplashActivity"
-            android:screenOrientation="portrait"
             android:launchMode="singleTask"
+            android:screenOrientation="portrait"
             android:theme="@style/AppTheme.NoActionBar.NoActionBar">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
+
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
-
             <intent-filter android:autoVerify="true">
-
                 <action android:name="android.intent.action.VIEW" />
 
                 <category android:name="android.intent.category.BROWSABLE" />
@@ -134,15 +140,11 @@
                     android:host="controller"
                     android:path="/productDetail"
                     android:scheme="lalaland" />
-
                 <data
                     android:host="controller"
                     android:path="/ProductListing"
                     android:scheme="lalaland" />
-
-
             </intent-filter>
-
         </activity>
         <activity
             android:name=".views.activities.ActionProductListingActivity"
@@ -153,10 +155,7 @@
             android:name=".views.activities.ProductDetailActivity"
             android:label="@string/title_activity_product_detail"
             android:screenOrientation="portrait"
-            android:theme="@style/AppTheme.NoActionBar.NoActionBar">
-
-        </activity>
-
+            android:theme="@style/AppTheme.NoActionBar.NoActionBar" />
         <activity
             android:name=".views.activities.RegistrationActivity"
             android:label="@string/title_activity_registration"

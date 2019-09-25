@@ -18,6 +18,7 @@ import com.lalaland.ecommerce.data.models.globalSearch.SearchDataContainer;
 import com.lalaland.ecommerce.data.models.home.HomeDataContainer;
 import com.lalaland.ecommerce.data.models.logout.BasicResponse;
 import com.lalaland.ecommerce.data.models.order.newOrderPlacing.PlacingOrderDataContainer;
+import com.lalaland.ecommerce.data.models.otp.OtpDataContainer;
 import com.lalaland.ecommerce.data.models.productDetails.ProductDetailDataContainer;
 import com.lalaland.ecommerce.data.models.products.ProductContainer;
 import com.lalaland.ecommerce.data.models.voucher.VoucherDataContainer;
@@ -60,6 +61,7 @@ public class ProductsRepository {
     private MutableLiveData<ProductDetailDataContainer> productDetailDataContainerMutableLiveData = new MutableLiveData<>();
     private MutableLiveData<CartContainer> cartContainerMutableLiveData = new MutableLiveData<>();
     private MutableLiveData<PlacingOrderDataContainer> orderDataContainerMutableLiveData = new MutableLiveData<>();
+    private MutableLiveData<OtpDataContainer> otpDataContainerMutableLiveData = new MutableLiveData<>();
     private MutableLiveData<WishListContainer> wishListContainerMutableLiveData = new MutableLiveData<>();
     private MutableLiveData<CategoriesContainer> categoriesContainerMutableLiveData = new MutableLiveData<>();
     private MutableLiveData<SearchDataContainer> searchDataContainerMutableLiveData = new MutableLiveData<>();
@@ -440,6 +442,30 @@ public class ProductsRepository {
             }
         });
         return basicResponseMutableLiveData;
+    }
+
+    public LiveData<OtpDataContainer> generateOtpToConfirmOrder() {
+
+        otpDataContainerMutableLiveData = new MutableLiveData<>();
+        setUserInfo();
+        lalalandServiceApi.generateOtpToConfirmOrder(userInfo).enqueue(new Callback<OtpDataContainer>() {
+            @Override
+            public void onResponse(Call<OtpDataContainer> call, Response<OtpDataContainer> response) {
+
+                if (response.isSuccessful())
+                    otpDataContainerMutableLiveData.postValue(response.body());
+                else
+                    otpDataContainerMutableLiveData.postValue(null);
+
+            }
+
+            @Override
+            public void onFailure(Call<OtpDataContainer> call, Throwable t) {
+                otpDataContainerMutableLiveData.postValue(null);
+            }
+        });
+
+        return otpDataContainerMutableLiveData;
     }
 
     public LiveData<PlacingOrderDataContainer> confirmOrder(Map<String, String> parameter, NetworkInterface networkInterface) {
