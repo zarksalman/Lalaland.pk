@@ -29,7 +29,6 @@ import java.util.List;
 import java.util.Map;
 
 import static android.app.Activity.RESULT_OK;
-import static com.lalaland.ecommerce.helpers.AppConstants.GENERAL_ERROR;
 import static com.lalaland.ecommerce.helpers.AppConstants.IS_WISH_LIST;
 import static com.lalaland.ecommerce.helpers.AppConstants.PRODUCT_ID;
 import static com.lalaland.ecommerce.helpers.AppConstants.SIGNIN_TOKEN;
@@ -125,9 +124,8 @@ public class WishFragment extends Fragment implements WishlistProductAdapter.Pro
 
                     Log.d(TAG, "getWishListProducts:" + wishListContainer.getData().getWishListProducts().size());
                 }
-            } else
-                Toast.makeText(getContext(), GENERAL_ERROR, Toast.LENGTH_SHORT).show();
-            
+            }
+
             fragmentWishBinding.swipeContainer.setRefreshing(false);
         });
     }

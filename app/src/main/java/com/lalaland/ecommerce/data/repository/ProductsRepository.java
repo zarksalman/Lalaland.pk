@@ -427,12 +427,9 @@ public class ProductsRepository {
             public void onResponse(Call<BasicResponse> call, Response<BasicResponse> response) {
 
                 if (response.isSuccessful()) {
-
-                    if (response.body().getCode().equals(SUCCESS_CODE)) {
-                        basicResponseMutableLiveData.postValue(response.body());
-                    } else {
-                        basicResponseMutableLiveData.postValue(null);
-                    }
+                    basicResponseMutableLiveData.postValue(response.body());
+                } else {
+                    basicResponseMutableLiveData.postValue(null);
                 }
             }
 
@@ -441,6 +438,7 @@ public class ProductsRepository {
                 basicResponseMutableLiveData.postValue(null);
             }
         });
+
         return basicResponseMutableLiveData;
     }
 

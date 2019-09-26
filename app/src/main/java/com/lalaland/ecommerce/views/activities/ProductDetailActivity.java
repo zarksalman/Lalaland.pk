@@ -47,7 +47,6 @@ import java.util.Map;
 import static com.lalaland.ecommerce.helpers.AppConstants.ADD_TO_CART;
 import static com.lalaland.ecommerce.helpers.AppConstants.BASE_URL_PRODUCT_SHARE;
 import static com.lalaland.ecommerce.helpers.AppConstants.CART_SESSION_TOKEN;
-import static com.lalaland.ecommerce.helpers.AppConstants.GENERAL_ERROR;
 import static com.lalaland.ecommerce.helpers.AppConstants.IS_WISH_LIST;
 import static com.lalaland.ecommerce.helpers.AppConstants.ITEM_SOLD;
 import static com.lalaland.ecommerce.helpers.AppConstants.LOAD_HOME_FRAGMENT_INDEX;
@@ -422,12 +421,9 @@ public class ProductDetailActivity extends AppCompatActivity implements ProductV
                     Toast.makeText(this, ITEM_SOLD, Toast.LENGTH_SHORT).show();
                     Log.d("AddToCart", ITEM_SOLD);
                 } else {
-                    Toast.makeText(this, GENERAL_ERROR, Toast.LENGTH_SHORT).show();
-                    Log.d("AddToCart", GENERAL_ERROR);
+                    Toast.makeText(this, basicResponse.getMsg(), Toast.LENGTH_SHORT).show();
                 }
-            } else
-                Toast.makeText(this, GENERAL_ERROR, Toast.LENGTH_SHORT).show();
-
+            }
             AppUtils.unBlockUi(this);
             activityProductDetailBinding.pbLoading.setVisibility(View.GONE);
         });
@@ -479,15 +475,11 @@ public class ProductDetailActivity extends AppCompatActivity implements ProductV
                     } else if (basicResponse.getCode().equals(VALIDATION_FAIL_CODE)) {
                         Toast.makeText(this, basicResponse.getMsg(), Toast.LENGTH_SHORT).show();
                     } else {
-                        Toast.makeText(this, GENERAL_ERROR, Toast.LENGTH_SHORT).show();
+                        Toast.makeText(this, basicResponse.getMsg(), Toast.LENGTH_SHORT).show();
                     }
 
-                } else
-                    Toast.makeText(this, GENERAL_ERROR, Toast.LENGTH_SHORT).show();
-
+                }
                 activityProductDetailBinding.pbLoading.setVisibility(View.GONE);
-
-
                 AppUtils.unBlockUi(this);
 
             });

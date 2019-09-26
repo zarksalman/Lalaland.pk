@@ -204,7 +204,6 @@ public class HomeFragment extends Fragment implements BrandsFocusAdapter.Feature
 
                 productList.addAll(productContainer.getProductData().getProducts());
                 recommendationProductAdapter.notifyDataSetChanged();
-
                 isLoading = false;
             }
 

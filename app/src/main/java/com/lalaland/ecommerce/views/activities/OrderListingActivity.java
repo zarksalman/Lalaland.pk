@@ -20,7 +20,6 @@ import com.lalaland.ecommerce.viewModels.order.OrderViewModel;
 import java.util.ArrayList;
 import java.util.List;
 
-import static com.lalaland.ecommerce.helpers.AppConstants.GENERAL_ERROR;
 import static com.lalaland.ecommerce.helpers.AppConstants.ORDER_ADDRESS;
 import static com.lalaland.ecommerce.helpers.AppConstants.ORDER_DATE;
 import static com.lalaland.ecommerce.helpers.AppConstants.ORDER_ID;
@@ -120,7 +119,7 @@ public class OrderListingActivity extends AppCompatActivity implements MyOrderAd
                     myOrderAdapter.notifyItemRangeInserted(0, ordersList.size());
 
                 } else {
-                    Toast.makeText(this, GENERAL_ERROR, Toast.LENGTH_SHORT).show();
+                    Toast.makeText(this, orderDataContainer.getMsg(), Toast.LENGTH_SHORT).show();
                 }
             }
 

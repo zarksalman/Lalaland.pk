@@ -22,7 +22,6 @@ import java.util.HashMap;
 import java.util.Map;
 
 import static com.lalaland.ecommerce.helpers.AppConstants.CONFIRM_TYPE;
-import static com.lalaland.ecommerce.helpers.AppConstants.GENERAL_ERROR;
 import static com.lalaland.ecommerce.helpers.AppConstants.SIGNIN_TOKEN;
 import static com.lalaland.ecommerce.helpers.AppConstants.SUCCESS_CODE;
 import static com.lalaland.ecommerce.helpers.AppConstants.TYPE;
@@ -176,17 +175,10 @@ public class AddressCreationActivity extends AppCompatActivity {
                             Log.d(AppConstants.TAG, addressDataContainer.getMsg());
                             Toast.makeText(this, addressDataContainer.getMsg(), Toast.LENGTH_SHORT).show();
                         } else {
-
-                            Log.d(AppConstants.TAG, GENERAL_ERROR);
-                            Toast.makeText(this, GENERAL_ERROR, Toast.LENGTH_SHORT).show();
+                            Toast.makeText(this, addressDataContainer.getMsg(), Toast.LENGTH_SHORT).show();
                         }
-                    } else {
-                        Log.d(AppConstants.TAG, GENERAL_ERROR);
-                        Toast.makeText(this, GENERAL_ERROR, Toast.LENGTH_SHORT).show();
                     }
-
                     activityAddressCreationBinding.pbLoading.setVisibility(View.GONE);
-
                 });
             }
         }

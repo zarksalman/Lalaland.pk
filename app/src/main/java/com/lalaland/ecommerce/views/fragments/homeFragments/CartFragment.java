@@ -2,6 +2,7 @@ package com.lalaland.ecommerce.views.fragments.homeFragments;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.os.Handler;
 import android.os.Parcelable;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -39,7 +40,7 @@ import static com.lalaland.ecommerce.helpers.AppConstants.ADD_TO_READY_PRODUCT;
 import static com.lalaland.ecommerce.helpers.AppConstants.CART_ID;
 import static com.lalaland.ecommerce.helpers.AppConstants.CART_ITEM_ID;
 import static com.lalaland.ecommerce.helpers.AppConstants.CART_SESSION_TOKEN;
-import static com.lalaland.ecommerce.helpers.AppConstants.GENERAL_ERROR;
+import static com.lalaland.ecommerce.helpers.AppConstants.ITEM_SOLD_OUT;
 import static com.lalaland.ecommerce.helpers.AppConstants.QUANTITY;
 import static com.lalaland.ecommerce.helpers.AppConstants.REMOVED_FROM_CART;
 import static com.lalaland.ecommerce.helpers.AppConstants.REMOVE_FROM_READY_PRODUCT;
@@ -159,7 +160,7 @@ public class CartFragment extends Fragment implements View.OnClickListener, Cart
                     } else if (cartContainer.getCode().equals(VALIDATION_FAIL_CODE))
                         Toast.makeText(getContext(), cartContainer.getMsg(), Toast.LENGTH_SHORT).show();
                     else
-                        Toast.makeText(getContext(), GENERAL_ERROR, Toast.LENGTH_SHORT).show();
+                        Toast.makeText(getContext(), cartContainer.getMsg(), Toast.LENGTH_SHORT).show();
                 }
 
                 fragmentCartBinding.pbLoading.setVisibility(View.GONE);
@@ -185,11 +186,10 @@ public class CartFragment extends Fragment implements View.OnClickListener, Cart
 
                         Log.d(TAG, String.valueOf(cartContainer.getData().getCartItems().size()));
                     } else
-                        Toast.makeText(getContext(), GENERAL_ERROR, Toast.LENGTH_SHORT).show();
+                        Toast.makeText(getContext(), cartContainer.getMsg(), Toast.LENGTH_SHORT).show();
                 }
 
                 fragmentCartBinding.pbLoading.setVisibility(View.GONE);
-
                 fragmentCartBinding.swipeContainer.setRefreshing(false);
             });
         }
@@ -307,10 +307,9 @@ public class CartFragment extends Fragment implements View.OnClickListener, Cart
                     else if (cartListModelList.get(merchantIndex).getCartItemList().get(position).getCartStatus() == 3) // its status was 3
                         Toast.makeText(getContext(), ADD_TO_READY_PRODUCT, Toast.LENGTH_SHORT).show();
                 } else {
-                    Toast.makeText(getContext(), GENERAL_ERROR, Toast.LENGTH_SHORT).show();
+                    Toast.makeText(getContext(), basicResponse.getMsg(), Toast.LENGTH_SHORT).show();
                 }
-            } else
-                Toast.makeText(getContext(), GENERAL_ERROR, Toast.LENGTH_SHORT).show();
+            }
 
             fragmentCartBinding.pbLoading.setVisibility(View.GONE);
 
@@ -367,10 +366,9 @@ public class CartFragment extends Fragment implements View.OnClickListener, Cart
 
                     Toast.makeText(getContext(), REMOVED_FROM_CART, Toast.LENGTH_SHORT).show();
                 } else {
-                    Toast.makeText(getContext(), GENERAL_ERROR, Toast.LENGTH_SHORT).show();
+                    Toast.makeText(getContext(), basicResponse.getMsg(), Toast.LENGTH_SHORT).show();
                 }
-            } else
-                Toast.makeText(getContext(), GENERAL_ERROR, Toast.LENGTH_SHORT).show();
+            }
 
             isApiCalling = false;
             fragmentCartBinding.pbLoading.setVisibility(View.GONE);
@@ -384,25 +382,25 @@ public class CartFragment extends Fragment implements View.OnClickListener, Cart
     @Override
     public void changeNumberOfCount(int merchantId, int position, int quantity) {
 
-        if (getActivity() != null)
-            AppUtils.blockUi(getActivity());
-
-        // if response has not received of previous api
-        if (isApiCalling)
-            return;
-
         Integer merchantIndex = getMerchantModelIndex(merchantId);
-        fragmentCartBinding.pbLoading.setVisibility(View.VISIBLE);
 
         CartItem cartItem = cartListModelList.get(merchantIndex).getCartItemList().get(position);
 
+        if (Integer.parseInt(cartItem.getRemainingQuantity()) <= quantity) {
+            Toast.makeText(getContext(), ITEM_SOLD_OUT, Toast.LENGTH_SHORT).show();
+            return;
+        }
+
+        if (getActivity() != null)
+            AppUtils.blockUi(getActivity());
+
+        fragmentCartBinding.pbLoading.setVisibility(View.VISIBLE);
         parameter.clear();
         parameter.put(CART_ITEM_ID, String.valueOf(cartItem.getCartId()));
         parameter.put(QUANTITY, String.valueOf(quantity));
 
         productViewModel.changeCartProductQuantity(parameter).observe(this, basicResponse ->
         {
-            isApiCalling = true;
 
             if (basicResponse != null) {
                 if (basicResponse.getCode().equals(SUCCESS_CODE)) {
@@ -420,17 +418,19 @@ public class CartFragment extends Fragment implements View.OnClickListener, Cart
                 } else if (basicResponse.getCode().equals(VALIDATION_FAIL_CODE)) {
                     Toast.makeText(getContext(), basicResponse.getMsg(), Toast.LENGTH_SHORT).show();
                 } else {
-                    Toast.makeText(getContext(), GENERAL_ERROR, Toast.LENGTH_SHORT).show();
+                    Toast.makeText(getContext(), basicResponse.getMsg(), Toast.LENGTH_SHORT).show();
                 }
-            } else
-                Toast.makeText(getContext(), GENERAL_ERROR, Toast.LENGTH_SHORT).show();
+            }
 
-            isApiCalling = false;
-            fragmentCartBinding.pbLoading.setVisibility(View.GONE);
+            new Handler().postDelayed(() -> {
 
-            if (getActivity() != null)
-                AppUtils.unBlockUi(getActivity());
+                fragmentCartBinding.pbLoading.setVisibility(View.GONE);
 
+                if (getActivity() != null) {
+                    AppUtils.unBlockUi(getActivity());
+                }
+
+            }, 2000);
         });
     }
 

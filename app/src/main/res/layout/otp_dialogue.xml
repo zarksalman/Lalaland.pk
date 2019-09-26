@@ -198,6 +198,8 @@
                 app:layout_constraintTop_toBottomOf="@+id/btn_apply" />
 
             <LinearLayout
+
+                android:id="@+id/confirm_later_container"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="@dimen/_16dp"

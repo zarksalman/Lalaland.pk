@@ -51,6 +51,7 @@ import static com.lalaland.ecommerce.helpers.AppConstants.USER_AVATAR;
 import static com.lalaland.ecommerce.helpers.AppConstants.USER_NAME;
 import static com.lalaland.ecommerce.helpers.AppConstants.USER_STORAGE_BASE_URL;
 import static com.lalaland.ecommerce.helpers.AppConstants.VALIDATION_FAIL_CODE;
+import static com.lalaland.ecommerce.helpers.AppConstants.user;
 
 public class AccountInformationActivity extends AppCompatActivity {
 
@@ -271,8 +272,7 @@ public class AccountInformationActivity extends AppCompatActivity {
                 } else if (basicResponse.getCode().equals(VALIDATION_FAIL_CODE)) {
                     Toast.makeText(this, basicResponse.getMsg(), Toast.LENGTH_SHORT).show();
                 }
-            } else
-                Toast.makeText(this, GENERAL_ERROR, Toast.LENGTH_SHORT).show();
+            }
         });
     }
 
@@ -295,9 +295,8 @@ public class AccountInformationActivity extends AppCompatActivity {
                 } else if (updateUserDataContainer.getCode().equals(VALIDATION_FAIL_CODE)) {
                     Toast.makeText(this, updateUserDataContainer.getMsg(), Toast.LENGTH_SHORT).show();
                 } else
-                    Toast.makeText(this, GENERAL_ERROR, Toast.LENGTH_SHORT).show();
-            } else
-                Toast.makeText(this, GENERAL_ERROR, Toast.LENGTH_SHORT).show();
+                    Toast.makeText(this, updateUserDataContainer.getMsg(), Toast.LENGTH_SHORT).show();
+            }
         });
     }
 

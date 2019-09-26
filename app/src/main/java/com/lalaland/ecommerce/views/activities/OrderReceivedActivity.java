@@ -6,13 +6,12 @@ import android.view.View;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.databinding.DataBindingUtil;
-import androidx.recyclerview.widget.LinearLayoutManager;
-import androidx.recyclerview.widget.RecyclerView;
+import androidx.recyclerview.widget.GridLayoutManager;
 
 import com.lalaland.ecommerce.R;
-import com.lalaland.ecommerce.adapters.RecommendedProductsAdapter;
+import com.lalaland.ecommerce.adapters.ProductAdapter;
 import com.lalaland.ecommerce.data.models.products.Product;
-import com.lalaland.ecommerce.databinding.ActivityOrderReceivedBinding;
+import com.lalaland.ecommerce.databinding.ActivityOrderReceivedNewBinding;
 import com.lalaland.ecommerce.helpers.AppConstants;
 import com.lalaland.ecommerce.helpers.AppUtils;
 
@@ -24,15 +23,14 @@ import static com.lalaland.ecommerce.helpers.AppConstants.PRODUCT_ID;
 
 public class OrderReceivedActivity extends AppCompatActivity {
 
-    private ActivityOrderReceivedBinding activityOrderReceivedBinding;
+    private ActivityOrderReceivedNewBinding activityOrderReceivedBinding;
     private List<Product> recommendedProductList = new ArrayList<>();
-    private String totalBill;
-    Float textSize18, textSize16, textSize14;
+    private String totalBill = "";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        activityOrderReceivedBinding = DataBindingUtil.setContentView(this, R.layout.activity_order_received);
+        activityOrderReceivedBinding = DataBindingUtil.setContentView(this, R.layout.activity_order_received_new);
 
         totalBill = getIntent().getStringExtra(ORDER_TOTAL);
         recommendedProductList = getIntent().getParcelableArrayListExtra("recommended_products");
@@ -42,6 +40,7 @@ public class OrderReceivedActivity extends AppCompatActivity {
         activityOrderReceivedBinding.btnBack.setOnClickListener(v -> {
             onBackPressed();
         });
+
     }
 
     private void setInitValues() {
@@ -70,31 +69,41 @@ public class OrderReceivedActivity extends AppCompatActivity {
 
     private void setAdapter() {
 
-/*
-        ProductAdapter recommendationProductAdapter = new ProductAdapter(this, this);
+        ProductAdapter recommendationProductAdapter = new ProductAdapter(this, product -> {
+
+            AppConstants.LOAD_HOME_FRAGMENT_INDEX = 0;
+            Intent intent = new Intent(OrderReceivedActivity.this, ProductDetailActivity.class);
+            intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_CLEAR_TASK);
+            intent.putExtra(PRODUCT_ID, product.getId());
+            startActivity(intent);
+            finish();
+
+        });
+
         recommendationProductAdapter.setData(recommendedProductList);
         activityOrderReceivedBinding.rvRecommendedProducts.setAdapter(recommendationProductAdapter);
+        GridLayoutManager gridLayoutManager = new GridLayoutManager(this, 2);
+        activityOrderReceivedBinding.rvRecommendedProducts.setHasFixedSize(true);
+        activityOrderReceivedBinding.rvRecommendedProducts.setLayoutManager(gridLayoutManager);
 
-        activityOrderReceivedBinding.rvRecommendedProducts.setLayoutManager(new GridLayoutManager(this, 2));
-*/
+        activityOrderReceivedBinding.svRecomendation.scrollTo(0, 0);
 
 
-        RecommendedProductsAdapter productAdapter = new RecommendedProductsAdapter(this, new RecommendedProductsAdapter.ProductListener() {
-            @Override
-            public void onProductProductClicked(Product product) {
-                AppConstants.LOAD_HOME_FRAGMENT_INDEX = 0;
-                Intent intent = new Intent(OrderReceivedActivity.this, ProductDetailActivity.class);
-                intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_CLEAR_TASK);
-                intent.putExtra(PRODUCT_ID, product.getId());
-                startActivity(intent);
-                finish();
-            }
+/*
+        RecommendedProductsAdapter productAdapter = new RecommendedProductsAdapter(this, product -> {
+            AppConstants.LOAD_HOME_FRAGMENT_INDEX = 0;
+            Intent intent = new Intent(OrderReceivedActivity.this, ProductDetailActivity.class);
+            intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_CLEAR_TASK);
+            intent.putExtra(PRODUCT_ID, product.getId());
+            startActivity(intent);
+            finish();
         });
 
         activityOrderReceivedBinding.rvRecommendedProducts.setHasFixedSize(true);
-        activityOrderReceivedBinding.rvRecommendedProducts.setLayoutManager(new LinearLayoutManager(this, RecyclerView.HORIZONTAL, false));
+        activityOrderReceivedBinding.rvRecommendedProducts.setLayoutManager(new GridLayoutManager(this, 2));
         activityOrderReceivedBinding.rvRecommendedProducts.setAdapter(productAdapter);
         productAdapter.setData(recommendedProductList);
+*/
 
     }
 

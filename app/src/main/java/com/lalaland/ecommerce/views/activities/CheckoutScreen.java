@@ -6,6 +6,7 @@ import android.content.Intent;
 import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
 import android.os.CountDownTimer;
+import android.os.Handler;
 import android.os.Parcelable;
 import android.text.Editable;
 import android.text.SpannableString;
@@ -55,7 +56,6 @@ import static com.lalaland.ecommerce.helpers.AppConstants.CART_COUNTER;
 import static com.lalaland.ecommerce.helpers.AppConstants.CASH_TRANSFER_TYPE;
 import static com.lalaland.ecommerce.helpers.AppConstants.DATE_OF_BIRTH;
 import static com.lalaland.ecommerce.helpers.AppConstants.GENDER;
-import static com.lalaland.ecommerce.helpers.AppConstants.GENERAL_ERROR;
 import static com.lalaland.ecommerce.helpers.AppConstants.IS_COUPON_APPLIED;
 import static com.lalaland.ecommerce.helpers.AppConstants.ORDER_TOTAL;
 import static com.lalaland.ecommerce.helpers.AppConstants.OUT_OF_STOCK_CODE;
@@ -221,15 +221,10 @@ public class CheckoutScreen extends AppCompatActivity implements NetworkInterfac
                         } else if (updateUserDataContainer.getCode().equals(VALIDATION_FAIL_CODE)) {
                             Toast.makeText(this, updateUserDataContainer.getMsg(), Toast.LENGTH_SHORT).show();
                         } else {
-                            Toast.makeText(this, GENERAL_ERROR, Toast.LENGTH_SHORT).show();
+                            Toast.makeText(this, updateUserDataContainer.getMsg(), Toast.LENGTH_SHORT).show();
                         }
-                    } else {
-
-                        Toast.makeText(this, GENERAL_ERROR, Toast.LENGTH_SHORT).show();
                     }
-
                     activityCheckoutScreenBinding.pbLoading.setVisibility(View.VISIBLE);
-
                 });
 
             }
@@ -265,17 +260,26 @@ public class CheckoutScreen extends AppCompatActivity implements NetworkInterfac
         otpDialogue.setCanceledOnTouchOutside(true);
         otpDialogue.setView(otpDialogueBinding.getRoot());
 
+        changeFocusEdittext();
+
         otpDialogueBinding.btnApply.setOnClickListener(v -> {
+            getOtpCode();
 
-            if (!otpDialogueBinding.etPin1.getText().toString().trim().isEmpty()) {
-
-                String pin = vouhcerDialogueBinding.etVoucher.getText().toString();
-
-            } else
-                Toast.makeText(this, "PIN could not be empty", Toast.LENGTH_SHORT).show();
+            if (otpCode.toString().length() != 6) {
+                Toast.makeText(this, "You need to enter complete PIN", Toast.LENGTH_SHORT).show();
+                return;
+            }
+            placeOrder();
         });
 
-        changeFocusEdittext();
+        otpDialogueBinding.confirmLaterContainer.setOnClickListener(v -> {
+
+            userOtpCode = "";
+            otpCode = new StringBuilder();
+
+            placeOrder();
+        });
+
     }
 
     private void startCounter() {
@@ -299,16 +303,14 @@ public class CheckoutScreen extends AppCompatActivity implements NetworkInterfac
                 otpDialogueBinding.tvOtpNotReceive.setText(spannableString);
 
                 otpDialogueBinding.tvOtpNotReceive.setOnClickListener(v -> {
-                    Toast.makeText(CheckoutScreen.this, "Resend pin", Toast.LENGTH_SHORT).show();
+
+                    getOtp();
                 });
 
             }
 
         }.start();
 
-        otpDialogueBinding.btnApply.setOnClickListener(v -> {
-            placeOrder();
-        });
     }
 
     private void changeFocusEdittext() {
@@ -670,6 +672,7 @@ public class CheckoutScreen extends AppCompatActivity implements NetworkInterfac
 
     public void getOtp() {
 
+        AppUtils.blockUi(this);
         activityCheckoutScreenBinding.pbLoading.setVisibility(View.VISIBLE);
 
         otpDialogue.show();
@@ -682,6 +685,8 @@ public class CheckoutScreen extends AppCompatActivity implements NetworkInterfac
             if (otpDataContainer.getCode().equals(SUCCESS_CODE)) {
                 userOtpCode = String.valueOf(otpDataContainer.getData().getUserOtpId());
             }
+
+            AppUtils.unBlockUi(this);
         });
         //prepareOTPDialogue();
     }
@@ -698,14 +703,10 @@ public class CheckoutScreen extends AppCompatActivity implements NetworkInterfac
             return;
         }
 
-        getOtpCode();
-
-        if (otpCode.toString().length() != 6) {
-            Toast.makeText(this, "You need to enter complete PIN", Toast.LENGTH_SHORT).show();
-            return;
-        }
-
         activityCheckoutScreenBinding.pbLoading.setVisibility(View.VISIBLE);
+        otpDialogueBinding.pbLoading.setVisibility(View.VISIBLE);
+        AppUtils.blockUi(this);
+
         parameter.clear();
         parameter.put("name", userAddresses.getUserNameAddress());
         parameter.put("phone_no", userAddresses.getPhone());
@@ -729,42 +730,52 @@ public class CheckoutScreen extends AppCompatActivity implements NetworkInterfac
 
             if (orderDataContainer != null) {
 
-                if (orderDataContainer.getCode().equals(SUCCESS_CODE)) {
-                    Toast.makeText(this, orderDataContainer.getMsg(), Toast.LENGTH_SHORT).show();
+                switch (orderDataContainer.getCode()) {
+                    case SUCCESS_CODE:
+                        Toast.makeText(this, orderDataContainer.getMsg(), Toast.LENGTH_SHORT).show();
 
-                    bundle.putString("price", String.valueOf(totalBill));
-                    AnalyticsManager.getInstance().sendAnalytics("confirm_order", bundle);
-                    AnalyticsManager.getInstance().sendFacebookAnalytics("confirm_order", bundle);
+                        bundle.putString("price", String.valueOf(totalBill));
+                        AnalyticsManager.getInstance().sendAnalytics("confirm_order", bundle);
+                        AnalyticsManager.getInstance().sendFacebookAnalytics("confirm_order", bundle);
 
-                    Intent intent = new Intent(this, OrderReceivedActivity.class);
-                    intent.putExtra(ORDER_TOTAL, String.valueOf(totalBill));
-                    CASH_TRANSFER_TYPE = 1;
-                    CART_COUNTER = 0;
-                    IS_COUPON_APPLIED = false;
-                    intent.putParcelableArrayListExtra("recommended_products", (ArrayList<? extends Parcelable>) orderDataContainer.getData().getRecommendation());
-                    intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
-                    startActivity(intent);
-                    finish();
+                        Intent intent = new Intent(this, OrderReceivedActivity.class);
+                        intent.putExtra(ORDER_TOTAL, String.valueOf(totalBill));
+                        CASH_TRANSFER_TYPE = 1;
+                        CART_COUNTER = 0;
+                        IS_COUPON_APPLIED = false;
+                        intent.putParcelableArrayListExtra("recommended_products", (ArrayList<? extends Parcelable>) orderDataContainer.getData().getRecommendation());
+                        intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
+                        startActivity(intent);
+                        finish();
 
-                } else if (orderDataContainer.getCode().equals(OUT_OF_STOCK_CODE)) {
+                        break;
+                    case OUT_OF_STOCK_CODE:
 
-                    mCartProducts = orderDataContainer.getData().getProducts();
-                    setOutOfStockItems(mCartProducts);
+                        mCartProducts = orderDataContainer.getData().getProducts();
+                        setOutOfStockItems(mCartProducts);
 
-                } else if (orderDataContainer.getCode().equals(VALIDATION_FAIL_CODE))
-                    Toast.makeText(this, orderDataContainer.getMsg(), Toast.LENGTH_SHORT).show();
-                else
-                    Toast.makeText(this, GENERAL_ERROR, Toast.LENGTH_SHORT).show();
-            } else
-                Toast.makeText(this, GENERAL_ERROR, Toast.LENGTH_SHORT).show();
+                        break;
+                    case VALIDATION_FAIL_CODE:
+                        Toast.makeText(this, orderDataContainer.getMsg(), Toast.LENGTH_SHORT).show();
+                        break;
+                }
+            }
 
+            new Handler().postDelayed(() -> {
 
-            activityCheckoutScreenBinding.pbLoading.setVisibility(View.GONE);
+                AppUtils.unBlockUi(CheckoutScreen.this);
+                otpDialogueBinding.pbLoading.setVisibility(View.GONE);
+                activityCheckoutScreenBinding.pbLoading.setVisibility(View.GONE);
+                activityCheckoutScreenBinding.pbLoading.setVisibility(View.GONE);
+
+            }, 2000);
+
         });
     }
 
     private void getOtpCode() {
 
+        otpCode = new StringBuilder();
         otpCode.append(otpDialogueBinding.etPin1.getText().toString());
         otpCode.append(otpDialogueBinding.etPin2.getText().toString());
         otpCode.append(otpDialogueBinding.etPin3.getText().toString());
@@ -895,8 +906,6 @@ public class CheckoutScreen extends AppCompatActivity implements NetworkInterfac
                 } else {
                     Toast.makeText(this, basicResponse.getMsg(), Toast.LENGTH_SHORT).show();
                 }
-            } else {
-                Toast.makeText(this, GENERAL_ERROR, Toast.LENGTH_SHORT).show();
             }
 
             activityCheckoutScreenBinding.pbLoading.setVisibility(View.VISIBLE);

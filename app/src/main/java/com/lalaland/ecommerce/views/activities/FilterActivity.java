@@ -34,7 +34,6 @@ import static com.lalaland.ecommerce.helpers.AppConstants.CATEGORY_FILTER;
 import static com.lalaland.ecommerce.helpers.AppConstants.FILTER_ID;
 import static com.lalaland.ecommerce.helpers.AppConstants.FILTER_KEY;
 import static com.lalaland.ecommerce.helpers.AppConstants.FILTER_NAME;
-import static com.lalaland.ecommerce.helpers.AppConstants.GENERAL_ERROR;
 import static com.lalaland.ecommerce.helpers.AppConstants.PRICE_FILTER;
 import static com.lalaland.ecommerce.helpers.AppConstants.PRICE_RANGE;
 import static com.lalaland.ecommerce.helpers.AppConstants.PV_FILTER_;
@@ -144,8 +143,7 @@ public class FilterActivity extends AppCompatActivity {
                 } else {
                     Toast.makeText(this, filterDataContainer.getMsg(), Toast.LENGTH_SHORT).show();
                 }
-            } else
-                Toast.makeText(this, GENERAL_ERROR, Toast.LENGTH_SHORT).show();
+            }
 
             activityFilterBinding.pbLoading.setVisibility(View.GONE);
 

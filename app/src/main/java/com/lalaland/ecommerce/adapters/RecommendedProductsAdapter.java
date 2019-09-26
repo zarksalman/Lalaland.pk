@@ -35,7 +35,7 @@ public class RecommendedProductsAdapter extends RecyclerView.Adapter<Recommended
     @Override
     public ProductViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
 
-        productItemBinding = DataBindingUtil.inflate(inflater, R.layout.reciet_recommendation_item, parent, false);
+        productItemBinding = DataBindingUtil.inflate(inflater, R.layout.product_item, parent, false);
         return new ProductViewHolder(productItemBinding);
     }
 

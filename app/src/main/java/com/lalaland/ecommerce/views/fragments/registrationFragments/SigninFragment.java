@@ -188,10 +188,9 @@ public class SigninFragment extends BaseRegistrationFragment implements LoadingL
                         showToast(login.getMsg());
                         break;
                 }
-            } else {
-                showToast(GENERAL_ERROR);
-                hideProgressBar();
             }
+
+            hideProgressBar();
 
             if (getActivity() != null)
                 getActivity().getWindow().clearFlags(WindowManager.LayoutParams.FLAG_NOT_TOUCHABLE);
