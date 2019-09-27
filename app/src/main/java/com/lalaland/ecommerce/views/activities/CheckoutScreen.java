@@ -255,9 +255,11 @@ public class CheckoutScreen extends AppCompatActivity implements NetworkInterfac
         otpDialogueBinding = DataBindingUtil.inflate(LayoutInflater.from(this), R.layout.otp_dialogue, null, false);
         AlertDialog.Builder dialogBuilder = new AlertDialog.Builder(this);
         otpDialogue = dialogBuilder.create();
+        otpDialogue.setCanceledOnTouchOutside(false);
+        otpDialogue.setCancelable(false);
+
         otpDialogue.getWindow().setBackgroundDrawable(new ColorDrawable(android.graphics.Color.TRANSPARENT));
 
-        otpDialogue.setCanceledOnTouchOutside(true);
         otpDialogue.setView(otpDialogueBinding.getRoot());
 
         changeFocusEdittext();
@@ -705,6 +707,7 @@ public class CheckoutScreen extends AppCompatActivity implements NetworkInterfac
 
         activityCheckoutScreenBinding.pbLoading.setVisibility(View.VISIBLE);
         otpDialogueBinding.pbLoading.setVisibility(View.VISIBLE);
+
         AppUtils.blockUi(this);
 
         parameter.clear();
