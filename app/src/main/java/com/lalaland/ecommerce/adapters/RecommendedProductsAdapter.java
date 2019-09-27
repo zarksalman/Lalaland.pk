@@ -1,27 +1,13 @@
 package com.lalaland.ecommerce.adapters;
 
-import android.content.Context;
-import android.graphics.Paint;
-import android.view.LayoutInflater;
-import android.view.View;
-import android.view.ViewGroup;
-
-import androidx.annotation.NonNull;
-import androidx.databinding.DataBindingUtil;
-import androidx.recyclerview.widget.RecyclerView;
-
-import com.lalaland.ecommerce.R;
-import com.lalaland.ecommerce.data.models.products.Product;
-import com.lalaland.ecommerce.databinding.RecietRecommendationItemBinding;
-
-import java.util.List;
-
-
+public class RecommendedProductsAdapter {
+}
+/*
 public class RecommendedProductsAdapter extends RecyclerView.Adapter<RecommendedProductsAdapter.ProductViewHolder> {
 
     private Context mContext;
     private List<Product> mProductList;
-    private RecietRecommendationItemBinding productItemBinding;
+  //  private RecietRecommendationItemBinding productItemBinding;
     private LayoutInflater inflater;
     private ProductListener mProductListener;
 
@@ -35,8 +21,8 @@ public class RecommendedProductsAdapter extends RecyclerView.Adapter<Recommended
     @Override
     public ProductViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
 
-        productItemBinding = DataBindingUtil.inflate(inflater, R.layout.product_item, parent, false);
-        return new ProductViewHolder(productItemBinding);
+      *//*  productItemBinding = DataBindingUtil.inflate(inflater, R.layout.product_item, parent, false);
+        return new ProductViewHolder(productItemBinding);*//*
     }
 
     @Override
@@ -88,3 +74,4 @@ public class RecommendedProductsAdapter extends RecyclerView.Adapter<Recommended
         void onProductProductClicked(Product product);
     }
 }
+*/

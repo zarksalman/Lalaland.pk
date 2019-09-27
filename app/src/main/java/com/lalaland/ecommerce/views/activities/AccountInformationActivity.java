@@ -40,7 +40,6 @@ import static com.lalaland.ecommerce.helpers.AppConstants.DATE_OF_BIRTH;
 import static com.lalaland.ecommerce.helpers.AppConstants.EMAIL;
 import static com.lalaland.ecommerce.helpers.AppConstants.FIRST_NAME;
 import static com.lalaland.ecommerce.helpers.AppConstants.GENDER;
-import static com.lalaland.ecommerce.helpers.AppConstants.GENERAL_ERROR;
 import static com.lalaland.ecommerce.helpers.AppConstants.LAST_NAME;
 import static com.lalaland.ecommerce.helpers.AppConstants.NEW_PASSWORD;
 import static com.lalaland.ecommerce.helpers.AppConstants.OLD_PASSWORD;
@@ -51,7 +50,6 @@ import static com.lalaland.ecommerce.helpers.AppConstants.USER_AVATAR;
 import static com.lalaland.ecommerce.helpers.AppConstants.USER_NAME;
 import static com.lalaland.ecommerce.helpers.AppConstants.USER_STORAGE_BASE_URL;
 import static com.lalaland.ecommerce.helpers.AppConstants.VALIDATION_FAIL_CODE;
-import static com.lalaland.ecommerce.helpers.AppConstants.user;
 
 public class AccountInformationActivity extends AppCompatActivity {
 

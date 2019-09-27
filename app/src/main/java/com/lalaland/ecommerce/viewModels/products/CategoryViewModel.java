@@ -10,8 +10,6 @@ import com.lalaland.ecommerce.data.models.category.CategoryContainer;
 import com.lalaland.ecommerce.data.repository.ProductsRepository;
 import com.lalaland.ecommerce.interfaces.NetworkInterface;
 
-import java.util.Map;
-
 public class CategoryViewModel extends AndroidViewModel {
 
     private NetworkInterface mNetworkInterface;

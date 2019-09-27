@@ -15,7 +15,6 @@ import androidx.databinding.DataBindingUtil;
 import androidx.lifecycle.ViewModelProviders;
 
 import com.google.android.material.snackbar.Snackbar;
-import com.google.firebase.messaging.FirebaseMessaging;
 import com.lalaland.ecommerce.R;
 import com.lalaland.ecommerce.data.models.category.Category;
 import com.lalaland.ecommerce.data.models.category.CategoryData;

@@ -3,7 +3,6 @@ package com.lalaland.ecommerce.data.models.order.newOrderPlacing;
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
 import com.lalaland.ecommerce.data.models.cart.CartItem;
-import com.lalaland.ecommerce.data.models.cart.CartProduct;
 import com.lalaland.ecommerce.data.models.products.Product;
 
 import java.util.List;

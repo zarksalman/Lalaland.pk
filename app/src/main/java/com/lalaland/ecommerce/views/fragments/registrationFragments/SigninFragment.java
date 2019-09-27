@@ -31,7 +31,6 @@ import static com.lalaland.ecommerce.helpers.AppConstants.AUTHORIZATION_FAIL_COD
 import static com.lalaland.ecommerce.helpers.AppConstants.CART_SESSION_TOKEN;
 import static com.lalaland.ecommerce.helpers.AppConstants.DATE_OF_BIRTH;
 import static com.lalaland.ecommerce.helpers.AppConstants.GENDER;
-import static com.lalaland.ecommerce.helpers.AppConstants.GENERAL_ERROR;
 import static com.lalaland.ecommerce.helpers.AppConstants.PHONE_NUMBER;
 import static com.lalaland.ecommerce.helpers.AppConstants.SIGNIN_TOKEN;
 import static com.lalaland.ecommerce.helpers.AppConstants.SUCCESS_CODE;
