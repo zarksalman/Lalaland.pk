@@ -435,9 +435,14 @@ public class HomeFragment extends Fragment implements BrandsFocusAdapter.Feature
                     weight
             );
 
-            layout.setPicks(picksOfTheWeekList.get(i));
-            layout.ivAction.setOnClickListener(v -> onWeekProductClicked(Integer.parseInt(v.getTag(R.string.pick_of_week_tag).toString())));
-            fragmentHomeNewBinding.pickOfWeekContainerParent.rvPicksOfWeekContainer.addView(layout.getRoot(), param);
+            try {
+
+                layout.setPicks(picksOfTheWeekList.get(i));
+                layout.ivAction.setOnClickListener(v -> onWeekProductClicked(Integer.parseInt(v.getTag(R.string.pick_of_week_tag).toString())));
+                fragmentHomeNewBinding.pickOfWeekContainerParent.rvPicksOfWeekContainer.addView(layout.getRoot(), param);
+            } catch (IndexOutOfBoundsException e) {
+                e.printStackTrace();
+            }
 
         }
     }

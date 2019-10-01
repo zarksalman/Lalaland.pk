@@ -350,6 +350,11 @@ public class ProductDetailActivity extends AppCompatActivity implements ProductV
                     if (variation_id == -1) {
                         prouctDetailBottomSheetLayoutBinding.btnDone.setText("Sold Out");
                         prouctDetailBottomSheetLayoutBinding.btnDone.setBackground(getResources().getDrawable(R.drawable.bg_round_corner_gray));
+
+                        activityProductDetailBinding.btnBuyNow.setText("Sold Out");
+                        activityProductDetailBinding.btnBuyNow.setBackgroundColor(getResources().getColor(R.color.colorMediumGray));
+                        activityProductDetailBinding.btnBuyNow.setOnClickListener(null);
+
                     }
 
                     activityProductDetailBinding.setListener(this);

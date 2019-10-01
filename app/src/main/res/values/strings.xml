@@ -186,7 +186,7 @@
     <string name="next">Next</string>
     <string name="category_in_focus">CATEGORY IN FOCUS</string>
     <string name="address">Address</string>
-    <string name="otp_not_receivedd">Didn\'t receive the PIN yet? after %1$d seconds</string>
-    <string name="otp_not_receivedd_clicable">Didn\'t receive the PIN yet? after 00 seconds</string>
+    <string name="otp_not_receivedd">Didn\'t receive the PIN yet? RESEND after %1$d seconds</string>
+    <string name="otp_not_receivedd_clicable">Didn\'t receive the PIN yet? RESEND after 00 seconds</string>
 
 </resources>

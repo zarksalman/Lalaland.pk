@@ -191,6 +191,7 @@ public class ActionProductListingActivity extends AppCompatActivity implements A
                 break;
 
             case SEARCH_RESULT_PRODUCTS:
+            case "search_general":
 
                 action_name = "searchResults";
                 action_id = getIntent().getStringExtra(ACTION_ID);

@@ -301,17 +301,34 @@ public class MainActivity extends AppCompatActivity implements CloseAppListener 
 
                 } else if (uri.toString().contains("ProductListing")) {
 
+                    Intent mIntent;
+                    mIntent = new Intent(this, ActionProductListingActivity.class);
+
                     String title = uri.getQueryParameter(keys[0].toString());
                     String actionId = uri.getQueryParameter(keys[1].toString());
                     String actionName = uri.getQueryParameter(keys[2].toString());
+                    String myQstrv = "";
 
-                    Intent mIntent;
-                    mIntent = new Intent(this, ActionProductListingActivity.class);
+                    if (keys.length > 3) {
+                        myQstrv = keys[3].toString();
+                        mIntent.putExtra("qstr", uri.getQueryParameter(keys[3].toString()));
+                    }
+
 
                     mIntent.putExtra(ACTION_NAME, title);
                     mIntent.putExtra(ACTION_ID, actionId);
                     mIntent.putExtra(PRODUCT_TYPE, actionName);
                     startActivity(mIntent);
+
+/*                    String qstr = activityGlobalSearchBinding.etGlobalSearch.getText().toString();
+
+                    intent = new Intent(this, ActionProductListingActivity.class);
+
+                    intent.putExtra("qstr", qstr);
+                    intent.putExtra(ACTION_ID, String.valueOf(0));
+                    intent.putExtra(ACTION_NAME, "Search");
+                    intent.putExtra(PRODUCT_TYPE, "search_list");
+                    startActivity(intent);*/
                 }
 
 
