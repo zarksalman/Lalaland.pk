@@ -291,7 +291,7 @@ public class CheckoutScreen extends AppCompatActivity implements NetworkInterfac
         SpannableString spannableString = new SpannableString(getString(R.string.otp_not_receivedd_clicable));
         ForegroundColorSpan foregroundColorSpanRed = new ForegroundColorSpan(getResources().getColor(R.color.colorPrimary));
         ForegroundColorSpan foregroundColorSpanGray = new ForegroundColorSpan(getResources().getColor(R.color.colorLightGray));
-        spannableString.setSpan(foregroundColorSpanGray, 29, 35, Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
+        spannableString.setSpan(foregroundColorSpanGray, 28, 35, Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
 
         new CountDownTimer(60000, 1000) {
 
@@ -301,7 +301,7 @@ public class CheckoutScreen extends AppCompatActivity implements NetworkInterfac
 
             public void onFinish() {
 
-                spannableString.setSpan(foregroundColorSpanRed, 29, 35, Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
+                spannableString.setSpan(foregroundColorSpanRed, 28, 35, Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
                 otpDialogueBinding.tvOtpNotReceive.setText(spannableString);
 
                 otpDialogueBinding.tvOtpNotReceive.setOnClickListener(v -> {

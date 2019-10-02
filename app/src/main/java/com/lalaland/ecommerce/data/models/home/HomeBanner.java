@@ -2,7 +2,6 @@ package com.lalaland.ecommerce.data.models.home;
 
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
-
 public class HomeBanner {
 
     @SerializedName("id")
@@ -11,6 +10,9 @@ public class HomeBanner {
     @SerializedName("banner_image")
     @Expose
     private String bannerImage;
+    @SerializedName("mobile_app_url")
+    @Expose
+    private MobileAppUrl mobileAppUrl;
 
     public Integer getId() {
         return id;
@@ -26,6 +28,14 @@ public class HomeBanner {
 
     public void setBannerImage(String bannerImage) {
         this.bannerImage = bannerImage;
+    }
+
+    public MobileAppUrl getMobileAppUrl() {
+        return mobileAppUrl;
+    }
+
+    public void setMobileAppUrl(MobileAppUrl mobileAppUrl) {
+        this.mobileAppUrl = mobileAppUrl;
     }
 
 }
