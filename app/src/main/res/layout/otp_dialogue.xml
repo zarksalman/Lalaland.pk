@@ -43,7 +43,7 @@
                 android:fontFamily="@font/encodesansregular"
                 android:text="We have sent you a 6 digit PIN on your mobile number and email address. Kindly enter it below and instantly confirm your order"
                 android:textAlignment="center"
-                android:textColor="@color/colorGreen"
+                android:textColor="@color/colorDarkGray"
                 android:textSize="13sp"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
@@ -220,7 +220,7 @@
                 <TextView
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:text="Confirm order later"
+                    android:text="@string/confirm_order_later"
                     android:textAlignment="center"
                     android:textColor="@android:color/black"
                     android:textSize="11sp" />

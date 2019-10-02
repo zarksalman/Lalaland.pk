@@ -26,6 +26,7 @@ import androidx.lifecycle.ViewModelProviders;
 import androidx.recyclerview.widget.LinearLayoutManager;
 
 import com.lalaland.ecommerce.R;
+import com.lalaland.ecommerce.Receivers.SmsReceiver;
 import com.lalaland.ecommerce.adapters.CartIMerchantAdapter;
 import com.lalaland.ecommerce.adapters.CartItemsAdapter;
 import com.lalaland.ecommerce.data.models.DeliveryChargesData.DeliveryChargesOfMerchantItem;
@@ -263,6 +264,10 @@ public class CheckoutScreen extends AppCompatActivity implements NetworkInterfac
         otpDialogue.setView(otpDialogueBinding.getRoot());
 
         changeFocusEdittext();
+
+        SmsReceiver.bindListener(messageText -> {
+            Toast.makeText(this, messageText, Toast.LENGTH_SHORT).show();
+        });
 
         otpDialogueBinding.btnApply.setOnClickListener(v -> {
             getOtpCode();
