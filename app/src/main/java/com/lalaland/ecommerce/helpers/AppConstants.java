@@ -16,8 +16,8 @@ import java.util.regex.Pattern;
 
 public class AppConstants {
 
-    public static final String BASE_URL = "https://api.lalaland.pk/api/";
-    //    public static final String BASE_URL = "https://api.uat.lalaland.pk/api/";
+        public static final String BASE_URL = "https://api.lalaland.pk/api/";
+//    public static final String BASE_URL = "https://api.uat.lalaland.pk/api/";
     public static final String BASE_URL_PRODUCT_SHARE = "https://www.lalaland.pk/";
 
     public static String ABOUT_US_URL = "";
@@ -112,6 +112,7 @@ public class AppConstants {
     public static String BRAND_STORAGE_BASE_URL;
     public static String BRAND_FOCUS_STORAGE_BASE_URL;
     public static String CATEGORY_FOCUS_STORAGE_BASE_URL;
+    public static String SIZE_CHART_STORAGE_BASE_URL;
 
     public static String CATEGORY_BRAND_STORAGE_BASE_URL;
     public static String BANNER_STORAGE_BASE_URL = "";
@@ -126,6 +127,7 @@ public class AppConstants {
     public static String BRAND_STORAGE_BASE_URL_KEY = "brand_storage_base_url_key";
     public static String BRAND_FOCUS_STORAGE_BASE_URL_KEY = "brand_focus_storage_base_url_key";
     public static String CATEGORY_FOCUS_STORAGE_BASE_URL_KEY = "category_storage_base_url_key";
+    public static String SIZE_CHART_STORAGE_BASE_URL_KEY = "size_chart_storage_base_url_key";
 
     public static String CATEGORY_BRAND_STORAGE_BASE_URL_KEY = "category_brand_storage_base_url_key";
     public static String BANNER_STORAGE_BASE_URL_KEY = "banner_storage_base_url_key";

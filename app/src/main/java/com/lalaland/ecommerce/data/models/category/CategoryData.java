@@ -30,6 +30,9 @@ public class CategoryData {
     @SerializedName("home_banners_url")
     @Expose
     private String homeBannersUrl;
+    @SerializedName("home_banners_sm_url")
+    @Expose
+    private String homeBannersSmUrl;
     @SerializedName("advertisement_url")
     @Expose
     private String advertisementUrl;
@@ -51,6 +54,9 @@ public class CategoryData {
     @SerializedName("blog_url")
     @Expose
     private String blogUrl;
+    @SerializedName("size_chart_url")
+    @Expose
+    private String sizeChartUrl;
     @SerializedName("categories")
     @Expose
     private List<Category> categories = null;
@@ -143,6 +149,14 @@ public class CategoryData {
         this.homeBannersUrl = homeBannersUrl;
     }
 
+    public String getHomeBannersSmUrl() {
+        return homeBannersSmUrl;
+    }
+
+    public void setHomeBannersSmUrl(String homeBannersSmUrl) {
+        this.homeBannersSmUrl = homeBannersSmUrl;
+    }
+
     public String getAdvertisementUrl() {
         return advertisementUrl;
     }
@@ -197,6 +211,14 @@ public class CategoryData {
 
     public void setBlogUrl(String blogUrl) {
         this.blogUrl = blogUrl;
+    }
+
+    public String getSizeChartUrl() {
+        return sizeChartUrl;
+    }
+
+    public void setSizeChartUrl(String sizeChartUrl) {
+        this.sizeChartUrl = sizeChartUrl;
     }
 
     public List<Category> getCategories() {

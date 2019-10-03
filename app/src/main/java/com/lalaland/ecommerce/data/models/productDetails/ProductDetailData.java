@@ -6,15 +6,12 @@ import com.google.gson.annotations.SerializedName;
 import java.util.List;
 
 public class ProductDetailData {
-
     @SerializedName("recommended_cat")
     @Expose
     private String recommendedCat;
-
     @SerializedName("categoryName")
     @Expose
     private CategoryName categoryName;
-
     @SerializedName("productDetails")
     @Expose
     private ProductDetails productDetails;
@@ -27,6 +24,9 @@ public class ProductDetailData {
     @SerializedName("fit_and_sizing")
     @Expose
     private List<FitAndSizing> fitAndSizing = null;
+    @SerializedName("size_chart")
+    @Expose
+    private String sizeChart;
 
     public String getRecommendedCat() {
         return recommendedCat;
@@ -34,6 +34,14 @@ public class ProductDetailData {
 
     public void setRecommendedCat(String recommendedCat) {
         this.recommendedCat = recommendedCat;
+    }
+
+    public CategoryName getCategoryName() {
+        return categoryName;
+    }
+
+    public void setCategoryName(CategoryName categoryName) {
+        this.categoryName = categoryName;
     }
 
     public ProductDetails getProductDetails() {
@@ -68,11 +76,11 @@ public class ProductDetailData {
         this.fitAndSizing = fitAndSizing;
     }
 
-    public CategoryName getCategoryName() {
-        return categoryName;
+    public String getSizeChart() {
+        return sizeChart;
     }
 
-    public void setCategoryName(CategoryName categoryName) {
-        this.categoryName = categoryName;
+    public void setSizeChart(String sizeChart) {
+        this.sizeChart = sizeChart;
     }
 }

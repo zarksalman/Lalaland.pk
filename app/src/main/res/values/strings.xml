@@ -35,6 +35,7 @@
     <string name="brands_in_focus">BRANDS IN FOCUS</string>
     <string name="recommendations">RECOMMENDATIONS</string>
     <string name="title_activity_product_detail">ProductDetailActivity</string>
+    <string name="title_activity_zoom_activity">ZoomInOutActivity</string>
     <string name="add_to_cart">Add to cart</string>
     <string name="title_activity_product_listing">ProductListingActivity</string>
     <string name="sort_by">SORT</string>
@@ -189,5 +190,7 @@
     <string name="otp_not_receivedd">Didn\'t receive the PIN yet? RESEND after %1$d seconds</string>
     <string name="otp_not_receivedd_clicable">Didn\'t receive the PIN yet? RESEND after 00 seconds</string>
     <string name="confirm_order_later"><u>Confirm order later</u></string>
+    <string name="view_size_chart">View Size Chart</string>
+    <string name="size_chart">Size Chart</string>
 
 </resources>

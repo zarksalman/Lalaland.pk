@@ -55,6 +55,7 @@ import static com.lalaland.ecommerce.helpers.AppConstants.PRODUCT_STORAGE_BASE_U
 import static com.lalaland.ecommerce.helpers.AppConstants.PRODUCT_VARIATION_ID;
 import static com.lalaland.ecommerce.helpers.AppConstants.QUANTITY;
 import static com.lalaland.ecommerce.helpers.AppConstants.SIGNIN_TOKEN;
+import static com.lalaland.ecommerce.helpers.AppConstants.SIZE_CHART_STORAGE_BASE_URL;
 import static com.lalaland.ecommerce.helpers.AppConstants.SUCCESS_CODE;
 import static com.lalaland.ecommerce.helpers.AppConstants.VALIDATION_FAIL_CODE;
 
@@ -92,6 +93,7 @@ public class ProductDetailActivity extends AppCompatActivity implements ProductV
     StringBuilder aPrice = new StringBuilder();
     Bundle bundle = new Bundle();
     boolean isDeeplink;
+    String imgUrl = "";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -560,6 +562,26 @@ public class ProductDetailActivity extends AppCompatActivity implements ProductV
 
             Toast.makeText(this, "Insufficient Stock", Toast.LENGTH_SHORT).show();
         });
+
+        if (mProductDetailDataContainer.getData().getSizeChart() != null) {
+            if (!mProductDetailDataContainer.getData().getSizeChart().isEmpty()) {
+
+                prouctDetailBottomSheetLayoutBinding.tvProductSize.setVisibility(View.VISIBLE);
+                prouctDetailBottomSheetLayoutBinding.ivForwardArrow.setVisibility(View.VISIBLE);
+
+                imgUrl = SIZE_CHART_STORAGE_BASE_URL.concat(mProductDetailDataContainer.getData().getSizeChart());
+
+                View.OnClickListener onClickListener = v -> {
+
+                    Intent mIntent = new Intent(this, ZoomInZoomOutActivity.class);
+                    mIntent.putExtra("size_chart", imgUrl);
+                    startActivity(mIntent);
+                };
+
+                prouctDetailBottomSheetLayoutBinding.tvProductSize.setOnClickListener(onClickListener);
+                prouctDetailBottomSheetLayoutBinding.ivForwardArrow.setOnClickListener(onClickListener);
+            }
+        }
     }
 
     public void addDots() {

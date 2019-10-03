@@ -7,8 +7,8 @@ android {
         applicationId "com.lalaland.onlineshoppingapp"
         minSdkVersion 19
         targetSdkVersion 28
-        versionCode 8
-        versionName "1.1.6"
+        versionCode 9
+        versionName "1.1.7"
         multiDexEnabled true
 
         dataBinding {
@@ -97,5 +97,6 @@ dependencies {
 
     // image compression
     implementation 'id.zelory:compressor:2.1.0'
+
 }
 apply plugin: 'com.google.gms.google-services'
