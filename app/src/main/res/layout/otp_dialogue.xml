@@ -26,7 +26,7 @@
                 android:layout_height="wrap_content"
                 android:layout_margin="@dimen/_16dp"
                 android:fontFamily="@font/encodesansregular"
-                android:text="ORDER CONFIRMATION VIA SMS/EMAIL"
+                android:text="@string/order_confirmation_via_sms_email"
                 android:textAlignment="center"
                 android:textColor="@android:color/black"
                 android:textSize="15sp"
@@ -41,7 +41,7 @@
                 android:layout_height="wrap_content"
                 android:layout_margin="@dimen/_8dp"
                 android:fontFamily="@font/encodesansregular"
-                android:text="We have sent you a 6 digit PIN on your mobile number and email address. Kindly enter it below and instantly confirm your order"
+                android:text="@string/otp_info"
                 android:textAlignment="center"
                 android:textColor="@color/colorDarkGray"
                 android:textSize="13sp"
@@ -55,7 +55,7 @@
                 android:layout_height="wrap_content"
                 android:layout_margin="@dimen/_16dp"
                 android:fontFamily="@font/encodesansregular"
-                android:text="ENTER YOUR PIN"
+                android:text="@string/enter_your_pin"
                 android:textAlignment="center"
                 android:textColor="@color/colorDarkGray"
                 android:textSize="16sp"
@@ -73,7 +73,7 @@
                 android:layout_marginTop="@dimen/_4dp"
                 android:orientation="horizontal"
                 android:padding="@dimen/_16dp"
-                android:weightSum="6"
+                android:weightSum="4"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/tv_pin_title">
@@ -130,6 +130,7 @@
                     android:layout_weight="1"
                     android:inputType="numberDecimal"
                     android:maxLength="1"
+                    android:visibility="gone"
                     android:textAlignment="center" />
 
                 <EditText
@@ -141,6 +142,7 @@
                     android:cursorVisible="false"
                     android:inputType="numberDecimal"
                     android:maxLength="1"
+                    android:visibility="gone"
                     android:textAlignment="center" />
             </LinearLayout>
 
@@ -165,7 +167,7 @@
                 android:layout_marginTop="@dimen/_8dp"
                 android:layout_marginEnd="@dimen/_16dp"
                 android:background="@drawable/btn_bg_round_corner_green"
-                android:text="Verify pin"
+                android:text="@string/verify_order"
                 android:textColor="@android:color/white"
                 app:layout_constraintTop_toBottomOf="@+id/tv_error_message" />
 
@@ -213,7 +215,7 @@
                 <TextView
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:text="If you have not received the PIN you can"
+                    android:text="@string/if_you_have_not_received_the_pin_you_can"
                     android:textAlignment="center"
                     android:textSize="11sp" />
 

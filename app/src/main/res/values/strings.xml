@@ -35,7 +35,6 @@
     <string name="brands_in_focus">BRANDS IN FOCUS</string>
     <string name="recommendations">RECOMMENDATIONS</string>
     <string name="title_activity_product_detail">ProductDetailActivity</string>
-    <string name="title_activity_zoom_activity">ZoomInOutActivity</string>
     <string name="add_to_cart">Add to cart</string>
     <string name="title_activity_product_listing">ProductListingActivity</string>
     <string name="sort_by">SORT</string>
@@ -192,5 +191,10 @@
     <string name="confirm_order_later"><u>Confirm order later</u></string>
     <string name="view_size_chart">View Size Chart</string>
     <string name="size_chart">Size Chart</string>
+    <string name="otp_info">We have sent you a 4 digit pin on your mobile number and email address. Kindly enter it below to instantly confirm your order</string>
+    <string name="order_confirmation_via_sms_email">Order confirmation via SMS/EMAIL</string>
+    <string name="verify_order">Verify Order</string>
+    <string name="if_you_have_not_received_the_pin_you_can">If you have not received the PIN you can</string>
+    <string name="enter_your_pin">Enter your PIN</string>
 
 </resources>

@@ -354,7 +354,7 @@ public class UsersRepository {
                 if (response.isSuccessful()) {
                     registrationContainerMutableLiveData.postValue(response.body());
 
-                    if (response.body().getData().equals(SUCCESS_CODE)) {
+                    if (response.body().getCode().equals(SUCCESS_CODE)) {
                         // saving header response for different purposes like add to wish list etc
                         Headers headers = response.headers();
                         AppPreference.getInstance(AppConstants.mContext).setString(SIGNIN_TOKEN, headers.get(SIGNIN_TOKEN));
@@ -455,7 +455,7 @@ public class UsersRepository {
         lalalandServiceApi.uploadProfileImage(userInfo, file, file.body()).enqueue(new Callback<UploadProfileImageContainer>() {
             @Override
             public void onResponse(Call<UploadProfileImageContainer> call, Response<UploadProfileImageContainer> response) {
-                if (response.isSuccessful() && response.body().getData().equals(SUCCESS_CODE)) {
+                if (response.isSuccessful() && response.body().getCode().equals(SUCCESS_CODE)) {
                     uploadProfileImageContainerMutableLiveData.postValue(response.body());
                 } else {
                     uploadProfileImageContainerMutableLiveData.postValue(null);

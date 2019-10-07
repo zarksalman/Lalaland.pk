@@ -272,7 +272,7 @@ public class CheckoutScreen extends AppCompatActivity implements NetworkInterfac
         otpDialogueBinding.btnApply.setOnClickListener(v -> {
             getOtpCode();
 
-            if (otpCode.toString().length() != 6) {
+            if (otpCode.toString().length() != 4) {
                 Toast.makeText(this, "You need to enter complete PIN", Toast.LENGTH_SHORT).show();
                 return;
             }

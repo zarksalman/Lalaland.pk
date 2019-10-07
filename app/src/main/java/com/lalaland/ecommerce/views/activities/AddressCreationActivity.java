@@ -84,8 +84,13 @@ public class AddressCreationActivity extends AppCompatActivity {
             String mName = appPreference.getString(USER_NAME);
             String[] mNames = mName.split(" ");
 
-            activityAddressCreationBinding.etLastName.setText(mNames[1]);
             activityAddressCreationBinding.etFirstName.setText(mNames[0]);
+
+            try {
+                activityAddressCreationBinding.etLastName.setText(mNames[1]);
+            } catch (IndexOutOfBoundsException e) {
+                e.printStackTrace();
+            }
 
         }
 

@@ -27,6 +27,15 @@ public class ProductDetailData {
     @SerializedName("size_chart")
     @Expose
     private String sizeChart;
+    @SerializedName("product_reviews")
+    @Expose
+    private List<ProductReview> productReviews = null;
+    @SerializedName("reviews_count")
+    @Expose
+    private Integer reviewsCount;
+    @SerializedName("rating_average")
+    @Expose
+    private Integer ratingAverage;
 
     public String getRecommendedCat() {
         return recommendedCat;
@@ -83,4 +92,29 @@ public class ProductDetailData {
     public void setSizeChart(String sizeChart) {
         this.sizeChart = sizeChart;
     }
+
+    public List<ProductReview> getProductReviews() {
+        return productReviews;
+    }
+
+    public void setProductReviews(List<ProductReview> productReviews) {
+        this.productReviews = productReviews;
+    }
+
+    public Integer getReviewsCount() {
+        return reviewsCount;
+    }
+
+    public void setReviewsCount(Integer reviewsCount) {
+        this.reviewsCount = reviewsCount;
+    }
+
+    public Integer getRatingAverage() {
+        return ratingAverage;
+    }
+
+    public void setRatingAverage(Integer ratingAverage) {
+        this.ratingAverage = ratingAverage;
+    }
+
 }
