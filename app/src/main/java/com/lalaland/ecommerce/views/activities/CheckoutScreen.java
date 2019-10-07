@@ -661,9 +661,6 @@ public class CheckoutScreen extends AppCompatActivity implements NetworkInterfac
                     voucherDialogue.show();
                     mMerchantIndex = merchantIndex;
                 }
-
-
-                //applyMyVoucher(merchantIndex);
             }
         });
 
@@ -695,7 +692,6 @@ public class CheckoutScreen extends AppCompatActivity implements NetworkInterfac
 
             AppUtils.unBlockUi(this);
         });
-        //prepareOTPDialogue();
     }
 
     public void placeOrder() {
