@@ -19,7 +19,6 @@ import com.lalaland.ecommerce.helpers.AppConstants;
 import com.lalaland.ecommerce.views.activities.ActionProductListingActivity;
 import com.lalaland.ecommerce.views.activities.WebViewActivity;
 
-import java.util.ArrayList;
 import java.util.List;
 
 import static com.lalaland.ecommerce.helpers.AppConstants.ACTION_ID;
@@ -31,7 +30,7 @@ public class BannerImageAdapter extends PagerAdapter {
 
 
     private SliderItemBinding productImageItemBinding;
-    List<HomeBanner> productMultimedia = new ArrayList<>();
+    List<HomeBanner> productMultimedia;
 
 
     Context context;
@@ -40,7 +39,7 @@ public class BannerImageAdapter extends PagerAdapter {
     public BannerImageAdapter(Context context, List<HomeBanner> mProductMultimedia) {
         this.context = context;
         productMultimedia = mProductMultimedia;
-        
+
     }
 
     @Override
@@ -77,11 +76,7 @@ public class BannerImageAdapter extends PagerAdapter {
                     // if we are not going to display listing then open webview
                     mIntent.putExtra(BLOG_URL, productMultimedia.get(position).getMobileAppUrl().getTitle());
                     context.startActivity(mIntent);
-                }
-            } else {
-
-
-                if (productMultimedia.get(position).getMobileAppUrl() != null) {
+                } else {
 
                     mIntent = new Intent(context, ActionProductListingActivity.class);
                     mIntent.putExtra(ACTION_NAME, productMultimedia.get(position).getMobileAppUrl().getTitle());
@@ -91,13 +86,6 @@ public class BannerImageAdapter extends PagerAdapter {
                 }
             }
         });
-
-        /*
-        Glide.with(context)
-                .load(imgUrl)
-                .placeholder(R.drawable.placeholder_products)
-                .into(productImageItemBinding.ivProduct);
-*/
 
         Glide
                 .with(context)
