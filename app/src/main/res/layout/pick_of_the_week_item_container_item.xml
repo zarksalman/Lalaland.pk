@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<layout xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <!--actions list-->
+    <LinearLayout
+        android:id="@+id/rv_picks_of_week_container"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@android:color/white"
+        android:orientation="horizontal"
+        android:padding="@dimen/_8dp"
+        android:visibility="visible">
+
+        <!--pick of the week-->
+        <include
+
+            android:id="@+id/pick_of_week_container_parent"
+            layout="@layout/pick_of_the_week_layout"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/_8dp"
+            android:visibility="visible" />
+
+    </LinearLayout>
+
+
+</layout>

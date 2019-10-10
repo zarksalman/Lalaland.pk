@@ -33,6 +33,7 @@ import com.lalaland.ecommerce.adapters.BlogPostsAdapter;
 import com.lalaland.ecommerce.adapters.BrandsFocusAdapter;
 import com.lalaland.ecommerce.adapters.FeatureCategoryAdapter;
 import com.lalaland.ecommerce.adapters.GetTheLooksAdapter;
+import com.lalaland.ecommerce.adapters.HomeMainAdapter;
 import com.lalaland.ecommerce.adapters.ProductAdapter;
 import com.lalaland.ecommerce.adapters.ProductPagedListAdapter;
 import com.lalaland.ecommerce.data.models.home.Actions;
@@ -105,6 +106,7 @@ public class HomeFragment extends Fragment implements BrandsFocusAdapter.Feature
     int currentPage = 0;
 
     //******************************* new home page *******************************
+    HomeMainAdapter homeMainAdapter;
 
     public HomeFragment() {
         // Required empty public constructor
@@ -165,6 +167,13 @@ public class HomeFragment extends Fragment implements BrandsFocusAdapter.Feature
                 featuredCategories.addAll(homeDataContainer.getHomeData().getFeaturedCategories());
                 blogPosts.addAll(homeDataContainer.getHomeData().getBlogPosts());
                 advertisement = homeDataContainer.getHomeData().getAdvertisement();
+
+/*
+                homeMainAdapter = new HomeMainAdapter(getContext(), homeDataContainer);
+                fragmentHomeNewBinding.rvParent.setAdapter(homeMainAdapter);
+                fragmentHomeNewBinding.rvParent.setLayoutManager(new LinearLayoutManager(getContext(), RecyclerView.VERTICAL, false));
+*/
+
 
                 setBannerSlider();
                 setActions();

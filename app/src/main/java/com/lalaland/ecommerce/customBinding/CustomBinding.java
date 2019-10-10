@@ -63,7 +63,7 @@ public class CustomBinding {
                 .load(imageName)
                 .placeholder(R.drawable.placeholder_products_pick_of_week)
                 .error(R.drawable.placeholder_products_pick_of_week)
-                .fitCenter()
+                .centerInside()
                 .into(imageView);
     }
 

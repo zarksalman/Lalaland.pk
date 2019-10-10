@@ -27,6 +27,7 @@ public class InnerCategoryAdapter extends RecyclerView.Adapter<InnerCategoryAdap
     private LayoutInflater inflater;
     private InnerCategoryListener mInnerCategoryListener;
     float width = 0;
+
     public InnerCategoryAdapter(Context context, InnerCategoryListener innerCategoryListener) {
         mContext = context;
         inflater = LayoutInflater.from(context);

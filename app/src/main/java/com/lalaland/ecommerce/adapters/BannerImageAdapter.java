@@ -31,8 +31,6 @@ public class BannerImageAdapter extends PagerAdapter {
 
     private SliderItemBinding productImageItemBinding;
     List<HomeBanner> productMultimedia;
-
-
     Context context;
     LayoutInflater layoutInflater;
 

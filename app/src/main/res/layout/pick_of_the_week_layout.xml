@@ -62,7 +62,6 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_below="@+id/iv_pick_of_week_show_all"
-            
             android:gravity="center_horizontal"
             android:layout_centerHorizontal="true"
             android:orientation="horizontal"

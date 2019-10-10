@@ -77,7 +77,6 @@ public class ProductAdapter extends RecyclerView.Adapter<ProductAdapter.ProductV
         void bindHolder(Product product) {
 
             mProductItemBinding.tvProductActualPrice.setPaintFlags(mProductItemBinding.tvProductActualPrice.getPaintFlags() | Paint.STRIKE_THRU_TEXT_FLAG);  // making price for sales
-
             mProductItemBinding.setProduct(product);
             mProductItemBinding.setAdapter(ProductAdapter.this);
             mProductItemBinding.executePendingBindings();
