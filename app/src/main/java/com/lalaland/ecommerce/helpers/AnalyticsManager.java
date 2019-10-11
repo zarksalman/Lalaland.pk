@@ -29,13 +29,13 @@ public class AnalyticsManager {
 
     public void sendAnalytics(String eventName, Bundle bundle) {
 
-        if (!AppConstants.BASE_URL.equals("https://api.lalaland.pk/api/"))
+        //  if (!AppConstants.BASE_URL.equals("https://api.lalaland.pk/api/"))
             getFirebaseAnalytics().logEvent(eventName, bundle);
     }
 
     public void sendFacebookAnalytics(String eventName, Bundle bundle) {
 
-        if (!AppConstants.BASE_URL.equals("https://api.lalaland.pk/api/"))
+        //if (!AppConstants.BASE_URL.equals("https://api.lalaland.pk/api/"))
             getFacebookAnalytics().logEvent(eventName, bundle);
     }
 
