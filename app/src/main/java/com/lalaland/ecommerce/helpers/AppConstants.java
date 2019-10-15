@@ -163,6 +163,7 @@ public class AppConstants {
     public static final String SEARCHES = "searches";
 
     public static int CASH_TRANSFER_TYPE = 1;
+    public static int CLAIM_TYPE = 2; // 2 ==> return and 3==> replacement
     public static int LOAD_HOME_FRAGMENT_INDEX = 0;
     public static int CART_COUNTER = 0;
     public static int FILTER_COUNTER = 0;

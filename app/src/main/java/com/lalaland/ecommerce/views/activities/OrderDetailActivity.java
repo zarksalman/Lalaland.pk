@@ -3,7 +3,6 @@ package com.lalaland.ecommerce.views.activities;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
-import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.databinding.DataBindingUtil;
@@ -38,7 +37,6 @@ public class OrderDetailActivity extends AppCompatActivity implements MyOrderPro
     private ActivityOrderDetailBinding activityOrderDetailBinding;
     private String fancyOrderId, orderId, orderDate, orderMerchant, orderAddress, orderTotal, orderTotal1, token, discountAmount, shippingCharges;
     private OrderViewModel orderViewModel;
-    private ReturnAndReplacementViewModel returnAndReplacementViewModel;
     private List<OrderProduct> orderProductList = new ArrayList<>();
     private MyOrderProductsAdapter myOrderProductsAdapter;
     private AppPreference appPreference;
@@ -60,8 +58,6 @@ public class OrderDetailActivity extends AppCompatActivity implements MyOrderPro
         appPreference = AppPreference.getInstance(this);
         token = AppPreference.getInstance(this).getString(SIGNIN_TOKEN);
         orderViewModel = ViewModelProviders.of(this).get(OrderViewModel.class);
-        returnAndReplacementViewModel = ViewModelProviders.of(this).get(ReturnAndReplacementViewModel.class);
-
 
         activityOrderDetailBinding.btnBack.setOnClickListener(v -> {
             onBackPressed();
@@ -153,17 +149,8 @@ public class OrderDetailActivity extends AppCompatActivity implements MyOrderPro
     @Override
     public void claimClicked(String orderProductId) {
 
-        returnAndReplacementViewModel.createNewClaim(orderProductId).observe(this, returnAndReplacementDataContainer -> {
-
-//            Intent claimIntent = new Intent(this,)
-            if (returnAndReplacementDataContainer != null) {
-
-                if (returnAndReplacementDataContainer.getCode().equals(SUCCESS_CODE)) {
-
-                } else {
-                    Toast.makeText(this, returnAndReplacementDataContainer.getMsg(), Toast.LENGTH_SHORT).show();
-                }
-            }
-        });
+        Intent claimIntent = new Intent(this, ReturnAndReplacementActivity.class);
+        claimIntent.putExtra("order_product_id", orderProductId);
+        startActivity(claimIntent);
     }
 }

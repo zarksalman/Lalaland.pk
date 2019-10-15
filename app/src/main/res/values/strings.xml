@@ -1,4 +1,11 @@
 <resources>
+
+    <string-array name="TODO">
+        <item>Small(0-4)</item>
+        <item>Medium(4-8)</item>
+        <item>Large(9+)</item>
+    </string-array>
+
     <string name="app_name">lalaland</string>
     <string name="my_app_name">Lalaland</string>
     <string name="title_home">Home</string>
@@ -196,5 +203,6 @@
     <string name="verify_order">Verify Order</string>
     <string name="if_you_have_not_received_the_pin_you_can">If you have not received the PIN you can</string>
     <string name="enter_your_pin">Enter your PIN</string>
+    <string name="title_activity_return_and_replacement">ReturnAndReplacementActivity</string>
 
 </resources>
