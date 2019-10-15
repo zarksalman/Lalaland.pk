@@ -274,6 +274,15 @@ public class AppUtils {
         return salePrice.equals(actualPrice);
     }
 
+    public static boolean isClaimed(String claim) {
+
+        // 1 ==> not claimed
+        // 2 ==>
+        return claim.equals("2");
+    }
+
+
+
     public static void hideKeyboard(Activity activity) {
         InputMethodManager imm = (InputMethodManager) activity.getSystemService(Activity.INPUT_METHOD_SERVICE);
         //Find the currently focused view, so we can grab the correct window token from it.

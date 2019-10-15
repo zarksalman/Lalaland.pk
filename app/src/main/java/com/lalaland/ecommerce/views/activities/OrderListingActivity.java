@@ -20,6 +20,7 @@ import com.lalaland.ecommerce.viewModels.order.OrderViewModel;
 import java.util.ArrayList;
 import java.util.List;
 
+import static com.lalaland.ecommerce.helpers.AppConstants.FANCY_ORDER_ID;
 import static com.lalaland.ecommerce.helpers.AppConstants.ORDER_ADDRESS;
 import static com.lalaland.ecommerce.helpers.AppConstants.ORDER_DATE;
 import static com.lalaland.ecommerce.helpers.AppConstants.ORDER_ID;
@@ -131,6 +132,8 @@ public class OrderListingActivity extends AppCompatActivity implements MyOrderAd
     public void onOrderClicked(Order order) {
 
         Intent intent = new Intent(this, OrderDetailActivity.class);
+
+        intent.putExtra(FANCY_ORDER_ID, order.getFancyOrderId());
         intent.putExtra(ORDER_ID, String.valueOf(order.getOrderId()));
         intent.putExtra(ORDER_DATE, order.getCreatedAt());
         intent.putExtra(ORDER_MERCHANT, order.getMerchantName());

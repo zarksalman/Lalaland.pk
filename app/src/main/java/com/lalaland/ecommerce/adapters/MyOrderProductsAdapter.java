@@ -2,6 +2,7 @@ package com.lalaland.ecommerce.adapters;
 
 import android.content.Context;
 import android.view.LayoutInflater;
+import android.view.View;
 import android.view.ViewGroup;
 
 import androidx.annotation.NonNull;
@@ -24,10 +25,12 @@ public class MyOrderProductsAdapter extends RecyclerView.Adapter<MyOrderProducts
     private List<OrderProduct> mOrdersProducts = new ArrayList<>();
     private OrderProductItemBinding orderProductItemBinding;
     private LayoutInflater inflater;
+    private ClickClaim mClickClaim;
 
-    public MyOrderProductsAdapter(Context context) {
+    public MyOrderProductsAdapter(Context context, ClickClaim clickClaim) {
         mContext = context;
         inflater = LayoutInflater.from(context);
+        mClickClaim = clickClaim;
     }
 
     @NonNull
@@ -89,9 +92,28 @@ public class MyOrderProductsAdapter extends RecyclerView.Adapter<MyOrderProducts
                 mOrderProductItemBinding.tvProductSize.setText(variationValue[1]);
             }
 
+            if (orderProduct.getIsClaim().equals("1")) {
+
+                mOrderProductItemBinding.btnClaim.setVisibility(View.VISIBLE);
+
+                mOrderProductItemBinding.btnClaim.setOnClickListener(v -> {
+                    mClickClaim.claimClicked(String.valueOf(orderProduct.getOrderProductId()));
+                });
+
+            } else if (orderProduct.getIsClaim().equals("2")) {
+                mOrderProductItemBinding.btnClaimed.setVisibility(View.VISIBLE);
+            } else {
+                mOrderProductItemBinding.btnClaim.setVisibility(View.GONE);
+                mOrderProductItemBinding.btnClaimed.setVisibility(View.GONE);
+            }
+
             mOrderProductItemBinding.setOrderproduct(orderProduct);
             mOrderProductItemBinding.setAdapter(MyOrderProductsAdapter.this);
             mOrderProductItemBinding.executePendingBindings();
         }
+    }
+
+    public interface ClickClaim {
+        void claimClicked(String orderProductId);
     }
 }

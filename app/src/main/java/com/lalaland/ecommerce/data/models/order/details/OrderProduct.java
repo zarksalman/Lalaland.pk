@@ -32,6 +32,24 @@ public class OrderProduct {
     @SerializedName("item_quantity")
     @Expose
     private Integer itemQuantity;
+    @SerializedName("status_id")
+    @Expose
+    private Integer statusId;
+    @SerializedName("claim_id")
+    @Expose
+    private Object claimId;
+    @SerializedName("category_id")
+    @Expose
+    private Integer categoryId;
+    @SerializedName("is_claim_allowed")
+    @Expose
+    private Object isClaimAllowed;
+    @SerializedName("order_product_id")
+    @Expose
+    private Integer orderProductId;
+    @SerializedName("is_claim")
+    @Expose
+    private String isClaim;
 
     public Integer getId() {
         return id;
@@ -103,6 +121,54 @@ public class OrderProduct {
 
     public void setItemQuantity(Integer itemQuantity) {
         this.itemQuantity = itemQuantity;
+    }
+
+    public Integer getStatusId() {
+        return statusId;
+    }
+
+    public void setStatusId(Integer statusId) {
+        this.statusId = statusId;
+    }
+
+    public Object getClaimId() {
+        return claimId;
+    }
+
+    public void setClaimId(Object claimId) {
+        this.claimId = claimId;
+    }
+
+    public Integer getCategoryId() {
+        return categoryId;
+    }
+
+    public void setCategoryId(Integer categoryId) {
+        this.categoryId = categoryId;
+    }
+
+    public Object getIsClaimAllowed() {
+        return isClaimAllowed;
+    }
+
+    public void setIsClaimAllowed(Object isClaimAllowed) {
+        this.isClaimAllowed = isClaimAllowed;
+    }
+
+    public Integer getOrderProductId() {
+        return orderProductId;
+    }
+
+    public void setOrderProductId(Integer orderProductId) {
+        this.orderProductId = orderProductId;
+    }
+
+    public String getIsClaim() {
+        return isClaim;
+    }
+
+    public void setIsClaim(String isClaim) {
+        this.isClaim = isClaim;
     }
 
 }

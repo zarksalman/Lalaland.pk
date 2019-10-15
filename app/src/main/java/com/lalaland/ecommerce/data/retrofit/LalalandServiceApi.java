@@ -18,6 +18,7 @@ import com.lalaland.ecommerce.data.models.otp.OtpDataContainer;
 import com.lalaland.ecommerce.data.models.productDetails.ProductDetailDataContainer;
 import com.lalaland.ecommerce.data.models.products.ProductContainer;
 import com.lalaland.ecommerce.data.models.registration.RegistrationContainer;
+import com.lalaland.ecommerce.data.models.returnAndReplacement.ReturnAndReplacementDataContainer;
 import com.lalaland.ecommerce.data.models.updateUserData.UpdateUserDataContainer;
 import com.lalaland.ecommerce.data.models.uploadProfileImage.UploadProfileImageContainer;
 import com.lalaland.ecommerce.data.models.userAddressBook.AddressDataContainer;
@@ -170,9 +171,11 @@ public interface LalalandServiceApi {
     Call<ActionProductsContainer> applyFilter(@HeaderMap Map<String, String> header, @QueryMap Map<String, String> parameters);
 
 
-    //*********************************************** Second build starts here****************************************
-
+    //*********************************************** Voucher starts here****************************************
     @POST("checkVoucherIsValid")
     Call<VoucherDataContainer> isVoucherValid(@HeaderMap Map<String, String> header, @QueryMap Map<String, String> parameters);
     
+    //*********************************************** Return and replacement starts here****************************************
+    @POST("newClaim")
+    Call<ReturnAndReplacementDataContainer> createNewClaim(@HeaderMap Map<String, String> header, @Query("order_product_id") String order_product_id);
 }

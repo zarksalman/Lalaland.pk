@@ -487,6 +487,7 @@ public class CheckoutScreen extends AppCompatActivity implements NetworkInterfac
         activityCheckoutScreenBinding.tvTotalBalance.setText(AppUtils.formatPriceString(totalBill));
 
         if (Double.parseDouble(totalBill) >= PAYMENT_LOWEST_LIMIT) {
+            CASH_TRANSFER_TYPE = 2;
             activityCheckoutScreenBinding.tvPaymentType.setText(getResources().getString(R.string.bank_transfer));
             activityCheckoutScreenBinding.rbBankTransfer.setChecked(true);
             activityCheckoutScreenBinding.rgPaymentType.setOnCheckedChangeListener(null);
@@ -709,6 +710,9 @@ public class CheckoutScreen extends AppCompatActivity implements NetworkInterfac
         activityCheckoutScreenBinding.pbLoading.setVisibility(View.VISIBLE);
         otpDialogueBinding.pbLoading.setVisibility(View.VISIBLE);
 
+        otpDialogueBinding.btnApply.setOnClickListener(null);
+        otpDialogueBinding.confirmLaterContainer.setOnClickListener(null);
+
         AppUtils.blockUi(this);
 
         parameter.clear();
@@ -771,6 +775,26 @@ public class CheckoutScreen extends AppCompatActivity implements NetworkInterfac
                 otpDialogueBinding.pbLoading.setVisibility(View.GONE);
                 activityCheckoutScreenBinding.pbLoading.setVisibility(View.GONE);
                 activityCheckoutScreenBinding.pbLoading.setVisibility(View.GONE);
+
+                otpDialogue.dismiss();
+
+                otpDialogueBinding.btnApply.setOnClickListener(v -> {
+                    getOtpCode();
+
+                    if (otpCode.toString().length() != 4) {
+                        Toast.makeText(this, "You need to enter complete PIN", Toast.LENGTH_SHORT).show();
+                        return;
+                    }
+                    placeOrder();
+                });
+
+                otpDialogueBinding.confirmLaterContainer.setOnClickListener(v -> {
+
+                    userOtpCode = "";
+                    otpCode = new StringBuilder();
+
+                    placeOrder();
+                });
 
             }, 2000);
 

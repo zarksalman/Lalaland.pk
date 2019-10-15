@@ -1,7 +1,9 @@
 package com.lalaland.ecommerce.views.activities;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
+import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.databinding.DataBindingUtil;
@@ -15,10 +17,12 @@ import com.lalaland.ecommerce.databinding.ActivityOrderDetailBinding;
 import com.lalaland.ecommerce.helpers.AppPreference;
 import com.lalaland.ecommerce.helpers.AppUtils;
 import com.lalaland.ecommerce.viewModels.order.OrderViewModel;
+import com.lalaland.ecommerce.viewModels.returnAndReplacement.ReturnAndReplacementViewModel;
 
 import java.util.ArrayList;
 import java.util.List;
 
+import static com.lalaland.ecommerce.helpers.AppConstants.FANCY_ORDER_ID;
 import static com.lalaland.ecommerce.helpers.AppConstants.ORDER_ADDRESS;
 import static com.lalaland.ecommerce.helpers.AppConstants.ORDER_DATE;
 import static com.lalaland.ecommerce.helpers.AppConstants.ORDER_ID;
@@ -29,11 +33,12 @@ import static com.lalaland.ecommerce.helpers.AppConstants.SIGNIN_TOKEN;
 import static com.lalaland.ecommerce.helpers.AppConstants.SUCCESS_CODE;
 import static com.lalaland.ecommerce.helpers.AppConstants.USER_NAME;
 
-public class OrderDetailActivity extends AppCompatActivity {
+public class OrderDetailActivity extends AppCompatActivity implements MyOrderProductsAdapter.ClickClaim {
 
     private ActivityOrderDetailBinding activityOrderDetailBinding;
-    private String orderId, orderDate, orderMerchant, orderAddress, orderTotal, orderTotal1, token, discountAmount, shippingCharges;
+    private String fancyOrderId, orderId, orderDate, orderMerchant, orderAddress, orderTotal, orderTotal1, token, discountAmount, shippingCharges;
     private OrderViewModel orderViewModel;
+    private ReturnAndReplacementViewModel returnAndReplacementViewModel;
     private List<OrderProduct> orderProductList = new ArrayList<>();
     private MyOrderProductsAdapter myOrderProductsAdapter;
     private AppPreference appPreference;
@@ -44,6 +49,7 @@ public class OrderDetailActivity extends AppCompatActivity {
         activityOrderDetailBinding = DataBindingUtil.setContentView(this, R.layout.activity_order_detail);
 
         if (getIntent().getExtras() != null) {
+            fancyOrderId = getIntent().getStringExtra(FANCY_ORDER_ID);
             orderId = getIntent().getStringExtra(ORDER_ID);
             orderDate = getIntent().getStringExtra(ORDER_DATE);
             orderMerchant = getIntent().getStringExtra(ORDER_MERCHANT);
@@ -54,6 +60,8 @@ public class OrderDetailActivity extends AppCompatActivity {
         appPreference = AppPreference.getInstance(this);
         token = AppPreference.getInstance(this).getString(SIGNIN_TOKEN);
         orderViewModel = ViewModelProviders.of(this).get(OrderViewModel.class);
+        returnAndReplacementViewModel = ViewModelProviders.of(this).get(ReturnAndReplacementViewModel.class);
+
 
         activityOrderDetailBinding.btnBack.setOnClickListener(v -> {
             onBackPressed();
@@ -69,14 +77,14 @@ public class OrderDetailActivity extends AppCompatActivity {
         activityOrderDetailBinding.tvUserPhone.setText(appPreference.getString(PHONE_NUMBER));
         activityOrderDetailBinding.tvUserAddress.setText(orderAddress);
 
-        activityOrderDetailBinding.tvOrderId.setText(String.format(getResources().getString(R.string.order_id_format), orderId));
+        activityOrderDetailBinding.tvOrderId.setText(String.format(getResources().getString(R.string.order_id_format), fancyOrderId));
         activityOrderDetailBinding.tvOrderDate.setText(String.format(getResources().getString(R.string.order_date_format), orderDate));
         activityOrderDetailBinding.tvOrderMerchant.setText(String.format(getResources().getString(R.string.order_merchant_format), orderMerchant));
         activityOrderDetailBinding.tvOrderTotal.setText(AppUtils.formatPriceString(orderTotal));
     }
 
     private void setAdapter() {
-        myOrderProductsAdapter = new MyOrderProductsAdapter(this);
+        myOrderProductsAdapter = new MyOrderProductsAdapter(this, this);
         myOrderProductsAdapter.setData(orderProductList);
 
         activityOrderDetailBinding.rvOrderProducts.setHasFixedSize(true);
@@ -140,5 +148,22 @@ public class OrderDetailActivity extends AppCompatActivity {
     @Override
     public void onBackPressed() {
         finish();
+    }
+
+    @Override
+    public void claimClicked(String orderProductId) {
+
+        returnAndReplacementViewModel.createNewClaim(orderProductId).observe(this, returnAndReplacementDataContainer -> {
+
+//            Intent claimIntent = new Intent(this,)
+            if (returnAndReplacementDataContainer != null) {
+
+                if (returnAndReplacementDataContainer.getCode().equals(SUCCESS_CODE)) {
+
+                } else {
+                    Toast.makeText(this, returnAndReplacementDataContainer.getMsg(), Toast.LENGTH_SHORT).show();
+                }
+            }
+        });
     }
 }

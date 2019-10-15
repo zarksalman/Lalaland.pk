@@ -129,7 +129,7 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:text="@string/order_id_format"
-                        android:textColor="@android:color/black"
+                        android:textColor="@color/colorPrimary"
                         tools:text="@tools:sample/full_names" />
 
                     <TextView
