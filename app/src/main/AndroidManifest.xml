@@ -26,6 +26,7 @@
         <activity
             android:name=".views.activities.ReturnAndReplacementActivity"
             android:label="@string/title_activity_return_and_replacement"
+            android:windowSoftInputMode="stateHidden"
             android:theme="@style/AppTheme.NoActionBar.NoActionBar" />
 
         <service android:name=".services.MyMessagingService">

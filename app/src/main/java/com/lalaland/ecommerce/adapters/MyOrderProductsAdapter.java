@@ -79,14 +79,14 @@ public class MyOrderProductsAdapter extends RecyclerView.Adapter<MyOrderProducts
         void bindHolder(OrderProduct orderProduct) {
 
             pVariation = orderProduct.getProductVariationDescription();
-            variation = pVariation.split("[|]", 6);
 
+            variation = pVariation.split("[|]", 6);
             variationTitle = variation[0].split(",");
 
             if (variation.length > 0)
                 variationValue = variation[variation.length - 1].split(",");
 
-            if (variationTitle[0].equalsIgnoreCase("Size")) {
+            if (variationTitle[0].toLowerCase().contains("size")) {
                 mOrderProductItemBinding.tvProductSize.setText(variationValue[0]);
             } else {
                 mOrderProductItemBinding.tvProductSize.setText(variationValue[1]);

@@ -168,6 +168,7 @@ public class SigninFragment extends BaseRegistrationFragment implements LoadingL
                         appPreference.setString(DATE_OF_BIRTH, login.getData().getUser().getDateOfBirth());
                         appPreference.setString(PHONE_NUMBER, login.getData().getUser().getPhone());
                         appPreference.setString(GENDER, login.getData().getUser().getGender());
+                        appPreference.setString(AppConstants.EMAIL, login.getData().getUser().getEmail());
 
                         if (user.getAvatar() != null)
                             appPreference.setString(USER_AVATAR, user.getAvatar().toString());
