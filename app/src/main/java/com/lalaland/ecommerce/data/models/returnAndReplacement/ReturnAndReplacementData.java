@@ -1,110 +1,88 @@
 package com.lalaland.ecommerce.data.models.returnAndReplacement;
 
-import java.util.List;
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
 import com.lalaland.ecommerce.data.models.order.details.OrderProduct;
 
+import java.util.List;
+
 public class ReturnAndReplacementData {
 
-@SerializedName("order_product")
-@Expose
-private OrderProduct orderProduct;
-@SerializedName("product_attributes")
-@Expose
-private List<ProductAttribute> productAttributes = null;
-@SerializedName("link_products")
-@Expose
-private List<LinkProduct> linkProducts = null;
-@SerializedName("ordered_attribute_value_id")
-@Expose
-private Integer orderedAttributeValueId;
-@SerializedName("ordered_attribute_value_primary_key")
-@Expose
-private Integer orderedAttributeValuePrimaryKey;
-@SerializedName("return_type_id")
-@Expose
-private String returnTypeId;
-@SerializedName("return_reasons")
-@Expose
-private List<String> returnReasons = null;
-@SerializedName("replacement_type_id")
-@Expose
-private String replacementTypeId;
-@SerializedName("replacement_reasons")
-@Expose
-private List<ReplacementReason> replacementReasons = null;
+    @SerializedName("order_product")
+    @Expose
+    private OrderProduct orderProduct;
+    @SerializedName("product_attributes")
+    @Expose
+    private List<ProductAttribute> productAttributes = null;
+    @SerializedName("link_products")
+    @Expose
+    private List<LinkProduct> linkProducts = null;
+    @SerializedName("ordered_attribute_value_id")
+    @Expose
+    private Integer orderedColor;
+    @SerializedName("ordered_attribute_value_primary_key")
+    @Expose
+    private Integer orderedSize;
+    @SerializedName("return_reasons")
+    @Expose
+    private List<ReturnReason> returnReasons = null;
+    @SerializedName("replacement_reasons")
+    @Expose
+    private List<ReplacementReason> replacementReasons = null;
 
-public OrderProduct getOrderProduct() {
-return orderProduct;
-}
+    public OrderProduct getOrderProduct() {
+        return orderProduct;
+    }
 
-public void setOrderProduct(OrderProduct orderProduct) {
-this.orderProduct = orderProduct;
-}
+    public void setOrderProduct(OrderProduct orderProduct) {
+        this.orderProduct = orderProduct;
+    }
 
-public List<ProductAttribute> getProductAttributes() {
-return productAttributes;
-}
+    public List<ProductAttribute> getProductAttributes() {
+        return productAttributes;
+    }
 
-public void setProductAttributes(List<ProductAttribute> productAttributes) {
-this.productAttributes = productAttributes;
-}
+    public void setProductAttributes(List<ProductAttribute> productAttributes) {
+        this.productAttributes = productAttributes;
+    }
 
-public List<LinkProduct> getLinkProducts() {
-return linkProducts;
-}
+    public List<LinkProduct> getLinkProducts() {
+        return linkProducts;
+    }
 
-public void setLinkProducts(List<LinkProduct> linkProducts) {
-this.linkProducts = linkProducts;
-}
+    public void setLinkProducts(List<LinkProduct> linkProducts) {
+        this.linkProducts = linkProducts;
+    }
 
-public Integer getOrderedAttributeValueId() {
-return orderedAttributeValueId;
-}
+    public Integer getOrderedAttributeValueId() {
+        return orderedColor;
+    }
 
-public void setOrderedAttributeValueId(Integer orderedAttributeValueId) {
-this.orderedAttributeValueId = orderedAttributeValueId;
-}
+    public void setOrderedAttributeValueId(Integer orderedAttributeValueId) {
+        this.orderedColor = orderedAttributeValueId;
+    }
 
-public Integer getOrderedAttributeValuePrimaryKey() {
-return orderedAttributeValuePrimaryKey;
-}
+    public Integer getOrderedAttributeValuePrimaryKey() {
+        return orderedSize;
+    }
 
-public void setOrderedAttributeValuePrimaryKey(Integer orderedAttributeValuePrimaryKey) {
-this.orderedAttributeValuePrimaryKey = orderedAttributeValuePrimaryKey;
-}
+    public void setOrderedAttributeValuePrimaryKey(Integer orderedAttributeValuePrimaryKey) {
+        this.orderedSize = orderedAttributeValuePrimaryKey;
+    }
 
-public String getReturnTypeId() {
-return returnTypeId;
-}
+    public List<ReturnReason> getReturnReasons() {
+        return returnReasons;
+    }
 
-public void setReturnTypeId(String returnTypeId) {
-this.returnTypeId = returnTypeId;
-}
+    public void setReturnReasons(List<ReturnReason> returnReasons) {
+        this.returnReasons = returnReasons;
+    }
 
-public List<String> getReturnReasons() {
-return returnReasons;
-}
+    public List<ReplacementReason> getReplacementReasons() {
+        return replacementReasons;
+    }
 
-public void setReturnReasons(List<String> returnReasons) {
-this.returnReasons = returnReasons;
-}
-
-public String getReplacementTypeId() {
-return replacementTypeId;
-}
-
-public void setReplacementTypeId(String replacementTypeId) {
-this.replacementTypeId = replacementTypeId;
-}
-
-public List<ReplacementReason> getReplacementReasons() {
-return replacementReasons;
-}
-
-public void setReplacementReasons(List<ReplacementReason> replacementReasons) {
-this.replacementReasons = replacementReasons;
-}
-
+    public void setReplacementReasons(List<ReplacementReason> replacementReasons) {
+        this.replacementReasons = replacementReasons;
+    }
 }

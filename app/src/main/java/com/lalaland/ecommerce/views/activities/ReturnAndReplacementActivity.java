@@ -5,7 +5,6 @@ import android.content.Intent;
 import android.graphics.Color;
 import android.net.Uri;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
@@ -13,6 +12,8 @@ import android.widget.ArrayAdapter;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.databinding.DataBindingUtil;
 import androidx.lifecycle.ViewModelProviders;
@@ -26,14 +27,14 @@ import com.lalaland.ecommerce.data.models.order.details.OrderProduct;
 import com.lalaland.ecommerce.data.models.returnAndReplacement.LinkProduct;
 import com.lalaland.ecommerce.data.models.returnAndReplacement.ProductAttribute;
 import com.lalaland.ecommerce.data.models.returnAndReplacement.ReplacementReason;
+import com.lalaland.ecommerce.data.models.returnAndReplacement.ReturnAndReplacementData;
+import com.lalaland.ecommerce.data.models.returnAndReplacement.ReturnReason;
 import com.lalaland.ecommerce.databinding.ActivityReturnAndReplacementBinding;
 import com.lalaland.ecommerce.helpers.AppUtils;
 import com.lalaland.ecommerce.viewModels.returnAndReplacement.ReturnAndReplacementViewModel;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.regex.Matcher;
-import java.util.regex.Pattern;
 
 import static com.lalaland.ecommerce.helpers.AppConstants.CLAIM_TYPE;
 import static com.lalaland.ecommerce.helpers.AppConstants.PRODUCT_STORAGE_BASE_URL;
@@ -51,6 +52,7 @@ public class ReturnAndReplacementActivity extends AppCompatActivity implements R
     private List<String> sizeList = new ArrayList<>();
     private List<String> uris = new ArrayList<>();
     private List<ReplacementReason> replacementReasonList = new ArrayList<>();
+    private List<ReturnReason> returnReasonsList = new ArrayList<>();
     private List<LinkProduct> linkProducts = new ArrayList<>();
     private List<ProductAttribute> productAttributes = new ArrayList<>();
     private ArrayAdapter<String> adapter, colorAdapter, sizeAdapter;
@@ -59,9 +61,10 @@ public class ReturnAndReplacementActivity extends AppCompatActivity implements R
     private String[] variation;
     private String[] variationTitle;
     private String[] variationValue;
-
-    Pattern pattern = Pattern.compile("(||---||)");
-    Matcher matcher;
+    private boolean isBothVisible = false;
+    private boolean isSameColorSelected = false;
+    private String sizeDisable = "-1";
+    private ReturnAndReplacementData returnAndReplacementData;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -72,7 +75,6 @@ public class ReturnAndReplacementActivity extends AppCompatActivity implements R
         returnAndReplacementViewModel = ViewModelProviders.of(this).get(ReturnAndReplacementViewModel.class);
 
         getRRData();
-        initRRSpinner();
 
         activityReturnAndReplacementBinding.rgClaim.setOnCheckedChangeListener((group, checkedId) -> {
 
@@ -85,6 +87,8 @@ public class ReturnAndReplacementActivity extends AppCompatActivity implements R
             initRRSpinner();
 
         });
+
+        activityReturnAndReplacementBinding.btnBack.setOnClickListener(v -> onBackPressed());
     }
 
     private void getRRData() {
@@ -95,45 +99,61 @@ public class ReturnAndReplacementActivity extends AppCompatActivity implements R
 
                 if (returnAndReplacementDataContainer.getCode().equals(SUCCESS_CODE)) {
 
-                    showProductDetail(returnAndReplacementDataContainer.getData().getOrderProduct());
+                    returnAndReplacementData = returnAndReplacementDataContainer.getData();
+
+                    showProductDetail(returnAndReplacementData.getOrderProduct());
                     setRRImageAdapter();
 
                     // return
-                    returnReasons = returnAndReplacementDataContainer.getData().getReturnReasons();
-                    returnReasons.add(0, "Return  Reasons");
+                    returnReasonsList = returnAndReplacementData.getReturnReasons();
+                    ReturnReason returnReason = new ReturnReason();
+                    returnReason.setClaimType("0");
+                    returnReason.setShowColor(false);
+                    returnReason.setShowSize(false);
+                    returnReason.setText("Select Reason");
+                    returnReasonsList.add(0, returnReason);
+
+                    for (int i = 0; i < returnReasonsList.size(); i++) {
+                        returnReasons.add(returnReasonsList.get(i).getText());
+                    }
 
                     // replacement
-                    replacementReasonList = returnAndReplacementDataContainer.getData().getReplacementReasons();
+                    replacementReasonList = returnAndReplacementData.getReplacementReasons();
                     ReplacementReason replacementReason = new ReplacementReason();
                     replacementReason.setShowColor(false);
                     replacementReason.setShowSize(false);
-                    replacementReason.setText("Replacement Reasons");
+                    replacementReason.setText("Select Reason");
                     replacementReasonList.add(0, replacementReason);
 
                     for (int i = 0; i < replacementReasonList.size(); i++) {
                         replacementReasons.add(replacementReasonList.get(i).getText());
                     }
 
-                    adapter.notifyDataSetChanged();
-                  //  initRRSpinner();
+                    initRRSpinner();
 
                     // color
-                    linkProducts = returnAndReplacementDataContainer.getData().getLinkProducts();
+                    linkProducts = returnAndReplacementData.getLinkProducts();
                     for (int i = 0; i < linkProducts.size(); i++) {
-                        colorList.add(linkProducts.get(i).getAttributeValueName());
+                        colorList.add(linkProducts.get(i).getColorName());
                     }
                     colorList.add(0, "Color");
                     initColorSpinner();
 
                     // size
-                    productAttributes = returnAndReplacementDataContainer.getData().getProductAttributes();
+                    productAttributes = returnAndReplacementData.getProductAttributes();
                     for (int i = 0; i < productAttributes.size(); i++) {
-                        sizeList.add(productAttributes.get(i).getAttributeValueName());
+                        sizeList.add(productAttributes.get(i).getSizeName());
                     }
 
                     sizeList.add(0, "Size");
                     initSizeSpinner();
 
+                    activityReturnAndReplacementBinding.svClaim.setVisibility(View.VISIBLE);
+                    activityReturnAndReplacementBinding.pbLoading.setVisibility(View.GONE);
+
+                    activityReturnAndReplacementBinding.btnSubmitClaim.setOnClickListener(v -> {
+                        Toast.makeText(this, "submit claim", Toast.LENGTH_SHORT).show();
+                    });
                 } else {
                     Toast.makeText(this, returnAndReplacementDataContainer.getMsg(), Toast.LENGTH_SHORT).show();
                 }
@@ -153,7 +173,7 @@ public class ReturnAndReplacementActivity extends AppCompatActivity implements R
 
         activityReturnAndReplacementBinding.tvProductName.setText(orderProduct.getName());
         activityReturnAndReplacementBinding.tvPrice.setText(AppUtils.formatPriceString(orderProduct.getSalePrice()));
-        //activityReturnAndReplacementBinding.tvProductSize.setText(orderProduct.si);
+        activityReturnAndReplacementBinding.tvProductQty.setText(AppUtils.toString(orderProduct.getItemQuantity()));
 
         pVariation = orderProduct.getProductVariationDescription();
         variation = pVariation.split("[|]", 6);
@@ -198,12 +218,9 @@ public class ReturnAndReplacementActivity extends AppCompatActivity implements R
                 @Override
                 public boolean isEnabled(int position) {
                     // TODO Auto-generated method stub
-
-                    Log.d("enable:", "isEnabled: " + position + " : " + replacementReasons.get(position).toLowerCase());
-
-                    if (replacementReasons.get(position).toLowerCase().contains("color")) {
+                    if (replacementReasons.get(position).toLowerCase().contains("color") && linkProducts.size() <= 1) {
                         return false;
-                    } else if (replacementReasons.get(position).toLowerCase().contains("size")) {
+                    } else if (replacementReasons.get(position).toLowerCase().contains("size") && productAttributes.size() <= 1) {
                         return false;
                     } else {
                         return true;
@@ -218,22 +235,22 @@ public class ReturnAndReplacementActivity extends AppCompatActivity implements R
                     View mView = super.getDropDownView(position, convertView, parent);
                     TextView mTextView = (TextView) mView;
 
-                    if (position != 0) {
-                        if (replacementReasons.get(position).toLowerCase().contains("color")) {
-                            if (linkProducts.size() > 1)
-                                mTextView.setTextColor(Color.BLACK);
-                            else
-                                mTextView.setTextColor(Color.GRAY);
+                    if (replacementReasons.get(position).toLowerCase().contains("color") && linkProducts.size() <= 1) {
+                        mTextView.setTextColor(Color.GRAY);
 
-                        } else if (replacementReasons.get(position).toLowerCase().contains("size")) {
-
-                            if (productAttributes.size() > 1)
-                                mTextView.setTextColor(Color.BLACK);
-                            else
-                                mTextView.setTextColor(Color.GRAY);
-                        }
+                    } else if (replacementReasons.get(position).toLowerCase().contains("color") && linkProducts.size() > 1) {
+                        mTextView.setTextColor(Color.BLACK);
                     }
 
+                    if (replacementReasons.get(position).toLowerCase().contains("size") && productAttributes.size() <= 1)
+                        mTextView.setTextColor(Color.GRAY);
+                    else if (replacementReasons.get(position).toLowerCase().contains("size") && productAttributes.size() > 1)
+                        mTextView.setTextColor(Color.BLACK);
+
+                    if (replacementReasons.get(position).toLowerCase().contains("color & size")) {
+                        if (linkProducts.size() <= 1 || productAttributes.size() <= 1)
+                            mTextView.setTextColor(Color.GRAY);
+                    }
                     return mView;
                 }
             };
@@ -248,6 +265,9 @@ public class ReturnAndReplacementActivity extends AppCompatActivity implements R
                 @Override
                 public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
 
+                    initColorSpinner();
+                    initSizeSpinner();
+
                     if (position != 0) {
 
                         if (replacementReasonList.get(position).getShowColor() && replacementReasonList.get(position).getShowSize()) {
@@ -255,23 +275,37 @@ public class ReturnAndReplacementActivity extends AppCompatActivity implements R
                             activityReturnAndReplacementBinding.spColor.setVisibility(View.VISIBLE);
                             activityReturnAndReplacementBinding.spSize.setVisibility(View.VISIBLE);
 
+                            activityReturnAndReplacementBinding.spSize.setEnabled(false);
+
+
+                            isBothVisible = true;
+
                         } else if (replacementReasonList.get(position).getShowColor() && !replacementReasonList.get(position).getShowSize()) {
 
                             activityReturnAndReplacementBinding.spColor.setVisibility(View.VISIBLE);
                             activityReturnAndReplacementBinding.spSize.setVisibility(View.GONE);
 
+                            isBothVisible = false;
                         } else if (!replacementReasonList.get(position).getShowColor() && replacementReasonList.get(position).getShowSize()) {
 
                             activityReturnAndReplacementBinding.spSize.setVisibility(View.VISIBLE);
                             activityReturnAndReplacementBinding.spColor.setVisibility(View.GONE);
+                            activityReturnAndReplacementBinding.spSize.setEnabled(true);
+
+
+                            isBothVisible = false;
+
                         } else {
                             activityReturnAndReplacementBinding.spColor.setVisibility(View.GONE);
                             activityReturnAndReplacementBinding.spSize.setVisibility(View.GONE);
+                            isBothVisible = false;
+
                         }
 
                     } else {
                         activityReturnAndReplacementBinding.spColor.setVisibility(View.GONE);
                         activityReturnAndReplacementBinding.spSize.setVisibility(View.GONE);
+                        isBothVisible = false;
                     }
                 }
 
@@ -279,6 +313,7 @@ public class ReturnAndReplacementActivity extends AppCompatActivity implements R
                 public void onNothingSelected(AdapterView<?> parent) {
                     activityReturnAndReplacementBinding.spColor.setVisibility(View.GONE);
                     activityReturnAndReplacementBinding.spSize.setVisibility(View.GONE);
+                    isBothVisible = false;
                 }
             });
         }
@@ -289,20 +324,152 @@ public class ReturnAndReplacementActivity extends AppCompatActivity implements R
 
         activityReturnAndReplacementBinding.spColor.setPrompt("Colors");
 
-        colorAdapter = new ArrayAdapter<>(this, android.R.layout.simple_spinner_item, colorList);
+        colorAdapter = new ArrayAdapter<String>(this, R.layout.spiner_item, colorList) {
+            @Override
+            public boolean isEnabled(int position) {
+
+                if (position != 0) {
+
+                    if (isBothVisible)
+                        return true;
+                    else {
+
+                        if (linkProducts.get(position - 1).getColorKey().equals(returnAndReplacementData.getOrderedAttributeValuePrimaryKey()))
+                            return false;
+                        else
+                            return true;
+                    }
+                } else
+                    return true;
+
+            }
+
+            @Override
+            public View getDropDownView(int position, @Nullable View convertView, @NonNull ViewGroup parent) {
+
+                View mView = super.getDropDownView(position, convertView, parent);
+                TextView mTextView = (TextView) mView;
+
+                if (position != 0) {
+                    if (isBothVisible)
+                        mTextView.setTextColor(Color.BLACK);
+                    else {
+
+                        // because we have added color object
+                        if (linkProducts.get(position - 1).getColorKey().equals(returnAndReplacementData.getOrderedAttributeValuePrimaryKey()))
+                            mTextView.setTextColor(Color.GRAY);
+                        else
+                            mTextView.setTextColor(Color.BLACK);
+                    }
+
+                } else
+                    mTextView.setTextColor(Color.BLACK);
+
+
+                return mView;
+
+            }
+        };
 
         colorAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         activityReturnAndReplacementBinding.spColor.setAdapter(colorAdapter);
+
+        activityReturnAndReplacementBinding.spColor.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+
+                isSameColorSelected = false;
+
+                if (position > 0)
+                    activityReturnAndReplacementBinding.spSize.setEnabled(true);
+                else
+                    activityReturnAndReplacementBinding.spSize.setEnabled(false);
+
+                if (isBothVisible) {
+
+                    String colorName = colorList.get(position);
+                    Integer selectedColorId = -1;
+
+                    for (int i = 0; i < linkProducts.size(); i++) {
+                        if (linkProducts.get(i).getColorName().equals(colorName))
+                            selectedColorId = linkProducts.get(i).getColorKey();
+                    }
+
+                    if (selectedColorId.equals(returnAndReplacementData.getOrderedAttributeValuePrimaryKey()))
+                        isSameColorSelected = true;
+                }
+
+                initSizeSpinner();
+            }
+
+            @Override
+            public void onNothingSelected(AdapterView<?> parent) {
+
+            }
+        });
     }
 
     private void initSizeSpinner() {
 
         activityReturnAndReplacementBinding.spSize.setPrompt("Sizes");
 
-        sizeAdapter = new ArrayAdapter<>(this, android.R.layout.simple_spinner_item, sizeList);
+        sizeAdapter = new ArrayAdapter<String>(this, android.R.layout.simple_spinner_item, sizeList) {
+            @Override
+            public boolean isEnabled(int position) {
+
+                if (position != 0) {
+                    if (isBothVisible) {
+
+                        if (isSameColorSelected) {
+                            return !productAttributes.get(position - 1).getSizeId().equals(returnAndReplacementData.getOrderedAttributeValueId());
+                        }
+
+                        return true;
+                    } else {
+
+                        if (productAttributes.get(position - 1).getSizeId().equals(returnAndReplacementData.getOrderedAttributeValueId()))
+                            return false;
+                    }
+                } else
+                    return true;
+
+
+                return true;
+            }
+
+            @Override
+            public View getDropDownView(int position, @Nullable View convertView, @NonNull ViewGroup parent) {
+                View mView = super.getDropDownView(position, convertView, parent);
+                TextView mTextView = (TextView) mView;
+
+                if (position != 0) {
+
+                    if (isBothVisible) {
+
+                        if (isSameColorSelected) {
+                            if (productAttributes.get(position - 1).getSizeId().equals(returnAndReplacementData.getOrderedAttributeValueId()))
+                                mTextView.setTextColor(Color.GRAY);
+                            else
+                                mTextView.setTextColor(Color.BLACK);
+                        } else
+                            mTextView.setTextColor(Color.BLACK);
+
+
+                    } else {
+                        if (productAttributes.get(position - 1).getSizeId().equals(returnAndReplacementData.getOrderedAttributeValueId())) {
+                            mTextView.setTextColor(Color.GRAY);
+                        } else {
+                            mTextView.setTextColor(Color.BLACK);
+                        }
+                    }
+                }
+                return mView;
+            }
+        };
 
         sizeAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         activityReturnAndReplacementBinding.spSize.setAdapter(sizeAdapter);
+
     }
 
     @Override

@@ -3,7 +3,7 @@ package com.lalaland.ecommerce.data.models.returnAndReplacement;
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
 
-public class ReplacementReason {
+public class ReturnReason {
 
     @SerializedName("text")
     @Expose
@@ -49,4 +49,5 @@ public class ReplacementReason {
     public void setClaimType(String claimType) {
         this.claimType = claimType;
     }
+
 }

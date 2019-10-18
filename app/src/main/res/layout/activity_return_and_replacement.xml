@@ -47,9 +47,12 @@
         </RelativeLayout>
 
         <androidx.core.widget.NestedScrollView
+
+            android:id="@+id/sv_claim"
             android:layout_width="match_parent"
             android:layout_height="0dp"
             android:padding="@dimen/_8dp"
+            android:visibility="gone"
             app:layout_constraintBottom_toTopOf="@+id/claim_product_images_container"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
@@ -137,7 +140,7 @@
                         android:textColor="@android:color/black"
                         android:textSize="14sp"
                         app:layout_constraintStart_toStartOf="@+id/tv_product_name_title"
-                        app:layout_constraintTop_toBottomOf="@+id/tv_product_name_title" />
+                        app:layout_constraintTop_toBottomOf="@+id/tv_product_name" />
 
                     <TextView
 
@@ -368,11 +371,12 @@
             app:layout_constraintStart_toStartOf="parent" />
 
         <ProgressBar
+
+            android:id="@+id/pb_loading"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:background="@drawable/bg_round_corner_pb"
             android:padding="@dimen/_16dp"
-            android:visibility="gone"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"

@@ -38,5 +38,4 @@ public class ReturnAndReplacementDataContainer {
     public void setData(ReturnAndReplacementData data) {
         this.data = data;
     }
-
 }

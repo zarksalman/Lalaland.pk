@@ -5,38 +5,37 @@ import com.google.gson.annotations.SerializedName;
 
 public class LinkProduct {
 
-@SerializedName("attribute_value_primary_key")
-@Expose
-private Integer attributeValuePrimaryKey;
-@SerializedName("attribute_value_name")
-@Expose
-private String attributeValueName;
-@SerializedName("product_id")
-@Expose
-private Integer productId;
+    @SerializedName("attribute_value_primary_key")
+    @Expose
+    private Integer colorKey;
+    @SerializedName("attribute_value_name")
+    @Expose
+    private String colorName;
+    @SerializedName("product_id")
+    @Expose
+    private Integer productId;
 
-public Integer getAttributeValuePrimaryKey() {
-return attributeValuePrimaryKey;
-}
+    public Integer getColorKey() {
+        return colorKey;
+    }
 
-public void setAttributeValuePrimaryKey(Integer attributeValuePrimaryKey) {
-this.attributeValuePrimaryKey = attributeValuePrimaryKey;
-}
+    public void setColorKey(Integer attributeValuePrimaryKey) {
+        this.colorKey = attributeValuePrimaryKey;
+    }
 
-public String getAttributeValueName() {
-return attributeValueName;
-}
+    public String getColorName() {
+        return colorName;
+    }
 
-public void setAttributeValueName(String attributeValueName) {
-this.attributeValueName = attributeValueName;
-}
+    public void setSizeName(String attributeValueName) {
+        this.colorName = attributeValueName;
+    }
 
-public Integer getProductId() {
-return productId;
-}
+    public Integer getProductId() {
+        return productId;
+    }
 
-public void setProductId(Integer productId) {
-this.productId = productId;
-}
-
+    public void setProductId(Integer productId) {
+        this.productId = productId;
+    }
 }
