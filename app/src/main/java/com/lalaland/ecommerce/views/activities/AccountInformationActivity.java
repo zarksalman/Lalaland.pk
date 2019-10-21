@@ -27,11 +27,9 @@ import com.lalaland.ecommerce.helpers.AppUtils;
 import com.lalaland.ecommerce.viewModels.user.UserViewModel;
 
 import java.io.File;
-import java.io.IOException;
 import java.util.HashMap;
 import java.util.Map;
 
-import id.zelory.compressor.Compressor;
 import okhttp3.MediaType;
 import okhttp3.MultipartBody;
 import okhttp3.RequestBody;
@@ -201,11 +199,13 @@ public class AccountInformationActivity extends AppCompatActivity {
 
         File imageFile = AppUtils.getFile(this, uri);
 
-        try {
+/*        try {
             imageFile = new Compressor(this).setQuality(100).compressToFile(imageFile);
         } catch (IOException e) {
             e.printStackTrace();
-        }
+        }*/
+
+        imageFile = AppUtils.saveBitmapToFile(imageFile);
 
         // create RequestBody instance from file
         RequestBody filePart = RequestBody.create(

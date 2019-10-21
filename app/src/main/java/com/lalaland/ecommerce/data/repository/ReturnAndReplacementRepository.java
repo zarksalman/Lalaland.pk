@@ -4,6 +4,7 @@ import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MutableLiveData;
 
 import com.lalaland.ecommerce.data.dao.SearchCategoryDao;
+import com.lalaland.ecommerce.data.models.logout.BasicResponse;
 import com.lalaland.ecommerce.data.models.returnAndReplacement.ReturnAndReplacementDataContainer;
 import com.lalaland.ecommerce.data.retrofit.LalalandServiceApi;
 import com.lalaland.ecommerce.data.retrofit.RetrofitClient;
@@ -12,8 +13,11 @@ import com.lalaland.ecommerce.helpers.AppPreference;
 import com.lalaland.ecommerce.helpers.AppUtils;
 
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
+import okhttp3.MultipartBody;
+import okhttp3.RequestBody;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
@@ -30,6 +34,7 @@ public class ReturnAndReplacementRepository {
     static Map<String, String> userInfo = new HashMap<>();
 
     private MutableLiveData<ReturnAndReplacementDataContainer> returnAndReplacementDataContainerMutableLiveData;
+    private MutableLiveData<BasicResponse> basicResponseMutableLiveData;
 
     private SearchCategoryDao searchCategoryDao;
 
@@ -97,5 +102,31 @@ public class ReturnAndReplacementRepository {
         });
 
         return returnAndReplacementDataContainerMutableLiveData;
+    }
+
+    public LiveData<BasicResponse> newClaimPost(List<MultipartBody.Part> claimImages, Map<String, String> parameter) {
+
+        setUserInfo();
+        basicResponseMutableLiveData = new MutableLiveData<>();
+
+        lalalandServiceApi.newClaimPost(userInfo, claimImages, parameter).enqueue(new Callback<BasicResponse>() {
+            @Override
+            public void onResponse(Call<BasicResponse> call, Response<BasicResponse> response) {
+
+                if (response.isSuccessful()) {
+                    basicResponseMutableLiveData.postValue(response.body());
+                } else {
+                    basicResponseMutableLiveData.postValue(null);
+                }
+
+            }
+
+            @Override
+            public void onFailure(Call<BasicResponse> call, Throwable t) {
+                basicResponseMutableLiveData.postValue(null);
+            }
+        });
+
+        return basicResponseMutableLiveData;
     }
 }

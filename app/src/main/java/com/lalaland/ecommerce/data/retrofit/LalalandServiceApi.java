@@ -25,6 +25,7 @@ import com.lalaland.ecommerce.data.models.userAddressBook.AddressDataContainer;
 import com.lalaland.ecommerce.data.models.voucher.VoucherDataContainer;
 import com.lalaland.ecommerce.data.models.wishList.WishListContainer;
 
+import java.util.List;
 import java.util.Map;
 
 import io.reactivex.Single;
@@ -178,4 +179,8 @@ public interface LalalandServiceApi {
     //*********************************************** Return and replacement starts here****************************************
     @POST("newClaim")
     Call<ReturnAndReplacementDataContainer> createNewClaim(@HeaderMap Map<String, String> header, @Query("order_product_id") String order_product_id);
+
+    @Multipart
+    @POST("newClaimPost")
+    Call<BasicResponse> newClaimPost(@HeaderMap Map<String, String> headers, @Part List<MultipartBody.Part> claimImages, @QueryMap Map<String, String> parameters);
 }
