@@ -6,7 +6,6 @@ import android.content.Intent;
 import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
 import android.os.CountDownTimer;
-import android.os.Handler;
 import android.os.Parcelable;
 import android.text.Editable;
 import android.text.SpannableString;
@@ -769,8 +768,6 @@ public class CheckoutScreen extends AppCompatActivity implements NetworkInterfac
                 }
             }
 
-            new Handler().postDelayed(() -> {
-
                 AppUtils.unBlockUi(CheckoutScreen.this);
                 otpDialogueBinding.pbLoading.setVisibility(View.GONE);
                 activityCheckoutScreenBinding.pbLoading.setVisibility(View.GONE);
@@ -795,8 +792,6 @@ public class CheckoutScreen extends AppCompatActivity implements NetworkInterfac
 
                     placeOrder();
                 });
-
-            }, 2000);
 
         });
     }

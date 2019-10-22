@@ -26,6 +26,7 @@ import com.lalaland.ecommerce.viewModels.user.LoginViewModel;
 import com.lalaland.ecommerce.views.activities.AccountInformationActivity;
 import com.lalaland.ecommerce.views.activities.ChangeShippingAddress;
 import com.lalaland.ecommerce.views.activities.ContactUsActivity;
+import com.lalaland.ecommerce.views.activities.MyClaims;
 import com.lalaland.ecommerce.views.activities.OrderListingActivity;
 import com.lalaland.ecommerce.views.activities.RegistrationActivity;
 import com.lalaland.ecommerce.views.activities.WebViewActivity;
@@ -114,6 +115,7 @@ public class AccountFragment extends Fragment implements View.OnClickListener {
         fragmentAccountBinding.tvUserName.setOnClickListener(this);
         fragmentAccountBinding.ivDisplayPicture.setOnClickListener(this);
 
+        fragmentAccountBinding.claim.setOnClickListener(this);
         fragmentAccountBinding.blog.setOnClickListener(this);
         fragmentAccountBinding.shippingAddress.setOnClickListener(this);
         fragmentAccountBinding.appSuggestion.setOnClickListener(this);
@@ -238,6 +240,10 @@ public class AccountFragment extends Fragment implements View.OnClickListener {
                 } else {
                     logoutUser();
                 }
+                break;
+
+            case R.id.claim:
+                startActivity(new Intent(getContext(), MyClaims.class));
                 break;
 
             case R.id.blog:

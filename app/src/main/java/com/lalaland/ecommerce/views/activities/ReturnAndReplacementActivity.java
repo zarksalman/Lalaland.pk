@@ -35,11 +35,11 @@ import com.bumptech.glide.Glide;
 import com.lalaland.ecommerce.R;
 import com.lalaland.ecommerce.adapters.RRProductImageAdapter;
 import com.lalaland.ecommerce.data.models.order.details.OrderProduct;
-import com.lalaland.ecommerce.data.models.returnAndReplacement.LinkProduct;
-import com.lalaland.ecommerce.data.models.returnAndReplacement.ProductAttribute;
-import com.lalaland.ecommerce.data.models.returnAndReplacement.ReplacementReason;
-import com.lalaland.ecommerce.data.models.returnAndReplacement.ReturnAndReplacementData;
-import com.lalaland.ecommerce.data.models.returnAndReplacement.ReturnReason;
+import com.lalaland.ecommerce.data.models.returnAndReplacement.createClaimDetail.LinkProduct;
+import com.lalaland.ecommerce.data.models.returnAndReplacement.createClaimDetail.ProductAttribute;
+import com.lalaland.ecommerce.data.models.returnAndReplacement.createClaimDetail.ReplacementReason;
+import com.lalaland.ecommerce.data.models.returnAndReplacement.createClaimDetail.ReturnAndReplacementData;
+import com.lalaland.ecommerce.data.models.returnAndReplacement.createClaimDetail.ReturnReason;
 import com.lalaland.ecommerce.databinding.ActivityReturnAndReplacementBinding;
 import com.lalaland.ecommerce.databinding.ClaimDialogueBinding;
 import com.lalaland.ecommerce.helpers.AppConstants;
@@ -450,7 +450,7 @@ public class ReturnAndReplacementActivity extends AppCompatActivity implements R
 
         activityReturnAndReplacementBinding.spSize.setPrompt("Sizes");
 
-        sizeAdapter = new ArrayAdapter<String>(this, android.R.layout.simple_spinner_item, sizeList) {
+        sizeAdapter = new ArrayAdapter<String>(this, R.layout.spiner_item, sizeList) {
             @Override
             public boolean isEnabled(int position) {
 

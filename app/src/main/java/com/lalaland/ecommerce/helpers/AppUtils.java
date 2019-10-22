@@ -282,6 +282,25 @@ public class AppUtils {
         return claim.equals("2");
     }
 
+    public static String getClaimType(Integer claimType) {
+
+        // null pending,
+        // 0 reject with reason
+        // 1 approved
+
+        if (claimType == null) {
+            return "Pending";
+        }
+        if (claimType == 0) {
+            return "Rejected";
+        } else if (claimType == 1) {
+            return "Approved";
+        } else {
+            return "Pending";
+        }
+    }
+
+
 
 
     public static void hideKeyboard(Activity activity) {

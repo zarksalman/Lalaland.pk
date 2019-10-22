@@ -18,7 +18,8 @@ import com.lalaland.ecommerce.data.models.otp.OtpDataContainer;
 import com.lalaland.ecommerce.data.models.productDetails.ProductDetailDataContainer;
 import com.lalaland.ecommerce.data.models.products.ProductContainer;
 import com.lalaland.ecommerce.data.models.registration.RegistrationContainer;
-import com.lalaland.ecommerce.data.models.returnAndReplacement.ReturnAndReplacementDataContainer;
+import com.lalaland.ecommerce.data.models.returnAndReplacement.claimListing.ClaimListingDataContainer;
+import com.lalaland.ecommerce.data.models.returnAndReplacement.createClaimDetail.ReturnAndReplacementDataContainer;
 import com.lalaland.ecommerce.data.models.updateUserData.UpdateUserDataContainer;
 import com.lalaland.ecommerce.data.models.uploadProfileImage.UploadProfileImageContainer;
 import com.lalaland.ecommerce.data.models.userAddressBook.AddressDataContainer;
@@ -183,4 +184,7 @@ public interface LalalandServiceApi {
     @Multipart
     @POST("newClaimPost")
     Call<BasicResponse> newClaimPost(@HeaderMap Map<String, String> headers, @Part List<MultipartBody.Part> claimImages, @QueryMap Map<String, String> parameters);
+
+    @POST("claims")
+    Call<ClaimListingDataContainer> getClaimsList(@HeaderMap Map<String, String> headers);
 }

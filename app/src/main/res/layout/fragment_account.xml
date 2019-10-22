@@ -328,6 +328,30 @@
 
                     <LinearLayout
 
+                        android:id="@+id/claim"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:orientation="horizontal"
+                        android:padding="@dimen/_16dp">
+
+                        <ImageView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:src="@drawable/refund_icon" />
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginStart="@dimen/_16dp"
+                            android:text="My Claims"
+                            android:textColor="@color/colorDarkGray"
+                            android:textSize="14sp" />
+
+                    </LinearLayout>
+
+
+                    <LinearLayout
+
                         android:id="@+id/blog"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"

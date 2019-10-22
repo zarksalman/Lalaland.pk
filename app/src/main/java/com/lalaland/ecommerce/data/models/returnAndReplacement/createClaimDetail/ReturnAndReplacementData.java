@@ -1,4 +1,4 @@
-package com.lalaland.ecommerce.data.models.returnAndReplacement;
+package com.lalaland.ecommerce.data.models.returnAndReplacement.createClaimDetail;
 
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;

@@ -204,8 +204,14 @@ public class GlobalSearchActivity extends AppCompatActivity implements SearchPro
 
             String qstr = activityGlobalSearchBinding.etGlobalSearch.getText().toString();
 
-            intent = new Intent(this, ActionProductListingActivity.class);
+            SearchCategory historyModel = new SearchCategory();
+            historyModel.setUrlName(qstr);
+            historyModel.setName(qstr);
+            historyModel.setParentId(0);
+            productViewModel.insertSearch(historyModel);
 
+
+            intent = new Intent(this, ActionProductListingActivity.class);
             intent.putExtra("qstr", qstr);
             intent.putExtra(ACTION_ID, String.valueOf(0));
             intent.putExtra(ACTION_NAME, "Search");
@@ -511,13 +517,6 @@ public class GlobalSearchActivity extends AppCompatActivity implements SearchPro
             } else {
 
                 searchCategory = searchParentCategories.get(searchParentCategories.size() - 1).getSearchCategories().get(position);
-
-/*                if (searchParentCategories.size() == 3)
-                    searchCategory = searchParentCategories.get(2).getSearchCategories().get(position);
-                else if (searchParentCategories.size() == 2)
-                    searchCategory = searchParentCategories.get(1).getSearchCategories().get(position);
-                else
-                    searchCategory = searchParentCategories.get(0).getSearchCategories().get(position);*/
             }
 
             intent = new Intent(this, ProductDetailActivity.class);

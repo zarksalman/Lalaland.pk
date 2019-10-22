@@ -5,7 +5,8 @@ import androidx.lifecycle.MutableLiveData;
 
 import com.lalaland.ecommerce.data.dao.SearchCategoryDao;
 import com.lalaland.ecommerce.data.models.logout.BasicResponse;
-import com.lalaland.ecommerce.data.models.returnAndReplacement.ReturnAndReplacementDataContainer;
+import com.lalaland.ecommerce.data.models.returnAndReplacement.claimListing.ClaimListingDataContainer;
+import com.lalaland.ecommerce.data.models.returnAndReplacement.createClaimDetail.ReturnAndReplacementDataContainer;
 import com.lalaland.ecommerce.data.retrofit.LalalandServiceApi;
 import com.lalaland.ecommerce.data.retrofit.RetrofitClient;
 import com.lalaland.ecommerce.helpers.AppConstants;
@@ -17,7 +18,6 @@ import java.util.List;
 import java.util.Map;
 
 import okhttp3.MultipartBody;
-import okhttp3.RequestBody;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
@@ -35,6 +35,7 @@ public class ReturnAndReplacementRepository {
 
     private MutableLiveData<ReturnAndReplacementDataContainer> returnAndReplacementDataContainerMutableLiveData;
     private MutableLiveData<BasicResponse> basicResponseMutableLiveData;
+    private MutableLiveData<ClaimListingDataContainer> claimListingDataContainerMutableLiveData;
 
     private SearchCategoryDao searchCategoryDao;
 
@@ -128,5 +129,29 @@ public class ReturnAndReplacementRepository {
         });
 
         return basicResponseMutableLiveData;
+    }
+
+    public LiveData<ClaimListingDataContainer> getClaimList() {
+
+        setUserInfo();
+        claimListingDataContainerMutableLiveData = new MutableLiveData<>();
+
+        lalalandServiceApi.getClaimsList(userInfo).enqueue(new Callback<ClaimListingDataContainer>() {
+            @Override
+            public void onResponse(Call<ClaimListingDataContainer> call, Response<ClaimListingDataContainer> response) {
+                if (response.isSuccessful()) {
+                    claimListingDataContainerMutableLiveData.postValue(response.body());
+                } else {
+                    claimListingDataContainerMutableLiveData.postValue(null);
+                }
+            }
+
+            @Override
+            public void onFailure(Call<ClaimListingDataContainer> call, Throwable t) {
+                claimListingDataContainerMutableLiveData.postValue(null);
+            }
+        });
+
+        return claimListingDataContainerMutableLiveData;
     }
 }

@@ -143,6 +143,7 @@ public class MainActivity extends AppCompatActivity implements CloseAppListener 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
         activityMainBinding = DataBindingUtil.setContentView(this, R.layout.activity_main);
 
         appPreference = AppPreference.getInstance(this);
