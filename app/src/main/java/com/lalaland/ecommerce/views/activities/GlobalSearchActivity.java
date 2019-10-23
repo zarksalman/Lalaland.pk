@@ -81,7 +81,7 @@ public class GlobalSearchActivity extends AppCompatActivity implements SearchPro
     private List<SearchParentCategory> searchParentCategories = new ArrayList<>();
     private List<SearchCategory> savedSearchCategories = new ArrayList<>();
     private boolean isHistory = true;
-    private boolean isReponseReceive = false;
+    private boolean isFromHistory = false;
     private Intent intent;
     private ImageView imageView;
     private CompositeDisposable disposable = new CompositeDisposable();
@@ -207,9 +207,8 @@ public class GlobalSearchActivity extends AppCompatActivity implements SearchPro
             SearchCategory historyModel = new SearchCategory();
             historyModel.setUrlName(qstr);
             historyModel.setName(qstr);
-            historyModel.setParentId(0);
+            historyModel.setParentId(-3);
             productViewModel.insertSearch(historyModel);
-
 
             intent = new Intent(this, ActionProductListingActivity.class);
             intent.putExtra("qstr", qstr);
@@ -219,6 +218,18 @@ public class GlobalSearchActivity extends AppCompatActivity implements SearchPro
             startActivity(intent);
         }
     }
+
+    private void callHistoryQstr(String qstr) {
+
+        Intent hIntent;
+        hIntent = new Intent(this, ActionProductListingActivity.class);
+        hIntent.putExtra("qstr", qstr);
+        hIntent.putExtra(ACTION_ID, String.valueOf(0));
+        hIntent.putExtra(ACTION_NAME, "Search");
+        hIntent.putExtra(PRODUCT_TYPE, "search_list");
+        startActivity(hIntent);
+    }
+
 
     private void setUserInfo() {
 
@@ -358,7 +369,9 @@ public class GlobalSearchActivity extends AppCompatActivity implements SearchPro
 
     @Override
     public void onSearchProductClicked(int parentId, int position, boolean isHistory) {
+
         onSearchParentProductClicked(parentId, position, isHistory);
+
     }
 
     @Override
@@ -508,6 +521,7 @@ public class GlobalSearchActivity extends AppCompatActivity implements SearchPro
             1- brands (-2)
             2- categories (xxx)
             3- products (-1)
+            3- history qstr (-3)
              */
         if (parentId == -1) {
 
@@ -536,6 +550,13 @@ public class GlobalSearchActivity extends AppCompatActivity implements SearchPro
             intent.putExtra(ACTION_NAME, urlName);
             intent.putExtra(PRODUCT_TYPE, BRANDS_IN_FOCUS_PRODUCTS);
             intent.putExtra(ACTION_ID, String.valueOf(searchCategory.getId()));
+
+        } else if (parentId == -3) {
+
+            searchCategory = savedSearchCategories.get(position);
+            callHistoryQstr(searchCategory.getName());
+            return;
+
         } else {
 
             if (isHistory)

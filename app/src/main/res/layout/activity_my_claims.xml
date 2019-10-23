@@ -15,7 +15,6 @@
             android:layout_height="wrap_content"
             android:layout_alignParentTop="true"
             android:background="@android:color/white"
-            android:elevation="@dimen/_8dp"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent">
@@ -50,20 +49,26 @@
             android:id="@+id/tab_bar"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:minHeight="?attr/actionBarSize"
-            android:textSize="14sp"
             app:layout_constraintEnd_toEndOf="parent"
+            android:layout_marginTop="2dp"
+            android:layout_marginBottom="2dp"
+            android:background="@android:color/white"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/top_bar"
             app:tabIndicatorColor="@color/colorPrimary"
-            app:tabSelectedTextColor="@color/colorPrimary"
-            app:tabTextColor="@color/colorMediumGray" />
+            android:outlineProvider="bounds"
+            app:tabIndicator="@color/colorLightRed"
+            app:tabIndicatorHeight="1dp"
+            app:tabInlineLabel="true"
+            app:tabSelectedTextColor="@color/colorLightRed"
+            app:tabTextAppearance="@style/tab_text"
+            app:tabTextColor="@android:color/black" />
 
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/rv_all_claims"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="@dimen/_8dp"
+            android:paddingTop="@dimen/_8dp"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/tab_bar" />

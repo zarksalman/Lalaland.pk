@@ -8,6 +8,7 @@ import androidx.lifecycle.LiveData;
 
 import com.lalaland.ecommerce.data.models.logout.BasicResponse;
 import com.lalaland.ecommerce.data.models.returnAndReplacement.claimListing.ClaimListingDataContainer;
+import com.lalaland.ecommerce.data.models.returnAndReplacement.claimListingDetail.ClaimDataContainer;
 import com.lalaland.ecommerce.data.models.returnAndReplacement.createClaimDetail.ReturnAndReplacementDataContainer;
 import com.lalaland.ecommerce.data.repository.ReturnAndReplacementRepository;
 import com.lalaland.ecommerce.interfaces.NetworkInterface;
@@ -36,5 +37,9 @@ public class ReturnAndReplacementViewModel extends AndroidViewModel {
 
     public LiveData<ClaimListingDataContainer> getClaimsList() {
         return ReturnAndReplacementRepository.getInstance().getClaimList();
+    }
+
+    public LiveData<ClaimDataContainer> getClaimDetails(String claimId) {
+        return ReturnAndReplacementRepository.getInstance().getClaimDetails(claimId);
     }
 }

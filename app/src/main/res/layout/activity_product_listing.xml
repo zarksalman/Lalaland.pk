@@ -108,7 +108,7 @@
                 app:tabIndicator="@color/colorLightRed"
                 app:tabIndicatorHeight="0dp"
                 app:tabInlineLabel="true"
-                app:tabSelectedTextColor="@android:color/black"
+                app:tabSelectedTextColor="@color/colorDarkGray"
                 app:tabTextAppearance="@style/tab_text"
                 app:tabTextColor="@android:color/black">
 

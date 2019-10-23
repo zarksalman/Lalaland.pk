@@ -47,6 +47,8 @@ import static com.lalaland.ecommerce.helpers.AppConstants.BRAND_STORAGE_BASE_URL
 import static com.lalaland.ecommerce.helpers.AppConstants.BRAND_STORAGE_BASE_URL_KEY;
 import static com.lalaland.ecommerce.helpers.AppConstants.CATEGORY_FOCUS_STORAGE_BASE_URL;
 import static com.lalaland.ecommerce.helpers.AppConstants.CATEGORY_FOCUS_STORAGE_BASE_URL_KEY;
+import static com.lalaland.ecommerce.helpers.AppConstants.CLAIM_STORAGE_BASE_URL;
+import static com.lalaland.ecommerce.helpers.AppConstants.CLAIM_STORAGE_BASE_URL_KEY;
 import static com.lalaland.ecommerce.helpers.AppConstants.CUSTOM_PRODUCT_URL;
 import static com.lalaland.ecommerce.helpers.AppConstants.CUSTOM_PRODUCT_URL_KEY;
 import static com.lalaland.ecommerce.helpers.AppConstants.FAQ_URL;
@@ -205,6 +207,7 @@ public class SplashActivity extends AppCompatActivity implements NetworkInterfac
         THUMBNAIL_PRODUCT_STORAGE_BASE_URL = data.getProductsThumbUrl();
         THUMBNAIL_PRODUCT_STORAGE_BASE_URL = data.getProductsThumbUrl();
         SIZE_CHART_STORAGE_BASE_URL = data.getSizeChartUrl();
+        CLAIM_STORAGE_BASE_URL = data.getClaimUrl();
 
         BRAND_STORAGE_BASE_URL = data.getBrandsUrl();
 
@@ -240,6 +243,7 @@ public class SplashActivity extends AppCompatActivity implements NetworkInterfac
         appPreference.setString(SMALL_PRODUCT_STORAGE_BASE_URL_KEY, SMALL_PRODUCT_STORAGE_BASE_URL);
         appPreference.setString(THUMBNAIL_PRODUCT_STORAGE_BASE_URL_KEY, THUMBNAIL_PRODUCT_STORAGE_BASE_URL);
         appPreference.setString(SIZE_CHART_STORAGE_BASE_URL_KEY, SIZE_CHART_STORAGE_BASE_URL);
+        appPreference.setString(CLAIM_STORAGE_BASE_URL_KEY, CLAIM_STORAGE_BASE_URL);
 
         appPreference.setString(BRAND_STORAGE_BASE_URL_KEY, BRAND_STORAGE_BASE_URL);
         appPreference.setString(BRAND_FOCUS_STORAGE_BASE_URL_KEY, BRAND_FOCUS_STORAGE_BASE_URL);

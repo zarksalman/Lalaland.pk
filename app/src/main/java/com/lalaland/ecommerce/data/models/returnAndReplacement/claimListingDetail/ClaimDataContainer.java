@@ -1,10 +1,9 @@
-package com.lalaland.ecommerce.data.models.productDetails;
+package com.lalaland.ecommerce.data.models.returnAndReplacement.claimListingDetail;
 
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
 
-public class ProductDetailDataContainer {
-
+public class ClaimDataContainer {
 
     @SerializedName("code")
     @Expose
@@ -14,7 +13,7 @@ public class ProductDetailDataContainer {
     private String msg;
     @SerializedName("data")
     @Expose
-    private ProductDetailData data;
+    private ClaimData data;
 
     public String getCode() {
         return code;
@@ -32,11 +31,11 @@ public class ProductDetailDataContainer {
         this.msg = msg;
     }
 
-    public ProductDetailData getData() {
+    public ClaimData getData() {
         return data;
     }
 
-    public void setData(ProductDetailData data) {
+    public void setData(ClaimData data) {
         this.data = data;
     }
 

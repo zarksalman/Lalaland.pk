@@ -227,7 +227,7 @@ public class ReturnAndReplacementActivity extends AppCompatActivity implements R
 
     private void setRRImageAdapter() {
 
-        rrProductImageAdapter = new RRProductImageAdapter(this, this);
+        rrProductImageAdapter = new RRProductImageAdapter(this, false, this);
         rrProductImageAdapter.setData(uris);
         LinearLayoutManager linearLayoutManager = new LinearLayoutManager(this, RecyclerView.HORIZONTAL, false);
         activityReturnAndReplacementBinding.rvProductImages.setLayoutManager(linearLayoutManager);

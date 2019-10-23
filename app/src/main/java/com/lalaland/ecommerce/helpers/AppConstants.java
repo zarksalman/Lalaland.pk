@@ -106,6 +106,7 @@ public class AppConstants {
 
 
     public static String PRODUCT_STORAGE_BASE_URL;
+    public static String CLAIM_STORAGE_BASE_URL;
     public static String MEDIUM_PRODUCT_STORAGE_BASE_URL;
     public static String SMALL_PRODUCT_STORAGE_BASE_URL;
     public static String THUMBNAIL_PRODUCT_STORAGE_BASE_URL;
@@ -121,6 +122,7 @@ public class AppConstants {
     public static String CUSTOM_PRODUCT_URL = "";
 
     public static String PRODUCT_STORAGE_BASE_URL_KEY = "product_storage_base_url_key";
+    public static String CLAIM_STORAGE_BASE_URL_KEY = "claim_storage_base_url_key";
     public static String MEDIUM_PRODUCT_STORAGE_BASE_URL_KEY = "medium_storage_base_url_key";
     public static String SMALL_PRODUCT_STORAGE_BASE_URL_KEY = "small_storage_base_url_key";
     public static String THUMBNAIL_PRODUCT_STORAGE_BASE_URL_KEY = "thumbnail_storage_base_url_key";

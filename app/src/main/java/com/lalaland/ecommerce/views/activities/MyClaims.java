@@ -1,7 +1,10 @@
 package com.lalaland.ecommerce.views.activities;
 
+import android.content.Intent;
+import android.graphics.drawable.GradientDrawable;
 import android.os.Bundle;
 import android.view.View;
+import android.widget.LinearLayout;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.databinding.DataBindingUtil;
@@ -36,6 +39,8 @@ public class MyClaims extends AppCompatActivity {
 
         setTablayout();
         getClaimList();
+
+        activityMyClaimsBinding.btnBack.setOnClickListener(v -> onBackPressed());
     }
 
     private void setTablayout() {
@@ -45,6 +50,16 @@ public class MyClaims extends AppCompatActivity {
         activityMyClaimsBinding.tabBar.addTab(activityMyClaimsBinding.tabBar.newTab().setText("Replacements"));
 
         activityMyClaimsBinding.tabBar.setTabGravity(TabLayout.GRAVITY_FILL);
+
+        View root = activityMyClaimsBinding.tabBar.getChildAt(0);
+        if (root instanceof LinearLayout) {
+            ((LinearLayout) root).setShowDividers(LinearLayout.SHOW_DIVIDER_MIDDLE);
+            GradientDrawable drawable = new GradientDrawable();
+            drawable.setColor(getResources().getColor(R.color.colorMediumGray));
+            drawable.setSize(1, 1);
+
+            ((LinearLayout) root).setDividerDrawable(drawable);
+        }
 
         activityMyClaimsBinding.tabBar.setOnTabSelectedListener(new TabLayout.OnTabSelectedListener() {
             @Override
@@ -100,35 +115,12 @@ public class MyClaims extends AppCompatActivity {
 
         activityMyClaimsBinding.pbLoading.setVisibility(View.VISIBLE);
 
-     /*   for (int i = 0; i < 3; i++) {
-
-            Claim claim = new Claim();
-            claim = claimList.get(0);
-            claim.setApprovalStatus(null);
-            claim.setDisplayName("Pending");
-            claimList.add(claim);
-        }
-
-        for (int i = 0; i < 10; i++) {
-
-            Claim claim = new Claim();
-            claim = claimList.get(0);
-            claim.setApprovalStatus(1);
-            claim.setDisplayName("Return");
-            claimsReturn.add(claim);
-        }
-
-        for (int i = 0; i < 5; i++) {
-
-            Claim claim = new Claim();
-            claim = claimList.get(0);
-            claim.setApprovalStatus(2);
-            claim.setDisplayName("replacement");
-            claimsReplacement.add(claim);
-        }*/
+        Intent intent = new Intent(this, ClaimDetail.class);
 
         claimAdapter = new ClaimAdapter(this, claim -> {
 
+            intent.putExtra("claim_id", String.valueOf(claim.getId()));
+            startActivity(intent);
         });
 
         activityMyClaimsBinding.rvAllClaims.setLayoutManager(new LinearLayoutManager(this, RecyclerView.VERTICAL, false));
@@ -165,4 +157,8 @@ public class MyClaims extends AppCompatActivity {
         }
     }
 
+    @Override
+    public void onBackPressed() {
+        finish();
+    }
 }

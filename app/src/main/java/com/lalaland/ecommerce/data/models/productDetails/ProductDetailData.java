@@ -6,6 +6,7 @@ import com.google.gson.annotations.SerializedName;
 import java.util.List;
 
 public class ProductDetailData {
+
     @SerializedName("recommended_cat")
     @Expose
     private String recommendedCat;
@@ -21,6 +22,9 @@ public class ProductDetailData {
     @SerializedName("product_multimedia")
     @Expose
     private List<ProductMultimedium> productMultimedia = null;
+    @SerializedName("linked_products")
+    @Expose
+    private List<LinkedProduct> linkedProducts = null;
     @SerializedName("fit_and_sizing")
     @Expose
     private List<FitAndSizing> fitAndSizing = null;
@@ -29,7 +33,7 @@ public class ProductDetailData {
     private String sizeChart;
     @SerializedName("product_reviews")
     @Expose
-    private List<ProductReview> productReviews = null;
+    private List<Object> productReviews = null;
     @SerializedName("reviews_count")
     @Expose
     private Integer reviewsCount;
@@ -77,6 +81,14 @@ public class ProductDetailData {
         this.productMultimedia = productMultimedia;
     }
 
+    public List<LinkedProduct> getLinkedProducts() {
+        return linkedProducts;
+    }
+
+    public void setLinkedProducts(List<LinkedProduct> linkedProducts) {
+        this.linkedProducts = linkedProducts;
+    }
+
     public List<FitAndSizing> getFitAndSizing() {
         return fitAndSizing;
     }
@@ -93,11 +105,11 @@ public class ProductDetailData {
         this.sizeChart = sizeChart;
     }
 
-    public List<ProductReview> getProductReviews() {
+    public List<Object> getProductReviews() {
         return productReviews;
     }
 
-    public void setProductReviews(List<ProductReview> productReviews) {
+    public void setProductReviews(List<Object> productReviews) {
         this.productReviews = productReviews;
     }
 
@@ -116,5 +128,4 @@ public class ProductDetailData {
     public void setRatingAverage(Integer ratingAverage) {
         this.ratingAverage = ratingAverage;
     }
-
 }

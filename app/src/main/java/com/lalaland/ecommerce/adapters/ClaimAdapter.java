@@ -2,6 +2,7 @@ package com.lalaland.ecommerce.adapters;
 
 import android.content.Context;
 import android.view.LayoutInflater;
+import android.view.View;
 import android.view.ViewGroup;
 
 import androidx.annotation.NonNull;
@@ -56,6 +57,9 @@ public class ClaimAdapter extends RecyclerView.Adapter<ClaimAdapter.ClaimViewHol
         notifyDataSetChanged();
     }
 
+    public void claimClicked(View view, Claim claim) {
+        mClaimListener.onClaimClicked(claim);
+    }
 
     class ClaimViewHolder extends RecyclerView.ViewHolder {
 

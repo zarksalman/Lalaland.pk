@@ -19,6 +19,7 @@ import com.lalaland.ecommerce.data.models.productDetails.ProductDetailDataContai
 import com.lalaland.ecommerce.data.models.products.ProductContainer;
 import com.lalaland.ecommerce.data.models.registration.RegistrationContainer;
 import com.lalaland.ecommerce.data.models.returnAndReplacement.claimListing.ClaimListingDataContainer;
+import com.lalaland.ecommerce.data.models.returnAndReplacement.claimListingDetail.ClaimDataContainer;
 import com.lalaland.ecommerce.data.models.returnAndReplacement.createClaimDetail.ReturnAndReplacementDataContainer;
 import com.lalaland.ecommerce.data.models.updateUserData.UpdateUserDataContainer;
 import com.lalaland.ecommerce.data.models.uploadProfileImage.UploadProfileImageContainer;
@@ -187,4 +188,7 @@ public interface LalalandServiceApi {
 
     @POST("claims")
     Call<ClaimListingDataContainer> getClaimsList(@HeaderMap Map<String, String> headers);
+
+    @POST("claimDetails")
+    Call<ClaimDataContainer> getClaimDetails(@HeaderMap Map<String, String> headers, @Query("claim_id") String claimId);
 }

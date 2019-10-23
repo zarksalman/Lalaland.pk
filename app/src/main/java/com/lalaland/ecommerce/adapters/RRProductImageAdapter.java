@@ -4,6 +4,7 @@ import android.content.Context;
 import android.graphics.Point;
 import android.view.Display;
 import android.view.LayoutInflater;
+import android.view.View;
 import android.view.ViewGroup;
 import android.view.WindowManager;
 
@@ -29,12 +30,15 @@ public class RRProductImageAdapter extends RecyclerView.Adapter<RecyclerView.Vie
     private LayoutInflater inflater;
     private RRImageListener mRRImageListener;
     private float width = 0;
+    private boolean mIsDetail = false;
 
-    public RRProductImageAdapter(Context context, RRImageListener rrImageListener) {
+    public RRProductImageAdapter(Context context, boolean isDetail, RRImageListener rrImageListener) {
         mContext = context;
         inflater = LayoutInflater.from(context);
         mRRImageListener = rrImageListener;
         width = getScreenWidth();
+
+        mIsDetail = isDetail;
     }
 
     @NonNull
@@ -42,7 +46,7 @@ public class RRProductImageAdapter extends RecyclerView.Adapter<RecyclerView.Vie
     public RecyclerView.ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
 
 
-        if (viewType == 0) {
+        if (viewType == 0 && !mIsDetail) {
 
             productImageRrItemUploaddBinding = DataBindingUtil.inflate(inflater, R.layout.product_image_rr_item_uploadd, parent, false);
             productImageRrItemUploaddBinding.parent.getLayoutParams().width = (int) (width / 5);
@@ -62,7 +66,7 @@ public class RRProductImageAdapter extends RecyclerView.Adapter<RecyclerView.Vie
     public void onBindViewHolder(@NonNull RecyclerView.ViewHolder holder, int position) {
         //City city = filteredCityList.get(position);
 
-        if (position == 0) {
+        if (position == 0 && !mIsDetail) {
 
             RRImageUploadViewHolder rrImageUploadViewHolder = (RRImageUploadViewHolder) holder;
             rrImageUploadViewHolder.bind();
@@ -87,7 +91,7 @@ public class RRProductImageAdapter extends RecyclerView.Adapter<RecyclerView.Vie
 
     public void setData(List<String> uris) {
 
-        if (uris.size() == 0)
+        if (uris.size() == 0 && !mIsDetail)
             uris.add(0, "upload");
 
         mUris = uris;
@@ -122,12 +126,16 @@ public class RRProductImageAdapter extends RecyclerView.Adapter<RecyclerView.Vie
                     .placeholder(R.drawable.placeholder_products)
                     .into(mRRItemBinding.ivClaim);
 
-            mRRItemBinding.ivDeleteRrImg.setOnClickListener(v -> {
+            if (mIsDetail) {
+                mRRItemBinding.ivDeleteRrImg.setVisibility(View.GONE);
+            } else {
+                mRRItemBinding.ivDeleteRrImg.setOnClickListener(v -> {
 
-                if (getAdapterPosition() != RecyclerView.NO_POSITION)
-                    mRRImageListener.onRRImageDeleteClicked(getAdapterPosition());
+                    if (getAdapterPosition() != RecyclerView.NO_POSITION)
+                        mRRImageListener.onRRImageDeleteClicked(getAdapterPosition());
 
-            });
+                });
+            }
         }
     }
 

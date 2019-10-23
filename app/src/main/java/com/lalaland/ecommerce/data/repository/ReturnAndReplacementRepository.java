@@ -6,6 +6,7 @@ import androidx.lifecycle.MutableLiveData;
 import com.lalaland.ecommerce.data.dao.SearchCategoryDao;
 import com.lalaland.ecommerce.data.models.logout.BasicResponse;
 import com.lalaland.ecommerce.data.models.returnAndReplacement.claimListing.ClaimListingDataContainer;
+import com.lalaland.ecommerce.data.models.returnAndReplacement.claimListingDetail.ClaimDataContainer;
 import com.lalaland.ecommerce.data.models.returnAndReplacement.createClaimDetail.ReturnAndReplacementDataContainer;
 import com.lalaland.ecommerce.data.retrofit.LalalandServiceApi;
 import com.lalaland.ecommerce.data.retrofit.RetrofitClient;
@@ -36,6 +37,7 @@ public class ReturnAndReplacementRepository {
     private MutableLiveData<ReturnAndReplacementDataContainer> returnAndReplacementDataContainerMutableLiveData;
     private MutableLiveData<BasicResponse> basicResponseMutableLiveData;
     private MutableLiveData<ClaimListingDataContainer> claimListingDataContainerMutableLiveData;
+    private MutableLiveData<ClaimDataContainer> claimDataContainerMutableLiveData;
 
     private SearchCategoryDao searchCategoryDao;
 
@@ -153,5 +155,29 @@ public class ReturnAndReplacementRepository {
         });
 
         return claimListingDataContainerMutableLiveData;
+    }
+
+    public LiveData<ClaimDataContainer> getClaimDetails(String claimId) {
+
+        setUserInfo();
+        claimDataContainerMutableLiveData = new MutableLiveData<>();
+
+        lalalandServiceApi.getClaimDetails(userInfo, claimId).enqueue(new Callback<ClaimDataContainer>() {
+            @Override
+            public void onResponse(Call<ClaimDataContainer> call, Response<ClaimDataContainer> response) {
+
+                if (response.isSuccessful()) {
+                    claimDataContainerMutableLiveData.postValue(response.body());
+                } else {
+                    claimDataContainerMutableLiveData.postValue(null);
+                }
+            }
+
+            @Override
+            public void onFailure(Call<ClaimDataContainer> call, Throwable t) {
+                claimDataContainerMutableLiveData.postValue(null);
+            }
+        });
+        return claimDataContainerMutableLiveData;
     }
 }

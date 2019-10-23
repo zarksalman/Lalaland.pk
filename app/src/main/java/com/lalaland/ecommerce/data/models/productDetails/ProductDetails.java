@@ -4,6 +4,7 @@ import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
 
 public class ProductDetails {
+
     @SerializedName("id")
     @Expose
     private Integer id;
@@ -169,5 +170,4 @@ public class ProductDetails {
     public void setMaxActualPrice(String maxActualPrice) {
         this.maxActualPrice = maxActualPrice;
     }
-
 }

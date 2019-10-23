@@ -85,6 +85,10 @@ public class CategoryData {
     @Expose
     private String faq;
 
+    @SerializedName("claims_url")
+    @Expose
+    private String claimUrl;
+
     public Integer getCartCount() {
         return cartCount;
     }
@@ -293,4 +297,11 @@ public class CategoryData {
         this.faq = faq;
     }
 
+    public String getClaimUrl() {
+        return claimUrl;
+    }
+
+    public void setClaimUrl(String claimUrl) {
+        this.claimUrl = claimUrl;
+    }
 }
