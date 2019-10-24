@@ -23,13 +23,16 @@ import androidx.viewpager.widget.ViewPager;
 import com.google.android.material.bottomsheet.BottomSheetDialog;
 import com.lalaland.ecommerce.R;
 import com.lalaland.ecommerce.adapters.FitAndSizingAdapter;
+import com.lalaland.ecommerce.adapters.ProductColorAdapter;
 import com.lalaland.ecommerce.adapters.ProductImageAdapter;
 import com.lalaland.ecommerce.adapters.ProductVariationAdapter;
 import com.lalaland.ecommerce.data.models.productDetails.FitAndSizing;
+import com.lalaland.ecommerce.data.models.productDetails.LinkedProduct;
 import com.lalaland.ecommerce.data.models.productDetails.ProductDetailDataContainer;
 import com.lalaland.ecommerce.data.models.productDetails.ProductDetails;
 import com.lalaland.ecommerce.data.models.productDetails.ProductMultimedium;
 import com.lalaland.ecommerce.data.models.productDetails.ProductVariation;
+import com.lalaland.ecommerce.data.models.returnAndReplacement.claimListingDetail.ClaimImage;
 import com.lalaland.ecommerce.databinding.ActivityProductDetailBinding;
 import com.lalaland.ecommerce.databinding.ProuctDetailBottomSheetLayoutBinding;
 import com.lalaland.ecommerce.helpers.AnalyticsManager;
@@ -66,6 +69,8 @@ public class ProductDetailActivity extends AppCompatActivity implements ProductV
     private List<ProductVariation> mProductVariation = new ArrayList<>();
     private List<ProductMultimedium> mProductMultimedia = new ArrayList<>();
     private List<FitAndSizing> mFitAndSizings = new ArrayList<>();
+    private List<ClaimImage> mClaimImages = new ArrayList<>();
+    private List<LinkedProduct> mLinkedProducts = new ArrayList<>();
     private ProductViewModel productViewModel;
     private OrderViewModel orderViewModel;
 
@@ -192,6 +197,7 @@ public class ProductDetailActivity extends AppCompatActivity implements ProductV
         activityProductDetailBinding.tvProductName.setText(productDetails.getName());
         activityProductDetailBinding.tvBrandName.setText(productDetails.getBrandName());
         setPrice();
+        setProductColors();
 
         generalDescription = productDetails.getGeneralDescription();
         materialDescription = productDetails.getMaterialDescription();
@@ -229,7 +235,8 @@ public class ProductDetailActivity extends AppCompatActivity implements ProductV
 
 
         Double maxSalePrice, maxActualPrice, minSalePrice, minActualPrice;
-
+        price = new StringBuilder();
+        aPrice = new StringBuilder();
         maxActualPrice = Double.parseDouble(productDetails.getMaxActualPrice());
         maxSalePrice = Double.parseDouble(productDetails.getMaxSalePrice());
 
@@ -288,6 +295,25 @@ public class ProductDetailActivity extends AppCompatActivity implements ProductV
 
     }
 
+    void setProductColors() {
+
+        if (mLinkedProducts.size() < 1) {
+            activityProductDetailBinding.tvProductColor.setVisibility(View.GONE);
+            return;
+        }
+
+        ProductColorAdapter productColorAdapter = new ProductColorAdapter(this, linkedProduct -> {
+            activityProductDetailBinding.pbLoading.setVisibility(View.VISIBLE);
+            product_id = linkedProduct.getProductId();
+            getProductDetail();
+        });
+
+        activityProductDetailBinding.rvProductColors.setLayoutManager(new LinearLayoutManager(this, RecyclerView.HORIZONTAL, false));
+        activityProductDetailBinding.rvProductColors.setHasFixedSize(true);
+        activityProductDetailBinding.rvProductColors.setAdapter(productColorAdapter);
+        productColorAdapter.setData(mLinkedProducts);
+    }
+
     void setProductGeneralDescription(String generalDescription, String materialDescription) {
 
         activityProductDetailBinding.wvProductGeneralDetail.loadData(generalDescription, "text/html", "UTF-8");
@@ -328,10 +354,10 @@ public class ProductDetailActivity extends AppCompatActivity implements ProductV
                     mProductDetailDataContainer = productDetailDataContainer;
 
                     mProductVariation = productDetailDataContainer.getData().getProductVariations();
-                    mProductMultimedia.addAll(productDetailDataContainer.getData().getProductMultimedia());
-                    mFitAndSizings.addAll(mProductDetailDataContainer.getData().getFitAndSizing());
+                    mProductMultimedia = productDetailDataContainer.getData().getProductMultimedia();
+                    mFitAndSizings = mProductDetailDataContainer.getData().getFitAndSizing();
                     productDetails = mProductDetailDataContainer.getData().getProductDetails();
-
+                    mLinkedProducts = productDetailDataContainer.getData().getLinkedProducts();
 
                     initBottomSheet();
                     loadProductDetail();
@@ -585,6 +611,11 @@ public class ProductDetailActivity extends AppCompatActivity implements ProductV
     }
 
     public void addDots() {
+
+        dots = new ArrayList<>();
+
+        if (activityProductDetailBinding.dots.getChildCount() > 0)
+            activityProductDetailBinding.dots.removeAllViews();
 
         if (mProductMultimedia.size() < 2) {
             activityProductDetailBinding.dots.setVisibility(View.GONE);

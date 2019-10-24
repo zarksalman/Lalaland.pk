@@ -19,6 +19,7 @@ import java.util.List;
 import java.util.Map;
 
 import okhttp3.MultipartBody;
+import okhttp3.ResponseBody;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
@@ -38,6 +39,7 @@ public class ReturnAndReplacementRepository {
     private MutableLiveData<BasicResponse> basicResponseMutableLiveData;
     private MutableLiveData<ClaimListingDataContainer> claimListingDataContainerMutableLiveData;
     private MutableLiveData<ClaimDataContainer> claimDataContainerMutableLiveData;
+    private MutableLiveData<ResponseBody> responseBodyMutableLiveData;
 
     private SearchCategoryDao searchCategoryDao;
 
@@ -179,5 +181,29 @@ public class ReturnAndReplacementRepository {
             }
         });
         return claimDataContainerMutableLiveData;
+    }
+
+    public LiveData<ResponseBody> getWayBill(String url) {
+
+        responseBodyMutableLiveData = new MutableLiveData<>();
+
+        lalalandServiceApi.getWaybill(url).enqueue(new Callback<ResponseBody>() {
+            @Override
+            public void onResponse(Call<ResponseBody> call, Response<ResponseBody> response) {
+
+                if (response.isSuccessful()) {
+                    responseBodyMutableLiveData.postValue(response.body());
+                } else {
+                    responseBodyMutableLiveData.postValue(null);
+                }
+            }
+
+            @Override
+            public void onFailure(Call<ResponseBody> call, Throwable t) {
+                responseBodyMutableLiveData.postValue(null);
+            }
+        });
+
+        return responseBodyMutableLiveData;
     }
 }

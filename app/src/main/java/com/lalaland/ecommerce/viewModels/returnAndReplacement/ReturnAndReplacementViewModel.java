@@ -17,6 +17,7 @@ import java.util.List;
 import java.util.Map;
 
 import okhttp3.MultipartBody;
+import okhttp3.ResponseBody;
 
 public class ReturnAndReplacementViewModel extends AndroidViewModel {
 
@@ -41,5 +42,9 @@ public class ReturnAndReplacementViewModel extends AndroidViewModel {
 
     public LiveData<ClaimDataContainer> getClaimDetails(String claimId) {
         return ReturnAndReplacementRepository.getInstance().getClaimDetails(claimId);
+    }
+
+    public LiveData<ResponseBody> getWayBill(String url) {
+        return ReturnAndReplacementRepository.getInstance().getWayBill(url);
     }
 }
