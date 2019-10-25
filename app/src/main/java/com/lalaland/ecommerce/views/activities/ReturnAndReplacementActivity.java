@@ -13,6 +13,7 @@ import android.os.Bundle;
 import android.os.Environment;
 import android.provider.DocumentsContract;
 import android.provider.MediaStore;
+import android.text.Html;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -107,8 +108,8 @@ public class ReturnAndReplacementActivity extends AppCompatActivity implements R
 
         activityReturnAndReplacementBinding.rgClaim.setOnCheckedChangeListener((group, checkedId) -> {
 
-            activityReturnAndReplacementBinding.spColor.setVisibility(View.GONE);
-            activityReturnAndReplacementBinding.spSize.setVisibility(View.GONE);
+            activityReturnAndReplacementBinding.spColorContainer.setVisibility(View.GONE);
+            activityReturnAndReplacementBinding.spSizeContainer.setVisibility(View.GONE);
 
             if (checkedId == R.id.rb_return) {
                 CLAIM_TYPE = 2;
@@ -309,8 +310,8 @@ public class ReturnAndReplacementActivity extends AppCompatActivity implements R
 
                         if (replacementReasonList.get(position).getShowColor() && replacementReasonList.get(position).getShowSize()) {
 
-                            activityReturnAndReplacementBinding.spColor.setVisibility(View.VISIBLE);
-                            activityReturnAndReplacementBinding.spSize.setVisibility(View.VISIBLE);
+                            activityReturnAndReplacementBinding.spColorContainer.setVisibility(View.VISIBLE);
+                            activityReturnAndReplacementBinding.spSizeContainer.setVisibility(View.VISIBLE);
 
                             activityReturnAndReplacementBinding.spSize.setEnabled(false);
 
@@ -319,37 +320,36 @@ public class ReturnAndReplacementActivity extends AppCompatActivity implements R
 
                         } else if (replacementReasonList.get(position).getShowColor() && !replacementReasonList.get(position).getShowSize()) {
 
-                            activityReturnAndReplacementBinding.spColor.setVisibility(View.VISIBLE);
-                            activityReturnAndReplacementBinding.spSize.setVisibility(View.GONE);
+                            activityReturnAndReplacementBinding.spColorContainer.setVisibility(View.VISIBLE);
+                            activityReturnAndReplacementBinding.spSizeContainer.setVisibility(View.GONE);
 
                             isBothVisible = false;
                         } else if (!replacementReasonList.get(position).getShowColor() && replacementReasonList.get(position).getShowSize()) {
 
-                            activityReturnAndReplacementBinding.spSize.setVisibility(View.VISIBLE);
-                            activityReturnAndReplacementBinding.spColor.setVisibility(View.GONE);
+                            activityReturnAndReplacementBinding.spSizeContainer.setVisibility(View.VISIBLE);
+                            activityReturnAndReplacementBinding.spColorContainer.setVisibility(View.GONE);
                             activityReturnAndReplacementBinding.spSize.setEnabled(true);
 
 
                             isBothVisible = false;
 
                         } else {
-                            activityReturnAndReplacementBinding.spColor.setVisibility(View.GONE);
-                            activityReturnAndReplacementBinding.spSize.setVisibility(View.GONE);
+                            activityReturnAndReplacementBinding.spColorContainer.setVisibility(View.GONE);
+                            activityReturnAndReplacementBinding.spSizeContainer.setVisibility(View.GONE);
                             isBothVisible = false;
-
                         }
 
                     } else {
-                        activityReturnAndReplacementBinding.spColor.setVisibility(View.GONE);
-                        activityReturnAndReplacementBinding.spSize.setVisibility(View.GONE);
+                        activityReturnAndReplacementBinding.spColorContainer.setVisibility(View.GONE);
+                        activityReturnAndReplacementBinding.spSizeContainer.setVisibility(View.GONE);
                         isBothVisible = false;
                     }
                 }
 
                 @Override
                 public void onNothingSelected(AdapterView<?> parent) {
-                    activityReturnAndReplacementBinding.spColor.setVisibility(View.GONE);
-                    activityReturnAndReplacementBinding.spSize.setVisibility(View.GONE);
+                    activityReturnAndReplacementBinding.spColorContainer.setVisibility(View.GONE);
+                    activityReturnAndReplacementBinding.spSizeContainer.setVisibility(View.GONE);
                     isBothVisible = false;
                 }
             });
@@ -577,12 +577,12 @@ public class ReturnAndReplacementActivity extends AppCompatActivity implements R
         }
 
         if (moreDetail.isEmpty()) {
-            Toast.makeText(this, "Write detail", Toast.LENGTH_SHORT).show();
+            Toast.makeText(this, "Please enter the detail", Toast.LENGTH_SHORT).show();
             return;
         }
 
         if (uris.size() < 3) {
-            Toast.makeText(this, "Select at least 2 images", Toast.LENGTH_SHORT).show();
+            Toast.makeText(this, "Please upload at least 2 images", Toast.LENGTH_SHORT).show();
             return;
         }
 
@@ -624,11 +624,6 @@ public class ReturnAndReplacementActivity extends AppCompatActivity implements R
                 File imageFile = new File(filePath);
 
                 imageFile = AppUtils.saveBitmapToFile(imageFile);
-/*                try {
-                    imageFile = new Compressor(this).setQuality(100).compressToFile(imageFile);
-                } catch (IOException e) {
-                    e.printStackTrace();
-                }*/
 
                 if (filePath != null && filePath.length() > 0) {
                     if (imageFile.exists()) {
@@ -652,37 +647,48 @@ public class ReturnAndReplacementActivity extends AppCompatActivity implements R
             AppUtils.unBlockUi(this);
             activityReturnAndReplacementBinding.pbLoading.setVisibility(View.GONE);
 
-            if (basicResponse.getCode().equals(SUCCESS_CODE)) {
+            if (basicResponse != null) {
 
-                claimDialogueBinding.tvMessage.setText(basicResponse.getMsg());
-                claimDialogueBinding.ivTick.setVisibility(View.VISIBLE);
-                claimDialogueBinding.btnApply.setBackgroundColor(getResources().getColor(R.color.colorGreen));
-                claimDialogueBinding.btnApply.setText("Continue");
-                claimDialogueBinding.btnApply.setTextColor(getResources().getColor(android.R.color.white));
+                if (basicResponse.getCode().equals(SUCCESS_CODE)) {
 
-                claimSuccess.show();
+                    claimDialogueBinding.tvMessage.setText(basicResponse.getMsg());
 
-                claimDialogueBinding.btnApply.setOnClickListener(v -> {
+                    if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.N) {
+                        claimDialogueBinding.tvMessage.setText(Html.fromHtml(basicResponse.getMsg(), Html.FROM_HTML_MODE_LEGACY));
+                    } else {
+                        claimDialogueBinding.tvMessage.setText(Html.fromHtml(basicResponse.getMsg()));
+                    }
 
-                    claimSuccess.dismiss();
+                    claimDialogueBinding.ivTick.setVisibility(View.VISIBLE);
+                    claimDialogueBinding.btnApply.setBackgroundColor(getResources().getColor(R.color.colorGreen));
+                    claimDialogueBinding.btnApply.setText("Continue");
+                    claimDialogueBinding.btnApply.setTextColor(getResources().getColor(android.R.color.white));
 
-                    AppConstants.LOAD_HOME_FRAGMENT_INDEX = 4;
-                    Intent intent = new Intent(this, MainActivity.class);
-                    intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_CLEAR_TASK);
-                    startActivity(intent);
-                    finish();
+                    claimSuccess.show();
 
-                });
+                    claimDialogueBinding.btnApply.setOnClickListener(v -> {
 
-            } else if (basicResponse.getCode().equals(VALIDATION_FAIL_CODE)) {
-                claimDialogueBinding.tvMessage.setText(basicResponse.getMsg());
-                claimDialogueBinding.ivTick.setVisibility(View.GONE);
-                claimDialogueBinding.btnApply.setBackgroundColor(getResources().getColor(R.color.colorMediumGray));
-                claimDialogueBinding.btnApply.setText("OK");
-                claimDialogueBinding.btnApply.setTextColor(getResources().getColor(R.color.colorDarkGray));
-                claimSuccess.show();
+                        claimSuccess.dismiss();
 
-                claimDialogueBinding.btnApply.setOnClickListener(v -> claimSuccess.dismiss());
+                        AppConstants.LOAD_HOME_FRAGMENT_INDEX = 4;
+                        Intent intent = new Intent(this, MainActivity.class);
+                        intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_CLEAR_TASK);
+                        startActivity(intent);
+                        finish();
+
+                    });
+
+                } else if (basicResponse.getCode().equals(VALIDATION_FAIL_CODE)) {
+
+                    claimDialogueBinding.tvMessage.setText(basicResponse.getMsg());
+                    claimDialogueBinding.ivTick.setVisibility(View.GONE);
+                    claimDialogueBinding.btnApply.setBackgroundColor(getResources().getColor(R.color.colorMediumGray));
+                    claimDialogueBinding.btnApply.setText("OK");
+                    claimDialogueBinding.btnApply.setTextColor(getResources().getColor(R.color.colorDarkGray));
+                    claimSuccess.show();
+
+                    claimDialogueBinding.btnApply.setOnClickListener(v -> claimSuccess.dismiss());
+                }
             }
 
         });
@@ -836,13 +842,6 @@ public class ReturnAndReplacementActivity extends AppCompatActivity implements R
         } else {
             selectImage();
         }
-
-
-/*        Intent intent = new Intent();
-        intent.setType("image/*");
-        intent.putExtra(Intent.EXTRA_ALLOW_MULTIPLE, true);
-        intent.setAction(Intent.ACTION_GET_CONTENT);
-        startActivityForResult(Intent.createChooser(intent, "Product Picture"), 1);*/
     }
 
     private void prepareClaimSuccess() {
@@ -853,9 +852,18 @@ public class ReturnAndReplacementActivity extends AppCompatActivity implements R
         claimSuccess.setCanceledOnTouchOutside(false);
         claimSuccess.setCancelable(false);
 
+       /* String msg = "<center>Thank you for reaching out to us, we have received your claim request  <b><font color='#f63655'>#213123123213</font></b> and will update you shortly.</center>";
+
+        if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.N) {
+            claimDialogueBinding.tvMessage.setText(Html.fromHtml(msg, Html.FROM_HTML_MODE_LEGACY));
+        } else {
+            claimDialogueBinding.tvMessage.setText(Html.fromHtml(msg));
+        }*/
+
         claimSuccess.getWindow().setBackgroundDrawable(new ColorDrawable(android.graphics.Color.TRANSPARENT));
 
         claimSuccess.setView(claimDialogueBinding.getRoot());
 
+        // claimSuccess.show();
     }
 }

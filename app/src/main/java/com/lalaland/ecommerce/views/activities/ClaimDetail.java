@@ -101,7 +101,7 @@ public class ClaimDetail extends AppCompatActivity {
             activityClaimDetailBinding.tvWaybill.setOnClickListener(v -> {
                 askForPermission();
             });
-
+        }
             activityClaimDetailBinding.tvProductName.setText(claimDetails.getProductName());
 
 
@@ -135,7 +135,6 @@ public class ClaimDetail extends AppCompatActivity {
             }
             activityClaimDetailBinding.tvDetail.setText(claimDetails.getCustomerReasonDetail());
         }
-    }
 
     private void setClaimImages() {
 

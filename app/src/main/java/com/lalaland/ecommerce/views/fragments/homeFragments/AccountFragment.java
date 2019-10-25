@@ -243,7 +243,12 @@ public class AccountFragment extends Fragment implements View.OnClickListener {
                 break;
 
             case R.id.claim:
-                startActivity(new Intent(getContext(), MyClaims.class));
+                if (signInToken.isEmpty()) {
+                    startActivityForResult(new Intent(getContext(), RegistrationActivity.class), 100);
+                } else {
+                    startActivity(new Intent(getContext(), MyClaims.class));
+                }
+
                 break;
 
             case R.id.blog:
