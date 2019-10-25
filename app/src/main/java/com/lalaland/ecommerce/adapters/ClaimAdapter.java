@@ -74,7 +74,7 @@ public class ClaimAdapter extends RecyclerView.Adapter<ClaimAdapter.ClaimViewHol
         void bindHolder(Claim claim) {
 
             if (claim.getApprovalStatus() == null) {
-                mClaimItemBinding.tvClaimStatus.setTextColor(mContext.getResources().getColor(R.color.colorMediumGray));
+                mClaimItemBinding.tvClaimStatus.setTextColor(mContext.getResources().getColor(R.color.colorDarkGray));
             } else if (claim.getApprovalStatus() == 0) {
                 mClaimItemBinding.tvClaimStatus.setTextColor(mContext.getResources().getColor(R.color.colorLightRed));
             } else {

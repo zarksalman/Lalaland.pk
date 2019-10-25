@@ -81,6 +81,7 @@
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
+                        android:fontFamily="@font/encodesansregular"
                         android:text="@string/shipping_address"
                         android:textSize="16sp" />
 
@@ -88,6 +89,7 @@
 
                         android:id="@+id/tv_user_name"
                         android:layout_width="wrap_content"
+                        android:fontFamily="@font/encodesansregular"
                         android:layout_height="wrap_content"
                         android:textColor="@android:color/black"
                         tools:text="@tools:sample/full_names" />
@@ -96,6 +98,7 @@
 
                         android:id="@+id/tv_user_phone"
                         android:layout_width="wrap_content"
+                        android:fontFamily="@font/encodesansregular"
                         android:layout_height="wrap_content"
                         android:textColor="@android:color/black"
                         tools:text="@tools:sample/us_phones" />
@@ -103,6 +106,7 @@
                     <TextView
 
                         android:id="@+id/tv_user_address"
+                        android:fontFamily="@font/encodesansregular"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:textColor="@android:color/black"
@@ -127,6 +131,7 @@
 
                         android:id="@+id/tv_order_id"
                         android:layout_width="wrap_content"
+                        android:fontFamily="@font/encodesansregular"
                         android:layout_height="wrap_content"
                         android:text="@string/order_id_format"
                         android:textColor="@color/colorPrimary"
@@ -136,6 +141,7 @@
 
                         android:id="@+id/tv_order_date"
                         android:layout_width="wrap_content"
+                        android:fontFamily="@font/encodesansregular"
                         android:layout_height="wrap_content"
                         android:textColor="@android:color/black"
                         tools:text="@tools:sample/us_phones" />
@@ -144,6 +150,7 @@
 
                         android:id="@+id/tv_order_merchant"
                         android:layout_width="wrap_content"
+                        android:fontFamily="@font/encodesansregular"
                         android:layout_height="wrap_content"
                         android:textColor="@android:color/black"
                         tools:text="@tools:sample/avatars" />
@@ -327,7 +334,10 @@
             android:layout_width="match_parent"
             android:layout_height="@dimen/_50dp"
             android:background="@android:color/white"
-            android:padding="@dimen/_16dp"
+            android:paddingStart="@dimen/_16dp"
+            android:paddingTop="@dimen/_8dp"
+            android:paddingEnd="@dimen/_16dp"
+            android:paddingBottom="@dimen/_8dp"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent">
@@ -338,6 +348,7 @@
                 android:layout_height="wrap_content"
                 android:layout_alignParentStart="true"
                 android:layout_centerVertical="true"
+                android:fontFamily="@font/encodesansregular"
                 android:text="@string/total"
                 android:textColor="@android:color/black"
                 android:textSize="16sp"
@@ -352,6 +363,7 @@
                 android:layout_centerVertical="true"
                 android:textColor="@android:color/black"
                 android:textSize="16sp"
+                android:fontFamily="@font/encodesansregular"
                 android:textStyle="bold"
                 tools:text="@tools:sample/us_zipcodes" />
 
