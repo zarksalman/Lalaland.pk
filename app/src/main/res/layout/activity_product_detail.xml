@@ -127,6 +127,7 @@
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toBottomOf="@+id/names_container">
 
+
                     <TextView
 
                         android:id="@+id/tv_product_price"
@@ -138,6 +139,17 @@
                         android:textSize="18sp"
                         android:textStyle="bold"
                         tools:text="@tools:sample/first_names" />
+
+                    <RatingBar
+
+                        android:id="@+id/rb_product_ratings"
+                        style="?android:attr/ratingBarStyleSmall"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="@dimen/_4dp"
+                        android:isIndicator="true"
+                        android:stepSize="1"
+                        android:transformPivotX="0dp" />
 
                     <TextView
 
@@ -407,7 +419,102 @@
                     app:layout_constraintStart_toEndOf="@+id/tv_sold_by"
                     app:layout_constraintTop_toTopOf="@+id/tv_sold_by" />
 
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_margin="@dimen/_8dp"
+                    android:orientation="vertical"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/tv_sold_by_merchant">
 
+                    <TextView
+                        android:id="@+id/tv_review_rating"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="Product Review"
+                        android:textColor="@android:color/black"
+                        android:textSize="14sp"
+                        android:textStyle="bold"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toTopOf="parent" />
+
+                    <androidx.constraintlayout.widget.ConstraintLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="@dimen/_4dp"
+                        android:background="@drawable/bg_round_corner_transparent"
+                        android:padding="@dimen/_8dp">
+
+                        <RatingBar
+
+                            android:id="@+id/rb_user_rating"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="@dimen/_4dp"
+                            android:scaleX=".6"
+                            android:scaleY=".6"
+                            android:stepSize="1"
+                            android:transformPivotX="0dp"
+                            app:layout_constraintStart_toStartOf="parent"
+                            app:layout_constraintTop_toTopOf="parent" />
+
+                        <TextView
+
+                            android:id="@+id/tv_review"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="@string/what_do_you_think_about_this_product"
+                            app:layout_constraintStart_toStartOf="parent"
+                            app:layout_constraintTop_toBottomOf="@id/rb_user_rating" />
+
+                        <EditText
+
+                            android:id="@+id/et_review"
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="@dimen/_4dp"
+                            app:layout_constraintEnd_toStartOf="@+id/btn_submit_review"
+                            app:layout_constraintStart_toStartOf="parent"
+                            app:layout_constraintTop_toBottomOf="@id/tv_review" />
+
+                        <ImageButton
+
+                            android:id="@+id/btn_submit_review"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:background="@drawable/bg_round_corner_transparent"
+                            android:clickable="true"
+                            android:focusable="true"
+                            android:foreground="?actionBarItemBackground"
+                            android:padding="@dimen/_8dp"
+                            app:layout_constraintBottom_toBottomOf="@+id/et_review"
+                            app:layout_constraintEnd_toEndOf="parent"
+                            app:layout_constraintTop_toTopOf="@+id/et_review"
+                            app:srcCompat="@drawable/send_icon" />
+
+                        <RelativeLayout
+
+                            android:id="@+id/login_container"
+                            android:layout_width="0dp"
+                            android:layout_height="0dp"
+                            android:background="@color/colorTransDarkGray"
+                            app:layout_constraintBottom_toBottomOf="parent"
+                            app:layout_constraintEnd_toEndOf="parent"
+                            app:layout_constraintStart_toStartOf="parent"
+                            app:layout_constraintTop_toTopOf="parent">
+
+                            <TextView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_centerInParent="true"
+                                android:text="@string/login_to_add_review_and_rating"
+                                android:textColor="@android:color/white"
+                                android:textSize="18sp" />
+
+                        </RelativeLayout>
+                    </androidx.constraintlayout.widget.ConstraintLayout>
+                </LinearLayout>
             </androidx.constraintlayout.widget.ConstraintLayout>
         </ScrollView>
 

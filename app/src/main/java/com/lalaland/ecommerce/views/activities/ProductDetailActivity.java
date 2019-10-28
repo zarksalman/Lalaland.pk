@@ -160,9 +160,18 @@ public class ProductDetailActivity extends AppCompatActivity implements ProductV
             onBackPressed();
         });
 
+        activityProductDetailBinding.loginContainer.setOnClickListener(v -> {
+            startActivityForResult(new Intent(this, RegistrationActivity.class), 300);
+        });
+
     }
 
     void loadProductDetail() {
+
+        if (loginToken.isEmpty())
+            activityProductDetailBinding.loginContainer.setVisibility(View.VISIBLE);
+        else
+            activityProductDetailBinding.loginContainer.setVisibility(View.GONE);
 
         activityProductDetailBinding.tvCounter.setText(String.valueOf(AppConstants.CART_COUNTER));
 
@@ -728,6 +737,9 @@ public class ProductDetailActivity extends AppCompatActivity implements ProductV
 
                     getDeliveryOption(data);
                 }
+            } else if (requestCode == 300) {
+                loginToken = appPreference.getString(SIGNIN_TOKEN);
+                activityProductDetailBinding.loginContainer.setVisibility(View.GONE);
             }
         }
     }
