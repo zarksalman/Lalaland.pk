@@ -300,6 +300,28 @@ public class AppUtils {
         }
     }
 
+    public static String appendIntoBracket(String str) {
+
+        if (str == null)
+            return "";
+
+        String mStr = "( ";
+        mStr = mStr.concat(str);
+        mStr = mStr.concat(" )");
+
+        return mStr;
+    }
+
+    public static String trimUserFirstName(String str) {
+
+        if (str == null)
+            return "";
+
+        String[] names = str.split(" ");
+
+        return names[0];
+    }
+
 
 
 

@@ -33,13 +33,16 @@ public class ProductDetailData {
     private String sizeChart;
     @SerializedName("product_reviews")
     @Expose
-    private List<Object> productReviews = null;
+    private List<ProductReview> productReviews = null;
     @SerializedName("reviews_count")
     @Expose
     private Integer reviewsCount;
     @SerializedName("rating_average")
     @Expose
-    private Integer ratingAverage;
+    private Float ratingAverage;
+    @SerializedName("excution_time")
+    @Expose
+    private Double excutionTime;
 
     public String getRecommendedCat() {
         return recommendedCat;
@@ -105,11 +108,11 @@ public class ProductDetailData {
         this.sizeChart = sizeChart;
     }
 
-    public List<Object> getProductReviews() {
+    public List<ProductReview> getProductReviews() {
         return productReviews;
     }
 
-    public void setProductReviews(List<Object> productReviews) {
+    public void setProductReviews(List<ProductReview> productReviews) {
         this.productReviews = productReviews;
     }
 
@@ -121,11 +124,19 @@ public class ProductDetailData {
         this.reviewsCount = reviewsCount;
     }
 
-    public Integer getRatingAverage() {
+    public Float getRatingAverage() {
         return ratingAverage;
     }
 
-    public void setRatingAverage(Integer ratingAverage) {
+    public void setRatingAverage(Float ratingAverage) {
         this.ratingAverage = ratingAverage;
+    }
+
+    public Double getExcutionTime() {
+        return excutionTime;
+    }
+
+    public void setExcutionTime(Double excutionTime) {
+        this.excutionTime = excutionTime;
     }
 }

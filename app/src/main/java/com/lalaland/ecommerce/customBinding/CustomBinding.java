@@ -19,6 +19,8 @@ import static com.lalaland.ecommerce.helpers.AppConstants.CATEGORY_FOCUS_STORAGE
 import static com.lalaland.ecommerce.helpers.AppConstants.CUSTOM_PRODUCT_URL;
 import static com.lalaland.ecommerce.helpers.AppConstants.MEDIUM_PRODUCT_STORAGE_BASE_URL;
 import static com.lalaland.ecommerce.helpers.AppConstants.PRODUCT_STORAGE_BASE_URL;
+import static com.lalaland.ecommerce.helpers.AppConstants.USER_AVATAR;
+import static com.lalaland.ecommerce.helpers.AppConstants.USER_STORAGE_BASE_URL;
 
 public class CustomBinding {
 
@@ -161,6 +163,18 @@ public class CustomBinding {
                 .placeholder(R.drawable.placeholder_products)
                 .error(R.drawable.placeholder_products)
                 .centerInside()
+                .into(imageView);
+    }
+
+    @BindingAdapter("setUserImage")
+    public static void setUserImage(ImageView imageView, String imageName) {
+
+        String imageSrc = USER_STORAGE_BASE_URL.concat(imageName);
+        Glide
+                .with(imageView.getContext())
+                .load(imageSrc)
+                .placeholder(R.drawable.placeholder_products)
+                .error(R.drawable.placeholder_products)
                 .into(imageView);
     }
 

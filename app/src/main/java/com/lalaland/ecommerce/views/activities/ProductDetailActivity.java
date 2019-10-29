@@ -26,13 +26,15 @@ import com.lalaland.ecommerce.adapters.FitAndSizingAdapter;
 import com.lalaland.ecommerce.adapters.ProductColorAdapter;
 import com.lalaland.ecommerce.adapters.ProductImageAdapter;
 import com.lalaland.ecommerce.adapters.ProductVariationAdapter;
+import com.lalaland.ecommerce.adapters.ReviewRatingAdapter;
 import com.lalaland.ecommerce.data.models.productDetails.FitAndSizing;
 import com.lalaland.ecommerce.data.models.productDetails.LinkedProduct;
+import com.lalaland.ecommerce.data.models.productDetails.ProductDetailData;
 import com.lalaland.ecommerce.data.models.productDetails.ProductDetailDataContainer;
 import com.lalaland.ecommerce.data.models.productDetails.ProductDetails;
 import com.lalaland.ecommerce.data.models.productDetails.ProductMultimedium;
+import com.lalaland.ecommerce.data.models.productDetails.ProductReview;
 import com.lalaland.ecommerce.data.models.productDetails.ProductVariation;
-import com.lalaland.ecommerce.data.models.returnAndReplacement.claimListingDetail.ClaimImage;
 import com.lalaland.ecommerce.databinding.ActivityProductDetailBinding;
 import com.lalaland.ecommerce.databinding.ProuctDetailBottomSheetLayoutBinding;
 import com.lalaland.ecommerce.helpers.AnalyticsManager;
@@ -69,7 +71,8 @@ public class ProductDetailActivity extends AppCompatActivity implements ProductV
     private List<ProductVariation> mProductVariation = new ArrayList<>();
     private List<ProductMultimedium> mProductMultimedia = new ArrayList<>();
     private List<FitAndSizing> mFitAndSizings = new ArrayList<>();
-    private List<ClaimImage> mClaimImages = new ArrayList<>();
+    private List<ProductReview> mProductReviews = new ArrayList<>();
+
     private List<LinkedProduct> mLinkedProducts = new ArrayList<>();
     private ProductViewModel productViewModel;
     private OrderViewModel orderViewModel;
@@ -99,6 +102,8 @@ public class ProductDetailActivity extends AppCompatActivity implements ProductV
     Bundle bundle = new Bundle();
     boolean isDeeplink;
     String imgUrl = "";
+    ProductDetailData productDetailData;
+    ReviewRatingAdapter reviewRatingAdapter;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -164,6 +169,7 @@ public class ProductDetailActivity extends AppCompatActivity implements ProductV
             startActivityForResult(new Intent(this, RegistrationActivity.class), 300);
         });
 
+        activityProductDetailBinding.btnSubmitReview.setOnClickListener(v -> submitReview());
     }
 
     void loadProductDetail() {
@@ -206,8 +212,8 @@ public class ProductDetailActivity extends AppCompatActivity implements ProductV
         activityProductDetailBinding.tvProductName.setText(productDetails.getName());
         activityProductDetailBinding.tvBrandName.setText(productDetails.getBrandName());
         setPrice();
+        setRating();
         setProductColors();
-
         generalDescription = productDetails.getGeneralDescription();
         materialDescription = productDetails.getMaterialDescription();
 
@@ -216,6 +222,8 @@ public class ProductDetailActivity extends AppCompatActivity implements ProductV
 
         activityProductDetailBinding.tvProductCode.setText(String.valueOf(productDetails.getProductNum()));
         activityProductDetailBinding.tvSoldByMerchant.setText(productDetails.getMerchantName());
+
+        setReviewsAdapter();
 
         activityProductDetailBinding.pbLoading.setVisibility(View.GONE);
         activityProductDetailBinding.svProductDetail.setVisibility(View.VISIBLE);
@@ -304,6 +312,12 @@ public class ProductDetailActivity extends AppCompatActivity implements ProductV
 
     }
 
+    void setRating() {
+
+        Float rating = mProductDetailDataContainer.getData().getRatingAverage();
+        activityProductDetailBinding.rbProductRatings.setRating(rating);
+    }
+
     void setProductColors() {
 
         if (mLinkedProducts.size() < 1) {
@@ -367,6 +381,7 @@ public class ProductDetailActivity extends AppCompatActivity implements ProductV
                     mFitAndSizings = mProductDetailDataContainer.getData().getFitAndSizing();
                     productDetails = mProductDetailDataContainer.getData().getProductDetails();
                     mLinkedProducts = productDetailDataContainer.getData().getLinkedProducts();
+                    mProductReviews = mProductDetailDataContainer.getData().getProductReviews();
 
                     initBottomSheet();
                     loadProductDetail();
@@ -400,6 +415,58 @@ public class ProductDetailActivity extends AppCompatActivity implements ProductV
 
             AppUtils.unBlockUi(this);
         });
+    }
+
+    void setReviewsAdapter() {
+
+        reviewRatingAdapter = new ReviewRatingAdapter(this);
+        activityProductDetailBinding.rvReview.setLayoutManager(new LinearLayoutManager(this, RecyclerView.VERTICAL, false));
+        reviewRatingAdapter.setData(mProductReviews);
+        activityProductDetailBinding.rvReview.setAdapter(reviewRatingAdapter);
+
+    }
+
+    void submitReview() {
+
+        Map<String, String> parameter = new HashMap<>();
+
+        if (activityProductDetailBinding.etReview.getText().toString().trim().isEmpty())
+            Toast.makeText(this, "Please enter review", Toast.LENGTH_SHORT).show();
+
+        activityProductDetailBinding.pbLoading.setVisibility(View.VISIBLE);
+        AppUtils.blockUi(this);
+
+        String review = activityProductDetailBinding.etReview.getText().toString().trim();
+        String rating = String.valueOf(activityProductDetailBinding.rbUserRating.getRating());
+
+        parameter.put("product_id", String.valueOf(product_id));
+        parameter.put("user_review", review);
+        parameter.put("user_rating", rating);
+
+        productViewModel.submitReview(parameter).observe(this, productReviewsDataContainer -> {
+
+            activityProductDetailBinding.pbLoading.setVisibility(View.GONE);
+            AppUtils.unBlockUi(this);
+
+            if (productReviewsDataContainer.getCode().equals(SUCCESS_CODE)) {
+
+                activityProductDetailBinding.rbUserRating.setRating(0);
+                activityProductDetailBinding.etReview.setText("");
+
+                mProductReviews = productReviewsDataContainer.getData().getProductReviews();
+                reviewRatingAdapter.setData(mProductReviews);
+                reviewRatingAdapter.notifyDataSetChanged();
+
+                Float avgRating = mProductDetailDataContainer.getData().getRatingAverage();
+                activityProductDetailBinding.rbProductRatings.setRating(avgRating);
+            } else if (productReviewsDataContainer.getCode().equals(VALIDATION_FAIL_CODE)) {
+                Toast.makeText(this, productReviewsDataContainer.getMsg(), Toast.LENGTH_SHORT).show();
+                parameter.clear();
+            }
+        });
+
+        reviewRatingAdapter.setData(mProductReviews);
+        reviewRatingAdapter.notifyDataSetChanged();
     }
 
     private int getFirstSelectedVariationIndex() {

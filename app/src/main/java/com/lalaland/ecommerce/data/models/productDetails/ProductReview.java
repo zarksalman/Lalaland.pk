@@ -17,9 +17,15 @@ public class ProductReview {
     @SerializedName("name")
     @Expose
     private String name;
+    @SerializedName("avatar")
+    @Expose
+    private String avatar;
     @SerializedName("is_visible")
     @Expose
     private Integer isVisible;
+    @SerializedName("review_time")
+    @Expose
+    private String reviewTime;
 
     public Integer getId() {
         return id;
@@ -53,6 +59,14 @@ public class ProductReview {
         this.name = name;
     }
 
+    public String getAvatar() {
+        return avatar;
+    }
+
+    public void setAvatar(String avatar) {
+        this.avatar = avatar;
+    }
+
     public Integer getIsVisible() {
         return isVisible;
     }
@@ -60,4 +74,13 @@ public class ProductReview {
     public void setIsVisible(Integer isVisible) {
         this.isVisible = isVisible;
     }
+
+    public String getReviewTime() {
+        return reviewTime;
+    }
+
+    public void setReviewTime(String reviewTime) {
+        this.reviewTime = reviewTime;
+    }
+
 }

@@ -21,6 +21,7 @@ import com.lalaland.ecommerce.data.models.order.newOrderPlacing.PlacingOrderData
 import com.lalaland.ecommerce.data.models.otp.OtpDataContainer;
 import com.lalaland.ecommerce.data.models.productDetails.ProductDetailDataContainer;
 import com.lalaland.ecommerce.data.models.products.ProductContainer;
+import com.lalaland.ecommerce.data.models.reviews.ProductReviewsDataContainer;
 import com.lalaland.ecommerce.data.models.voucher.VoucherDataContainer;
 import com.lalaland.ecommerce.data.models.wishList.WishListContainer;
 import com.lalaland.ecommerce.data.retrofit.LalalandServiceApi;
@@ -67,6 +68,7 @@ public class ProductsRepository {
     private MutableLiveData<SearchDataContainer> searchDataContainerMutableLiveData = new MutableLiveData<>();
     private MutableLiveData<FilterDataContainer> filterDataContainerMutableLiveData = new MutableLiveData<>();
     private MutableLiveData<VoucherDataContainer> voucherDataContainerMutableLiveData = new MutableLiveData<>();
+    private MutableLiveData<ProductReviewsDataContainer> productReviewsDataContainerMutableLiveData = new MutableLiveData<>();
     private SearchCategoryDao searchCategoryDao;
 
     private ProductsRepository() {
@@ -287,6 +289,7 @@ public class ProductsRepository {
 
         return productDetailDataContainerMutableLiveData;
     }
+
     public LiveData<BasicResponse> addToCart(Map<String, String> headers, Map<String, String> parameter) {
 
         basicResponseMutableLiveData = new MutableLiveData<>();
@@ -634,6 +637,31 @@ public class ProductsRepository {
         });
 
         return voucherDataContainerMutableLiveData;
+    }
+
+    public LiveData<ProductReviewsDataContainer> submitReview(Map<String, String> parameter) {
+
+        setUserInfo();
+        productReviewsDataContainerMutableLiveData = new MutableLiveData<>();
+
+        lalalandServiceApi.submitReview(userInfo, parameter).enqueue(new Callback<ProductReviewsDataContainer>() {
+            @Override
+            public void onResponse(Call<ProductReviewsDataContainer> call, Response<ProductReviewsDataContainer> response) {
+
+                if (response.isSuccessful()) {
+                    productReviewsDataContainerMutableLiveData.postValue(response.body());
+                } else {
+                    productReviewsDataContainerMutableLiveData.postValue(null);
+                }
+            }
+
+            @Override
+            public void onFailure(Call<ProductReviewsDataContainer> call, Throwable t) {
+                productReviewsDataContainerMutableLiveData.postValue(null);
+            }
+        });
+
+        return productReviewsDataContainerMutableLiveData;
     }
 
     public void insertSearch(SearchCategory searchCategory) {

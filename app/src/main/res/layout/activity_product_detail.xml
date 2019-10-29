@@ -147,9 +147,7 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_marginTop="@dimen/_4dp"
-                        android:isIndicator="true"
-                        android:stepSize="1"
-                        android:transformPivotX="0dp" />
+                        android:isIndicator="true" />
 
                     <TextView
 
@@ -513,7 +511,16 @@
                                 android:textSize="18sp" />
 
                         </RelativeLayout>
+
                     </androidx.constraintlayout.widget.ConstraintLayout>
+
+                    <androidx.recyclerview.widget.RecyclerView
+
+                        android:id="@+id/rv_review"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="@dimen/_8dp" />
+
                 </LinearLayout>
             </androidx.constraintlayout.widget.ConstraintLayout>
         </ScrollView>

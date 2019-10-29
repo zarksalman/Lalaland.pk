@@ -21,6 +21,7 @@ import com.lalaland.ecommerce.data.models.registration.RegistrationContainer;
 import com.lalaland.ecommerce.data.models.returnAndReplacement.claimListing.ClaimListingDataContainer;
 import com.lalaland.ecommerce.data.models.returnAndReplacement.claimListingDetail.ClaimDataContainer;
 import com.lalaland.ecommerce.data.models.returnAndReplacement.createClaimDetail.ReturnAndReplacementDataContainer;
+import com.lalaland.ecommerce.data.models.reviews.ProductReviewsDataContainer;
 import com.lalaland.ecommerce.data.models.updateUserData.UpdateUserDataContainer;
 import com.lalaland.ecommerce.data.models.uploadProfileImage.UploadProfileImageContainer;
 import com.lalaland.ecommerce.data.models.userAddressBook.AddressDataContainer;
@@ -196,4 +197,6 @@ public interface LalalandServiceApi {
     @GET
     Call<ResponseBody> getWaybill(@Url String url);
 
+    @POST("submitReview")
+    Call<ProductReviewsDataContainer> submitReview(@HeaderMap Map<String, String> headers, @QueryMap Map<String, String> parameters);
 }
