@@ -1,11 +1,5 @@
 <resources>
 
-    <string-array name="TODO">
-        <item>Small(0-4)</item>
-        <item>Medium(4-8)</item>
-        <item>Large(9+)</item>
-    </string-array>
-
     <string name="app_name">lalaland</string>
     <string name="my_app_name">Lalaland</string>
     <string name="title_home">Home</string>
@@ -167,7 +161,6 @@
     <string name="facebook">Facebook</string>
     <string name="instagram">Instagram</string>
     <string name="twitter">Twitter</string>
-    <string name="my_claims">My Claims</string>
     <string name="linkedin">LinkedIn</string>
 
     <string name="client_id">122765248262-03m7dmonpdot2a59ertdtovcgkja4sq5.apps.googleusercontent.com</string>
@@ -206,11 +199,8 @@
     <string name="enter_your_pin">Enter your PIN</string>
     <string name="title_activity_return_and_replacement">ReturnAndReplacementActivity</string>
     <string name="title_activity_my_claims">MyClaims</string>
-    <string name="tab_text_1">Tab 1</string>
-    <string name="tab_text_2">Tab 2</string>
 
     <!-- TODO: Remove or change this placeholder text -->
-    <string name="hello_blank_fragment">Hello blank fragment</string>
     <string name="title_activity_claim_detail">ClaimDetail</string>
     <string name="what_do_you_think_about_this_product">What do you think about this Product?</string>
     <string name="login_to_add_review_and_rating">Login to add review and rating</string>

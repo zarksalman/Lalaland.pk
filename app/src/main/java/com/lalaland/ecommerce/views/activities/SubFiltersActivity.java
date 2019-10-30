@@ -47,12 +47,12 @@ public class SubFiltersActivity extends AppCompatActivity {
     private StringBuilder brandParams = new StringBuilder();
 
     // pvfilter parameter ==> Base64(" "{"2":[90,100,110], "5":[40,400,310]}" ")
-    private String pvFilterParamsStart = "\"{\"";
+    private String pvFilterParamsStart = "{\"";
     private String pvParentFilterId = "";
     private String pvFilterParamsIdsStart = "\":[";
     private StringBuilder pvFilterParamsIdsMid = new StringBuilder();
     private String pvFilterParamsIdsEnd = "],";
-    private String pvFilterParamsEnd = "}\"";
+    private String pvFilterParamsEnd = "}";
     private StringBuilder pvFilterParams = new StringBuilder();
 
     private Intent intent;

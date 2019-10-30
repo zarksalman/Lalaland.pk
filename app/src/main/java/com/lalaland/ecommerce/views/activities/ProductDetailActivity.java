@@ -104,6 +104,7 @@ public class ProductDetailActivity extends AppCompatActivity implements ProductV
     String imgUrl = "";
     ProductDetailData productDetailData;
     ReviewRatingAdapter reviewRatingAdapter;
+    Float avgRating = 0f;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -314,8 +315,8 @@ public class ProductDetailActivity extends AppCompatActivity implements ProductV
 
     void setRating() {
 
-        Float rating = mProductDetailDataContainer.getData().getRatingAverage();
-        activityProductDetailBinding.rbProductRatings.setRating(rating);
+        avgRating = mProductDetailDataContainer.getData().getRatingAverage();
+        activityProductDetailBinding.rbProductRatings.setRating(avgRating);
     }
 
     void setProductColors() {
@@ -428,14 +429,10 @@ public class ProductDetailActivity extends AppCompatActivity implements ProductV
 
     void submitReview() {
 
-        Map<String, String> parameter = new HashMap<>();
-
-        if (activityProductDetailBinding.etReview.getText().toString().trim().isEmpty())
-            Toast.makeText(this, "Please enter review", Toast.LENGTH_SHORT).show();
-
         activityProductDetailBinding.pbLoading.setVisibility(View.VISIBLE);
         AppUtils.blockUi(this);
 
+        Map<String, String> parameter = new HashMap<>();
         String review = activityProductDetailBinding.etReview.getText().toString().trim();
         String rating = String.valueOf(activityProductDetailBinding.rbUserRating.getRating());
 
@@ -457,8 +454,9 @@ public class ProductDetailActivity extends AppCompatActivity implements ProductV
                 reviewRatingAdapter.setData(mProductReviews);
                 reviewRatingAdapter.notifyDataSetChanged();
 
-                Float avgRating = mProductDetailDataContainer.getData().getRatingAverage();
+                avgRating = productReviewsDataContainer.getData().getRatingAverage();
                 activityProductDetailBinding.rbProductRatings.setRating(avgRating);
+
             } else if (productReviewsDataContainer.getCode().equals(VALIDATION_FAIL_CODE)) {
                 Toast.makeText(this, productReviewsDataContainer.getMsg(), Toast.LENGTH_SHORT).show();
                 parameter.clear();

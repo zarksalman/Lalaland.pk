@@ -209,22 +209,6 @@ public class FilterActivity extends AppCompatActivity {
                 subFilterList.add(mSubFlter);
             }
 
-            /*if (appliedFilter.containsKey(1)) {
-
-                String[] categoryFilters = appliedFilter.get(1).split(",");
-
-                for (int i = 0; i < categoryFilters.length; i++) {
-                    for (int j = 0; j < subFilterList.size(); j++) {
-
-                        if (categoryFilters[i].equals(subFilterList.get(j).getDisplayName())) {
-                            subFilterList.get(j).setSelected(true);
-                        }
-
-
-                    }
-                }
-            }*/
-
         } else if (filterName.equals("Brands")) {
 
             mFilter = new Filter();
@@ -455,7 +439,22 @@ public class FilterActivity extends AppCompatActivity {
                     filterName = data.getStringExtra(FILTER_NAME);
                     pvFilters = data.getStringExtra(SELECTED_FILTER_NAME);
 
-                    pvFilterIds.append(data.getStringExtra(PV_FILTER_));
+                    if (pvFilterIds.toString().isEmpty()) {
+
+                        pvFilterIds.append(data.getStringExtra(PV_FILTER_));
+                    } else {
+
+                        String ids = pvFilterIds.toString().replace("}", " ");
+                        pvFilterIds = new StringBuilder();
+                        pvFilterIds.append(ids);
+
+                        ids = data.getStringExtra(PV_FILTER_);
+                        ids = ids.replace("{", " ");
+
+                        pvFilterIds.append(ids);
+
+                    }
+
                     pvFilterIds.append(",");
 
                     Integer index = getParentFilterId(filterName);
@@ -482,13 +481,8 @@ public class FilterActivity extends AppCompatActivity {
             }
             finish();
         }
-
-        setSubFiltersSelection();
     }
 
-    private void setSubFiltersSelection() {
-
-    }
 
     void setResultantIntent() {
 

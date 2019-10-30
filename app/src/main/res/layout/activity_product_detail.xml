@@ -464,7 +464,7 @@
                             android:layout_height="wrap_content"
                             android:text="@string/what_do_you_think_about_this_product"
                             app:layout_constraintStart_toStartOf="parent"
-                            app:layout_constraintTop_toBottomOf="@id/rb_user_rating" />
+                            app:layout_constraintTop_toBottomOf="@+id/rb_user_rating" />
 
                         <EditText
 
@@ -474,7 +474,7 @@
                             android:layout_marginTop="@dimen/_4dp"
                             app:layout_constraintEnd_toStartOf="@+id/btn_submit_review"
                             app:layout_constraintStart_toStartOf="parent"
-                            app:layout_constraintTop_toBottomOf="@id/tv_review" />
+                            app:layout_constraintTop_toBottomOf="@+id/tv_review" />
 
                         <ImageButton
 

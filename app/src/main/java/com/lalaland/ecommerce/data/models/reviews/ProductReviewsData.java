@@ -16,7 +16,7 @@ public class ProductReviewsData {
     private Integer reviewsCount;
     @SerializedName("rating_average")
     @Expose
-    private Double ratingAverage;
+    private Float ratingAverage;
 
     public List<ProductReview> getProductReviews() {
         return productReviews;
@@ -34,11 +34,11 @@ public class ProductReviewsData {
         this.reviewsCount = reviewsCount;
     }
 
-    public Double getRatingAverage() {
+    public Float getRatingAverage() {
         return ratingAverage;
     }
 
-    public void setRatingAverage(Double ratingAverage) {
+    public void setRatingAverage(Float ratingAverage) {
         this.ratingAverage = ratingAverage;
     }
 

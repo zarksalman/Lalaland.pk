@@ -71,7 +71,11 @@ public class ReviewRatingAdapter extends RecyclerView.Adapter<ReviewRatingAdapte
 
         void bindHolder(ProductReview productReview) {
 
-            String imageSrc = USER_STORAGE_BASE_URL.concat(productReview.getAvatar());
+
+            String imageSrc = USER_STORAGE_BASE_URL;
+
+            if (productReview.getAvatar() != null)
+                imageSrc = imageSrc.concat(productReview.getAvatar());
 
             Glide.with(AppConstants.mContext)
                     .load(imageSrc)
