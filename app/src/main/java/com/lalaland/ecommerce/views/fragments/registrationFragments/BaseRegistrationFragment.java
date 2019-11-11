@@ -1,7 +1,6 @@
 package com.lalaland.ecommerce.views.fragments.registrationFragments;
 
 
-import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
@@ -42,12 +41,12 @@ import java.util.Arrays;
 import java.util.HashMap;
 import java.util.Map;
 
+import static android.app.Activity.RESULT_OK;
 import static com.lalaland.ecommerce.helpers.AppConstants.AUTHORIZATION_FAIL_CODE;
 import static com.lalaland.ecommerce.helpers.AppConstants.AVATER;
 import static com.lalaland.ecommerce.helpers.AppConstants.CART_SESSION_TOKEN;
 import static com.lalaland.ecommerce.helpers.AppConstants.DATE_OF_BIRTH;
 import static com.lalaland.ecommerce.helpers.AppConstants.FACEBOOK_SIGN_UP_IN;
-import static com.lalaland.ecommerce.helpers.AppConstants.FB_LOGIN_CANCLED;
 import static com.lalaland.ecommerce.helpers.AppConstants.GENDER;
 import static com.lalaland.ecommerce.helpers.AppConstants.GOOGLE_SIGN_UP_IN;
 import static com.lalaland.ecommerce.helpers.AppConstants.NAME;
@@ -73,11 +72,11 @@ public class BaseRegistrationFragment extends Fragment {
 
     private String token, cart_session;
     private AppPreference appPreference;
-    GoogleSignInOptions gso;
-    GoogleApiClient mGoogleApiClient;
-    GoogleSignInClient mGoogleSignInClient;
-    GoogleSignInAccount account;
-    LoadingLogin mLoadingLogin;
+    private GoogleSignInOptions gso;
+    private GoogleApiClient mGoogleApiClient;
+    private GoogleSignInClient mGoogleSignInClient;
+    private GoogleSignInAccount account;
+    private LoadingLogin mLoadingLogin;
     private Bundle bundle = new Bundle();
 
     public BaseRegistrationFragment() {
@@ -208,9 +207,9 @@ public class BaseRegistrationFragment extends Fragment {
 
             @Override
             public void onCancel() {
-                if (getContext() != null) {
+                /*if (getContext() != null) {
                     Toast.makeText(getContext(), FB_LOGIN_CANCLED, Toast.LENGTH_SHORT).show();
-                }
+                }*/
                 mLoadingLogin.checkLoading(true);
             }
 
@@ -258,12 +257,10 @@ public class BaseRegistrationFragment extends Fragment {
                         }
 
 
-                        getActivity().setResult(Activity.RESULT_OK);
+                        getActivity().setResult(RESULT_OK);
                         getActivity().finish();
                         break;
                     case VALIDATION_FAIL_CODE:
-                        Toast.makeText(getContext(), registrationContainer.getMsg(), Toast.LENGTH_SHORT).show();
-                        break;
                     case AUTHORIZATION_FAIL_CODE:
                         Toast.makeText(getContext(), registrationContainer.getMsg(), Toast.LENGTH_SHORT).show();
                         break;
@@ -277,12 +274,18 @@ public class BaseRegistrationFragment extends Fragment {
     @Override
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
 
-        if (requestCode == 201) {
-            Task<GoogleSignInAccount> task = GoogleSignIn.getSignedInAccountFromIntent(data);
-            handleSignInResult(task);
+        if (resultCode == RESULT_OK) {
+            if (requestCode == 201) {
+                Task<GoogleSignInAccount> task = GoogleSignIn.getSignedInAccountFromIntent(data);
+                handleSignInResult(task);
 
-        } else
-            callbackManager.onActivityResult(requestCode, resultCode, data);
+            } else
+                callbackManager.onActivityResult(requestCode, resultCode, data);
+
+        } else {
+            mLoadingLogin.checkLoading(true);
+        }
+
         super.onActivityResult(requestCode, resultCode, data);
     }
 }

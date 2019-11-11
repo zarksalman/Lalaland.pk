@@ -180,9 +180,6 @@ public class SigninFragment extends BaseRegistrationFragment implements LoadingL
 
                         break;
                     case VALIDATION_FAIL_CODE:
-                        hideProgressBar();
-                        showToast(login.getMsg());
-                        break;
                     case AUTHORIZATION_FAIL_CODE:
                         hideProgressBar();
                         showToast(login.getMsg());

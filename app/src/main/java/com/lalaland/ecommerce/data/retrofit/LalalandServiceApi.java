@@ -66,7 +66,6 @@ public interface LalalandServiceApi {
 
     @POST("wishList")
     Call<WishListContainer> getWishListProducts(@HeaderMap Map<String, String> header);
-//    Call<WishListContainer> getWishListProducts(@Header("token") String token);
 
     @POST("{action}")
     Call<ActionProductsContainer> getActionProducts(@HeaderMap Map<String, String> header, @Path("action") String action, @QueryMap Map<String, String> parameter);

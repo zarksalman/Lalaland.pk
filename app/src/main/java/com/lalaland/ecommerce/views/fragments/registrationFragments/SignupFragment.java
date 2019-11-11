@@ -313,9 +313,6 @@ public class SignupFragment extends BaseRegistrationFragment implements LoadingL
 
                         break;
                     case VALIDATION_FAIL_CODE:
-                        hideProgressBar();
-                        showToast(registrationContainer.getMsg());
-                        break;
                     case AUTHORIZATION_FAIL_CODE:
                         hideProgressBar();
                         showToast(registrationContainer.getMsg());
