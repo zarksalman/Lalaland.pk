@@ -19,7 +19,6 @@ import okhttp3.logging.HttpLoggingInterceptor;
 import retrofit2.Retrofit;
 import retrofit2.converter.gson.GsonConverterFactory;
 
-import static com.lalaland.ecommerce.helpers.AppConstants.BASE_URL;
 import static com.lalaland.ecommerce.helpers.AppConstants.CART_SESSION_TOKEN;
 import static com.lalaland.ecommerce.helpers.AppConstants.SIGNIN_TOKEN;
 
@@ -41,7 +40,7 @@ public class RetrofitClient {
         appPreference = AppPreference.getInstance(AppConstants.mContext);
 
         retrofit = new Retrofit.Builder()
-                .baseUrl(BASE_URL)
+                .baseUrl(AppUtils.getBaseUrl())
                 .client(okHttpClient())
                 .addConverterFactory(GsonConverterFactory.create())
                 .build();

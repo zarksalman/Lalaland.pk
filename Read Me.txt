@@ -1,1 +1,0 @@
-1- Create BaseRegistrationFragment because login and create account has same call for facebook.

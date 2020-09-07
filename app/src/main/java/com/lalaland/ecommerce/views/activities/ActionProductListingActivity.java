@@ -672,4 +672,11 @@ public class ActionProductListingActivity extends AppCompatActivity implements A
             isFilterOrSort = true;
         }
     }
+
+    @Override
+    protected void onNewIntent(Intent intent) {
+        super.onNewIntent(intent);
+        startActivity(intent);
+        finish();
+    }
 }

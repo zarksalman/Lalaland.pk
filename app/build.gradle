@@ -2,11 +2,11 @@ apply plugin: 'com.android.application'
 apply plugin: 'io.fabric'
 
 android {
-    compileSdkVersion 28
+    compileSdkVersion 29
     defaultConfig {
         applicationId "com.lalaland.onlineshoppingapp"
         minSdkVersion 19
-        targetSdkVersion 28
+        targetSdkVersion 29
         versionCode 13
         versionName "1.2.1"
         multiDexEnabled true
@@ -33,6 +33,7 @@ android {
         sourceCompatibility JavaVersion.VERSION_1_8
         targetCompatibility JavaVersion.VERSION_1_8
     }
+    buildToolsVersion = '28.0.3'
 
     defaultConfig {
         vectorDrawables.useSupportLibrary = true
@@ -41,55 +42,55 @@ android {
 
 dependencies {
     implementation fileTree(dir: 'libs', include: ['*.jar'])
-    implementation 'androidx.appcompat:appcompat:1.1.0'
-    implementation 'com.google.android.material:material:1.0.0'
-    implementation 'androidx.constraintlayout:constraintlayout:1.1.3'
+    implementation 'androidx.appcompat:appcompat:1.2.0'
+    implementation 'com.google.android.material:material:1.2.1'
+    implementation 'androidx.constraintlayout:constraintlayout:2.0.1'
     implementation 'androidx.vectordrawable:vectordrawable:1.1.0'
     implementation 'androidx.multidex:multidex:2.0.1'
 
     // ********************* First Party ***********************
     // view model and live data
-    implementation 'androidx.lifecycle:lifecycle-extensions:2.1.0'
+    implementation 'androidx.lifecycle:lifecycle-extensions:2.2.0'
     implementation 'androidx.legacy:legacy-support-v4:1.0.0'
-    annotationProcessor 'androidx.lifecycle:lifecycle-compiler:2.1.0'
-    implementation 'androidx.lifecycle:lifecycle-livedata:2.1.0'
+    annotationProcessor 'androidx.lifecycle:lifecycle-compiler:2.2.0'
+    implementation 'androidx.lifecycle:lifecycle-livedata:2.2.0'
 
     // rxjava related libraries
-    implementation 'com.squareup.retrofit2:adapter-rxjava2:2.4.0'
+    implementation 'com.squareup.retrofit2:adapter-rxjava2:2.9.0'
     implementation 'io.reactivex.rxjava2:rxjava:2.2.9'
     implementation 'io.reactivex.rxjava2:rxandroid:2.1.1'
-    implementation "com.jakewharton.rxbinding2:rxbinding:2.0.0"
+    implementation 'com.jakewharton.rxbinding2:rxbinding:2.2.0'
 
-    def paging_version = "2.1.0"
+    def paging_version = "2.1.2"
     implementation "androidx.paging:paging-runtime:$paging_version"
 
-    def room_version = "2.1.0"
+    def room_version = "2.2.5"
     implementation "androidx.room:room-runtime:$room_version"
     annotationProcessor "androidx.room:room-compiler:$room_version"
 
     //firebase and facebook analytics and crashlytics
-    implementation 'com.google.firebase:firebase-core:17.2.0'
-    implementation 'com.google.firebase:firebase-analytics:17.2.0'
+    implementation 'com.google.firebase:firebase-core:17.5.0'
+    implementation 'com.google.firebase:firebase-analytics:17.5.0'
     implementation 'com.facebook.android:facebook-android-sdk:4.33.0'
     implementation 'com.crashlytics.sdk.android:crashlytics:2.10.1'
-    implementation 'com.google.firebase:firebase-messaging:20.0.0'
+    implementation 'com.google.firebase:firebase-messaging:20.2.4'
 
     // network calls
-    implementation 'com.squareup.retrofit2:retrofit:2.5.0'
+    implementation 'com.squareup.retrofit2:retrofit:2.9.0'
 
     // google login
-    implementation 'com.google.android.gms:play-services-auth:17.0.0'
+    implementation 'com.google.android.gms:play-services-auth:18.1.0'
 
     // logging interceptor for retrofit
-    implementation 'com.squareup.okhttp3:logging-interceptor:3.14.1'
+    implementation 'com.squareup.okhttp3:logging-interceptor:4.8.1'
 
     // json parsing
-    implementation 'com.google.code.gson:gson:2.8.5'
-    implementation 'com.squareup.retrofit2:converter-gson:2.5.0'
+    implementation 'com.google.code.gson:gson:2.8.6'
+    implementation 'com.squareup.retrofit2:converter-gson:2.9.0'
 
     // image loading and cache
-    implementation 'com.github.bumptech.glide:glide:4.9.0'
-    annotationProcessor 'com.github.bumptech.glide:compiler:4.9.0'
+    implementation 'com.github.bumptech.glide:glide:4.11.0'
+    annotationProcessor 'com.github.bumptech.glide:compiler:4.11.0'
     implementation 'com.squareup.picasso:picasso:2.71828'
 
 
@@ -102,6 +103,5 @@ dependencies {
 
     // image compression
     implementation 'id.zelory:compressor:2.1.0'
-
 }
 apply plugin: 'com.google.gms.google-services'

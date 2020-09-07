@@ -49,14 +49,18 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import static com.lalaland.ecommerce.helpers.AppConstants.ACTION_ID;
+import static com.lalaland.ecommerce.helpers.AppConstants.ACTION_NAME;
 import static com.lalaland.ecommerce.helpers.AppConstants.ADD_TO_CART;
 import static com.lalaland.ecommerce.helpers.AppConstants.BASE_URL_PRODUCT_SHARE;
+import static com.lalaland.ecommerce.helpers.AppConstants.BRANDS_IN_FOCUS_PRODUCTS;
 import static com.lalaland.ecommerce.helpers.AppConstants.CART_SESSION_TOKEN;
 import static com.lalaland.ecommerce.helpers.AppConstants.IS_WISH_LIST;
 import static com.lalaland.ecommerce.helpers.AppConstants.ITEM_SOLD;
 import static com.lalaland.ecommerce.helpers.AppConstants.LOAD_HOME_FRAGMENT_INDEX;
 import static com.lalaland.ecommerce.helpers.AppConstants.PRODUCT_ID;
 import static com.lalaland.ecommerce.helpers.AppConstants.PRODUCT_STORAGE_BASE_URL;
+import static com.lalaland.ecommerce.helpers.AppConstants.PRODUCT_TYPE;
 import static com.lalaland.ecommerce.helpers.AppConstants.PRODUCT_VARIATION_ID;
 import static com.lalaland.ecommerce.helpers.AppConstants.QUANTITY;
 import static com.lalaland.ecommerce.helpers.AppConstants.SIGNIN_TOKEN;
@@ -168,6 +172,14 @@ public class ProductDetailActivity extends AppCompatActivity implements ProductV
 
         activityProductDetailBinding.loginContainer.setOnClickListener(v -> {
             startActivityForResult(new Intent(this, RegistrationActivity.class), 300);
+        });
+
+        activityProductDetailBinding.tvBrandName.setOnClickListener(v -> {
+            intent = new Intent(this, ActionProductListingActivity.class);
+            intent.putExtra(ACTION_NAME, productDetails.getBrandName());
+            intent.putExtra(PRODUCT_TYPE, BRANDS_IN_FOCUS_PRODUCTS);
+            intent.putExtra(ACTION_ID, String.valueOf(productDetails.getBrandId()));
+            startActivity(intent);
         });
 
         activityProductDetailBinding.btnSubmitReview.setOnClickListener(v -> submitReview());
@@ -831,5 +843,12 @@ public class ProductDetailActivity extends AppCompatActivity implements ProductV
 
             activityProductDetailBinding.pbLoading.setVisibility(View.GONE);
         });
+    }
+
+    @Override
+    protected void onNewIntent(Intent intent) {
+        super.onNewIntent(intent);
+        startActivity(intent);
+        finish();
     }
 }

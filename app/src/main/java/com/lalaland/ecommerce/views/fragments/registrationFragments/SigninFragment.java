@@ -2,6 +2,9 @@ package com.lalaland.ecommerce.views.fragments.registrationFragments;
 
 
 import android.app.Activity;
+import android.app.AlertDialog;
+import android.app.DatePickerDialog;
+import android.app.Dialog;
 import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
@@ -53,6 +56,8 @@ public class SigninFragment extends BaseRegistrationFragment implements LoadingL
 
     public SigninFragment() {
         // Required empty public constructor
+
+        //dialog = new DatePickerDialog(getContext());
     }
 
     public static SigninFragment newInstance() {

@@ -31,6 +31,8 @@ import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import com.lalaland.ecommerce.BuildConfig;
+
 import java.io.ByteArrayOutputStream;
 import java.io.File;
 import java.io.FileInputStream;
@@ -53,6 +55,7 @@ import static com.lalaland.ecommerce.helpers.AppConstants.ADVERTISEMENT_URL;
 import static com.lalaland.ecommerce.helpers.AppConstants.ADVERTISEMENT_URL_KEY;
 import static com.lalaland.ecommerce.helpers.AppConstants.BANNER_STORAGE_BASE_URL;
 import static com.lalaland.ecommerce.helpers.AppConstants.BANNER_STORAGE_BASE_URL_KEY;
+import static com.lalaland.ecommerce.helpers.AppConstants.BASE_URL;
 import static com.lalaland.ecommerce.helpers.AppConstants.BLOGS;
 import static com.lalaland.ecommerce.helpers.AppConstants.BLOGS_URL_KEY;
 import static com.lalaland.ecommerce.helpers.AppConstants.BLOG_URLS;
@@ -77,6 +80,7 @@ import static com.lalaland.ecommerce.helpers.AppConstants.RETURN_POLICY_URL;
 import static com.lalaland.ecommerce.helpers.AppConstants.RETURN_POLICY_URL_KEY;
 import static com.lalaland.ecommerce.helpers.AppConstants.SMALL_PRODUCT_STORAGE_BASE_URL;
 import static com.lalaland.ecommerce.helpers.AppConstants.SMALL_PRODUCT_STORAGE_BASE_URL_KEY;
+import static com.lalaland.ecommerce.helpers.AppConstants.STAGING_BASE_URL;
 import static com.lalaland.ecommerce.helpers.AppConstants.TAG;
 import static com.lalaland.ecommerce.helpers.AppConstants.TERMS_AND_CONDITIONS_URL;
 import static com.lalaland.ecommerce.helpers.AppConstants.TERMS_AND_CONDITIONS_URL_KEY;
@@ -734,6 +738,14 @@ public class AppUtils {
             return file;
         } catch (Exception e) {
             return null;
+        }
+    }
+
+    public static String getBaseUrl() {
+        if (!BuildConfig.DEBUG) {
+            return STAGING_BASE_URL;
+        } else {
+            return BASE_URL;
         }
     }
 }

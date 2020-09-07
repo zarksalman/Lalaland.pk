@@ -167,11 +167,13 @@
             android:name=".views.activities.ActionProductListingActivity"
             android:label="@string/title_activity_product_listing"
             android:screenOrientation="portrait"
+            android:launchMode="singleTask"
             android:theme="@style/AppTheme.NoActionBar.NoActionBar" />
         <activity
             android:name=".views.activities.ProductDetailActivity"
             android:label="@string/title_activity_product_detail"
             android:screenOrientation="portrait"
+            android:launchMode="singleTask"
             android:theme="@style/AppTheme.NoActionBar.NoActionBar" />
         <activity
             android:name=".views.activities.ZoomInZoomOutActivity"

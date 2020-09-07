@@ -138,14 +138,7 @@ public class BaseRegistrationFragment extends Fragment {
             mLoadingLogin.checkLoading(false);
 
             GoogleSignInAccount account = completedTask.getResult(ApiException.class);
-
-            Log.d(TAG, "account_info" + account.getDisplayName());
-            Log.d(TAG, "account_info" + account.getFamilyName());
-            Log.d(TAG, "account_info" + account.getEmail());
-            Log.d(TAG, "account_info" + account.getIdToken());
-            Log.d(TAG, "account_info" + account.getId());
-            Log.d(TAG, "account_info" + account.getPhotoUrl());
-
+            
             parameter.clear();
 
             try {
