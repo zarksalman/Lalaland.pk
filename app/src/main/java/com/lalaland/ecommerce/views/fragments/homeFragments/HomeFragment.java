@@ -168,12 +168,6 @@ public class HomeFragment extends Fragment implements BrandsFocusAdapter.Feature
                 blogPosts.addAll(homeDataContainer.getHomeData().getBlogPosts());
                 advertisement = homeDataContainer.getHomeData().getAdvertisement();
 
-/*
-                homeMainAdapter = new HomeMainAdapter(getContext(), homeDataContainer);
-                fragmentHomeNewBinding.rvParent.setAdapter(homeMainAdapter);
-                fragmentHomeNewBinding.rvParent.setLayoutManager(new LinearLayoutManager(getContext(), RecyclerView.VERTICAL, false));
-*/
-
 
                 setBannerSlider();
                 setActions();

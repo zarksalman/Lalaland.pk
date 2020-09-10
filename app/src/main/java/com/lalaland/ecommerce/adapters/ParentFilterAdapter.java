@@ -72,7 +72,8 @@ public class ParentFilterAdapter extends RecyclerView.Adapter<ParentFilterAdapte
         void bindHolder(ParentFilter parentFilter) {
 
             mFilterItemBinding.getRoot().setOnClickListener(v -> {
-                mparentFilterListener.onFilterClick(mParentFilterList.get(getAdapterPosition()));
+                if (getAdapterPosition() != RecyclerView.NO_POSITION)
+                    mparentFilterListener.onFilterClick(mParentFilterList.get(getAdapterPosition()));
             });
 
             mFilterItemBinding.setParentFilter(parentFilter);
@@ -84,5 +85,4 @@ public class ParentFilterAdapter extends RecyclerView.Adapter<ParentFilterAdapte
     public interface ParentFilterListener {
         void onFilterClick(ParentFilter filter);
     }
-
 }

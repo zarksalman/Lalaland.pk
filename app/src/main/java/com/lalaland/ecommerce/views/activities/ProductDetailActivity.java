@@ -6,6 +6,7 @@ import android.content.Intent;
 import android.content.res.Resources;
 import android.graphics.drawable.Drawable;
 import android.os.Bundle;
+import android.os.Handler;
 import android.util.Log;
 import android.view.View;
 import android.widget.ImageView;
@@ -48,6 +49,8 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Timer;
+import java.util.TimerTask;
 
 import static com.lalaland.ecommerce.helpers.AppConstants.ACTION_ID;
 import static com.lalaland.ecommerce.helpers.AppConstants.ACTION_NAME;
@@ -109,6 +112,7 @@ public class ProductDetailActivity extends AppCompatActivity implements ProductV
     ProductDetailData productDetailData;
     ReviewRatingAdapter reviewRatingAdapter;
     Float avgRating = 0f;
+    int currentPage = 0;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -212,6 +216,7 @@ public class ProductDetailActivity extends AppCompatActivity implements ProductV
         headers.put(CART_SESSION_TOKEN, cartSessionToken);
 
         addDots();
+        setupAutoPager();
 
 //        Double isWishList = (Double) productDetails.getIsWishListItem();
 
@@ -681,7 +686,8 @@ public class ProductDetailActivity extends AppCompatActivity implements ProductV
                 prouctDetailBottomSheetLayoutBinding.tvProductSize.setVisibility(View.VISIBLE);
                 prouctDetailBottomSheetLayoutBinding.ivForwardArrow.setVisibility(View.VISIBLE);
 
-                imgUrl = SIZE_CHART_STORAGE_BASE_URL.concat(mProductDetailDataContainer.getData().getSizeChart());
+                if (mProductDetailDataContainer.getData().getSizeChart() != null)
+                    imgUrl = SIZE_CHART_STORAGE_BASE_URL.concat(mProductDetailDataContainer.getData().getSizeChart());
 
                 View.OnClickListener onClickListener = v -> {
 
@@ -710,7 +716,7 @@ public class ProductDetailActivity extends AppCompatActivity implements ProductV
 
         for (int i = 0; i <= mProductMultimedia.size() - 1; i++) {
             ImageView dot = new ImageView(this);
-            dot.setImageDrawable(getResources().getDrawable(R.drawable.empty_circle));
+            dot.setImageDrawable(getResources().getDrawable(R.drawable.ic_slider_empty_icon));
 
             LinearLayout.LayoutParams params = new LinearLayout.LayoutParams(
                     LinearLayout.LayoutParams.WRAP_CONTENT,
@@ -743,10 +749,35 @@ public class ProductDetailActivity extends AppCompatActivity implements ProductV
     public void selectDot(int idx) {
         Resources res = getResources();
         for (int i = 0; i <= mProductMultimedia.size() - 1; i++) {
-            int drawableId = (i == idx) ? (R.drawable.filled_circle) : (R.drawable.empty_circle);
+            int drawableId = (i == idx) ? (R.drawable.ic_slider_filled_icon) : (R.drawable.ic_slider_empty_icon);
             Drawable drawable = res.getDrawable(drawableId);
             dots.get(i).setImageDrawable(drawable);
         }
+    }
+
+    private void setupAutoPager() {
+        final Handler handler = new Handler();
+
+        final Runnable update = () -> {
+
+            activityProductDetailBinding.vpImages.setCurrentItem(currentPage, true);
+            if (currentPage == mProductMultimedia.size()) {
+                currentPage = 0;
+            } else {
+
+                ++currentPage;
+            }
+        };
+
+
+        Timer timer = new Timer();
+        timer.schedule(new TimerTask() {
+
+            @Override
+            public void run() {
+                handler.post(update);
+            }
+        }, 5000, 5000);
     }
 
     @Override

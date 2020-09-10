@@ -105,15 +105,15 @@ public class AppConstants {
     public static String DEVICE_TYPE = "ANDROID";
 
 
-    public static String PRODUCT_STORAGE_BASE_URL;
-    public static String CLAIM_STORAGE_BASE_URL;
-    public static String MEDIUM_PRODUCT_STORAGE_BASE_URL;
-    public static String SMALL_PRODUCT_STORAGE_BASE_URL;
-    public static String THUMBNAIL_PRODUCT_STORAGE_BASE_URL;
-    public static String BRAND_STORAGE_BASE_URL;
-    public static String BRAND_FOCUS_STORAGE_BASE_URL;
-    public static String CATEGORY_FOCUS_STORAGE_BASE_URL;
-    public static String SIZE_CHART_STORAGE_BASE_URL;
+    public static String PRODUCT_STORAGE_BASE_URL = "";
+    public static String CLAIM_STORAGE_BASE_URL = "";
+    public static String MEDIUM_PRODUCT_STORAGE_BASE_URL = "";
+    public static String SMALL_PRODUCT_STORAGE_BASE_URL = "";
+    public static String THUMBNAIL_PRODUCT_STORAGE_BASE_URL = "";
+    public static String BRAND_STORAGE_BASE_URL = "";
+    public static String BRAND_FOCUS_STORAGE_BASE_URL = "";
+    public static String CATEGORY_FOCUS_STORAGE_BASE_URL = "";
+    public static String SIZE_CHART_STORAGE_BASE_URL = "";
 
     public static String CATEGORY_BRAND_STORAGE_BASE_URL;
     public static String BANNER_STORAGE_BASE_URL = "";

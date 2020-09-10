@@ -247,8 +247,9 @@ public class UsersRepository {
 
                     // if login successfully then discard cart session token
                     appPreference.setString(CART_SESSION_TOKEN, "");
+                    if (response.body().getData().getRecommendedCat() != null)
+                        recommendedCat = response.body().getData().getRecommendedCat();
 
-                    recommendedCat = response.body().getData().getRecommendedCat();
                     appPreference.setString(RECOMMENDED_CAT_TOKEN, recommendedCat);
                     AppConstants.CART_COUNTER = response.body().getData().getCartCount();
                     registrationContainerMutableLiveData.postValue(response.body());

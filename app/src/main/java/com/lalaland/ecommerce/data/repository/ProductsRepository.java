@@ -273,7 +273,9 @@ public class ProductsRepository {
                 if (response.isSuccessful()) {
                     productDetailDataContainerMutableLiveData.postValue(response.body());
 
-                    recommendedCat = response.body().getData().getRecommendedCat();
+                    if (response.body().getData().getRecommendedCat() != null)
+                        recommendedCat = response.body().getData().getRecommendedCat();
+
                     appPreference.setString(RECOMMENDED_CAT_TOKEN, recommendedCat);
                 }
                 else
