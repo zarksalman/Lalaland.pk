@@ -9,6 +9,7 @@ import android.os.Bundle;
 import android.os.Handler;
 import android.util.Log;
 import android.view.View;
+import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.Toast;
@@ -716,12 +717,18 @@ public class ProductDetailActivity extends AppCompatActivity implements ProductV
 
         for (int i = 0; i <= mProductMultimedia.size() - 1; i++) {
             ImageView dot = new ImageView(this);
+            dot.setScaleType(ImageView.ScaleType.CENTER_CROP);
             dot.setImageDrawable(getResources().getDrawable(R.drawable.ic_slider_empty_icon));
 
             LinearLayout.LayoutParams params = new LinearLayout.LayoutParams(
-                    LinearLayout.LayoutParams.WRAP_CONTENT,
-                    LinearLayout.LayoutParams.WRAP_CONTENT
+                    ViewGroup.LayoutParams.WRAP_CONTENT,
+                    ViewGroup.LayoutParams.WRAP_CONTENT
             );
+
+            //dot.setPadding(4, 4, 4, 4);
+            params.rightMargin = 8;
+            params.leftMargin = 8;
+
             activityProductDetailBinding.dots.addView(dot, params);
 
             dots.add(dot);
@@ -736,7 +743,7 @@ public class ProductDetailActivity extends AppCompatActivity implements ProductV
 
             @Override
             public void onPageSelected(int position) {
-
+                currentPage = position;
                 selectDot(position);
             }
 
