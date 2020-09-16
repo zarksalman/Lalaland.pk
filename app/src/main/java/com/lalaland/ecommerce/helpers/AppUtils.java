@@ -31,8 +31,6 @@ import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
 
-import com.lalaland.ecommerce.BuildConfig;
-
 import java.io.ByteArrayOutputStream;
 import java.io.File;
 import java.io.FileInputStream;
@@ -80,7 +78,6 @@ import static com.lalaland.ecommerce.helpers.AppConstants.RETURN_POLICY_URL;
 import static com.lalaland.ecommerce.helpers.AppConstants.RETURN_POLICY_URL_KEY;
 import static com.lalaland.ecommerce.helpers.AppConstants.SMALL_PRODUCT_STORAGE_BASE_URL;
 import static com.lalaland.ecommerce.helpers.AppConstants.SMALL_PRODUCT_STORAGE_BASE_URL_KEY;
-import static com.lalaland.ecommerce.helpers.AppConstants.STAGING_BASE_URL;
 import static com.lalaland.ecommerce.helpers.AppConstants.TAG;
 import static com.lalaland.ecommerce.helpers.AppConstants.TERMS_AND_CONDITIONS_URL;
 import static com.lalaland.ecommerce.helpers.AppConstants.TERMS_AND_CONDITIONS_URL_KEY;
@@ -742,10 +739,11 @@ public class AppUtils {
     }
 
     public static String getBaseUrl() {
-        if (!BuildConfig.DEBUG) {
+        return BASE_URL;
+        /*if (BuildConfig.DEBUG) {
             return STAGING_BASE_URL;
         } else {
             return BASE_URL;
-        }
+        }*/
     }
 }

@@ -718,7 +718,7 @@ public class ProductDetailActivity extends AppCompatActivity implements ProductV
         for (int i = 0; i <= mProductMultimedia.size() - 1; i++) {
             ImageView dot = new ImageView(this);
             dot.setScaleType(ImageView.ScaleType.CENTER_CROP);
-            dot.setImageDrawable(getResources().getDrawable(R.drawable.ic_slider_empty_icon));
+            dot.setImageDrawable(getResources().getDrawable(R.drawable.ic_sliders_empty_icon));
 
             LinearLayout.LayoutParams params = new LinearLayout.LayoutParams(
                     ViewGroup.LayoutParams.WRAP_CONTENT,
@@ -756,7 +756,7 @@ public class ProductDetailActivity extends AppCompatActivity implements ProductV
     public void selectDot(int idx) {
         Resources res = getResources();
         for (int i = 0; i <= mProductMultimedia.size() - 1; i++) {
-            int drawableId = (i == idx) ? (R.drawable.ic_slider_filled_icon) : (R.drawable.ic_slider_empty_icon);
+            int drawableId = (i == idx) ? (R.drawable.ic_sliders_fill_icon) : (R.drawable.ic_sliders_empty_icon);
             Drawable drawable = res.getDrawable(drawableId);
             dots.get(i).setImageDrawable(drawable);
         }
