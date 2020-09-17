@@ -33,7 +33,6 @@ import com.lalaland.ecommerce.adapters.BlogPostsAdapter;
 import com.lalaland.ecommerce.adapters.BrandsFocusAdapter;
 import com.lalaland.ecommerce.adapters.FeatureCategoryAdapter;
 import com.lalaland.ecommerce.adapters.GetTheLooksAdapter;
-import com.lalaland.ecommerce.adapters.HomeMainAdapter;
 import com.lalaland.ecommerce.adapters.ProductAdapter;
 import com.lalaland.ecommerce.adapters.ProductPagedListAdapter;
 import com.lalaland.ecommerce.data.models.home.Actions;
@@ -97,16 +96,17 @@ public class HomeFragment extends Fragment implements BrandsFocusAdapter.Feature
     private GetTheLooksAdapter getTheLooksAdapter;
     private GridLayoutManager gridLayoutManager;
 
-    Boolean isLoading = false;
+    private Boolean isLoading = false;
     public static int INITIAL_INDEX = 0;
     public static int END_INDEX = 30;
     public static final int NUMBER_OF_ITEM = 30;
     private String recommended_cat;
     private List<ImageView> dots = new ArrayList<>();
-    int currentPage = 0;
+    private int currentPage = 0;
 
-    //******************************* new home page *******************************
-    HomeMainAdapter homeMainAdapter;
+    private Timer timer = new Timer();
+    private final Handler handler = new Handler();
+    private Runnable update;
 
     public HomeFragment() {
         // Required empty public constructor
@@ -184,6 +184,7 @@ public class HomeFragment extends Fragment implements BrandsFocusAdapter.Feature
 
                 fragmentHomeNewBinding.swipeContainer.setOnRefreshListener(() -> {
                     productList.clear();
+                    timer.cancel();
                     recommendationProductAdapter.notifyDataSetChanged();
                     requestInitialProducts();
                 });
@@ -307,9 +308,8 @@ public class HomeFragment extends Fragment implements BrandsFocusAdapter.Feature
     }
 
     private void setupAutoPager() {
-        final Handler handler = new Handler();
 
-        final Runnable update = () -> {
+        update = () -> {
 
             fragmentHomeNewBinding.vpImages.setCurrentItem(currentPage, true);
             if (currentPage == bannerList.size()) {
@@ -321,14 +321,14 @@ public class HomeFragment extends Fragment implements BrandsFocusAdapter.Feature
         };
 
 
-        Timer timer = new Timer();
+        timer = new Timer();
         timer.schedule(new TimerTask() {
 
             @Override
             public void run() {
                 handler.post(update);
             }
-        }, 1000, 3500);
+        }, 5000L, 5000L);
     }
 
     private void setAdvertisement() {
