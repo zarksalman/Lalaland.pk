@@ -29,6 +29,7 @@ import com.lalaland.ecommerce.viewModels.user.UserViewModel;
 import java.io.File;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.Objects;
 
 import okhttp3.MediaType;
 import okhttp3.MultipartBody;
@@ -199,17 +200,11 @@ public class AccountInformationActivity extends AppCompatActivity {
 
         File imageFile = AppUtils.getFile(this, uri);
 
-/*        try {
-            imageFile = new Compressor(this).setQuality(100).compressToFile(imageFile);
-        } catch (IOException e) {
-            e.printStackTrace();
-        }*/
-
         imageFile = AppUtils.saveBitmapToFile(imageFile);
 
         // create RequestBody instance from file
         RequestBody filePart = RequestBody.create(
-                MediaType.parse(getContentResolver().getType(uri)),
+                MediaType.parse(Objects.requireNonNull(getContentResolver().getType(uri))),
                 imageFile);
 
         MultipartBody.Part file = MultipartBody.Part.createFormData("avatar", imageFile.getName(), filePart);

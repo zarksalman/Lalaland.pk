@@ -12,6 +12,8 @@ public class ProductMultimedium {
     @Expose
     private String source;
 
+    private String mediaDescription;
+
     public Integer getId() {
         return id;
     }
@@ -26,5 +28,13 @@ public class ProductMultimedium {
 
     public void setSource(String source) {
         this.source = source;
+    }
+
+    public String getMediaDescription() {
+        return mediaDescription;
+    }
+
+    public void setMediaDescription(String mediaDescription) {
+        this.mediaDescription = mediaDescription;
     }
 }

@@ -85,11 +85,14 @@ public class ProductDetailActivity extends AppCompatActivity implements ProductV
     private ProductViewModel productViewModel;
     private OrderViewModel orderViewModel;
 
+    private String productImage;
+    private boolean isOutOfStock = false;
+    Intent intent, dataIntent;
+    ProductDetailData productDetailData;
     private Map<String, String> parameter = new HashMap<>();
     private Map<String, String> deliverOptionparameter = new HashMap<>();
     private Map<String, String> headers = new HashMap<>();
     private int product_id, variation_id, quantity = 1;
-    private String productImage;
     private String loginToken;
     private String cartSessionToken;
     private String generalDescription;
@@ -98,19 +101,16 @@ public class ProductDetailActivity extends AppCompatActivity implements ProductV
     private ProductDetails productDetails;
     private ProuctDetailBottomSheetLayoutBinding prouctDetailBottomSheetLayoutBinding;
     private boolean isBuyNow = false;
-    private boolean isOutOfStock = false;
     private List<ImageView> dots = new ArrayList<>();
     private int isAddOrRemove;
     private BottomSheetDialog mBottomSheetDialog;
     private ProductVariationAdapter productVariationAdapter;
     String productShareUrl;
-    Intent intent, dataIntent;
     StringBuilder price = new StringBuilder();
     StringBuilder aPrice = new StringBuilder();
     Bundle bundle = new Bundle();
     boolean isDeeplink;
     String imgUrl = "";
-    ProductDetailData productDetailData;
     ReviewRatingAdapter reviewRatingAdapter;
     Float avgRating = 0f;
     int currentPage = 0;
@@ -218,8 +218,6 @@ public class ProductDetailActivity extends AppCompatActivity implements ProductV
 
         addDots();
         setupAutoPager();
-
-//        Double isWishList = (Double) productDetails.getIsWishListItem();
 
         if (productDetails.getIsWishListItem() != null) {
             activityProductDetailBinding.btnAddToWish.setImageResource(R.drawable.wish_list_filled_icon);
@@ -402,19 +400,20 @@ public class ProductDetailActivity extends AppCompatActivity implements ProductV
                     mLinkedProducts = productDetailDataContainer.getData().getLinkedProducts();
                     mProductReviews = mProductDetailDataContainer.getData().getProductReviews();
 
+                    for (int i = 0; i < mProductMultimedia.size(); i++) {
+                        mProductMultimedia.get(i).setMediaDescription(mProductDetailDataContainer.getData().getProductMultiMediaDesciption());
+                    }
+
                     initBottomSheet();
                     loadProductDetail();
 
                     bundle.putString("id", String.valueOf(product_id));
-
                     if (getFirstSelectedVariationIndex() != -1) {
                         bundle.putString("variation_id", String.valueOf(mProductVariation.get(getFirstSelectedVariationIndex()).getId()));
                     }
 
                     bundle.putString("price", productDetails.getMinSalePrice());
-
                     bundle.putString("brand_name", productDetails.getBrandName());
-
                     AnalyticsManager.getInstance().sendAnalytics("view_item", bundle);
                     AnalyticsManager.getInstance().sendFacebookAnalytics("Content View", bundle);
 

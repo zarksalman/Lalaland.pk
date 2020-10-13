@@ -686,8 +686,10 @@ public class CheckoutScreen extends AppCompatActivity implements NetworkInterfac
 
             activityCheckoutScreenBinding.pbLoading.setVisibility(View.GONE);
 
-            if (otpDataContainer.getCode() != null && otpDataContainer.getCode().equals(SUCCESS_CODE)) {
-                userOtpCode = String.valueOf(otpDataContainer.getData().getUserOtpId());
+            if (otpDataContainer != null) {
+                if (otpDataContainer.getCode() != null && otpDataContainer.getCode().equals(SUCCESS_CODE)) {
+                    userOtpCode = String.valueOf(otpDataContainer.getData().getUserOtpId());
+                }
             }
 
             AppUtils.unBlockUi(this);

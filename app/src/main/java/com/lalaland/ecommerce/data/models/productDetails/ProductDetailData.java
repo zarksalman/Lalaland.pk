@@ -22,6 +22,9 @@ public class ProductDetailData {
     @SerializedName("product_multimedia")
     @Expose
     private List<ProductMultimedium> productMultimedia = null;
+    @SerializedName("image_description")
+    @Expose
+    private String productMultiMediaDesciption;
     @SerializedName("linked_products")
     @Expose
     private List<LinkedProduct> linkedProducts = null;
@@ -138,5 +141,13 @@ public class ProductDetailData {
 
     public void setExcutionTime(Double excutionTime) {
         this.excutionTime = excutionTime;
+    }
+
+    public String getProductMultiMediaDesciption() {
+        return productMultiMediaDesciption;
+    }
+
+    public void setProductMultiMediaDesciption(String productMultiMediaDesciption) {
+        this.productMultiMediaDesciption = productMultiMediaDesciption;
     }
 }
