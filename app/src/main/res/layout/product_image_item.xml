@@ -16,6 +16,7 @@
             android:id="@+id/iv_product"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:scaleType="fitCenter"
             android:adjustViewBounds="true"
             app:layout_constraintBottom_toTopOf="@+id/tv_image_detail"
             app:layout_constraintEnd_toEndOf="parent"

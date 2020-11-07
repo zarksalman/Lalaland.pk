@@ -8,6 +8,7 @@ import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.os.Handler;
 import android.util.Log;
+import android.util.TypedValue;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
@@ -164,9 +165,10 @@ public class ProductDetailActivity extends AppCompatActivity implements ProductV
         activityProductDetailBinding.ivShareProduct.setOnClickListener(v -> {
             productShareUrl = BASE_URL_PRODUCT_SHARE;
             productShareUrl = productShareUrl.concat(AppUtils.createProductUrl(mProductDetailDataContainer.getData().getCategoryName().getName()));
-            productShareUrl = productShareUrl.concat("/").concat(AppUtils.createProductUrl(productDetails.getBrandName()));
-            productShareUrl = productShareUrl.concat("/").concat(AppUtils.createProductUrl(productDetails.getName()));
-            productShareUrl = productShareUrl.concat("/").concat(AppUtils.createProductUrl(String.valueOf(productDetails.getId())));
+            productShareUrl = productShareUrl.concat("/").concat(productDetails.getBrandName());
+            productShareUrl = productShareUrl.concat("/").concat(productDetails.getName());
+            productShareUrl = productShareUrl.concat("/").concat(String.valueOf(productDetails.getId()));
+            productShareUrl = AppUtils.createProductUrl(productShareUrl);
 
             startActivity(AppUtils.getProductShareIntent(productShareUrl));
         });
@@ -201,7 +203,7 @@ public class ProductDetailActivity extends AppCompatActivity implements ProductV
 
         //setting viewpagger height because in scrollview wrap/match does not calculate their height correctly
         android.view.Display display = ((android.view.WindowManager) getSystemService(Context.WINDOW_SERVICE)).getDefaultDisplay();
-        activityProductDetailBinding.vpImages.getLayoutParams().height = ((int) (display.getHeight() * 0.65));
+        activityProductDetailBinding.vpImages.getLayoutParams().height = ((int) (display.getHeight() * 0.76));
         activityProductDetailBinding.vpImages.getLayoutParams().width = ((int) (display.getWidth() * 1.0));
 
 
@@ -519,7 +521,6 @@ public class ProductDetailActivity extends AppCompatActivity implements ProductV
 
         hideBottomSheet();
 
-
         productViewModel.addToCart(headers, parameter).observe(this, basicResponse -> {
 
             if (basicResponse != null) {
@@ -587,7 +588,6 @@ public class ProductDetailActivity extends AppCompatActivity implements ProductV
                             AnalyticsManager.getInstance().sendFacebookAnalytics("Add to Wishlist", bundle);
 
                             activityProductDetailBinding.btnAddToWish.setImageResource(R.drawable.wish_list_filled_icon);
-                            // activityProductDetailBinding.btnAddToWish.setBackground(getResources().getDrawable(R.drawable.bg_round_corner_white_accent));
                         } else {
 
                             AnalyticsManager.getInstance().sendAnalytics("remove_from_wishlist", bundle);
@@ -618,7 +618,7 @@ public class ProductDetailActivity extends AppCompatActivity implements ProductV
         // is buy now or just add to cart
         this.isBuyNow = isBuyNow;
         mBottomSheetDialog.show();
-
+        AppUtils.showSnackbar(this, "", false);
     }
 
     public void hideBottomSheet() {
@@ -677,7 +677,20 @@ public class ProductDetailActivity extends AppCompatActivity implements ProductV
                 }
             }
 
-            Toast.makeText(this, "Insufficient Stock", Toast.LENGTH_SHORT).show();
+            Resources r = getResources();
+            float pxLeftMargin = TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, 0, r.getDisplayMetrics());
+            float pxTopMargin = TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, 0, r.getDisplayMetrics());
+            float pxRightMargin = TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, 0, r.getDisplayMetrics());
+            float pxBottomMargin = TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, 50, r.getDisplayMetrics());
+
+
+            LinearLayout.LayoutParams params = (LinearLayout.LayoutParams) activityProductDetailBinding.btnsContainer.getLayoutParams();
+            params.setMargins(0, 0, 0, 50);
+            activityProductDetailBinding.btnsContainer.setLayoutParams(params);
+
+            mBottomSheetDialog.hide();
+            AppUtils.showSnackbar(this, getResources().getString(R.string.insufficient_stock), true);
+//            Toast.makeText(this, R.string.insufficient_stock, Toast.LENGTH_SHORT).show();
         });
 
         if (mProductDetailDataContainer.getData().getSizeChart() != null) {

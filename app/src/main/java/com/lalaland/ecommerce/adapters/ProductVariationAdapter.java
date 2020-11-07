@@ -85,17 +85,16 @@ public class ProductVariationAdapter extends RecyclerView.Adapter<ProductVariati
                 if (selectedPosition == getAdapterPosition()) {
 
                     mProductVariationItemBinding.tvVariation.setTextColor(mContext.getResources().getColor(R.color.colorPrimary));
-                    mProductVariationItemBinding.variationRoot.setBackground(mContext.getResources().getDrawable(R.drawable.bg_round_corner_transparent_accent));
+                    mProductVariationItemBinding.variationContainer.setBackground(mContext.getResources().getDrawable(R.drawable.bg_round_corner_transparent_accent));
 
-                    
                 } else {
                     mProductVariationItemBinding.tvVariation.setTextColor(mContext.getResources().getColor(android.R.color.black));
-                    mProductVariationItemBinding.variationRoot.setBackground(mContext.getResources().getDrawable(R.drawable.bg_round_corner_transparent_gray));
+                    mProductVariationItemBinding.variationContainer.setBackground(mContext.getResources().getDrawable(R.drawable.bg_round_corner_transparent));
                 }
             } else {
 
                 mProductVariationItemBinding.tvVariation.setTextColor(mContext.getResources().getColor(android.R.color.white));
-                mProductVariationItemBinding.variationRoot.setBackground(mContext.getResources().getDrawable(R.drawable.bg_round_corner_gray));
+                mProductVariationItemBinding.variationContainer.setBackground(mContext.getResources().getDrawable(R.drawable.bg_circle_gray));
             }
 
             mProductVariationItemBinding.setProductVariation(productVariation);

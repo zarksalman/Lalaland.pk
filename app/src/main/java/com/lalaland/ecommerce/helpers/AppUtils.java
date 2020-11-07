@@ -30,6 +30,10 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.content.res.ResourcesCompat;
+
+import com.google.android.material.snackbar.BaseTransientBottomBar;
+import com.google.android.material.snackbar.Snackbar;
 
 import java.io.ByteArrayOutputStream;
 import java.io.File;
@@ -354,6 +358,11 @@ public class AppUtils {
         return String.valueOf(str1).concat(" ").concat(String.valueOf(str2));
     }
 
+    public static String getItemLeftString(String str) {
+
+        return str.concat(" ").concat("left");
+    }
+
     public static String formatSearchUrl(String str) {
 
         if (str != null && (str.contains("-")))
@@ -373,6 +382,14 @@ public class AppUtils {
     public static Integer toInteger(String quantity) {
 
         return Integer.parseInt(quantity);
+    }
+
+    public static int shouldVisibleQuantityView(String quantity) {
+
+        if (Integer.parseInt(quantity) < 10)
+            return View.VISIBLE;
+        else
+            return View.GONE;
     }
 
     public static String caculatePercentage(String actualPrice, String salePrice) {
@@ -742,5 +759,31 @@ public class AppUtils {
         } else {
             return BASE_URL;
         }*/
+    }
+
+
+    public static void showSnackbar(Activity context, String text, Boolean hideSB) {
+        View parentLayout = context.findViewById(android.R.id.content);
+        Snackbar snackbar = Snackbar.make(parentLayout, text, Snackbar.LENGTH_INDEFINITE);
+        snackbar.getView().setBackgroundColor(ResourcesCompat.getColor(context.getResources(),
+                android.R.color.black, null));
+
+        snackbar.addCallback(new BaseTransientBottomBar.BaseCallback<Snackbar>() {
+            @Override
+            public void onDismissed(Snackbar transientBottomBar, int event) {
+                super.onDismissed(transientBottomBar, event);
+            }
+
+            @Override
+            public void onShown(Snackbar transientBottomBar) {
+                super.onShown(transientBottomBar);
+            }
+        });
+
+        if (!snackbar.isShown())
+            snackbar.show();
+
+        if (!hideSB)
+            snackbar.dismiss();
     }
 }

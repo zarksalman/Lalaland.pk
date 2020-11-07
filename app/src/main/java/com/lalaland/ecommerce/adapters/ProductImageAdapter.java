@@ -59,7 +59,6 @@ public class ProductImageAdapter extends PagerAdapter {
                 .get()
                 .load(imgUrl)
                 .placeholder(R.drawable.placeholder_products)
-                .fit()
                 .into(productImageItemBinding.ivProduct);
 
         productImageItemBinding.tvImageDetail.setText("Description");
