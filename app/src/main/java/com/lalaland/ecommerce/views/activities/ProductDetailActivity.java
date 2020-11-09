@@ -8,7 +8,6 @@ import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.os.Handler;
 import android.util.Log;
-import android.util.TypedValue;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
@@ -164,12 +163,8 @@ public class ProductDetailActivity extends AppCompatActivity implements ProductV
 
         activityProductDetailBinding.ivShareProduct.setOnClickListener(v -> {
             productShareUrl = BASE_URL_PRODUCT_SHARE;
-            productShareUrl = productShareUrl.concat(AppUtils.createProductUrl(mProductDetailDataContainer.getData().getCategoryName().getName()));
-            productShareUrl = productShareUrl.concat("/").concat(productDetails.getBrandName());
-            productShareUrl = productShareUrl.concat("/").concat(productDetails.getName());
-            productShareUrl = productShareUrl.concat("/").concat(String.valueOf(productDetails.getId()));
-            productShareUrl = AppUtils.createProductUrl(productShareUrl);
-
+            productShareUrl += AppUtils.createProductUrl(mProductDetailDataContainer.getData());
+            Log.d("product_urls", productShareUrl);
             startActivity(AppUtils.getProductShareIntent(productShareUrl));
         });
 
@@ -203,7 +198,7 @@ public class ProductDetailActivity extends AppCompatActivity implements ProductV
 
         //setting viewpagger height because in scrollview wrap/match does not calculate their height correctly
         android.view.Display display = ((android.view.WindowManager) getSystemService(Context.WINDOW_SERVICE)).getDefaultDisplay();
-        activityProductDetailBinding.vpImages.getLayoutParams().height = ((int) (display.getHeight() * 0.76));
+        activityProductDetailBinding.vpImages.getLayoutParams().height = ((int) (display.getHeight() * 0.74));
         activityProductDetailBinding.vpImages.getLayoutParams().width = ((int) (display.getWidth() * 1.0));
 
 
@@ -618,7 +613,6 @@ public class ProductDetailActivity extends AppCompatActivity implements ProductV
         // is buy now or just add to cart
         this.isBuyNow = isBuyNow;
         mBottomSheetDialog.show();
-        AppUtils.showSnackbar(this, "", false);
     }
 
     public void hideBottomSheet() {
@@ -676,21 +670,7 @@ public class ProductDetailActivity extends AppCompatActivity implements ProductV
                     }
                 }
             }
-
-            Resources r = getResources();
-            float pxLeftMargin = TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, 0, r.getDisplayMetrics());
-            float pxTopMargin = TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, 0, r.getDisplayMetrics());
-            float pxRightMargin = TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, 0, r.getDisplayMetrics());
-            float pxBottomMargin = TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, 50, r.getDisplayMetrics());
-
-
-            LinearLayout.LayoutParams params = (LinearLayout.LayoutParams) activityProductDetailBinding.btnsContainer.getLayoutParams();
-            params.setMargins(0, 0, 0, 50);
-            activityProductDetailBinding.btnsContainer.setLayoutParams(params);
-
-            mBottomSheetDialog.hide();
-            AppUtils.showSnackbar(this, getResources().getString(R.string.insufficient_stock), true);
-//            Toast.makeText(this, R.string.insufficient_stock, Toast.LENGTH_SHORT).show();
+            Toast.makeText(this, R.string.insufficient_stock, Toast.LENGTH_SHORT).show();
         });
 
         if (mProductDetailDataContainer.getData().getSizeChart() != null) {
@@ -838,6 +818,8 @@ public class ProductDetailActivity extends AppCompatActivity implements ProductV
 
         if (AppUtils.toInteger(productVariation.getRemainingQuantity()) > 0) {
 
+            quantity = 1;
+            prouctDetailBottomSheetLayoutBinding.tvCount.setText("1");
             bundle.putString("variation_id", String.valueOf(productVariation.getId()));
             bundle.putString("price", String.valueOf(productVariation.getSalePrice()));
 

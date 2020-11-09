@@ -16,11 +16,11 @@
             android:id="@+id/iv_product"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:scaleType="fitCenter"
+            android:scaleType="centerCrop"
             android:adjustViewBounds="true"
             app:layout_constraintBottom_toTopOf="@+id/tv_image_detail"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintDimensionRatio="3:4"
+            app:layout_constraintDimensionRatio="W,3:4"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
 

@@ -34,6 +34,8 @@ import androidx.core.content.res.ResourcesCompat;
 
 import com.google.android.material.snackbar.BaseTransientBottomBar;
 import com.google.android.material.snackbar.Snackbar;
+import com.lalaland.ecommerce.data.models.productDetails.ProductDetailData;
+import com.lalaland.ecommerce.data.models.productDetails.ProductDetails;
 
 import java.io.ByteArrayOutputStream;
 import java.io.File;
@@ -459,11 +461,33 @@ public class AppUtils {
         return androidDeviceId;
     }
 
-    public static String createProductUrl(String str) {
-        str = str.replace(" ", "-");
+    public static String createProductUrl(ProductDetailData productDetailData) {
+
+        String productShareUrl;
+        ProductDetails productDetails = productDetailData.getProductDetails();
+
+        String categoryName = trimSpecialCharactersFromProductUrl(productDetailData.getCategoryName().getName());
+        String brandName = trimSpecialCharactersFromProductUrl(productDetails.getBrandName());
+        String productName = trimSpecialCharactersFromProductUrl(productDetails.getName());
+        String productId = productDetails.getId().toString();
+
+        productShareUrl = categoryName + brandName + productName + productId;
+        return productShareUrl;
+    }
+
+    private static String trimSpecialCharactersFromProductUrl(String string) {
+
+        String str = string.replace(" ", "-")
+                .replace(")", "-")
+                .replace("(", "-")
+                .replace(".", "-")
+                .replace("/", "-")
+                .replace("’", "-")
+                .replace("'", "-")
+                .replace("\"", "-");
         str = str.toLowerCase();
 
-        return str;
+        return str.concat("/");
     }
 
     public static File getFile(Context context, Uri uri) {

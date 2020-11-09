@@ -54,6 +54,7 @@ public class ProductImageAdapter extends PagerAdapter {
         productImageItemBinding = DataBindingUtil.inflate(layoutInflater, R.layout.product_image_item, container, false);
 
         String imgUrl = AppConstants.PRODUCT_STORAGE_BASE_URL.concat(productMultimedia.get(position).getSource());
+        String mediaDescription = productMultimedia.get(position).getMediaDescription();
 
         Picasso
                 .get()
@@ -61,7 +62,12 @@ public class ProductImageAdapter extends PagerAdapter {
                 .placeholder(R.drawable.placeholder_products)
                 .into(productImageItemBinding.ivProduct);
 
-        productImageItemBinding.tvImageDetail.setText("Description");
+        productImageItemBinding.tvImageDetail.setText(mediaDescription);
+        if (mediaDescription == null || mediaDescription.isEmpty())
+            productImageItemBinding.tvImageDetail.setVisibility(View.GONE);
+        else
+            productImageItemBinding.tvImageDetail.setVisibility(View.VISIBLE);
+
         container.addView(productImageItemBinding.getRoot());
         return productImageItemBinding.getRoot();
 
