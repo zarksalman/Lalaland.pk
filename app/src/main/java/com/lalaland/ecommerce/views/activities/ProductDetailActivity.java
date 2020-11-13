@@ -201,8 +201,10 @@ public class ProductDetailActivity extends AppCompatActivity implements ProductV
         activityProductDetailBinding.vpImages.getLayoutParams().height = ((int) (display.getHeight() * 0.74));
         activityProductDetailBinding.vpImages.getLayoutParams().width = ((int) (display.getWidth() * 1.0));
 
+      /*  Log.d("description", productDetailData.getProductMultiMediaDesciption());
+        Log.d("description", mProductMultimedia.get(0).getMediaDescription());*/
 
-        ProductImageAdapter productImageAdapter = new ProductImageAdapter(this, mProductMultimedia);
+        ProductImageAdapter productImageAdapter = new ProductImageAdapter(this, mProductMultimedia, productDetails.getProductMultiMediaDesciption());
         activityProductDetailBinding.vpImages.setAdapter(productImageAdapter);
 
         productImage = PRODUCT_STORAGE_BASE_URL + productDetails.getPrimaryImage();
@@ -390,6 +392,7 @@ public class ProductDetailActivity extends AppCompatActivity implements ProductV
                 if (productDetailDataContainer.getCode().equals(SUCCESS_CODE)) {
                     mProductDetailDataContainer = productDetailDataContainer;
 
+                    productDetailData = mProductDetailDataContainer.getData();
                     mProductVariation = productDetailDataContainer.getData().getProductVariations();
                     mProductMultimedia = productDetailDataContainer.getData().getProductMultimedia();
                     mFitAndSizings = mProductDetailDataContainer.getData().getFitAndSizing();
@@ -398,7 +401,7 @@ public class ProductDetailActivity extends AppCompatActivity implements ProductV
                     mProductReviews = mProductDetailDataContainer.getData().getProductReviews();
 
                     for (int i = 0; i < mProductMultimedia.size(); i++) {
-                        mProductMultimedia.get(i).setMediaDescription(mProductDetailDataContainer.getData().getProductMultiMediaDesciption());
+                        mProductMultimedia.get(i).setMediaDescription(productDetails.getProductMultiMediaDesciption());
                     }
 
                     initBottomSheet();

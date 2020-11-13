@@ -94,7 +94,7 @@ public class ProductVariationAdapter extends RecyclerView.Adapter<ProductVariati
             } else {
 
                 mProductVariationItemBinding.tvVariation.setTextColor(mContext.getResources().getColor(android.R.color.white));
-                mProductVariationItemBinding.variationContainer.setBackground(mContext.getResources().getDrawable(R.drawable.bg_circle_gray));
+                mProductVariationItemBinding.variationContainer.setBackground(mContext.getResources().getDrawable(R.drawable.bg_round_cornor_gray));
             }
 
             mProductVariationItemBinding.setProductVariation(productVariation);

@@ -388,7 +388,7 @@ public class AppUtils {
 
     public static int shouldVisibleQuantityView(String quantity) {
 
-        if (Integer.parseInt(quantity) < 10)
+        if (Integer.parseInt(quantity) < 10 && Integer.parseInt(quantity) > 0)
             return View.VISIBLE;
         else
             return View.GONE;

@@ -16,22 +16,23 @@ import com.lalaland.ecommerce.databinding.ProductImageItemBinding;
 import com.lalaland.ecommerce.helpers.AppConstants;
 import com.squareup.picasso.Picasso;
 
-import java.util.ArrayList;
 import java.util.List;
 
 public class ProductImageAdapter extends PagerAdapter {
 
 
     private ProductImageItemBinding productImageItemBinding;
-    List<ProductMultimedium> productMultimedia = new ArrayList<>();
+    private List<ProductMultimedium> productMultimedia;
+    private String mediaDescription;
 
 
     Context context;
     LayoutInflater layoutInflater;
 
-    public ProductImageAdapter(Context context, List<ProductMultimedium> mProductMultimedia) {
+    public ProductImageAdapter(Context context, List<ProductMultimedium> mProductMultimedia, String mMediaDescription) {
         this.context = context;
         productMultimedia = mProductMultimedia;
+        mediaDescription = mMediaDescription;
     }
 
     @Override
@@ -54,7 +55,6 @@ public class ProductImageAdapter extends PagerAdapter {
         productImageItemBinding = DataBindingUtil.inflate(layoutInflater, R.layout.product_image_item, container, false);
 
         String imgUrl = AppConstants.PRODUCT_STORAGE_BASE_URL.concat(productMultimedia.get(position).getSource());
-        String mediaDescription = productMultimedia.get(position).getMediaDescription();
 
         Picasso
                 .get()
@@ -77,5 +77,4 @@ public class ProductImageAdapter extends PagerAdapter {
     public void destroyItem(View container, int position, Object object) {
         ((ViewPager) container).removeView((View) object);
     }
-
 }
