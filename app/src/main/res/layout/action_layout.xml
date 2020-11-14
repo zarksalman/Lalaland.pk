@@ -57,5 +57,4 @@
                 tools:text="@tools:sample/full_names" />
         </LinearLayout>
     </RelativeLayout>
-
 </layout>

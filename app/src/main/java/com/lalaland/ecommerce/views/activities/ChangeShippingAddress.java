@@ -7,6 +7,7 @@ import android.view.View;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.databinding.DataBindingUtil;
+import androidx.lifecycle.ViewModelProvider;
 import androidx.lifecycle.ViewModelProviders;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
@@ -42,7 +43,7 @@ public class ChangeShippingAddress extends AppCompatActivity {
         activityChangeShippingAddressBinding.setListener(this);
 
         token = AppPreference.getInstance(this).getString(AppConstants.SIGNIN_TOKEN);
-        userViewModel = ViewModelProviders.of(this).get(UserViewModel.class);
+        userViewModel = new ViewModelProvider(this).get(UserViewModel.class);
         getAddresses();
 
         activityChangeShippingAddressBinding.ivBackArrow.setOnClickListener(v -> {

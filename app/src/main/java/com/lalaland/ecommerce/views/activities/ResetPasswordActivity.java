@@ -12,6 +12,7 @@ import android.widget.Toast;
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.databinding.DataBindingUtil;
+import androidx.lifecycle.ViewModelProvider;
 import androidx.lifecycle.ViewModelProviders;
 
 import com.lalaland.ecommerce.R;
@@ -57,7 +58,7 @@ public class ResetPasswordActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         activityResetPasswordBinding = DataBindingUtil.setContentView(this, R.layout.activity_reset_password);
 
-        loginViewModel = ViewModelProviders.of(this).get(LoginViewModel.class);
+        loginViewModel = new ViewModelProvider(this).get(LoginViewModel.class);
         recommendedCat = AppPreference.getInstance(this).getString(RECOMMENDED_CAT_TOKEN);
 
         intent = getIntent();

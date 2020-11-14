@@ -19,7 +19,7 @@ import androidx.core.view.ViewCompat;
 import androidx.core.widget.NestedScrollView;
 import androidx.databinding.DataBindingUtil;
 import androidx.fragment.app.Fragment;
-import androidx.lifecycle.ViewModelProviders;
+import androidx.lifecycle.ViewModelProvider;
 import androidx.recyclerview.widget.DefaultItemAnimator;
 import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.LinearLayoutManager;
@@ -33,7 +33,6 @@ import com.lalaland.ecommerce.adapters.BlogPostsAdapter;
 import com.lalaland.ecommerce.adapters.BrandsFocusAdapter;
 import com.lalaland.ecommerce.adapters.FeatureCategoryAdapter;
 import com.lalaland.ecommerce.adapters.GetTheLooksAdapter;
-import com.lalaland.ecommerce.adapters.HomeMainAdapter;
 import com.lalaland.ecommerce.adapters.ProductAdapter;
 import com.lalaland.ecommerce.adapters.ProductPagedListAdapter;
 import com.lalaland.ecommerce.data.models.home.Actions;
@@ -55,6 +54,7 @@ import com.lalaland.ecommerce.viewModels.products.ProductViewModelFactory;
 import com.lalaland.ecommerce.views.activities.ActionProductListingActivity;
 import com.lalaland.ecommerce.views.activities.ProductDetailActivity;
 import com.lalaland.ecommerce.views.activities.WebViewActivity;
+import com.paginate.Paginate;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -105,9 +105,8 @@ public class HomeFragment extends Fragment implements BrandsFocusAdapter.Feature
     private List<ImageView> dots = new ArrayList<>();
     int currentPage = 0;
 
-    //******************************* new home page *******************************
-    HomeMainAdapter homeMainAdapter;
-
+    private Boolean loadingInProgress = false;
+    private Boolean hasLoadedAllItems = false;
     public HomeFragment() {
         // Required empty public constructor
     }
@@ -128,7 +127,7 @@ public class HomeFragment extends Fragment implements BrandsFocusAdapter.Feature
 
         fragmentHomeNewBinding = DataBindingUtil.inflate(inflater, R.layout.fragment_home_new, container, false);
 
-        homeViewModel = ViewModelProviders.of(this, new ProductViewModelFactory()).get(HomeViewModel.class);
+        homeViewModel = new ViewModelProvider(this, new ProductViewModelFactory()).get(HomeViewModel.class);
 
         fragmentHomeNewBinding.setHomeListener(this);
         fragmentHomeNewBinding.pickOfWeekContainerParent.setHomeListener(this);
@@ -389,8 +388,6 @@ public class HomeFragment extends Fragment implements BrandsFocusAdapter.Feature
             layout.ivAction.setOnClickListener(v -> onActionClicked(Integer.parseInt(v.getTag(R.string.action_tag).toString())));
 
             fragmentHomeNewBinding.rvActionContainer.addView(layout.getRoot(), param);
-
-
         }
     }
 
@@ -475,8 +472,6 @@ public class HomeFragment extends Fragment implements BrandsFocusAdapter.Feature
         fragmentHomeNewBinding.brandsInFocusContainerParent.rvBrandsInFocus.setLayoutManager(new LinearLayoutManager(getContext(), RecyclerView.HORIZONTAL, false));
         fragmentHomeNewBinding.brandsInFocusContainerParent.rvBrandsInFocus.setHasFixedSize(true);
         brandsFocusAdapter.setData(featuredBrandList);
-
-
     }
 
     @Override
@@ -570,7 +565,7 @@ public class HomeFragment extends Fragment implements BrandsFocusAdapter.Feature
         fragmentHomeNewBinding.recommendationContainerParent.rvRecommendedProducts.setItemAnimator(new DefaultItemAnimator());
 
         // just to remove lag from recommendation products adapter
-        if (android.os.Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT_WATCH) {
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT) {
             fragmentHomeNewBinding.brandsInFocusContainerParent.rvBrandsInFocus.setNestedScrollingEnabled(false);
             fragmentHomeNewBinding.getTheLooksContainerParent.rvGetTheLooks.setNestedScrollingEnabled(false);
             fragmentHomeNewBinding.blogsContainerParent.rvBlogs.setNestedScrollingEnabled(false);
@@ -591,7 +586,6 @@ public class HomeFragment extends Fragment implements BrandsFocusAdapter.Feature
                         scrollY > oldScrollY) {
                     //code to fetch more data for endless scrolling
 
-
                     if (v.getChildCount() > 10) {
                         fragmentHomeNewBinding.btnScrollUp.setVisibility(View.VISIBLE);
                     }
@@ -611,7 +605,6 @@ public class HomeFragment extends Fragment implements BrandsFocusAdapter.Feature
 
                         getProductItems();
                     }
-
                 }
 
                 if (scrollY > 5000) {
@@ -638,5 +631,38 @@ public class HomeFragment extends Fragment implements BrandsFocusAdapter.Feature
     }
 
     //******************************************* Recommended products ends here **************************************************
+
+    //******************************************* Pagination callbacks start here **************************************************
+
+    Paginate.Callbacks paginationCallbacks = new Paginate.Callbacks() {
+        @Override
+        public void onLoadMore() {
+            parameters.clear();
+            INITIAL_INDEX = END_INDEX;
+            INITIAL_INDEX++; // starting from end+1
+            END_INDEX += NUMBER_OF_ITEM;
+
+            parameters.put(START_INDEX, String.valueOf(INITIAL_INDEX));
+            parameters.put(LENGTH, String.valueOf(NUMBER_OF_ITEM));
+
+            getProductItems();
+            // Load next page of data (e.g. network or database)
+        }
+
+        @Override
+        public boolean isLoading() {
+            // Indicate whether new page loading is in progress or not
+            return loadingInProgress;
+        }
+
+        @Override
+        public boolean hasLoadedAllItems() {
+            // Indicate whether all data (pages) are loaded or not
+            return hasLoadedAllItems;
+        }
+    };
+
+    //******************************************* Pagination callbacks ends here **************************************************
+
 
 }

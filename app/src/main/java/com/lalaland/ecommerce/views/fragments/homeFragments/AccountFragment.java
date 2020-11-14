@@ -11,6 +11,7 @@ import android.widget.Toast;
 
 import androidx.databinding.DataBindingUtil;
 import androidx.fragment.app.Fragment;
+import androidx.lifecycle.ViewModelProvider;
 import androidx.lifecycle.ViewModelProviders;
 
 import com.bumptech.glide.Glide;
@@ -300,7 +301,7 @@ public class AccountFragment extends Fragment implements View.OnClickListener {
     void logoutUser() {
 
         fragmentAccountBinding.progressBar.setVisibility(View.VISIBLE);
-        LoginViewModel loginViewModel = ViewModelProviders.of(this).get(LoginViewModel.class);
+        LoginViewModel loginViewModel = new ViewModelProvider(this).get(LoginViewModel.class);
         loginViewModel.logoutUser().observe(this, logout -> {
 
             if (logout != null) {

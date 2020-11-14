@@ -10,6 +10,7 @@ import android.widget.Toast;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
+import androidx.lifecycle.ViewModelProvider;
 import androidx.lifecycle.ViewModelProviders;
 
 import com.facebook.AccessToken;
@@ -223,7 +224,7 @@ public class BaseRegistrationFragment extends Fragment {
 
     private void signUpCallToApi(int signUpType) {
 
-        registrationViewModel = ViewModelProviders.of(this).get(RegistrationViewModel.class);
+        registrationViewModel = new ViewModelProvider(this).get(RegistrationViewModel.class);
 
         registrationViewModel.registerUser(cart_session, parameter, signUpType).observe(this, registrationContainer -> {
 

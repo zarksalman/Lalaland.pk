@@ -15,6 +15,7 @@ import android.widget.RadioButton;
 import android.widget.Toast;
 
 import androidx.databinding.DataBindingUtil;
+import androidx.lifecycle.ViewModelProvider;
 import androidx.lifecycle.ViewModelProviders;
 
 import com.lalaland.ecommerce.R;
@@ -93,7 +94,7 @@ public class SignupFragment extends BaseRegistrationFragment implements LoadingL
                              Bundle savedInstanceState) {
 
         fragmentSignupBinding = DataBindingUtil.inflate(inflater, R.layout.fragment_signup, container, false);
-        registrationViewModel = ViewModelProviders.of(this).get(RegistrationViewModel.class);
+        registrationViewModel = new ViewModelProvider(this).get(RegistrationViewModel.class);
 
         appPreference = AppPreference.getInstance(getContext());
 

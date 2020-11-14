@@ -15,6 +15,7 @@ import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.app.ActivityCompat;
 import androidx.databinding.DataBindingUtil;
+import androidx.lifecycle.ViewModelProvider;
 import androidx.lifecycle.ViewModelProviders;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
@@ -67,7 +68,7 @@ public class ClaimDetail extends AppCompatActivity {
 
     private void getClaimDetails() {
 
-        returnAndReplacementViewModel = ViewModelProviders.of(this).get(ReturnAndReplacementViewModel.class);
+        returnAndReplacementViewModel = new ViewModelProvider(this).get(ReturnAndReplacementViewModel.class);
 
         returnAndReplacementViewModel.getClaimDetails(claimId).observe(this, claimDataContainer -> {
 

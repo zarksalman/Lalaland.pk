@@ -16,6 +16,7 @@ import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.databinding.DataBindingUtil;
+import androidx.lifecycle.ViewModelProvider;
 import androidx.lifecycle.ViewModelProviders;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
@@ -97,7 +98,7 @@ public class GlobalSearchActivity extends AppCompatActivity implements SearchPro
 
         appPreference = AppPreference.getInstance(this);
 
-        productViewModel = ViewModelProviders.of(this).get(ProductViewModel.class);
+        productViewModel = new ViewModelProvider(this).get(ProductViewModel.class);
 
         setUserInfo();
         // setting search bar text size

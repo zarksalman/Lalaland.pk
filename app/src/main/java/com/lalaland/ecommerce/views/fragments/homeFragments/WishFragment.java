@@ -11,6 +11,7 @@ import android.widget.Toast;
 
 import androidx.databinding.DataBindingUtil;
 import androidx.fragment.app.Fragment;
+import androidx.lifecycle.ViewModelProvider;
 import androidx.lifecycle.ViewModelProviders;
 import androidx.recyclerview.widget.LinearLayoutManager;
 
@@ -82,7 +83,7 @@ public class WishFragment extends Fragment implements WishlistProductAdapter.Pro
                 fragmentWishBinding.swipeContainer.setRefreshing(false);
             }
         });
-        productViewModel = ViewModelProviders.of(this).get(ProductViewModel.class);
+        productViewModel = new ViewModelProvider(this).get(ProductViewModel.class);
         return fragmentWishBinding.getRoot();
     }
 

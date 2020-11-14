@@ -14,6 +14,7 @@ import android.widget.ScrollView;
 import androidx.core.view.ViewCompat;
 import androidx.databinding.DataBindingUtil;
 import androidx.fragment.app.Fragment;
+import androidx.lifecycle.ViewModelProvider;
 import androidx.lifecycle.ViewModelProviders;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
@@ -83,7 +84,7 @@ public class CategoryFragment extends Fragment implements MajorCategoryAdapter.M
                              Bundle savedInstanceState) {
 
         fragmentCategoryBinding = DataBindingUtil.inflate(inflater, R.layout.fragment_category, container, false);
-        categoriesViewModel = ViewModelProviders.of(this).get(CategoriesViewModel.class);
+        categoriesViewModel = new ViewModelProvider(this).get(CategoriesViewModel.class);
 
         iniFragment();
 
@@ -111,7 +112,7 @@ public class CategoryFragment extends Fragment implements MajorCategoryAdapter.M
         } else {
 
 
-            CategoryViewModel categoryViewModel = ViewModelProviders.of(this).get(CategoryViewModel.class);
+            CategoryViewModel categoryViewModel = new ViewModelProvider(this).get(CategoryViewModel.class);
 
             categoryViewModel.getActionProducts(this).observe(this, categoryContainer -> {
 

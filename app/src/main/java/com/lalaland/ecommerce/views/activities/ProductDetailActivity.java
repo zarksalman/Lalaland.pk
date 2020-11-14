@@ -17,7 +17,7 @@ import android.widget.Toast;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.databinding.DataBindingUtil;
-import androidx.lifecycle.ViewModelProviders;
+import androidx.lifecycle.ViewModelProvider;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 import androidx.viewpager.widget.ViewPager;
@@ -122,8 +122,8 @@ public class ProductDetailActivity extends AppCompatActivity implements ProductV
         activityProductDetailBinding.setListener(this);
 
         appPreference = AppPreference.getInstance(this);
-        productViewModel = ViewModelProviders.of(this).get(ProductViewModel.class);
-        orderViewModel = ViewModelProviders.of(this).get(OrderViewModel.class);
+        productViewModel = new ViewModelProvider(this).get(ProductViewModel.class);
+        orderViewModel = new ViewModelProvider(this).get(OrderViewModel.class);
 
         product_id = getIntent().getIntExtra(PRODUCT_ID, 0);
 

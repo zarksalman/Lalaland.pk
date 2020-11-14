@@ -16,6 +16,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.app.ActivityCompat;
 import androidx.core.content.ContextCompat;
 import androidx.databinding.DataBindingUtil;
+import androidx.lifecycle.ViewModelProvider;
 import androidx.lifecycle.ViewModelProviders;
 
 import com.bumptech.glide.Glide;
@@ -72,11 +73,9 @@ public class AccountInformationActivity extends AppCompatActivity {
         activityAccountInformationBinding = DataBindingUtil.setContentView(this, R.layout.activity_account_information_new);
         activityAccountInformationBinding.setClickListener(this);
 
-        userViewModel = ViewModelProviders.of(this).get(UserViewModel.class);
+        userViewModel = new ViewModelProvider(this).get(UserViewModel.class);
         appPreference = AppPreference.getInstance(this);
         token = appPreference.getString(SIGNIN_TOKEN);
-
-        //   isAllowedToUploadImage();
 
         activityAccountInformationBinding.ivCloseCheckoutScreen.setOnClickListener(v -> {
             onBackPressed();
