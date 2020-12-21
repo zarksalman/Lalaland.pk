@@ -107,6 +107,11 @@ public class HomeFragment extends Fragment implements BrandsFocusAdapter.Feature
 
     private Boolean loadingInProgress = false;
     private Boolean hasLoadedAllItems = false;
+
+    Handler handler = new Handler();
+    Runnable runnable;
+    Timer timer = new Timer();
+
     public HomeFragment() {
         // Required empty public constructor
     }
@@ -146,7 +151,7 @@ public class HomeFragment extends Fragment implements BrandsFocusAdapter.Feature
     // Getting home banners, pick of the weeks, brands in focus, custom listing (get the looks), category in focus, blogs, advertisement
     void requestInitialProducts() {
 
-        homeViewModel.getHomeData().observe(this, homeDataContainer -> {
+        homeViewModel.getHomeData().observe(getViewLifecycleOwner(), homeDataContainer -> {
 
             if (homeDataContainer != null && homeDataContainer.getCode().equals(SUCCESS_CODE)) {
 
@@ -182,6 +187,7 @@ public class HomeFragment extends Fragment implements BrandsFocusAdapter.Feature
                 setupAutoPager();
 
                 fragmentHomeNewBinding.swipeContainer.setOnRefreshListener(() -> {
+                    timer.cancel();
                     productList.clear();
                     recommendationProductAdapter.notifyDataSetChanged();
                     requestInitialProducts();
@@ -198,7 +204,7 @@ public class HomeFragment extends Fragment implements BrandsFocusAdapter.Feature
 
         parameters.put(RECOMMENDED_CAT_TOKEN, recommended_cat);
 
-        homeViewModel.getRecommendations(parameters).observe(this, productContainer -> {
+        homeViewModel.getRecommendations(parameters).observe(getViewLifecycleOwner(), productContainer -> {
 
             if (productContainer != null && productContainer.getProductData().getProducts().size() > 0) {
 
@@ -306,9 +312,8 @@ public class HomeFragment extends Fragment implements BrandsFocusAdapter.Feature
     }
 
     private void setupAutoPager() {
-        final Handler handler = new Handler();
 
-        final Runnable update = () -> {
+        runnable = () -> {
 
             fragmentHomeNewBinding.vpImages.setCurrentItem(currentPage, true);
             if (currentPage == bannerList.size()) {
@@ -319,13 +324,12 @@ public class HomeFragment extends Fragment implements BrandsFocusAdapter.Feature
             }
         };
 
-
-        Timer timer = new Timer();
+        timer = new Timer();
         timer.schedule(new TimerTask() {
 
             @Override
             public void run() {
-                handler.post(update);
+                handler.post(runnable);
             }
         }, 1000, 3500);
     }

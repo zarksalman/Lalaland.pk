@@ -42,7 +42,6 @@ public class ProductColorAdapter extends RecyclerView.Adapter<ProductColorAdapte
         mProductColorItemBinding = DataBindingUtil.inflate(inflater, R.layout.product_color_item, parent, false);
 
         mProductColorItemBinding.innerCatParent.getLayoutParams().width = (int) (width / 4.8);
-//        mInnerCategoryItemBinding.ivInnerCat.getLayoutParams().height = (int) (getScreenWidth());
         return new ProductColorViewHolder(mProductColorItemBinding);
     }
 

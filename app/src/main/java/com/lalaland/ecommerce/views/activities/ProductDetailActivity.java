@@ -115,6 +115,11 @@ public class ProductDetailActivity extends AppCompatActivity implements ProductV
     Float avgRating = 0f;
     int currentPage = 0;
 
+    Handler handler = new Handler();
+    Runnable runnable;
+    Timer timer = new Timer();
+
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -200,9 +205,6 @@ public class ProductDetailActivity extends AppCompatActivity implements ProductV
         android.view.Display display = ((android.view.WindowManager) getSystemService(Context.WINDOW_SERVICE)).getDefaultDisplay();
         activityProductDetailBinding.vpImages.getLayoutParams().height = ((int) (display.getHeight() * 0.74));
         activityProductDetailBinding.vpImages.getLayoutParams().width = ((int) (display.getWidth() * 1.0));
-
-      /*  Log.d("description", productDetailData.getProductMultiMediaDesciption());
-        Log.d("description", mProductMultimedia.get(0).getMediaDescription());*/
 
         ProductImageAdapter productImageAdapter = new ProductImageAdapter(this, mProductMultimedia, productDetails.getProductMultiMediaDesciption());
         activityProductDetailBinding.vpImages.setAdapter(productImageAdapter);
@@ -342,6 +344,7 @@ public class ProductDetailActivity extends AppCompatActivity implements ProductV
         }
 
         ProductColorAdapter productColorAdapter = new ProductColorAdapter(this, linkedProduct -> {
+            timer.cancel();
             activityProductDetailBinding.pbLoading.setVisibility(View.VISIBLE);
             product_id = linkedProduct.getProductId();
             getProductDetail();
@@ -719,8 +722,6 @@ public class ProductDetailActivity extends AppCompatActivity implements ProductV
                     ViewGroup.LayoutParams.WRAP_CONTENT,
                     ViewGroup.LayoutParams.WRAP_CONTENT
             );
-
-            //dot.setPadding(4, 4, 4, 4);
             params.rightMargin = 8;
             params.leftMargin = 8;
 
@@ -758,9 +759,8 @@ public class ProductDetailActivity extends AppCompatActivity implements ProductV
     }
 
     private void setupAutoPager() {
-        final Handler handler = new Handler();
 
-        final Runnable update = () -> {
+        runnable = () -> {
 
             activityProductDetailBinding.vpImages.setCurrentItem(currentPage, true);
             if (currentPage == mProductMultimedia.size()) {
@@ -772,12 +772,12 @@ public class ProductDetailActivity extends AppCompatActivity implements ProductV
         };
 
 
-        Timer timer = new Timer();
+        timer = new Timer();
         timer.schedule(new TimerTask() {
 
             @Override
             public void run() {
-                handler.post(update);
+                handler.post(runnable);
             }
         }, 5000, 5000);
     }
