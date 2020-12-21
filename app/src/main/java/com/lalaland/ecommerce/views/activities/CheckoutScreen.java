@@ -22,7 +22,6 @@ import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.databinding.DataBindingUtil;
 import androidx.lifecycle.ViewModelProvider;
-import androidx.lifecycle.ViewModelProviders;
 import androidx.recyclerview.widget.LinearLayoutManager;
 
 import com.lalaland.ecommerce.R;
@@ -1055,15 +1054,17 @@ public class CheckoutScreen extends AppCompatActivity implements NetworkInterfac
                 if (CASH_TRANSFER_TYPE == 1) {
                     activityCheckoutScreenBinding.tvPaymentType.setText(getResources().getString(R.string.cash_on_delivery));
                     CASH_TRANSFER_TYPE = 1;
-                } else {
+                } else if (CASH_TRANSFER_TYPE == 2) {
                     activityCheckoutScreenBinding.tvPaymentType.setText(getResources().getString(R.string.bank_transfer));
                     CASH_TRANSFER_TYPE = 2;
+                } else {
+                    activityCheckoutScreenBinding.tvPaymentType.setText(R.string.online_payment);
+                    CASH_TRANSFER_TYPE = 3;
                 }
 
                 activityCheckoutScreenBinding.pbLoading.setVisibility(View.GONE);
 
             } else if (requestCode == 202) {
-
                 activityCheckoutScreenBinding.rvCartProducts.setVisibility(View.GONE);
                 isUserAddressExist();
             }

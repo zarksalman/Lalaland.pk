@@ -62,6 +62,13 @@ public class ChangePaymentActivity extends AppCompatActivity {
         finish();
     }
 
+    public void onlineTransfer(View v) {
+
+        AppConstants.CASH_TRANSFER_TYPE = 3;
+        setResult(RESULT_OK);
+        finish();
+    }
+
     @Override
     public void onBackPressed() {
         setResult(RESULT_CANCELED);
