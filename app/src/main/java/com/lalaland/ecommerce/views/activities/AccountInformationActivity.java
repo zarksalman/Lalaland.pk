@@ -16,6 +16,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.app.ActivityCompat;
 import androidx.core.content.ContextCompat;
 import androidx.databinding.DataBindingUtil;
+import androidx.lifecycle.ViewModelProvider;
 import androidx.lifecycle.ViewModelProviders;
 
 import com.bumptech.glide.Glide;
@@ -29,6 +30,7 @@ import com.lalaland.ecommerce.viewModels.user.UserViewModel;
 import java.io.File;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.Objects;
 
 import okhttp3.MediaType;
 import okhttp3.MultipartBody;
@@ -71,11 +73,9 @@ public class AccountInformationActivity extends AppCompatActivity {
         activityAccountInformationBinding = DataBindingUtil.setContentView(this, R.layout.activity_account_information_new);
         activityAccountInformationBinding.setClickListener(this);
 
-        userViewModel = ViewModelProviders.of(this).get(UserViewModel.class);
+        userViewModel = new ViewModelProvider(this).get(UserViewModel.class);
         appPreference = AppPreference.getInstance(this);
         token = appPreference.getString(SIGNIN_TOKEN);
-
-        //   isAllowedToUploadImage();
 
         activityAccountInformationBinding.ivCloseCheckoutScreen.setOnClickListener(v -> {
             onBackPressed();
@@ -199,17 +199,11 @@ public class AccountInformationActivity extends AppCompatActivity {
 
         File imageFile = AppUtils.getFile(this, uri);
 
-/*        try {
-            imageFile = new Compressor(this).setQuality(100).compressToFile(imageFile);
-        } catch (IOException e) {
-            e.printStackTrace();
-        }*/
-
         imageFile = AppUtils.saveBitmapToFile(imageFile);
 
         // create RequestBody instance from file
         RequestBody filePart = RequestBody.create(
-                MediaType.parse(getContentResolver().getType(uri)),
+                MediaType.parse(Objects.requireNonNull(getContentResolver().getType(uri))),
                 imageFile);
 
         MultipartBody.Part file = MultipartBody.Part.createFormData("avatar", imageFile.getName(), filePart);

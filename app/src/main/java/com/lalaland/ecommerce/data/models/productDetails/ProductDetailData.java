@@ -139,4 +139,5 @@ public class ProductDetailData {
     public void setExcutionTime(Double excutionTime) {
         this.excutionTime = excutionTime;
     }
+    
 }

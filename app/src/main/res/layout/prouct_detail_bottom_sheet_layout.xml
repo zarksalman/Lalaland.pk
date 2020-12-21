@@ -43,6 +43,8 @@
 
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
+                    android:paddingLeft="@dimen/_2dp"
+                    android:paddingRight="@dimen/_2dp"
                     android:src="@drawable/placeholder_products"
                     app:setProductImage="@{productDetails.primaryImage}" />
             </LinearLayout>

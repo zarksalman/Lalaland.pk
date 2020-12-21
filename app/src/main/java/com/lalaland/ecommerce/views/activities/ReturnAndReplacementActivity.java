@@ -28,6 +28,7 @@ import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.app.ActivityCompat;
 import androidx.databinding.DataBindingUtil;
+import androidx.lifecycle.ViewModelProvider;
 import androidx.lifecycle.ViewModelProviders;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
@@ -101,7 +102,7 @@ public class ReturnAndReplacementActivity extends AppCompatActivity implements R
         activityReturnAndReplacementBinding = DataBindingUtil.setContentView(this, R.layout.activity_return_and_replacement);
 
         orderProductId = getIntent().getStringExtra("order_product_id");
-        returnAndReplacementViewModel = ViewModelProviders.of(this).get(ReturnAndReplacementViewModel.class);
+        returnAndReplacementViewModel = new ViewModelProvider(this).get(ReturnAndReplacementViewModel.class);
 
         CLAIM_TYPE = 2;
         getRRData();

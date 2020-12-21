@@ -9,6 +9,7 @@ import android.widget.Toast;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.databinding.DataBindingUtil;
+import androidx.lifecycle.ViewModelProvider;
 import androidx.lifecycle.ViewModelProviders;
 import androidx.recyclerview.widget.LinearLayoutManager;
 
@@ -83,7 +84,7 @@ public class FilterActivity extends AppCompatActivity {
 
         intent = new Intent(this, SubFiltersActivity.class);
         resultantIntent = new Intent();
-        filterViewModel = ViewModelProviders.of(this).get(FilterViewModel.class);
+        filterViewModel = new ViewModelProvider(this).get(FilterViewModel.class);
 
         initResultantIntent();
         getFilters();

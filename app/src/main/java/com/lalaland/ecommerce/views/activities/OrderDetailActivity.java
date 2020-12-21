@@ -6,6 +6,7 @@ import android.view.View;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.databinding.DataBindingUtil;
+import androidx.lifecycle.ViewModelProvider;
 import androidx.lifecycle.ViewModelProviders;
 import androidx.recyclerview.widget.LinearLayoutManager;
 
@@ -57,7 +58,7 @@ public class OrderDetailActivity extends AppCompatActivity implements MyOrderPro
 
         appPreference = AppPreference.getInstance(this);
         token = AppPreference.getInstance(this).getString(SIGNIN_TOKEN);
-        orderViewModel = ViewModelProviders.of(this).get(OrderViewModel.class);
+        orderViewModel = new ViewModelProvider(this).get(OrderViewModel.class);
 
         activityOrderDetailBinding.btnBack.setOnClickListener(v -> {
             onBackPressed();

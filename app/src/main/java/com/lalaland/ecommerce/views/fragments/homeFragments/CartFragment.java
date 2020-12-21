@@ -12,6 +12,7 @@ import android.widget.Toast;
 
 import androidx.databinding.DataBindingUtil;
 import androidx.fragment.app.Fragment;
+import androidx.lifecycle.ViewModelProvider;
 import androidx.lifecycle.ViewModelProviders;
 import androidx.recyclerview.widget.LinearLayoutManager;
 
@@ -97,7 +98,7 @@ public class CartFragment extends Fragment implements View.OnClickListener, Cart
 
         fragmentCartBinding = DataBindingUtil.inflate(inflater, R.layout.fragment_cart, container, false);
 
-        productViewModel = ViewModelProviders.of(this).get(ProductViewModel.class);
+        productViewModel = new ViewModelProvider(this).get(ProductViewModel.class);
 
         appPreference = AppPreference.getInstance(getContext());
 

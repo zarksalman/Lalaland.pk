@@ -17,7 +17,7 @@ import android.widget.Toast;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.databinding.DataBindingUtil;
-import androidx.lifecycle.ViewModelProviders;
+import androidx.lifecycle.ViewModelProvider;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 import androidx.viewpager.widget.ViewPager;
@@ -85,11 +85,14 @@ public class ProductDetailActivity extends AppCompatActivity implements ProductV
     private ProductViewModel productViewModel;
     private OrderViewModel orderViewModel;
 
+    private String productImage;
+    private boolean isOutOfStock = false;
+    Intent intent, dataIntent;
+    ProductDetailData productDetailData;
     private Map<String, String> parameter = new HashMap<>();
     private Map<String, String> deliverOptionparameter = new HashMap<>();
     private Map<String, String> headers = new HashMap<>();
     private int product_id, variation_id, quantity = 1;
-    private String productImage;
     private String loginToken;
     private String cartSessionToken;
     private String generalDescription;
@@ -98,19 +101,16 @@ public class ProductDetailActivity extends AppCompatActivity implements ProductV
     private ProductDetails productDetails;
     private ProuctDetailBottomSheetLayoutBinding prouctDetailBottomSheetLayoutBinding;
     private boolean isBuyNow = false;
-    private boolean isOutOfStock = false;
     private List<ImageView> dots = new ArrayList<>();
     private int isAddOrRemove;
     private BottomSheetDialog mBottomSheetDialog;
     private ProductVariationAdapter productVariationAdapter;
     String productShareUrl;
-    Intent intent, dataIntent;
     StringBuilder price = new StringBuilder();
     StringBuilder aPrice = new StringBuilder();
     Bundle bundle = new Bundle();
     boolean isDeeplink;
     String imgUrl = "";
-    ProductDetailData productDetailData;
     ReviewRatingAdapter reviewRatingAdapter;
     Float avgRating = 0f;
     int currentPage = 0;
@@ -122,8 +122,8 @@ public class ProductDetailActivity extends AppCompatActivity implements ProductV
         activityProductDetailBinding.setListener(this);
 
         appPreference = AppPreference.getInstance(this);
-        productViewModel = ViewModelProviders.of(this).get(ProductViewModel.class);
-        orderViewModel = ViewModelProviders.of(this).get(OrderViewModel.class);
+        productViewModel = new ViewModelProvider(this).get(ProductViewModel.class);
+        orderViewModel = new ViewModelProvider(this).get(OrderViewModel.class);
 
         product_id = getIntent().getIntExtra(PRODUCT_ID, 0);
 
@@ -163,11 +163,8 @@ public class ProductDetailActivity extends AppCompatActivity implements ProductV
 
         activityProductDetailBinding.ivShareProduct.setOnClickListener(v -> {
             productShareUrl = BASE_URL_PRODUCT_SHARE;
-            productShareUrl = productShareUrl.concat(AppUtils.createProductUrl(mProductDetailDataContainer.getData().getCategoryName().getName()));
-            productShareUrl = productShareUrl.concat("/").concat(AppUtils.createProductUrl(productDetails.getBrandName()));
-            productShareUrl = productShareUrl.concat("/").concat(AppUtils.createProductUrl(productDetails.getName()));
-            productShareUrl = productShareUrl.concat("/").concat(AppUtils.createProductUrl(String.valueOf(productDetails.getId())));
-
+            productShareUrl += AppUtils.createProductUrl(mProductDetailDataContainer.getData());
+            Log.d("product_urls", productShareUrl);
             startActivity(AppUtils.getProductShareIntent(productShareUrl));
         });
 
@@ -201,11 +198,13 @@ public class ProductDetailActivity extends AppCompatActivity implements ProductV
 
         //setting viewpagger height because in scrollview wrap/match does not calculate their height correctly
         android.view.Display display = ((android.view.WindowManager) getSystemService(Context.WINDOW_SERVICE)).getDefaultDisplay();
-        activityProductDetailBinding.vpImages.getLayoutParams().height = ((int) (display.getHeight() * 0.65));
+        activityProductDetailBinding.vpImages.getLayoutParams().height = ((int) (display.getHeight() * 0.74));
         activityProductDetailBinding.vpImages.getLayoutParams().width = ((int) (display.getWidth() * 1.0));
 
+      /*  Log.d("description", productDetailData.getProductMultiMediaDesciption());
+        Log.d("description", mProductMultimedia.get(0).getMediaDescription());*/
 
-        ProductImageAdapter productImageAdapter = new ProductImageAdapter(this, mProductMultimedia);
+        ProductImageAdapter productImageAdapter = new ProductImageAdapter(this, mProductMultimedia, productDetails.getProductMultiMediaDesciption());
         activityProductDetailBinding.vpImages.setAdapter(productImageAdapter);
 
         productImage = PRODUCT_STORAGE_BASE_URL + productDetails.getPrimaryImage();
@@ -218,8 +217,6 @@ public class ProductDetailActivity extends AppCompatActivity implements ProductV
 
         addDots();
         setupAutoPager();
-
-//        Double isWishList = (Double) productDetails.getIsWishListItem();
 
         if (productDetails.getIsWishListItem() != null) {
             activityProductDetailBinding.btnAddToWish.setImageResource(R.drawable.wish_list_filled_icon);
@@ -395,6 +392,7 @@ public class ProductDetailActivity extends AppCompatActivity implements ProductV
                 if (productDetailDataContainer.getCode().equals(SUCCESS_CODE)) {
                     mProductDetailDataContainer = productDetailDataContainer;
 
+                    productDetailData = mProductDetailDataContainer.getData();
                     mProductVariation = productDetailDataContainer.getData().getProductVariations();
                     mProductMultimedia = productDetailDataContainer.getData().getProductMultimedia();
                     mFitAndSizings = mProductDetailDataContainer.getData().getFitAndSizing();
@@ -402,19 +400,20 @@ public class ProductDetailActivity extends AppCompatActivity implements ProductV
                     mLinkedProducts = productDetailDataContainer.getData().getLinkedProducts();
                     mProductReviews = mProductDetailDataContainer.getData().getProductReviews();
 
+                    for (int i = 0; i < mProductMultimedia.size(); i++) {
+                        mProductMultimedia.get(i).setMediaDescription(productDetails.getProductMultiMediaDesciption());
+                    }
+
                     initBottomSheet();
                     loadProductDetail();
 
                     bundle.putString("id", String.valueOf(product_id));
-
                     if (getFirstSelectedVariationIndex() != -1) {
                         bundle.putString("variation_id", String.valueOf(mProductVariation.get(getFirstSelectedVariationIndex()).getId()));
                     }
 
                     bundle.putString("price", productDetails.getMinSalePrice());
-
                     bundle.putString("brand_name", productDetails.getBrandName());
-
                     AnalyticsManager.getInstance().sendAnalytics("view_item", bundle);
                     AnalyticsManager.getInstance().sendFacebookAnalytics("Content View", bundle);
 
@@ -520,7 +519,6 @@ public class ProductDetailActivity extends AppCompatActivity implements ProductV
 
         hideBottomSheet();
 
-
         productViewModel.addToCart(headers, parameter).observe(this, basicResponse -> {
 
             if (basicResponse != null) {
@@ -588,7 +586,6 @@ public class ProductDetailActivity extends AppCompatActivity implements ProductV
                             AnalyticsManager.getInstance().sendFacebookAnalytics("Add to Wishlist", bundle);
 
                             activityProductDetailBinding.btnAddToWish.setImageResource(R.drawable.wish_list_filled_icon);
-                            // activityProductDetailBinding.btnAddToWish.setBackground(getResources().getDrawable(R.drawable.bg_round_corner_white_accent));
                         } else {
 
                             AnalyticsManager.getInstance().sendAnalytics("remove_from_wishlist", bundle);
@@ -619,7 +616,6 @@ public class ProductDetailActivity extends AppCompatActivity implements ProductV
         // is buy now or just add to cart
         this.isBuyNow = isBuyNow;
         mBottomSheetDialog.show();
-
     }
 
     public void hideBottomSheet() {
@@ -677,8 +673,7 @@ public class ProductDetailActivity extends AppCompatActivity implements ProductV
                     }
                 }
             }
-
-            Toast.makeText(this, "Insufficient Stock", Toast.LENGTH_SHORT).show();
+            Toast.makeText(this, R.string.insufficient_stock, Toast.LENGTH_SHORT).show();
         });
 
         if (mProductDetailDataContainer.getData().getSizeChart() != null) {
@@ -826,6 +821,8 @@ public class ProductDetailActivity extends AppCompatActivity implements ProductV
 
         if (AppUtils.toInteger(productVariation.getRemainingQuantity()) > 0) {
 
+            quantity = 1;
+            prouctDetailBottomSheetLayoutBinding.tvCount.setText("1");
             bundle.putString("variation_id", String.valueOf(productVariation.getId()));
             bundle.putString("price", String.valueOf(productVariation.getSalePrice()));
 

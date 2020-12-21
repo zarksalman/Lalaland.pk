@@ -14,6 +14,7 @@ import android.widget.LinearLayout;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.databinding.DataBindingUtil;
+import androidx.lifecycle.ViewModelProvider;
 import androidx.lifecycle.ViewModelProviders;
 import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
@@ -96,8 +97,8 @@ public class ActionProductListingActivity extends AppCompatActivity implements A
         activityProductListingBinding = DataBindingUtil.setContentView(this, R.layout.activity_product_listing);
 
 
-        productViewModel = ViewModelProviders.of(this).get(ProductViewModel.class);
-        filterViewModel = ViewModelProviders.of(this).get(FilterViewModel.class);
+        productViewModel = new ViewModelProvider(this).get(ProductViewModel.class);
+        filterViewModel = new ViewModelProvider(this).get(FilterViewModel.class);
 
         AppConstants.appliedFilter.clear();
         intentData = getIntent();

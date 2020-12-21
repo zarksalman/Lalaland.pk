@@ -21,6 +21,7 @@ import android.widget.Toast;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.databinding.DataBindingUtil;
+import androidx.lifecycle.ViewModelProvider;
 import androidx.lifecycle.ViewModelProviders;
 import androidx.recyclerview.widget.LinearLayoutManager;
 
@@ -122,8 +123,8 @@ public class CheckoutScreen extends AppCompatActivity implements NetworkInterfac
         appPreference = AppPreference.getInstance(this);
         activityCheckoutScreenBinding.setClickListener(this);
 
-        productViewModel = ViewModelProviders.of(this).get(ProductViewModel.class);
-        orderViewModel = ViewModelProviders.of(this).get(OrderViewModel.class);
+        productViewModel = new ViewModelProvider(this).get(ProductViewModel.class);
+        orderViewModel = new ViewModelProvider(this).get(OrderViewModel.class);
 
         token = appPreference.getString(SIGNIN_TOKEN);
 
@@ -194,7 +195,7 @@ public class CheckoutScreen extends AppCompatActivity implements NetworkInterfac
                 parameter.clear();
                 parameter.put(PHONE_NUMBER, phoneNumber);
 
-                UserViewModel userViewModel = ViewModelProviders.of(this).get(UserViewModel.class);
+                UserViewModel userViewModel = new ViewModelProvider(this).get(UserViewModel.class);
                 userViewModel.updateUserDetails(token, parameter).observe(this, updateUserDataContainer -> {
 
                     if (updateUserDataContainer != null) {
@@ -686,8 +687,10 @@ public class CheckoutScreen extends AppCompatActivity implements NetworkInterfac
 
             activityCheckoutScreenBinding.pbLoading.setVisibility(View.GONE);
 
-            if (otpDataContainer.getCode() != null && otpDataContainer.getCode().equals(SUCCESS_CODE)) {
-                userOtpCode = String.valueOf(otpDataContainer.getData().getUserOtpId());
+            if (otpDataContainer != null) {
+                if (otpDataContainer.getCode() != null && otpDataContainer.getCode().equals(SUCCESS_CODE)) {
+                    userOtpCode = String.valueOf(otpDataContainer.getData().getUserOtpId());
+                }
             }
 
             AppUtils.unBlockUi(this);

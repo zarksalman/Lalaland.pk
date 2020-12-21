@@ -14,6 +14,10 @@ android {
         dataBinding {
             enabled = true
         }
+
+        packagingOptions {
+            exclude 'META-INF/DEPENDENCIES'
+        }
     }
     buildTypes {
 
@@ -33,7 +37,6 @@ android {
         sourceCompatibility JavaVersion.VERSION_1_8
         targetCompatibility JavaVersion.VERSION_1_8
     }
-    buildToolsVersion = '28.0.3'
 
     defaultConfig {
         vectorDrawables.useSupportLibrary = true
@@ -44,7 +47,7 @@ dependencies {
     implementation fileTree(dir: 'libs', include: ['*.jar'])
     implementation 'androidx.appcompat:appcompat:1.2.0'
     implementation 'com.google.android.material:material:1.2.1'
-    implementation 'androidx.constraintlayout:constraintlayout:2.0.1'
+    implementation 'androidx.constraintlayout:constraintlayout:2.0.4'
     implementation 'androidx.vectordrawable:vectordrawable:1.1.0'
     implementation 'androidx.multidex:multidex:2.0.1'
 
@@ -52,8 +55,9 @@ dependencies {
     // view model and live data
     implementation 'androidx.lifecycle:lifecycle-extensions:2.2.0'
     implementation 'androidx.legacy:legacy-support-v4:1.0.0'
-    annotationProcessor 'androidx.lifecycle:lifecycle-compiler:2.2.0'
     implementation 'androidx.lifecycle:lifecycle-livedata:2.2.0'
+    implementation "androidx.lifecycle:lifecycle-common-java8:2.2.0"
+
 
     // rxjava related libraries
     implementation 'com.squareup.retrofit2:adapter-rxjava2:2.9.0'
@@ -69,17 +73,17 @@ dependencies {
     annotationProcessor "androidx.room:room-compiler:$room_version"
 
     //firebase and facebook analytics and crashlytics
-    implementation 'com.google.firebase:firebase-core:17.5.0'
-    implementation 'com.google.firebase:firebase-analytics:17.5.0'
+    implementation 'com.google.firebase:firebase-core:17.5.1'
+    implementation 'com.google.firebase:firebase-analytics:18.0.0'
+    implementation 'com.google.firebase:firebase-crashlytics-gradle:2.4.1'
+    implementation 'com.google.firebase:firebase-messaging:21.0.0'
     implementation 'com.facebook.android:facebook-android-sdk:4.33.0'
-    implementation 'com.crashlytics.sdk.android:crashlytics:2.10.1'
-    implementation 'com.google.firebase:firebase-messaging:20.2.4'
 
     // network calls
     implementation 'com.squareup.retrofit2:retrofit:2.9.0'
 
     // google login
-    implementation 'com.google.android.gms:play-services-auth:18.1.0'
+    implementation 'com.google.android.gms:play-services-auth:19.0.0'
 
     // logging interceptor for retrofit
     implementation 'com.squareup.okhttp3:logging-interceptor:4.8.1'
@@ -103,5 +107,8 @@ dependencies {
 
     // image compression
     implementation 'id.zelory:compressor:2.1.0'
+
+    implementation 'com.github.markomilos:paginate:1.0.0'
+
 }
 apply plugin: 'com.google.gms.google-services'

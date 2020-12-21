@@ -233,7 +233,6 @@ public class AppConstants {
             "(?=\\S+$)" +
             ".{6,}" +
             "$");
-
 }
 
 

@@ -31,8 +31,7 @@
             android:layout_margin="@dimen/_8dp"
             android:background="@drawable/recommended_products_bg"
             android:clipToPadding="true"
-            android:onClick="@{(view)->adapter.onActionProductClicked(view,actionProduct)}"
-            android:padding="@dimen/_8dp">
+            android:onClick="@{(view)->adapter.onActionProductClicked(view,actionProduct)}">
 
             <androidx.constraintlayout.widget.Guideline
                 android:id="@+id/gl_img"
@@ -47,6 +46,7 @@
                 android:id="@+id/iv_product"
                 android:layout_width="wrap_content"
                 android:layout_height="0dp"
+                android:padding="@dimen/_8dp"
                 app:layout_constraintBottom_toBottomOf="@+id/gl_img"
                 app:layout_constraintDimensionRatio="3:4"
                 app:layout_constraintEnd_toEndOf="parent"
@@ -72,12 +72,13 @@
             <TextView
 
                 android:id="@+id/tv_brand_name"
-                android:layout_width="0dp"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="@dimen/_2dp"
                 android:ellipsize="end"
-                android:fontFamily="@font/encodesansregular"
+                android:paddingStart="@dimen/_4dp"
                 android:maxLines="1"
+                android:fontFamily="@font/encodesansregular"
                 android:text="@{actionProduct.brandName}"
                 android:textColor="@android:color/black"
                 android:textSize="13sp"
@@ -89,11 +90,12 @@
             <TextView
 
                 android:id="@+id/tv_product_name"
-                android:layout_width="0dp"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:ellipsize="end"
                 android:fontFamily="@font/encodesansregular"
                 android:maxLines="1"
+                android:paddingStart="@dimen/_4dp"
                 android:text="@{actionProduct.name}"
                 android:textColor="@android:color/black"
                 android:textSize="11sp"
@@ -111,6 +113,7 @@
                 android:text="@{AppUtils.formatPriceString(actionProduct.salePrice)}"
                 android:textColor="@color/colorAccent"
                 android:textSize="14sp"
+                android:paddingStart="@dimen/_4dp"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/tv_product_name"
@@ -127,6 +130,7 @@
                 android:textSize="12sp"
                 app:layout_goneMarginBottom="@dimen/_2dp"
                 android:visibility="@{AppUtils.isPriceEqual(actionProduct.salePrice,actionProduct.actualPrice) ? View.GONE : View.VISIBLE}"
+                android:paddingStart="@dimen/_4dp"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/tv_product_sale_price"

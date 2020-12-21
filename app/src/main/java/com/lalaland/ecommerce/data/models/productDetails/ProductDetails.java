@@ -51,6 +51,10 @@ public class ProductDetails {
     @Expose
     private String maxActualPrice;
 
+    @SerializedName("image_description")
+    @Expose
+    private String productMultiMediaDesciption;
+
     public Integer getId() {
         return id;
     }
@@ -169,5 +173,13 @@ public class ProductDetails {
 
     public void setMaxActualPrice(String maxActualPrice) {
         this.maxActualPrice = maxActualPrice;
+    }
+
+    public void setProductMultiMediaDesciption(String productMultiMediaDesciption) {
+        this.productMultiMediaDesciption = productMultiMediaDesciption;
+    }
+
+    public String getProductMultiMediaDesciption() {
+        return productMultiMediaDesciption;
     }
 }

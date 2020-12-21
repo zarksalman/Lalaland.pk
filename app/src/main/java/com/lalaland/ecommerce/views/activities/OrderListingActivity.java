@@ -7,6 +7,7 @@ import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.databinding.DataBindingUtil;
+import androidx.lifecycle.ViewModelProvider;
 import androidx.lifecycle.ViewModelProviders;
 import androidx.recyclerview.widget.LinearLayoutManager;
 
@@ -42,7 +43,7 @@ public class OrderListingActivity extends AppCompatActivity implements MyOrderAd
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         activityOrderListingBinding = DataBindingUtil.setContentView(this, R.layout.activity_order_listing);
-        orderViewModel = ViewModelProviders.of(this).get(OrderViewModel.class);
+        orderViewModel = new ViewModelProvider(this).get(OrderViewModel.class);
 
         if (getIntent().getExtras() != null) {
 

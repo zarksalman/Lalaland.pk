@@ -30,6 +30,12 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.content.res.ResourcesCompat;
+
+import com.google.android.material.snackbar.BaseTransientBottomBar;
+import com.google.android.material.snackbar.Snackbar;
+import com.lalaland.ecommerce.data.models.productDetails.ProductDetailData;
+import com.lalaland.ecommerce.data.models.productDetails.ProductDetails;
 
 import java.io.ByteArrayOutputStream;
 import java.io.File;
@@ -323,9 +329,6 @@ public class AppUtils {
         return names[0];
     }
 
-
-
-
     public static void hideKeyboard(Activity activity) {
         InputMethodManager imm = (InputMethodManager) activity.getSystemService(Activity.INPUT_METHOD_SERVICE);
         //Find the currently focused view, so we can grab the correct window token from it.
@@ -357,6 +360,11 @@ public class AppUtils {
         return String.valueOf(str1).concat(" ").concat(String.valueOf(str2));
     }
 
+    public static String getItemLeftString(String str) {
+
+        return str.concat(" ").concat("left");
+    }
+
     public static String formatSearchUrl(String str) {
 
         if (str != null && (str.contains("-")))
@@ -376,6 +384,14 @@ public class AppUtils {
     public static Integer toInteger(String quantity) {
 
         return Integer.parseInt(quantity);
+    }
+
+    public static int shouldVisibleQuantityView(String quantity) {
+
+        if (Integer.parseInt(quantity) < 10 && Integer.parseInt(quantity) > 0)
+            return View.VISIBLE;
+        else
+            return View.GONE;
     }
 
     public static String caculatePercentage(String actualPrice, String salePrice) {
@@ -445,11 +461,33 @@ public class AppUtils {
         return androidDeviceId;
     }
 
-    public static String createProductUrl(String str) {
-        str = str.replace(" ", "-");
+    public static String createProductUrl(ProductDetailData productDetailData) {
+
+        String productShareUrl;
+        ProductDetails productDetails = productDetailData.getProductDetails();
+
+        String categoryName = trimSpecialCharactersFromProductUrl(productDetailData.getCategoryName().getName());
+        String brandName = trimSpecialCharactersFromProductUrl(productDetails.getBrandName());
+        String productName = trimSpecialCharactersFromProductUrl(productDetails.getName());
+        String productId = productDetails.getId().toString();
+
+        productShareUrl = categoryName + brandName + productName + productId;
+        return productShareUrl;
+    }
+
+    private static String trimSpecialCharactersFromProductUrl(String string) {
+
+        String str = string.replace(" ", "-")
+                .replace(")", "-")
+                .replace("(", "-")
+                .replace(".", "-")
+                .replace("/", "-")
+                .replace("’", "-")
+                .replace("'", "-")
+                .replace("\"", "-");
         str = str.toLowerCase();
 
-        return str;
+        return str.concat("/");
     }
 
     public static File getFile(Context context, Uri uri) {
@@ -745,5 +783,31 @@ public class AppUtils {
         } else {
             return BASE_URL;
         }*/
+    }
+
+
+    public static void showSnackbar(Activity context, String text, Boolean hideSB) {
+        View parentLayout = context.findViewById(android.R.id.content);
+        Snackbar snackbar = Snackbar.make(parentLayout, text, Snackbar.LENGTH_INDEFINITE);
+        snackbar.getView().setBackgroundColor(ResourcesCompat.getColor(context.getResources(),
+                android.R.color.black, null));
+
+        snackbar.addCallback(new BaseTransientBottomBar.BaseCallback<Snackbar>() {
+            @Override
+            public void onDismissed(Snackbar transientBottomBar, int event) {
+                super.onDismissed(transientBottomBar, event);
+            }
+
+            @Override
+            public void onShown(Snackbar transientBottomBar) {
+                super.onShown(transientBottomBar);
+            }
+        });
+
+        if (!snackbar.isShown())
+            snackbar.show();
+
+        if (!hideSB)
+            snackbar.dismiss();
     }
 }

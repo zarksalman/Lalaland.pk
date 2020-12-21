@@ -7,6 +7,7 @@ import android.view.ViewGroup;
 
 import androidx.databinding.DataBindingUtil;
 import androidx.fragment.app.Fragment;
+import androidx.lifecycle.ViewModelProvider;
 import androidx.lifecycle.ViewModelProviders;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
@@ -69,7 +70,7 @@ public class ReplacementFragment extends Fragment {
 
     private void getClaimList() {
 
-        ReturnAndReplacementViewModel returnAndReplacementViewModel = ViewModelProviders.of(this).get(ReturnAndReplacementViewModel.class);
+        ReturnAndReplacementViewModel returnAndReplacementViewModel = new ViewModelProvider(this).get(ReturnAndReplacementViewModel.class);
 
         returnAndReplacementViewModel.getClaimsList().observe(this, claimListingDataContainer -> {
 

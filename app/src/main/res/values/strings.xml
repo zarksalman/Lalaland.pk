@@ -204,5 +204,6 @@
     <string name="title_activity_claim_detail">ClaimDetail</string>
     <string name="what_do_you_think_about_this_product">What do you think about this Product?</string>
     <string name="login_to_add_review_and_rating">Login to add review and rating</string>
+    <string name="insufficient_stock">Insufficient Stock</string>
 
 </resources>

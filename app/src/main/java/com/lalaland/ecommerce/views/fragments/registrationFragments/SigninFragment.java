@@ -15,6 +15,7 @@ import android.view.WindowManager;
 import android.widget.Toast;
 
 import androidx.databinding.DataBindingUtil;
+import androidx.lifecycle.ViewModelProvider;
 import androidx.lifecycle.ViewModelProviders;
 
 import com.lalaland.ecommerce.R;
@@ -77,7 +78,7 @@ public class SigninFragment extends BaseRegistrationFragment implements LoadingL
                              Bundle savedInstanceState) {
         fragmentSigninBinding = DataBindingUtil.inflate(inflater, R.layout.fragment_signin, container, false);
 
-        loginViewModel = ViewModelProviders.of(this).get(LoginViewModel.class);
+        loginViewModel = new ViewModelProvider(this).get(LoginViewModel.class);
 
         appPreference = AppPreference.getInstance(getContext());
         token = appPreference.getString(SIGNIN_TOKEN);

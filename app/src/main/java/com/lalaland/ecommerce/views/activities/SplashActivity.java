@@ -12,6 +12,7 @@ import android.view.WindowManager;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.databinding.DataBindingUtil;
+import androidx.lifecycle.ViewModelProvider;
 import androidx.lifecycle.ViewModelProviders;
 
 import com.google.android.material.snackbar.Snackbar;
@@ -118,7 +119,7 @@ public class SplashActivity extends AppCompatActivity implements NetworkInterfac
     private void fetchCategoryData() {
 
         if (AppUtils.isNetworkAvailable()) {
-            CategoryViewModel categoryViewModel = ViewModelProviders.of(this).get(CategoryViewModel.class);
+            CategoryViewModel categoryViewModel = new ViewModelProvider(this).get(CategoryViewModel.class);
 
             categoryViewModel.getActionProducts(this).observe(this, categoryContainer ->
             {

@@ -8,6 +8,7 @@ import android.widget.LinearLayout;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.databinding.DataBindingUtil;
+import androidx.lifecycle.ViewModelProvider;
 import androidx.lifecycle.ViewModelProviders;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
@@ -91,7 +92,7 @@ public class MyClaims extends AppCompatActivity {
 
     private void getClaimList() {
 
-        ReturnAndReplacementViewModel returnAndReplacementViewModel = ViewModelProviders.of(this).get(ReturnAndReplacementViewModel.class);
+        ReturnAndReplacementViewModel returnAndReplacementViewModel = new ViewModelProvider(this).get(ReturnAndReplacementViewModel.class);
 
         returnAndReplacementViewModel.getClaimsList().observe(this, claimListingDataContainer -> {
 

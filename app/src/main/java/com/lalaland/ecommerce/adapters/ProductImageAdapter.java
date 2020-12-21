@@ -16,22 +16,23 @@ import com.lalaland.ecommerce.databinding.ProductImageItemBinding;
 import com.lalaland.ecommerce.helpers.AppConstants;
 import com.squareup.picasso.Picasso;
 
-import java.util.ArrayList;
 import java.util.List;
 
 public class ProductImageAdapter extends PagerAdapter {
 
 
     private ProductImageItemBinding productImageItemBinding;
-    List<ProductMultimedium> productMultimedia = new ArrayList<>();
+    private List<ProductMultimedium> productMultimedia;
+    private String mediaDescription;
 
 
     Context context;
     LayoutInflater layoutInflater;
 
-    public ProductImageAdapter(Context context, List<ProductMultimedium> mProductMultimedia) {
+    public ProductImageAdapter(Context context, List<ProductMultimedium> mProductMultimedia, String mMediaDescription) {
         this.context = context;
         productMultimedia = mProductMultimedia;
+        mediaDescription = mMediaDescription;
     }
 
     @Override
@@ -50,26 +51,22 @@ public class ProductImageAdapter extends PagerAdapter {
     public Object instantiateItem(@NonNull ViewGroup container, int position) {
 
         layoutInflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-        //View view = layoutInflater.inflate(R.layout.product_image_item, container, false);
 
         productImageItemBinding = DataBindingUtil.inflate(layoutInflater, R.layout.product_image_item, container, false);
 
         String imgUrl = AppConstants.PRODUCT_STORAGE_BASE_URL.concat(productMultimedia.get(position).getSource());
 
-/*
-        Glide.with(context)
-                .load(imgUrl)
-                .placeholder(R.drawable.placeholder_products)
-                .into(productImageItemBinding.ivProduct);
-*/
-
         Picasso
                 .get()
                 .load(imgUrl)
                 .placeholder(R.drawable.placeholder_products)
-                .fit()
-                .centerInside()
                 .into(productImageItemBinding.ivProduct);
+
+        productImageItemBinding.tvImageDetail.setText(mediaDescription);
+        if (mediaDescription == null || mediaDescription.isEmpty())
+            productImageItemBinding.tvImageDetail.setVisibility(View.GONE);
+        else
+            productImageItemBinding.tvImageDetail.setVisibility(View.VISIBLE);
 
         container.addView(productImageItemBinding.getRoot());
         return productImageItemBinding.getRoot();
@@ -80,5 +77,4 @@ public class ProductImageAdapter extends PagerAdapter {
     public void destroyItem(View container, int position, Object object) {
         ((ViewPager) container).removeView((View) object);
     }
-
 }

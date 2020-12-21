@@ -9,6 +9,7 @@ import android.widget.Toast;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.databinding.DataBindingUtil;
+import androidx.lifecycle.ViewModelProvider;
 import androidx.lifecycle.ViewModelProviders;
 
 import com.lalaland.ecommerce.R;
@@ -50,7 +51,7 @@ public class AddressCreationActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
 
         activityAddressCreationBinding = DataBindingUtil.setContentView(this, R.layout.activity_address_creation);
-        userViewModel = ViewModelProviders.of(this).get(UserViewModel.class);
+        userViewModel = new ViewModelProvider(this).get(UserViewModel.class);
         appPreference = AppPreference.getInstance(this);
         token = appPreference.getString(SIGNIN_TOKEN);
 
