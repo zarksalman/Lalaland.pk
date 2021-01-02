@@ -191,6 +191,7 @@ public class ReturnAndReplacementActivity extends AppCompatActivity implements R
                         submitClaim();
                     });
                 } else {
+
                     Toast.makeText(this, returnAndReplacementDataContainer.getMsg(), Toast.LENGTH_SHORT).show();
                 }
             }
@@ -290,9 +291,6 @@ public class ReturnAndReplacementActivity extends AppCompatActivity implements R
                     return mView;
                 }
             };
-
-
-            //adapter = new ArrayAdapter<>(this, android.R.layout.simple_spinner_item, replacementReasons);
 
             adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
             activityReturnAndReplacementBinding.spReturnReasons.setAdapter(adapter);
@@ -853,18 +851,9 @@ public class ReturnAndReplacementActivity extends AppCompatActivity implements R
         claimSuccess.setCanceledOnTouchOutside(false);
         claimSuccess.setCancelable(false);
 
-       /* String msg = "<center>Thank you for reaching out to us, we have received your claim request  <b><font color='#f63655'>#213123123213</font></b> and will update you shortly.</center>";
-
-        if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.N) {
-            claimDialogueBinding.tvMessage.setText(Html.fromHtml(msg, Html.FROM_HTML_MODE_LEGACY));
-        } else {
-            claimDialogueBinding.tvMessage.setText(Html.fromHtml(msg));
-        }*/
-
         claimSuccess.getWindow().setBackgroundDrawable(new ColorDrawable(android.graphics.Color.TRANSPARENT));
 
         claimSuccess.setView(claimDialogueBinding.getRoot());
 
-        // claimSuccess.show();
     }
 }

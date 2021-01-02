@@ -79,17 +79,6 @@ public class MyClaims extends AppCompatActivity {
 
     }
 
-    private void setViewPaggers() {
-
-/*
-        PagerAdapter adapter = new PagerAdapter(getSupportFragmentManager(), activityMyClaimsBinding.tabBar.getTabCount());
-        activityMyClaimsBinding.viewPager.setAdapter(adapter);
-
-        activityMyClaimsBinding.viewPager.addOnPageChangeListener(new TabLayout.TabLayoutOnPageChangeListener(activityMyClaimsBinding.tabBar));
-*/
-
-    }
-
     private void getClaimList() {
 
         ReturnAndReplacementViewModel returnAndReplacementViewModel = new ViewModelProvider(this).get(ReturnAndReplacementViewModel.class);

@@ -19,7 +19,6 @@ import static com.lalaland.ecommerce.helpers.AppConstants.CATEGORY_FOCUS_STORAGE
 import static com.lalaland.ecommerce.helpers.AppConstants.CUSTOM_PRODUCT_URL;
 import static com.lalaland.ecommerce.helpers.AppConstants.MEDIUM_PRODUCT_STORAGE_BASE_URL;
 import static com.lalaland.ecommerce.helpers.AppConstants.PRODUCT_STORAGE_BASE_URL;
-import static com.lalaland.ecommerce.helpers.AppConstants.USER_AVATAR;
 import static com.lalaland.ecommerce.helpers.AppConstants.USER_STORAGE_BASE_URL;
 
 public class CustomBinding {
@@ -59,12 +58,20 @@ public class CustomBinding {
     @BindingAdapter("setActionImage")
     public static void setActionImageFromServer(ImageView imageView, String imageName) {
 
-        // String imageSrc = ACTION_STORAGE_BASE_URL.concat(imageName);
         Glide
                 .with(imageView.getContext())
                 .load(imageName)
                 .placeholder(R.drawable.placeholder_products_pick_of_week)
                 .error(R.drawable.placeholder_products_pick_of_week)
+                .centerInside()
+                .into(imageView);
+    }
+
+    @BindingAdapter("setDrawableImage")
+    public static void setDrawableImage(ImageView imageView, int drawable) {
+        Glide
+                .with(imageView.getContext())
+                .load(drawable)
                 .centerInside()
                 .into(imageView);
     }
@@ -143,7 +150,6 @@ public class CustomBinding {
     @BindingAdapter("setBlogsImage")
     public static void setBlogsImage(ImageView imageView, String imageName) {
 
-        // String imageSrc = ACTION_STORAGE_BASE_URL.concat(imageName);
         Glide
                 .with(imageView.getContext())
                 .load(imageName)

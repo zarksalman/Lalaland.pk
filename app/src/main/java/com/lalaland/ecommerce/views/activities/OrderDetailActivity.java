@@ -64,7 +64,6 @@ public class OrderDetailActivity extends AppCompatActivity implements MyOrderPro
             onBackPressed();
         });
 
-        //  setInitValues();
         setAdapter();
         getOrderProducts();
     }
@@ -115,10 +114,6 @@ public class OrderDetailActivity extends AppCompatActivity implements MyOrderPro
 
                     orderProductList.addAll(orderDetailContainer.getData().getOrderProducts());
                     myOrderProductsAdapter.notifyItemRangeInserted(0, orderProductList.size());
-
-/*                    discountAmount = orderDetailContainer.getData().getDiscountAmount();
-                    activityOrderDetailBinding.tvMerchantDiscount.setText(discountAmount);
-                    activityOrderDetailBinding.discountRow.setVisibility(View.VISIBLE);*/
 
                     activityOrderDetailBinding.tvOrderTotal.setText(AppUtils.formatPriceString(orderBill));
                     activityOrderDetailBinding.tvMerchantOrderTotal.setText(AppUtils.formatPriceString(String.valueOf(orderTotal)));

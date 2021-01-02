@@ -5,6 +5,7 @@ import android.content.Context;
 import com.lalaland.ecommerce.data.models.category.Category;
 import com.lalaland.ecommerce.data.models.category.CategoryBrand;
 import com.lalaland.ecommerce.data.models.category.City;
+import com.lalaland.ecommerce.data.models.category.PayProData;
 import com.lalaland.ecommerce.data.models.login.User;
 import com.lalaland.ecommerce.data.models.userAddressBook.UserAddresses;
 
@@ -42,6 +43,7 @@ public class AppConstants {
     public static Context mContext;
     public static List<Category> staticCategoryList = new ArrayList<>();
     public static List<City> staticCitiesList = new ArrayList<>();
+    public static List<PayProData> staticBankList = new ArrayList<>();
     public static List<CategoryBrand> staticCategoryBrandsList = new ArrayList<>();
     public static Map<Integer, String> appliedFilter = new HashMap<>();
     public static Map<String, String> appliedSubFilter = new HashMap<>();

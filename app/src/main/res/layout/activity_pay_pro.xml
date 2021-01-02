@@ -1,8 +1,301 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    tools:context=".views.activities.PayProActivity">
+<layout xmlns:android="http://schemas.android.com/apk/res/android">
 
-</androidx.constraintlayout.widget.ConstraintLayout>
+    <data>
+
+        <import type="android.view.View" />
+
+        <variable
+            name="listener"
+            type="com.lalaland.ecommerce.views.activities.PayProActivity" />
+    </data>
+
+    <androidx.constraintlayout.widget.ConstraintLayout xmlns:app="http://schemas.android.com/apk/res-auto"
+        xmlns:tools="http://schemas.android.com/tools"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="@android:color/white"
+        tools:context=".views.activities.PayProActivity">
+
+        <androidx.core.widget.NestedScrollView xmlns:app="http://schemas.android.com/apk/res-auto"
+            xmlns:tools="http://schemas.android.com/tools"
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:background="@android:color/white"
+            app:layout_constraintBottom_toTopOf="@+id/btn_confirm_order"
+            app:layout_constraintTop_toTopOf="parent"
+            tools:context=".views.activities.PayProActivity">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical">
+
+                <androidx.constraintlayout.widget.ConstraintLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content">
+
+                    <LinearLayout
+
+                        android:id="@+id/top_bar"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_alignParentTop="true"
+                        android:layout_centerHorizontal="true"
+                        android:background="@android:color/white"
+                        android:elevation="@dimen/_8dp"
+                        android:orientation="horizontal"
+                        android:visibility="visible"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toTopOf="parent">
+
+                        <ImageView
+
+                            android:id="@+id/iv_close_checkout_screen"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_gravity="center_vertical"
+                            android:onClick="@{(view)->listener.onBackPressed()}"
+                            android:padding="@dimen/_16dp"
+                            app:srcCompat="@drawable/back_arrow_icon" />
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_gravity="center_vertical"
+                            android:fontFamily="@font/encodesansmedium"
+                            android:padding="@dimen/_16dp"
+                            android:text="@string/online_payment"
+                            android:textColor="@android:color/black"
+                            android:textSize="18sp" />
+                    </LinearLayout>
+
+                    <TextView
+
+                        android:id="@+id/tv_title_expires_in"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="@dimen/_16dp"
+                        android:layout_marginTop="@dimen/_24dp"
+                        android:fontFamily="@font/encodesansmedium"
+                        android:text="@string/session_expires_in"
+                        android:textColor="@android:color/black"
+                        android:textStyle="bold"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toBottomOf="@+id/top_bar" />
+
+                    <ProgressBar
+
+                        android:id="@+id/pb_timer"
+                        style="?android:attr/progressBarStyleHorizontal"
+                        android:layout_width="200dp"
+                        android:layout_height="200dp"
+                        android:background="@drawable/drawable_circle_dark_blue"
+                        android:max="100"
+                        android:progress="100"
+                        android:progressDrawable="@drawable/drawable_circle_yellow"
+                        android:rotation="90"
+                        android:scaleX="-1"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toBottomOf="@+id/tv_title_expires_in" />
+
+                    <TextView
+                        android:id="@+id/tv_timer"
+                        android:layout_width="80dp"
+                        android:layout_height="80dp"
+                        android:gravity="center"
+                        android:indeterminate="false"
+                        android:text="timer"
+                        android:textColor="@android:color/black"
+                        android:textSize="14sp"
+                        android:textStyle="bold"
+                        app:layout_constraintBottom_toBottomOf="@+id/pb_timer"
+                        app:layout_constraintEnd_toEndOf="@+id/pb_timer"
+                        app:layout_constraintStart_toStartOf="@+id/pb_timer"
+                        app:layout_constraintTop_toTopOf="@+id/pb_timer" />
+
+                    <ImageView
+
+                        android:id="@+id/iv_line_1"
+                        android:layout_width="match_parent"
+                        android:layout_height="1dp"
+                        android:layout_centerHorizontal="true"
+                        android:layout_marginStart="@dimen/_16dp"
+                        android:layout_marginTop="@dimen/_32dp"
+                        android:layout_marginEnd="@dimen/_16dp"
+                        android:background="@color/colorMediumGray"
+                        app:layout_constraintTop_toBottomOf="@+id/pb_timer" />
+
+                    <LinearLayout
+                        android:id="@+id/consumer_id_container"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:orientation="horizontal"
+                        android:padding="@dimen/_16dp"
+                        app:layout_constraintTop_toBottomOf="@+id/iv_line_1">
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:fontFamily="@font/encodesansregular"
+                            android:text="@string/consumer_id"
+                            android:textColor="@android:color/black"
+                            android:textSize="14sp" />
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginStart="@dimen/_8dp"
+                            android:fontFamily="@font/encodesansregular"
+                            android:text="@string/consumer_id"
+                            android:textColor="@color/colorPrimary"
+                            android:textSize="14sp" />
+                    </LinearLayout>
+
+                    <ImageView
+
+                        android:id="@+id/iv_line_2"
+                        android:layout_width="match_parent"
+                        android:layout_height="1dp"
+                        android:layout_centerHorizontal="true"
+                        android:layout_marginStart="@dimen/_16dp"
+                        android:layout_marginEnd="@dimen/_16dp"
+                        android:background="@color/colorMediumGray"
+                        app:layout_constraintTop_toBottomOf="@+id/consumer_id_container" />
+
+
+                    <LinearLayout
+                        android:id="@+id/order_amount_container"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:orientation="horizontal"
+                        android:padding="@dimen/_16dp"
+                        app:layout_constraintTop_toBottomOf="@+id/iv_line_2">
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:fontFamily="@font/encodesansregular"
+                            android:text="@string/order_amount"
+                            android:textColor="@android:color/black"
+                            android:textSize="14sp" />
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginStart="@dimen/_8dp"
+                            android:fontFamily="@font/encodesansregular"
+                            android:text="@string/order_amount"
+                            android:textColor="@color/colorPrimary"
+                            android:textSize="14sp" />
+                    </LinearLayout>
+
+                    <ImageView
+
+                        android:id="@+id/iv_line_3"
+                        android:layout_width="match_parent"
+                        android:layout_height="1dp"
+                        android:layout_centerHorizontal="true"
+                        android:layout_marginStart="@dimen/_16dp"
+                        android:layout_marginEnd="@dimen/_16dp"
+                        android:background="@color/colorMediumGray"
+                        app:layout_constraintTop_toBottomOf="@+id/order_amount_container" />
+
+
+                    <TextView
+
+                        android:id="@+id/tv_title_bank_partners"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="@dimen/_16dp"
+                        android:layout_marginTop="@dimen/_24dp"
+                        android:fontFamily="@font/encodesansmedium"
+                        android:text="@string/partner_banks"
+                        android:textColor="@android:color/black"
+                        android:textStyle="bold"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toBottomOf="@+id/iv_line_3" />
+
+                    <LinearLayout
+                        android:id="@+id/sp_return_reasons_container"
+                        android:layout_width="match_parent"
+                        android:layout_height="50dp"
+                        android:layout_margin="@dimen/_16dp"
+                        android:background="@drawable/dropdown_bg_round_cornors"
+                        android:gravity="center_vertical"
+                        android:orientation="horizontal"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toBottomOf="@+id/tv_title_bank_partners">
+
+                        <Spinner
+
+                            android:id="@+id/sp_bank_partner"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:spinnerMode="dropdown"
+                            android:theme="@style/ThemeOverlay.AppCompat.Light" />
+                    </LinearLayout>
+
+                    <androidx.recyclerview.widget.RecyclerView
+
+                        android:id="@+id/rv_banks"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_margin="@dimen/_16dp"
+                        app:layout_constraintTop_toBottomOf="@+id/sp_return_reasons_container"
+                        tools:listitem="@layout/bank_item" />
+
+
+                    <TextView
+
+                        android:id="@+id/tv_title_vp"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="@dimen/_16dp"
+                        android:layout_marginTop="@dimen/_24dp"
+                        android:fontFamily="@font/encodesansmedium"
+                        android:text="@string/how_to_pay"
+                        android:textColor="@android:color/black"
+                        android:textStyle="bold"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toBottomOf="@+id/rv_banks" />
+
+                    <androidx.viewpager.widget.ViewPager
+
+                        android:id="@+id/vp_paypro_info"
+                        android:layout_width="match_parent"
+                        android:layout_height="170dp"
+                        android:layout_marginTop="@dimen/_24dp"
+                        app:layout_constraintTop_toBottomOf="@+id/tv_title_vp" />
+
+                    <LinearLayout
+                        android:id="@+id/dots"
+                        android:layout_width="match_parent"
+                        android:layout_height="@dimen/_20dp"
+                        android:layout_marginBottom="@dimen/_16dp"
+                        android:gravity="center"
+                        android:orientation="horizontal"
+                        android:padding="@dimen/_5dp"
+                        app:layout_constraintTop_toBottomOf="@+id/vp_paypro_info" />
+
+                </androidx.constraintlayout.widget.ConstraintLayout>
+            </LinearLayout>
+        </androidx.core.widget.NestedScrollView>
+
+        <Button
+
+            android:id="@+id/btn_confirm_order"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_margin="@dimen/_4dp"
+            android:background="@color/colorAccent"
+            android:text="@string/confirm_your_order"
+            android:textColor="@android:color/white"
+            android:textSize="16sp"
+
+            app:layout_constraintBottom_toBottomOf="parent" />
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</layout>

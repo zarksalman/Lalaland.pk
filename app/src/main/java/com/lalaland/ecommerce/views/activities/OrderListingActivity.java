@@ -51,13 +51,6 @@ public class OrderListingActivity extends AppCompatActivity implements MyOrderAd
             String title;
 
             switch (orderListType) {
-                case "all orders":
-                    title = "All Orders";
-                    break;
-
-                case "all":
-                    title = "All Orders";
-                    break;
 
                 case "new":
                     title = "New Orders";
@@ -85,8 +78,6 @@ public class OrderListingActivity extends AppCompatActivity implements MyOrderAd
             }
 
             activityOrderListingBinding.tvTitle.setText(title);
-
-            // activityOrderListingBinding.tvTitle.setText(AppUtils.toLowerCase(orderListType.concat(" ")).concat("Orders"));
             loginToken = AppPreference.getInstance(this).getString(SIGNIN_TOKEN);
 
             setInitialValues();

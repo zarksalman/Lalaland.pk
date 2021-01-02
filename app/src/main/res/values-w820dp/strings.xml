@@ -2,4 +2,6 @@
 <resources>
     <string name="insufficient_stock">Insufficient Stock</string>
     <string name="online_payment">Online payment</string>
+    <string name="session_expires_in">Session Expires in</string>
+    <string name="how_to_pay">How to pay</string>
 </resources>

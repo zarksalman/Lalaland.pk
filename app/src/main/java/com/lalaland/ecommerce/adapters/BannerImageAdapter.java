@@ -73,15 +73,14 @@ public class BannerImageAdapter extends PagerAdapter {
                     mIntent = new Intent(context, WebViewActivity.class);
                     // if we are not going to display listing then open webview
                     mIntent.putExtra(BLOG_URL, productMultimedia.get(position).getMobileAppUrl().getTitle());
-                    context.startActivity(mIntent);
                 } else {
 
                     mIntent = new Intent(context, ActionProductListingActivity.class);
                     mIntent.putExtra(ACTION_NAME, productMultimedia.get(position).getMobileAppUrl().getTitle());
                     mIntent.putExtra(ACTION_ID, String.valueOf(productMultimedia.get(position).getMobileAppUrl().getId()));
                     mIntent.putExtra(PRODUCT_TYPE, productMultimedia.get(position).getMobileAppUrl().getActionName());
-                    context.startActivity(mIntent);
                 }
+                context.startActivity(mIntent);
             }
         });
 

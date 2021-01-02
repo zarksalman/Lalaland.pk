@@ -231,7 +231,6 @@ public class HomeFragment extends Fragment implements BrandsFocusAdapter.Feature
         BannerImageAdapter bannerImageAdapter = new BannerImageAdapter(getContext(), bannerList);
         fragmentHomeNewBinding.vpImages.setAdapter(bannerImageAdapter);
 
-
         //setting viewpagger height because in scrollview wrap/match does not calculate their height correctly
         android.view.Display display = ((android.view.WindowManager) getContext().getSystemService(Context.WINDOW_SERVICE)).getDefaultDisplay();
         fragmentHomeNewBinding.vpImages.getLayoutParams().height = ((int) (display.getWidth() * 0.6));

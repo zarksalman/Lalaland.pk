@@ -13,7 +13,6 @@ import android.view.WindowManager;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.databinding.DataBindingUtil;
 import androidx.lifecycle.ViewModelProvider;
-import androidx.lifecycle.ViewModelProviders;
 
 import com.google.android.material.snackbar.Snackbar;
 import com.lalaland.ecommerce.R;
@@ -54,7 +53,6 @@ import static com.lalaland.ecommerce.helpers.AppConstants.CUSTOM_PRODUCT_URL;
 import static com.lalaland.ecommerce.helpers.AppConstants.CUSTOM_PRODUCT_URL_KEY;
 import static com.lalaland.ecommerce.helpers.AppConstants.FAQ_URL;
 import static com.lalaland.ecommerce.helpers.AppConstants.FAQ_URL_KEY;
-import static com.lalaland.ecommerce.helpers.AppConstants.IS_FIRST_TIME;
 import static com.lalaland.ecommerce.helpers.AppConstants.MEDIUM_PRODUCT_STORAGE_BASE_URL;
 import static com.lalaland.ecommerce.helpers.AppConstants.MEDIUM_PRODUCT_STORAGE_BASE_URL_KEY;
 import static com.lalaland.ecommerce.helpers.AppConstants.PRIVACY_POLICY_URL;
@@ -129,9 +127,11 @@ public class SplashActivity extends AppCompatActivity implements NetworkInterfac
                         AppConstants.LOAD_HOME_FRAGMENT_INDEX = 0;
                         AppConstants.staticCategoryList = new ArrayList<>();
                         AppConstants.staticCitiesList = new ArrayList<>();
+                        AppConstants.staticBankList = new ArrayList<>();
+
                         AppConstants.staticCategoryBrandsList = new ArrayList<>();
                         AppConstants.staticCategoryList = categoryContainer.getData().getCategories();
-                        AppConstants.staticCitiesList = categoryContainer.getData().getCities();
+                        AppConstants.staticBankList = categoryContainer.getData().getPayProData();
                         AppConstants.staticCategoryBrandsList = categoryContainer.getData().getBrands();
 
                         initUrls(categoryContainer.getData());
@@ -155,12 +155,14 @@ public class SplashActivity extends AppCompatActivity implements NetworkInterfac
                                 intent = new Intent(SplashActivity.this, MainActivity.class);
                                 intent.setData(getIntent().getData());
                             } else {
+                                intent = new Intent(SplashActivity.this, PayProActivity.class);
 
-                                if (!appPreference.getBoolean(IS_FIRST_TIME)) {
-                                    intent = new Intent(SplashActivity.this, IntroductionScreenActivity.class);
-                                } else {
-                                    intent = new Intent(SplashActivity.this, MainActivity.class);
-                                }
+//                                if (!appPreference.getBoolean(IS_FIRST_TIME)) {
+//                                    intent = new Intent(SplashActivity.this, IntroductionScreenActivity.class);
+//                                } else {
+//                                    intent = new Intent(SplashActivity.this, PayProActivity.class);
+//                                    intent = new Intent(SplashActivity.this, MainActivity.class);
+//                                }
                             }
 
                             startActivity(intent);
@@ -168,8 +170,6 @@ public class SplashActivity extends AppCompatActivity implements NetworkInterfac
                             overridePendingTransition(R.anim.anim_slide_in_left, R.anim.anim_slide_out_left);
                         }, 500);
                     } else if (categoryContainer.getCode().equals(UPDATE_APP)) {
-
-                        //Toast.makeText(this, categoryContainer.getMsg(), Toast.LENGTH_SHORT).show();
 
                         Snackbar.make(activitySplashBinding.ivSplashImg, categoryContainer.getMsg(), Snackbar.LENGTH_INDEFINITE);
 

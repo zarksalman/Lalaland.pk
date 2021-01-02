@@ -89,6 +89,18 @@ public class CategoryData {
     @Expose
     private String claimUrl;
 
+    @SerializedName("pay_pro_data")
+    @Expose
+    private List<PayProData> payProData = null;
+
+    public List<PayProData> getPayProData() {
+        return payProData;
+    }
+
+    public void setPayProData(List<PayProData> payProData) {
+        this.payProData = payProData;
+    }
+
     public Integer getCartCount() {
         return cartCount;
     }

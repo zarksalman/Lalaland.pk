@@ -251,7 +251,7 @@
                 </LinearLayout>
 
                 <LinearLayout
-                    android:id="@+id/sp_return_reasons_container"
+                    android:id="@+id/sp_partner_banks"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="@dimen/_8dp"
