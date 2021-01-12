@@ -8,6 +8,7 @@ import androidx.lifecycle.LiveData;
 
 import com.lalaland.ecommerce.data.models.DeliveryChargesData.DeliveryChargesContainer;
 import com.lalaland.ecommerce.data.models.deliveryOption.DeliveryOptionDataContainer;
+import com.lalaland.ecommerce.data.models.logout.BasicResponse;
 import com.lalaland.ecommerce.data.models.order.details.OrderDetailContainer;
 import com.lalaland.ecommerce.data.models.order.myOrders.OrderDataContainer;
 import com.lalaland.ecommerce.data.repository.OrdersRepository;
@@ -38,5 +39,9 @@ public class OrderViewModel extends AndroidViewModel {
 
     public LiveData<OrderDetailContainer> getMyOrdersProducts(String token, String orderId) {
         return ordersRepository.getMyOrdersProducts(token, orderId);
+    }
+
+    public LiveData<BasicResponse> checkPayProPaymentStatus(String token, String orderId) {
+        return ordersRepository.checkPayProPaymentStatus(token, orderId);
     }
 }

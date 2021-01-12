@@ -36,6 +36,25 @@ public class CustomBinding {
                 .into(imageView);
     }
 
+    @BindingAdapter(value = {"url", "colorPatch"}, requireAll = false)
+    public static void setLinkedProductImage(ImageView imageView, String imageName, String colorPatch) {
+
+        String imageSrc;
+
+        if (colorPatch == null || colorPatch.isEmpty())
+            imageSrc = PRODUCT_STORAGE_BASE_URL.concat(imageName);
+        else
+            imageSrc = AppConstants.COLOR_PATCH_URL.concat(imageName);
+
+        Glide
+                .with(AppConstants.mContext)
+                .load(imageSrc)
+                .fitCenter()
+                .error(R.drawable.placeholder_products)
+                .placeholder(R.drawable.placeholder_products)
+                .into(imageView);
+    }
+
     @BindingAdapter("setMediumImageFromServer")
     public static void setMediumImageFromServer(ImageView imageView, String imageName) {
 

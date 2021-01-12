@@ -93,6 +93,18 @@ public class CategoryData {
     @Expose
     private List<PayProData> payProData = null;
 
+    @SerializedName("color_patch_url")
+    @Expose
+    private String colorPathUrl = null;
+
+    public String getColorPathUrl() {
+        return colorPathUrl;
+    }
+
+    public void setColorPathUrl(String colorPathUrl) {
+        this.colorPathUrl = colorPathUrl;
+    }
+
     public List<PayProData> getPayProData() {
         return payProData;
     }

@@ -1,29 +1,65 @@
 <?xml version="1.0" encoding="utf-8"?>
-<layout xmlns:android="http://schemas.android.com/apk/res/android">
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
 
     <data>
 
         <import type="android.view.View" />
 
         <variable
-            name="listener"
+            name="clickListener"
             type="com.lalaland.ecommerce.views.activities.PayProActivity" />
     </data>
 
-    <androidx.constraintlayout.widget.ConstraintLayout xmlns:app="http://schemas.android.com/apk/res-auto"
-        xmlns:tools="http://schemas.android.com/tools"
+    <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:background="@android:color/white"
         tools:context=".views.activities.PayProActivity">
 
-        <androidx.core.widget.NestedScrollView xmlns:app="http://schemas.android.com/apk/res-auto"
-            xmlns:tools="http://schemas.android.com/tools"
+        <LinearLayout
+
+            android:id="@+id/top_bar"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_alignParentTop="true"
+            android:layout_centerHorizontal="true"
+            android:background="@android:color/white"
+            android:elevation="@dimen/_8dp"
+            android:orientation="horizontal"
+            android:visibility="visible"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent">
+
+            <ImageView
+
+                android:id="@+id/iv_close_checkout_screen"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_vertical"
+                android:onClick="@{(view)->clickListener.onBackPressed()}"
+                android:padding="@dimen/_16dp"
+                app:srcCompat="@drawable/back_arrow_icon" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_vertical"
+                android:fontFamily="@font/encodesansmedium"
+                android:padding="@dimen/_16dp"
+                android:text="@string/online_payment"
+                android:textColor="@android:color/black"
+                android:textSize="18sp" />
+        </LinearLayout>
+
+        <androidx.core.widget.NestedScrollView
             android:layout_width="match_parent"
             android:layout_height="0dp"
             android:background="@android:color/white"
             app:layout_constraintBottom_toTopOf="@+id/btn_confirm_order"
-            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/top_bar"
             tools:context=".views.activities.PayProActivity">
 
             <LinearLayout
@@ -35,41 +71,6 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content">
 
-                    <LinearLayout
-
-                        android:id="@+id/top_bar"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:layout_alignParentTop="true"
-                        android:layout_centerHorizontal="true"
-                        android:background="@android:color/white"
-                        android:elevation="@dimen/_8dp"
-                        android:orientation="horizontal"
-                        android:visibility="visible"
-                        app:layout_constraintEnd_toEndOf="parent"
-                        app:layout_constraintStart_toStartOf="parent"
-                        app:layout_constraintTop_toTopOf="parent">
-
-                        <ImageView
-
-                            android:id="@+id/iv_close_checkout_screen"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:layout_gravity="center_vertical"
-                            android:onClick="@{(view)->listener.onBackPressed()}"
-                            android:padding="@dimen/_16dp"
-                            app:srcCompat="@drawable/back_arrow_icon" />
-
-                        <TextView
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:layout_gravity="center_vertical"
-                            android:fontFamily="@font/encodesansmedium"
-                            android:padding="@dimen/_16dp"
-                            android:text="@string/online_payment"
-                            android:textColor="@android:color/black"
-                            android:textSize="18sp" />
-                    </LinearLayout>
 
                     <TextView
 
@@ -78,6 +79,7 @@
                         android:layout_height="wrap_content"
                         android:layout_marginStart="@dimen/_16dp"
                         android:layout_marginTop="@dimen/_24dp"
+                        app:layout_constraintTop_toTopOf="parent"
                         android:fontFamily="@font/encodesansmedium"
                         android:text="@string/session_expires_in"
                         android:textColor="@android:color/black"
@@ -145,6 +147,8 @@
                             android:textSize="14sp" />
 
                         <TextView
+
+                            android:id="@+id/tv_transaction_id"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:layout_marginStart="@dimen/_8dp"
@@ -183,6 +187,8 @@
                             android:textSize="14sp" />
 
                         <TextView
+
+                            android:id="@+id/tv_order_amount"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:layout_marginStart="@dimen/_8dp"
@@ -295,7 +301,29 @@
             android:text="@string/confirm_your_order"
             android:textColor="@android:color/white"
             android:textSize="16sp"
-
+            android:onClick="@{(view)->clickListener.confirmOrderClick(view, 1)}"
             app:layout_constraintBottom_toBottomOf="parent" />
+
+        <ProgressBar
+
+            android:id="@+id/pb_loading"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerInParent="true"
+            android:background="@drawable/bg_round_corner_pb"
+            android:padding="@dimen/_32dp"
+            android:visibility="gone"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <WebView
+
+            android:id="@+id/wv_socket"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:visibility="gone" />
+
     </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>

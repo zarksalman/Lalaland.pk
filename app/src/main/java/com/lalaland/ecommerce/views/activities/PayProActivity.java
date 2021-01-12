@@ -1,12 +1,13 @@
 package com.lalaland.ecommerce.views.activities;
 
+import android.content.Intent;
 import android.content.res.Resources;
 import android.graphics.Color;
 import android.graphics.drawable.Drawable;
 import android.os.Build;
 import android.os.Bundle;
 import android.os.CountDownTimer;
-import android.util.Log;
+import android.os.Parcelable;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
@@ -14,11 +15,13 @@ import android.widget.ArrayAdapter;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.databinding.DataBindingUtil;
+import androidx.lifecycle.ViewModelProvider;
 import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.viewpager.widget.ViewPager;
 
@@ -26,13 +29,23 @@ import com.lalaland.ecommerce.R;
 import com.lalaland.ecommerce.adapters.BankAdapter;
 import com.lalaland.ecommerce.adapters.PayProInfoAdapter;
 import com.lalaland.ecommerce.data.models.category.PayProData;
+import com.lalaland.ecommerce.data.models.products.Product;
 import com.lalaland.ecommerce.databinding.ActivityPayProBinding;
 import com.lalaland.ecommerce.helpers.AppConstants;
+import com.lalaland.ecommerce.helpers.AppPreference;
+import com.lalaland.ecommerce.viewModels.order.OrderViewModel;
 
 import java.util.ArrayList;
 import java.util.List;
 
+import static com.lalaland.ecommerce.helpers.AppConstants.ORDER_TOTAL;
+
 public class PayProActivity extends AppCompatActivity {
+
+    private List<Product> recommendedProductList = new ArrayList<>();
+    private String totalBill = "";
+    private String transactionId = "";
+    private String orderId = "";
 
     private ActivityPayProBinding activityPayProBinding;
     private List<String> bankingTypeList = new ArrayList<>();
@@ -43,20 +56,82 @@ public class PayProActivity extends AppCompatActivity {
 
     private PayProInfoAdapter payProInfoAdapter;
     private List<ImageView> dots = new ArrayList<>();
-    private int index = 0;
+    private OrderViewModel orderViewModel;
+
+    private Boolean isApiCalled = false;
+    private Boolean shouldCallApi = true;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         activityPayProBinding = DataBindingUtil.setContentView(this, R.layout.activity_pay_pro);
+
+        totalBill = getIntent().getStringExtra(ORDER_TOTAL);
+        transactionId = getIntent().getStringExtra(AppConstants.TRANSACTION_ID);
+        orderId = getIntent().getStringExtra(AppConstants.ORDER_ID);
+        recommendedProductList = getIntent().getParcelableArrayListExtra("recommended_products");
+
+        orderViewModel = new ViewModelProvider(this).get(OrderViewModel.class);
+
+        setViews();
         startTimer();
         initBankAdapter();
         initBankPartnersSpinner();
 
         payProInfoAdapter = new PayProInfoAdapter(this);
         activityPayProBinding.vpPayproInfo.setAdapter(payProInfoAdapter);
-
         addDots();
+
+        confirmOrderClick(activityPayProBinding.getRoot(), 0);
+    }
+
+    private void setViews() {
+
+        activityPayProBinding.setClickListener(this);
+        activityPayProBinding.tvTransactionId.setText(transactionId);
+        activityPayProBinding.tvOrderAmount.setText(totalBill);
+    }
+
+    public void confirmOrderClick(View view, int type) {
+
+        if (isApiCalled)
+            return;
+
+        // called from button click then show loading otherwise calling api from bg
+        if (type == 1)
+            activityPayProBinding.pbLoading.setVisibility(View.VISIBLE);
+
+        isApiCalled = true;
+
+        orderViewModel.checkPayProPaymentStatus(AppPreference.getInstance(this).getString(AppConstants.SIGNIN_TOKEN), orderId).observe(this, basicResponse -> {
+
+            activityPayProBinding.pbLoading.setVisibility(View.GONE);
+            isApiCalled = false;
+
+            if (basicResponse != null) {
+
+                if (basicResponse.getCode() == AppConstants.SUCCESS_CODE) {
+
+                    shouldCallApi = false;
+                    Intent intent = new Intent(this, OrderReceivedActivity.class);
+                    intent.putExtra(ORDER_TOTAL, String.valueOf(totalBill));
+                    intent.putParcelableArrayListExtra("recommended_products", (ArrayList<? extends Parcelable>) recommendedProductList);
+                    intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
+                    startActivity(intent);
+                    finish();
+                } else {
+                    shouldCallApi = true;
+                }
+
+                if (type == 1)
+                    Toast.makeText(this, basicResponse.getMsg(), Toast.LENGTH_SHORT).show();
+            }
+        });
+    }
+
+    @Override
+    public void onBackPressed() {
+        super.onBackPressed();
     }
 
     private void initBankPartnersSpinner() {
@@ -96,7 +171,6 @@ public class PayProActivity extends AppCompatActivity {
             @Override
             public void onNothingSelected(AdapterView<?> arg0) {
                 // TODO Auto-generated method stub
-
             }
         });
 
@@ -119,7 +193,7 @@ public class PayProActivity extends AppCompatActivity {
 
     private void startTimer() {
 
-        int time = 1;
+        int time = 20;
         int totalTimeCountInMilliseconds = time * 60 * 1000;
 
         CountDownTimer countDownTimer = new CountDownTimer(totalTimeCountInMilliseconds, 1000) {
@@ -130,19 +204,14 @@ public class PayProActivity extends AppCompatActivity {
             public void onTick(long leftTimeInMilliseconds) {
                 long seconds = leftTimeInMilliseconds / 1000;
                 int progressValue = (int) seconds / 60;
-                int finalValue = (progressValue + 1) * 5;
-                //progressValue *= progressValue;
                 if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
                     activityPayProBinding.pbTimer.setProgress((progressValue + 1) * 5, true);
                 } else {
                     activityPayProBinding.pbTimer.setProgress((progressValue + 1) * 5);
                 }
 
-                Log.d("progress_left_time", "" + leftTimeInMilliseconds);
-                Log.d("progress_value", "" + progressValue);
-                Log.d("progress_value_5", "" + (progressValue + 1) * 5);
-                Log.d("progress_min", "" + (seconds / 60));
-                Log.d("progress_sec", "" + (seconds % 60));
+                if (seconds % 60 == 20 && !isApiCalled && shouldCallApi)
+                    confirmOrderClick(activityPayProBinding.getRoot(), 0);
 
                 activityPayProBinding.tvTimer.setText(String.format("%02d", seconds / 60)
                         + ":" + String.format("%02d", seconds % 60));

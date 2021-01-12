@@ -737,6 +737,7 @@ public class CheckoutScreen extends AppCompatActivity implements NetworkInterfac
 
         productViewModel.confirmOrder(parameter, this).observe(this, orderDataContainer -> {
 
+
             if (orderDataContainer != null) {
 
                 switch (orderDataContainer.getCode()) {
@@ -747,11 +748,18 @@ public class CheckoutScreen extends AppCompatActivity implements NetworkInterfac
                         AnalyticsManager.getInstance().sendAnalytics("confirm_order", bundle);
                         AnalyticsManager.getInstance().sendFacebookAnalytics("confirm_order", bundle);
 
-                        Intent intent = new Intent(this, OrderReceivedActivity.class);
-                        intent.putExtra(ORDER_TOTAL, String.valueOf(totalBill));
+                        Intent intent;
+                        if (CASH_TRANSFER_TYPE == 3)
+                            intent = new Intent(this, PayProActivity.class);
+                        else
+                            intent = new Intent(this, OrderReceivedActivity.class);
+
                         CASH_TRANSFER_TYPE = 1;
                         CART_COUNTER = 0;
                         IS_COUPON_APPLIED = false;
+                        intent.putExtra(ORDER_TOTAL, String.valueOf(totalBill));
+                        intent.putExtra(AppConstants.TRANSACTION_ID, orderDataContainer.getData().getTransactionId().toString());
+                        intent.putExtra(AppConstants.ORDER_ID, orderDataContainer.getData().getOrderId().toString());
                         intent.putParcelableArrayListExtra("recommended_products", (ArrayList<? extends Parcelable>) orderDataContainer.getData().getRecommendation());
                         intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
                         startActivity(intent);
@@ -768,13 +776,14 @@ public class CheckoutScreen extends AppCompatActivity implements NetworkInterfac
                         Toast.makeText(this, orderDataContainer.getMsg(), Toast.LENGTH_SHORT).show();
                         break;
                 }
+            } else {
+                Log.d("orderDataContainer", "orderDataContainer.getMsg()");
             }
 
                 AppUtils.unBlockUi(CheckoutScreen.this);
                 otpDialogueBinding.pbLoading.setVisibility(View.GONE);
                 activityCheckoutScreenBinding.pbLoading.setVisibility(View.GONE);
                 activityCheckoutScreenBinding.pbLoading.setVisibility(View.GONE);
-
                 otpDialogue.dismiss();
 
                 otpDialogueBinding.btnApply.setOnClickListener(v -> {

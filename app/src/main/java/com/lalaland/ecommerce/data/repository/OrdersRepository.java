@@ -149,6 +149,7 @@ public class OrdersRepository {
 
         return myOrderDataContainerMutableLiveData;
     }
+
     public LiveData<OrderDetailContainer> getMyOrdersProducts(String header, String orderId) {
 
         orderDetailContainerMutableLiveData = new MutableLiveData<>();
@@ -171,6 +172,30 @@ public class OrdersRepository {
         });
 
         return orderDetailContainerMutableLiveData;
+    }
+
+    public LiveData<BasicResponse> checkPayProPaymentStatus(String token, String orderId) {
+
+        basicResponseMutableLiveData = new MutableLiveData<>();
+        setUserInfo();
+
+        lalalandServiceApi.checkPayProPaymentStatus(userInfo, orderId).enqueue(new Callback<BasicResponse>() {
+            @Override
+            public void onResponse(Call<BasicResponse> call, Response<BasicResponse> response) {
+
+                if (response.isSuccessful())
+                    basicResponseMutableLiveData.postValue(response.body());
+                else
+                    basicResponseMutableLiveData.postValue(null);
+            }
+
+            @Override
+            public void onFailure(Call<BasicResponse> call, Throwable t) {
+                orderDetailContainerMutableLiveData.postValue(null);
+            }
+        });
+
+        return basicResponseMutableLiveData;
     }
 
     private void checkResponseSource(Response response) {

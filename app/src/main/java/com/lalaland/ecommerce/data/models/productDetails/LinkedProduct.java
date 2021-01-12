@@ -17,6 +17,9 @@ public class LinkedProduct {
     @SerializedName("color_name")
     @Expose
     private String colorName;
+    @SerializedName("color_patch")
+    @Expose
+    private String colorPatch;
 
     public Integer getProductId() {
         return productId;
@@ -48,5 +51,13 @@ public class LinkedProduct {
 
     public void setColorName(String colorName) {
         this.colorName = colorName;
+    }
+
+    public String getColorPatch() {
+        return colorPatch;
+    }
+
+    public void setColorPatch(String colorPatch) {
+        this.colorPatch = colorPatch;
     }
 }

@@ -18,7 +18,7 @@ import java.util.regex.Pattern;
 public class AppConstants {
 
     public static final String BASE_URL = "https://api.lalaland.pk/api/";
-        public static final String STAGING_BASE_URL = "https://api.uat.lalaland.pk/api/";
+    public static final String STAGING_BASE_URL = "https://uat.api.lalaland.pk/api/";
     public static final String BASE_URL_PRODUCT_SHARE = "https://www.lalaland.pk/";
 
     public static String ABOUT_US_URL = "";
@@ -144,6 +144,8 @@ public class AppConstants {
     public static String BLOG_URLS = "";
     public static String ADVERTISEMENT_URL = "";
 
+    public static String COLOR_PATCH_URL = "";
+
     public static String BLOG_URLS_KEY = "blogs_url_key";
     public static String ADVERTISEMENT_URL_KEY = "advertisement_url_key";
 
@@ -177,6 +179,7 @@ public class AppConstants {
 
     public static final String ORDER_STATUS = "order_status";
     public static final String ORDER_ID = "order_id";
+    public static final String TRANSACTION_ID = "transaction_id";
     public static final String FANCY_ORDER_ID = "fancy_order_id";
     public static final String ORDER_DATE = "order_date";
     public static final String ORDER_MERCHANT = "order_merchant";

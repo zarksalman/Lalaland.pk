@@ -331,7 +331,6 @@ public class ProductDetailActivity extends AppCompatActivity implements ProductV
     }
 
     void setRating() {
-
         avgRating = mProductDetailDataContainer.getData().getRatingAverage();
         activityProductDetailBinding.rbProductRatings.setRating(avgRating);
     }

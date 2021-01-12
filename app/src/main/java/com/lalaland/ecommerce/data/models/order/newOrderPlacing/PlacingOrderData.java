@@ -21,6 +21,11 @@ public class PlacingOrderData {
     @SerializedName("order_id")
     @Expose
     private Integer orderId;
+
+    @SerializedName("transaction_id")
+    @Expose
+    private String transactionId;
+
     @SerializedName("cart_count")
     @Expose
     private Integer cartCount;
@@ -55,5 +60,13 @@ public class PlacingOrderData {
 
     public void setOrderId(Integer orderId) {
         this.orderId = orderId;
+    }
+
+    public String getTransactionId() {
+        return transactionId;
+    }
+
+    public void setTransactionId(String transactionId) {
+        this.transactionId = transactionId;
     }
 }

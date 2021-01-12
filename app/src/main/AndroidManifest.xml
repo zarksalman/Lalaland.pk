@@ -15,8 +15,10 @@
         android:hardwareAccelerated="true"
         android:icon="@mipmap/ic_launcher"
         android:label="@string/my_app_name"
+        android:usesCleartextTraffic="true"
         android:largeHeap="true"
         android:theme="@style/AppTheme.NoActionBar">
+
         <activity android:name=".views.activities.PayProActivity"></activity>
         <activity
             android:name=".views.activities.ClaimDetail"

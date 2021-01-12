@@ -34,6 +34,7 @@ import androidx.core.content.res.ResourcesCompat;
 
 import com.google.android.material.snackbar.BaseTransientBottomBar;
 import com.google.android.material.snackbar.Snackbar;
+import com.lalaland.ecommerce.BuildConfig;
 import com.lalaland.ecommerce.data.models.productDetails.ProductDetailData;
 import com.lalaland.ecommerce.data.models.productDetails.ProductDetails;
 
@@ -84,6 +85,7 @@ import static com.lalaland.ecommerce.helpers.AppConstants.RETURN_POLICY_URL;
 import static com.lalaland.ecommerce.helpers.AppConstants.RETURN_POLICY_URL_KEY;
 import static com.lalaland.ecommerce.helpers.AppConstants.SMALL_PRODUCT_STORAGE_BASE_URL;
 import static com.lalaland.ecommerce.helpers.AppConstants.SMALL_PRODUCT_STORAGE_BASE_URL_KEY;
+import static com.lalaland.ecommerce.helpers.AppConstants.STAGING_BASE_URL;
 import static com.lalaland.ecommerce.helpers.AppConstants.TAG;
 import static com.lalaland.ecommerce.helpers.AppConstants.TERMS_AND_CONDITIONS_URL;
 import static com.lalaland.ecommerce.helpers.AppConstants.TERMS_AND_CONDITIONS_URL_KEY;
@@ -777,12 +779,12 @@ public class AppUtils {
     }
 
     public static String getBaseUrl() {
-        return BASE_URL;
-        /*if (BuildConfig.DEBUG) {
+        //return BASE_URL;
+        if (BuildConfig.DEBUG) {
             return STAGING_BASE_URL;
         } else {
             return BASE_URL;
-        }*/
+        }
     }
 
 

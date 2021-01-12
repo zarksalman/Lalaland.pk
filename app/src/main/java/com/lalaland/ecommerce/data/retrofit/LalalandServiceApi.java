@@ -198,4 +198,9 @@ public interface LalalandServiceApi {
 
     @POST("submitReview")
     Call<ProductReviewsDataContainer> submitReview(@HeaderMap Map<String, String> headers, @QueryMap Map<String, String> parameters);
+
+    //*********************************************** PayPro starts here****************************************
+    @POST("checkPayProPaymentStatus")
+    Call<BasicResponse> checkPayProPaymentStatus(@HeaderMap Map<String, String> header, @Query("og_id") String orderId);
+
 }
