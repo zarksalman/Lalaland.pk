@@ -56,7 +56,6 @@ import static com.lalaland.ecommerce.helpers.AppConstants.FAQ_URL_KEY;
 import static com.lalaland.ecommerce.helpers.AppConstants.IS_FIRST_TIME;
 import static com.lalaland.ecommerce.helpers.AppConstants.MEDIUM_PRODUCT_STORAGE_BASE_URL;
 import static com.lalaland.ecommerce.helpers.AppConstants.MEDIUM_PRODUCT_STORAGE_BASE_URL_KEY;
-import static com.lalaland.ecommerce.helpers.AppConstants.ORDER_TOTAL;
 import static com.lalaland.ecommerce.helpers.AppConstants.PRIVACY_POLICY_URL;
 import static com.lalaland.ecommerce.helpers.AppConstants.PRIVACY_POLICY_URL_KEY;
 import static com.lalaland.ecommerce.helpers.AppConstants.PRODUCT_STORAGE_BASE_URL;
@@ -157,19 +156,19 @@ public class SplashActivity extends AppCompatActivity implements NetworkInterfac
                                 intent = new Intent(SplashActivity.this, MainActivity.class);
                                 intent.setData(getIntent().getData());
                             } else {
-//                                intent = new Intent(SplashActivity.this, PayProActivity.class);
+                                intent = new Intent(SplashActivity.this, PayProActivity.class);
 
                                 if (!appPreference.getBoolean(IS_FIRST_TIME)) {
-                                    intent = new Intent(SplashActivity.this, IntroductionScreenActivity.class);
+//                                    intent = new Intent(SplashActivity.this, IntroductionScreenActivity.class);
                                 } else {
-//                                    intent = new Intent(SplashActivity.this, PayProActivity.class);
-                                    intent = new Intent(SplashActivity.this, MainActivity.class);
+                                    intent = new Intent(SplashActivity.this, PayProActivity.class);
+//                                    intent = new Intent(SplashActivity.this, MainActivity.class);
                                 }
                             }
 
-                            intent.putExtra(ORDER_TOTAL, String.valueOf(10990));
-                            intent.putExtra(AppConstants.TRANSACTION_ID, "10990");
-                            intent.putExtra(AppConstants.ORDER_ID, "10990");
+                            intent.putExtra(AppConstants.ORDER_TOTAL, String.valueOf(11132));
+                            intent.putExtra(AppConstants.TRANSACTION_ID, "11132");
+                            intent.putExtra(AppConstants.ORDER_ID, "11132");
 
                             startActivity(intent);
                             finish();

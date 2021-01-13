@@ -7,6 +7,7 @@ import android.graphics.drawable.Drawable;
 import android.os.Build;
 import android.os.Bundle;
 import android.os.CountDownTimer;
+import android.os.Handler;
 import android.os.Parcelable;
 import android.view.View;
 import android.view.ViewGroup;
@@ -33,6 +34,7 @@ import com.lalaland.ecommerce.data.models.products.Product;
 import com.lalaland.ecommerce.databinding.ActivityPayProBinding;
 import com.lalaland.ecommerce.helpers.AppConstants;
 import com.lalaland.ecommerce.helpers.AppPreference;
+import com.lalaland.ecommerce.helpers.AppUtils;
 import com.lalaland.ecommerce.viewModels.order.OrderViewModel;
 
 import java.util.ArrayList;
@@ -60,6 +62,7 @@ public class PayProActivity extends AppCompatActivity {
 
     private Boolean isApiCalled = false;
     private Boolean shouldCallApi = true;
+    CountDownTimer countDownTimer;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -74,13 +77,18 @@ public class PayProActivity extends AppCompatActivity {
         orderViewModel = new ViewModelProvider(this).get(OrderViewModel.class);
 
         setViews();
-        startTimer();
         initBankAdapter();
         initBankPartnersSpinner();
+        startTimer();
 
         payProInfoAdapter = new PayProInfoAdapter(this);
         activityPayProBinding.vpPayproInfo.setAdapter(payProInfoAdapter);
         addDots();
+
+        new Handler().postDelayed(() -> {
+            activityPayProBinding.vpPayproInfo.setVisibility(View.VISIBLE);
+            activityPayProBinding.dots.setVisibility(View.VISIBLE);
+        }, 1500);
 
         confirmOrderClick(activityPayProBinding.getRoot(), 0);
     }
@@ -89,7 +97,9 @@ public class PayProActivity extends AppCompatActivity {
 
         activityPayProBinding.setClickListener(this);
         activityPayProBinding.tvTransactionId.setText(transactionId);
-        activityPayProBinding.tvOrderAmount.setText(totalBill);
+        activityPayProBinding.tvOrderAmount.setText(AppUtils.formatPriceString(String.valueOf(totalBill)));
+
+        activityPayProBinding.tvTitleExpiresIn.requestFocus();
     }
 
     public void confirmOrderClick(View view, int type) {
@@ -111,7 +121,6 @@ public class PayProActivity extends AppCompatActivity {
             if (basicResponse != null) {
 
                 if (basicResponse.getCode() == AppConstants.SUCCESS_CODE) {
-
                     shouldCallApi = false;
                     Intent intent = new Intent(this, OrderReceivedActivity.class);
                     intent.putExtra(ORDER_TOTAL, String.valueOf(totalBill));
@@ -131,7 +140,11 @@ public class PayProActivity extends AppCompatActivity {
 
     @Override
     public void onBackPressed() {
-        super.onBackPressed();
+        AppConstants.LOAD_HOME_FRAGMENT_INDEX = 0;
+        Intent intent = new Intent(this, MainActivity.class);
+        intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
+        startActivity(intent);
+        finish();
     }
 
     private void initBankPartnersSpinner() {
@@ -196,7 +209,7 @@ public class PayProActivity extends AppCompatActivity {
         int time = 20;
         int totalTimeCountInMilliseconds = time * 60 * 1000;
 
-        CountDownTimer countDownTimer = new CountDownTimer(totalTimeCountInMilliseconds, 1000) {
+        countDownTimer = new CountDownTimer(totalTimeCountInMilliseconds, 1000) {
             // 100 means, onTick function will be called at every 100
             // milliseconds
 
@@ -210,15 +223,15 @@ public class PayProActivity extends AppCompatActivity {
                     activityPayProBinding.pbTimer.setProgress((progressValue + 1) * 5);
                 }
 
-                if (seconds % 60 == 20 && !isApiCalled && shouldCallApi)
+                if (seconds % 60 == 30 && !isApiCalled && shouldCallApi)
                     confirmOrderClick(activityPayProBinding.getRoot(), 0);
 
-                activityPayProBinding.tvTimer.setText(String.format("%02d", seconds / 60)
-                        + ":" + String.format("%02d", seconds % 60));
+                activityPayProBinding.tvTimer.setText(String.format("%02d", seconds / 60));
             }
 
             @Override
             public void onFinish() {
+                shouldCallApi = false;
                 activityPayProBinding.pbTimer.setProgress(0);
             }
 
@@ -227,6 +240,12 @@ public class PayProActivity extends AppCompatActivity {
 
     private int getItem(int i) {
         return activityPayProBinding.vpPayproInfo.getCurrentItem() + i;
+    }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        countDownTimer.cancel();
     }
 
     public void addDots() {

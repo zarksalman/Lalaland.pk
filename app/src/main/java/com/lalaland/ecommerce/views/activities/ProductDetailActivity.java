@@ -201,11 +201,6 @@ public class ProductDetailActivity extends AppCompatActivity implements ProductV
 
         activityProductDetailBinding.tvCounter.setText(String.valueOf(AppConstants.CART_COUNTER));
 
-        //setting viewpagger height because in scrollview wrap/match does not calculate their height correctly
-        android.view.Display display = ((android.view.WindowManager) getSystemService(Context.WINDOW_SERVICE)).getDefaultDisplay();
-        activityProductDetailBinding.vpImages.getLayoutParams().height = ((int) (display.getHeight() * 0.74));
-        activityProductDetailBinding.vpImages.getLayoutParams().width = ((int) (display.getWidth() * 1.0));
-
         ProductImageAdapter productImageAdapter = new ProductImageAdapter(this, mProductMultimedia, productDetails.getProductMultiMediaDesciption());
         activityProductDetailBinding.vpImages.setAdapter(productImageAdapter);
 

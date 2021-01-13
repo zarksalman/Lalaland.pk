@@ -208,10 +208,11 @@
     <string name="online_payment">Online payment</string>
     <string name="session_expires_in">Session Expires in</string>
     <string name="consumer_id">Consumer ID:</string>
-    <string name="order_amount">Order Amount</string>
+    <string name="order_amount">Order Amount:</string>
     <string name="partner_banks">Partner Banks</string>
     <string name="select_internet_banking">Select Internet Banking</string>
     <string name="how_to_pay">How to pay</string>
     <string name="confirm_your_order">Confirm Your Order</string>
+    <string name="mins_left">Mins Left</string>
 
 </resources>

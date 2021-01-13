@@ -57,7 +57,8 @@
 
                     android:id="@+id/vp_images"
                     android:layout_width="0dp"
-                    android:layout_height="wrap_content"
+                    android:layout_height="550dp"
+                    app:flow_verticalBias="0"
                     android:visibility="visible"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"

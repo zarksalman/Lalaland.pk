@@ -87,24 +87,6 @@ public class OrderReceivedActivity extends AppCompatActivity {
         activityOrderReceivedBinding.rvRecommendedProducts.setLayoutManager(gridLayoutManager);
 
         activityOrderReceivedBinding.svRecomendation.scrollTo(0, 0);
-
-
-/*
-        RecommendedProductsAdapter productAdapter = new RecommendedProductsAdapter(this, product -> {
-            AppConstants.LOAD_HOME_FRAGMENT_INDEX = 0;
-            Intent intent = new Intent(OrderReceivedActivity.this, ProductDetailActivity.class);
-            intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_CLEAR_TASK);
-            intent.putExtra(PRODUCT_ID, product.getId());
-            startActivity(intent);
-            finish();
-        });
-
-        activityOrderReceivedBinding.rvRecommendedProducts.setHasFixedSize(true);
-        activityOrderReceivedBinding.rvRecommendedProducts.setLayoutManager(new GridLayoutManager(this, 2));
-        activityOrderReceivedBinding.rvRecommendedProducts.setAdapter(productAdapter);
-        productAdapter.setData(recommendedProductList);
-*/
-
     }
 
     @Override

@@ -69,7 +69,6 @@ public class MainActivity extends AppCompatActivity implements CloseAppListener 
 
                 fragment = HomeFragment.newInstance();
                 replaceFragment(fragment, 0);
-//                replaceFragment(fragments.get(0), 0);
 
                 return true;
             case R.id.navigation_category:
@@ -85,7 +84,6 @@ public class MainActivity extends AppCompatActivity implements CloseAppListener 
 
                 fragment = CategoryFragment.newInstance();
                 replaceFragment(fragment, 1);
-                //replaceFragment(fragments.get(1), 1);
 
                 return true;
             case R.id.navigation_cart:
@@ -120,7 +118,6 @@ public class MainActivity extends AppCompatActivity implements CloseAppListener 
 
                 fragment = WishFragment.newInstance();
                 replaceFragment(fragment, 3);
-                //replaceFragment(fragments.get(3), 3);
 
                 return true;
 
@@ -133,7 +130,6 @@ public class MainActivity extends AppCompatActivity implements CloseAppListener 
 
                 fragment = AccountFragment.newInstance();
                 replaceFragment(fragment, 4);
-                //replaceFragment(fragments.get(4), 4);
 
                 return true;
         }
