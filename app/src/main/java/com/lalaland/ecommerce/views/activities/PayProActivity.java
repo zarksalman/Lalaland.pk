@@ -90,7 +90,7 @@ public class PayProActivity extends AppCompatActivity {
             activityPayProBinding.dots.setVisibility(View.VISIBLE);
         }, 1500);
 
-    //    confirmOrderClick(activityPayProBinding.getRoot(), 0);
+        confirmOrderClick(activityPayProBinding.getRoot(), 0);
     }
 
     private void setViews() {

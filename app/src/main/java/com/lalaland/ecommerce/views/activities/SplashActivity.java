@@ -156,19 +156,19 @@ public class SplashActivity extends AppCompatActivity implements NetworkInterfac
                                 intent = new Intent(SplashActivity.this, MainActivity.class);
                                 intent.setData(getIntent().getData());
                             } else {
-                                intent = new Intent(SplashActivity.this, PayProActivity.class);
+//                                intent = new Intent(SplashActivity.this, PayProActivity.class);
 
                                 if (!appPreference.getBoolean(IS_FIRST_TIME)) {
-//                                    intent = new Intent(SplashActivity.this, IntroductionScreenActivity.class);
+                                    intent = new Intent(SplashActivity.this, IntroductionScreenActivity.class);
                                 } else {
-                                    intent = new Intent(SplashActivity.this, PayProActivity.class);
-//                                    intent = new Intent(SplashActivity.this, MainActivity.class);
+//                                    intent = new Intent(SplashActivity.this, PayProActivity.class);
+                                    intent = new Intent(SplashActivity.this, MainActivity.class);
                                 }
                             }
 
-                            intent.putExtra(AppConstants.ORDER_TOTAL, String.valueOf(11132));
-                            intent.putExtra(AppConstants.TRANSACTION_ID, "11132");
-                            intent.putExtra(AppConstants.ORDER_ID, "11132");
+//                            intent.putExtra(AppConstants.ORDER_TOTAL, String.valueOf(11132));
+//                            intent.putExtra(AppConstants.TRANSACTION_ID, "11132");
+//                            intent.putExtra(AppConstants.ORDER_ID, "11132");
 
                             startActivity(intent);
                             finish();

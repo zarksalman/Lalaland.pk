@@ -1,7 +1,6 @@
 package com.lalaland.ecommerce.views.activities;
 
 import android.app.ActivityManager;
-import android.content.Context;
 import android.content.Intent;
 import android.content.res.Resources;
 import android.graphics.drawable.Drawable;
@@ -25,8 +24,8 @@ import androidx.viewpager.widget.ViewPager;
 import com.google.android.material.bottomsheet.BottomSheetDialog;
 import com.lalaland.ecommerce.R;
 import com.lalaland.ecommerce.adapters.FitAndSizingAdapter;
+import com.lalaland.ecommerce.adapters.ImageViewPagerAdapter;
 import com.lalaland.ecommerce.adapters.ProductColorAdapter;
-import com.lalaland.ecommerce.adapters.ProductImageAdapter;
 import com.lalaland.ecommerce.adapters.ProductVariationAdapter;
 import com.lalaland.ecommerce.adapters.ReviewRatingAdapter;
 import com.lalaland.ecommerce.data.models.productDetails.FitAndSizing;
@@ -201,9 +200,10 @@ public class ProductDetailActivity extends AppCompatActivity implements ProductV
 
         activityProductDetailBinding.tvCounter.setText(String.valueOf(AppConstants.CART_COUNTER));
 
-        ProductImageAdapter productImageAdapter = new ProductImageAdapter(this, mProductMultimedia, productDetails.getProductMultiMediaDesciption());
-        activityProductDetailBinding.vpImages.setAdapter(productImageAdapter);
-
+        //ProductImageAdapter productImageAdapter = new ProductImageAdapter(this, mProductMultimedia, productDetails.getProductMultiMediaDesciption());
+        ImageViewPagerAdapter imageViewPagerAdapter = new ImageViewPagerAdapter(getSupportFragmentManager());
+        activityProductDetailBinding.vpImages.setAdapter(imageViewPagerAdapter);
+        imageViewPagerAdapter.addAll(mProductMultimedia, productDetails.getProductMultiMediaDesciption());
         productImage = PRODUCT_STORAGE_BASE_URL + productDetails.getPrimaryImage();
 
         // setting cart related data
@@ -443,11 +443,15 @@ public class ProductDetailActivity extends AppCompatActivity implements ProductV
 
     void submitReview() {
 
+        String review = activityProductDetailBinding.etReview.getText().toString().trim();
+
+        if (review.isEmpty())
+            return;
+
         activityProductDetailBinding.pbLoading.setVisibility(View.VISIBLE);
         AppUtils.blockUi(this);
 
         Map<String, String> parameter = new HashMap<>();
-        String review = activityProductDetailBinding.etReview.getText().toString().trim();
         String rating = String.valueOf(activityProductDetailBinding.rbUserRating.getRating());
 
         parameter.put("product_id", String.valueOf(product_id));

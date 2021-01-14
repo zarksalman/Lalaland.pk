@@ -25,12 +25,13 @@
         android:orientation="vertical">
 
 
-        <ScrollView
+        <com.lalaland.ecommerce.views.customViews.CustomScrollView
 
             android:id="@+id/sv_product_detail"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:layout_above="@+id/btns_container"
+            android:fillViewport="true"
             android:layout_alignParentTop="true"
             android:scrollbars="none"
             android:visibility="visible">
@@ -53,11 +54,11 @@
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toTopOf="parent" />
 
-                <androidx.viewpager.widget.ViewPager
+                <com.lalaland.ecommerce.views.customViews.CustomViewPager
 
                     android:id="@+id/vp_images"
                     android:layout_width="0dp"
-                    android:layout_height="550dp"
+                    android:layout_height="wrap_content"
                     app:flow_verticalBias="0"
                     android:visibility="visible"
                     app:layout_constraintEnd_toEndOf="parent"
@@ -525,7 +526,7 @@
 
                 </LinearLayout>
             </androidx.constraintlayout.widget.ConstraintLayout>
-        </ScrollView>
+        </com.lalaland.ecommerce.views.customViews.CustomScrollView>
 
         <LinearLayout
 
