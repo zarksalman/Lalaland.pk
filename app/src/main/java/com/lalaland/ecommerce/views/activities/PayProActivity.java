@@ -90,7 +90,7 @@ public class PayProActivity extends AppCompatActivity {
             activityPayProBinding.dots.setVisibility(View.VISIBLE);
         }, 1500);
 
-        confirmOrderClick(activityPayProBinding.getRoot(), 0);
+    //    confirmOrderClick(activityPayProBinding.getRoot(), 0);
     }
 
     private void setViews() {
@@ -120,7 +120,10 @@ public class PayProActivity extends AppCompatActivity {
 
             if (basicResponse != null) {
 
-                if (basicResponse.getCode() == AppConstants.SUCCESS_CODE) {
+                if (type == 1)
+                    Toast.makeText(this, basicResponse.getMsg(), Toast.LENGTH_SHORT).show();
+
+                if (basicResponse.getCode().equals(AppConstants.SUCCESS_CODE)) {
                     shouldCallApi = false;
                     Intent intent = new Intent(this, OrderReceivedActivity.class);
                     intent.putExtra(ORDER_TOTAL, String.valueOf(totalBill));
@@ -131,9 +134,6 @@ public class PayProActivity extends AppCompatActivity {
                 } else {
                     shouldCallApi = true;
                 }
-
-                if (type == 1)
-                    Toast.makeText(this, basicResponse.getMsg(), Toast.LENGTH_SHORT).show();
             }
         });
     }
