@@ -155,6 +155,7 @@
                         android:layout_height="wrap_content"
                         android:orientation="horizontal"
                         android:padding="@dimen/_16dp"
+                        android:onClick="@{(view)->clickListener.copyConsumerId(view)}"
                         app:layout_constraintTop_toBottomOf="@+id/iv_line_1">
 
                         <TextView
@@ -170,11 +171,21 @@
                             android:id="@+id/tv_transaction_id"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
+                            android:layout_weight="1"
+                            android:textAlignment="textStart"
                             android:layout_marginStart="@dimen/_8dp"
                             android:fontFamily="@font/encodesansregular"
                             android:text="@string/consumer_id"
                             android:textColor="@color/colorPrimary"
                             android:textSize="14sp" />
+
+                        <ImageView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_gravity="end"
+                            android:layout_marginStart="@dimen/_8dp"
+                            android:layout_weight="0.2"
+                            app:srcCompat="@drawable/ic_copy_content" />
                     </LinearLayout>
 
                     <ImageView

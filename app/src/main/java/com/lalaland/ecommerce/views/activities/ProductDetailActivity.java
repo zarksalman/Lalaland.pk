@@ -387,6 +387,7 @@ public class ProductDetailActivity extends AppCompatActivity implements ProductV
             if (productDetailDataContainer != null) {
 
                 if (productDetailDataContainer.getCode().equals(SUCCESS_CODE)) {
+
                     mProductDetailDataContainer = productDetailDataContainer;
 
                     productDetailData = mProductDetailDataContainer.getData();
@@ -787,16 +788,18 @@ public class ProductDetailActivity extends AppCompatActivity implements ProductV
          * or if user came from deep link to see products multiple times
          */
 
-        if (isLastActivity() || isDeeplink) {
+        isDeeplink = false;
+        appPreference.setBoolean("is_deep_link", isDeeplink);
 
-            isDeeplink = false;
-            appPreference.setBoolean("is_deep_link", isDeeplink);
+        if (isLastActivity()) {
+
             AppConstants.LOAD_HOME_FRAGMENT_INDEX = 0;
             intent = new Intent(this, MainActivity.class);
             intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
             startActivity(intent);
-        } else
-            finish();
+        }
+
+        finish();
     }
 
     boolean isLastActivity() {

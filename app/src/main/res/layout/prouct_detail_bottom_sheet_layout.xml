@@ -27,7 +27,7 @@
         <androidx.cardview.widget.CardView
             android:id="@+id/iv_product_img"
             android:layout_width="@dimen/_100dp"
-            android:layout_height="@dimen/_150dp"
+            android:layout_height="@dimen/_120dp"
             android:padding="@dimen/_4dp"
             app:cardCornerRadius="@dimen/_4dp"
             app:layout_constraintStart_toStartOf="parent"
@@ -43,75 +43,73 @@
 
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
-                    android:paddingLeft="@dimen/_2dp"
-                    android:paddingRight="@dimen/_2dp"
+                    android:padding="@dimen/_2dp"
                     android:src="@drawable/placeholder_products"
                     app:setProductImage="@{productDetails.primaryImage}" />
             </LinearLayout>
         </androidx.cardview.widget.CardView>
 
-        <TextView
-            android:id="@+id/tv_brand_name"
+        <LinearLayout
             android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_margin="@dimen/_4dp"
-            android:layout_marginBottom="8dp"
-            android:text="@{productDetails.brandName}"
-            android:textColor="@android:color/black"
-            android:textSize="14sp"
-            android:maxLines="2"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="0"
-            app:layout_constraintBottom_toTopOf="@+id/tv_product_name"
-            app:layout_constraintStart_toEndOf="@+id/iv_product_img"
-            tools:text="@string/last_name" />
-
-        <TextView
-            android:id="@+id/tv_product_name"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_margin="@dimen/_4dp"
-            android:layout_marginBottom="8dp"
-            android:maxLines="2"
-            android:text="@{productDetails.name}"
-            android:textColor="@android:color/black"
-            android:textSize="14sp"
-            app:layout_constraintBottom_toTopOf="@+id/tv_product_sale_price"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="0"
-            app:layout_constraintStart_toEndOf="@+id/iv_product_img"
-            tools:text="@string/last_name" />
-
-
-        <!--        android:text="@{AppUtils.showRangePrice(productDetails.minSalePrice, productDetails.minSalePrice)}"-->
-        <TextView
-            android:id="@+id/tv_product_sale_price"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_margin="@dimen/_4dp"
-            android:layout_marginBottom="8dp"
-            android:textSize="14sp"
-            android:textColor="@color/colorLightRed"
-            app:layout_constraintBottom_toTopOf="@+id/tv_product_actual_price"
-            app:layout_constraintStart_toEndOf="@+id/iv_product_img"
-            tools:text="@string/last_name" />
-
-        <TextView
-            android:id="@+id/tv_product_actual_price"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="@dimen/_4dp"
-            android:maxLines="2"
-            android:textColor="@android:color/black"
-            android:textSize="14sp"
-            android:visibility="@{AppUtils.isPriceEqual(productDetails.minSalePrice, productDetails.minActualPrice) ? View.GONE:View.VISIBLE}"
+            android:layout_height="0dp"
+            android:layout_marginTop="@dimen/_8dp"
+            android:orientation="vertical"
             app:layout_constraintBottom_toBottomOf="@+id/iv_product_img"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="0"
+            app:layout_constraintEnd_toStartOf="@+id/iv_cross"
             app:layout_constraintStart_toEndOf="@+id/iv_product_img"
-            tools:text="@string/last_name" />
+            app:layout_constraintTop_toTopOf="@+id/iv_product_img">
+
+            <TextView
+                android:id="@+id/tv_brand_name"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="@dimen/_4dp"
+                android:layout_marginEnd="@dimen/_4dp"
+                android:maxLines="2"
+                android:text="@{productDetails.brandName}"
+                android:textColor="@android:color/black"
+                android:textSize="14sp"
+                tools:text="@string/last_name" />
+
+            <TextView
+                android:id="@+id/tv_product_name"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="@dimen/_4dp"
+                android:layout_marginEnd="@dimen/_4dp"
+                android:maxLines="2"
+                android:text="@{productDetails.name}"
+                android:textColor="@android:color/black"
+                android:textSize="14sp"
+                tools:text="@string/last_name" />
+
+
+            <TextView
+                android:id="@+id/tv_product_sale_price"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="@dimen/_4dp"
+                android:layout_marginEnd="@dimen/_4dp"
+                android:textColor="@color/colorLightRed"
+                android:textSize="14sp"
+                tools:text="@string/last_name" />
+
+            <TextView
+                android:id="@+id/tv_product_actual_price"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="@dimen/_4dp"
+                android:layout_marginEnd="@dimen/_4dp"
+                android:maxLines="2"
+                android:textColor="@android:color/black"
+                android:textSize="14sp"
+                android:visibility="@{AppUtils.isPriceEqual(productDetails.minSalePrice, productDetails.minActualPrice) ? View.GONE:View.VISIBLE}"
+                tools:text="@string/last_name" />
+
+        </LinearLayout>
 
         <ImageView
+            android:id="@+id/iv_cross"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:onClick="@{()->variationListener.hideBottomSheet()}"
@@ -161,7 +159,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:src="@drawable/right_arrow"
-            android:tint="@color/colorPrimary"
+            app:tint="@color/colorPrimary"
             android:visibility="gone"
             app:layout_constraintBottom_toBottomOf="@+id/tv_product_size"
             app:layout_constraintEnd_toEndOf="parent"

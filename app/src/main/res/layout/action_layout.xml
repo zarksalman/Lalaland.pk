@@ -48,7 +48,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginTop="@dimen/_4dp"
                 android:fontFamily="@font/encodesansregular"
-                android:maxLines="2"
+                android:maxLines="3"
                 android:text="@{AppUtils.insertNewLine(action.name)}"
                 android:textAlignment="center"
                 android:textAppearance="@style/TextAppearance.AppCompat.Small"

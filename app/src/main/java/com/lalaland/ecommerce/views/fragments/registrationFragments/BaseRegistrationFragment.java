@@ -11,7 +11,6 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.ViewModelProvider;
-import androidx.lifecycle.ViewModelProviders;
 
 import com.facebook.AccessToken;
 import com.facebook.CallbackManager;
@@ -104,7 +103,6 @@ public class BaseRegistrationFragment extends Fragment {
         mLoadingLogin = loadingLogin;
 
         gso = new GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)
-                .requestScopes(new Scope(Scopes.DRIVE_APPFOLDER))
                 .requestScopes(new Scope(Scopes.PROFILE))
                 .requestScopes(new Scope(Scopes.PLUS_ME))
                 .requestIdToken(getString(R.string.client_id))

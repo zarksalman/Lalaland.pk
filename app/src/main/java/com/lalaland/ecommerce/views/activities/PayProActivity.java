@@ -1,5 +1,8 @@
 package com.lalaland.ecommerce.views.activities;
 
+import android.content.ClipData;
+import android.content.ClipboardManager;
+import android.content.Context;
 import android.content.Intent;
 import android.content.res.Resources;
 import android.graphics.Color;
@@ -46,7 +49,7 @@ public class PayProActivity extends AppCompatActivity {
 
     private List<Product> recommendedProductList = new ArrayList<>();
     private String totalBill = "";
-    private String transactionId = "";
+    private String consumerId = "";
     private String orderId = "";
 
     private ActivityPayProBinding activityPayProBinding;
@@ -70,7 +73,7 @@ public class PayProActivity extends AppCompatActivity {
         activityPayProBinding = DataBindingUtil.setContentView(this, R.layout.activity_pay_pro);
 
         totalBill = getIntent().getStringExtra(ORDER_TOTAL);
-        transactionId = getIntent().getStringExtra(AppConstants.TRANSACTION_ID);
+        consumerId = getIntent().getStringExtra(AppConstants.TRANSACTION_ID);
         orderId = getIntent().getStringExtra(AppConstants.ORDER_ID);
         recommendedProductList = getIntent().getParcelableArrayListExtra("recommended_products");
 
@@ -96,7 +99,7 @@ public class PayProActivity extends AppCompatActivity {
     private void setViews() {
 
         activityPayProBinding.setClickListener(this);
-        activityPayProBinding.tvTransactionId.setText(transactionId);
+        activityPayProBinding.tvTransactionId.setText(consumerId);
         activityPayProBinding.tvOrderAmount.setText(AppUtils.formatPriceString(String.valueOf(totalBill)));
 
         activityPayProBinding.tvTitleExpiresIn.requestFocus();
@@ -136,6 +139,14 @@ public class PayProActivity extends AppCompatActivity {
                 }
             }
         });
+    }
+
+    public void copyConsumerId(View view) {
+
+        ClipboardManager clipboard = (ClipboardManager) getSystemService(Context.CLIPBOARD_SERVICE);
+        ClipData clip = ClipData.newPlainText("consumer_id", consumerId);
+        clipboard.setPrimaryClip(clip);
+        Toast.makeText(this, "Consumer Id copied.", Toast.LENGTH_SHORT).show();
     }
 
     @Override
@@ -236,10 +247,6 @@ public class PayProActivity extends AppCompatActivity {
             }
 
         }.start();
-    }
-
-    private int getItem(int i) {
-        return activityPayProBinding.vpPayproInfo.getCurrentItem() + i;
     }
 
     @Override
