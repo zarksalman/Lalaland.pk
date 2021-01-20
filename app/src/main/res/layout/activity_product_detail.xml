@@ -485,8 +485,6 @@
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:background="@drawable/bg_round_corner_transparent"
-                            android:clickable="true"
-                            android:focusable="true"
                             android:foreground="?actionBarItemBackground"
                             android:padding="@dimen/_8dp"
                             app:layout_constraintBottom_toBottomOf="@+id/et_review"

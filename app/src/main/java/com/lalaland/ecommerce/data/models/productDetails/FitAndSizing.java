@@ -15,6 +15,8 @@ public class FitAndSizing {
     @Expose
     private Object description;
 
+    private String simpleTextDescription;
+
     public Integer getId() {
         return id;
     }
@@ -37,5 +39,13 @@ public class FitAndSizing {
 
     public void setDescription(Object description) {
         this.description = description;
+    }
+
+    public String getSimpleTextDescription() {
+        return simpleTextDescription;
+    }
+
+    public void setSimpleTextDescription(String simpleTextDescription) {
+        this.simpleTextDescription = simpleTextDescription;
     }
 }

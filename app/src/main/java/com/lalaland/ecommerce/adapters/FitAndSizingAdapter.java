@@ -59,7 +59,6 @@ public class FitAndSizingAdapter extends RecyclerView.Adapter<FitAndSizingAdapte
 
         FitAndSizingViewHolder(@NonNull FitAndSizingItemBinding fitAndSizingItemBinding) {
             super(fitAndSizingItemBinding.getRoot());
-
             mFitAndSizingItemBinding = fitAndSizingItemBinding; // do this otherwise some items of adapter will change its content
         }
 

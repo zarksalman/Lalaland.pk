@@ -44,7 +44,7 @@ public class CustomBinding {
         if (colorPatch == null || colorPatch.isEmpty())
             imageSrc = PRODUCT_STORAGE_BASE_URL.concat(imageName);
         else
-            imageSrc = AppConstants.COLOR_PATCH_URL.concat(imageName);
+            imageSrc = AppConstants.COLOR_PATCH_URL.concat(colorPatch);
 
         Glide
                 .with(AppConstants.mContext)

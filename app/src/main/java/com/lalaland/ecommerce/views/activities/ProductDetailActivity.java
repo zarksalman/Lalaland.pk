@@ -45,6 +45,8 @@ import com.lalaland.ecommerce.helpers.AppUtils;
 import com.lalaland.ecommerce.viewModels.order.OrderViewModel;
 import com.lalaland.ecommerce.viewModels.products.ProductViewModel;
 
+import org.jsoup.Jsoup;
+
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -249,7 +251,7 @@ public class ProductDetailActivity extends AppCompatActivity implements ProductV
         List<FitAndSizing> tempFitAndSize = new ArrayList<>(mFitAndSizings);
         for (FitAndSizing fitAndSizing : mFitAndSizings) {
 
-            if (fitAndSizing.getDescription() == null) {
+            if (fitAndSizing.getDescription() == null || Jsoup.parse(fitAndSizing.getDescription().toString()).text().isEmpty()) {
                 tempFitAndSize.remove(fitAndSizing);
             }
         }
@@ -328,6 +330,8 @@ public class ProductDetailActivity extends AppCompatActivity implements ProductV
     void setRating() {
         avgRating = mProductDetailDataContainer.getData().getRatingAverage();
         activityProductDetailBinding.rbProductRatings.setRating(avgRating);
+        activityProductDetailBinding.btnSubmitReview.setClickable(true);
+        activityProductDetailBinding.btnSubmitReview.setFocusable(true);
     }
 
     void setProductColors() {
@@ -356,7 +360,7 @@ public class ProductDetailActivity extends AppCompatActivity implements ProductV
         activityProductDetailBinding.wvProductMaterialDetail.loadData(materialDescription, "text/html", "UTF-8");
 
 
-        if (generalDescription == null || generalDescription.isEmpty()) {
+        if (generalDescription == null || Jsoup.parse(generalDescription).text().isEmpty()) {
             activityProductDetailBinding.wvProductGeneralDetail.setVisibility(View.GONE);
             activityProductDetailBinding.tvProductGeneralDetailTitle.setVisibility(View.GONE);
         } else {
@@ -367,7 +371,7 @@ public class ProductDetailActivity extends AppCompatActivity implements ProductV
 
         }
 
-        if (materialDescription == null || materialDescription.isEmpty()) {
+        if (materialDescription == null || Jsoup.parse(materialDescription).text().isEmpty()) {
             activityProductDetailBinding.wvProductMaterialDetail.setVisibility(View.GONE);
             activityProductDetailBinding.tvProductMaterialDetailTitle.setVisibility(View.GONE);
         } else {
