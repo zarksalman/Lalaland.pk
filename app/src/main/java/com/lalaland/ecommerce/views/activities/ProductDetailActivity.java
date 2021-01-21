@@ -202,7 +202,6 @@ public class ProductDetailActivity extends AppCompatActivity implements ProductV
 
         activityProductDetailBinding.tvCounter.setText(String.valueOf(AppConstants.CART_COUNTER));
 
-        //ProductImageAdapter productImageAdapter = new ProductImageAdapter(this, mProductMultimedia, productDetails.getProductMultiMediaDesciption());
         ImageViewPagerAdapter imageViewPagerAdapter = new ImageViewPagerAdapter(getSupportFragmentManager());
         activityProductDetailBinding.vpImages.setAdapter(imageViewPagerAdapter);
         imageViewPagerAdapter.addAll(mProductMultimedia, productDetails.getProductMultiMediaDesciption());

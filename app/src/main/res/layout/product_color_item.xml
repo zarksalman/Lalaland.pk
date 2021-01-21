@@ -42,8 +42,9 @@
         <ImageView
 
             android:id="@+id/iv_inner_cat"
-            android:layout_width="wrap_content"
+            android:layout_width="match_parent"
             android:layout_height="0dp"
+            android:scaleType="fitXY"
             app:layout_constraintBottom_toBottomOf="@+id/gl_top"
             app:layout_constraintDimensionRatio="3:4"
             app:layout_constraintEnd_toEndOf="parent"
@@ -68,6 +69,7 @@
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="@+id/iv_inner_cat"
             app:layout_constraintHorizontal_bias="0.5"
+            tools:text="@string/account"
             app:layout_constraintStart_toStartOf="@+id/iv_inner_cat"
             app:layout_constraintTop_toTopOf="@+id/gl_top" />
     </androidx.constraintlayout.widget.ConstraintLayout>
