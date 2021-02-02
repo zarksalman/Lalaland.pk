@@ -132,6 +132,7 @@ public class SplashActivity extends AppCompatActivity implements NetworkInterfac
 
                         AppConstants.staticCategoryBrandsList = new ArrayList<>();
                         AppConstants.staticCategoryList = categoryContainer.getData().getCategories();
+                        AppConstants.staticCitiesList = categoryContainer.getData().getCities();
                         AppConstants.staticBankList = categoryContainer.getData().getPayProData();
                         AppConstants.staticCategoryBrandsList = categoryContainer.getData().getBrands();
 
