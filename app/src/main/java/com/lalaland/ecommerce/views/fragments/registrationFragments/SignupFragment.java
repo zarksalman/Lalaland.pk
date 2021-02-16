@@ -16,7 +16,6 @@ import android.widget.Toast;
 
 import androidx.databinding.DataBindingUtil;
 import androidx.lifecycle.ViewModelProvider;
-import androidx.lifecycle.ViewModelProviders;
 
 import com.lalaland.ecommerce.R;
 import com.lalaland.ecommerce.databinding.FragmentSignupBinding;
@@ -34,7 +33,6 @@ import java.util.Map;
 
 import static com.lalaland.ecommerce.helpers.AppConstants.AUTHORIZATION_FAIL_CODE;
 import static com.lalaland.ecommerce.helpers.AppConstants.CART_SESSION_TOKEN;
-import static com.lalaland.ecommerce.helpers.AppConstants.CONFIRM_TYPE;
 import static com.lalaland.ecommerce.helpers.AppConstants.DATE_OF_BIRTH;
 import static com.lalaland.ecommerce.helpers.AppConstants.FORM_SIGN_UP;
 import static com.lalaland.ecommerce.helpers.AppConstants.GENDER;
@@ -113,11 +111,7 @@ public class SignupFragment extends BaseRegistrationFragment implements LoadingL
 
         fragmentSignupBinding.rgGender.setOnCheckedChangeListener((group, checkedId) -> {
                     RadioButton radioButton = group.findViewById(checkedId);
-
                     gender = radioButton.getText().toString().toLowerCase();
-
-/*            if (gender.equals(getString(R.string.gender_not)))
-                gender = "";*/
                 }
         );
 
@@ -130,13 +124,13 @@ public class SignupFragment extends BaseRegistrationFragment implements LoadingL
 
 
         email = fragmentSignupBinding.etEmail.getText().toString().trim();
-        confirmEmail = fragmentSignupBinding.etConfirmEmail.getText().toString().trim();
+        /*confirmEmail = fragmentSignupBinding.etConfirmEmail.getText().toString().trim();
 
         if (!email.equals(confirmEmail)) {
             fragmentSignupBinding.tiEmail.setError("Emails are not same");
             fragmentSignupBinding.tiConfirmEmail.setError("Emails are not same");
             return false;
-        }
+        }*/
 
         if (email.isEmpty()) {
             fragmentSignupBinding.tiEmail.setError("Email Could Not Be Empty");
@@ -159,13 +153,13 @@ public class SignupFragment extends BaseRegistrationFragment implements LoadingL
 
 
         password = fragmentSignupBinding.etPassword.getText().toString().trim();
-        confirmPassword = fragmentSignupBinding.etConfirmPassword.getText().toString().trim();
+        /*confirmPassword = fragmentSignupBinding.etConfirmPassword.getText().toString().trim();
 
         if (!password.equals(confirmPassword)) {
             fragmentSignupBinding.tiPassword.setError("Passwords are not same");
             fragmentSignupBinding.tiConfirmPassword.setError("Passwords are not same");
             return false;
-        }
+        }*/
 
         // check after this step password or confirm password because both are equal
 
@@ -192,19 +186,19 @@ public class SignupFragment extends BaseRegistrationFragment implements LoadingL
 
     private boolean validateNames(int type) {
 
-        first_name = fragmentSignupBinding.etFirstName.getText().toString().trim();
-        last_name = fragmentSignupBinding.etLastName.getText().toString().trim();
+        first_name = fragmentSignupBinding.etName.getText().toString().trim();
+        //last_name = fragmentSignupBinding.etLastName.getText().toString().trim();
 
         if (type == TYPE) {
 
             if (first_name.isEmpty()) {
-                fragmentSignupBinding.tiFirstName.setError("First name could not be empty");
+                fragmentSignupBinding.tiName.setError("Name could not be empty");
             } else {
-                fragmentSignupBinding.tiFirstName.setError(null);
+                fragmentSignupBinding.tiName.setError(null);
                 return true;
             }
 
-        } else if (type == CONFIRM_TYPE) {
+        }/* else if (type == CONFIRM_TYPE) {
 
             if (last_name.isEmpty()) {
                 fragmentSignupBinding.tiLastName.setError("Last name could not be empty");
@@ -212,7 +206,7 @@ public class SignupFragment extends BaseRegistrationFragment implements LoadingL
                 fragmentSignupBinding.tiLastName.setError(null);
                 return true;
             }
-        }
+        }*/
         return false;  // default return false
     }
 
@@ -252,7 +246,7 @@ public class SignupFragment extends BaseRegistrationFragment implements LoadingL
     void sinUpWithForm() {
 
         if (validateNames(TYPE)
-                && validateNames(CONFIRM_TYPE)
+                //&& validateNames(CONFIRM_TYPE)
                 && validatePhoneNumber()
                 && validateEmail()
                 && validatePasswords()) {
@@ -261,13 +255,15 @@ public class SignupFragment extends BaseRegistrationFragment implements LoadingL
 
             fragmentSignupBinding.pbLoading.setVisibility(View.VISIBLE);
 
+            parameter.put("name", first_name);
+            parameter.put("phone", phoneNumber);
             parameter.put("email", email);
             parameter.put("password", password);
-            parameter.put("first_name", first_name);
-            parameter.put("last_name", last_name);
-            parameter.put("phone", phoneNumber);
-            parameter.put("gender", gender);
-            parameter.put("date_of_birth", dob);
+
+            // parameter.put("first_name", first_name);
+            // parameter.put("last_name", last_name);
+            // parameter.put("gender", gender);
+            // parameter.put("date_of_birth", dob);
 
             signUpCallToApi(FORM_SIGN_UP);
         }

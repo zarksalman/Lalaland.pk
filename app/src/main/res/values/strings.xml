@@ -111,7 +111,6 @@
     <string name="find_your_next_favourite_thing">Find your next favourite thing</string>
     <string name="search_history">Search History</string>
     <string name="clear_all">Clear All</string>
-    <!--<string name="server_client_id">122765248262-6n4knohpbldpkuc3bu11i5oovu2lhvg5.apps.googleusercontent.com</string>-->
     <string name="filter">Filter</string>
     <string name="apply">Apply</string>
     <string name="reset">Reset</string>
@@ -214,5 +213,6 @@
     <string name="how_to_pay">How to pay</string>
     <string name="confirm_your_order">Confirm Your Order</string>
     <string name="mins_left">Mins Left</string>
+    <string name="name_field">Name</string>
 
 </resources>

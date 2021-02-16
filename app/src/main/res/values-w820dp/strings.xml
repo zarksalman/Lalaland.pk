@@ -5,4 +5,5 @@
     <string name="session_expires_in">Session Expires in</string>
     <string name="how_to_pay">How to pay</string>
     <string name="mins_left">Mins Left</string>
+    <string name="name_field">Name</string>
 </resources>
