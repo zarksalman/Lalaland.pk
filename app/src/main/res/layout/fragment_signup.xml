@@ -121,6 +121,7 @@
                     android:layout_height="wrap_content"
                     android:padding="4dp"
                     android:maxLength="11"
+                    android:visibility="gone"
                     app:errorEnabled="true">
 
                     <com.google.android.material.textfield.TextInputEditText
@@ -158,6 +159,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:padding="4dp"
+                    android:visibility="gone"
                     app:errorEnabled="true"
                     app:passwordToggleEnabled="true">
 
@@ -174,6 +176,7 @@
                 <com.google.android.material.textfield.TextInputLayout
 
                     android:id="@+id/ti_date_of_birth"
+                    android:visibility="gone"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:padding="4dp"
@@ -195,6 +198,7 @@
 
                     android:id="@+id/rg_gender"
                     android:layout_width="wrap_content"
+                    android:visibility="gone"
                     android:layout_height="wrap_content"
                     android:orientation="horizontal">
 

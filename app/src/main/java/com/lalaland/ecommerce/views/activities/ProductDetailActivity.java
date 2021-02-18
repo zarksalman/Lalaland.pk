@@ -120,7 +120,6 @@ public class ProductDetailActivity extends AppCompatActivity implements ProductV
     Runnable runnable;
     Timer timer = new Timer();
 
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);

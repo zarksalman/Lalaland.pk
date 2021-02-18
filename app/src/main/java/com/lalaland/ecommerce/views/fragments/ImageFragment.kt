@@ -1,5 +1,6 @@
 package com.lalaland.ecommerce.views.fragments
 
+import android.content.Intent
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -9,6 +10,7 @@ import androidx.fragment.app.Fragment
 import com.bumptech.glide.Glide
 import com.lalaland.ecommerce.R
 import com.lalaland.ecommerce.databinding.FragmentImageBinding
+import com.lalaland.ecommerce.views.activities.ZoomInZoomOutActivity
 
 
 class ImageFragment : Fragment() {
@@ -38,6 +40,13 @@ class ImageFragment : Fragment() {
             binding.tvImageDetail.apply {
                 text = it
                 visibility = View.VISIBLE
+            }
+        }
+
+        binding.root.setOnClickListener {
+            Intent(requireContext(), ZoomInZoomOutActivity::class.java).apply {
+                putExtra("size_chart", imageUrl)
+                startActivity(this)
             }
         }
     }

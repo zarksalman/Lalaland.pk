@@ -16,7 +16,6 @@ import android.widget.Toast;
 
 import androidx.databinding.DataBindingUtil;
 import androidx.lifecycle.ViewModelProvider;
-import androidx.lifecycle.ViewModelProviders;
 
 import com.lalaland.ecommerce.R;
 import com.lalaland.ecommerce.databinding.FragmentSignupBinding;
@@ -115,9 +114,6 @@ public class SignupFragment extends BaseRegistrationFragment implements LoadingL
                     RadioButton radioButton = group.findViewById(checkedId);
 
                     gender = radioButton.getText().toString().toLowerCase();
-
-/*            if (gender.equals(getString(R.string.gender_not)))
-                gender = "";*/
                 }
         );
 
@@ -132,11 +128,11 @@ public class SignupFragment extends BaseRegistrationFragment implements LoadingL
         email = fragmentSignupBinding.etEmail.getText().toString().trim();
         confirmEmail = fragmentSignupBinding.etConfirmEmail.getText().toString().trim();
 
-        if (!email.equals(confirmEmail)) {
+/*        if (!email.equals(confirmEmail)) {
             fragmentSignupBinding.tiEmail.setError("Emails are not same");
             fragmentSignupBinding.tiConfirmEmail.setError("Emails are not same");
             return false;
-        }
+        }*/
 
         if (email.isEmpty()) {
             fragmentSignupBinding.tiEmail.setError("Email Could Not Be Empty");
@@ -157,15 +153,14 @@ public class SignupFragment extends BaseRegistrationFragment implements LoadingL
 
     private boolean validatePasswords() {
 
-
         password = fragmentSignupBinding.etPassword.getText().toString().trim();
         confirmPassword = fragmentSignupBinding.etConfirmPassword.getText().toString().trim();
 
-        if (!password.equals(confirmPassword)) {
+        /*if (!password.equals(confirmPassword)) {
             fragmentSignupBinding.tiPassword.setError("Passwords are not same");
             fragmentSignupBinding.tiConfirmPassword.setError("Passwords are not same");
             return false;
-        }
+        }*/
 
         // check after this step password or confirm password because both are equal
 
@@ -181,7 +176,6 @@ public class SignupFragment extends BaseRegistrationFragment implements LoadingL
             fragmentSignupBinding.tiConfirmPassword.setError("Please enter a valid Password (At least 1 digit, At least 1 Alphabet, At least 6 characters)");
             return false;
         }
-
 
         fragmentSignupBinding.tiPassword.setError(null);
         fragmentSignupBinding.tiConfirmPassword.setError(null);
@@ -261,13 +255,14 @@ public class SignupFragment extends BaseRegistrationFragment implements LoadingL
 
             fragmentSignupBinding.pbLoading.setVisibility(View.VISIBLE);
 
-            parameter.put("email", email);
-            parameter.put("password", password);
             parameter.put("first_name", first_name);
             parameter.put("last_name", last_name);
+            parameter.put("email", email);
+            parameter.put("password", password);
             parameter.put("phone", phoneNumber);
-            parameter.put("gender", gender);
-            parameter.put("date_of_birth", dob);
+
+            //     parameter.put("gender", gender);
+            //      parameter.put("date_of_birth", dob);
 
             signUpCallToApi(FORM_SIGN_UP);
         }

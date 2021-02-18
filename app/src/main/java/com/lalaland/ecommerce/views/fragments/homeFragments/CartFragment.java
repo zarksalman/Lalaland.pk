@@ -13,7 +13,6 @@ import android.widget.Toast;
 import androidx.databinding.DataBindingUtil;
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.ViewModelProvider;
-import androidx.lifecycle.ViewModelProviders;
 import androidx.recyclerview.widget.LinearLayoutManager;
 
 import com.lalaland.ecommerce.R;
@@ -123,6 +122,7 @@ public class CartFragment extends Fragment implements View.OnClickListener, Cart
             fragmentCartBinding.tvCartEmptyState.setVisibility(View.GONE);
             fragmentCartBinding.tvEmptyState.setVisibility(View.GONE);
             fragmentCartBinding.btnCheckout.setOnClickListener(this);
+            fragmentCartBinding.btnContinueShopping.setOnClickListener(this);
         }
 
 
@@ -143,7 +143,7 @@ public class CartFragment extends Fragment implements View.OnClickListener, Cart
 
             headers.put(SIGNIN_TOKEN, token);
 
-            productViewModel.getCart(headers).observe(this, cartContainer -> {
+            productViewModel.getCart(headers).observe(getViewLifecycleOwner(), cartContainer -> {
 
                 if (cartContainer != null) {
 
@@ -171,7 +171,7 @@ public class CartFragment extends Fragment implements View.OnClickListener, Cart
 
             headers.put(CART_SESSION_TOKEN, cart_session);
 
-            productViewModel.getCart(headers).observe(this, cartContainer -> {
+            productViewModel.getCart(headers).observe(getViewLifecycleOwner(), cartContainer -> {
 
                 if (cartContainer != null) {
 
@@ -408,7 +408,6 @@ public class CartFragment extends Fragment implements View.OnClickListener, Cart
 
                     cartListModelList.get(merchantIndex).getCartItemList().get(position).setItemQuantity(quantity);
 
-//                    cartIMerchantAdapter.setData(cartListModelList);
                     setCartAdapter();
 
                     if (selectedCartItemList.contains(cartItemList.get(position)))
@@ -444,6 +443,10 @@ public class CartFragment extends Fragment implements View.OnClickListener, Cart
     public void onClick(View v) {
 
         switch (v.getId()) {
+
+            case R.id.btn_continue_shopping:
+                    getActivity().finish();
+                break;
 
             case R.id.btn_checkout:
 
@@ -526,11 +529,7 @@ public class CartFragment extends Fragment implements View.OnClickListener, Cart
                 token = appPreference.getString(SIGNIN_TOKEN);
                 cart_session = appPreference.getString(CART_SESSION_TOKEN);
                 getCartItems();
-
-                //        fragmentCartBinding.btnCheckout.performClick();
             }
         }
     }
-
-
 }

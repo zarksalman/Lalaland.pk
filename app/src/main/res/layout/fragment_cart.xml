@@ -48,10 +48,23 @@
                     android:layout_height="match_parent"
                     android:layout_weight=".5"
                     android:gravity="center"
+                    android:visibility="gone"
                     android:textAppearance="@style/TextAppearance.AppCompat.Medium"
                     android:textColor="@color/colorAccent"
                     android:textSize="16sp"
                     tools:text="@tools:sample/us_zipcodes" />
+
+                <Button
+
+                    android:id="@+id/btn_continue_shopping"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_margin="@dimen/_4dp"
+                    android:layout_weight=".5"
+                    android:background="@drawable/bg_round_corner_white"
+                    android:text="@string/continue_shopping"
+                    android:textColor="@android:color/black"
+                    android:visibility="visible" />
 
                 <Button
 
