@@ -1,0 +1,220 @@
+<?xml version="1.0" encoding="utf-8"?>
+<manifest xmlns:android="http://schemas.android.com/apk/res/android"
+    package="com.lalaland.ecommerce">
+
+    <uses-permission android:name="android.permission.INTERNET" />
+    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
+    <uses-permission android:name="android.permission.READ_PHONE_STATE" />
+    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
+    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
+    <uses-permission android:name="com.google.android.c2dm.permission.RECEIVE" />
+
+    <application
+        android:name=".LalalandApplication"
+        android:allowBackup="true"
+        android:hardwareAccelerated="true"
+        android:icon="@mipmap/ic_launcher"
+        android:label="@string/my_app_name"
+        android:usesCleartextTraffic="true"
+        android:largeHeap="true"
+        android:theme="@style/AppTheme.NoActionBar">
+
+        <activity
+            android:name=".views.activities.ClaimDetail"
+            android:label="@string/title_activity_claim_detail"
+            android:theme="@style/AppTheme.NoActionBar.NoActionBar" />
+        <activity
+            android:name=".views.activities.MyClaims"
+            android:label="@string/title_activity_my_claims"
+            android:theme="@style/AppTheme.NoActionBar.NoActionBar" />
+
+        <meta-data
+            android:name="firebase_crashlytics_collection_enabled"
+            android:value="${enableCrashReporting}" />
+
+        <activity
+            android:name=".views.activities.ReturnAndReplacementActivity"
+            android:label="@string/title_activity_return_and_replacement"
+            android:theme="@style/AppTheme.NoActionBar.NoActionBar"
+            android:windowSoftInputMode="stateHidden" />
+
+        <service android:name=".services.MyMessagingService">
+            <intent-filter>
+                <action android:name="com.google.firebase.MESSAGING_EVENT" />
+            </intent-filter>
+        </service>
+
+        <receiver
+            android:name=".Receivers.ConnectivityReceiver"
+            android:enabled="true">
+            <intent-filter>
+                <action android:name="android.net.conn.CONNECTIVITY_CHANGE" />
+            </intent-filter>
+        </receiver>
+
+        <activity
+            android:name=".views.activities.IntroductionScreenActivity"
+            android:label="@string/title_activity_introduction_screen"
+            android:screenOrientation="portrait"
+            android:theme="@style/AppTheme.NoActionBar.NoActionBar" />
+        <activity
+            android:name=".views.activities.ResetPasswordActivity"
+            android:exported="true"
+            android:label="@string/title_activity_reset_password"
+            android:screenOrientation="portrait"
+            android:theme="@style/AppTheme.NoActionBar.NoActionBar">
+            <intent-filter
+                android:autoVerify="true"
+                android:label="@string/my_app_name">
+                <action android:name="android.intent.action.VIEW" />
+
+                <category android:name="android.intent.category.BROWSABLE" />
+                <category android:name="android.intent.category.DEFAULT" />
+
+                <data
+                    android:host="controller"
+                    android:path="/ResetPassword"
+                    android:scheme="lalaland" />
+            </intent-filter>
+        </activity>
+        <activity
+            android:name=".views.activities.ContactUsActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".views.activities.WebViewActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".views.activities.ChangeShippingAddress"
+            android:label="@string/title_activity_change_shipping_address"
+            android:screenOrientation="portrait"
+            android:theme="@style/AppTheme.NoActionBar.NoActionBar" />
+        <activity
+            android:name=".views.activities.ChangePaymentActivity"
+            android:label="@string/title_activity_change_payment"
+            android:screenOrientation="portrait"
+            android:theme="@style/AppTheme.NoActionBar.NoActionBar" />
+        <activity
+            android:name=".views.activities.SubFiltersActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".views.activities.FilterActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".views.activities.GlobalSearchActivity"
+            android:screenOrientation="portrait"
+            android:windowSoftInputMode="adjustResize" />
+        <activity
+            android:name=".views.activities.OrderReceivedActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".views.activities.OrderDetailActivity"
+            android:label="@string/title_activity_order_detail"
+            android:screenOrientation="portrait"
+            android:theme="@style/AppTheme.NoActionBar.NoActionBar" />
+        <activity
+            android:name=".views.activities.OrderListingActivity"
+            android:label="@string/title_activity_order_listing"
+            android:screenOrientation="portrait"
+            android:theme="@style/AppTheme.NoActionBar.NoActionBar" />
+        <activity
+            android:name=".views.activities.SelectCityActivity"
+            android:label="@string/title_activity_select_city"
+            android:screenOrientation="portrait"
+            android:theme="@style/AppTheme.NoActionBar.NoActionBar" />
+        <activity
+            android:name=".views.activities.EditAccountInformationActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".views.activities.AccountInformationActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".views.activities.AddressCreationActivity"
+            android:screenOrientation="portrait"
+            android:windowSoftInputMode="adjustResize" />
+        <activity
+            android:name=".views.activities.ShippingAddressActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".views.activities.CheckoutScreen"
+            android:label="@string/title_activity_checkout_screen"
+            android:screenOrientation="portrait"
+            android:theme="@style/AppTheme.NoActionBar.NoActionBar" />
+        <activity
+            android:name=".views.activities.SplashActivity"
+            android:launchMode="singleTask"
+            android:screenOrientation="portrait"
+            android:theme="@style/AppTheme.NoActionBar.NoActionBar">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+            <intent-filter android:autoVerify="true">
+                <action android:name="android.intent.action.VIEW" />
+
+                <category android:name="android.intent.category.BROWSABLE" />
+                <category android:name="android.intent.category.DEFAULT" />
+
+                <data
+                    android:host="controller"
+                    android:path="/productDetail"
+                    android:scheme="lalaland" />
+                <data
+                    android:host="controller"
+                    android:path="/ProductListing"
+                    android:scheme="lalaland" />
+            </intent-filter>
+        </activity>
+        <activity
+            android:name=".views.activities.ActionProductListingActivity"
+            android:label="@string/title_activity_product_listing"
+            android:launchMode="singleTask"
+            android:screenOrientation="portrait"
+            android:theme="@style/AppTheme.NoActionBar.NoActionBar" />
+        <activity
+            android:name=".views.activities.ProductDetailActivity"
+            android:label="@string/title_activity_product_detail"
+            android:launchMode="singleTask"
+            android:screenOrientation="portrait"
+            android:theme="@style/AppTheme.NoActionBar.NoActionBar" />
+        <activity
+            android:name=".views.activities.ZoomInZoomOutActivity"
+            android:label="@string/title_activity_product_detail"
+            android:screenOrientation="portrait"
+            android:theme="@style/AppTheme.NoActionBar.NoActionBar" />
+        <activity
+            android:name=".views.activities.RegistrationActivity"
+            android:label="@string/title_activity_registration"
+            android:screenOrientation="portrait"
+            android:theme="@style/AppTheme.NoActionBar" />
+        <activity
+            android:name=".views.activities.MainActivity"
+            android:label="@string/app_name"
+            android:screenOrientation="portrait" />
+
+        <meta-data
+            android:name="com.facebook.sdk.ApplicationId"
+            android:value="@string/facebook_app_id" />
+
+        <activity
+            android:name="com.facebook.FacebookActivity"
+            android:configChanges="keyboard|keyboardHidden|screenLayout|screenSize|orientation"
+            android:label="@string/app_name" />
+        <activity
+            android:name="com.facebook.CustomTabActivity"
+            android:exported="true">
+            <intent-filter>
+                <action android:name="android.intent.action.VIEW" />
+
+                <category android:name="android.intent.category.DEFAULT" />
+                <category android:name="android.intent.category.BROWSABLE" />
+
+                <data android:scheme="@string/facebook_app_scheme" />
+            </intent-filter>
+        </activity>
+
+        <activity android:name=".views.activities.PayProActivity"/>
+
+    </application>
+
+</manifest>

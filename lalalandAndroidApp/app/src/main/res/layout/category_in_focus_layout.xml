@@ -1,0 +1,38 @@
+<!--Brands in focus-->
+<layout>
+
+    <RelativeLayout
+
+        xmlns:android="http://schemas.android.com/apk/res/android"
+        android:id="@+id/brands_in_focus_container"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_marginTop="@dimen/_8dp"
+        android:background="@color/colorAccent"
+        android:visibility="visible">
+
+        <TextView
+
+            android:id="@+id/tv_brands_in_focus_title"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentStart="true"
+            android:layout_alignParentTop="true"
+            android:layout_marginTop="@dimen/_4dp"
+            android:layout_marginStart="@dimen/_8dp"
+            android:fontFamily="@font/encodesansregular"
+            android:gravity="center"
+            android:text="@string/category_in_focus"
+            android:textColor="@android:color/white"
+            android:textSize="16sp" />
+
+        <androidx.recyclerview.widget.RecyclerView
+
+            android:id="@+id/rv_category_in_focus"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/tv_brands_in_focus_title" />
+
+
+    </RelativeLayout>
+</layout>

@@ -1,0 +1,187 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<layout xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <data>
+
+        <variable
+            name="sortSheetListener"
+            type="com.lalaland.ecommerce.views.activities.ActionProductListingActivity" />
+    </data>
+
+    <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:padding="@dimen/_16dp"
+        android:background="@android:color/white"
+        android:orientation="vertical">
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center_vertical"
+            android:orientation="horizontal"
+            android:padding="@dimen/_8dp">
+
+            <ImageView
+
+                android:id="@+id/iv_sort_icon"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentStart="true"
+                android:layout_centerVertical="true"
+                app:srcCompat="@drawable/sorting_icon" />
+
+            <TextView
+
+                android:id="@+id/tv_sort"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerVertical="true"
+                android:layout_marginStart="@dimen/_8dp"
+                android:textColor="@color/colorDarkGray"
+                android:layout_toEndOf="@+id/iv_sort_icon"
+                android:fontFamily="@font/encodesansregular"
+                android:text="@string/sort"
+                android:textSize="16sp" />
+
+            <ImageView
+
+                android:id="@+id/iv_down_arrow_icon"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentEnd="true"
+                android:layout_centerVertical="true"
+                android:padding="@dimen/_8dp"
+                app:srcCompat="@drawable/arrow_down_icon" />
+        </RelativeLayout>
+
+        <ImageView
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:background="@color/colorDarkGray" />
+
+        <TextView
+
+            android:id="@+id/tv_choose"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:textColor="@color/colorDarkGray"
+            android:layout_marginTop="@dimen/_8dp"
+            android:fontFamily="@font/encodesansregular"
+            android:padding="@dimen/_8dp"
+            android:text="@string/choose"
+            android:textSize="16sp" />
+
+        <TextView
+
+            android:id="@+id/tv_best_match"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/_8dp"
+            android:fontFamily="@font/encodesansregular"
+            android:textColor="@color/colorAccent"
+            android:onClick="@{(view)->sortSheetListener.bottomSheetClick(view)}"
+            android:padding="@dimen/_8dp"
+            android:text="@string/best_match"
+            android:textSize="16sp" />
+
+        <TextView
+
+            android:id="@+id/tv_ascending_alphabetically"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/_8dp"
+            android:fontFamily="@font/encodesansregular"
+            android:background="?android:attr/selectableItemBackground"
+            android:clickable="true"
+            android:focusable="true"
+            android:textColor="@color/colorDarkGray"
+            android:onClick="@{(view)->sortSheetListener.bottomSheetClick(view)}"
+            android:padding="@dimen/_8dp"
+            android:text="@string/a_z"
+            android:textSize="16sp" />
+
+        <TextView
+
+            android:id="@+id/tv_descending_alphabetically"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/_8dp"
+            android:background="?android:attr/selectableItemBackground"
+            android:clickable="true"
+            android:focusable="true"
+            android:textColor="@color/colorDarkGray"
+            android:onClick="@{(view)->sortSheetListener.bottomSheetClick(view)}"
+            android:fontFamily="@font/encodesansregular"
+            android:padding="@dimen/_8dp"
+            android:text="@string/z_a"
+            android:textSize="16sp" />
+
+        <TextView
+
+            android:id="@+id/tv_newest"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/_8dp"
+            android:fontFamily="@font/encodesansregular"
+            android:background="?android:attr/selectableItemBackground"
+            android:clickable="true"
+            android:textColor="@color/colorDarkGray"
+            android:focusable="true"
+            android:onClick="@{(view)->sortSheetListener.bottomSheetClick(view)}"
+            android:padding="@dimen/_8dp"
+            android:text="@string/newest"
+            android:textSize="16sp" />
+
+        <TextView
+
+            android:id="@+id/tv_oldest"
+            android:layout_width="match_parent"
+            android:layout_marginTop="@dimen/_8dp"
+            android:layout_height="wrap_content"
+            android:fontFamily="@font/encodesansregular"
+            android:background="?android:attr/selectableItemBackground"
+            android:clickable="true"
+            android:textColor="@color/colorDarkGray"
+            android:focusable="true"
+            android:onClick="@{(view)->sortSheetListener.bottomSheetClick(view)}"
+            android:padding="@dimen/_8dp"
+            android:text="@string/oldest"
+            android:textSize="16sp" />
+
+
+        <TextView
+
+            android:id="@+id/tv_low_to_high"
+            android:layout_width="match_parent"
+            android:layout_marginTop="@dimen/_8dp"
+            android:layout_height="wrap_content"
+            android:textColor="@color/colorDarkGray"
+            android:fontFamily="@font/encodesansregular"
+            android:background="?android:attr/selectableItemBackground"
+            android:clickable="true"
+            android:focusable="true"
+            android:onClick="@{(view)->sortSheetListener.bottomSheetClick(view)}"
+            android:padding="@dimen/_8dp"
+            android:text="@string/low_to_high"
+            android:textSize="16sp" />
+
+        <TextView
+
+            android:id="@+id/tv_high_to_low"
+            android:layout_width="match_parent"
+            android:textColor="@color/colorDarkGray"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/_8dp"
+            android:fontFamily="@font/encodesansregular"
+            android:background="?android:attr/selectableItemBackground"
+            android:clickable="true"
+            android:focusable="true"
+            android:onClick="@{(view)->sortSheetListener.bottomSheetClick(view)}"
+            android:padding="@dimen/_8dp"
+            android:text="@string/high_to_low"
+            android:textSize="16sp" />
+
+    </LinearLayout>
+</layout>

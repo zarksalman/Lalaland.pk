@@ -1,0 +1,114 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<layout xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <data>
+
+        <import type="com.lalaland.ecommerce.helpers.AppUtils" />
+
+        <import type="android.view.View" />
+
+        <variable
+            name="review"
+            type="com.lalaland.ecommerce.data.models.productDetails.ProductReview" />
+
+        <variable
+            name="adapter"
+            type="com.lalaland.ecommerce.adapters.ReviewRatingAdapter" />
+
+    </data>
+
+    <LinearLayout
+
+        xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:tools="http://schemas.android.com/tools"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/_16dp"
+        android:background="@android:color/white"
+        android:orientation="horizontal">
+
+        <LinearLayout
+
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
+
+            <androidx.cardview.widget.CardView
+
+                android:id="@+id/iv_container"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                app:cardCornerRadius="@dimen/_5dp"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent">
+
+                <ImageView
+
+                    android:id="@+id/iv_display_picture"
+                    android:layout_width="@dimen/_50dp"
+                    android:layout_height="@dimen/_50dp"
+                    android:scaleType="fitXY"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent"
+                    tools:src="@drawable/placeholder_products" />
+
+            </androidx.cardview.widget.CardView>
+
+
+            <TextView
+
+                android:id="@+id/tv_user_name"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:layout_marginStart="@dimen/_2dp"
+                android:ellipsize="end"
+                android:gravity="center"
+                android:maxLength="15"
+                android:maxLines="1"
+                android:text="@{AppUtils.trimUserFirstName(review.name)}"
+                android:textColor="@android:color/black"
+                android:textSize="14sp"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/iv_container"
+                tools:text="@tools:sample/full_names" />
+
+            <TextView
+
+
+                android:id="@+id/tv_user_review_time"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:ellipsize="end"
+                android:gravity="center"
+                android:maxLength="15"
+                android:maxLines="1"
+                android:text="@{review.reviewTime}"
+                android:textColor="@android:color/black"
+                android:textSize="12sp"
+                app:layout_constraintBottom_toBottomOf="@+id/tv_user_name"
+                app:layout_constraintStart_toEndOf="@+id/tv_user_name"
+                app:layout_constraintTop_toTopOf="@+id/tv_user_name"
+                tools:text="@tools:sample/full_names" />
+
+        </LinearLayout>
+
+        <TextView
+            android:id="@+id/tv_review"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="@dimen/_4dp"
+            android:layout_marginEnd="@dimen/_4dp"
+            android:background="@drawable/bg_round_corner_gray"
+            android:gravity="center_vertical"
+            android:padding="@dimen/_16dp"
+            android:text="@{review.userComment}"
+            tools:text="@tools:sample/lorem" />
+
+    </LinearLayout>
+</layout>

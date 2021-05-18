@@ -1,0 +1,36 @@
+<!--Brands in focus-->
+<layout xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <data>
+
+        <variable
+            name="advertisement"
+            type="com.lalaland.ecommerce.data.models.home.Advertisement" />
+    </data>
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+
+        xmlns:android="http://schemas.android.com/apk/res/android"
+        android:id="@+id/blogs_container"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:padding="@dimen/_16dp"
+        android:layout_marginTop="@dimen/_8dp"
+        android:background="@android:color/white"
+        android:visibility="visible">
+
+        <ImageView
+
+            android:id="@+id/iv_advertisement"
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintDimensionRatio="11:5"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            tools:src="@drawable/placeholder_products" />
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</layout>

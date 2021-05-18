@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="insufficient_stock">Insufficient Stock</string>
+    <string name="online_payment">Online payment</string>
+    <string name="session_expires_in">Session Expires in</string>
+    <string name="how_to_pay">How to pay</string>
+    <string name="mins_left">Mins Left</string>
+    <string name="name_field">Name</string>
+</resources>

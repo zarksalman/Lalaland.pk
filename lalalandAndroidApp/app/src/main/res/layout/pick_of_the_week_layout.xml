@@ -1,0 +1,71 @@
+<!--Picks of the week-->
+<layout>
+
+    <data>
+
+        <variable
+            name="homeListener"
+            type="com.lalaland.ecommerce.views.fragments.homeFragments.HomeFragment" />
+    </data>
+
+    <RelativeLayout
+
+        xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:app="http://schemas.android.com/apk/res-auto"
+        android:id="@+id/pick_of_week_container"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/_8dp"
+        android:paddingTop="@dimen/_4dp"
+        android:background="@android:color/white"
+        android:visibility="visible">
+
+        <TextView
+
+            android:id="@+id/pick_of_week_title"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignTop="@+id/iv_pick_of_week_show_all"
+            android:layout_alignBottom="@+id/iv_pick_of_week_show_all"
+            android:layout_alignParentStart="true"
+            android:layout_marginStart="@dimen/_8dp"
+            android:fontFamily="@font/encodesansregular"
+            android:onClick="@{()->homeListener.showAllProductsWeekProducts()}"
+            android:text="@string/picks_of_the_week"
+            android:textColor="@android:color/black"
+            android:textSize="16sp" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignTop="@+id/iv_pick_of_week_show_all"
+            android:layout_alignBottom="@+id/iv_pick_of_week_show_all"
+            android:layout_toStartOf="@+id/iv_pick_of_week_show_all"
+            android:fontFamily="@font/encodesansregular"
+            android:onClick="@{()->homeListener.showAllProductsWeekProducts()}"
+            android:text="@string/view_all"
+            android:textColor="@android:color/black"
+            android:textSize="16sp" />
+
+        <ImageView
+
+            android:id="@+id/iv_pick_of_week_show_all"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentTop="true"
+            android:layout_alignParentEnd="true"
+            android:onClick="@{()->homeListener.showAllProductsWeekProducts()}"
+            app:srcCompat="@drawable/right_icon_black" />
+
+        <LinearLayout
+            android:id="@+id/rv_picks_of_week_container"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/iv_pick_of_week_show_all"
+            android:gravity="center_horizontal"
+            android:layout_centerHorizontal="true"
+            android:orientation="horizontal"
+            android:weightSum="90" />
+
+    </RelativeLayout>
+</layout>

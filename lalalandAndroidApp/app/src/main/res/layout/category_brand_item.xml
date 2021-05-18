@@ -1,0 +1,78 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout
+
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:animateLayoutChanges="true"
+    tools:context=".views.activities.ProductDetailActivity">
+
+    <data>
+
+        <import type="android.view.View" />
+
+        <import type="com.lalaland.ecommerce.helpers.AppUtils" />
+
+        <variable
+            name="brand"
+            type="com.lalaland.ecommerce.data.models.category.CategoryBrand" />
+
+        <variable
+            name="adapter"
+            type="com.lalaland.ecommerce.adapters.CategorBrandAdapter" />
+    </data>
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@android:color/white"
+        android:onClick="@{(view)->adapter.onCategoryBrandClicked(view, brand)}"
+        android:padding="@dimen/_8dp">
+
+        <ImageView
+
+
+            android:id="@+id/iv_logo"
+            android:layout_width="@dimen/_40dp"
+            android:layout_height="@dimen/_40dp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:setCategoryBrandImage="@{brand.logo}" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="@dimen/_8dp"
+            android:text="@{brand.name}"
+            android:textColor="@android:color/black"
+            android:textSize="14sp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintStart_toEndOf="@+id/iv_logo"
+            app:layout_constraintTop_toTopOf="parent"
+            tools:text="@tools:sample/first_names" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textColor="@android:color/black"
+            android:textSize="14sp"
+            android:layout_marginEnd="@dimen/_4dp"
+            android:text="@{AppUtils.toString(brand.productsInBrand)}"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            tools:text="@tools:sample/us_zipcodes"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <ImageView
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:layout_marginTop="@dimen/_4dp"
+            android:background="@color/colorLightGray"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/iv_logo" />
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+</layout>

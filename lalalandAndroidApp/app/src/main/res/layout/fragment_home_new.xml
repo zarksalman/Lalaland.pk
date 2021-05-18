@@ -1,0 +1,225 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <data>
+
+        <variable
+            name="homeListener"
+            type="com.lalaland.ecommerce.views.fragments.homeFragments.HomeFragment" />
+    </data>
+
+    <androidx.swiperefreshlayout.widget.SwipeRefreshLayout
+
+        android:id="@+id/swipeContainer"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <androidx.coordinatorlayout.widget.CoordinatorLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+
+            <!--            android:overScrollMode="never"-->
+
+            <androidx.recyclerview.widget.RecyclerView
+
+                android:id="@+id/rv_parent"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content" />
+
+            <androidx.core.widget.NestedScrollView
+                android:id="@+id/containers_parent"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:isScrollContainer="true"
+                android:measureAllChildren="true"
+                app:layout_behavior="@string/appbar_scrolling_view_behavior"
+                android:background="@color/colorDarkGray"
+                android:visibility="gone">
+
+                <RelativeLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:background="@color/colorMediumGray"
+                    android:orientation="vertical">
+
+                    <!--image slider-->
+                    <com.lalaland.ecommerce.views.customViews.AViewFlipper
+                        android:id="@+id/vf_slider"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_alignParentTop="true"
+                        android:layout_centerHorizontal="true"
+                        android:minHeight="@dimen/_200dp"
+                        android:visibility="gone"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toTopOf="parent" />
+
+                    <androidx.constraintlayout.widget.ConstraintLayout
+
+                        android:id="@+id/slider_container"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toTopOf="parent">
+
+                        <androidx.viewpager.widget.ViewPager
+
+                            android:id="@+id/vp_images"
+                            android:layout_width="0dp"
+                            android:layout_height="100dp"
+                            android:layout_alignParentTop="true"
+                            android:layout_centerHorizontal="true"
+                            android:visibility="visible"
+                            app:layout_constraintEnd_toEndOf="parent"
+                            app:layout_constraintStart_toStartOf="parent"
+                            app:layout_constraintTop_toTopOf="parent" />
+
+                        <LinearLayout
+
+                            android:id="@+id/dots"
+                            android:layout_width="match_parent"
+                            android:layout_height="@dimen/_20dp"
+                            android:layout_below="@+id/vp_images"
+                            android:layout_centerHorizontal="true"
+                            android:layout_marginBottom="@dimen/_4dp"
+                            android:gravity="center"
+                            android:orientation="horizontal"
+                            android:padding="@dimen/_5dp"
+                            app:layout_constraintBottom_toBottomOf="@+id/vp_images"
+                            app:layout_constraintEnd_toEndOf="parent"
+                            app:layout_constraintStart_toStartOf="parent" />
+
+                    </androidx.constraintlayout.widget.ConstraintLayout>
+
+
+                    <!--actions list-->
+                    <LinearLayout
+                        android:id="@+id/rv_action_container"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_below="@+id/slider_container"
+                        android:layout_centerHorizontal="true"
+                        android:background="@android:color/white"
+                        android:gravity="center_horizontal"
+                        android:orientation="horizontal"
+                        android:padding="@dimen/_8dp"
+                        android:visibility="visible"
+                        android:weightSum="100"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toBottomOf="@+id/slider_container" />
+
+                    <!--pick of the week-->
+                    <include
+
+                        android:id="@+id/pick_of_week_container_parent"
+                        layout="@layout/pick_of_the_week_layout"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_below="@+id/rv_action_container"
+                        android:layout_centerHorizontal="true"
+                        android:gravity="center_horizontal"
+                        android:layout_marginTop="@dimen/_8dp"
+                        android:visibility="visible" />
+
+                    <!--brands in focus-->
+                    <include
+
+                        android:id="@+id/brands_in_focus_container_parent"
+                        layout="@layout/brands_in_focus_layout"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_below="@+id/pick_of_week_container_parent"
+                        android:layout_centerHorizontal="true"
+                        android:visibility="visible" />
+
+                    <!--Get the look-->
+                    <include
+
+                        android:id="@+id/get_the_looks_container_parent"
+                        layout="@layout/get_the_look_layout"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_below="@+id/brands_in_focus_container_parent"
+                        android:background="@color/colorDarkGray" />
+
+                    <!--category in focus-->
+                    <include
+
+                        android:id="@+id/category_in_focus_container_parent"
+                        layout="@layout/category_in_focus_layout"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_below="@+id/get_the_looks_container_parent"
+                        android:visibility="visible" />
+
+                    <!--Blogs-->
+                    <include
+
+                        android:id="@+id/blogs_container_parent"
+                        layout="@layout/blog_post_layout"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_below="@+id/category_in_focus_container_parent"
+                        android:visibility="visible" />
+
+                    <!--Advertisement-->
+                    <include
+
+                        android:id="@+id/advertisement_container_parent"
+                        layout="@layout/advertisement_layout"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:background="@android:color/white"
+                        android:layout_below="@+id/blogs_container_parent"
+                        android:visibility="visible" />
+
+                    <!--recommended products-->
+                    <include
+
+                        android:id="@+id/recommendation_container_parent"
+                        layout="@layout/reccomendation_products_layout"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_below="@+id/advertisement_container_parent"
+                        android:layout_centerHorizontal="true" />
+
+                    <ProgressBar
+
+                        android:id="@+id/pb_product_load"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_alignParentBottom="true"
+                        android:layout_centerHorizontal="true"
+                        android:padding="@dimen/_32dp" />
+
+                </RelativeLayout>
+            </androidx.core.widget.NestedScrollView>
+
+            <ProgressBar
+
+                android:id="@+id/pb_loading"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:background="@drawable/bg_round_corner_gray"
+                android:padding="@dimen/_32dp" />
+
+            <ImageButton
+
+                android:id="@+id/btn_scroll_up"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="bottom|end"
+                android:layout_margin="@dimen/_16dp"
+                android:background="@drawable/scroll_up_bg_round_corner"
+                android:padding="@dimen/_8dp"
+                android:src="@drawable/arrow_up_icon"
+                android:visibility="gone" />
+
+        </androidx.coordinatorlayout.widget.CoordinatorLayout>
+    </androidx.swiperefreshlayout.widget.SwipeRefreshLayout>
+</layout>

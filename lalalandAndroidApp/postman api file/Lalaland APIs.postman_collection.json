@@ -1,0 +1,2305 @@
+{
+	"info": {
+		"_postman_id": "efabd5d8-ee9f-49d8-84ab-3482280c167c",
+		"name": "Lalaland APIs",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "User ",
+			"item": [
+				{
+					"name": "login",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "device-id",
+								"value": "sdsss",
+								"type": "text"
+							},
+							{
+								"key": "device-name",
+								"value": "dfdsfsdsa",
+								"type": "text"
+							},
+							{
+								"key": "device-model",
+								"value": "4sasdsad",
+								"type": "text"
+							},
+							{
+								"key": "device-type",
+								"value": "iOSsssdsasdad",
+								"type": "text"
+							},
+							{
+								"key": "fcm-token",
+								"value": "dsadasdaddaasdsadsa",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": ""
+						},
+						"url": {
+							"raw": "{{url}}login?email=shameed@lalaland.pk&password=salman123",
+							"host": [
+								"{{url}}login"
+							],
+							"query": [
+								{
+									"key": "email",
+									"value": "shameed@lalaland.pk"
+								},
+								{
+									"key": "password",
+									"value": "salman123"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "logout",
+					"request": {
+						"auth": {
+							"type": "noauth"
+						},
+						"method": "POST",
+						"header": [
+							{
+								"key": "token",
+								"value": "eyJpdiI6IlwvTkhDblpmYWRTNExGeDlFTjJuZVVBPT0iLCJ2YWx1ZSI6ImpiZ3hKdlNKZjNBMWF1TDIzbjZCY2Z3S1JiZHYyNzdKQjR2SzZYUW9cL0lXNElHNFUzWVgrMjV3elMremJKQzFTTkRkdVA4dzJZTHRlNWcyNElwemZPYlZvcVRsQUxIWkxnaWN2SjZsQktNVT0iLCJtYWMiOiI0MWMwMzI2NjY1MjJiYzEwZWFkOWRjMzAyZTNlYzc1ZjgwYTgxY2IzMzdkMjFmOWI4OGRmY2I0OGNkMzM2MTgyIn0=",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": ""
+						},
+						"url": {
+							"raw": "{{url}}logout",
+							"host": [
+								"{{url}}logout"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "register",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "device-id",
+								"value": "123",
+								"type": "text"
+							},
+							{
+								"key": "device-name",
+								"value": "hamza",
+								"type": "text"
+							},
+							{
+								"key": "device-model",
+								"value": "A3 samsung",
+								"type": "text"
+							},
+							{
+								"key": "device-type",
+								"value": "android",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": ""
+						},
+						"url": {
+							"raw": "{{url}}register?first_name=Hamza&last_name=Ijaz&email=ssssasasa@abba.com&password=aaa123&phone=03001238667&gender=0&date_of_birth=2010-01-21",
+							"host": [
+								"{{url}}register"
+							],
+							"query": [
+								{
+									"key": "first_name",
+									"value": "Hamza"
+								},
+								{
+									"key": "last_name",
+									"value": "Ijaz"
+								},
+								{
+									"key": "email",
+									"value": "ssssasasa@abba.com"
+								},
+								{
+									"key": "password",
+									"value": "aaa123"
+								},
+								{
+									"key": "phone",
+									"value": "03001238667"
+								},
+								{
+									"key": "gender",
+									"value": "0"
+								},
+								{
+									"key": "date_of_birth",
+									"value": "2010-01-21"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "updateUserDetails",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "token",
+								"value": "{{token}}",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": ""
+						},
+						"url": {
+							"raw": "{{url}}updateUserDetails?",
+							"host": [
+								"{{url}}updateUserDetails"
+							],
+							"query": [
+								{
+									"key": "first_name",
+									"value": "alii",
+									"disabled": true
+								},
+								{
+									"key": "last_name",
+									"value": "hamzaaaa",
+									"disabled": true
+								},
+								{
+									"key": "phone",
+									"value": "13445608595",
+									"disabled": true
+								},
+								{
+									"key": "gender",
+									"value": "male",
+									"disabled": true
+								},
+								{
+									"key": "dob",
+									"value": "1991-01-11",
+									"disabled": true
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "addToWishList",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "token",
+								"value": "{{token}}",
+								"type": "text",
+								"disabled": true
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": ""
+						},
+						"url": {
+							"raw": "{{url}}addToWishList?product_id=413&is_wish_list=1",
+							"host": [
+								"{{url}}addToWishList"
+							],
+							"query": [
+								{
+									"key": "product_id",
+									"value": "413"
+								},
+								{
+									"key": "is_wish_list",
+									"value": "1"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "wishlist products",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "token",
+								"value": "{{token}}",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": ""
+						},
+						"url": {
+							"raw": "{{url}}wishList",
+							"host": [
+								"{{url}}wishList"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "addressBook",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "token",
+								"value": "{{token}}",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": ""
+						},
+						"url": {
+							"raw": "{{url}}addressBook",
+							"host": [
+								"{{url}}addressBook"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "addAddress",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "token",
+								"value": "{{token}}",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": ""
+						},
+						"url": {
+							"raw": "{{url}}addAddress?first_name=waqas&last_name=tariq&physical_address=aaaaaaaa&shipping_address=cccccccccc&city_id=21&postal_code=54000",
+							"host": [
+								"{{url}}addAddress"
+							],
+							"query": [
+								{
+									"key": "first_name",
+									"value": "waqas"
+								},
+								{
+									"key": "last_name",
+									"value": "tariq"
+								},
+								{
+									"key": "physical_address",
+									"value": "aaaaaaaa"
+								},
+								{
+									"key": "shipping_address",
+									"value": "cccccccccc"
+								},
+								{
+									"key": "city_id",
+									"value": "21"
+								},
+								{
+									"key": "postal_code",
+									"value": "54000"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "editAddress",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "token",
+								"value": "{{token}}",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": ""
+						},
+						"url": {
+							"raw": "{{url}}editAddress?address_id=277&physical_address=lahore&shipping_address=lahore&city_id=21&postal_code=54000&first_name=hamza&last_name=ijaz",
+							"host": [
+								"{{url}}editAddress"
+							],
+							"query": [
+								{
+									"key": "address_id",
+									"value": "277"
+								},
+								{
+									"key": "physical_address",
+									"value": "lahore"
+								},
+								{
+									"key": "shipping_address",
+									"value": "lahore"
+								},
+								{
+									"key": "city_id",
+									"value": "21"
+								},
+								{
+									"key": "postal_code",
+									"value": "54000"
+								},
+								{
+									"key": "first_name",
+									"value": "hamza"
+								},
+								{
+									"key": "last_name",
+									"value": "ijaz"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "removeAddress",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "token",
+								"value": "{{token}}",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": ""
+						},
+						"url": {
+							"raw": "{{url}}removeAddress?address_id=66",
+							"host": [
+								"{{url}}removeAddress"
+							],
+							"query": [
+								{
+									"key": "address_id",
+									"value": "66"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "changePassword",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "token",
+								"value": "{{token}}",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": ""
+						},
+						"url": {
+							"raw": "{{url}}changePassword?old_password=123456&new_password=lalaland123",
+							"host": [
+								"{{url}}changePassword"
+							],
+							"query": [
+								{
+									"key": "old_password",
+									"value": "123456"
+								},
+								{
+									"key": "new_password",
+									"value": "lalaland123"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "myOrders",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "token",
+								"value": "{{token}}",
+								"type": "text"
+							},
+							{
+								"key": "device-id",
+								"value": "aa",
+								"type": "text"
+							},
+							{
+								"key": "device-name",
+								"value": "aa",
+								"type": "text"
+							},
+							{
+								"key": "device-model",
+								"value": "aa",
+								"type": "text"
+							},
+							{
+								"key": "device-type",
+								"value": "aa",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": ""
+						},
+						"url": {
+							"raw": "{{url}}myOrders",
+							"host": [
+								"{{url}}myOrders"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "myOrderProducts",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "token",
+								"value": "{{token}}",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": ""
+						},
+						"url": {
+							"raw": "{{url}}myOrders",
+							"host": [
+								"{{url}}myOrders"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "forgotPassword",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": ""
+						},
+						"url": {
+							"raw": "{{url}}forgotPassword?email=wtariq@lalaland.pk",
+							"host": [
+								"{{url}}forgotPassword"
+							],
+							"query": [
+								{
+									"key": "email",
+									"value": "wtariq@lalaland.pk"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "resetPassword",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": ""
+						},
+						"url": {
+							"raw": "{{url}}resetPassword?email=wtariq@lalaland.pk&password=lala123&confirm_password=lala123&token=63816aa063d40c1dbe4c4bcf34c8de6d694a2063595deb76c198055751c71e8b",
+							"host": [
+								"{{url}}resetPassword"
+							],
+							"query": [
+								{
+									"key": "email",
+									"value": "wtariq@lalaland.pk"
+								},
+								{
+									"key": "password",
+									"value": "lala123"
+								},
+								{
+									"key": "confirm_password",
+									"value": "lala123"
+								},
+								{
+									"key": "token",
+									"value": "63816aa063d40c1dbe4c4bcf34c8de6d694a2063595deb76c198055751c71e8b"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "loginFromFaceBook",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": ""
+						},
+						"url": {
+							"raw": "{{url}}loginFromFaceBook?fb_token=EAADKe02bNmEBAJwb9EWA3EU8CnR5DXSB4svKs23DGFgaoaS7H2QsrSnNCSjt93cUrY0bQWH5Y2LH4wbkVgb1QlUdNTEWxDZA7VHnaiS2d7BHZC0OmMjWKJBQ25gfurlxES2XeLA04ecc7pc6JFp8166XAl7ds491QUHQXIJQZDZD",
+							"host": [
+								"{{url}}loginFromFaceBook"
+							],
+							"query": [
+								{
+									"key": "fb_token",
+									"value": "EAADKe02bNmEBAJwb9EWA3EU8CnR5DXSB4svKs23DGFgaoaS7H2QsrSnNCSjt93cUrY0bQWH5Y2LH4wbkVgb1QlUdNTEWxDZA7VHnaiS2d7BHZC0OmMjWKJBQ25gfurlxES2XeLA04ecc7pc6JFp8166XAl7ds491QUHQXIJQZDZD"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "loginFromGoogle",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": ""
+						},
+						"url": {
+							"raw": "{{url}}loginFromGoogle?g_token=userFromToken",
+							"host": [
+								"{{url}}loginFromGoogle"
+							],
+							"query": [
+								{
+									"key": "g_token",
+									"value": "userFromToken"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "uploadProfileImage",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "token",
+								"value": "{{token}}",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "formdata",
+							"formdata": [
+								{
+									"key": "avatar",
+									"type": "file",
+									"src": "/C:/Users/Hamza Ijaz/Downloads/Pictures/18739837_796519233840038_5932577138843023226_n.png"
+								}
+							]
+						},
+						"url": {
+							"raw": "{{url}}uploadProfileImage",
+							"host": [
+								"{{url}}uploadProfileImage"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "loginFromGoogleAndroid",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "device-id",
+								"value": "123GJ7623HGS",
+								"type": "text"
+							},
+							{
+								"key": "device-name",
+								"value": "jutt",
+								"type": "text"
+							},
+							{
+								"key": "device-model",
+								"value": "4s",
+								"type": "text"
+							},
+							{
+								"key": "device-type",
+								"value": "iOSSSS",
+								"type": "text"
+							},
+							{
+								"key": "fcm-token",
+								"value": "adsdadsadad121321addsaa",
+								"type": "text",
+								"disabled": true
+							}
+						],
+						"url": {
+							"raw": "{{url}}loginFromGoogleAndroid?email=aa@hhhh.com&google_id=123232&name=hamza&avatar=http://api.uat.lalaland.pk/storage/users/108_1562764803.jpg",
+							"host": [
+								"{{url}}loginFromGoogleAndroid"
+							],
+							"query": [
+								{
+									"key": "email",
+									"value": "aa@hhhh.com"
+								},
+								{
+									"key": "google_id",
+									"value": "123232"
+								},
+								{
+									"key": "name",
+									"value": "hamza"
+								},
+								{
+									"key": "avatar",
+									"value": "http://api.uat.lalaland.pk/storage/users/108_1562764803.jpg"
+								}
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Product",
+			"item": [
+				{
+					"name": "products",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": ""
+						},
+						"url": {
+							"raw": "{{url}}categoryProducts?id=817&start=0&length=100&brand_filter=WzIsIDE0LCA5NiwgNTNd",
+							"host": [
+								"{{url}}categoryProducts"
+							],
+							"query": [
+								{
+									"key": "id",
+									"value": "817"
+								},
+								{
+									"key": "start",
+									"value": "0"
+								},
+								{
+									"key": "length",
+									"value": "100"
+								},
+								{
+									"key": "brand_filter",
+									"value": "WzIsIDE0LCA5NiwgNTNd"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "productsPicksOfTheWeek",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": ""
+						},
+						"url": {
+							"raw": "{{url}}productsPicksOfTheWeek?start=0&length=1",
+							"host": [
+								"{{url}}productsPicksOfTheWeek"
+							],
+							"query": [
+								{
+									"key": "start",
+									"value": "0"
+								},
+								{
+									"key": "length",
+									"value": "1"
+								},
+								{
+									"key": "sort_by",
+									"value": "price_desc",
+									"disabled": true
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "productDetails",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "token",
+								"value": "{{token}}",
+								"type": "text"
+							},
+							{
+								"key": "device-id",
+								"value": "123",
+								"type": "text"
+							},
+							{
+								"key": "device-name",
+								"value": "hamza",
+								"type": "text"
+							},
+							{
+								"key": "device-model",
+								"value": "A3 samsung",
+								"type": "text"
+							},
+							{
+								"key": "device-type",
+								"value": "android",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": ""
+						},
+						"url": {
+							"raw": "{{live_url}}productDetails?product_id=8271",
+							"host": [
+								"{{live_url}}productDetails"
+							],
+							"query": [
+								{
+									"key": "recommended_cat",
+									"value": "eyIyMTUiOjF9",
+									"disabled": true
+								},
+								{
+									"key": "product_id",
+									"value": "8271"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "newArrivals",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": ""
+						},
+						"url": {
+							"raw": "{{url}}newArrivals?id=3&sort_by=price_desc",
+							"host": [
+								"{{url}}newArrivals"
+							],
+							"query": [
+								{
+									"key": "id",
+									"value": "3"
+								},
+								{
+									"key": "sort_by",
+									"value": "price_desc"
+								},
+								{
+									"key": "start",
+									"value": "0",
+									"disabled": true
+								},
+								{
+									"key": "length",
+									"value": "2",
+									"disabled": true
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "customListProducts",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": ""
+						},
+						"url": {
+							"raw": "{{url}}customListProducts?id=32&sort_by=newest",
+							"host": [
+								"{{url}}customListProducts"
+							],
+							"query": [
+								{
+									"key": "id",
+									"value": "32"
+								},
+								{
+									"key": "sort_by",
+									"value": "newest"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "sale",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": ""
+						},
+						"url": {
+							"raw": "{{url}}sale?",
+							"host": [
+								"{{url}}sale"
+							],
+							"query": [
+								{
+									"key": "start",
+									"value": "11",
+									"disabled": true
+								},
+								{
+									"key": "length",
+									"value": "10",
+									"disabled": true
+								},
+								{
+									"key": "sort_by",
+									"value": "price_desc",
+									"disabled": true
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "categories",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": ""
+						},
+						"url": {
+							"raw": "{{url}}categories?id=810",
+							"host": [
+								"{{url}}categories"
+							],
+							"query": [
+								{
+									"key": "id",
+									"value": "810"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "categoryProducts",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": ""
+						},
+						"url": {
+							"raw": "{{url}}categoryProducts?",
+							"host": [
+								"{{url}}categoryProducts"
+							],
+							"query": [
+								{
+									"key": "id",
+									"value": "810",
+									"disabled": true
+								},
+								{
+									"key": "sort_by",
+									"value": "price_asc",
+									"disabled": true
+								},
+								{
+									"key": "start",
+									"value": "0",
+									"disabled": true
+								},
+								{
+									"key": "length",
+									"value": "2",
+									"disabled": true
+								},
+								{
+									"key": "category_filter",
+									"value": "32",
+									"disabled": true
+								},
+								{
+									"key": "pv_filter",
+									"value": "eyIyIjpbIjE3Il19",
+									"disabled": true
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "productsFilters",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": ""
+						},
+						"url": {
+							"raw": "{{url}}productsFilters?id=0&key=all&qstr=arch",
+							"host": [
+								"{{url}}productsFilters"
+							],
+							"query": [
+								{
+									"key": "id",
+									"value": "0"
+								},
+								{
+									"key": "key",
+									"value": "all"
+								},
+								{
+									"key": "qstr",
+									"value": "arch"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "brand",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": ""
+						},
+						"url": {
+							"raw": "{{url}}brand?id=67&start=11&length=5&sort_by=price_asc",
+							"host": [
+								"{{url}}brand"
+							],
+							"query": [
+								{
+									"key": "id",
+									"value": "67"
+								},
+								{
+									"key": "start",
+									"value": "11"
+								},
+								{
+									"key": "length",
+									"value": "5"
+								},
+								{
+									"key": "sort_by",
+									"value": "price_asc"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "getRecommendations",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": ""
+						},
+						"url": {
+							"raw": "{{url}}getRecommendations?start=0&length=48",
+							"host": [
+								"{{url}}getRecommendations"
+							],
+							"query": [
+								{
+									"key": "start",
+									"value": "0"
+								},
+								{
+									"key": "length",
+									"value": "48"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "submitReview",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "token",
+								"value": " eyJpdiI6IlBhM3hXcWNpeGhOcDdyUU1MYU9mbnc9PSIsInZhbHVlIjoiXC9hNG5Cd2ltVnE1TzhSRWY4Vlwvb2FjMlRtaXVXR09PUGJrNk05T3FmZjFUUExWdWVKcDNDeWhkVWdFQUxxZng2WTlUUXh4ZFo2N1drYVRwMjluSjRZdDhZNzZMY3FpYnFEYWthUU1kWWJWaz0iLCJtYWMiOiI4MmY0YWI1MDU5MGJiMDZkYTBjYTU5YTdiYjJhNzgzMTY0OTY2YWIwOTU5YmUxZmMzMDc2ZGU3NzU1ZDBkZWIxIn0=",
+								"type": "text"
+							},
+							{
+								"key": "device-id",
+								"value": "123",
+								"type": "text"
+							},
+							{
+								"key": "device-name",
+								"value": "hamza",
+								"type": "text"
+							},
+							{
+								"key": "device-model",
+								"value": "A3 samsung",
+								"type": "text"
+							},
+							{
+								"key": "device-type",
+								"value": "android",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": ""
+						},
+						"url": {
+							"raw": "{{url}}submitReview?product_id=4188&user_review=hi good product&user_rating=4",
+							"host": [
+								"{{url}}submitReview"
+							],
+							"query": [
+								{
+									"key": "product_id",
+									"value": "4188"
+								},
+								{
+									"key": "user_review",
+									"value": "hi good product"
+								},
+								{
+									"key": "user_rating",
+									"value": "4"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "getDeliveryOption",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": ""
+						},
+						"url": {
+							"raw": "{{url}}getDeliveryOption?product_id=2494&city_id=430&merchant_id=2",
+							"host": [
+								"{{url}}getDeliveryOption"
+							],
+							"query": [
+								{
+									"key": "product_id",
+									"value": "2494"
+								},
+								{
+									"key": "city_id",
+									"value": "430"
+								},
+								{
+									"key": "merchant_id",
+									"value": "2"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "globalSearch",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "token",
+								"value": "{{token}}",
+								"type": "text"
+							},
+							{
+								"key": "device-id",
+								"value": "123GJ7623HGS",
+								"type": "text"
+							},
+							{
+								"key": "device-name",
+								"value": "jutt",
+								"type": "text"
+							},
+							{
+								"key": "device-model",
+								"value": "4s",
+								"type": "text"
+							},
+							{
+								"key": "device-type",
+								"value": "iOSSSS",
+								"type": "text"
+							},
+							{
+								"key": "fcm-token",
+								"value": "adsdadsadad121321addsaa",
+								"type": "text",
+								"disabled": true
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": ""
+						},
+						"url": {
+							"raw": "{{live_url}}globalSearch?qstr=jeans",
+							"host": [
+								"{{live_url}}globalSearch"
+							],
+							"query": [
+								{
+									"key": "qstr",
+									"value": "jeans"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "searchResults",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"url": {
+							"raw": "{{url}}searchResults?qstr=arch",
+							"host": [
+								"{{url}}searchResults"
+							],
+							"query": [
+								{
+									"key": "start",
+									"value": "0",
+									"disabled": true
+								},
+								{
+									"key": "length",
+									"value": "2",
+									"disabled": true
+								},
+								{
+									"key": "qstr",
+									"value": "arch"
+								}
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Order",
+			"item": [
+				{
+					"name": "confirmOrder",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "token",
+								"value": "{{token}}",
+								"type": "text"
+							},
+							{
+								"key": "device-id",
+								"value": "aa",
+								"type": "text"
+							},
+							{
+								"key": "device-name",
+								"value": "aa",
+								"type": "text"
+							},
+							{
+								"key": "device-model",
+								"value": "aa",
+								"type": "text"
+							},
+							{
+								"key": "device-type",
+								"value": "aa",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": ""
+						},
+						"url": {
+							"raw": "{{url}}confirmOrder?name=Hamza Ijaz&phone_no=03001234567&email=shameed@lalaland.pk&city_id=430&delivery_address=xyz city, pakistan&postal_code=54778&shipping_method=0&payment_gateway=1&verified_coupon=LL012&verified_coupon_for_merchant_id=1",
+							"host": [
+								"{{url}}confirmOrder"
+							],
+							"query": [
+								{
+									"key": "name",
+									"value": "Hamza Ijaz"
+								},
+								{
+									"key": "phone_no",
+									"value": "03001234567"
+								},
+								{
+									"key": "email",
+									"value": "shameed@lalaland.pk"
+								},
+								{
+									"key": "city_id",
+									"value": "430"
+								},
+								{
+									"key": "delivery_address",
+									"value": "xyz city, pakistan"
+								},
+								{
+									"key": "postal_code",
+									"value": "54778"
+								},
+								{
+									"key": "shipping_method",
+									"value": "0"
+								},
+								{
+									"key": "payment_gateway",
+									"value": "1"
+								},
+								{
+									"key": "verified_coupon",
+									"value": "LL012"
+								},
+								{
+									"key": "verified_coupon_for_merchant_id",
+									"value": "1"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "myOrderProducts",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "token",
+								"value": "{{token}}",
+								"type": "text"
+							},
+							{
+								"key": "device-id",
+								"value": "aa",
+								"type": "text"
+							},
+							{
+								"key": "device-name",
+								"value": "aa",
+								"type": "text"
+							},
+							{
+								"key": "device-model",
+								"value": "aa",
+								"type": "text"
+							},
+							{
+								"key": "device-type",
+								"value": "aa",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": ""
+						},
+						"url": {
+							"raw": "{{url}}myOrderProducts?order_id=2212",
+							"host": [
+								"{{url}}myOrderProducts"
+							],
+							"query": [
+								{
+									"key": "order_id",
+									"value": "2212"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "getDeliveryCharges",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "token",
+								"value": "eyJpdiI6ImVFWmpMbGNJRndNV0czclV2OEdHaHc9PSIsInZhbHVlIjoidHVaVWxtMngyQlZuSlhvc0xJUG9NcXQwcFN6MW5UQTRzcVVjMHoxWU95UjJCd29sUlhWMGdsbnNCeVZyWGhibnZpM3dcL0x6bVEzaXFOYXJ1RFV4Mmk2UXRRS2ttdTZKN2xqSkJYNjdXWVFjPSIsIm1hYyI6IjFjOGY1NTU1YWE1MWI4MTZmOGE3Nzg0MDcyNjFkMDYxZDgxNzNjYmI3OGZhMDIzMThhNWYyZTE4YTczZDllNGQifQ==",
+								"type": "text"
+							},
+							{
+								"key": "device-id",
+								"value": "123",
+								"type": "text"
+							},
+							{
+								"key": "device-name",
+								"value": "hamza",
+								"type": "text"
+							},
+							{
+								"key": "device-model",
+								"value": "A3 samsung",
+								"type": "text"
+							},
+							{
+								"key": "device-type",
+								"value": "android",
+								"type": "text"
+							}
+						],
+						"url": {
+							"raw": "{{url}}getDeliveryCharges?city_id=430",
+							"host": [
+								"{{url}}getDeliveryCharges"
+							],
+							"query": [
+								{
+									"key": "city_id",
+									"value": "430"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "checkVoucherIsValid",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "token",
+								"value": "{{token}}",
+								"type": "text"
+							},
+							{
+								"key": "device-id",
+								"value": "123GJ7623HGS",
+								"type": "text"
+							},
+							{
+								"key": "device-name",
+								"value": "jutt",
+								"type": "text"
+							},
+							{
+								"key": "device-model",
+								"value": "4s",
+								"type": "text"
+							},
+							{
+								"key": "device-type",
+								"value": "iOSSSS",
+								"type": "text"
+							},
+							{
+								"key": "fcm-token",
+								"value": "adsdadsadad121321addsaa",
+								"type": "text",
+								"disabled": true
+							}
+						],
+						"url": {
+							"raw": "{{url}}checkVoucherIsValid?voucher_code=aqeel123&merchant_id=29&sub_total=5000",
+							"host": [
+								"{{url}}checkVoucherIsValid"
+							],
+							"query": [
+								{
+									"key": "voucher_code",
+									"value": "aqeel123"
+								},
+								{
+									"key": "merchant_id",
+									"value": "29"
+								},
+								{
+									"key": "sub_total",
+									"value": "5000"
+								}
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Cart",
+			"item": [
+				{
+					"name": "addToCart",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "cart-session",
+								"value": "eyJpdiI6Inc1N3dCM2JxbmE2MWx0NG9FbUFia2c9PSIsInZhbHVlIjoiVXpaVkdhdlRERHpodWlXTUZobFZmSVRmcUFDcHRuM2M4RjJKTmI0RUZGV1NodHpJckFQYnVHcTU5N2pwbXpnK2ZYSjgzdSs3VjNPckNyUFpNdUNiVGc9PSIsIm1hYyI6Ijc5ZmQ3MWJlNDEyMDMzZmU0NzNlNjFjYzM1YTQwYzk4OTI4MTg2NGY0Yjg0ODZkZWVhMjU3NmVhN2NhNWY5NWIifQ==",
+								"type": "text",
+								"disabled": true
+							},
+							{
+								"key": "token",
+								"value": "eyJpdiI6IlwvTkhDblpmYWRTNExGeDlFTjJuZVVBPT0iLCJ2YWx1ZSI6ImpiZ3hKdlNKZjNBMWF1TDIzbjZCY2Z3S1JiZHYyNzdKQjR2SzZYUW9cL0lXNElHNFUzWVgrMjV3elMremJKQzFTTkRkdVA4dzJZTHRlNWcyNElwemZPYlZvcVRsQUxIWkxnaWN2SjZsQktNVT0iLCJtYWMiOiI0MWMwMzI2NjY1MjJiYzEwZWFkOWRjMzAyZTNlYzc1ZjgwYTgxY2IzMzdkMjFmOWI4OGRmY2I0OGNkMzM2MTgyIn0=",
+								"type": "text"
+							},
+							{
+								"key": "device-id",
+								"value": "aa",
+								"type": "text"
+							},
+							{
+								"key": "device-name",
+								"value": "aa",
+								"type": "text"
+							},
+							{
+								"key": "device-model",
+								"value": "aa",
+								"type": "text"
+							},
+							{
+								"key": "device-type",
+								"value": "aa",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": ""
+						},
+						"url": {
+							"raw": "{{url}}addToCart?product_variation_group_id=11099&quantity=1&product_id=3393",
+							"host": [
+								"{{url}}addToCart"
+							],
+							"query": [
+								{
+									"key": "product_variation_group_id",
+									"value": "11099"
+								},
+								{
+									"key": "quantity",
+									"value": "1"
+								},
+								{
+									"key": "product_id",
+									"value": "3393"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "cart",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "cart-session",
+								"value": "",
+								"type": "text",
+								"disabled": true
+							},
+							{
+								"key": "token",
+								"value": "eyJpdiI6ImNNMTU1TENJUmp5N3Vud2tNazNYeWc9PSIsInZhbHVlIjoialNxZGdEdGhJaFM5Q2pmZkQ3aTIyaVpNK3doVFBnTitjTFVUbHZFbW0zMFp4cURpQ3A0OUVzNUN1c2R3Z1l0eFJtXC9TYTVqWUFFMzVyTDNpeXpieVVBK0FiRDBoRHdcL01tc3Q2VE4zV0xlbz0iLCJtYWMiOiIxMzI4MDE0YzBlZmYyNDU3MTk4MTg0ZDQ2ODFjNDU1N2MyNGIyYzBjMTliYjI4ZTY1ZDIzYWQxMjgwNDVmMWY2In0=",
+								"type": "text"
+							},
+							{
+								"key": "device-id",
+								"value": "123",
+								"type": "text"
+							},
+							{
+								"key": "device-name",
+								"value": "hamza",
+								"type": "text"
+							},
+							{
+								"key": "device-model",
+								"value": "A3 samsung",
+								"type": "text"
+							},
+							{
+								"key": "device-type",
+								"value": "android",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": ""
+						},
+						"url": {
+							"raw": "{{url}}cart",
+							"host": [
+								"{{url}}cart"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "deleteCartItem",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "cart-session",
+								"value": "eyJpdiI6Im53ZnYyYlpjV0VWcUNJNWlwT1dCTUE9PSIsInZhbHVlIjoiRlRBQ3d6NXFXSGFZajVITSsweEEyRXpVbEc1d3poenpxakhCTENqUlMyckdCM0FLSmtcL0I0QktOTVp2djUrc05LT2FOSHpScnVhQTczaHlUMzcxT2lRPT0iLCJtYWMiOiJiNGFlOTA4NzQxMTVjNmNjNzExMzNiY2NkMzlmYTdjNjQ0YmUzMzQ1Nzg3OTU2MzQ4ZjU5NzkwZDYwZTVjMzkwIn0=",
+								"type": "text",
+								"disabled": true
+							},
+							{
+								"key": "token",
+								"value": "eyJpdiI6IlwvTkhDblpmYWRTNExGeDlFTjJuZVVBPT0iLCJ2YWx1ZSI6ImpiZ3hKdlNKZjNBMWF1TDIzbjZCY2Z3S1JiZHYyNzdKQjR2SzZYUW9cL0lXNElHNFUzWVgrMjV3elMremJKQzFTTkRkdVA4dzJZTHRlNWcyNElwemZPYlZvcVRsQUxIWkxnaWN2SjZsQktNVT0iLCJtYWMiOiI0MWMwMzI2NjY1MjJiYzEwZWFkOWRjMzAyZTNlYzc1ZjgwYTgxY2IzMzdkMjFmOWI4OGRmY2I0OGNkMzM2MTgyIn0=",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": ""
+						},
+						"url": {
+							"raw": "{{url}}deleteCartItem?cart_id[0]=4407&cart_id[1]=4404",
+							"host": [
+								"{{url}}deleteCartItem"
+							],
+							"query": [
+								{
+									"key": "cart_id[0]",
+									"value": "4407"
+								},
+								{
+									"key": "cart_id[1]",
+									"value": "4404"
+								},
+								{
+									"key": "cart_id[2]",
+									"value": "4397",
+									"disabled": true
+								},
+								{
+									"key": "cart_id[3]",
+									"value": "4395",
+									"disabled": true
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "changeCartProductQuantity",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": ""
+						},
+						"url": {
+							"raw": "{{url}}changeCartProductQuantity?cart_id=1754&quantity=24",
+							"host": [
+								"{{url}}changeCartProductQuantity"
+							],
+							"query": [
+								{
+									"key": "cart_id",
+									"value": "1754"
+								},
+								{
+									"key": "quantity",
+									"value": "24"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "checkout",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "token",
+								"value": "{{token}}",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": ""
+						},
+						"url": {
+							"raw": "{{url}}checkout",
+							"host": [
+								"{{url}}checkout"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "changeCartStatusAsReady",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "token",
+								"value": "{{token}}",
+								"type": "text",
+								"disabled": true
+							},
+							{
+								"key": "cart-session",
+								"value": "eyJpdiI6Inc1N3dCM2JxbmE2MWx0NG9FbUFia2c9PSIsInZhbHVlIjoiVXpaVkdhdlRERHpodWlXTUZobFZmSVRmcUFDcHRuM2M4RjJKTmI0RUZGV1NodHpJckFQYnVHcTU5N2pwbXpnK2ZYSjgzdSs3VjNPckNyUFpNdUNiVGc9PSIsIm1hYyI6Ijc5ZmQ3MWJlNDEyMDMzZmU0NzNlNjFjYzM1YTQwYzk4OTI4MTg2NGY0Yjg0ODZkZWVhMjU3NmVhN2NhNWY5NWIifQ==",
+								"type": "text",
+								"disabled": true
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": ""
+						},
+						"url": {
+							"raw": "{{url}}changeCartStatusAsReady?cart_id=1757",
+							"host": [
+								"{{url}}changeCartStatusAsReady"
+							],
+							"query": [
+								{
+									"key": "cart_id",
+									"value": "1757"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "generateOtpToConfirmOrder",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "token",
+								"value": "eyJpdiI6ImNNMTU1TENJUmp5N3Vud2tNazNYeWc9PSIsInZhbHVlIjoialNxZGdEdGhJaFM5Q2pmZkQ3aTIyaVpNK3doVFBnTitjTFVUbHZFbW0zMFp4cURpQ3A0OUVzNUN1c2R3Z1l0eFJtXC9TYTVqWUFFMzVyTDNpeXpieVVBK0FiRDBoRHdcL01tc3Q2VE4zV0xlbz0iLCJtYWMiOiIxMzI4MDE0YzBlZmYyNDU3MTk4MTg0ZDQ2ODFjNDU1N2MyNGIyYzBjMTliYjI4ZTY1ZDIzYWQxMjgwNDVmMWY2In0=",
+								"type": "text"
+							},
+							{
+								"key": "cart-session",
+								"value": "",
+								"type": "text",
+								"disabled": true
+							},
+							{
+								"key": "device-id",
+								"value": "aa",
+								"type": "text"
+							},
+							{
+								"key": "device-name",
+								"value": "aa",
+								"type": "text"
+							},
+							{
+								"key": "device-model",
+								"value": "aa",
+								"type": "text"
+							},
+							{
+								"key": "device-type",
+								"value": "aa",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": ""
+						},
+						"url": {
+							"raw": "{{url}}generateOtpToConfirmOrder",
+							"host": [
+								"{{url}}generateOtpToConfirmOrder"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Home",
+			"item": [
+				{
+					"name": "getGeneralData",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "device-id",
+								"value": "123GJ7623HGS",
+								"type": "text"
+							},
+							{
+								"key": "device-name",
+								"value": "jutt",
+								"type": "text"
+							},
+							{
+								"key": "device-model",
+								"value": "4s",
+								"type": "text"
+							},
+							{
+								"key": "device-type",
+								"value": "iOS",
+								"type": "text"
+							},
+							{
+								"key": "fcm-token",
+								"value": "adsdadsadad121321addsaa",
+								"type": "text"
+							},
+							{
+								"key": "app-version",
+								"value": "1.1.5",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": ""
+						},
+						"url": {
+							"raw": "https://uat.api.lalaland.pk/api/getGeneralData",
+							"protocol": "https",
+							"host": [
+								"uat",
+								"api",
+								"lalaland",
+								"pk"
+							],
+							"path": [
+								"api",
+								"getGeneralData"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "home",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "token",
+								"value": "{{token}}",
+								"type": "text"
+							},
+							{
+								"key": "device-id",
+								"value": "aa",
+								"type": "text"
+							},
+							{
+								"key": "device-name",
+								"value": "aa",
+								"type": "text"
+							},
+							{
+								"key": "device-model",
+								"value": "aa",
+								"type": "text"
+							},
+							{
+								"key": "device-type",
+								"value": "aa",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": ""
+						},
+						"url": {
+							"raw": "{{url}}home",
+							"host": [
+								"{{url}}home"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Return and Replacement",
+			"item": [
+				{
+					"name": "newClaim",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "token",
+								"value": " eyJpdiI6IlBhM3hXcWNpeGhOcDdyUU1MYU9mbnc9PSIsInZhbHVlIjoiXC9hNG5Cd2ltVnE1TzhSRWY4Vlwvb2FjMlRtaXVXR09PUGJrNk05T3FmZjFUUExWdWVKcDNDeWhkVWdFQUxxZng2WTlUUXh4ZFo2N1drYVRwMjluSjRZdDhZNzZMY3FpYnFEYWthUU1kWWJWaz0iLCJtYWMiOiI4MmY0YWI1MDU5MGJiMDZkYTBjYTU5YTdiYjJhNzgzMTY0OTY2YWIwOTU5YmUxZmMzMDc2ZGU3NzU1ZDBkZWIxIn0=",
+								"type": "text"
+							},
+							{
+								"key": "device-id",
+								"value": "aa",
+								"type": "text"
+							},
+							{
+								"key": "device-name",
+								"value": "aa",
+								"type": "text"
+							},
+							{
+								"key": "device-model",
+								"value": "aa",
+								"type": "text"
+							},
+							{
+								"key": "device-type",
+								"value": "aa",
+								"type": "text"
+							}
+						],
+						"url": {
+							"raw": "{{url}}newClaim?order_product_id=2759",
+							"host": [
+								"{{url}}newClaim"
+							],
+							"query": [
+								{
+									"key": "order_product_id",
+									"value": "2759"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "claims",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "token",
+								"type": "text",
+								"value": "eyJpdiI6ImVFWmpMbGNJRndNV0czclV2OEdHaHc9PSIsInZhbHVlIjoidHVaVWxtMngyQlZuSlhvc0xJUG9NcXQwcFN6MW5UQTRzcVVjMHoxWU95UjJCd29sUlhWMGdsbnNCeVZyWGhibnZpM3dcL0x6bVEzaXFOYXJ1RFV4Mmk2UXRRS2ttdTZKN2xqSkJYNjdXWVFjPSIsIm1hYyI6IjFjOGY1NTU1YWE1MWI4MTZmOGE3Nzg0MDcyNjFkMDYxZDgxNzNjYmI3OGZhMDIzMThhNWYyZTE4YTczZDllNGQifQ==="
+							},
+							{
+								"key": "device-id",
+								"type": "text",
+								"value": "aa"
+							},
+							{
+								"key": "device-name",
+								"type": "text",
+								"value": "aa"
+							},
+							{
+								"key": "device-model",
+								"type": "text",
+								"value": "aa"
+							},
+							{
+								"key": "device-type",
+								"type": "text",
+								"value": "aa"
+							}
+						],
+						"url": {
+							"raw": "{{url}}claims",
+							"host": [
+								"{{url}}claims"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "claimDetails",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "token",
+								"type": "text",
+								"value": "eyJpdiI6ImVFWmpMbGNJRndNV0czclV2OEdHaHc9PSIsInZhbHVlIjoidHVaVWxtMngyQlZuSlhvc0xJUG9NcXQwcFN6MW5UQTRzcVVjMHoxWU95UjJCd29sUlhWMGdsbnNCeVZyWGhibnZpM3dcL0x6bVEzaXFOYXJ1RFV4Mmk2UXRRS2ttdTZKN2xqSkJYNjdXWVFjPSIsIm1hYyI6IjFjOGY1NTU1YWE1MWI4MTZmOGE3Nzg0MDcyNjFkMDYxZDgxNzNjYmI3OGZhMDIzMThhNWYyZTE4YTczZDllNGQifQ=="
+							},
+							{
+								"key": "device-id",
+								"type": "text",
+								"value": "aa"
+							},
+							{
+								"key": "device-name",
+								"type": "text",
+								"value": "aa"
+							},
+							{
+								"key": "device-model",
+								"type": "text",
+								"value": "aa"
+							},
+							{
+								"key": "device-type",
+								"type": "text",
+								"value": "aa"
+							}
+						],
+						"url": {
+							"raw": "{{url}}claimDetails?claim_id=12",
+							"host": [
+								"{{url}}claimDetails"
+							],
+							"query": [
+								{
+									"key": "claim_id",
+									"value": "12"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "myOrderProducts",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "token",
+								"value": " eyJpdiI6IlBhM3hXcWNpeGhOcDdyUU1MYU9mbnc9PSIsInZhbHVlIjoiXC9hNG5Cd2ltVnE1TzhSRWY4Vlwvb2FjMlRtaXVXR09PUGJrNk05T3FmZjFUUExWdWVKcDNDeWhkVWdFQUxxZng2WTlUUXh4ZFo2N1drYVRwMjluSjRZdDhZNzZMY3FpYnFEYWthUU1kWWJWaz0iLCJtYWMiOiI4MmY0YWI1MDU5MGJiMDZkYTBjYTU5YTdiYjJhNzgzMTY0OTY2YWIwOTU5YmUxZmMzMDc2ZGU3NzU1ZDBkZWIxIn0=",
+								"type": "text"
+							},
+							{
+								"key": "device-id",
+								"value": "aa",
+								"type": "text"
+							},
+							{
+								"key": "device-name",
+								"value": "aa",
+								"type": "text"
+							},
+							{
+								"key": "device-model",
+								"value": "aa",
+								"type": "text"
+							},
+							{
+								"key": "device-type",
+								"value": "aa",
+								"type": "text"
+							}
+						],
+						"url": {
+							"raw": "{{url}}myOrderProducts?order_id=2197",
+							"host": [
+								"{{url}}myOrderProducts"
+							],
+							"query": [
+								{
+									"key": "order_id",
+									"value": "2197"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "newClaimPost",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "token",
+								"value": " eyJpdiI6IlBhM3hXcWNpeGhOcDdyUU1MYU9mbnc9PSIsInZhbHVlIjoiXC9hNG5Cd2ltVnE1TzhSRWY4Vlwvb2FjMlRtaXVXR09PUGJrNk05T3FmZjFUUExWdWVKcDNDeWhkVWdFQUxxZng2WTlUUXh4ZFo2N1drYVRwMjluSjRZdDhZNzZMY3FpYnFEYWthUU1kWWJWaz0iLCJtYWMiOiI4MmY0YWI1MDU5MGJiMDZkYTBjYTU5YTdiYjJhNzgzMTY0OTY2YWIwOTU5YmUxZmMzMDc2ZGU3NzU1ZDBkZWIxIn0=",
+								"type": "text"
+							},
+							{
+								"key": "device-id",
+								"value": "aa",
+								"type": "text"
+							},
+							{
+								"key": "device-name",
+								"value": "aa",
+								"type": "text"
+							},
+							{
+								"key": "device-model",
+								"value": "aa",
+								"type": "text"
+							},
+							{
+								"key": "device-type",
+								"value": "aa",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "formdata",
+							"formdata": [
+								{
+									"key": "images[0]",
+									"type": "file",
+									"src": "/C:/Users/Dell/Desktop/images/account_screen.jpg"
+								},
+								{
+									"key": "images[1]",
+									"type": "file",
+									"src": "/C:/Users/Dell/Desktop/images/add_to_cart_screen.png"
+								}
+							]
+						},
+						"url": {
+							"raw": "{{url}}newClaimPost?reason=something&more_detail=more details&order_product_id=2780&claim_type=2&product_id=3862&variation_attribute_value_id=39",
+							"host": [
+								"{{url}}newClaimPost"
+							],
+							"query": [
+								{
+									"key": "reason",
+									"value": "something"
+								},
+								{
+									"key": "more_detail",
+									"value": "more details"
+								},
+								{
+									"key": "order_product_id",
+									"value": "2780"
+								},
+								{
+									"key": "claim_type",
+									"value": "2"
+								},
+								{
+									"key": "product_id",
+									"value": "3862"
+								},
+								{
+									"key": "variation_attribute_value_id",
+									"value": "39"
+								}
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "live url",
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "device-id",
+						"value": "123GJ7623HGS",
+						"type": "text"
+					},
+					{
+						"key": "device-name",
+						"value": "jutt",
+						"type": "text"
+					},
+					{
+						"key": "device-model",
+						"value": "4s",
+						"type": "text"
+					},
+					{
+						"key": "device-type",
+						"value": "iOSSSS",
+						"type": "text"
+					},
+					{
+						"key": "token",
+						"value": "{{token}}",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "formdata",
+					"formdata": [
+						{
+							"key": "avatar",
+							"type": "file",
+							"src": "/C:/Users/Hamza Ijaz/Downloads/Pictures/18739837_796519233840038_5932577138843023226_n.png",
+							"disabled": true
+						}
+					]
+				},
+				"url": {
+					"raw": "https://api.uat.lalaland.pk/api/checkVoucherIsValid?voucher_code=aqeel123&merchant_id=0&sub_total=7500",
+					"protocol": "https",
+					"host": [
+						"api",
+						"uat",
+						"lalaland",
+						"pk"
+					],
+					"path": [
+						"api",
+						"checkVoucherIsValid"
+					],
+					"query": [
+						{
+							"key": "voucher_code",
+							"value": "aqeel123"
+						},
+						{
+							"key": "merchant_id",
+							"value": "0"
+						},
+						{
+							"key": "sub_total",
+							"value": "7500"
+						}
+					]
+				}
+			},
+			"response": []
+		}
+	]
+}

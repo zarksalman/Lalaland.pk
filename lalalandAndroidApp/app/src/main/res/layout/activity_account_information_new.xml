@@ -1,0 +1,413 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout
+
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    tools:context=".views.activities.AccountInformationActivity">
+
+    <data>
+
+        <variable
+            name="clickListener"
+            type="com.lalaland.ecommerce.views.activities.AccountInformationActivity" />
+    </data>
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+
+        android:id="@+id/parent"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="@color/colorLightGray">
+
+        <androidx.core.widget.NestedScrollView
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent">
+
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+
+                <LinearLayout
+
+                    android:id="@+id/top_bar"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:background="@android:color/white"
+                    android:elevation="@dimen/_4dp"
+                    android:orientation="horizontal"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent">
+
+                    <ImageView
+
+                        android:id="@+id/iv_close_checkout_screen"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:padding="@dimen/_16dp"
+                        android:layout_gravity="center_vertical"
+                        app:srcCompat="@drawable/back_arrow_icon" />
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center_vertical"
+                        android:padding="@dimen/_16dp"
+                        android:fontFamily="@font/encodesansregular"
+                        android:text="@string/account_information"
+                        android:textAlignment="center"
+                        android:textColor="@android:color/black"
+                        android:textSize="18sp" />
+
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/top_bar">
+
+                    <RelativeLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:background="@android:color/white"
+                        android:onClick="@{()->clickListener.selectImage()}"
+                        android:padding="@dimen/_16dp">
+
+                        <TextView
+                            android:id="@+id/tv_change_name"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_alignParentStart="true"
+                            android:layout_centerVertical="true"
+                            android:layout_marginStart="@dimen/_8dp"
+                            android:text="@string/my_photo"
+                            android:textAppearance="@style/TextAppearance.AppCompat.Large"
+                            android:textColor="@android:color/black"
+                            android:textSize="14sp" />
+
+                        <androidx.cardview.widget.CardView
+
+                            android:id="@+id/iv_container"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_alignParentEnd="true"
+                            android:layout_centerVertical="true"
+                            app:cardCornerRadius="@dimen/_35dp">
+
+                            <ImageView
+
+                                android:id="@+id/iv_display_picture"
+                                android:layout_width="@dimen/_70dp"
+                                android:layout_height="@dimen/_70dp"
+                                android:scaleType="centerCrop"
+                                tools:src="@drawable/placeholder_products" />
+
+                        </androidx.cardview.widget.CardView>
+
+                    </RelativeLayout>
+
+                    <RelativeLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="@dimen/_8dp"
+                        android:background="@android:color/white"
+                        android:onClick="@{()->clickListener.changeAttributes(1)}"
+                        android:padding="@dimen/_8dp">
+
+                        <TextView
+                            android:id="@+id/tv_user_name_title"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_alignParentStart="true"
+                            android:layout_centerVertical="true"
+                            android:layout_marginStart="@dimen/_8dp"
+                            android:text="@string/name"
+                            android:textColor="@color/colorDarkGray"
+                            android:textSize="14sp" />
+
+                        <TextView
+
+                            android:id="@+id/tv_user_name"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_centerVertical="true"
+                            android:layout_margin="@dimen/_8dp"
+                            android:layout_toStartOf="@+id/iv_edit_user_name"
+                            android:textColor="@color/colorDarkGray"
+                            android:textSize="14sp"
+                            tools:text="@tools:sample/lorem" />
+
+                        <ImageView
+
+                            android:id="@+id/iv_edit_user_name"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_alignParentEnd="true"
+                            android:layout_centerVertical="true"
+                            app:srcCompat="@drawable/right_icon_black" />
+                    </RelativeLayout>
+
+
+                    <RelativeLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="@dimen/_2dp"
+                        android:background="@color/colorLightGray"
+                        android:padding="@dimen/_8dp">
+
+                        <TextView
+                            android:id="@+id/tv_change_email"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_alignParentStart="true"
+                            android:layout_centerVertical="true"
+                            android:layout_marginStart="@dimen/_8dp"
+                            android:text="@string/email"
+                            android:textColor="@color/colorDarkGray"
+                            android:textSize="14sp" />
+
+                        <TextView
+
+                            android:id="@+id/tv_user_email"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_alignParentEnd="true"
+                            android:layout_centerVertical="true"
+                            android:layout_marginEnd="@dimen/_32dp"
+                            android:textColor="@color/colorDarkGray"
+                            android:textSize="14sp"
+                            tools:text="@tools:sample/lorem" />
+
+                    </RelativeLayout>
+
+                    <RelativeLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="@dimen/_2dp"
+                        android:background="@android:color/white"
+                        android:onClick="@{()->clickListener.changeAttributes(2)}"
+                        android:padding="@dimen/_8dp">
+
+                        <TextView
+                            android:id="@+id/tv_change_phone"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_alignParentStart="true"
+                            android:layout_centerVertical="true"
+                            android:layout_marginStart="@dimen/_8dp"
+                            android:text="@string/mobile_number"
+                            android:textColor="@android:color/black"
+                            android:textSize="14sp" />
+
+                        <TextView
+
+                            android:id="@+id/tv_user_phone"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_centerVertical="true"
+                            android:layout_margin="@dimen/_8dp"
+                            android:layout_toStartOf="@+id/iv_edit_user_phone"
+                            android:textColor="@android:color/black"
+                            android:textSize="14sp"
+                            tools:text="@tools:sample/us_phones" />
+
+                        <ImageView
+
+                            android:id="@+id/iv_edit_user_phone"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_alignParentEnd="true"
+                            android:layout_centerVertical="true"
+                            app:srcCompat="@drawable/right_icon_black" />
+                    </RelativeLayout>
+
+                    <RelativeLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="@dimen/_2dp"
+                        android:background="@android:color/white"
+                        android:onClick="@{()->clickListener.changeAttributes(3)}"
+                        android:padding="@dimen/_8dp">
+
+                        <TextView
+                            android:id="@+id/tv_change_password"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_alignParentStart="true"
+                            android:layout_centerVertical="true"
+                            android:layout_marginStart="@dimen/_8dp"
+                            android:text="@string/password"
+                            android:textColor="@android:color/black"
+                            android:textSize="14sp" />
+
+                        <TextView
+
+                            android:id="@+id/tv_user_password"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_centerVertical="true"
+                            android:layout_margin="@dimen/_8dp"
+                            android:layout_toStartOf="@+id/iv_edit_user_password"
+                            android:textColor="@android:color/black"
+                            android:textSize="14sp"
+                            tools:text="@tools:sample/us_zipcodes" />
+
+                        <ImageView
+
+                            android:id="@+id/iv_edit_user_password"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_alignParentEnd="true"
+                            android:layout_centerVertical="true"
+                            app:srcCompat="@drawable/right_icon_black" />
+                    </RelativeLayout>
+
+                    <RelativeLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="@dimen/_2dp"
+                        android:background="@android:color/white"
+                        android:onClick="@{()->clickListener.changeAttributes(4)}"
+                        android:padding="@dimen/_8dp">
+
+                        <TextView
+                            android:id="@+id/tv_change_gender"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_centerVertical="true"
+                            android:layout_alignParentStart="true"
+                            android:layout_marginStart="@dimen/_8dp"
+                            android:text="@string/gender"
+                            android:textColor="@android:color/black"
+                            android:textSize="14sp" />
+
+                        <TextView
+
+                            android:id="@+id/tv_user_gender"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_centerVertical="true"
+                            android:layout_margin="@dimen/_8dp"
+                            android:layout_toStartOf="@+id/iv_edit_user_gender"
+                            android:textColor="@android:color/black"
+                            android:textSize="14sp"
+                            tools:text="@string/gender_male" />
+
+                        <ImageView
+
+                            android:id="@+id/iv_edit_user_gender"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_alignParentEnd="true"
+                            android:layout_centerVertical="true"
+                            app:srcCompat="@drawable/right_icon_black" />
+                    </RelativeLayout>
+
+                    <RelativeLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="@dimen/_2dp"
+                        android:background="@android:color/white"
+                        android:onClick="@{()->clickListener.changeAttributes(5)}"
+                        android:padding="@dimen/_8dp">
+
+                        <TextView
+                            android:id="@+id/tv_change_dob"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_alignParentStart="true"
+                            android:layout_centerVertical="true"
+                            android:layout_marginStart="@dimen/_8dp"
+                            android:text="@string/date_of_birth"
+                            android:textColor="@android:color/black"
+                            android:textSize="14sp" />
+
+                        <TextView
+
+                            android:id="@+id/tv_user_dob"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_centerVertical="true"
+                            android:layout_margin="@dimen/_8dp"
+                            android:layout_toStartOf="@+id/iv_edit_user_dob"
+                            android:textColor="@android:color/black"
+                            android:textSize="14sp"
+                            tools:text="@string/gender_male" />
+
+                        <ImageView
+
+                            android:id="@+id/iv_edit_user_dob"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_alignParentEnd="true"
+                            android:layout_centerVertical="true"
+                            app:srcCompat="@drawable/right_icon_black" />
+                    </RelativeLayout>
+
+                    <RelativeLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="@dimen/_8dp"
+                        android:background="@android:color/white"
+                        android:onClick="@{()->clickListener.changeAttributes(6)}"
+                        android:padding="@dimen/_8dp">
+
+                        <TextView
+                            android:id="@+id/tv_shipping_address"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_alignParentStart="true"
+                            android:layout_centerVertical="true"
+                            android:layout_marginStart="@dimen/_8dp"
+                            android:text="@string/shipping_address"
+                            android:textColor="@android:color/black"
+                            android:textSize="14sp" />
+
+                        <TextView
+
+                            android:id="@+id/tv_user_shipping_address"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_centerVertical="true"
+                            android:layout_margin="@dimen/_8dp"
+                            android:layout_toStartOf="@+id/iv_edit_user_shipping_address"
+                            android:textColor="@android:color/black"
+                            android:textSize="14sp"
+                            tools:text="@string/gender_male" />
+
+                        <ImageView
+
+                            android:id="@+id/iv_edit_user_shipping_address"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_alignParentEnd="true"
+                            android:layout_centerVertical="true"
+                            app:srcCompat="@drawable/profile_address" />
+                    </RelativeLayout>
+
+                </LinearLayout>
+            </androidx.constraintlayout.widget.ConstraintLayout>
+        </androidx.core.widget.NestedScrollView>
+
+        <ProgressBar
+
+            android:id="@+id/pb_loading"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:background="@drawable/bg_round_corner_pb"
+            android:padding="@dimen/_32dp"
+            android:visibility="gone"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</layout>

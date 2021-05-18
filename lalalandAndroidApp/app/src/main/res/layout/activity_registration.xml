@@ -1,0 +1,99 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout
+
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:animateLayoutChanges="true">
+
+    <data>
+
+        <variable
+            name="listener"
+            type="com.lalaland.ecommerce.views.activities.RegistrationActivity" />
+    </data>
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+
+        xmlns:tools="http://schemas.android.com/tools"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="@color/colorLightGray"
+        tools:context="com.lalaland.ecommerce.views.activities.RegistrationActivity">
+
+        <RelativeLayout
+
+            android:id="@+id/toolbar_registration"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            app:layout_constraintEnd_toEndOf="parent"
+            android:padding="@dimen/_16dp"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent">
+
+            <TextView
+
+                android:id="@+id/tv_app_name"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerInParent="true"
+                android:text="@string/app_name"
+                android:fontFamily="@font/ubuntumedium"
+                android:textColor="@color/colorAccent"
+                android:textSize="18sp" />
+
+            <ImageView
+
+                android:id="@+id/iv_close_registration"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentEnd="true"
+                android:layout_centerVertical="true"
+                android:layout_marginEnd="16dp"
+                android:clickable="true"
+                android:focusable="true"
+                android:visibility="gone"
+                android:onClick="@{() -> listener.closeActivity()}"
+                app:srcCompat="@drawable/close_icon" />
+
+        </RelativeLayout>
+
+        <com.google.android.material.tabs.TabLayout
+
+            android:id="@+id/tl_screen_registration"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:background="@android:color/white"
+            android:elevation="@dimen/_8dp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/toolbar_registration"
+            app:tabIndicator="@color/colorAccent"
+            app:tabIndicatorHeight="2dp"
+            app:tabSelectedTextColor="@color/colorAccent"
+            app:tabTextColor="@color/colorDarkGray" />
+
+        <androidx.viewpager.widget.ViewPager
+
+            android:id="@+id/vp_registration"
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            app:layout_constraintBottom_toTopOf="@+id/btn_back"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/tl_screen_registration" />
+
+        <Button
+
+            android:id="@+id/btn_back"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:background="@color/colorAccent"
+            android:onClick="@{() -> listener.closeActivity()}"
+            android:text="@string/back"
+            android:textColor="@android:color/white"
+            android:textSize="16sp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent" />
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</layout>

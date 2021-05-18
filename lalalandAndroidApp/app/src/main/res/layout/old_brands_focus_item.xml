@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout>
+
+    <data>
+
+        <!--<import type="com.workout.height.helper.AppUtils" />-->
+
+        <variable
+            name="brand"
+            type="com.lalaland.ecommerce.data.models.home.FeaturedBrand" />
+
+        <variable
+            name="adapter"
+            type="com.lalaland.ecommerce.adapters.BrandsFocusAdapter" />
+
+    </data>
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+
+        android:id="@+id/old_brand_parent"
+        xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:app="http://schemas.android.com/apk/res-auto"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_margin="@dimen/_8dp"
+        android:onClick="@{(view)->adapter.brandClicked(view, brand)}">
+
+            <ImageView
+
+                android:id="@+id/iv_brand"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:src="@drawable/placeholder_products_bigger_images"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintDimensionRatio="27:21"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                app:setBrandFocusImage="@{brand.image}" />
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</layout>

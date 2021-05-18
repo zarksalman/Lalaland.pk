@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <color name="colorPrimary">#F63655</color>
+    <color name="colorPrimaryDark">#F63655</color>
+    <color name="colorAccent">#F63655</color>
+
+    <color name="colorScreenBg">#F2F2F2</color>
+    <color name="colorLightGray">#f2f2f2</color>
+    <color name="colorMediumGray">#E1E1E1</color>
+    <color name="colorDarkGray">#6E6E6E</color>
+    <color name="colorGreen">#21CFAF</color>
+
+    <color name="colorTransMediumGray">#80E1E1E1</color>
+    <color name="colorTransDarkGray">#B36E6E6E</color>
+
+    <color name="colorLightRed">#D81B60</color>
+    <color name="colorAlphaLightRed">#4DD81B60</color>
+    <color name="colorBrandsFocus">#1E293F</color>
+    <color name="colorPaymentCard">#63E9D1</color>
+
+</resources>

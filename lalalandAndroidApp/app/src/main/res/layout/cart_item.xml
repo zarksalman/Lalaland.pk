@@ -1,0 +1,216 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout
+
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <data>
+
+        <import type="com.lalaland.ecommerce.helpers.AppUtils" />
+
+        <import type="android.view.View" />
+
+        <variable
+            name="cartItem"
+            type="com.lalaland.ecommerce.data.models.cart.CartItem" />
+
+        <variable
+            name="adapter"
+            type="com.lalaland.ecommerce.adapters.CartItemsAdapter" />
+
+    </data>
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+
+        android:id="@+id/cart_items_parent"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/_100dp"
+        android:background="@drawable/bg_round_corner_white"
+        android:padding="@dimen/_8dp">
+
+        <CheckBox
+
+            android:id="@+id/cb_add_to_list"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+
+        <ImageView
+
+            android:id="@+id/iv_product"
+            android:layout_width="@dimen/_60dp"
+            android:layout_height="@dimen/_70dp"
+            android:scaleType="fitCenter"
+            android:layout_margin="@dimen/_4dp"
+            android:src="@drawable/placeholder_products"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintStart_toEndOf="@+id/cb_add_to_list"
+            app:layout_constraintTop_toTopOf="parent"
+            app:setProductImage="@{cartItem.primaryImage}" />
+
+
+            <TextView
+
+                android:id="@+id/tv_product_name"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:ellipsize="end"
+                android:textColor="@color/colorDarkGray"
+                android:maxLength="20"
+                android:maxLines="1"
+                android:layout_marginStart="@dimen/_4dp"
+                android:textSize="12sp"
+                app:layout_constraintStart_toEndOf="@+id/iv_product"
+                android:text="@{AppUtils.toLowerCase(cartItem.productName)}"
+                app:layout_constraintTop_toTopOf="@+id/iv_product"
+                tools:text="@tools:sample/lorem/random" />
+
+        <TextView
+
+            android:id="@+id/tv_size_detail_title"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:ellipsize="end"
+            android:maxLength="5"
+            android:maxLines="1"
+            android:text="@string/size"
+            android:textColor="@color/colorDarkGray"
+            android:textSize="12sp"
+            app:layout_constraintStart_toStartOf="@+id/tv_product_name"
+            app:layout_constraintTop_toBottomOf="@+id/tv_product_name"
+                tools:text="@tools:sample/lorem/random" />
+
+        <TextView
+
+
+            android:id="@+id/tv_size_detail"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:ellipsize="end"
+            android:maxLength="10"
+            android:maxLines="1"
+            android:text="@{AppUtils.toLowerCase(cartItem.attributeValue)}"
+            android:textColor="@color/colorDarkGray"
+            android:textSize="12sp"
+            android:visibility="visible"
+            app:layout_constraintBottom_toBottomOf="@+id/tv_size_detail_title"
+            app:layout_constraintStart_toEndOf="@+id/tv_size_detail_title"
+            app:layout_constraintTop_toTopOf="@+id/tv_size_detail_title"
+            tools:text="@tools:sample/lorem/random" />
+
+        <TextView
+
+            android:id="@+id/tv_quantity_title"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:ellipsize="end"
+            android:maxLength="10"
+            android:maxLines="1"
+            android:text="@string/qty"
+            android:textColor="@color/colorDarkGray"
+            android:textSize="12sp"
+            android:visibility="gone"
+            app:layout_constraintStart_toStartOf="@+id/tv_size_detail_title"
+            app:layout_constraintTop_toBottomOf="@+id/tv_size_detail"
+            tools:text="@tools:sample/lorem/random" />
+
+        <TextView
+
+            android:id="@+id/tv_quantity_detail"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:ellipsize="end"
+            android:maxLength="10"
+            android:maxLines="1"
+            android:textColor="@color/colorDarkGray"
+            android:text="@{AppUtils.toString(cartItem.itemQuantity)}"
+            android:textSize="12sp"
+            android:visibility="gone"
+            app:layout_constraintBottom_toBottomOf="@+id/tv_quantity_title"
+            app:layout_constraintStart_toEndOf="@+id/tv_quantity_title"
+            app:layout_constraintTop_toTopOf="@+id/tv_quantity_title"
+            tools:text="@tools:sample/lorem/random" />
+
+        <LinearLayout
+            android:id="@+id/counter_container"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:visibility="visible"
+            android:gravity="center_vertical"
+            app:layout_constraintStart_toStartOf="@+id/tv_size_detail_title"
+            app:layout_constraintTop_toBottomOf="@+id/tv_size_detail">
+
+                <ImageButton
+
+                    android:id="@+id/btn_sub"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:padding="@dimen/_8dp"
+                    app:srcCompat="@drawable/sub_icon" />
+
+                <TextView
+
+                    android:id="@+id/tv_count"
+                    android:layout_width="@dimen/_30dp"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center_vertical"
+                    android:text="@{AppUtils.toString(cartItem.itemQuantity)}"
+                    android:textColor="@color/colorDarkGray"
+                    android:textAlignment="center"
+                    android:textSize="12sp" />
+
+                <ImageButton
+
+                    android:id="@+id/btn_add"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:padding="@dimen/_8dp"
+                    app:srcCompat="@drawable/add_icon" />
+
+
+            <TextView
+
+                android:id="@+id/tv_oos"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_vertical"
+                android:text="Out of stock"
+                android:textAlignment="center"
+                />
+
+        </LinearLayout>
+
+        <TextView
+
+            android:id="@+id/tv_product_current_price"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@{AppUtils.formatForCartPriceString(cartItem.salePrice, cartItem.itemQuantity)}"
+            android:textColor="@color/colorDarkGray"
+            app:layout_constraintEnd_toEndOf="parent"
+            android:textSize="12sp"
+            app:layout_constraintTop_toTopOf="@+id/iv_product"
+            tools:text="@tools:sample/us_zipcodes" />
+
+
+        <ImageView
+
+            android:id="@+id/iv_delete_item"
+            android:layout_width="@dimen/_20dp"
+            android:layout_height="@dimen/_20dp"
+            android:background="?selectableItemBackground"
+            android:clickable="true"
+            android:focusable="true"
+            android:src="@drawable/trash"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="@+id/tv_product_current_price"
+            app:layout_constraintTop_toBottomOf="@+id/tv_product_current_price" />
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+</layout>

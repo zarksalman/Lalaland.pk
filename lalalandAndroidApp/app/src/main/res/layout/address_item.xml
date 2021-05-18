@@ -1,0 +1,146 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout>
+
+    <data>
+
+        <import type="android.view.View" />
+        <import type="com.lalaland.ecommerce.helpers.AppUtils" />
+
+        <variable
+            name="listener"
+            type="com.lalaland.ecommerce.adapters.AddressAdapter" />
+
+        <variable
+            name="adapter"
+            type="com.lalaland.ecommerce.adapters.AddressAdapter" />
+
+        <variable
+            name="user"
+            type="com.lalaland.ecommerce.data.models.userAddressBook.UserAddresses" />
+    </data>
+
+    <LinearLayout
+
+        xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:app="http://schemas.android.com/apk/res-auto"
+        xmlns:tools="http://schemas.android.com/tools"
+        android:id="@+id/payment_detail"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_margin="@dimen/_8dp"
+        android:background="@drawable/bg_round_corner_white"
+        android:orientation="vertical"
+        android:onClick="@{(view)->adapter.onAddressClicked(view, user)}"
+        android:padding="@dimen/_16dp"
+        android:visibility="visible"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/address_container">
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+            <TextView
+
+                android:id="@+id/tv_user_name"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentStart="true"
+                android:layout_centerVertical="true"
+                android:layout_marginTop="@dimen/_4dp"
+                android:fontFamily="@font/encodesansregular"
+                android:text="@{user.userNameAddress}"
+                android:textColor="@android:color/black"
+                android:textSize="13sp"
+                tools:text="@tools:sample/full_names" />
+
+            <TextView
+
+                android:id="@+id/tv_default"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentEnd="true"
+                android:layout_centerVertical="true"
+                android:layout_marginTop="@dimen/_4dp"
+                android:fontFamily="@font/encodesansregular"
+                android:text="@string/user_default_address"
+                android:textColor="@color/colorDarkGray"
+                android:textSize="13sp"
+                android:visibility="@{user.isPrimary == 1 ? View.VISIBLE: View.GONE}"
+                tools:text="@tools:sample/full_names" />
+        </RelativeLayout>
+
+
+        <TextView
+
+            android:id="@+id/tv_shipping_address"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/_8dp"
+            android:fontFamily="@font/encodesansregular"
+            android:text="@{user.shippingAddress}"
+            android:textColor="@color/colorDarkGray"
+            android:textSize="13sp"
+            tools:text="@tools:sample/cities" />
+
+        <TextView
+
+            android:id="@+id/tv_city_name"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/_8dp"
+            android:fontFamily="@font/encodesansregular"
+            android:text="@{AppUtils.concatString(user.cityName, user.postalCode)}"
+            android:textColor="@color/colorDarkGray"
+            android:textSize="13sp"
+            tools:text="@tools:sample/cities" />
+
+        <TextView
+
+            android:id="@+id/tv_user_mobile"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/_8dp"
+            android:fontFamily="@font/encodesansregular"
+            android:text="@{user.phone}"
+            android:textColor="@color/colorDarkGray"
+            android:textSize="13sp"
+            tools:text="@tools:sample/us_phones" />
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/_8dp">
+
+            <TextView
+
+                android:id="@+id/btn_change_contact_profile"
+                android:layout_width="@dimen/_160dp"
+                android:layout_height="@dimen/_35dp"
+                android:layout_centerVertical="true"
+                android:layout_marginTop="@dimen/_8dp"
+                android:background="@drawable/bg_round_corner_transparent_accent"
+                android:onClick="@{(view)->adapter.onSetDefaultAddressClicked(view, user)}"
+                android:gravity="center"
+                android:textColor="@color/colorAccent"
+                android:text="@string/make_this_default"
+                android:visibility="@{user.isPrimary == 1 ? View.GONE: View.VISIBLE}" />
+
+            <ImageView
+
+                android:id="@+id/btn_change_payment_type"
+                android:layout_width="30dp"
+                android:layout_height="30dp"
+                android:layout_alignParentEnd="true"
+                android:layout_centerVertical="true"
+                android:fontFamily="@font/encodesansregular"
+                android:onClick="@{(view)->adapter.onEditAddressClicked(view, user)}"
+                android:src="@drawable/edit_icon"
+                android:textColor="@android:color/white"
+                android:textSize="13sp" />
+
+        </RelativeLayout>
+
+    </LinearLayout>
+</layout>
