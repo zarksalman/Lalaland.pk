@@ -10,7 +10,6 @@ import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.databinding.DataBindingUtil;
 import androidx.lifecycle.ViewModelProvider;
-import androidx.lifecycle.ViewModelProviders;
 
 import com.lalaland.ecommerce.R;
 import com.lalaland.ecommerce.data.models.userAddressBook.UserAddresses;
@@ -22,7 +21,6 @@ import com.lalaland.ecommerce.viewModels.user.UserViewModel;
 import java.util.HashMap;
 import java.util.Map;
 
-import static com.lalaland.ecommerce.helpers.AppConstants.CONFIRM_TYPE;
 import static com.lalaland.ecommerce.helpers.AppConstants.SIGNIN_TOKEN;
 import static com.lalaland.ecommerce.helpers.AppConstants.SUCCESS_CODE;
 import static com.lalaland.ecommerce.helpers.AppConstants.TYPE;
@@ -63,7 +61,7 @@ public class AddressCreationActivity extends AppCompatActivity {
 
             String[] fullName = editUserAddresses.getUserNameAddress().split(" ");
             activityAddressCreationBinding.etFirstName.setText(fullName[0]);
-            activityAddressCreationBinding.etLastName.setText(fullName[1]);
+            //  activityAddressCreationBinding.etLastName.setText(fullName[1]);
             activityAddressCreationBinding.etCity.setText(editUserAddresses.getCityName());
             activityAddressCreationBinding.etPostalCode.setText(String.valueOf(editUserAddresses.getPostalCode()));
             activityAddressCreationBinding.etAddress.setText(String.valueOf(editUserAddresses.getShippingAddress()));
@@ -86,12 +84,12 @@ public class AddressCreationActivity extends AppCompatActivity {
             String[] mNames = mName.split(" ");
 
             activityAddressCreationBinding.etFirstName.setText(mNames[0]);
-
+/*
             try {
                 activityAddressCreationBinding.etLastName.setText(mNames[1]);
             } catch (IndexOutOfBoundsException e) {
                 e.printStackTrace();
-            }
+            }*/
 
         }
 
@@ -104,7 +102,6 @@ public class AddressCreationActivity extends AppCompatActivity {
     }
 
     public void cancel(View view) {
-
         onBackPressed();
     }
 
@@ -112,7 +109,6 @@ public class AddressCreationActivity extends AppCompatActivity {
 
         if (
                 validateNames(TYPE)
-                        && validateNames(CONFIRM_TYPE)
                         && validateAddress(1)
                         && validateAddress(2)
                         && validateAddress(3)
@@ -123,7 +119,7 @@ public class AddressCreationActivity extends AppCompatActivity {
             is_primary = activityAddressCreationBinding.cbDefault.isChecked();
 
             parameter.put("first_name", first_name);
-            parameter.put("last_name", last_name);
+            parameter.put("last_name", "");
             parameter.put("physical_address", postal_address);
             parameter.put("shipping_address", postal_address);
             parameter.put("city_id", cityId);
@@ -193,7 +189,7 @@ public class AddressCreationActivity extends AppCompatActivity {
     private boolean validateNames(int type) {
 
         first_name = activityAddressCreationBinding.etFirstName.getText().toString().trim();
-        last_name = activityAddressCreationBinding.etLastName.getText().toString().trim();
+        //  last_name = activityAddressCreationBinding.etLastName.getText().toString().trim();
 
         if (type == TYPE) {
 
@@ -204,7 +200,7 @@ public class AddressCreationActivity extends AppCompatActivity {
                 return true;
             }
 
-        } else if (type == CONFIRM_TYPE) {
+        }/* else if (type == CONFIRM_TYPE) {
 
             if (last_name.isEmpty()) {
                 activityAddressCreationBinding.tiLastName.setError("Last name could not be empty");
@@ -212,7 +208,7 @@ public class AddressCreationActivity extends AppCompatActivity {
                 activityAddressCreationBinding.tiLastName.setError(null);
                 return true;
             }
-        }
+        }*/
         return false;  // default return false
     }
 

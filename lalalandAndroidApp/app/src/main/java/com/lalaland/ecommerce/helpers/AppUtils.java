@@ -802,7 +802,7 @@ public class AppUtils {
 
 
     public static String getBaseUrl() {
-        return AppConstants.STAGING_BASE_URL;
+        return AppConstants.BASE_URL;
         /*if (BuildConfig.DEBUG) {
             return STAGING_BASE_URL;
         } else {

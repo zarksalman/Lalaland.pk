@@ -8,8 +8,8 @@ android {
         applicationId "com.lalaland.onlineshoppingapp"
         minSdkVersion 19
         targetSdkVersion 29
-        versionCode 19
-        versionName "1.2.6"
+        versionCode 20
+        versionName "1.2.7"
         multiDexEnabled true
 
         dataBinding {

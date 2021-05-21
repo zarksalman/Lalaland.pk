@@ -23,8 +23,8 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:background="@android:color/white"
-            android:orientation="horizontal"
             android:elevation="@dimen/_4dp"
+            android:orientation="horizontal"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent">
@@ -34,8 +34,8 @@
                 android:id="@+id/iv_close_checkout_screen"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:onClick="@{(view)->clickListener.cancel(view)}"
                 android:layout_gravity="center_vertical"
+                android:onClick="@{(view)->clickListener.cancel(view)}"
                 android:padding="@dimen/_16dp"
                 app:srcCompat="@drawable/close_icon" />
 
@@ -58,11 +58,11 @@
             android:layout_width="match_parent"
             android:layout_height="0dp"
             android:background="@android:color/white"
-            android:scrollbars="none"
             android:fillViewport="true"
+            android:scrollbars="none"
+            app:layout_constraintBottom_toTopOf="@+id/bottom_btns"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintBottom_toTopOf="@+id/bottom_btns"
             app:layout_constraintTop_toBottomOf="@+id/top_bar">
 
             <LinearLayout
@@ -84,7 +84,7 @@
                         android:id="@+id/et_first_name"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:hint="@string/first_name"
+                        android:hint="@string/name_field"
                         android:inputType="textPersonName" />
 
                 </com.google.android.material.textfield.TextInputLayout>
@@ -95,6 +95,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:padding="4dp"
+                    android:visibility="gone"
                     app:errorEnabled="true">
 
                     <com.google.android.material.textfield.TextInputEditText
@@ -156,10 +157,10 @@
                         android:id="@+id/et_city"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:hint="@string/city"
                         android:cursorVisible="false"
                         android:focusable="false"
                         android:focusableInTouchMode="false"
+                        android:hint="@string/city"
                         android:inputType="textPostalAddress" />
 
                     <LinearLayout
@@ -203,9 +204,9 @@
             android:id="@+id/bottom_btns"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:background="@android:color/white"
             android:orientation="horizontal"
             android:padding="@dimen/_8dp"
-            android:background="@android:color/white"
             android:weightSum="1"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
@@ -216,11 +217,11 @@
                 android:id="@+id/btn_cancle"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
+                android:layout_marginEnd="@dimen/_4dp"
                 android:layout_weight=".5"
                 android:background="@drawable/bg_round_corner_white"
-                android:text="@string/cancel"
-                android:layout_marginEnd="@dimen/_4dp"
                 android:onClick="@{(view)->clickListener.cancel(view)}"
+                android:text="@string/cancel"
                 android:textColor="@android:color/black" />
 
             <Button
@@ -228,8 +229,8 @@
                 android:id="@+id/btn_save"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:layout_weight=".5"
                 android:layout_marginStart="@dimen/_4dp"
+                android:layout_weight=".5"
                 android:background="@drawable/btn_bg_round_corner_accent"
                 android:onClick="@{(view)->clickListener.save(view)}"
                 android:text="@string/save"
@@ -241,11 +242,11 @@
             android:id="@+id/pb_loading"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            app:layout_constraintBottom_toBottomOf="parent"
             android:background="@drawable/bg_round_corner_pb"
             android:padding="@dimen/_32dp"
-            app:layout_constraintEnd_toEndOf="parent"
             android:visibility="gone"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
     </androidx.constraintlayout.widget.ConstraintLayout>

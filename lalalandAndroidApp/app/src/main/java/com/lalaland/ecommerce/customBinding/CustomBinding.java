@@ -61,8 +61,7 @@ public class CustomBinding {
 
     @BindingAdapter("setMediumImageFromServer")
     public static void setMediumImageFromServer(ImageView imageView, String imageName) {
-
-
+        
         try {
 
             String imageSrc = PRODUCT_STORAGE_BASE_URL.concat(imageName);
@@ -73,8 +72,8 @@ public class CustomBinding {
                     .error(R.drawable.placeholder_products)
                     .placeholder(R.drawable.placeholder_products)
                     .into(imageView);
-        } catch (OutOfMemoryError outOfMemoryError) {
-            outOfMemoryError.printStackTrace();
+        } catch (Exception exception) {
+            exception.printStackTrace();
         }
     }
 

@@ -4,13 +4,11 @@ package com.lalaland.ecommerce.views.fragments.registrationFragments;
 import android.app.Activity;
 import android.app.DatePickerDialog;
 import android.os.Bundle;
-import android.util.Log;
 import android.util.Patterns;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.WindowManager;
-import android.widget.DatePicker;
 import android.widget.RadioButton;
 import android.widget.Toast;
 
@@ -39,7 +37,6 @@ import static com.lalaland.ecommerce.helpers.AppConstants.GENDER;
 import static com.lalaland.ecommerce.helpers.AppConstants.NO_NETWORK;
 import static com.lalaland.ecommerce.helpers.AppConstants.PASSWORD;
 import static com.lalaland.ecommerce.helpers.AppConstants.PHONE_NUMBER;
-import static com.lalaland.ecommerce.helpers.AppConstants.SIGNIN_TOKEN;
 import static com.lalaland.ecommerce.helpers.AppConstants.SUCCESS_CODE;
 import static com.lalaland.ecommerce.helpers.AppConstants.TYPE;
 import static com.lalaland.ecommerce.helpers.AppConstants.USER_AVATAR;
@@ -254,13 +251,13 @@ public class SignupFragment extends BaseRegistrationFragment implements LoadingL
 
             fragmentSignupBinding.pbLoading.setVisibility(View.VISIBLE);
 
-            parameter.put("name", first_name);
+//            parameter.put("name", first_name);
             parameter.put("phone", phoneNumber);
             parameter.put("email", email);
             parameter.put("password", password);
 
-            // parameter.put("first_name", first_name);
-            // parameter.put("last_name", last_name);
+            parameter.put("first_name", first_name);
+            parameter.put("last_name", "");
             parameter.put("gender", gender);
             // parameter.put("date_of_birth", dob);
 
@@ -282,8 +279,6 @@ public class SignupFragment extends BaseRegistrationFragment implements LoadingL
 
                 switch (registrationContainer.getCode()) {
                     case SUCCESS_CODE:
-                        Log.d("registerUser", registrationContainer.getData().getUser().getName() + ":" + registrationContainer.getData().getUser().getEmail());
-                        Log.d("registerUser", AppPreference.getInstance(getContext()).getString(SIGNIN_TOKEN));
 
                         AppPreference.getInstance(mContext).setString(USER_NAME, registrationContainer.getData().getUser().getName());
                         AppPreference.getInstance(mContext).setString(DATE_OF_BIRTH, registrationContainer.getData().getUser().getDateOfBirth());
@@ -322,16 +317,11 @@ public class SignupFragment extends BaseRegistrationFragment implements LoadingL
 
     private void showDatePickerDialogue() {
 
-        DatePickerDialog.OnDateSetListener date = new DatePickerDialog.OnDateSetListener() {
-
-            @Override
-            public void onDateSet(DatePicker view, int year, int monthOfYear,
-                                  int dayOfMonth) {
-                dobCalender.set(Calendar.YEAR, year);
-                dobCalender.set(Calendar.MONTH, monthOfYear);
-                dobCalender.set(Calendar.DAY_OF_MONTH, dayOfMonth);
-                setDOB();
-            }
+        DatePickerDialog.OnDateSetListener date = (view, year, monthOfYear, dayOfMonth) -> {
+            dobCalender.set(Calendar.YEAR, year);
+            dobCalender.set(Calendar.MONTH, monthOfYear);
+            dobCalender.set(Calendar.DAY_OF_MONTH, dayOfMonth);
+            setDOB();
         };
 
         // context might be null
