@@ -268,19 +268,16 @@ public class AccountFragment extends Fragment implements View.OnClickListener {
             case R.id.refund:
                 AppConstants.URL_TYPE = 2;
                 startActivity(new Intent(getContext(), WebViewActivity.class));
-//                startActivity(AppUtils.getOpenUrlIntent(AppConstants.RETURN_POLICY_URL));
                 break;
 
             case R.id.terms_condition:
                 AppConstants.URL_TYPE = 3;
                 startActivity(new Intent(getContext(), WebViewActivity.class));
-                //                startActivity(AppUtils.getOpenUrlIntent(AppConstants.TERMS_AND_CONDITIONS_URL));
                 break;
 
             case R.id.faq:
                 AppConstants.URL_TYPE = 4;
                 startActivity(new Intent(getContext(), WebViewActivity.class));
-                //startActivity(AppUtils.getOpenUrlIntent(AppConstants.FAQ_URL));
                 break;
 
             case R.id.app_suggestion:

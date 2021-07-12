@@ -185,6 +185,8 @@ public class AppConstants {
     public static final String ORDER_MERCHANT = "order_merchant";
     public static final String ORDER_ADDRESS = "order_address";
     public static final String ORDER_TOTAL = "order_total";
+    public static final String CLICK_2_PAY_URL = "click_to_pay";
+    public static final String CLICK_2_PAY_REDIRECT_URL = "click_to_pay_redirect";
 
     public static final String SUCCESS_CODE = "200";
     public static final String VALIDATION_FAIL_CODE = "400";

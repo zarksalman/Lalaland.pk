@@ -30,6 +30,14 @@ public class PlacingOrderData {
     @Expose
     private Integer cartCount;
 
+    @SerializedName("Click2Pay")
+    @Expose
+    private String clickToPayUrl;
+
+    @SerializedName("Click2Pay_return_url")
+    @Expose
+    private String clickToPayReturnUrl;
+
     public List<CartItem> getProducts() {
         return products;
     }
@@ -52,6 +60,22 @@ public class PlacingOrderData {
 
     public void setRecommendation(List<Product> recommendation) {
         this.recommendation = recommendation;
+    }
+
+    public String getClickToPayUrl() {
+        return clickToPayUrl;
+    }
+
+    public void setClickToPayUrl(String clickToPayUrl) {
+        this.clickToPayUrl = clickToPayUrl;
+    }
+
+    public String getClickToPayReturnUrl() {
+        return clickToPayReturnUrl;
+    }
+
+    public void setClickToPayReturnUrl(String clickToPayReturnUrl) {
+        this.clickToPayReturnUrl = clickToPayReturnUrl;
     }
 
     public Integer getOrderId() {

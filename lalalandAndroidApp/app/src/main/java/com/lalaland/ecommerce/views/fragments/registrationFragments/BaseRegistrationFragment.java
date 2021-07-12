@@ -69,6 +69,7 @@ public class BaseRegistrationFragment extends Fragment {
 
     private static final String EMAIL = "email";
     private static final String PUBLIC_PROFILE = "public_profile";
+    private static final String USER_FRIENDS = "user_friends";
 
     private String token, cart_session;
     private AppPreference appPreference;
@@ -137,7 +138,7 @@ public class BaseRegistrationFragment extends Fragment {
             mLoadingLogin.checkLoading(false);
 
             GoogleSignInAccount account = completedTask.getResult(ApiException.class);
-            
+
             parameter.clear();
 
             try {
@@ -180,7 +181,7 @@ public class BaseRegistrationFragment extends Fragment {
         loginButton.setFragment(this); // specially for fragments
         loginButton.performClick(); // depict as user click on facebook LoginButton but actually clicked on our button
 
-        LoginManager.getInstance().logInWithReadPermissions(this, Arrays.asList(PUBLIC_PROFILE, EMAIL));
+        LoginManager.getInstance().logInWithReadPermissions(this, Arrays.asList(PUBLIC_PROFILE, EMAIL, USER_FRIENDS));
 
         loginButton.registerCallback(callbackManager, new FacebookCallback<LoginResult>() {
             @Override

@@ -13,11 +13,13 @@ import com.lalaland.ecommerce.adapters.ProductAdapter;
 import com.lalaland.ecommerce.data.models.products.Product;
 import com.lalaland.ecommerce.databinding.ActivityOrderReceivedNewBinding;
 import com.lalaland.ecommerce.helpers.AppConstants;
+import com.lalaland.ecommerce.helpers.AppPreference;
 import com.lalaland.ecommerce.helpers.AppUtils;
 
 import java.util.ArrayList;
 import java.util.List;
 
+import static com.lalaland.ecommerce.helpers.AppConstants.LOAD_HOME_FRAGMENT_INDEX_KEY;
 import static com.lalaland.ecommerce.helpers.AppConstants.ORDER_TOTAL;
 import static com.lalaland.ecommerce.helpers.AppConstants.PRODUCT_ID;
 
@@ -54,6 +56,7 @@ public class OrderReceivedActivity extends AppCompatActivity {
 
     public void trackOrder(View view) {
 
+        AppPreference.getInstance(this).setInt(LOAD_HOME_FRAGMENT_INDEX_KEY, 4);
         AppConstants.LOAD_HOME_FRAGMENT_INDEX = 4;
         startActivity(new Intent(this, MainActivity.class));
         finish();
@@ -61,6 +64,7 @@ public class OrderReceivedActivity extends AppCompatActivity {
 
     public void continueShopping(View view) {
 
+        AppPreference.getInstance(this).setInt(LOAD_HOME_FRAGMENT_INDEX_KEY, 0);
         AppConstants.LOAD_HOME_FRAGMENT_INDEX = 0;
         startActivity(new Intent(this, MainActivity.class));
         finish();
@@ -71,6 +75,7 @@ public class OrderReceivedActivity extends AppCompatActivity {
 
         ProductAdapter recommendationProductAdapter = new ProductAdapter(this, product -> {
 
+            AppPreference.getInstance(this).setInt(LOAD_HOME_FRAGMENT_INDEX_KEY, 0);
             AppConstants.LOAD_HOME_FRAGMENT_INDEX = 0;
             Intent intent = new Intent(OrderReceivedActivity.this, ProductDetailActivity.class);
             intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_CLEAR_TASK);
@@ -92,6 +97,7 @@ public class OrderReceivedActivity extends AppCompatActivity {
     @Override
     public void onBackPressed() {
 
+        AppPreference.getInstance(this).setInt(LOAD_HOME_FRAGMENT_INDEX_KEY, 0);
         AppConstants.LOAD_HOME_FRAGMENT_INDEX = 0;
         Intent intent = new Intent(this, MainActivity.class);
         intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);

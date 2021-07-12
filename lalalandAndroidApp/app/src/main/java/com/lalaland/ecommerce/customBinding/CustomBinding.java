@@ -6,6 +6,7 @@ import android.text.Spannable;
 import android.text.SpannableString;
 import android.text.style.ForegroundColorSpan;
 import android.text.style.UnderlineSpan;
+import android.util.Log;
 import android.widget.CheckBox;
 import android.widget.ImageView;
 import android.widget.TextView;
@@ -15,20 +16,31 @@ import androidx.databinding.BindingAdapter;
 import com.bumptech.glide.Glide;
 import com.lalaland.ecommerce.R;
 import com.lalaland.ecommerce.helpers.AppConstants;
+import com.lalaland.ecommerce.helpers.AppPreference;
 
 import static com.lalaland.ecommerce.helpers.AppConstants.ADVERTISEMENT_URL;
+import static com.lalaland.ecommerce.helpers.AppConstants.ADVERTISEMENT_URL_KEY;
 import static com.lalaland.ecommerce.helpers.AppConstants.BRAND_FOCUS_STORAGE_BASE_URL;
+import static com.lalaland.ecommerce.helpers.AppConstants.BRAND_FOCUS_STORAGE_BASE_URL_KEY;
 import static com.lalaland.ecommerce.helpers.AppConstants.BRAND_STORAGE_BASE_URL;
+import static com.lalaland.ecommerce.helpers.AppConstants.BRAND_STORAGE_BASE_URL_KEY;
 import static com.lalaland.ecommerce.helpers.AppConstants.CATEGORY_FOCUS_STORAGE_BASE_URL;
+import static com.lalaland.ecommerce.helpers.AppConstants.CATEGORY_FOCUS_STORAGE_BASE_URL_KEY;
 import static com.lalaland.ecommerce.helpers.AppConstants.CUSTOM_PRODUCT_URL;
+import static com.lalaland.ecommerce.helpers.AppConstants.CUSTOM_PRODUCT_URL_KEY;
 import static com.lalaland.ecommerce.helpers.AppConstants.MEDIUM_PRODUCT_STORAGE_BASE_URL;
+import static com.lalaland.ecommerce.helpers.AppConstants.MEDIUM_PRODUCT_STORAGE_BASE_URL_KEY;
 import static com.lalaland.ecommerce.helpers.AppConstants.PRODUCT_STORAGE_BASE_URL;
+import static com.lalaland.ecommerce.helpers.AppConstants.PRODUCT_STORAGE_BASE_URL_KEY;
 import static com.lalaland.ecommerce.helpers.AppConstants.USER_STORAGE_BASE_URL;
+import static com.lalaland.ecommerce.helpers.AppConstants.USER_STORAGE_BASE_URL_KEY;
 
 public class CustomBinding {
 
     @BindingAdapter("setProductImage")
     public static void setImageFromServer(ImageView imageView, String imageName) {
+
+        PRODUCT_STORAGE_BASE_URL = AppPreference.getInstance(imageView.getContext()).getString(PRODUCT_STORAGE_BASE_URL_KEY);
 
         String imageSrc = PRODUCT_STORAGE_BASE_URL.concat(imageName);
         Glide
@@ -42,6 +54,8 @@ public class CustomBinding {
 
     @BindingAdapter(value = {"url", "colorPatch"}, requireAll = false)
     public static void setLinkedProductImage(ImageView imageView, String imageName, String colorPatch) {
+
+        PRODUCT_STORAGE_BASE_URL = AppPreference.getInstance(imageView.getContext()).getString(PRODUCT_STORAGE_BASE_URL_KEY);
 
         String imageSrc;
 
@@ -61,7 +75,12 @@ public class CustomBinding {
 
     @BindingAdapter("setMediumImageFromServer")
     public static void setMediumImageFromServer(ImageView imageView, String imageName) {
-        
+
+        PRODUCT_STORAGE_BASE_URL = AppPreference.getInstance(imageView.getContext()).getString(PRODUCT_STORAGE_BASE_URL_KEY);
+
+        Log.d("product_url", PRODUCT_STORAGE_BASE_URL);
+        Log.d("recomended_images", imageName);
+
         try {
 
             String imageSrc = PRODUCT_STORAGE_BASE_URL.concat(imageName);
@@ -101,6 +120,8 @@ public class CustomBinding {
     @BindingAdapter("setWeekProductImage")
     public static void setWeekProductImageFromServer(ImageView imageView, String imageName) {
 
+        MEDIUM_PRODUCT_STORAGE_BASE_URL = AppPreference.getInstance(imageView.getContext()).getString(MEDIUM_PRODUCT_STORAGE_BASE_URL_KEY);
+
         try {
 
             String imageSrc = MEDIUM_PRODUCT_STORAGE_BASE_URL.concat(imageName);
@@ -120,6 +141,8 @@ public class CustomBinding {
     @BindingAdapter("setBrandFocusImage")
     public static void setBrandFocusImageFromServer(ImageView imageView, String imageName) {
 
+        BRAND_FOCUS_STORAGE_BASE_URL = AppPreference.getInstance(imageView.getContext()).getString(BRAND_FOCUS_STORAGE_BASE_URL_KEY);
+
         String imageSrc = BRAND_FOCUS_STORAGE_BASE_URL.concat(imageName);
         Glide
                 .with(imageView.getContext())
@@ -132,6 +155,8 @@ public class CustomBinding {
 
     @BindingAdapter("setGetTheLookImage")
     public static void setGetTheLookImage(ImageView imageView, String imageName) {
+
+        CUSTOM_PRODUCT_URL = AppPreference.getInstance(imageView.getContext()).getString(CUSTOM_PRODUCT_URL_KEY);
 
         String imageSrc = CUSTOM_PRODUCT_URL.concat(imageName);
         Glide
@@ -146,6 +171,8 @@ public class CustomBinding {
     @BindingAdapter("setCategoryBrandImage")
     public static void setCategoryBrandImage(ImageView imageView, String logoUrl) {
 
+        BRAND_STORAGE_BASE_URL = AppPreference.getInstance(imageView.getContext()).getString(BRAND_STORAGE_BASE_URL_KEY);
+
         String imageSrc = BRAND_STORAGE_BASE_URL.concat(logoUrl);
         Glide
                 .with(imageView.getContext())
@@ -158,6 +185,8 @@ public class CustomBinding {
 
     @BindingAdapter("setFeatureCategoryImage")
     public static void setFeatureCategoryImage(ImageView imageView, String imageName) {
+
+        CATEGORY_FOCUS_STORAGE_BASE_URL = AppPreference.getInstance(imageView.getContext()).getString(CATEGORY_FOCUS_STORAGE_BASE_URL_KEY);
 
         String imageSrc = CATEGORY_FOCUS_STORAGE_BASE_URL.concat(imageName);
         Glide
@@ -184,6 +213,8 @@ public class CustomBinding {
     @BindingAdapter("setAdvertisementImage")
     public static void setAdvertisementImage(ImageView imageView, String imageName) {
 
+        ADVERTISEMENT_URL = AppPreference.getInstance(imageView.getContext()).getString(ADVERTISEMENT_URL_KEY);
+
         String imageSrc = ADVERTISEMENT_URL.concat(imageName);
         Glide
                 .with(imageView.getContext())
@@ -197,6 +228,7 @@ public class CustomBinding {
     @BindingAdapter("setUserImage")
     public static void setUserImage(ImageView imageView, String imageName) {
 
+        USER_STORAGE_BASE_URL = AppPreference.getInstance(imageView.getContext()).getString(USER_STORAGE_BASE_URL_KEY);
         String imageSrc = USER_STORAGE_BASE_URL.concat(imageName);
         Glide
                 .with(imageView.getContext())

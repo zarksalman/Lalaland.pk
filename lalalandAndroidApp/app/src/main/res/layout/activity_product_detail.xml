@@ -3,8 +3,8 @@
 
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    android:id="@+id/main_layout_id"
     xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/main_layout_id"
     android:animateLayoutChanges="true"
     tools:context=".views.activities.ProductDetailActivity">
 
@@ -24,6 +24,16 @@
         android:background="@android:color/white"
         android:orientation="vertical">
 
+        <View
+            android:id="@+id/focus_view"
+            android:layout_width="fill_parent"
+            android:layout_height="0dp"
+            android:layout_alignParentTop="true"
+            android:focusable="true"
+            android:focusableInTouchMode="true">
+
+            <requestFocus />
+        </View>
 
         <com.lalaland.ecommerce.views.customViews.CustomScrollView
 
@@ -31,8 +41,8 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:layout_above="@+id/btns_container"
-            android:fillViewport="true"
             android:layout_alignParentTop="true"
+            android:fillViewport="true"
             android:scrollbars="none"
             android:visibility="visible">
 
@@ -59,8 +69,8 @@
                     android:id="@+id/vp_images"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
-                    app:flow_verticalBias="0"
                     android:visibility="visible"
+                    app:flow_verticalBias="0"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toTopOf="parent" />
@@ -533,8 +543,8 @@
             android:layout_height="wrap_content"
             android:layout_alignParentBottom="true"
             android:background="@android:color/white"
-            android:orientation="horizontal"
             android:gravity="center"
+            android:orientation="horizontal"
             android:padding="@dimen/_4dp"
             android:weightSum="1">
 
@@ -553,11 +563,11 @@
                 android:layout_height="wrap_content"
                 android:layout_margin="@dimen/_4dp"
                 android:layout_weight=".4"
-                android:visibility="gone"
                 android:background="@drawable/bg_round_corner_white"
                 android:onClick="@{(view)->listener.setBottomSheet(view, false)}"
                 android:text="@string/add_to_cart"
-                android:textColor="@android:color/black" />
+                android:textColor="@android:color/black"
+                android:visibility="gone" />
 
             <ImageView
                 android:layout_width="wrap_content"

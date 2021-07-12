@@ -34,6 +34,7 @@ import androidx.core.content.res.ResourcesCompat;
 
 import com.google.android.material.snackbar.BaseTransientBottomBar;
 import com.google.android.material.snackbar.Snackbar;
+import com.lalaland.ecommerce.BuildConfig;
 import com.lalaland.ecommerce.data.models.productDetails.ProductDetailData;
 import com.lalaland.ecommerce.data.models.productDetails.ProductDetails;
 
@@ -802,11 +803,10 @@ public class AppUtils {
 
 
     public static String getBaseUrl() {
-        return AppConstants.BASE_URL;
-        /*if (BuildConfig.DEBUG) {
-            return STAGING_BASE_URL;
+        if (BuildConfig.DEBUG) {
+            return AppConstants.STAGING_BASE_URL;
         } else {
-            return BASE_URL;
-        }*/
+            return AppConstants.BASE_URL;
+        }
     }
 }

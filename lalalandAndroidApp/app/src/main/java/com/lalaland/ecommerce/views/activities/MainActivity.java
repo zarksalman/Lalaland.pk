@@ -202,6 +202,7 @@ public class MainActivity extends AppCompatActivity implements CloseAppListener 
             activityMainBinding.navView.setSelectedItemId(R.id.navigation_home);
         }
     }
+
     void loadInitialFragment() {
 
         // if activity is coming from bg and lost its static variable's content
@@ -210,9 +211,6 @@ public class MainActivity extends AppCompatActivity implements CloseAppListener 
 
         switch (LOAD_HOME_FRAGMENT_INDEX) {
 
-            case 0:
-                activityMainBinding.navView.setSelectedItemId(R.id.navigation_home);
-                break;
             case 1:
                 selectedFragment = 0;
                 activityMainBinding.navView.setSelectedItemId(R.id.navigation_category);

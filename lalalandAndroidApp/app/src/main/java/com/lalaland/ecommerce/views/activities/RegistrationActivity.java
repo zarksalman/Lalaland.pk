@@ -43,6 +43,5 @@ public class RegistrationActivity extends AppCompatActivity {
 
         setResult(RESULT_CANCELED);
         finish();
-//        AppConstants.LOAD_HOME_FRAGMENT_INDEX = 5;
     }
 }

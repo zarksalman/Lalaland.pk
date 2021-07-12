@@ -87,6 +87,7 @@
                         android:text="@string/session_expires_in"
                         android:textColor="@android:color/black"
                         android:textStyle="bold"
+                        android:visibility="gone"
                         app:layout_constraintStart_toStartOf="parent" />
 
                     <ProgressBar
@@ -97,6 +98,7 @@
                         android:layout_height="170dp"
                         android:background="@drawable/drawable_circle_dark_blue"
                         android:max="100"
+                        android:visibility="gone"
                         android:progress="100"
                         android:progressDrawable="@drawable/drawable_circle_yellow"
                         android:rotation="90"
@@ -109,6 +111,7 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:orientation="vertical"
+                        android:visibility="gone"
                         app:layout_constraintBottom_toBottomOf="@+id/pb_timer"
                         app:layout_constraintEnd_toEndOf="@+id/pb_timer"
                         app:layout_constraintStart_toStartOf="@+id/pb_timer"

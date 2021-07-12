@@ -112,7 +112,6 @@ public interface LalalandServiceApi {
 
     @POST("confirmOrder")
     Call<PlacingOrderDataContainer> confirmOrder(@HeaderMap Map<String, String> header, @QueryMap Map<String, String> parameter);
-//    Call<PlacingOrderDataContainer> confirmOrder(@Header("token") String token, @QueryMap Map<String, String> parameter);
 
     @POST("myOrders")
     Call<OrderDataContainer> getMyOrders(@HeaderMap Map<String, String> userInfo, @Query("status") String status);

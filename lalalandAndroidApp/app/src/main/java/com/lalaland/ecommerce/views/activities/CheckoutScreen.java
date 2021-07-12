@@ -97,7 +97,7 @@ public class CheckoutScreen extends AppCompatActivity implements NetworkInterfac
     String cartIdsStart = "cart_id[";
     String cartIdsEnd = "]";
 
-    AlertDialog alertDialog, phoneNumberDialogue, addAddressDialogue, voucherDialogue, otpDialogue;
+    AlertDialog alertDialog, phoneNumberDialogue, addAddressDialogue, voucherDialogue, otpDialogue, paymentMethodDialogue;
     DeleteOutOfStockDialogueBinding outOfStockItemDialogueBinding;
     PhoneNumberDialogueBinding phoneNumberDialogueBinding;
     VouhcerDialogueBinding vouhcerDialogueBinding;
@@ -202,7 +202,7 @@ public class CheckoutScreen extends AppCompatActivity implements NetworkInterfac
                         if (updateUserDataContainer.getCode().equals(SUCCESS_CODE)) {
 
                             phoneNumberDialogue.dismiss();
-                            
+
                             appPreference.setString(USER_NAME, updateUserDataContainer.getData().getUser().getName());
                             appPreference.setString(PHONE_NUMBER, updateUserDataContainer.getData().getUser().getPhone());
                             appPreference.setString(DATE_OF_BIRTH, updateUserDataContainer.getData().getUser().getDateOfBirth());
@@ -450,6 +450,7 @@ public class CheckoutScreen extends AppCompatActivity implements NetworkInterfac
             }
         });
     }
+
     private void prepareAddAddressDialogue() {
 
         addAddressDialogueBinding = DataBindingUtil.inflate(LayoutInflater.from(this), R.layout.add_address_dialogue, null, false);
@@ -574,7 +575,7 @@ public class CheckoutScreen extends AppCompatActivity implements NetworkInterfac
         activityCheckoutScreenBinding.userDetail.setOnClickListener(p -> {
             startActivityForResult(new Intent(CheckoutScreen.this, ChangeShippingAddress.class), 202);
         });
-        
+
         activityCheckoutScreenBinding.ivCloseCheckoutScreen.setOnClickListener(v -> {
             onBackPressed();
         });
@@ -737,7 +738,6 @@ public class CheckoutScreen extends AppCompatActivity implements NetworkInterfac
 
         productViewModel.confirmOrder(parameter, this).observe(this, orderDataContainer -> {
 
-
             if (orderDataContainer != null) {
 
                 switch (orderDataContainer.getCode()) {
@@ -758,8 +758,10 @@ public class CheckoutScreen extends AppCompatActivity implements NetworkInterfac
                         CART_COUNTER = 0;
                         IS_COUPON_APPLIED = false;
                         intent.putExtra(ORDER_TOTAL, String.valueOf(totalBill));
-                        intent.putExtra(AppConstants.TRANSACTION_ID, orderDataContainer.getData().getTransactionId().toString());
+                        intent.putExtra(AppConstants.TRANSACTION_ID, orderDataContainer.getData().getTransactionId());
                         intent.putExtra(AppConstants.ORDER_ID, orderDataContainer.getData().getOrderId().toString());
+                        intent.putExtra(AppConstants.CLICK_2_PAY_URL, orderDataContainer.getData().getClickToPayUrl());
+                        intent.putExtra(AppConstants.CLICK_2_PAY_REDIRECT_URL, orderDataContainer.getData().getClickToPayReturnUrl());
                         intent.putParcelableArrayListExtra("recommended_products", (ArrayList<? extends Parcelable>) orderDataContainer.getData().getRecommendation());
                         intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
                         startActivity(intent);
@@ -780,29 +782,29 @@ public class CheckoutScreen extends AppCompatActivity implements NetworkInterfac
                 Log.d("orderDataContainer", "orderDataContainer.getMsg()");
             }
 
-                AppUtils.unBlockUi(CheckoutScreen.this);
-                otpDialogueBinding.pbLoading.setVisibility(View.GONE);
-                activityCheckoutScreenBinding.pbLoading.setVisibility(View.GONE);
-                activityCheckoutScreenBinding.pbLoading.setVisibility(View.GONE);
-                otpDialogue.dismiss();
+            AppUtils.unBlockUi(CheckoutScreen.this);
+            otpDialogueBinding.pbLoading.setVisibility(View.GONE);
+            activityCheckoutScreenBinding.pbLoading.setVisibility(View.GONE);
+            activityCheckoutScreenBinding.pbLoading.setVisibility(View.GONE);
+            otpDialogue.dismiss();
 
-                otpDialogueBinding.btnApply.setOnClickListener(v -> {
-                    getOtpCode();
+            otpDialogueBinding.btnApply.setOnClickListener(v -> {
+                getOtpCode();
 
-                    if (otpCode.toString().length() != 4) {
-                        Toast.makeText(this, "You need to enter complete PIN", Toast.LENGTH_SHORT).show();
-                        return;
-                    }
-                    placeOrder();
-                });
+                if (otpCode.toString().length() != 4) {
+                    Toast.makeText(this, "You need to enter complete PIN", Toast.LENGTH_SHORT).show();
+                    return;
+                }
+                placeOrder();
+            });
 
-                otpDialogueBinding.confirmLaterContainer.setOnClickListener(v -> {
+            otpDialogueBinding.confirmLaterContainer.setOnClickListener(v -> {
 
-                    userOtpCode = "";
-                    otpCode = new StringBuilder();
+                userOtpCode = "";
+                otpCode = new StringBuilder();
 
-                    placeOrder();
-                });
+                placeOrder();
+            });
 
         });
     }

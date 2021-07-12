@@ -1,5 +1,6 @@
 package com.lalaland.ecommerce.views.activities;
 
+import android.app.AlertDialog;
 import android.content.ClipData;
 import android.content.ClipboardManager;
 import android.content.Context;
@@ -12,6 +13,7 @@ import android.os.Bundle;
 import android.os.CountDownTimer;
 import android.os.Handler;
 import android.os.Parcelable;
+import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
@@ -35,6 +37,7 @@ import com.lalaland.ecommerce.adapters.PayProInfoAdapter;
 import com.lalaland.ecommerce.data.models.category.PayProData;
 import com.lalaland.ecommerce.data.models.products.Product;
 import com.lalaland.ecommerce.databinding.ActivityPayProBinding;
+import com.lalaland.ecommerce.databinding.PaymentMethodDialogueBinding;
 import com.lalaland.ecommerce.helpers.AppConstants;
 import com.lalaland.ecommerce.helpers.AppPreference;
 import com.lalaland.ecommerce.helpers.AppUtils;
@@ -43,6 +46,8 @@ import com.lalaland.ecommerce.viewModels.order.OrderViewModel;
 import java.util.ArrayList;
 import java.util.List;
 
+import static com.lalaland.ecommerce.helpers.AppConstants.CLICK_2_PAY_REDIRECT_URL;
+import static com.lalaland.ecommerce.helpers.AppConstants.CLICK_2_PAY_URL;
 import static com.lalaland.ecommerce.helpers.AppConstants.ORDER_TOTAL;
 
 public class PayProActivity extends AppCompatActivity {
@@ -51,6 +56,8 @@ public class PayProActivity extends AppCompatActivity {
     private String totalBill = "";
     private String consumerId = "";
     private String orderId = "";
+    private String clickToPayUrl = "";
+    private String clickToPayUrlRedirect = "";
 
     private ActivityPayProBinding activityPayProBinding;
     private List<String> bankingTypeList = new ArrayList<>();
@@ -67,6 +74,9 @@ public class PayProActivity extends AppCompatActivity {
     private Boolean shouldCallApi = true;
     CountDownTimer countDownTimer;
 
+    PaymentMethodDialogueBinding paymentMethodDialogueBinding;
+    AlertDialog paymentMethodDialogue;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -75,6 +85,9 @@ public class PayProActivity extends AppCompatActivity {
         totalBill = getIntent().getStringExtra(ORDER_TOTAL);
         consumerId = getIntent().getStringExtra(AppConstants.TRANSACTION_ID);
         orderId = getIntent().getStringExtra(AppConstants.ORDER_ID);
+        clickToPayUrl = getIntent().getStringExtra(AppConstants.CLICK_2_PAY_URL);
+        clickToPayUrlRedirect = getIntent().getStringExtra(AppConstants.CLICK_2_PAY_REDIRECT_URL);
+
         recommendedProductList = getIntent().getParcelableArrayListExtra("recommended_products");
 
         orderViewModel = new ViewModelProvider(this).get(OrderViewModel.class);
@@ -82,7 +95,8 @@ public class PayProActivity extends AppCompatActivity {
         setViews();
         initBankAdapter();
         initBankPartnersSpinner();
-        startTimer();
+
+        paymentMethodDialogue.show();
 
         payProInfoAdapter = new PayProInfoAdapter(this);
         activityPayProBinding.vpPayproInfo.setAdapter(payProInfoAdapter);
@@ -92,8 +106,6 @@ public class PayProActivity extends AppCompatActivity {
             activityPayProBinding.vpPayproInfo.setVisibility(View.VISIBLE);
             activityPayProBinding.dots.setVisibility(View.VISIBLE);
         }, 1500);
-
-        confirmOrderClick(activityPayProBinding.getRoot(), 0);
     }
 
     private void setViews() {
@@ -103,6 +115,8 @@ public class PayProActivity extends AppCompatActivity {
         activityPayProBinding.tvOrderAmount.setText(AppUtils.formatPriceString(String.valueOf(totalBill)));
 
         activityPayProBinding.tvTitleExpiresIn.requestFocus();
+
+        preparePaymentDialogue();
     }
 
     public void confirmOrderClick(View view, int type) {
@@ -207,7 +221,10 @@ public class PayProActivity extends AppCompatActivity {
         setBankList();
         bankAdapter = new BankAdapter(this);
         activityPayProBinding.rvBanks.setLayoutManager(new GridLayoutManager(this, 5));
-        bankAdapter.setData(payProDataList.get(0).getBankList());
+
+        if (!payProDataList.isEmpty())
+            bankAdapter.setData(payProDataList.get(0).getBankList());
+
         activityPayProBinding.rvBanks.setAdapter(bankAdapter);
     }
 
@@ -257,7 +274,6 @@ public class PayProActivity extends AppCompatActivity {
 
     public void addDots() {
 
-
         for (int i = 0; i < 5; i++) {
             ImageView dot = new ImageView(this);
             dot.setImageDrawable(getResources().getDrawable(R.drawable.empty_intro_circle));
@@ -296,5 +312,31 @@ public class PayProActivity extends AppCompatActivity {
             Drawable drawable = res.getDrawable(drawableId);
             dots.get(i).setImageDrawable(drawable);
         }
+    }
+
+    private void preparePaymentDialogue() {
+
+        paymentMethodDialogueBinding = DataBindingUtil.inflate(LayoutInflater.from(this), R.layout.payment_method_dialogue, null, false);
+        AlertDialog.Builder dialogBuilder = new AlertDialog.Builder(this);
+        paymentMethodDialogue = dialogBuilder.create();
+        paymentMethodDialogue.setCanceledOnTouchOutside(false);
+        paymentMethodDialogue.setView(paymentMethodDialogueBinding.getRoot());
+
+        paymentMethodDialogueBinding.btnCreditCard.setOnClickListener(v -> {
+            AppConstants.URL_TYPE = 5;
+            Intent intent = new Intent(this, WebViewActivity.class);
+            intent.putExtra(CLICK_2_PAY_URL, clickToPayUrl);
+            intent.putExtra(CLICK_2_PAY_REDIRECT_URL, clickToPayUrlRedirect);
+            intent.putExtra(ORDER_TOTAL, String.valueOf(totalBill));
+            intent.putParcelableArrayListExtra("recommended_products", (ArrayList<? extends Parcelable>) recommendedProductList);
+            startActivity(intent);
+        });
+
+        paymentMethodDialogueBinding.btnBankTransfer.setOnClickListener(v -> {
+            paymentMethodDialogue.dismiss();
+
+            startTimer();
+            confirmOrderClick(activityPayProBinding.getRoot(), 0);
+        });
     }
 }

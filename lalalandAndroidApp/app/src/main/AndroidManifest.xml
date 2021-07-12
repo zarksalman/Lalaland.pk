@@ -15,9 +15,9 @@
         android:hardwareAccelerated="true"
         android:icon="@mipmap/ic_launcher"
         android:label="@string/my_app_name"
-        android:usesCleartextTraffic="true"
         android:largeHeap="true"
-        android:theme="@style/AppTheme.NoActionBar">
+        android:theme="@style/AppTheme.NoActionBar"
+        android:usesCleartextTraffic="true">
 
         <activity
             android:name=".views.activities.ClaimDetail"
@@ -213,7 +213,7 @@
             </intent-filter>
         </activity>
 
-        <activity android:name=".views.activities.PayProActivity"/>
+        <activity android:name=".views.activities.PayProActivity" />
 
     </application>
 

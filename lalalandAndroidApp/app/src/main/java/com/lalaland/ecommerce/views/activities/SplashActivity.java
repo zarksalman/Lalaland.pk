@@ -1,6 +1,9 @@
 package com.lalaland.ecommerce.views.activities;
 
 import android.content.Intent;
+import android.content.pm.PackageInfo;
+import android.content.pm.PackageManager;
+import android.content.pm.Signature;
 import android.net.Uri;
 import android.os.Bundle;
 import android.os.Handler;
@@ -25,6 +28,8 @@ import com.lalaland.ecommerce.helpers.AppUtils;
 import com.lalaland.ecommerce.interfaces.NetworkInterface;
 import com.lalaland.ecommerce.viewModels.products.CategoryViewModel;
 
+import java.security.MessageDigest;
+import java.security.NoSuchAlgorithmException;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
@@ -83,6 +88,9 @@ public class SplashActivity extends AppCompatActivity implements NetworkInterfac
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
+        hashFromSHA1();
+        hashkey();
 
         requestWindowFeature(Window.FEATURE_NO_TITLE);
         getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN, WindowManager.LayoutParams.FLAG_FULLSCREEN);
@@ -157,19 +165,12 @@ public class SplashActivity extends AppCompatActivity implements NetworkInterfac
                                 intent = new Intent(SplashActivity.this, MainActivity.class);
                                 intent.setData(getIntent().getData());
                             } else {
-//                                intent = new Intent(SplashActivity.this, PayProActivity.class);
-
                                 if (!appPreference.getBoolean(IS_FIRST_TIME)) {
                                     intent = new Intent(SplashActivity.this, IntroductionScreenActivity.class);
                                 } else {
-//                                    intent = new Intent(SplashActivity.this, PayProActivity.class);
                                     intent = new Intent(SplashActivity.this, MainActivity.class);
                                 }
                             }
-
-//                            intent.putExtra(AppConstants.ORDER_TOTAL, String.valueOf(11132));
-//                            intent.putExtra(AppConstants.TRANSACTION_ID, "11132");
-//                            intent.putExtra(AppConstants.ORDER_ID, "11132");
 
                             startActivity(intent);
                             finish();
@@ -219,7 +220,7 @@ public class SplashActivity extends AppCompatActivity implements NetworkInterfac
 
         BRAND_FOCUS_STORAGE_BASE_URL = data.getFeaturedBrandsUrl();
         CATEGORY_FOCUS_STORAGE_BASE_URL = data.getFeaturedCategoriesUrl();
-        
+
         ACTION_STORAGE_BASE_URL = data.getMobileActionsUrl();
 
         CUSTOM_PRODUCT_URL = data.getCustomProductsUrl();
@@ -277,15 +278,37 @@ public class SplashActivity extends AppCompatActivity implements NetworkInterfac
             activitySplashBinding.tvReload.setVisibility(View.GONE);
     }
 
-    public void hashFromSHA1(String sha1) {
+    public void hashFromSHA1() {
+        String sha1 = "73:BF:E3:18:F2:D5:4E:56:A8:65:3B:D5:B3:66:7A:B1:15:1E:7A:18";
         String[] arr = sha1.split(":");
-        byte[] byteArr = new  byte[arr.length];
+        byte[] byteArr = new byte[arr.length];
 
-        for (int i = 0; i< arr.length; i++) {
+        for (int i = 0; i < arr.length; i++) {
             byteArr[i] = Integer.decode("0x" + arr[i]).byteValue();
         }
 
         Log.d("hashKey", Base64.encodeToString(byteArr, Base64.NO_WRAP));
+    }
+
+    public void hashkey() {
+        PackageInfo info;
+        try {
+            info = getPackageManager().getPackageInfo("com.lalaland.onlineshoppingapp", PackageManager.GET_SIGNATURES);
+            for (Signature signature : info.signatures) {
+                MessageDigest md;
+                md = MessageDigest.getInstance("SHA");
+                md.update(signature.toByteArray());
+                String something = new String(Base64.encode(md.digest(), 0));
+                //String something = new String(Base64.encodeBytes(md.digest()));
+                Log.e("hashKey", something);
+            }
+        } catch (PackageManager.NameNotFoundException e1) {
+            Log.e("name not found", e1.toString());
+        } catch (NoSuchAlgorithmException e) {
+            Log.e("no such an algorithm", e.toString());
+        } catch (Exception e) {
+            Log.e("exception", e.toString());
+        }
     }
 
     private boolean isOpenByDeepLink(Intent intent) {
@@ -293,7 +316,7 @@ public class SplashActivity extends AppCompatActivity implements NetworkInterfac
         Uri uri = intent.getData();
 
         if (uri != null) {
-          appPreference.setBoolean("is_deep_link", true);
+            appPreference.setBoolean("is_deep_link", true);
             return true;
         }
 
